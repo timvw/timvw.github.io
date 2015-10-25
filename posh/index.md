@@ -30,7 +30,7 @@ The following lines tells Powershell to convert the contents into an XmlDocument
 Changing the value for enableFeature is as easy as:
 
 ```PowerShell
-Write-Host $document.configuration.appSettings.add |Where { $_.key -eq 'enableFeature' } |% { $_.value = 'False' }
+$document.configuration.appSettings.add |Where { $_.key -eq 'enableFeature' } |% { $_.value = 'False' }
 ```
 
 
