@@ -1,3 +1,24 @@
-DevOps for the .NET developer
+# DevOps for the .NET developer (using PowerShell)
 
-On these pages I try to describe a couple of routines that any .NET developer has to perform
+Topics I would like to cover are the following:
+* Manipulating XML files
+* Configuring IIS
+* Managing MSMQ
+* Enabling windows features  
+
+## Manipulating XML 
+
+Configuration files are typically small and can be easily read into memory 
+
+```PowerShell
+$contents = Get-Content 'c:\temp\Web.config'
+```
+The following lines tells Powershell to convert the contents into an XmlDocument
+
+```PowerShell
+[xml] $document = $contents
+```
+
+
+
+
