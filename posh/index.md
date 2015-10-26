@@ -17,20 +17,14 @@ Assume that we have a Web.config file in which we want to change the value for e
   </appSettings>
 </configuration>
 ```
-Configuration files are typically small and can be easily read into memory.
+Configuration files are typically small and can be easily read into memory. The following snippet reads the contents of the file, create an XmlDocument from the contents and then navigates to the 'add' node with key 'enableFeature' and sets the 'value' attribute to 'False':
 
 ```PowerShell
-$contents = Get-Content 'c:\temp\Web.config'
-```
-The following lines tells Powershell to convert the contents into an XmlDocument:
-
-```PowerShell
+$file = 'c:\temp\Web.config'
+$contents = Get-Content $file
 [xml] $document = $contents
-```
-Changing the value for enableFeature is as easy as:
-
-```PowerShell
 $document.configuration.appSettings.add |Where { $_.key -eq 'enableFeature' } |% { $_.value = 'False' }
+$document.Save($file)
 ```
 
 
