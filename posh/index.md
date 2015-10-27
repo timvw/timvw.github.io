@@ -5,6 +5,9 @@ Topics I would like to cover are the following:
 * Configuring IIS
 * Managing MSMQ
 * Enabling windows features  
+* Teamcity
+* Managing windows services
+* Windows Registry
 
 ## Working with XML 
 
@@ -127,10 +130,126 @@ PowerShell can easily consume the output from appcmd.exe when  using the /xml fl
 result.appcmd.APP
 ```
 
+## Teamcity
 
+There seems to be an issue with basic auth implementation in Tomcat/Teamcity. Here is how you can workaround this:
 
+```PowerShell
+$webclient = new-object System.Net.WebClient
+$credentials = [System.Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes($username + ":" + $password))
+$webClient.Headers["Authorization"] = "Basic {0}" -f $credentials   
+    
+$url = "$teamcityUrl/httpAuth/app/rest/builds?count=1&buildType=id:$buildTypeId&locator=branch:name:$branchName,status:SUCCESS"
+[xml]$xml = $webClient.DownloadString($url)
 
+$url = "$teamcityUrl/repository/downloadAll/{0}/{1}:id" -f $buildTypeId, $buildId
+$artifactPath = "$downloadDir\$buildTypeId.zip"
+$webclient.DownloadFile($url, $artifactPath)
+        
+[System.Reflection.Assembly]::LoadWithPartialName('System.IO.Compression.FileSystem') | Out-Null
+[System.IO.Compression.ZipFile]::ExtractToDirectory($artifactPath, $extractDir)
+```
 
+* Windows registry
 
+Here is an example that writes an NServiceBus license key to the registry
 
+```PowerShell
+New-Item -Path HKLM:\Software\ParticularSoftware\NServiceBus
+$content = Get-Content '\\files.icteam.be\data\nservicebus.license' | Out-String; 
+Set-ItemProperty -Path HKLM:\Software\ParticularSoftware\NServiceBus -Name License -Force -Value $content"
+```
 
+* Issuing SQL commands on Oracle via sqlplus
+
+```PowerShell
+
+function GetSqlPlusPath {
+	$path = 'C:\oraclexe\app\oracle\product\11.2.0\server\bin\sqlplus.exe'
+	$path
+}
+
+function GetConnectionString {
+	param(
+		[string] $Username = 'SYSTEM',
+		[string] $Password = 'password',
+		[string] $Hostname = 'localhost',
+		[string] $Port = '1521',
+		[string] $Instance = 'xe'
+	)
+
+	$connectionString = '{0}/{1}@//{2}:{3}/{4}' -f $Username, $Password, $Hostname, $Port, $Instance
+	$connectionString
+}
+
+function InvokeSqlPlus {
+    param(
+        [string] $SqlCommand = '',
+        [string] $ConnectionString = (GetConnectionString),
+		[string] $SqlPlus = (GetSqlPlusPath)
+    )
+    
+    echo "$SqlCommand;" | & "$SqlPlus" -silent "$ConnectionString" | Out-Null
+}
+```
+
+## Manage MSMQ
+
+When using WCF MSMQ one has to create the queues manually. Here is some sample code that discovers the queues in Web.config files and creates them.
+
+```PowerShell
+function FindLocalQueues {
+    param(
+		[string] $BasePath = 'C:\src\trunk'
+    )
+
+	$AppConfigFiles = Get-ChildItem $BasePath -Name 'Web.Config' -Recurse |% { "$BasePath\$_" }
+	
+	$AppConfigFiles |% { 
+		[xml] $Xml = Get-Content $_
+		$Xml.SelectNodes("//endpoint") | Where { $_.address -like 'net.msmq://localhost/*' } |% { $_.GetAttribute("address") } |% { $_.Replace("net.msmq://localhost/private/", ".\private$\")  }
+	}
+}
+
+function CreateLocalQueues {
+	param(
+		$BasePath = 'C:\src\trunk',
+		$UserToGrantPermissions = 'EVERYONE'
+	)
+	
+    [void] [Reflection.Assembly]::LoadWithPartialName("System.Messaging")
+
+    FindLocalQueues -BasePath "$BasePath" |% { 
+		[System.Messaging.MessageQueue]::Create("$_", $true) 
+		$Queue = New-Object System.Messaging.MessageQueue("$_")
+		$Queue.UseJournalQueue = $True; 
+		$Queue.Authenticate = $False;
+        $Queue.SetPermissions($UserToGrantPermissions, [System.Messaging.MessageQueueAccessRights]::ReceiveMessage, [System.Messaging.AccessControlEntryType]::Allow)
+        $Queue.SetPermissions($UserToGrantPermissions, [System.Messaging.MessageQueueAccessRights]::PeekMessage, [System.Messaging.AccessControlEntryType]::Allow)
+        $Queue.SetPermissions($UserToGrantPermissions, [System.Messaging.MessageQueueAccessRights]::WriteMessage, [System.Messaging.AccessControlEntryType]::Allow)		
+	}
+}
+
+function PurgePrivateQueues {
+    [void] [Reflection.Assembly]::LoadWithPartialName("System.Messaging")
+    [System.Messaging.MessageQueue]::GetPrivateQueuesByMachine(".") |% { $_.Purge(); }
+}
+
+function DropPrivateQueues {
+    [void] [Reflection.Assembly]::LoadWithPartialName("System.Messaging")
+    [System.Messaging.MessageQueue]::GetPrivateQueuesByMachine(".") |% { [System.Messaging.MessageQueue]::Delete($_.Path) }
+}
+
+function PurgeSystemJournalAndDeadLetterQueues {
+    [void] [Reflection.Assembly]::LoadWithPartialName("System.Messaging")
+	
+	$JournalQueue = New-Object System.Messaging.MessageQueue("FORMATNAME:DIRECT=OS:.\SYSTEM$;JOURNAL")
+	$JournalQueue.Purge()
+	
+	$DeadLetterQueue = New-Object System.Messaging.MessageQueue("FORMATNAME:DIRECT=OS:.\SYSTEM$;DEADLETTER")
+	$DeadLetterQueue.Purge()
+
+	$DeadLetterTxQueue = New-Object System.Messaging.MessageQueue("FORMATNAME:DIRECT=OS:.\SYSTEM$;DEADXACT")
+	$DeadLetterTxQueue.Purge()	
+}
+```
