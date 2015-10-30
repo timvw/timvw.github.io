@@ -1,12 +1,12 @@
 # DevOps for the .NET developer (using PowerShell)
 
 Topics I would like to cover are the following:
-* Working with XML
-* Configuring IIS
-* Managing MSMQ
-* Enabling windows features  
+* Working with XML (System.Xml.XmlDocument)
+* Configuring IIS (appcmd.exe)
+* Managing MSMQ (System.Messaging.MessageQueue)
+* Enabling windows features (dism.exe)
 * Teamcity
-* Managing windows services
+* Managing windows services (sc.exe)
 * Windows Registry
 
 ## Working with XML 
