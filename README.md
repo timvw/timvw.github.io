@@ -130,6 +130,14 @@ PowerShell can easily consume the output from appcmd.exe when  using the /xml fl
 result.appcmd.APP
 ```
 
+Here we show how to stop each application pool:
+
+```PowerShell
+([xml](appcmd.exe list apppool /xml)).appcmd.APPPOOL.'APPPOOL.NAME' |% { appcmd.exe stop apppool /apppool.name:$_ }
+```
+
+
+
 ## Teamcity
 
 There seems to be an issue with basic auth implementation in Tomcat/Teamcity. Here is how you can workaround this:
