@@ -38,3 +38,5 @@ val dummy2Json = &quot;{ 'options' : [ 'a', 'b', 'c', 'd' ] }&quot;
 val dummy2 = new Gson().fromJson(dummy2Json, classOf[Dummy2])
 
 [/code]
+
+<p><strong>Edit: </strong> One could simply use <a href="https://github.com/lift/lift/tree/master/framework/lift-base/lift-json">lift-json</a> instead and get pretty good scala support for free.</p>
