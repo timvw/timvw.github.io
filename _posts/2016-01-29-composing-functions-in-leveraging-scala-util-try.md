@@ -1,7 +1,7 @@
 ---
 ID: 2532
 post_title: >
-  Composing functions in leveraging
+  Composing functions and leveraging
   scala.util.Try
 author: timvw
 post_date: 2016-01-29 19:25:09
