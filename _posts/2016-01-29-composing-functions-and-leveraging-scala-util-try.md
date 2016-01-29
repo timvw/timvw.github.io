@@ -8,7 +8,7 @@ post_date: 2016-01-29 19:25:09
 post_excerpt: ""
 layout: post
 permalink: >
-  http://www.timvw.be/2016/01/29/composing-functions-in-leveraging-scala-util-try/
+  http://www.timvw.be/2016/01/29/composing-functions-and-leveraging-scala-util-try/
 published: true
 ---
 <p>Last couple of days I have been hacking around trying to find a cute way to express the intent of my code. Typically it involves parsing some input, validating whatever rules that are in charge and persisting some values. In scala one can compose such a function by using the <a href="http://www.scala-lang.org/api/2.11.x/index.html#scala.Function1">andThen</a> method. Here is a concrete example:</p>
