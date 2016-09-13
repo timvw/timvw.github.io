@@ -8,6 +8,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2007/01/12/presenting-a-generic-remotinghelper/
 published: true
+dsq_thread_id:
+  - "1933325455"
 ---
 <p>Last couple of months i've been experimenting with <a href="http://msdn2.microsoft.com/en-us/library/kwdt6w2k.aspx">Remoting</a>. Here is a class that helps a client to acquire proxies to an endpoint served by the requested well-known object:</p>
 [code lang="csharp"]public static class RemotingHelper

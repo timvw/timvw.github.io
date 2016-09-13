@@ -10,6 +10,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2007/02/04/control-the-order-of-properties-in-your-class/
 published: true
+dsq_thread_id:
+  - "1933325617"
 ---
 <p>Sometimes you want to manipulate the order in which properties are used for databinding. Eg: If you drag and drop an object datasource on a DataGridView you have no control in which order it binds the properties. Offcourse, you can order the columns by moving them around... Today someone asked the following:</p>
 <blockquote>

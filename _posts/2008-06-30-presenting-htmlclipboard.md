@@ -8,6 +8,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2008/06/30/presenting-htmlclipboard/
 published: true
+dsq_thread_id:
+  - "1933325909"
 ---
 <p>Very often i need to encode/decode the contents of my Clipboard so i decided to write a little tray application to help me:</p>
 <img src="http://www.timvw.be/wp-content/images/htmlclipboard.gif" alt="screenshot of htmlclipboard tray application"/>

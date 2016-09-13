@@ -8,6 +8,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2008/06/09/became-microsoft-certificate-technology-specialist/
 published: true
+dsq_thread_id:
+  - "1933325136"
 ---
 <p>Not that i really care, but <a href="http://wimvdd.blogspot.com">my manager</a> seems to do, last week, during a couple of dead moments at Tech-Ed North America (I'll blog about that later on this week) i decided to take a couple of exams (<a href="http://www.microsoft.com/learning/en/us/exams/70-536.mspx">70-536</a>, <a href="http://www.microsoft.com/learning/en/us/exams/70-526.mspx">70-526</a> and <a href="http://www.microsoft.com/learning/en/us/exams/70-528.mspx">70-528</a>) and passed them ;)
 </p>

@@ -10,6 +10,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2007/04/27/performing-long-running-tasks-in-a-windows-application/
 published: true
+dsq_thread_id:
+  - "1933325640"
 ---
 <p>A while ago i blogged about <a href="http://www.timvw.be/about-thread-safe-gui/">Thread Safe UI</a>. Today someone asked the following:</p>
 

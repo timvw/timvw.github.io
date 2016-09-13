@@ -10,5 +10,7 @@ layout: post
 permalink: >
   http://www.timvw.be/2011/08/18/sqlconnectionstringbuilder-sets-the-pooling-property-to-true-by-default/
 published: true
+dsq_thread_id:
+  - "1933325243"
 ---
 <p>Here is something that surprised me: SqlConnectionStringBuilder sets the <a href="http://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnectionstringbuilder.pooling.aspx">Pooling</a> property to true by default.</p>

@@ -8,6 +8,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2009/10/10/presenting-sokoban-with-silverlight/
 published: true
+dsq_thread_id:
+  - "1933325153"
 ---
 <p>Despite the blablah postings, i have been able to code a little, so here is the boomboom: Sokoban.</p>
 

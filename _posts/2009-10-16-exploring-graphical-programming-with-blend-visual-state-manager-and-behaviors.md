@@ -11,6 +11,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2009/10/16/exploring-graphical-programming-with-blend-visual-state-manager-and-behaviors/
 published: true
+dsq_thread_id:
+  - "1929627230"
 ---
 <p>A while ago i presented the <a href="http://www.timvw.be/experimenting-with-controlstatemachine-and-fluent-interfaces/">ControlStateMachine</a> and in Silverlight this concept is implemented as the <a href="http://windowsclient.net/wpf/wpf35/wpf-35sp1-toolkit-visual-state-manager-overview.aspx">Visual State Manager</a>.</p>
 

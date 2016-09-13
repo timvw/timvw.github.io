@@ -8,6 +8,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2011/02/26/exploring-messaging-at-lower-levels/
 published: true
+dsq_thread_id:
+  - "1933325321"
 ---
 <p>Yesterday a colleague of mine, <a href="http://neildoesdotnet.blogspot.com/">Neil Robbins</a>, asked me how a piece of code would look like if I apply the Hollywood principle on it (Don't call us, we'll cal you).</p>
 

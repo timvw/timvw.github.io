@@ -8,6 +8,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2009/11/19/silverlight-and-unit-testing/
 published: true
+dsq_thread_id:
+  - "1933325202"
 ---
 <p>A while ago i was looking for a unittesting framework that can be used with Silverlight. Because i don't want to launch a webbrowser on my buildserver i ruled the <a href="http://code.msdn.microsoft.com/silverlightut/">Unit Test Framework for Microsoft Silverlight</a> out. A couple of websearches later i decided to try a Silverlight port of good ol' NUnit, <a href="http://code.google.com/p/nunitsilverlight/">nunitsilverlight</a>, and was pretty pleased with results.</p>
 

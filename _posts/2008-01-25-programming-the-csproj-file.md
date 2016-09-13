@@ -8,6 +8,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2008/01/25/programming-the-csproj-file/
 published: true
+dsq_thread_id:
+  - "1933325055"
 ---
 <p>Imagine that you have a couple of project files that reference framework libraries that are on a buildserver. Upgrading to a newer version requires that you update all the references... I wrote some wrapper classes (<a href="http://www.timvw.be/wp-content/code/csharp/ProjectFile.txt">ProjectFile</a>, <a href="http://www.timvw.be/wp-content/code/csharp/AssemblyReference.txt">AssemblyReference</a>) that make this tedious task a breeze. Here is an example of their usage:</p>
 [code lang="csharp"]

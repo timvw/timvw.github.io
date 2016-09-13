@@ -8,6 +8,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2011/03/16/global-hotkeys-for-itunes-on-windows/
 published: true
+dsq_thread_id:
+  - "1933325240"
 ---
 <p>These days i use iTunes as media player. Unlike winamp this program does not seem to support system-wide hotkeys to control playback. This is the place where a productivity tool like <a href="http://www.autohotkey.com/">AutoHotkey</a> comes into the rescue ;).</p>
 

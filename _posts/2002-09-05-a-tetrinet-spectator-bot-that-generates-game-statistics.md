@@ -10,5 +10,7 @@ layout: post
 permalink: >
   http://www.timvw.be/2002/09/05/a-tetrinet-spectator-bot-that-generates-game-statistics/
 published: true
+dsq_thread_id:
+  - "1933325387"
 ---
 <p>Get the TetriNet Spectator bot that generates game statistics: <a href="http://www.timvw.be/wp-content/code/c/statsbot.zip">statsbot.zip</a>.</p>

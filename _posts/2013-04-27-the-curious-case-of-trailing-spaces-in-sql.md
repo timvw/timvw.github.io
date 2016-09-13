@@ -12,8 +12,6 @@ permalink: >
 published: true
 dsq_thread_id:
   - "1920088178"
-dsq_needs_sync:
-  - "1"
 ---
 <p>A while ago I was quite surprised to see that the following query returns 1 instead of 0:</p>
 

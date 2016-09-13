@@ -8,6 +8,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2007/08/10/debugging-custom-uitypeeditors/
 published: true
+dsq_thread_id:
+  - "1933325813"
 ---
 <p>If you read this you're probably gonna think: What a moron! Anyway, i'm sharing this in the hope that i'll be the last to undergo the following. In order to test my custom <a href="http://msdn2.microsoft.com/en-us/library/system.drawing.design.uitypeeditor.aspx">UITypeEditor</a> i did the following:</p>
 <ol>

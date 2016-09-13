@@ -29,6 +29,8 @@ enclosure:
     video/x-ms-wmv
 wp_media_player:
   - "1"
+dsq_thread_id:
+  - "1933325256"
 ---
 <p>Earlier today i decided to add 'Filtering' to my SortableBindingList. This resulted in writing a <a href="http://www.timvw.be/wp-content/code/csharp/FilterList.txt">FilterList</a> class. This class can be easily used as following:</p>
 

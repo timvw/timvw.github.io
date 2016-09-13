@@ -8,5 +8,7 @@ layout: post
 permalink: >
   http://www.timvw.be/2005/12/20/simple-http-proxy-with-perl/
 published: true
+dsq_thread_id:
+  - "1920121213"
 ---
 <p>Today i had to demonstrate my version of a HTTP proxy and hand in the code. There are already various programs that do this, but here is my version: <a href="http://www.timvw.be/wp-content/code/perl/httpproxy.txt">httpproxy.txt</a></p>

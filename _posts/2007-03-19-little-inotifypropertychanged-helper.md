@@ -8,6 +8,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2007/03/19/little-inotifypropertychanged-helper/
 published: true
+dsq_thread_id:
+  - "1933325637"
 ---
 <p>Most implementations of INotifyPropertyChanged look as following (notice that you have to make sure that the hardcoded PropertyName is spelled correctly):</p>
 [code lang="csharp"]class MyClass : INotifyPropertyChanged

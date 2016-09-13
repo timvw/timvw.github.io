@@ -8,6 +8,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2009/11/01/another-method-i-wrote-once-too-many/
 published: true
+dsq_thread_id:
+  - "1933325143"
 ---
 <p>Virtually every Silverlight application will fetch resources at one point or another. In case you're using the <a href="http://msdn.microsoft.com/en-us/library/system.net.webclient(VS.95).aspx">WebClient</a> you have probably written the following in your xxxCompletedEventHandler:</p>
 

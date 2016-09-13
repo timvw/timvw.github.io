@@ -8,6 +8,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2009/06/06/first-thoughts-about-windows-7/
 published: true
+dsq_thread_id:
+  - "1933325134"
 ---
 <p>It is almost two years ago that i decided to <a href="http://www.timvw.be/about-the-wow-i-removed-vista-from-my-harddisk-experience/">uninstall Vista</a> after a bad first impression. Nowadays i have learned to live with it, but i guess i will never understand what all the fuss was about.</p>
 

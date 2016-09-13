@@ -10,6 +10,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2011/03/12/some-powershell-functions-to-work-with-ssis-packages/
 published: true
+dsq_thread_id:
+  - "1933325346"
 ---
 <p>Here are some powershell functions (using XPath) that come in handy when working with SSIS packages:</p>
 

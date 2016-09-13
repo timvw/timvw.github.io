@@ -20,7 +20,7 @@ def validate = id _
 def persist = id _
 
 def usecase1 = parseInput andThen validate andThen persist
-[/code]
+</code>
 
 <p>Inspired by the excellent series on <a href="http://fsharpforfunandprofit.com/posts/recipe-part2/">Railway Oriented Programming</a> series by <a href="@ScottWlaschin">Scott Wlaschin</a> I wanted to take advange of <a href="http://www.scala-lang.org/files/archive/api/current/index.html#scala.util.Try">scala.util.Try</a> to remove try/catch clutter from my code. With a little helper function I can now compose my usecase as following:</p>
 

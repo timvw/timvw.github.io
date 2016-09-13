@@ -8,6 +8,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2007/02/07/dont-wait-until-the-datetimepicker-has-lost-focus-to-write-back-the-values/
 published: true
+dsq_thread_id:
+  - "1933325636"
 ---
 <p>Drag a TextBox and a DateTimePicker control on a Form and databind them to a DateTime property, eg:</p>
 [code lang="csharp"]public partial class Form1 : Form

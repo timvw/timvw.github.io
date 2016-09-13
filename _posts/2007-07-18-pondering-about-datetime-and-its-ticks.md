@@ -8,6 +8,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2007/07/18/pondering-about-datetime-and-its-ticks/
 published: true
+dsq_thread_id:
+  - "1933325799"
 ---
 <p>Recently someone was able to convince me that there is no problem with using <a href="http://msdn2.microsoft.com/en-us/library/System.Datetime.aspx">System.DateTime</a> for the storage of localtimes (even if DST is in effect), because it works with <a href="http://msdn2.microsoft.com/en-us/library/system.datetime.ticks.aspx">Ticks</a> and i bought into his base + offset story.... The following table explains his reasoning:</p>
 <table width="100%">

@@ -10,6 +10,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2009/09/29/brad-abrams-and-extension-methods-to-the-rescue/
 published: true
+dsq_thread_id:
+  - "1933325141"
 ---
 <p>Currently i am implementing <a href="http://en.wikipedia.org/wiki/Sokoban">Sokoban</a> and i was pondering which methods i should add to my Cell class:</p>
 

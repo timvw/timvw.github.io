@@ -10,6 +10,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2011/03/12/some-tips-for-net-developers-using-git-on-cygwin/
 published: true
+dsq_thread_id:
+  - "1933325226"
 ---
 <p>Here are some tips that i want to share with fellow .Net developers that use git on cygwin.</p>
 

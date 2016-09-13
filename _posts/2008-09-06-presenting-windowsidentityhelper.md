@@ -8,6 +8,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2008/09/06/presenting-windowsidentityhelper/
 published: true
+dsq_thread_id:
+  - "1933325939"
 ---
 <p>One of the difficulties of using the <a href="http://msdn.microsoft.com/en-us/library/system.security.principal.windowsidentity.aspx">WindowsIdentity</a> class is the fact that it requires a handle (<a href="http://msdn.microsoft.com/en-us/library/system.intptr.aspx">IntPtr</a>) to a Windows Security Token. Using the <a href="http://msdn.microsoft.com/en-us/library/aa378184(VS.85).aspx">LogonUser</a> functionality we can get a hold of such a handle:</p>
 

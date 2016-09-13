@@ -8,6 +8,8 @@ layout: post
 permalink: >
   http://www.timvw.be/2008/09/22/presenting-applicationenvironment/
 published: true
+dsq_thread_id:
+  - "1933325137"
 ---
 <p>Imagine we are an ice cream vendor. During summer months our available capacity is twice as high as in the rest of the year. In code this problem looks like the following:</p>
 
