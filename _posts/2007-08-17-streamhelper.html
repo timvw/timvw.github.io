@@ -1,0 +1,62 @@
+---
+layout: post
+status: publish
+published: true
+title: StreamHelper
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 191
+wordpress_url: http://www.timvw.be/streamhelper/
+date: '2007-08-17 16:50:23 +0200'
+date_gmt: '2007-08-17 14:50:23 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>The following is an example of a classic mistake for people that read from a <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.io.stream.aspx">Stream<&#47;a>:<&#47;p></p>
+<blockquote>
+<div>
+Basically I think I've discovered a bug or limitation of the HttpListenerRequest that I can't find documented anywhere and am unsure how to proceed.<br&#47;><br />
+<br&#47;><br />
+Basically, I've been trying to write a function to strip any uploaded files out of the InputStream of the HttpListenerRequest.  The function works fine until the files are over 128kb (ish).<br&#47;><br />
+<br&#47;><br />
+Dim Body As System.IO.Stream = Request.InputStream<br&#47;><br />
+Body.Read(Bytes, 0, Request.ContentLength64)<br&#47;><br />
+<br&#47;><br />
+Though the ContentLength64 property returns the correct value, the stream object seems to simply be padded with empty bytes.<br />
+<&#47;div><br />
+<&#47;blockquote></p>
+<p>Offcourse, if you look at the documentation for the <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.io.stream.read.aspx">Read<&#47;a> method it clearly says that the function returns the number of bytes that were actually read. Here is a little helper function that keeps you from writing the same code over and over again:<&#47;p><br />
+[code lang="csharp"]public void Copy(Stream input, Stream output, int bufferSize)<br />
+{<br />
+ byte[] buffer = new byte[bufferSize];<br />
+ int bytesRead;</p>
+<p> while((bytesRead = input.Read(buffer, 0, bufferSize)) > 0)<br />
+ {<br />
+  output.Write(buffer, 0, bytesRead);<br />
+ }<br />
+}[&#47;code]</p>
+<p>And as usual, a little demo of it's use:<&#47;p><br />
+[code lang="csharp"]static void DownloadFile(string url, string path)<br />
+{<br />
+ WebRequest req = WebRequest.Create(url);<br />
+ WebResponse rsp = req.GetResponse();<br />
+ using (Stream input = rsp.GetResponseStream())<br />
+ using (Stream output = File.Open(path, FileMode.Create))<br />
+ {<br />
+  StreamHelper.Copy(input, output, 1024 * 1000);<br />
+ }<br />
+}</p>
+<p>static void Main(string[] args)<br />
+{<br />
+ DownloadFile("ftp:&#47;&#47;example.com&#47;pub&#47;test.bin", @"c:\test.bin");</p>
+<p> Console.Write("{0}Press any key to continue...", Environment.NewLine);<br />
+ Console.ReadKey();<br />
+}[&#47;code]</p>

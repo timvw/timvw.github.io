@@ -1,0 +1,94 @@
+---
+layout: post
+status: publish
+published: true
+title: Plugin template for WordPress
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 116
+wordpress_url: http://www.timvw.be/plugin-template-for-wordpress/
+date: '2006-03-19 02:32:19 +0100'
+date_gmt: '2006-03-19 00:32:19 +0100'
+categories: []
+tags:
+- WordPress
+comments: []
+---
+<p>Today i've been cleaning up my code. All my plugins live in a directory %plugin_name% under the wp-content&#47;plugins directory. Here is the code for %plugin_name%&#47;%plugin_name%.php:<&#47;p><br />
+[code lang="php"]<?php<br />
+&#47;*<br />
+Plugin Name: %plugin_name%<br />
+Version: %plugin_version%<br />
+Plugin URI: %plugin_uri%<br />
+Description: %plugin_description%<br />
+Author: %plugin_author_name% <%plugin_author_mail%><br />
+Author URI: %plugin_author_uri%<br />
+*&#47;</p>
+<p>&#47;&#47; Direct access is not allowed.<br />
+if (!function_exists('load_plugin_textdomain')) {<br />
+  exit;<br />
+} else {<br />
+  require('%plugin_name%.php');<br />
+  $plugin_name = substr(basename(__FILE__), 0, -4);</p>
+<p>  &#47;&#47; You can add optional parameters to the constructor, eg: the wpdb instance.<br />
+  $%plugin_class% = new %plugin_class%($plugin_name);<br />
+}<br />
+?>[&#47;code]</p>
+<p>Now it's time to implement the %plugin_class%. Here is the template for %plugin_name%&#47;%plugin_class%.php:<&#47;p><br />
+[code lang="php"]<?php</p>
+<p>class %plugin_class% {<br />
+  var $_plugin_name;</p>
+<p>  var $_localization_domain;<br />
+  var $_localization_path;</p>
+<p>  function %plugin_class%($plugin_name = '%plugin_name%') {<br />
+    $this->_plugin_name = $plugin_name;</p>
+<p>    $this->_localization_domain = $plugin_name;<br />
+    $this->_localization_path = 'wp-content&#47;plugins&#47;' . $plugin_name;</p>
+<p>    &#47;&#47; You can add additional hooks and filters here.<br />
+    add_action('activate_' . $plugin_name . '&#47;' . $plugin_name . '.php', array(&$this, 'OnActivation'));<br />
+    add_action('admin_menu', array(&$this, 'OnAdminMenu'));<br />
+}</p>
+<p>  function OnAdminMenu() {<br />
+    load_plugin_textdomain($this->_localization_domain, $this->_localization_path);<br />
+    add_options_page(__('%plugin_name% Options', $this->_localization_domain), __('%plugin_name%', $this->_localization_domain), 'manage_options',$this->_plugin_name . '&#47;' . $this->_plugin_name . '-options.php', array(&$this, 'OnDisplayOptions'));<br />
+  }</p>
+<p>  function OnDisplayOptions() {<br />
+    $%plugin_class% = "";<br />
+    require( dirname(__FILE__) . '&#47;' . $this->_plugin_name . '-options.php');<br />
+  }</p>
+<p>  function OnActivation() {<br />
+    &#47;&#47; This code is executed when the plugin is activated.<br />
+    &#47;&#47; I prepend all my option names with $this->_plugin_name.<br />
+    add_option($this->_plugin_name . '_somevar', 'foo');<br />
+  }<br />
+}<br />
+?>[&#47;code]</p>
+<p>The code above requires that you create a %plugin_name%&#47;%plugin_name%-options.php file to administrate the options. Here is the template for that file:<&#47;p><br />
+[code lang="php"]<br />
+<?php<br />
+&#47;&#47; Direct access is not allowed.<br />
+if (!isset($%plugin_class%)) {<br />
+  exit;<br />
+}</p>
+<p>load_plugin_textdomain($%plugin_class%->_localization_domain, $%plugin_class%->_localization_path);</p>
+<p>&#47;&#47; Handle post action.<br />
+if ($_POST['stage'] == 'process') {<br />
+  &#47;&#47; All the names of form variables start with %plugin_class%_plugin_name.<br />
+  if (isset($_POST[$%plugin_class%->_plugin_name . '_somevar'])) {<br />
+    &#47;&#47; Do processing here.<br />
+  }<br />
+}</p>
+<p>?></p>
+<form method="post" action="">
+  <input type="hidden" name="stage" value="process"&#47;><br />
+  <input type="text" name="<?php echo $%plugin_class%->_plugin_name . '_somevar'; ?>"&#47;><br />
+  <input type="submit" value="<?php _e('Submit', $%plugin_class%->_localization_domain); ?>"&#47;><br />
+<&#47;form><br />
+[&#47;code]</p>
+<p>The only thing that we still have to do is generate a po file with xgettext, translate it and compile a %plugin_name%&#47;%plugin_name%-en_EN.mo file.<&#47;p></p>

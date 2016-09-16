@@ -1,0 +1,42 @@
+---
+layout: post
+status: publish
+published: true
+title: Setting up an SSH tunnel
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 59
+wordpress_url: http://www.timvw.be/gnu-sort-2/
+date: '2006-01-19 21:31:58 +0100'
+date_gmt: '2006-01-19 19:31:58 +0100'
+categories: []
+tags:
+- Free Software
+comments:
+- id: 7
+  author: Marc
+  author_email: marc@bouh.info
+  author_url: http://falzon.info
+  date: '2008-09-30 12:09:05 +0200'
+  date_gmt: '2008-09-30 10:09:05 +0200'
+  content: So this is a SSH tunnel, not SSL.
+- id: 8
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2008-09-30 16:51:09 +0200'
+  date_gmt: '2008-09-30 14:51:09 +0200'
+  content: You are absolutely right. I have modified the title and permalink from
+    ssl tunnel to ssh tunnel.
+---
+<p>On the machine example there is a (<a href="http:&#47;&#47;en.wikipedia.org&#47;wiki&#47;TCP&#47;IP">tcp&#47;ip<&#47;a>) program listening on port 12345.  The protocol it talks is some <a href="http:&#47;&#47;en.wikipedia.org&#47;wiki&#47;Plain_text">plaintext<&#47;a> language. I want to talk with it, but i don't want others to know what i'm sending to it. I'm lucky enough to have remote access to that machine via <a href="http:&#47;&#47;en.wikipedia.org&#47;wiki&#47;Ssh">ssh<&#47;a>. I setup a tunnel with the following command:<&#47;p><br />
+[code lang="bash"]<br />
+ssh -N -L 12345:example:12345 timvw@example<br />
+[&#47;code]</p>
+<p>Now my program can connect to localhost:12345 and ssh will make sure that it ends up at example.:12345 without others being able to see the actual data :) For windows users i suggest that you take a look at <a href="http:&#47;&#47;www.chiark.greenend.org.uk&#47;~sgtatham&#47;putty">Plink<&#47;a>.<&#47;p></p>

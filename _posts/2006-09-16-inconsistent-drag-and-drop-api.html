@@ -1,0 +1,36 @@
+---
+layout: post
+status: publish
+published: true
+title: Inconsistent Drag and Drop API
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 11
+wordpress_url: http://www.timvw.be/inconsistent-drag-and-drop-api/
+date: '2006-09-16 02:05:04 +0200'
+date_gmt: '2006-09-16 00:05:04 +0200'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments: []
+---
+<p>Every System.Windows.Forms.Control has the following events:<&#47;p></p>
+<ul>
+<li>public event DragEventHandler <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.control.dragdrop.aspx">DragDrop<&#47;a><&#47;li>
+<li>public event DragEventHandler <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.control.dragenter.aspx">DragEnter<&#47;a><&#47;li>
+<li>public event EventHandler <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.control.dragleave.aspx">DragLeave<&#47;a><&#47;li>
+<li>public event DragEventHandler <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.control.dragover.aspx">DragOver<&#47;a><&#47;li><br />
+<&#47;ul></p>
+<p>This means, when the user drags something away of the control, you can't access the data anymore (unless you cached it somewhere when the DragEnter or DragOver events occured). Here is an extract from Microsoft patterns and practives on <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;ms229011.aspx">Event Design<&#47;a>:<&#47;p></p>
+<blockquote>
+<div>
+If you define an event that takes an EventArgs instance instead of a derived class that you define, you cannot add data to the event in later versions. For that reason, it is preferable to create an empty derived class of EventArgs. This allows you add data to the event in later versions without introducing breaking changes.<br />
+<&#47;div><br />
+<&#47;blockquote></p>

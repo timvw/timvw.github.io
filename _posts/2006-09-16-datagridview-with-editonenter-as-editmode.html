@@ -1,0 +1,86 @@
+---
+layout: post
+status: publish
+published: true
+title: DataGridView with EditOnEnter as EditMode
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 10
+wordpress_url: http://www.timvw.be/datagridview-with-editonenter-as-editmode/
+date: '2006-09-16 02:04:08 +0200'
+date_gmt: '2006-09-16 00:04:08 +0200'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments:
+- id: 54
+  author: thuy
+  author_email: ngocthuytk1@yahoo.com
+  author_url: ''
+  date: '2009-03-04 08:11:55 +0100'
+  date_gmt: '2009-03-04 07:11:55 +0100'
+  content: |-
+    hi,
+    Can you help me about vb.net?
+    I have a datagridviewcomboboxcolumn. I want when I've chosen a item in list already then this list don't display that chosen. How to write code for this event?
+    Thanks
+- id: 55
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2009-03-04 13:02:18 +0100'
+  date_gmt: '2009-03-04 12:02:18 +0100'
+  content: |-
+    The following posts provide an example where the content of the combobox is dynamically changed:
+    http:&#47;&#47;www.timvw.be&#47;exploring-datagridviewcomboboxcolumn-databinding&#47;
+    http:&#47;&#47;www.timvw.be&#47;exploring-datagridviewcomboboxcolumn-databinding-part2&#47;
+- id: 56
+  author: thuy
+  author_email: ngocthuytk1@yahoo.com
+  author_url: ''
+  date: '2009-03-05 02:39:13 +0100'
+  date_gmt: '2009-03-05 01:39:13 +0100'
+  content: |-
+    Thanks Mr.Timvw.
+    But I've only limited knowledge of C# so can you show me code with VB.net for this event?
+- id: 57
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2009-03-05 10:44:49 +0100'
+  date_gmt: '2009-03-05 09:44:49 +0100'
+  content: |-
+    The obvious answer is: NO.
+
+    If the code is really that hard to understand, consider compiling the code and then let a tool like reflector generate vb.net code from the assembly or search the web for more one of the translation tools.
+- id: 58
+  author: Amund
+  author_email: ''
+  author_url: ''
+  date: '2009-07-08 08:33:26 +0200'
+  date_gmt: '2009-07-08 07:33:26 +0200'
+  content: |-
+    Good tip, thank you.
+    You're web page looks strange using Opera browser ;)
+---
+<p>Earlier this week i found that when a <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.datagridview.aspx">DataGridView<&#47;a> has it's <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.datagridview.editmode.aspx">EditMode<&#47;a> property set to <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.datagridvieweditmode.aspx">EditOnEnter<&#47;a> the user cannot select an entire row by clicking on the row header. This prevents the user from being able to delete a row. A couple of websearches later i found a <a href="http:&#47;&#47;connect.microsoft.com&#47;VisualStudio&#47;feedback&#47;ViewFeedback.aspx?FeedbackID=98504">bugreport<&#47;a> but the proposed workarounds didn't work for me :( Here is a workaround that does work for me:<&#47;p><br />
+[code lang="csharp"]<br />
+private void dataGridView1_MouseClick( object sender, MouseEventArgs e ) {<br />
+ DataGridView.HitTestInfo hitInfo = this.dataGridView1.HitTest(e.X, e.Y);<br />
+ if( hitInfo.Type == DataGridViewHitTestType.RowHeader ) {<br />
+  this.dataGridView1.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;<br />
+  this.dataGridView1.EndEdit();<br />
+ }<br />
+ else<br />
+ {<br />
+  this.dataGridView1.EditMode = DataGridViewEditMode.EditOnEnter;<br />
+ }<br />
+}<br />
+[&#47;code]</p>

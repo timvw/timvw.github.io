@@ -1,0 +1,46 @@
+---
+layout: post
+status: publish
+published: true
+title: Using Gson to serialize Scala objects
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2523
+wordpress_url: http://www.timvw.be/?p=2523
+date: '2016-01-14 21:43:09 +0100'
+date_gmt: '2016-01-14 20:43:09 +0100'
+categories:
+- Uncategorized
+tags:
+- scala
+- gson
+comments: []
+---
+<p><a href="https:&#47;&#47;github.com&#47;google&#47;gson">gson<&#47;a> is a pretty nice library that converts Java objects into JSON and back. When using this library from Scala things become a bit harder (eg: Plenty of people have difficulties when their scala object has an (im)mutable Map or List).<&#47;p></p>
+<p>Here is an example to convert a JSON object to a Map[String,String]:<&#47;p><br />
+[code lang="scala"]<br />
+import com.google.gson.Gson<br />
+import scala.collection.JavaConversions._</p>
+<p>val mapJson = "{ 'a': 'b', 'c': 'd' }"<br />
+val map = new Gson().fromJson(mapJson, classOf[java.util.Map[String, String]])<br />
+[&#47;code]</p>
+<p>Now that we know that this works, we hide the java types in the constructor and expose a nicer scala type via a method:<&#47;p></p>
+<p>[code lang="scala"]<br />
+case class Dummy(private val settings: java.util.Map[String, String]) {<br />
+  def getSettings = settings.toMap<br />
+}</p>
+<p>val dummyJson = "{ 'settings' : { 'a': 'b', 'c': 'd' } }"<br />
+val dummy = new Gson().fromJson(dummyJson, classOf[Dummy])</p>
+<p>case class Dummy2(private val options: java.util.List[String]) {<br />
+  def getOptions = options.toList<br />
+}</p>
+<p>val dummy2Json = "{ 'options' : [ 'a', 'b', 'c', 'd' ] }"<br />
+val dummy2 = new Gson().fromJson(dummy2Json, classOf[Dummy2])</p>
+<p>[&#47;code]</p>
+<p><strong>Edit: <&#47;strong> One could simply use <a href="https:&#47;&#47;github.com&#47;lift&#47;lift&#47;tree&#47;master&#47;framework&#47;lift-base&#47;lift-json">lift-json<&#47;a> instead and get pretty good scala support for free.<&#47;p></p>

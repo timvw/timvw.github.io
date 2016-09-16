@@ -1,0 +1,43 @@
+---
+layout: post
+status: publish
+published: true
+title: Easily switching between configuration files with MSBuild
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 220
+wordpress_url: http://www.timvw.be/easily-switching-between-configuration-files-with-msbuild/
+date: '2008-03-22 18:40:58 +0100'
+date_gmt: '2008-03-22 16:40:58 +0100'
+categories: []
+tags:
+- Visual Studio
+comments: []
+---
+<p>A couple of days ago i wrote about <a href="http:&#47;&#47;www.timvw.be&#47;easily-switching-between-appconfig-files-with-msbuild&#47;">Easily switching between App.Config files with MSBuild<&#47;a>. Christophe Gijbels, a fellow <a href="http:&#47;&#47;www.compuware.be&#47;root&#47;Careers&#47;index.asp">compuwarrior<&#47;a>, pointed out that developers usually need to copy more than a single App.Config file... I would propose to add a Folder for each Customer that contains all the specific configuration files. Eg:<&#47;p></p>
+<p><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;customerconfigurations.gif" alt="screenshot of solution explorer with proposed folder structures"&#47;></p>
+<p>Now i have to configure MSBuild so that the right files are copied into the <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;bb629394.aspx">OutDir<&#47;a>:<&#47;p></p>
+<p>[code lang="xml"]<!-- Define the CustomerPath depending on the choosen Configuration --></p>
+<propertyGroup  Condition=" $(Configuration) == 'Customer1 Debug' ">
+ <customerPath>Customer1<&#47;customerPath><br />
+<&#47;propertyGroup></p>
+<propertyGroup  Condition=" $(Configuration) == 'Customer2 Debug' ">
+ <customerPath>Customer2<&#47;customerPath><br />
+<&#47;propertyGroup></p>
+<p><!-- Define AppConfig in the CustomerPath  --></p>
+<propertyGroup>
+ <appConfig>$(CustomerPath)\App.config<&#47;appConfig><br />
+<&#47;propertyGroup></p>
+<p><!-- Find all files in CustomerPath, excluding AppConfig --><br />
+<itemGroup><br />
+<customerFiles Include="$(CustomerPath)\*.*" Exclude="$(CustomerPath)\App.config" &#47;><br />
+<&#47;itemGroup></p>
+<p><target Name="AfterBuild"><br />
+<copy SourceFiles="@(CustomerFiles)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true"&#47;><br />
+<&#47;target>[&#47;code]</p>

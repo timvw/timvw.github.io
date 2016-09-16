@@ -1,0 +1,38 @@
+---
+layout: post
+status: publish
+published: true
+title: Polling the existence of a file with PowerShell
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2050
+wordpress_url: http://www.timvw.be/?p=2050
+date: '2011-01-24 21:14:04 +0100'
+date_gmt: '2011-01-24 20:14:04 +0100'
+categories:
+- Uncategorized
+tags:
+- PowerShell
+comments:
+- id: 143407
+  author: Shivan
+  author_email: shivan@freenet.de
+  author_url: ''
+  date: '2013-01-02 21:23:28 +0100'
+  date_gmt: '2013-01-02 20:23:28 +0100'
+  content: Exactly what I was searching for! Thanks! (only had to negate it)
+---
+<p>Sometimes you run into a situations where a given task spawns a separate thread and completes it's work on that separate thread. Eg: sending a bit XMLA to SQL Server Analysis Services with Microsoft.AnalysisServices.Deployment.exe and then waiting for the processing to be completed. Anyway, here is a simple function that will wait untill a given file exists:<&#47;p></p>
+<p>[code lang="powershell"]<br />
+function WaitForFile($File) {<br />
+ while(!(Test-Path $File)) {<br />
+  Start-Sleep -s 10;<br />
+ }<br />
+}<br />
+[&#47;code]</p>

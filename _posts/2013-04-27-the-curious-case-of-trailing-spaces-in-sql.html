@@ -1,0 +1,62 @@
+---
+layout: post
+status: publish
+published: true
+title: The curious case of trailing spaces in SQL
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2330
+wordpress_url: http://www.timvw.be/?p=2330
+date: '2013-04-27 17:38:29 +0200'
+date_gmt: '2013-04-27 16:38:29 +0200'
+categories:
+- Uncategorized
+tags:
+- SQL
+- t-sql
+comments:
+- id: 285062
+  author: Kristof
+  author_email: delegatevoid@gmail.com
+  author_url: http://kristofmattei.be
+  date: '2013-11-21 08:32:47 +0100'
+  date_gmt: '2013-11-21 07:32:47 +0100'
+  content: "Hi Tim,\r\n\r\nThanks for the post, and thanks for pointing me to the
+    post! Guess the offline network is still useful!\r\n\r\n-Kristof"
+---
+<p>A while ago I was quite surprised to see that the following query returns 1 instead of 0:<&#47;p></p>
+<p>[code lang="sql"]<br />
+SELECT COUNT(*) WHERE N'Tim' = N'Tim '; -- notice the trailing space<br />
+[&#47;code]</p>
+<p>Apparently this is just standard behaviour. Here is an extract from <a href="http:&#47;&#47;www.andrew.cmu.edu&#47;user&#47;shadow&#47;sql&#47;sql1992.txt">sql1992.txt<&#47;a> (Section 8.2 Paragraph 3):<&#47;p></p>
+<p><quote>
+<pre>
+     3) The comparison of two character strings is determined as fol-<br />
+            lows:</p>
+<p>            a) If the length in characters of X is not equal to the length<br />
+              in characters of Y, then the shorter string is effectively<br />
+              replaced, for the purposes of comparison, with a copy of<br />
+              itself that has been extended to the length of the longer<br />
+              string by concatenation on the right of one or more pad char-<br />
+              acters, where the pad character is chosen based on CS. If<br />
+              CS has the NO PAD attribute, then the pad character is an<br />
+              implementation-dependent character different from any char-<br />
+              acter in the character set of X and Y that collates less<br />
+              than any string under CS. Otherwise, the pad character is a<br />
+              <space>.</p>
+<p>            b) The result of the comparison of X and Y is given by the col-<br />
+              lating sequence CS.</p>
+<p>            c) Depending on the collating sequence, two strings may com-<br />
+              pare as equal even if they are of different lengths or con-<br />
+              tain different sequences of characters. When the operations<br />
+              MAX, MIN, DISTINCT, references to a grouping column, and the<br />
+              UNION, EXCEPT, and INTERSECT operators refer to character<br />
+              strings, the specific value selected by these operations from<br />
+              a set of such equal values is implementation-dependent.<br />
+<&#47;pre><&#47;quote></p>

@@ -1,0 +1,45 @@
+---
+layout: post
+status: publish
+published: true
+title: Consume custom SSIS tasks without GAC installation
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2067
+wordpress_url: http://www.timvw.be/?p=2067
+date: '2011-03-05 16:30:25 +0100'
+date_gmt: '2011-03-05 15:30:25 +0100'
+categories:
+- Uncategorized
+tags:
+- PowerShell
+- SSIS
+comments: []
+---
+<p>For a while i thought that in order to consume a custom SSIS task you had to install the assembly in the GAC. Now i know better ;)<&#47;p></p>
+<p>For the designer (BIDS) you have to copy the files to:<br&#47;><br />
+C:\Program Files\Microsoft SQL Server\100\DTS\Tasks<br />
+C:\Program Files\Microsoft SQL Server\100\DTS\PipelineComponents<br />
+<&#47;p></p>
+<p>For the runtime (BIDS) you have to copy the files to:<br&#47;><br />
+C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\PrivateAssemblies<br />
+<&#47;p></p>
+<p>And for dtexec you have to copy the files to:<br&#47;><br />
+C:\Program Files\Microsoft SQL Server\100\DTS\Binn</p>
+<p><p>Here is a small powershell script that gives you the paths where you want to copy your assembly to:<&#47;p></p>
+<p>[code lang="powershell"]<br />
+# Lookup Tasks, PipelineComponents and DtExec paths<br />
+$DtsPath = (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup').SQLPath;<br />
+$DtsTasksPath = (Resolve-Path "$DtsPath\Tasks");<br />
+$DtsPipelineComponentsPath = (Resolve-Path "$DtsPath\Pipelinecomponents");<br />
+$DtExecPath = (Resolve-Path "$DtsPath\Binn");</p>
+<p># Lookup VS2008&#47;Bids path<br />
+$Vs2008Path = (Get-ItemProperty 'HKLM:\Software\Microsoft\VisualStudio\9.0').InstallDir;<br />
+$Vs2008PrivateAssembliesPath = (Resolve-Path "$Vs2008Path\PrivateAssemblies");<br />
+[&#47;code]</p>

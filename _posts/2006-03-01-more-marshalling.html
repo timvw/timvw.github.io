@@ -1,0 +1,46 @@
+---
+layout: post
+status: publish
+published: true
+title: More marshalling...
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 36
+wordpress_url: http://www.timvw.be/more-marshalling/
+date: '2006-03-01 02:49:22 +0100'
+date_gmt: '2006-03-01 00:49:22 +0100'
+categories: []
+tags:
+- C++
+comments: []
+---
+<p>This snippet uses <a href="http:&#47;&#47;windowssdk.msdn.microsoft.com&#47;library&#47;default.asp?url=&#47;library&#47;en-us&#47;sysinfo&#47;base&#47;getprivateprofilestring.asp">GetPrivateProfileString<&#47;a>  that is available in kernel32.dll. Apparently microsoft has decided to remove this useful function from the dotnet api.<&#47;p></p>
+<p>[code lang="cpp"]<br />
+[DllImport("kernel32", SetLastError=true)]<br />
+extern int GetPrivateProfileString(<br />
+  String ^pSection,<br />
+  String ^pKey,<br />
+  String ^pDefault,<br />
+  StringBuilder ^pValue,<br />
+  int pBufferLen,<br />
+  String ^pFile<br />
+);</p>
+<p>StringBuilder ^buf = gcnew StringBuilder(256);<br />
+GetPrivateProfileString(<br />
+  "logsection",<br />
+  "file",<br />
+  "default",<br />
+  buf,<br />
+  buf->Capacity,<br />
+  "example.ini"<br />
+);</p>
+<p>std::string _log_file = new string(<br />
+  (char*) Marshal::StringToHGlobalAnsi(logf).ToPointer()<br />
+);<br />
+[&#47;code]</p>

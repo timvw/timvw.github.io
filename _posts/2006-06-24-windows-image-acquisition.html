@@ -1,0 +1,80 @@
+---
+layout: post
+status: publish
+published: true
+title: Windows Image Acquisition
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 50
+wordpress_url: http://www.timvw.be/windows-image-acquisition/
+date: '2006-06-24 21:09:27 +0200'
+date_gmt: '2006-06-24 19:09:27 +0200'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments:
+- id: 20
+  author: sysula
+  author_email: sysula@tlen.pl
+  author_url: ''
+  date: '2007-01-06 20:24:23 +0100'
+  date_gmt: '2007-01-06 18:24:23 +0100'
+  content: 'Tell me please: What does the ''imgf'' means in Your code?'
+- id: 21
+  author: admin
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2007-01-06 20:41:03 +0100'
+  date_gmt: '2007-01-06 18:41:03 +0100'
+  content: |-
+    If i'm not mistaken i was referring to the code at <a href="http:&#47;&#47;dotnet.org.za&#47;colin&#47;archive&#47;2005&#47;03&#47;15&#47;15478.aspx" rel="nofollow">http:&#47;&#47;dotnet.org.za&#47;colin&#47;archive&#47;2005&#47;03&#47;15&#47;15478.aspx<&#47;a> (imgf would be imageFile):
+
+    [code lang="csharp"]foreach (Item item in items)
+    {
+     ImageFile imageFile = (ImageFile)WIACommonDialog.ShowTransfer(item);
+     Vector vector = imageFile.FileData;
+     byte[] bin = (byte[])vector.get_BinaryData();
+     &#47;&#47;do something with the image data
+    }[&#47;code]
+
+    Anyway, i found that <a href="http:&#47;&#47;windowssdk.msdn.microsoft.com&#47;en-us&#47;library&#47;ms713477(VS.80).aspx" rel="nofollow">avicap<&#47;a> runs much better: <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;testavicap32.zip" rel="nofollow">http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;testavicap32.zip<&#47;a>.
+- id: 22
+  author: sysula
+  author_email: sysula@tlen.pl
+  author_url: ''
+  date: '2007-01-07 13:49:47 +0100'
+  date_gmt: '2007-01-07 11:49:47 +0100'
+  content: |-
+    Thanks! I've tried this one It works but... Now I know that I have to look for something different than WIA 'cause there is no way to avoid saving a picture from WIA Web Cam on disc Right?
+
+    I need to capture a frame directly from video stream (Web Cam) and it should be very fast
+- id: 23
+  author: admin
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2007-01-07 14:41:05 +0100'
+  date_gmt: '2007-01-07 12:41:05 +0100'
+  content: |-
+    I made this post exactly to show that it can be avoided by using a MemoryStream ;)
+
+    (I found the avicap sufficient for my needs.. Most people seem to suggest DirectX but i haven't had the time to play with that)
+- id: 24
+  author: Jorge
+  author_email: ''
+  author_url: ''
+  date: '2007-10-12 22:11:07 +0200'
+  date_gmt: '2007-10-12 20:11:07 +0200'
+  content: Muchas gracias... esto soluciono mi problema...
+---
+<p>Earlier today i decided to toy around with my webcam. A couple of websearches later i ended up at <a href="http:&#47;&#47;msdn.microsoft.com&#47;library&#47;default.asp?url=&#47;library&#47;en-us&#47;wia&#47;wia&#47;overviews&#47;startpage.asp">WIA (Windows Image Acquisition)<&#47;a>. I found a couple of articles (eg: <a href="http:&#47;&#47;msdn.microsoft.com&#47;coding4fun&#47;someassemblyrequired&#47;lookatme&#47;default.aspx">here<&#47;a> and <a href="http:&#47;&#47;blogs.msdn.com&#47;robburke&#47;archive&#47;2005&#47;09&#47;21&#47;472541.aspx">here<&#47;a>) that showed how to capture images. I wanted to display the caputered image in a <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.picturebox.aspx">PictureBox<&#47;a>. Unfortunately everybody seems to save the WIA.ImageFile to a file and then load the imagefile into a PictureBox. It's obvious that i don't want to save the image into a file first. Here is my workaround:<&#47;p></p>
+<p>[code lang="csharp"]<br />
+&#47;&#47; Load the ImageFile into a PictureBox<br />
+pbImage.Image = Image.FromStream(new MemorySteam((byte[]) imgf.FileData.get_BinaryData()));<br />
+[&#47;code]</p>

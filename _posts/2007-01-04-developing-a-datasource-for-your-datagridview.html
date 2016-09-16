@@ -1,0 +1,99 @@
+---
+layout: post
+status: publish
+published: true
+title: Developing a DataSource for your DataGridView
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 140
+wordpress_url: http://www.timvw.be/developing-a-datasource-for-your-datagridview/
+date: '2007-01-04 23:10:37 +0100'
+date_gmt: '2007-01-04 21:10:37 +0100'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments:
+- id: 91
+  author: Samzzi
+  author_email: sam@sewi.be
+  author_url: http://www.sewi.be/staging/:p
+  date: '2007-01-05 15:08:11 +0100'
+  date_gmt: '2007-01-05 13:08:11 +0100'
+  content: |-
+    Something completely different .... wtf is your picture doing in .NET magazine (#15)? O_o
+
+    ;-)
+- id: 92
+  author: admin
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2007-01-05 17:30:16 +0100'
+  date_gmt: '2007-01-05 15:30:16 +0100'
+  content: |-
+    Pssst, let's not share that with the world :)
+
+    (But it's the truth, i'm a happy developer :))
+- id: 93
+  author: hrubesh
+  author_email: hrubeshj17@hotmail.com
+  author_url: ''
+  date: '2007-06-02 00:51:41 +0200'
+  date_gmt: '2007-06-01 22:51:41 +0200'
+  content: brotherhood thanks
+---
+<p>Imagine that you want to develop a DataSource that is capable to represent the data displayed in the following excel sheet:<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;dgv-ds-1.gif" alt="screenshot of excel sheet"&#47;></p>
+<p>For each region the values are given. The YEAR value is defined as the sum of Q1, Q2, Q3 and Q4, eg: for EMEA this is SUM(B2:E2). The GLOBAL values are calculated as the sum of the regions for the quarter, eg: for Q1 this is SUM(B2:B5). We'll start with the easiest task: Add columns to the DGV and define the headers:<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;dgv-ds-2.gif" alt="screenshot of first datagridview"&#47;></p>
+<p>If we look at the DGV it becomes clear that each row exists out of a Label, values for Q1 to Q4 and the sum of those values. If we translate this to code we end up with something like: <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;SalesRow.txt">SalesRow<&#47;a><&#47;p></p>
+<p>I've implemented <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.componentmodel.inotifypropertychanged.aspx">INotifyPropertyChanged<&#47;a> because i want the DGV to request and display the updated Year value when one of the quarterly values changes. Configure the Columns to use these properties as  DataPropertyName and add a couple of SalesRow instances to a <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;ms132679.aspx">BindingList<&#47;a> that we use as DataSource for the DGV.<&#47;p><br />
+[code lang="csharp"]public Form1()<br />
+{<br />
+ InitializeComponent();</p>
+<p> this.dataGridView1.AutoGenerateColumns = false;<br />
+ this.ColumnRegion.DataPropertyName = "Label";<br />
+ this.ColumnQ1.DataPropertyName = "Q1";<br />
+ this.ColumnQ2.DataPropertyName = "Q2";<br />
+ this.ColumnQ3.DataPropertyName = "Q3";<br />
+ this.ColumnQ4.DataPropertyName = "Q4";<br />
+ this.ColumnYear.DataPropertyName = "Year";</p>
+<p> BindingList<salesRow> bindingList = new BindingList<salesRow>();<br />
+ bindingList.Add(new SalesRow("EMEA", new int[] { 100, 100, 100, 100 }));<br />
+ bindingList.Add(new SalesRow("LATAM", new int[] { 150, 150, 150, 150 }));<br />
+ bindingList.Add(new SalesRow("APAC", new int[] { 100, 100, 100, 100 }));<br />
+ bindingList.Add(new SalesRow("NORAM", new int[] { 150, 150, 150, 150 }));<br />
+ this.dataGridView1.DataSource = bindingList;<br />
+}[&#47;code]</p>
+<p>Notice that the Year value is nicely updated when the user changes one of the quarterly values:<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;dgv-ds-3.gif" alt="screenshot of datagridview with rows for regions."&#47;></p>
+<p>In order to calculate the GLOBAL values we inherit from the SalesRow class and override the implementation for the Q1, Q2, Q3, Q4 and Year properties: <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;GlobalSalesRow.txt">GlobalSalesRow<&#47;a>.<&#47;p></p>
+<p>Finally we can wrap everyting in a <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;SalesRows.txt">SalesRows<&#47;a> class to represent our Data. Hooking this code up is as easy as:<&#47;p><br />
+[code lang="csharp"]public Form1()<br />
+{<br />
+ InitializeComponent();</p>
+<p> this.dataGridView1.AutoGenerateColumns = false;<br />
+ this.ColumnRegion.DataPropertyName = "Label";<br />
+ this.ColumnQ1.DataPropertyName = "Q1";<br />
+ this.ColumnQ2.DataPropertyName = "Q2";<br />
+ this.ColumnQ3.DataPropertyName = "Q3";<br />
+ this.ColumnQ4.DataPropertyName = "Q4";<br />
+ this.ColumnYear.DataPropertyName = "Year";</p>
+<p> BindingList<salesRow> bindingList = new BindingList<salesRow>();<br />
+ bindingList.Add(new SalesRow("EMEA", new int[] { 100, 100, 100, 100 }));<br />
+ bindingList.Add(new SalesRow("LATAM", new int[] { 150, 150, 150, 150 }));<br />
+ bindingList.Add(new SalesRow("APAC", new int[] { 100, 100, 100, 100 }));<br />
+ bindingList.Add(new SalesRow("NORAM", new int[] { 150, 150, 150, 150 }));</p>
+<p> SalesRows salesRows = new SalesRows(bindingList);<br />
+ this.dataGridView1.DataMember = "Rows";<br />
+ this.dataGridView1.DataSource = salesRows;<br />
+}[&#47;code]</p>
+<p>And here is a screenshot of the result:<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;dgv-ds-4.gif" alt="screenshot of the complete implementation at work"&#47;></p>
+<p>Feel free to download the complete project: <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;DataGridViewDataSource.zip">DataGridViewDataSource.zip<&#47;a>.<&#47;p></p>

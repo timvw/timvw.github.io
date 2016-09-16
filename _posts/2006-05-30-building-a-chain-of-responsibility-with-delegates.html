@@ -1,0 +1,74 @@
+---
+layout: post
+status: publish
+published: true
+title: Building a chain of responsibility with delegates
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 28
+wordpress_url: http://www.timvw.be/building-a-chain-of-responsibility-with-delegates/
+date: '2006-05-30 02:38:33 +0200'
+date_gmt: '2006-05-30 00:38:33 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Imagine that you have to write a function that verifies if there is a license available for a given clientID. Suppose that there are a couple of possibilities to find an available license. Your code would probably look like the following:<&#47;p></p>
+<p>[code lang="csharp"]<br />
+&#47;&#47; This code verifies if the client with the given clientID is licensed<br />
+&#47;&#47; returns the licenseID or 0 if no license is available<br />
+public Int32 IsLicensed(Int32 clientID) {<br />
+  int result = 0;</p>
+<p>  &#47;&#47; verify if there is already a license 'assigned' to the client<br />
+  result = IsAssigned(clientID);</p>
+<p>  if (result == 0) {<br />
+    &#47;&#47; find a dedicated license (license that is bound to the given client)<br />
+    result = IsDedicated(clientID);</p>
+<p>    if (result == 0) {<br />
+      &#47;&#47; find a nondedicated license (license that can be used by any client)<br />
+      result = IsNonDedicated(clientID);<br />
+    }<br />
+  }</p>
+<p>  return result;<br />
+}<br />
+[&#47;code]</p>
+<p>It's obvious that this structures becomes more complex as the number of possible ways to get a license grows. If you look a while at the structure you'll notice a pattern: each function (IsAssigned, IsDedicated, IsNonDedicted) verifies if there is a license availble. If the function didn't find a license the next function is performed. If you translate this to OO you would end up with something similar to the following:<&#47;p></p>
+<p>[code lang="csharp"]<br />
+&#47;&#47; this methods tries to find an available license for the given clientID<br />
+&#47;&#47; returns the licenseID or 0 if no license was found<br />
+delegate Int32 FindLicenseMethod(Int32 clientID);</p>
+<p>public class LicenseFinder {<br />
+  private FindLicenseMethod method;<br />
+  private LicenseFinder next;</p>
+<p>  public LicenseFinder(FindLicenseMethod, method, LicenseFinder next) {<br />
+    this.method = method;<br />
+    this.next = next;<br />
+  }</p>
+<p>  &#47;&#47; property for the next licensefinder in the chain<br />
+  public Next {<br />
+    get { return next; }<br />
+    set { next = val; }<br />
+  }</p>
+<p>  public Int32 GetLicense(Int32 clientID) {<br />
+    Int32 result = method(clientID);</p>
+<p>    if (result == 0 && Next != null) {<br />
+      result = Next.GetLicense(clientID);<br />
+    }</p>
+<p>    return result;<br />
+}</p>
+<p>public Int32 IsLicensed(Int32 clientID) {</p>
+<p>  LicenseFinder f = new LicenseFinder(<br />
+    new FindLicenseMethod(IsAssigned), new LicenseFinder(<br />
+    new FindLicenseMethod(IsDedicated), new LicenseFinder(<br />
+    new FindLicenseMethod(IsNonDedicated), null<br />
+  ))));</p>
+<p>  return f.GetLicense(clientID);<br />
+}<br />
+[&#47;code]</p>

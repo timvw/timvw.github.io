@@ -1,0 +1,45 @@
+---
+layout: post
+status: publish
+published: true
+title: About databinding and composite views
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1417
+wordpress_url: http://www.timvw.be/?p=1417
+date: '2009-10-13 16:44:43 +0200'
+date_gmt: '2009-10-13 15:44:43 +0200'
+categories: []
+tags:
+- Patterns
+- WPF
+- Silverlight
+comments: []
+---
+<p>A couple of days ago i had a databound ItemsControl (collection of Model.Cell) which instantiated sub views (with their own viewmodel).<&#47;p></p>
+<p>[code lang="xml"><grid x:Name="LayoutRoot"]<br />
+ <grid.Resources><br />
+  <dataTemplate x:Key="CellTemplate"><br />
+   <views:CellView &#47;><br />
+  <&#47;dataTemplate><br />
+ <&#47;grid.Resources><br />
+ <itemsControl<br />
+   ItemTemplate="{StaticResource CellTemplate}"<br />
+   ItemsSource="{Binding Cells}" &#47;><br />
+<&#47;grid>[&#47;code]</p>
+<p>Because each CellViewModel needs to know which cell they manage i used the following dirty hack:<&#47;p></p>
+<p>[code lang="csharp"]public CellView()<br />
+{<br />
+ Loaded += CellView_Loaded;<br />
+}</p>
+<p>void CellView_Loaded(object sender, RoutedEventArgs e)<br />
+{<br />
+ DataContext = new CellViewModel(DataContext);<br />
+}[&#47;code]</p>
+<p>Later on that day i realised there was a much cleaner solution: Let the BoardViewModel expose a collection of ViewModels.CellViewModel instead of Model.Cell. What a relief that i don't have to use the Loaded event hack :)<&#47;p></p>

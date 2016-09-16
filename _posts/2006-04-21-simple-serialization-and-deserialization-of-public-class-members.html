@@ -1,0 +1,72 @@
+---
+layout: post
+status: publish
+published: true
+title: Simple serialization and deserialization of public class members
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 112
+wordpress_url: http://www.timvw.be/simple-serialization-and-deserialization-of-public-class-members/
+date: '2006-04-21 02:19:04 +0200'
+date_gmt: '2006-04-21 00:19:04 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Here is a simple generic class that allows you to serialize classes (well, their public members) into XML and deserialize the XML to objects again. Make sure the class (or struct) has a parameterless constructor and that all the members that you want to serialize are public. Here is the code:<&#47;p><br />
+[code lang="csharp"]<br />
+public class SimpleSerializer<t><br />
+{<br />
+ public String Serialize(T o)<br />
+ {<br />
+  using(MemoryStream m = new MemoryStream())<br />
+  {<br />
+   XmlSerializer s = new XmlSerializer(o.GetType());<br />
+   s.Serialize(m, o);<br />
+   return Encoding.UTF8.GetString(m.ToArray());<br />
+  }<br />
+ }</p>
+<p> public T Deserialize(String xml)<br />
+ {<br />
+  using (MemoryStream m = new MemoryStream(Encoding.UTF8.GetBytes(xml)))<br />
+  {<br />
+   XmlSerializer s = new XmlSerializer(typeof(T));<br />
+   return (T)s.Deserialize(m);<br />
+  }<br />
+ }<br />
+}[&#47;code]</p>
+<p>Here is a simple example of a class that will be serialized:<&#47;p><br />
+[code lang="csharp"]<br />
+public struct Person {<br />
+  public String firstname;<br />
+  public String lastname;</p>
+<p>  public Person(String firstname, String lastname) {<br />
+    this.firstname = firstname;<br />
+    this.lastname = lastname;<br />
+  }<br />
+}<br />
+[&#47;code]</p>
+<p>And finally, a simple console application that demonstrates how it works:<&#47;p><br />
+[code lang="csharp"]<br />
+class Program {<br />
+  static void Main(string[] args) {<br />
+    Person p1 = new Person("Tim", "Van Wassenhove");<br />
+    SimpleSerializer
+<person> ss = new SimpleSerializer
+<person>();</p>
+<p>    String xml = ss.Serialize(p1);<br />
+    Console.WriteLine("serialized:\n" + xml);</p>
+<p>    Person p2 = ss.Deserialize(xml);<br />
+    Console.WriteLine("unserialized name: " + p2.firstname);</p>
+<p>    Console.WriteLine("Press any key to continue...");<br />
+    Console.ReadKey();<br />
+  }<br />
+}<br />
+[&#47;code]</p>

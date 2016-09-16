@@ -1,0 +1,93 @@
+---
+layout: post
+status: publish
+published: true
+title: Performing long running tasks in a Windows Application
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 165
+wordpress_url: http://www.timvw.be/performing-long-running-tasks-in-a-windows-application/
+date: '2007-04-27 23:12:22 +0200'
+date_gmt: '2007-04-27 21:12:22 +0200'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments:
+- id: 1286
+  author: Regin
+  author_email: ''
+  author_url: ''
+  date: '2010-11-12 21:38:41 +0100'
+  date_gmt: '2010-11-12 20:38:41 +0100'
+  content: awesome! cool code! Thanks...
+---
+<p>A while ago i blogged about <a href="http:&#47;&#47;www.timvw.be&#47;about-thread-safe-gui&#47;">Thread Safe UI<&#47;a>. Today someone asked the following:<&#47;p></p>
+<blockquote>
+<div>
+On a form i have a datagridview and two button. One is for insert in a database the values in datagridview, and the other to update data in db.<br />
+Now, i would like to have a kind of 'progress form'  during the insert or the update. At the end, only when the operation is finished, the user can reuse the main form.<br />
+<&#47;div><br />
+<&#47;blockquote></p>
+<p>The first thing i do is define a delegate (void Performer()) that will do the work of a long running operation. The reason i do this is because the compiler generates a class Performer that inherits from System.MulticastDelegate and exposes Begin- and EndInvoke methods.<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;performerdelegate.gif" alt="screenshot of ildasm displaying generated performer class"&#47;></p>
+<p>Since i want to disable my form before each run of a Performer and enable it after each run i implement a method Perform as following:<&#47;p><br />
+[code lang="csharp"]private void Perform(Performer performer, string message)<br />
+{<br />
+ this.PrePerform(message);<br />
+ performer.BeginInvoke(this.PostPerform, null);<br />
+}[&#47;code]</p>
+<p>Now it's simply a matter of implemeting Pre- and PostPerform:<&#47;p><br />
+[code lang="csharp"]private void PrePerform(string message)<br />
+{<br />
+ if (this.InvokeRequired)<br />
+ {<br />
+  this.EndInvoke(this.BeginInvoke(new MethodInvoker(delegate { this.PrePerform(message); })));<br />
+ }<br />
+ else<br />
+ {<br />
+  this.Enabled = false;<br />
+  this.toolStripStatusLabel1.Text = message;<br />
+  this.toolStripStatusLabel1.Visible = true;<br />
+  this.toolStripProgressBar1.Visible = true;<br />
+ }<br />
+}</p>
+<p>private void PostPerform(object state)<br />
+{<br />
+ if (this.InvokeRequired)<br />
+ {<br />
+  this.EndInvoke(this.BeginInvoke(new MethodInvoker(delegate { this.PostPerform(state); })));<br />
+ }<br />
+ else<br />
+ {<br />
+  this.toolStripProgressBar1.Visible = false;<br />
+  this.toolStripStatusLabel1.Visible = false;<br />
+  this.toolStripStatusLabel1.Text = string.Empty;<br />
+  this.Enabled = true;<br />
+ }<br />
+}[&#47;code]</p>
+<p>Now that we have all the infrastructure i implement an eventhandler for a button click:<&#47;p><br />
+[code lang="csharp"]private void button1_Click(object sender, EventArgs e)<br />
+{<br />
+ &#47;&#47; remove previously retrieved results<br />
+ this.UpdateResultLabel(string.Empty);</p>
+<p> this.Perform(delegate<br />
+ {<br />
+  &#47;&#47; simulate the effect of a blocking operation that takes a while to complete<br />
+  &#47;&#47; eg: remoting, webrequests, database queries, ...<br />
+  Thread.Sleep(5000);</p>
+<p>  &#47;&#47; display the result of the long running operation<br />
+  this.UpdateResultLabel("Value was retrieved...");<br />
+ }, "Retrieving value...");<br />
+}[&#47;code]</p>
+<p>Here are a couple of screenshots of the running program:<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;performerdelegate2.gif" alt="screenshot of application not doing anything"&#47;><br&#47;><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;performerdelegate3.gif" alt="screenshot of application performing long running task"&#47;><br&#47;><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;performerdelegate4.gif" alt="screenshot of application after completion of long running task"&#47;><br&#47;></p>
+<p>Feel free to download the <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;AsyncDemo.zip">AsyncDemo.zip<&#47;a><&#47;p></p>

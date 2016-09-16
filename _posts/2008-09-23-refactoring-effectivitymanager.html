@@ -1,0 +1,61 @@
+---
+layout: post
+status: publish
+published: true
+title: Refactoring EffectivityManager
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 588
+wordpress_url: http://www.timvw.be/?p=588
+date: '2008-09-23 17:33:22 +0200'
+date_gmt: '2008-09-23 15:33:22 +0200'
+categories: []
+tags:
+- C#
+- Patterns
+comments: []
+---
+<p>A while ago i presented the <a href="http:&#47;&#47;www.timvw.be&#47;presenting-a-generic-effectivitymanager&#47;">EffectivityManager<&#47;a>. Having used this class for a while i have decided to rename it to Temporal<T>. The implementation of IList<T> is not required anymore because a user is typically only interested in a specific effectivity, not the evolution of the effectivities.<&#47;p></p>
+<p>[code lang="csharp"]&#47;&#47;&#47;<br />
+<summary>
+&#47;&#47;&#47; Represents an element that changes over time.<br />
+&#47;&#47;&#47; It consists out of effectivities of that element that are effective in different periods.<br />
+&#47;&#47;&#47; <&#47;summary><br />
+public interface ITemporal<t><br />
+{<br />
+ &#47;&#47;&#47;<br />
+<summary>
+ &#47;&#47;&#47; Modifies the element from the given date.<br />
+ &#47;&#47;&#47; <&#47;summary><br />
+ &#47;&#47;&#47;
+<param name="element"><&#47;param><br />
+ &#47;&#47;&#47;
+<param name="from"><&#47;param><br />
+ &#47;&#47;&#47; <returns><&#47;returns><br />
+ void Modify(T element, DateTime from);</p>
+<p> &#47;&#47;&#47;<br />
+<summary>
+ &#47;&#47;&#47; Gets the effectivity that is valid on the given date.<br />
+ &#47;&#47;&#47; <&#47;summary><br />
+ &#47;&#47;&#47;
+<param name="validityDate">The validity date.<&#47;param><br />
+ &#47;&#47;&#47; <returns><&#47;returns><br />
+ IEffectivity<t> GetSnapshot(DateTime validityDate);</p>
+<p> &#47;&#47;&#47;<br />
+<summary>
+ &#47;&#47;&#47; Tries to get the effectivity that is valid on the given date.<br />
+ &#47;&#47;&#47; <&#47;summary><br />
+ &#47;&#47;&#47;
+<param name="validityDate"><&#47;param><br />
+ &#47;&#47;&#47;
+<param name="effectivity"><&#47;param><br />
+ &#47;&#47;&#47; <returns><&#47;returns><br />
+ bool TryGetSnapshot(DateTime validityDate, out IEffectivity<t> effectivity);<br />
+}[&#47;code]</p>
+<p>In the implementation i have added a constructor that accepts a <a href="http:&#47;&#47;www.timvw.be&#47;presenting-a-generic-discreterange&#47;">DiscreteValuesGenerator<DateTime><&#47;a> which makes it possible to create Periods with a resolution of a day instead of seconds.<&#47;p></p>

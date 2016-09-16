@@ -1,0 +1,27 @@
+---
+layout: post
+status: publish
+published: true
+title: Using sed
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 846
+wordpress_url: http://www.timvw.be/?p=846
+date: '2009-03-05 21:36:53 +0100'
+date_gmt: '2009-03-05 20:36:53 +0100'
+categories: []
+tags:
+- Free Software
+- C#
+comments: []
+---
+<p>For a couple of days now i've been pondering about posting something about my love for <a href="http:&#47;&#47;www.gnu.org&#47;software&#47;textutils&#47;">GNU text-utilities<&#47;a> but never got round to it. A couple of minutes ago i read Phil Windley's <a href="http:&#47;&#47;www.windley.com&#47;archives&#47;2009&#47;03&#47;using_grep_and_find.shtml">Using Grep and Find<&#47;a> post so here is a one-liner that shows how you can  add a reference to a msbuild target file to all csproj files in a given folder:<&#47;p></p>
+<p>[code lang="bash"]find -name *.csproj -exec sed -i -e '#^<&#47;project>$#  <import Project="X:\\BuildTasks\\Corp.targets" &#47;>\r\n<&#47;project>' {} \;[&#47;code]</p>
+<p>Or if you are frustrated with System.Diagnostics.CodeAnalysis.SuppressMessageAttributes and want to remove them from all your cs files:<&#47;p></p>
+<p>[code lang="bash"]find -name *.cs -exed sed -r -i -e  's#\[.*?SuppressMessage.*?\]##' {} \";[&#47;code]</p>

@@ -1,0 +1,80 @@
+---
+layout: post
+status: publish
+published: true
+title: True KeyBehavior with System.Windows.Interactivity.Behavior
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1472
+wordpress_url: http://www.timvw.be/?p=1472
+date: '2009-10-19 11:22:56 +0200'
+date_gmt: '2009-10-19 10:22:56 +0200'
+categories: []
+tags:
+- C#
+- Silverlight
+comments:
+- id: 349
+  author: 'Tim Van Wassenhove &raquo; Archive &raquo; Separation of concerns: Behavior
+    = Trigger + TriggerAction'
+  author_email: ''
+  author_url: http://www.timvw.be/separation-of-concerns-behavior-trigger-triggeraction/
+  date: '2009-10-19 20:40:51 +0200'
+  date_gmt: '2009-10-19 19:40:51 +0200'
+  content: '[...] you look at my KeyBehavior you notice that it is doing two things:
+    register for events so that the behavior can be triggered [...]'
+---
+<p>Yesterday i demonstrated how attached properties can be used to invoke commands on specific key presses (and releases). With the aid of System.Windows.Interactivity.Behavior we can implement a true behavior and we get an extension point to do the required cleanup.<&#47;p></p>
+<p><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;BlendKeyBehavior.png" alt="screenshot of Blend managing a KeyBehavior" &#47;></p>
+<p>[code lang="xml"]<grid><br />
+ <interactivity:Interaction.Behaviors><br />
+  <inf:KeyBehavior><br />
+   <inf:KeyBehavior.DownKeyCommands><br />
+    <inf:KeyCommandName Key="Right" CommandName="PlayerRight"  &#47;><br />
+    <inf:KeyCommandName Key="Left" CommandName="PlayerLeft" &#47;><br />
+    <inf:KeyCommandName Key="Up" CommandName="PlayerUp" &#47;><br />
+    <inf:KeyCommandName Key="Down" CommandName="PlayerDown" &#47;><br />
+   <&#47;inf:KeyBehavior.DownKeyCommands><br />
+  <&#47;inf:KeyBehavior><br />
+ <&#47;interactivity:Interaction.Behaviors><br />
+ ...<br />
+<&#47;grid>[&#47;code]</p>
+<p>The behavior implementation is the same as yesterday, only this time we thankfully override the OnAttached and OnDetaching methods:<&#47;p></p>
+<p>[code lang="csharp"]public class KeyBehavior : Behavior<frameworkElement><br />
+{<br />
+ public List<keyCommandName> DownKeyCommands { get; set; }<br />
+ public List<keyCommandName> UpKeyCommands { get; set; }</p>
+<p> public KeyBehavior()<br />
+  : base()<br />
+ {<br />
+  DownKeyCommands = new List<keyCommandName>();<br />
+  UpKeyCommands = new List<keyCommandName>();<br />
+ }</p>
+<p> protected override void OnAttached()<br />
+ {<br />
+  base.OnAttached();<br />
+  SubscribeToKeyEvents();<br />
+ }</p>
+<p> protected override void OnDetaching()<br />
+ {<br />
+  UnsubscribeFromKeyEvents();<br />
+  base.OnDetaching();<br />
+ }</p>
+<p> void SubscribeToKeyEvents()<br />
+ {<br />
+  AssociatedObject.KeyDown += AssociatedObject_KeyDown;<br />
+  AssociatedObject.KeyUp += AssociatedObject_KeyUp;<br />
+ }</p>
+<p> void UnsubscribeFromKeyEvents()<br />
+ {<br />
+  AssociatedObject.KeyDown -= AssociatedObject_KeyDown;<br />
+  AssociatedObject.KeyUp -= AssociatedObject_KeyUp;<br />
+ }</p>
+<p> ...<br />
+[&#47;code]</p>

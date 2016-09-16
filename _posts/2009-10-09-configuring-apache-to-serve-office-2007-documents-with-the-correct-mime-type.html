@@ -1,0 +1,33 @@
+---
+layout: post
+status: publish
+published: true
+title: Configuring Apache to serve Office 2007 documents with the correct MIME type
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1345
+wordpress_url: http://www.timvw.be/?p=1345
+date: '2009-10-09 09:00:01 +0200'
+date_gmt: '2009-10-09 08:00:01 +0200'
+categories: []
+tags:
+- Information Technology
+comments: []
+---
+<p>Untill now i haven't published any Office 2007 documents but i noticed that my webhost hasn't configured apache to serve such documents with the correct MIME types. This resulted in my web browser downloading .docx files as zip archives. Here's how a couple of additions to .htaccess tackle the problem:<&#47;p></p>
+<p>[code lang="apache"]AddType application&#47;vnd.openxmlformats-officedocument.spreadsheetml.sheet xlsx<br />
+AddType application&#47;vnd.openxmlformats-officedocument.spreadsheetml.template xltx<br />
+AddType application&#47;vnd.openxmlformats-officedocument.presentationml.template potx<br />
+AddType application&#47;vnd.openxmlformats-officedocument.presentationml.slideshow ppsx<br />
+AddType application&#47;vnd.openxmlformats-officedocument.presentationml.presentation sldx<br />
+AddType application&#47;vnd.openxmlformats-officedocument.presentationml.slide sldx<br />
+AddType application&#47;vnd.openxmlformats-officedocument.wordprocessingml.document docx<br />
+AddType application&#47;vnd.openxmlformats-officedocument.wordprocessingml.template dotx<br />
+AddType application&#47;vnd.ms-excel.addin.macroEnabled.12 xlam<br />
+AddType application&#47;vnd.ms-excel.sheet.binary.macroEnabled.12 xslb[&#47;code]</p>

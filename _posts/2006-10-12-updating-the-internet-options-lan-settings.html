@@ -1,0 +1,82 @@
+---
+layout: post
+status: publish
+published: true
+title: Updating the Internet Options &#47; Lan Settings
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 49
+wordpress_url: http://www.timvw.be/updating-the-internet-options-lan-settings/
+date: '2006-10-12 20:43:48 +0200'
+date_gmt: '2006-10-12 18:43:48 +0200'
+categories: []
+tags:
+- C#
+comments:
+- id: 62
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2007-05-15 19:10:00 +0200'
+  date_gmt: '2007-05-15 17:10:00 +0200'
+  content: These days it makes more sense to use the managed <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.net.networkinformation.networkchange.networkaddresschanged.aspx"
+    rel="nofollow">NetworkChange.NetworkAddressChanged Event<&#47;a> instead.
+---
+<p>A while ago i wrote that i had created two .reg files to update my Internet Options &#47; Lan Settings (<a href="http:&#47;&#47;www.timvw.be&#47;automating-the-configuration-of-internet-options-and-lan-settings&#47;">Automating the configuration of Internet Options &#47; Lan Settings<&#47;a>). Yesterday i build a little Windows Service that automates this completely. With <a href="http:&#47;&#47;windowssdk.msdn.microsoft.com&#47;en-gb&#47;library&#47;aa366329.aspx">NotifyAddrChange<&#47;a> i am notified whenever a change occurs in the table that maps IPv4 addresses to interfaces:<&#47;p><br />
+[code lang="csharp"]<br />
+[DllImport("iphlpapi.dll", CharSet = CharSet.Ansi)]<br />
+private static extern int NotifyAddrChange(ref IntPtr handle, IntPtr overlapped);<br />
+[&#47;code]</p>
+<p>The main loop of the service looks like this:<&#47;p><br />
+[code lang="csharp"]<br />
+while (this.isRunning)<br />
+{<br />
+ IntPtr handle = IntPtr.Zero;<br />
+ NotifyAddrChange(ref handle, IntPtr.Zero);<br />
+ UpdateRegistry();<br />
+}<br />
+[&#47;code]</p>
+<p>Whenever i'm connected to the LAN at work i want to use a proxy. Here's the code that takes care of this:<&#47;p><br />
+[code lang="csharp"]<br />
+private static void UpdateRegistry()<br />
+{<br />
+ RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Internet Settings", true);<br />
+ if (IsInWorkLan())<br />
+ {<br />
+  registryKey.SetValue("AutoConfigURL", "http:&#47;&#47;123.456.789.0");<br />
+ }<br />
+ else<br />
+ {<br />
+  registryKey.DeleteValue("AutoConfigURL", false);<br />
+ }<br />
+}<br />
+[&#47;code]</p>
+<p>Figuring out whether i'm connected to the LAN at work is pretty simple. As soon as i have an IPAddress that looks like 192.168.X.Y i'm connected. Here's how i translated this into code:<&#47;p><br />
+[code lang="csharp"]<br />
+private static bool IsInWorkLan()<br />
+{<br />
+ foreach (IPAddress ipAddress in Dns.GetHostAddresses(Dns.GetHostName()))<br />
+ {<br />
+  if (IsInWorkLan(ipAddress))<br />
+  {<br />
+   return true;<br />
+  }<br />
+ }</p>
+<p> return false;<br />
+}</p>
+<p>private static bool IsInWorkLan(IPAddress ipAddress)<br />
+{<br />
+ byte[] bytes = ipAddress.GetAddressBytes();<br />
+ if ((int)bytes[0] == 192 && (int)bytes[1] == 168)<br />
+ {<br />
+  return true;<br />
+ }</p>
+<p> return false;<br />
+}<br />
+[&#47;code]</p>

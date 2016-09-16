@@ -1,0 +1,62 @@
+---
+layout: post
+status: publish
+published: true
+title: a little hint for writing and testing a script
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 119
+wordpress_url: http://www.timvw.be/a-little-hint-for-writing-and-testing-a-script/
+date: '2005-10-18 02:38:37 +0200'
+date_gmt: '2005-10-18 00:38:37 +0200'
+categories:
+- Uncategorized
+tags:
+- Free Software
+- Vim
+comments: []
+---
+<p>I noticed that most people think Vim sucks and they constantly perform the following keystrokes:<&#47;p><br />
+[code lang="dos"]<br />
+:wq<br />
+perl somefile.pl<br />
+vim somefile.pl<br />
+[&#47;code]</p>
+<p>Here is the first trick, you don't need to exit vim to perform a command. Simply type the following while you're in vim:<&#47;p><br />
+[code lang="dos"]<br />
+:!perl somefile.pl<br />
+[&#47;code]</p>
+<p>Offcourse, you don't want to type the filename all the time, so you use the following:<&#47;p><br />
+[code lang="dos"]<br />
+:!perl %<br />
+[&#47;code]</p>
+<p>Now, if you are using a different scripting language it might be more portable to make the file executable (chmod u+x) and make sure the <a href="http:&#47;&#47;en.wikipedia.org&#47;wiki&#47;Shebang">Shebang<&#47;a> points to the right interpreter. Your script would be something like the following then:<&#47;p><br />
+[code lang="perl"]<br />
+#!&#47;usr&#47;bin&#47;env perl<br />
+use strict;<br />
+use warnings;<br />
+use Socket;<br />
+[&#47;code]</p>
+<p>Now all you have to do is type the following in vim and your script will be executed:<&#47;p><br />
+[code lang="dos"]<br />
+:!%<br />
+[&#47;code]</p>
+<p>I noticed that the :!% trick doesn't work when your script is in your current working directory. This is how you can make it work:<&#47;p><br />
+[code lang="dos"]<br />
+:!.&#47;%<br />
+[&#47;code]</p>
+<p>I also noticed that before you execute this command you always need to type :w to save the changes. To automate this i've added the following to my ~&#47;.vimrc file:<&#47;p><br />
+[code lang="dos"]<br />
+map ,r :w<cr>:!.&#47;%<&#47;cr><cr><br />
+<&#47;cr>[&#47;code]</p>
+<p>Now all i have to type is the following:<&#47;p><br />
+[code lang="dos"]<br />
+,r<br />
+[&#47;code]</p>
+<p>For other tricks and hints you have to check out <a href="http:&#47;&#47;www.vi-improved.org&#47;tutorial.php">Vi-IMproved.org<&#47;a>.<&#47;p></p>

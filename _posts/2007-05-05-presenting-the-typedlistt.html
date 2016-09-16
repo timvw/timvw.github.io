@@ -1,0 +1,100 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting the TypedList<T>
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 168
+wordpress_url: http://www.timvw.be/presenting-the-typedlistt/
+date: '2007-05-05 23:57:24 +0200'
+date_gmt: '2007-05-05 21:57:24 +0200'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments:
+- id: 238
+  author: Tim Van Wassenhove &raquo; Presenting the ExpressionDescriptor
+  author_email: ''
+  author_url: http://www.timvw.be/presenting-the-expressiondescriptor/
+  date: '2007-05-08 21:07:52 +0200'
+  date_gmt: '2007-05-08 19:07:52 +0200'
+  content: '[...] couple of days ago i present you the TypedList which supported navigation
+    through subproperties. Another common feature request is the possibility [...]'
+---
+<p>A while ago i presented the <a href="http:&#47;&#47;www.timvw.be&#47;presenting-the-sortablebindinglistt&#47;">SortableBindingList<&#47;a>. One of the nice features you get with DataSets is that you can use relations to navigate through the data. Business Objects don't give you this functionality by default. Today i implemented a BindingList that supports navigation through relations. First i'll present you the Business Objects:<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;typedlist-1.gif" alt="screenshot of business objects"&#47;>
+<p>We would like to create an overview of the appointments using a datagridview:<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;typedlist-2.gif" alt="screenshot of wanted ui"&#47;></p>
+<p>I drag a datagridview on the designer form, add columns, and then i set the datapropertynames as following: (Notice how i use a . to navigate the relations)<&#47;p><br />
+[code lang="csharp"]this.dataGridView1.AutoGenerateColumns = false;<br />
+this.ColumnId.DataPropertyName = "Id";<br />
+this.ColumnPatient.DataPropertyName = "Patient.Name";<br />
+this.ColumnMunicipality.DataPropertyName = "Patient.Address.Municipality";<br />
+this.ColumnStart.DataPropertyName = "DateTimeRange.Start";<br />
+this.ColumnEnd.DataPropertyName = "DateTimeRange.End";<br />
+[&#47;code]</p>
+<p>First we need to implement a method that allows us to find a PropertyInfo for the given property name:<&#47;p><br />
+[code lang="csharp"]public static PropertyInfo Resolve(string propertyName)<br />
+{<br />
+ Type t = typeof(T);<br />
+ PropertyInfo propertyInfo = null;</p>
+<p> string[] subPropertyNames = propertyName.Split('.');<br />
+ if (subPropertyNames.Length == 1)<br />
+ {<br />
+  &#47;&#47; a regular property<br />
+  propertyInfo = t.GetProperty(propertyName);<br />
+ }<br />
+ else<br />
+ {<br />
+  &#47;&#47; navigate through the subproperties<br />
+  for (int i = 0; i < subPropertyNames.Length - 1; ++i)<br />
+  {<br />
+   propertyInfo = t.GetProperty(subPropertyNames[i]);<br />
+   t = propertyInfo.PropertyType;<br />
+  }<br />
+ }</p>
+<p> return propertyInfo;<br />
+}[&#47;code]</p>
+<p>Now we are ready to implement the ITypedList.GetItemProperties method in our TypedList:<&#47;p><br />
+[code lang="csharp"]public PropertyDescriptorCollection GetItemProperties(PropertyDescriptor[] listAccessors)<br />
+{<br />
+ PropertyDescriptorCollection propertyDescriptors = new PropertyDescriptorCollection(listAccessors);</p>
+<p> &#47;&#47; add the regular property descriptors T has<br />
+ foreach (PropertyDescriptor propertyDescriptor in TypeDescriptor.GetProperties(typeof(T)))<br />
+ {<br />
+  propertyDescriptors.Add(propertyDescriptor);<br />
+ }</p>
+<p> &#47;&#47; add the subproperties<br />
+ foreach (string subPropertyName in this.subPropertyNames)<br />
+ {<br />
+  propertyDescriptors.Add(new SubPropertyDescriptor<t>(subPropertyName));<br />
+ }</p>
+<p> return propertyDescriptors;<br />
+}[&#47;code]</p>
+<p>Using this class is as simple as:<&#47;p><br />
+[code lang="csharp"]<br />
+&#47;&#47; create a TypedList that holds Appointments<br />
+TypedBindingList<appointment> appointments = new TypedBindingList<appointment>(new string[] { "Patient.Name", "Patient.Address.Municipality", "DateTimeRange.Start", "DateTimeRange.End" });</p>
+<p>&#47;&#47; Initialise two patients<br />
+Patient patient = new Patient(1, "Tim", new Address(1, "MyStreet", 1820, "Melsbroek"));<br />
+Patient patient2 = new Patient(2, "John", new Address(2, "His Street", 3000, "Leuven"));</p>
+<p>&#47;&#47; Add appointsments to the list<br />
+appointments.Add(new Appointment(1, patient, new DateTimeRange(new DateTime(2007, 5, 3, 15, 0, 0), new DateTime(2007, 5, 3, 16, 0, 0))));<br />
+appointments.Add(new Appointment(2, patient2, new DateTimeRange(new DateTime(2007, 5, 4, 15, 0, 0), new DateTime(2007, 5, 4, 16, 0, 0))));<br />
+appointments.Add(new Appointment(3, patient, new DateTimeRange(new DateTime(2007, 5, 5, 15, 0, 0), new DateTime(2007, 5, 5, 16, 0, 0))));<br />
+appointments.Add(new Appointment(4, patient, new DateTimeRange(new DateTime(2007, 5, 6, 15, 0, 0), new DateTime(2007, 5, 6, 16, 0, 0))));<br />
+appointments.Add(new Appointment(5, patient2, new DateTimeRange(new DateTime(2007, 5, 7, 15, 0, 0), new DateTime(2007, 5, 7, 16, 0, 0))));<br />
+appointments.Add(new Appointment(6, patient, new DateTimeRange(new DateTime(2007, 5, 7, 17, 0, 0), new DateTime(2007, 5, 7, 17, 15, 0))));</p>
+<p>&#47;&#47; Assign this list to the datagridview datasource<br />
+this.dataGridView1.DataSource = appointments;<br />
+[&#47;code]</p>
+<p>Pretty cool, don't you think? As always, feel free to download the code: <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;TypedList.zip">TypedList.zip<&#47;a><&#47;p></p>
+<p><b>Edit: <&#47;b> Today, May 8th 2007, i discovered a but in SubPropertyDescriptor.SetValue and uploaded a newer version of the code.<&#47;p></p>

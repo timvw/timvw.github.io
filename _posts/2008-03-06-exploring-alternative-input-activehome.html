@@ -1,0 +1,42 @@
+---
+layout: post
+status: publish
+published: true
+title: 'Exploring alternative input: ActiveHome'
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 213
+wordpress_url: http://www.timvw.be/exploring-alternative-input-activehome/
+date: '2008-03-06 17:59:13 +0100'
+date_gmt: '2008-03-06 15:59:13 +0100'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>A while ago i bought <a href="http:&#47;&#47;www.easycomputing.com&#47;product.asp?ref=3655">Media Centerkit<&#47;a> for an euro or two. I wouldn't recommend the product because it comes with crappy software. Anyway, i was only interested in playing with the hardware (RF Remote and USB Receiver) so i downloaded the <a href="http:&#47;&#47;www.activehomepro.com&#47;sdk&#47;sdk-info.html">ActiveHome Professional SDK<&#47;a>. Once you install this you can add a reference to "ActiveHomeScript 1.0 Type Library" under the COM tab in Visual Studio. I wrote a little library so that i can consume the ActiveHomeClass.RecvAction in a Type-safe way:<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;activehomelibrary.png" alt="class diagram of activehome library"&#47;></p>
+<p>Here is some sample code that demonstrates how you can use the Notifier to receive Notifications:<&#47;p><br />
+[code lang="csharp"]<br />
+&#47;&#47; register our eventhandler and tell the notifier to start raising events<br />
+Notifier.Instance.NotificationReceived += this.Instance_NotificationReceived;<br />
+Notifier.Instance.Enable();</p>
+<p>private void Instance_NotificationReceived(object sender, NotificationReceivedEventArgs e)<br />
+{<br />
+ &#47;&#47; for more complex logic i would recommend that you apply a Filter pattern...<br />
+ RadioFrequencyNotification rfNotification = e.Notification as RadioFrequencyNotification;<br />
+ if (rfNotification.IsKeyPressed)<br />
+ {<br />
+  if (rfNotification.Command == RadioFrequencyCommand.Menu)<br />
+  {<br />
+   this.RaiseToolStripMenuItemClicked(this.MenuClicked, EventArgs.Empty);<br />
+  }<br />
+ }<br />
+}[&#47;code]</p>
+<p>As always feel free to download the library and sample application: <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;ActiveHome.zip">ActiveHome.zip<&#47;a><&#47;p></p>

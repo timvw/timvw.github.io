@@ -1,0 +1,45 @@
+---
+layout: post
+status: publish
+published: true
+title: Preparing for my internship
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 57
+wordpress_url: http://www.timvw.be/preparing-for-my-internship/
+date: '2006-02-11 21:26:22 +0100'
+date_gmt: '2006-02-11 19:26:22 +0100'
+categories: []
+tags:
+- C++
+comments: []
+---
+<p>Only two more days before my internship starts. I'm a bit nervous and excited to dive into this adventure. Today i decided to fresh my knowledge of (MS)-C++ a bit up. I've read a tutorial on <a href="http:&#47;&#47;www.newty.de&#47;fpt&#47;index.html">function pointers<&#47;a> and <a href="http:&#47;&#47;msdn.microsoft.com&#47;library&#47;default.asp?url=&#47;library&#47;en-us&#47;vccore98&#47;html&#47;_core_argument_passing_and_naming_conventions.asp">naming conventions<&#47;a>. A couple of weeks ago i already had a look at <a href="http:&#47;&#47;linuxquality.sunsite.dk&#47;articles&#47;memberpointers&#47;">pointers to member functions<&#47;a>.<&#47;p><br />
+[code lang="cpp"]<br />
+#include <iostream><br />
+using namespace std;</p>
+<p>void customcallback() {<br />
+        cout << "running custom callback" << endl;<br />
+}</p>
+<p>typedef int (*method)(int, int);</p>
+<p>int sum(int a, int b) {<br />
+        return a + b;<br />
+}</p>
+<p>method dosum() {<br />
+        return &sum;<br />
+}</p>
+<p>int main() {<br />
+        void (*plugin)() = NULL;<br />
+        plugin = &customcallback;<br />
+        plugin();</p>
+<p>        method mymethod = dosum();<br />
+        cout << mymethod(10, 4) << endl;</p>
+<p>        return 0;<br />
+}<br />
+[&#47;code]</p>

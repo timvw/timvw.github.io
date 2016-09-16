@@ -1,0 +1,77 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting WindowsIdentityHelper
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 525
+wordpress_url: http://www.timvw.be/?p=525
+date: '2008-09-06 16:56:14 +0200'
+date_gmt: '2008-09-06 14:56:14 +0200'
+categories: []
+tags:
+- C#
+comments:
+- id: 298
+  author: Mark
+  author_email: mledwich@zaptechnology.com
+  author_url: ''
+  date: '2008-09-29 02:46:20 +0200'
+  date_gmt: '2008-09-29 00:46:20 +0200'
+  content: |-
+    I am doing something realy similar. I have got it to work, buts its not realy production ready yet. Can you send me the
+
+    Be.Timvw.Framework.Sec
+    urity.Principal.WindowsIdentityHelper class to compare?
+- id: 299
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2008-09-29 07:39:53 +0200'
+  date_gmt: '2008-09-29 05:39:53 +0200'
+  content: You can download the code from <a href="http:&#47;&#47;www.codeplex.com&#47;BeTimvwFramework&#47;SourceControl&#47;ListDownloadableCommits.aspx"
+    rel="nofollow">here<&#47;a>.
+- id: 300
+  author: Doug Clutter
+  author_email: dougc@douglas-associates.com
+  author_url: http://backazon.com
+  date: '2010-07-02 14:49:39 +0200'
+  date_gmt: '2010-07-02 13:49:39 +0200'
+  content: Thanks for this sample of how to use a SafeHandle.  Unfortunately, there's
+    not a lot of information on this out there!
+---
+<p>One of the difficulties of using the <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.security.principal.windowsidentity.aspx">WindowsIdentity<&#47;a> class is the fact that it requires a handle (<a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.intptr.aspx">IntPtr<&#47;a>) to a Windows Security Token. Using the <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;aa378184(VS.85).aspx">LogonUser<&#47;a> functionality we can get a hold of such a handle:<&#47;p></p>
+<p>[code lang="csharp"][DllImport(Advapi32File, CharSet = DefaultCharSet, SetLastError = DefaultSetLastError)]<br />
+public static extern bool LogonUser( &#47;* other parameters *&#47;, out IntPtr userTokenHandle);[&#47;code]</p>
+<p>The easiest way to avoid memory leaks is to implement a custom <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.runtime.interopservices.safehandle.aspx">SafeHandle<&#47;a>:<&#47;p><br />
+[code lang="csharp"]public class SafeTokenHandle : SafeHandleZeroOrMinusOneIsInvalid<br />
+{<br />
+ protected internal SafeTokenHandle()<br />
+  : base(true)<br />
+ {<br />
+ }</p>
+<p> protected override bool ReleaseHandle()<br />
+ {<br />
+  if(!this.IsInvalid)<br />
+  {<br />
+   return NativeMethods.CloseHandle(this.handle);<br />
+  }</p>
+<p>  return true;<br />
+ }<br />
+}[&#47;code]</p>
+<p>With that SafeHandle in place we can change the signature to:<&#47;p></p>
+<p>[code lang="csharp"][DllImport(Advapi32File, CharSet = DefaultCharSet, SetLastError = DefaultSetLastError)]<br />
+public static extern bool LogonUser( &#47;* other parameters *&#47;, out SafeTokenHandle userTokenHandle);[&#47;code]</p>
+<p>With the Be.Timvw.Framework.Security.Principal.WindowsIdentityHelper we can now easily obtain a WindowsIdentity and use it to do some impersonation:<&#47;p></p>
+<p>[code lang="csharp"]using(WindowsIdentityHelper windowsIdentityHelper = new WindowsIdentityHelper(username, domain, password))<br />
+using(windowsIdentityHelper.GetWindowsIdentity().Impersonate())<br />
+{<br />
+ File.WriteAllText(@"c:\temp\blah.txt", "hello there");<br />
+}[&#47;code]</p>

@@ -1,0 +1,55 @@
+---
+layout: post
+status: publish
+published: true
+title: A better look at the Foreach statement
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 126
+wordpress_url: http://www.timvw.be/126/
+date: '2006-11-23 23:27:31 +0100'
+date_gmt: '2006-11-23 21:27:31 +0100'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Earlier this week i was a bit surprised that the following code compiled without errors or warning messages. I expected at least a warning that i was trying to assign a double value to an integer parameter:<&#47;p><br />
+[code lang="csharp"]static void Main(string[] args)<br />
+{<br />
+ double[] values = new double[] { 1.1, 2.2, 3.3, 4.4, 5.5 };</p>
+<p> Console.WriteLine("foreach with int:");</p>
+<p> &#47;&#47; happily iterate over the double values as if they are ints...<br />
+ &#47;&#47; this outputs the lines 1, 2, 3, 4 and 5.<br />
+ foreach (int value in values)<br />
+ {<br />
+  Console.WriteLine(value);<br />
+ }<br />
+}[&#47;code]</p>
+<p>So i decided to dive into the <a href="http:&#47;&#47;www.ecma-international.org&#47;publications&#47;files&#47;ECMA-ST&#47;Ecma-334.pdf">C# Language Specification<&#47;a> (Section 15.8.4 The foreach statement) where i found the following:<&#47;p></p>
+<blockquote>
+<div>
+A foreach statement of the form foreach (V v in x) embedded-statement is then expanded to:<br />
+[code lang="csharp"]<br />
+{<br />
+ E e = ((C)(x)).GetEnumerator();<br />
+ try {<br />
+  V v;<br />
+  while (e.MoveNext()) {<br />
+   v = (V)(T)e.Current;<br />
+   embedded-statement<br />
+  }<br />
+ }<br />
+ finally {<br />
+  &acirc;&euro;&brvbar; &#47;&#47; Dispose e<br />
+ }<br />
+}<br />
+[&#47;code]<br />
+<&#47;div><br />
+<&#47;blockquote></p>

@@ -1,0 +1,46 @@
+---
+layout: post
+status: publish
+published: true
+title: Notes on running spark-notebook
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2483
+wordpress_url: http://www.timvw.be/?p=2483
+date: '2015-08-27 09:39:15 +0200'
+date_gmt: '2015-08-27 08:39:15 +0200'
+categories:
+- Uncategorized
+tags:
+- apache
+- spark
+- spark-csv
+- spark-notebook
+comments: []
+---
+<p>These days <a href="https:&#47;&#47;www.docker.com&#47;">Docker<&#47;a> makes it extremely easy to get started with virtually any application you like. At first I was a bit skeptical but over the last couple of months I have changed my mind. Now I strongly believe this is a game changer. Even more  when it comes to Windows. Anyway, these days kitematic (GUI to manage docker images) allows you to simply pick the <a href="https:&#47;&#47;github.com&#47;andypetrella&#47;spark-notebook">spark-notebook<&#47;a> by Andy Petrella.<&#47;p><br />
+<a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;uploads&#47;2015&#47;08&#47;docker_pick_image.png"><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;uploads&#47;2015&#47;08&#47;docker_pick_image-300x152.png" alt="docker_pick_image" width="300" height="152" class="size-medium wp-image-2486" &#47;><&#47;a><br&#47;></p>
+<p>When running your docker host in VirtualBox, you still need to set up port forwarding for port 9000 (the notebook) and ports 4040 to 4050 (spark-ui) Assuming your docker host vm is named default:<&#47;p><br />
+<code>VBoxManage modifyvm "default" --natpf1 "tcp-port9000,tcp,,9000,,9000"<&#47;code><br />
+<code>for i in {4040..4050}; do<br />
+  VBoxManage modifyvm "default" --natpf1 "tcp-port$i,tcp,,$i,,$i";<br&#47;><br />
+done<br />
+<&#47;code></p>
+<p>Now you can browse to http:&#47;&#47;localhost:9000 and start using your new notebook:<&#47;p><br />
+<a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;uploads&#47;2015&#47;08&#47;spark_notebook_home.png"><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;uploads&#47;2015&#47;08&#47;spark_notebook_home-300x160.png" alt="spark_notebook_home" width="300" height="160" class="size-medium wp-image-2493" &#47;><&#47;a></p>
+<p>You may want to copy the default set of notebooks to a local directory:<&#47;p><br />
+<code>docker cp $containerName:&#47;opt&#47;docker&#47;notebooks &#47;Users&#47;timvw&#47;notebooks<&#47;code></p>
+<p>Using that local copy is just a few clicks away with Kitematic:<&#47;p><br />
+<a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;uploads&#47;2015&#47;08&#47;docker_notebook_settings.png"><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;uploads&#47;2015&#47;08&#47;docker_notebook_settings-300x140.png" alt="docker_notebook_settings" width="300" height="140" class="alignnone size-medium wp-image-2498" &#47;><&#47;a></p>
+<p>Offcourse you want to use additional packages such as <a href="https:&#47;&#47;github.com&#47;databricks&#47;spark-csv">spark-csv<&#47;a>. This can be achieved by editting the your notebook metadata:<&#47;p><br />
+<a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;uploads&#47;2015&#47;08&#47;spark_notebook_metadata.png"><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;uploads&#47;2015&#47;08&#47;spark_notebook_metadata-297x300.png" alt="spark_notebook_metadata" width="297" height="300" class="alignnone size-medium wp-image-2501" &#47;><&#47;a></p>
+<p>You simply need to add an entry to customDeps:<&#47;p><br />
+<a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;uploads&#47;2015&#47;08&#47;spark_notebook_customdeps.png"><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;uploads&#47;2015&#47;08&#47;spark_notebook_customdeps-300x234.png" alt="spark_notebook_customdeps" width="300" height="234" class="alignnone size-medium wp-image-2500" &#47;><&#47;a></p>
+<p>When your container did not shutdown correctly, you may end up in the awkward situation that your container believes that it is still running(). The following commands fix that:<&#47;p><br />
+<code>docker start $containerName && docker exec -t -i $containerName &#47;bin&#47;rm &#47;opt&#47;docker&#47;RUNNING_PID<&#47;code></p>

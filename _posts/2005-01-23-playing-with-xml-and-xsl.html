@@ -1,0 +1,54 @@
+---
+layout: post
+status: publish
+published: true
+title: Playing with XML and XSL
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 91
+wordpress_url: http://www.timvw.be/playing-with-xml-and-xsl/
+date: '2005-01-23 01:16:39 +0100'
+date_gmt: '2005-01-22 23:16:39 +0100'
+categories: []
+tags:
+- PHP
+- XML
+comments: []
+---
+<p>[code lang="php"]<br />
+&#47;&#47; add stuff to an xml document in php4<br />
+$doc = domxml_open_mem($xml);<br />
+$root = $doc->document_element();<br />
+$inner = $doc->create_element('inner');<br />
+$root = $root->append_child($inner);</p>
+<p>&#47;&#47; add stuff to an xml document in php5<br />
+$doc = new DomDocument('1.0', 'UTF-8');<br />
+$doc->loadXML($xml);<br />
+$root = $doc->getelementsByTagName('resultset')->item(0);<br />
+$inner = $doc->createElement('inner');<br />
+$root = $root->appendChild($inner);<br />
+[&#47;code]</p>
+<p><a href="http:&#47;&#47;www.w3.org&#47;TR&#47;xhtml1&#47;">XHTML<&#47;a> does not allow to have an empty list,
+<ul><&#47;ul>. Therefore we need to test first if there are any nodes we want to put in that list. The code to do this looks like:<&#47;p><br />
+[code lang="xml"]<br />
+<xsl:for-each select="&#47;&#47;resultset&#47;entity"></p>
+<div class="mainitem">
+<div class="maintitle"><xsl:value-of select="title"&#47;><&#47;div></p>
+<div class="maincontent">
+    <xsl:if test="count(items&#47;item) > 0"></p>
+<ul>
+        <xsl:for-each select="items&#47;item"></p>
+<li><a href="{link}"><xsl:value-of select="title"&#47;><&#47;a><&#47;li><br />
+        <&#47;xsl:for-each><br />
+      <&#47;ul><br />
+    <&#47;xsl:if><br />
+  <&#47;div><br />
+  <&#47;div><br />
+<&#47;xsl:for-each><br />
+[&#47;code]</p>

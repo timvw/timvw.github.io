@@ -1,0 +1,57 @@
+---
+layout: post
+status: publish
+published: true
+title: Multiple joins explained
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 69
+wordpress_url: http://www.timvw.be/multiple-joins-explained/
+date: '2006-02-03 21:52:06 +0100'
+date_gmt: '2006-02-03 19:52:06 +0100'
+categories: []
+tags:
+- SQL
+comments: []
+---
+<p>I'll try to explain how a join on more than one table works. I've noticed people get confused by it. Assume we have the following tables:<&#47;p></p>
+<ul>
+<li>newsitems(news_id,post_id)<&#47;li>
+<li>postitems(post_id,user_id,content)<&#47;li>
+<li>users(user_id,name,password)<&#47;li><br />
+<&#47;ul></p>
+<p>
+We want to display for each newsitem the content and the author.<br />
+<&#47;p></p>
+<p>
+Our base table would be the newsitems, and then we join using the item_id. Thus the query would be: <&#47;p><br />
+[code lang="sql"]<br />
+SELECT *<br />
+FROM newsitems<br />
+INNER JOIN ON postitems USING (post_id)<br />
+[&#47;code]</p>
+<p>
+This returns a "virtual table" that has looks like this result(news_id,post_id,user_id,content).<br />
+<&#47;p></p>
+<p>
+Now we still need to get the username, so we use our result table and perform a join on the users table. Thus the query would be:<&#47;p><br />
+[code lang="sql"]<br />
+SELECT *<br />
+FROM result<br />
+INNER JOIN users USING (user_id)<br />
+[&#47;code]</p>
+<p>
+If we combine our first two queries, we end up with this:<&#47;p><br />
+[code lang="sql"]<br />
+SELECT *<br />
+FROM newsitems<br />
+INNER JOIN postitems USING (post_id)<br />
+INNER JOIN users USING (user_id)<br />
+[&#47;code]</p>
+<p>Conclusion: Look at A*B*C as (A*B)*C to easily understand multiple joins<&#47;p></p>

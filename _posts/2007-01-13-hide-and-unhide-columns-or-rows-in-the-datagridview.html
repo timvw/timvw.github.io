@@ -1,0 +1,71 @@
+---
+layout: post
+status: publish
+published: true
+title: Hide and unhide columns (or rows) in the DataGridView
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 146
+wordpress_url: http://www.timvw.be/hide-and-unhide-columns-or-rows-in-the-datagridview/
+date: '2007-01-13 03:00:23 +0100'
+date_gmt: '2007-01-13 01:00:23 +0100'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments:
+- id: 112
+  author: Nehme Gedeon
+  author_email: ''
+  author_url: ''
+  date: '2007-03-26 06:24:08 +0200'
+  date_gmt: '2007-03-26 04:24:08 +0200'
+  content: |-
+    Hello,
+
+    Thanks for the interesting article, but while trying to implement a similar thing to rows, i couldn't find a class called dataGridViewButtonRow ...
+
+    any hints?
+
+    Thanks
+- id: 113
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2007-03-26 17:03:22 +0200'
+  date_gmt: '2007-03-26 15:03:22 +0200'
+  content: |-
+    I've updated the <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;DataGridViewDataSource.zip" rel="nofollow">sources<&#47;a> so that you can hide&#47;unhide the regular GlobalSalesRows:
+
+    <img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;datagridview-hide-rows.gif" alt="datagridview hiding rows"&#47;>
+    <img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;datagridview-unhide-rows.gif" alt="datagridview showing rows"&#47;>
+---
+<p>Once in a while i see the following question:<&#47;p></p>
+<blockquote>
+<div>
+I have to create a customized datagridview to enable the expandable columns. Expandable column in the sense drilling down the columns.... One column can hide multiple columns. The user can see the child columns by clicking the + button before the column name<br />
+<&#47;div><br />
+<&#47;blockquote></p>
+<p>Using the Visibile property of the DataGridViewColumn makes this a no-brainer. Let's take the <a href="http:&#47;&#47;www.timvw.be&#47;developing-a-datasource-for-your-datagridview&#47;">Databound DataGridView<&#47;a> and implement functionality to hide&#47;unhide the quarterly results. All you have to do is add a DataGridViewButtonColumn and handle the DataGridView CellClick event as following:<&#47;p><br />
+[code lang="csharp"]private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)<br />
+{<br />
+ if (e.ColumnIndex == this.ColumnButton.Index)<br />
+ {<br />
+  bool visible = !this.ColumnQ1.Visible;<br />
+  this.ColumnQ1.Visible = visible;<br />
+  this.ColumnQ2.Visible = visible;<br />
+  this.ColumnQ3.Visible = visible;<br />
+  this.ColumnQ4.Visible = visible;<br />
+  this.ColumnButton.HeaderText = visible ? "-" : "+";<br />
+ }<br />
+}[&#47;code]</p>
+<p>This is how it looks like:<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;datagridview-hide.gif" alt="screenshot of datagridview hiding columns"&#47;><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;datagridview-unhide.gif" alt="screenshot of datagridview unhiding columns"&#47;></p>
+<p>Feel free to download the updated source code for <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;DataGridViewDataSource.zip">DataGridViewDataSource.zip<&#47;a>.<&#47;p></p>

@@ -1,0 +1,64 @@
+---
+layout: post
+status: publish
+published: true
+title: Using Linq for statically-typed reflection
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 216
+wordpress_url: http://www.timvw.be/using-linq-for-statically-typed-reflection/
+date: '2008-03-14 19:00:43 +0100'
+date_gmt: '2008-03-14 17:00:43 +0100'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>I discovered the <a href="http:&#47;&#47;www.codeplex.com&#47;Release&#47;ProjectReleases.aspx?ProjectName=clarius&ReleaseId=9495">TypedReflector<&#47;a><br />
+ on <a href="http:&#47;&#47;www.clariusconsulting.net&#47;blogs&#47;kzu&#47;archive&#47;2007&#47;12&#47;30&#47;49063.aspx">Daniel Cazzulino's Blog<&#47;a>. In essence, a simplified version of the code looks like:<&#47;p><br />
+[code lang="csharp"]public static class Reflector<br />
+{<br />
+ public static PropertyInfo GetProperty<t, TRet>(Expression<func<t, TRet>> expression)<br />
+ {<br />
+  return GetMemberInfo(expression) as PropertyInfo;<br />
+ }</p>
+<p> public static FieldInfo GetField<t, TRet>(Expression<func<t, TRet>> expression)<br />
+ {<br />
+  return GetMemberInfo(expression) as FieldInfo;<br />
+ }</p>
+<p> public static MethodInfo GetMethod<t, TRet>(Expression<func<t, TRet>> expression)<br />
+ {<br />
+  return GetMemberInfo(expression) as MethodInfo;<br />
+ }</p>
+<p> public static MemberInfo GetMemberInfo(Expression memberInfoExpression)<br />
+ {<br />
+  Expression lambdaBodyExpression = ((LambdaExpression)memberInfoExpression).Body;<br />
+  switch (lambdaBodyExpression.NodeType)<br />
+  {<br />
+   case ExpressionType.MemberAccess:<br />
+    return ((MemberExpression)lambdaBodyExpression).Member;<br />
+   case ExpressionType.Call:<br />
+    return ((MethodCallExpression)lambdaBodyExpression).Method;<br />
+   default:<br />
+    throw new ArgumentException("Unsupported NodeType");<br />
+  }<br />
+ }<br />
+}[&#47;code]</p>
+<p>This class allows me to write the following:<&#47;p><br />
+[code lang="csharp"]<br />
+PropertyInfo namePropertyInfo = Reflector.GetProperty
+<person, string>(p => p.Surname);<br />
+[&#47;code]</p>
+<p>Not only can i be sure that the lambda (and thus the namePropertyInfo.Invoke) will always return a string, i can also use it to avoid 'hardcoded' propertynames:<&#47;p><br />
+[code lang="csharp"]<br />
+&#47;&#47;const string SurnameProperty = "Surname";<br />
+&#47;&#47;comboBox1.DisplayMember = SurnameProperty;<br />
+comboBox1.DisplayMember = Reflector.GetProperty
+<person, string>(p => p.Surname).Name;<br />
+[&#47;code]</p>

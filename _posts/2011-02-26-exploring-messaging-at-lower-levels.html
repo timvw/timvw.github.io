@@ -1,0 +1,118 @@
+---
+layout: post
+status: publish
+published: true
+title: Exploring messaging at lower levels...
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2056
+wordpress_url: http://www.timvw.be/?p=2056
+date: '2011-02-26 15:48:38 +0100'
+date_gmt: '2011-02-26 14:48:38 +0100'
+categories:
+- Uncategorized
+tags:
+- C
+comments:
+- id: 19370
+  author: Neil
+  author_email: neil@mckinsey.com
+  author_url: ''
+  date: '2011-09-24 12:18:58 +0200'
+  date_gmt: '2011-09-24 11:18:58 +0200'
+  content: "If you implement producer-consumer then doing 'ask, don't tell' will be
+    very difficult, right, because my its nature you're consuming, that is, asking,
+    rather than telling.\r\n\r\nIt's very hard from the example to try &amp; suggest
+    how you might go about this, because we can't see from it what the requirement
+    is, only that, for some technical reason, we are producing something, and consuming
+    something. Nor can I infer why the factories are necessary.\r\n\r\nTypically I
+    would expect that the 'Hollywood' principle would come in so that instead of getting
+    some data from a type &amp; then using it to do something, we would look to preserve
+    encapsulation and tell the the type to do that thing for us instead. So rather
+    than, say, getting an address object from a customer object and then changing
+    it's postcode, we might instead tell the customer object to update the customers
+    postcode. E.g.:\r\ncustomer.CorrectPostcode(string correctPostcode, string reasonForCorrection);\r\nrather
+    than:\r\nvar address  = customer.Address;\r\naddress.Postcode = \"Foo\";\r\nor
+    even:\r\ncustomer.Address.Postcode = \"Foo\";\r\n\r\n(You'll have spotted of course
+    that the two 'incorrect' versions break the law of demeter too.)\r\nBy placing
+    a strong method on the object of interest (the Aggregate Root in a DDD parlance)
+    we get a number of wins. 1. We write less code; 2. If we want to correct the postcode
+    in more than one place, we write even less code again; 3. We get a semantically
+    clean interface to our class that lets anyone using it, or maintaining it, know
+    exactly what actions are possible with our class; 4: Any rules, that in a more
+    real world scenario would typically exist, get a simple place to live (inside
+    the method); 5. Testing should be lower maintenance as we have to know less about
+    the object we're interacting with. We no longer care that a customer has an address
+    object, and that this has a postcode property. We just care that it has a particular
+    method with a particular signature. Clearly other benefits could be listed too.\r\n\r\nClearly,
+    there are situations where 'Tell, Don't Ask' is either inappropriate, or not worth
+    the cost. I can't remember the situation that might have given rise to this post,
+    but we can always chat about it on Monday if you like :)"
+---
+<p>Yesterday a colleague of mine, <a href="http:&#47;&#47;neildoesdotnet.blogspot.com&#47;">Neil Robbins<&#47;a>, asked me how a piece of code would look like if I apply the Hollywood principle on it (Don't call us, we'll cal you).<&#47;p></p>
+<p>Let me start with setting the scene: The purpose of the code is to provide items via provider and to consume those items via a consumer.<&#47;p></p>
+<p>Here is how my oldskool function signatures would look like:<&#47;p></p>
+<p>[code lang="csharp"]<br />
+class ItemProviderFactory {<br />
+ public ItemProvider Create() { .. }<br />
+}</p>
+<p>class ItemProvider {<br />
+ public IEnumerable<Item> Provide() { .. }<br />
+}</p>
+<p>class ItemConsumerFactory {<br />
+ public ItemConsumer Create() { .. }<br />
+}</p>
+<p>class ItemConsumer {<br />
+ public void Consume(IEnumerable<Item> items) { .. }<br />
+}<br />
+[&#47;code]</p>
+<p>My Hollywood style function signatures look like the following:<&#47;p></p>
+<p>[code lang="csharp"]<br />
+class ItemProviderFactory {<br />
+ public void WithItemProvider(Action<ItemProvider> action) { .. }<br />
+}</p>
+<p>class ItemProvider {<br />
+ public void Provide(Action<IEnumerable<Item>> action) { .. }<br />
+}</p>
+<p>class ItemConsumerFactory {<br />
+ public void WithItemConsumer(Action<ItemConsumer> action) { .. }<br />
+}</p>
+<p>class ItemConsumer {<br />
+ public void Consume(IEnumerable<Item> items) { .. }<br />
+}<br />
+[&#47;code]</p>
+<p>And now I am able compare the code that glues everything together:<&#47;p></p>
+<p>[code lang="csharp"]<br />
+void OldStyle(OldStyle.ItemProviderFactory itemProviderFactory, OldStyle.ItemConsumerFactory itemConsumerFactory) {<br />
+ var provider = itemProviderFactory.Create();<br />
+ var items = provider.Provide();<br />
+ var consumer = itemConsumerFactory.Create();<br />
+ consumer.Consume(items);<br />
+}<br />
+[&#47;code]</p>
+<p>[code lang="csharp"]<br />
+void HollywoodStyle(HollywoodStyle.ItemProviderFactory itemProviderFactory, HollywoodStyle.ItemConsumerFactory itemConsumerFactory) {<br />
+ itemProviderFactory.With(provider =><br />
+  provider.Provide(items =><br />
+    itemConsumerFactory.With(consumer<br />
+      => consumer.Consume(items))));<br />
+}<br />
+[&#47;code]</p>
+<p>Let me refactor this Hollywood code a bit:<&#47;p></p>
+<p>[code lang="csharp"]<br />
+&#47;&#47; An itemconsumer consumes items as following:<br />
+Action<HollywoodStyle.ItemConsumer, IEnumerable<Item>> consumerAction = (consumer, items) => consumer.Consume(items);</p>
+<p>&#47;&#47; As soon as I have items, I want a consumer to consume them:<br />
+Action<IEnumerable<Item>> itemsAction = (items) => itemConsumerFactory.With(consumer => consumerAction(consumer, items));</p>
+<p>&#47;&#47; I can get items as following:<br />
+Action<HollywoodStyle.ItemProvider> providerAction = (provider) => provider.Provide(itemsAction);</p>
+<p>&#47;&#47; I can get an ItemProvider as following:<br />
+itemProviderFactory.With(providerAction);<br />
+[&#47;code]</p>
+<p>I think that most colleagues are quite thankful that i'm not a Hollywood star ;)<&#47;p></p>

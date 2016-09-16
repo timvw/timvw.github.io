@@ -1,0 +1,78 @@
+---
+layout: post
+status: publish
+published: true
+title: Clever TemplateFile hack
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1679
+wordpress_url: http://www.timvw.be/?p=1679
+date: '2010-02-12 21:50:58 +0100'
+date_gmt: '2010-02-12 20:50:58 +0100'
+categories: []
+tags:
+- MSBuild
+comments:
+- id: 353
+  author: Tim Van Wassenhove &raquo; Archive &raquo; Clean TemplateFile hack
+  author_email: ''
+  author_url: http://www.timvw.be/clean-templatefile-hack/
+  date: '2010-08-17 20:59:48 +0200'
+  date_gmt: '2010-08-17 19:59:48 +0200'
+  content: '[...] while ago i wrote about a Clever TemplateFile hack to use some xml
+    block as ReplacementValue. Today i realized there is a clean way to achieve this
+    by [...]'
+---
+<p>In my current project i use TemplateFileTask (<a href="http:&#47;&#47;msbuildtasks.tigris.org&#47;">MSBuild Community Tasks Project<&#47;a>) to generate configuration files. I ran into the problem that i don't want to expose a MEX endpoint in production. This is my initial template file:<&#47;p></p>
+<p>[code behaviorconfiguration="DemoBehavior" name="DemoService.FileService" language="xml"]<br />
+ <endpoint address="" binding="ws2007HttpBinding" contract="DemoService.IFileService" &#47;><br />
+ ${MexEndpoint}<br />
+<&#47;service>[&#47;code]</p>
+<p>And here is my initial msbuild task:<&#47;p></p>
+<p>[code toolsversion="3.5" defaulttargets="GenerateConfigFiles" xmlns="http:&#47;&#47;schemas.microsoft.com&#47;developer&#47;msbuild&#47;2003" language="xml"]<br />
+<Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"&#47;><br />
+ <Target Name="GenerateConfigFiles"><br />
+  <PropertyGroup><br />
+   <MexEndpoint><br />
+    <endpoint address="mex" binding="mexHttpBinding" contract="IMetadataExchange" &#47;><br />
+   <&#47;MexEndpoint><br />
+  <&#47;PropertyGroup></p>
+<p>  <PropertyGroup Condition=" '$(Env)'=='Production' "><br />
+   <MexEndpoint><&#47;MexEndpoint><br />
+  <&#47;PropertyGroup></p>
+<p>  <ItemGroup><br />
+   <Tokens Include="MexEndpoint"><br />
+    <ReplacementValue>$(MexEndpoint)<&#47;ReplacementValue><br />
+   <&#47;Tokens><br />
+  <&#47;ItemGroup></p>
+<p>  <TemplateFile Template="Web.template.config" OutputFileName="Web.config" Tokens="@(Tokens)" &#47;><br />
+ <&#47;Target><br />
+<&#47;Project>[&#47;code]</p>
+<p>This results in the following configuration file: (WCF does not like the xml namespace declaration):<&#47;p></p>
+<p>[code behaviorconfiguration="DemoBehavior" name="DemoService.FileService" language="xml"]<br />
+ <endpoint address="" binding="ws2007HttpBinding" contract="DemoService.IFileService" &#47;><br />
+ <endpoint address="mex" binding="mexHttpBinding" contract="IMetadataExchange" xmlns="http:&#47;&#47;schemas.microsoft.com&#47;developer&#47;msbuild&#47;2003" &#47;><br />
+<&#47;service>[&#47;code]</p>
+<p>I noticed that a smart collegue of mine came up with the following template file:<&#47;p></p>
+<p>[code behaviorconfiguration="DemoBehavior" name="DemoService.FileService" language="xml"]<br />
+ <endpoint address="" binding="ws2007HttpBinding" contract="DemoService.IFileService" &#47;><br />
+ <${MexBegin}endpoint address="mex" binding="mexHttpBinding" contract="IMetadataExchange" &#47;${MexEnd}><br />
+<&#47;service>[&#47;code]</p>
+<p>And this is how he defines the MexBegin and MexEnd properties in msbuild:<&#47;p></p>
+<p>[code lang="csharp"]<PropertyGroup><br />
+ <MexBegin><&#47;MexBegin><br />
+ <MexEnd><&#47;MexEnd><br />
+<&#47;PropertyGroup></p>
+<p><PropertyGroup Condition=" '$(Env)'=='Production' "><br />
+ <MexBegin>!--<&#47;MexBegin><br />
+ <MexEnd>--<&#47;MexEnd><br />
+<&#47;PropertyGroup>[&#47;code]</p>
+<p>This leads to a nice MEX endpoint for all environments and in Production we get the following:<&#47;p></p>
+<p>[code lang="xml"]<!--endpoint address="mex" binding="mexHttpBinding" contract="IMetadataExchange" &#47;-->[&#47;code]</p>
+<p>Perhaps it is cleaner to implement my own TemplateFileTask but untill then this clever hack does the job ;)<&#47;p></p>

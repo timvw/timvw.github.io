@@ -1,0 +1,65 @@
+---
+layout: post
+status: publish
+published: true
+title: Using .Net assemblies in your WIN32 application
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 30
+wordpress_url: http://www.timvw.be/using-net-assemblies-in-your-win32-application/
+date: '2006-04-22 02:42:49 +0200'
+date_gmt: '2006-04-22 00:42:49 +0200'
+categories: []
+tags:
+- C++
+comments: []
+---
+<p>Imagine that you've got an extensive codebase using WIN32&#47;MFC and don't want to give that up but on the other hand you'd like to take advantage of DOTNET classes then here's a simple solution: First we write an Interface and an Implementation with C# as following:<&#47;p><br />
+[code lang="csharp"]<br />
+public interface IQuoteClient {<br />
+  String getQuote();<br />
+  Boolean setQuote(String quote);<br />
+}</p>
+<p>public class QuoteClient : IQuoteClient {<br />
+  &#47;&#47; COM requires a parameterless constructor<br />
+  public QuoteClient() { ; }<br />
+  public string getQuote() { return String.Format"quote";}<br />
+  public bool setQuote(string quote) { return true; }<br />
+}<br />
+[&#47;code]</p>
+<p>Go the project Properties and check the "Make assembly COM-Visible" box which you find in the Application tab, Assembly Information. Then you go to the Build tab and check "Register for COM interop" box and at the Signing tab you check the "Sign the assembly" box and assign a key. Build the project.<&#47;p></p>
+<p>Now we have to extract a typelibrary, register the typelibrary and install it in the global assembly cache. Open a Visual Studio 2005 Command Prompt and go to your project\bin\Debug directory. Type the following commands:<&#47;p><br />
+[code lang="bash"]<br />
+tlbexp QuoteClient.dll<br />
+regasm QuoteClient.dll &#47;tlb:QuoteClient.tlb<br />
+gacutil &#47;i QuoteClient.dll<br />
+[&#47;code]</p>
+<p>Now you can import the classes in this assembly from your WIN32 application as following:<&#47;p><br />
+[code lang="cpp"]<br />
+#import "C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\mscorlib.tlb"<br />
+#import "D:\projects\Test\QuoteClient\bin\Debug\ClientLibrary.tlb" no_namespace named_guids<br />
+[&#47;code]</p>
+<p>And you can use them just like any other COM component:<&#47;p><br />
+[code lang="cpp"]<br />
+CoInitialize(NULL);</p>
+<p>IQuoteClient *qc = NULL;<br />
+HRESULT hr = CoCreateInstance(<br />
+  CLSID_QuoteClient,<br />
+  NULL,<br />
+  CLSCTX_INPROC_SERVER,<br />
+  IID_IQuoteClient,<br />
+  reinterpret_cast<void**>(&qc)<br />
+);</p>
+<p>if (SUCCEEDED(hr)) {<br />
+  cout << "Quote: " << qc->getQuote() << endl;<br />
+  qc->Release();<br />
+  qc = NULL;<br />
+}</p>
+<p>CoUninitialize();<br />
+[&#47;code]</p>

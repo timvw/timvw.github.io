@@ -1,0 +1,204 @@
+---
+layout: post
+status: publish
+published: true
+title: Control the order of Properties in your Class
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 153
+wordpress_url: http://www.timvw.be/control-the-order-of-properties-in-your-class/
+date: '2007-02-04 13:05:00 +0100'
+date_gmt: '2007-02-04 11:05:00 +0100'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments:
+- id: 149
+  author: Jeff
+  author_email: yeshia6@aol.com
+  author_url: ''
+  date: '2007-02-10 01:45:39 +0100'
+  date_gmt: '2007-02-09 23:45:39 +0100'
+  content: |-
+    Hey Tim. You were helping me in the MSDN forum with this exact issue. My needs are just a bit different.
+    I want to be able to set the display order of the properties dynamicaly. I would like to be able to pass in the order
+    to the BindingList so that I can make a call to get that List, each having a unique order of my choosing at that momemt.
+    does that make sense? Thanks for your help, Ive learned a lot, and this is something I am just flat out stuck on.
+- id: 150
+  author: admin
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2007-02-10 07:07:30 +0100'
+  date_gmt: '2007-02-10 05:07:30 +0100'
+  content: |-
+    Hello, i've added an example of a DictionaryPropertyDescriptorComparer to the <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;PropertyOrder.zip" rel="nofollow">PropertyOrder.zip<&#47;a> code. In the demo application you can choose the order of the Attributes and as soon as you hit the Show button the columns will appear in the wanted order... (The problem with this implementation is that you end up with pairs of (string PropertyName, int displayIndex) in the implementation. If i understood well that's exactly what you were trying to avoid from the beginning)
+
+    <img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;propertyorderdatagridview1.gif" alt="screenshot of the propertyorder itypedlist at work" &#47;>
+    <img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;propertyorderdatagridview2.gif" alt="screenshot of the propertyorder itypedlist at work" &#47;>
+- id: 151
+  author: Jeff
+  author_email: yeshia6@aol.com
+  author_url: ''
+  date: '2007-02-12 01:29:52 +0100'
+  date_gmt: '2007-02-11 23:29:52 +0100'
+  content: I think this is going to work great. Now I can have the DAL get the BindingList
+    in the order I want, being as I dont mind the DAL actually "knowing" the fild
+    names, I can send this to the screen and it will have no idea the field names,
+    just the order. Thanks so much.
+- id: 152
+  author: Larry
+  author_email: ''
+  author_url: ''
+  date: '2007-06-09 21:00:50 +0200'
+  date_gmt: '2007-06-09 19:00:50 +0200'
+  content: |-
+    Sweat ass article ...
+    This worked great for what I needed to do.
+
+    Thanks a lot!!!
+- id: 153
+  author: Laseelan
+  author_email: lensys@gmail.com
+  author_url: http://www.techienet.org
+  date: '2007-12-12 13:15:23 +0100'
+  date_gmt: '2007-12-12 11:15:23 +0100'
+  content: |-
+    Great article
+    Thanks for you support.
+- id: 154
+  author: Uwe Arndt
+  author_email: Uwe.Arndt@vattenfall.de
+  author_url: ''
+  date: '2008-10-22 11:34:33 +0200'
+  date_gmt: '2008-10-22 09:34:33 +0200'
+  content: |-
+    Hi,
+
+    i tried your PropertyOrderBindingList, but it dont works with multi-Level data in an infragistics ultrawingrid. i have a propertyorderbindinglist of a custom type and in this type i have a property with another propertyorderbindinglist of another custom type. the ultragrid shows in the second hierarchy exactly the same columns as in the first (which is wrong), but without values. and then it shows a + for a third hierarchy (that does not exists in the data), and when i open this, i get a red cross. the ultragrid crashes. if i change both lists to normal bindinglists instead of propertyorderbindinglist it all work fine like expected. but then the propertyorder-feature is lost :-)
+
+    Can you help me ?
+
+    thanks,
+    Uwe
+- id: 155
+  author: Ram
+  author_email: ramagopal007@gmail.com
+  author_url: ''
+  date: '2008-11-14 13:47:00 +0100'
+  date_gmt: '2008-11-14 11:47:00 +0100'
+  content: It's a nice article. This is eactly I am looking out for. Thanks,
+- id: 5969
+  author: MHT
+  author_email: mhbalti@hotmail.com
+  author_url: http://facebook.com/mht123
+  date: '2011-03-02 13:33:20 +0100'
+  date_gmt: '2011-03-02 12:33:20 +0100'
+  content: "hello,\r\nI copied the PropertyOrderAttribute class in my project, and
+    then I tried giving id to my customer class properties, but whenever I instantiate
+    the class it never provide the properties in the given index order.\r\ne.g.\r\n[propertyorder(1)]\r\npublic
+    string Name\r\n get{}\r\nset{}\r\n\r\n[propertyorder(0)]\r\npublic string RollNo\r\n
+    get{}\r\nset{}\r\n\r\nCustomer obj =new customer();\r\nobj.Name; it shows the
+    name most upper in the list of properties But I want RollNo to be upper than Name;"
+---
+<p>Sometimes you want to manipulate the order in which properties are used for databinding. Eg: If you drag and drop an object datasource on a DataGridView you have no control in which order it binds the properties. Offcourse, you can order the columns by moving them around... Today someone asked the following:<&#47;p></p>
+<blockquote>
+<div>
+I would like to have it come from the class in the order I want it. Any suggestions on how to set the display order without referencing the actual member names?<br />
+<&#47;div><br />
+<&#47;blockquote></p>
+<p>I started with the implementation of a PropertyOrderAttribute:<&#47;p><br />
+[code lang="csharp"][AttributeUsage(AttributeTargets.Property)]<br />
+public class PropertyOrderAttribute : Attribute<br />
+{<br />
+ private int order;</p>
+<p> public PropertyOrderAttribute(int order)<br />
+ {<br />
+  this.order = order;<br />
+ }</p>
+<p> public int Order<br />
+ {<br />
+  get { return this.order; }<br />
+ }<br />
+}[&#47;code]</p>
+<p>So the user can use this attribute to define the order in which the properties should appear as following:<&#47;p><br />
+[code lang="csharp"]class Foo<br />
+{<br />
+ private int id;<br />
+ private string name;<br />
+ private DateTime birthDay;</p>
+<p> public Foo(int id, string name, DateTime birthDay)<br />
+ {<br />
+  this.id = id;<br />
+  this.name = name;<br />
+  this.birthDay = birthDay;<br />
+ }</p>
+<p> [PropertyOrder(0)]<br />
+ public int Id<br />
+ {<br />
+  get { return id; }<br />
+  set { id = value; }<br />
+ }</p>
+<p> [PropertyOrder(2)]<br />
+ public string Name<br />
+ {<br />
+  get { return name; }<br />
+  set { name = value; }<br />
+ }</p>
+<p> [PropertyOrder(1)]<br />
+ public DateTime BirthDay<br />
+ {<br />
+  get { return birthDay; }<br />
+  set { birthDay = value; }<br />
+ }<br />
+}[&#47;code]</p>
+<p>And now i implement a generic BindingList that makes use of the PropertyOrderAttributes:<&#47;p><br />
+[code lang="csharp"]class PropertyOrderBindingList<t> : BindingList<t>, ITypedList<br />
+{<br />
+ public PropertyOrderBindingList()<br />
+  : base()<br />
+ {<br />
+  &#47;&#47;<br />
+ }</p>
+<p> public PropertyDescriptorCollection GetItemProperties(PropertyDescriptor[] listAccessors)<br />
+ {<br />
+  PropertyDescriptorCollection typePropertiesCollection = TypeDescriptor.GetProperties(typeof(T));<br />
+  return typePropertiesCollection.Sort(new PropertyDescriptorComparer());<br />
+ }</p>
+<p> public string GetListName(PropertyDescriptor[] listAccessors)<br />
+ {<br />
+  return string.Format("A list with Properties for {0}", typeof(T).Name);<br />
+ }<br />
+}</p>
+<p>class PropertyDescriptorComparer : IComparer<br />
+{<br />
+ public int Compare(object x, object y)<br />
+ {<br />
+  if (x == y) return 0;<br />
+  if (x == null) return 1;<br />
+  if (y == null) return -1;</p>
+<p>  PropertyDescriptor propertyDescriptorX = x as PropertyDescriptor;<br />
+  PropertyDescriptor propertyDescriptorY = y as PropertyDescriptor;</p>
+<p>  PropertyOrderAttribute propertyOrderAttributeX = propertyDescriptorX.Attributes[typeof(PropertyOrderAttribute)] as PropertyOrderAttribute;<br />
+  PropertyOrderAttribute propertyOrderAttributeY = propertyDescriptorY.Attributes[typeof(PropertyOrderAttribute)] as PropertyOrderAttribute;</p>
+<p>  if (propertyOrderAttributeX == propertyOrderAttributeY) return 0;<br />
+  if (propertyOrderAttributeX == null) return 1;<br />
+  if (propertyOrderAttributeY == null) return -1;</p>
+<p>  return propertyOrderAttributeX.Order.CompareTo(propertyOrderAttributeY.Order);<br />
+ }<br />
+}[&#47;code]</p>
+<p>With all this infrastructure it becomes as easy as:<&#47;p><br />
+[code lang="csharp"]public Form1()<br />
+{<br />
+ InitializeComponent();</p>
+<p> PropertyOrderBindingList<foo> fooList = new PropertyOrderBindingList<foo>();<br />
+ fooList.Add(new Foo(1, "Timvw", new DateTime(1980, 4, 30)));<br />
+ fooList.Add(new Foo(2, "Mike", new DateTime(1984, 1, 1)));<br />
+ this.dataGridView1.DataSource = fooList;<br />
+}[&#47;code]</p>

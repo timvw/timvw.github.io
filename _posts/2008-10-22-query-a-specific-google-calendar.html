@@ -1,0 +1,73 @@
+---
+layout: post
+status: publish
+published: true
+title: Query a specific Google Calendar
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 728
+wordpress_url: http://www.timvw.be/?p=728
+date: '2008-10-22 16:50:52 +0200'
+date_gmt: '2008-10-22 14:50:52 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Despite the multiple copies of the <a href="http:&#47;&#47;code.google.com&#47;apis&#47;calendar&#47;developers_guide_dotnet.html">API Developer's Guide: .NET<&#47;a> i found i was unable to find how i should query a specific calendar (not the default). Anyway, it can be done by using the CalendarEntry.Content.BaseUri as the query uri. Here is an example:<&#47;p><br />
+[code lang="csharp"]public class CalendarHelper<br />
+{<br />
+ public const string OwnedCalendarsUrl = "http:&#47;&#47;www.google.com&#47;calendar&#47;feeds&#47;default&#47;owncalendars&#47;full";</p>
+<p> private readonly CalendarService svc;</p>
+<p> public CalendarHelper(string username, string password)<br />
+ {<br />
+  this.svc = new CalendarService("demo");<br />
+  this.svc.setUserCredentials(username, password);<br />
+ }</p>
+<p> public IEnumerable<calendarEntry> FindOwnedCalendars()<br />
+ {<br />
+  CalendarQuery query = new CalendarQuery(OwnedCalendarsUrl);<br />
+  CalendarFeed result = this.svc.Query(query);<br />
+  foreach (CalendarEntry entry in result.Entries) yield return entry;<br />
+ }</p>
+<p> public CalendarEntry GetCalendar(string name)<br />
+ {<br />
+  return (<br />
+   from calendar in this.FindOwnedCalendars()<br />
+   where calendar.Title.Text == name<br />
+   select calendar).SingleOrDefault();<br />
+ }</p>
+<p> public IEnumerable<atomEntry> FindEvents(CalendarEntry calendar, DateTime begin, DateTime end)<br />
+ {<br />
+  EventQuery myQuery = new EventQuery(calendar.Content.AbsoluteUri);<br />
+  myQuery.StartTime = begin;<br />
+  myQuery.EndTime = end;<br />
+  EventFeed result = this.svc.Query(myQuery);<br />
+  for (int i = 0; i < result.Entries.Count; ++i) yield return result.Entries[i];<br />
+ }<br />
+}</p>
+<p>private static void Main()<br />
+{<br />
+ CalendarHelper helper = new CalendarHelper("user@gmail.com", "xxx");</p>
+<p> DateTime begin = new DateTime(2008, 1, 1);<br />
+ DateTime end= new DateTime(2009, 12, 31);</p>
+<p> IEnumerable<calendarEntry> calendars = helper.FindOwnedCalendars();<br />
+ foreach (CalendarEntry calendar in calendars)<br />
+ {<br />
+  Console.WriteLine(calendar.Title.Text);</p>
+<p>  IEnumerable<atomEntry> calendarEvents = helper.FindEvents(calendar, begin, end);<br />
+  foreach(AtomEntry calendarEvent in calendarEvents)<br />
+  {<br />
+   Console.WriteLine("{0}: {1}", calendarEvent.Updated, calendarEvent.Title.Text);<br />
+  }</p>
+<p>  Console.WriteLine();<br />
+ }</p>
+<p> Console.Write("{0}Press any key to continue...", Environment.NewLine);<br />
+ Console.ReadKey();<br />
+}[&#47;code]</p>

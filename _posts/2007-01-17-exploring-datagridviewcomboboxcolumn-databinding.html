@@ -1,0 +1,807 @@
+---
+layout: post
+status: publish
+published: true
+title: Exploring DataGridViewComboBoxColumn databinding
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 148
+wordpress_url: http://www.timvw.be/exploring-datagridviewcomboboxcolumn-databinding/
+date: '2007-01-17 23:23:34 +0100'
+date_gmt: '2007-01-17 21:23:34 +0100'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments:
+- id: 114
+  author: S.H.Raza
+  author_email: raza_sh@sancharnet.in
+  author_url: ''
+  date: '2007-02-03 12:39:15 +0100'
+  date_gmt: '2007-02-03 10:39:15 +0100'
+  content: |-
+    Hi,
+    after having a look at your suggestions, i think you are the right person to discuss the problem. My problem is that i normally binds the comboboxcolumn of datagridview with a disconnected datatable, my requirement is that I want to filterout the items in a comboboxcolumn depending upon the value selected in another comboboxcolumn. but this needs to be done for a particular row. when i try to change the datasource of comboboxcolumn, it simply causes the error " System.Argument.Exception Datagridviewcomboboxcell value is not valid"
+    plz reply as soon as possible
+
+    thanks in advance
+
+    S.H.Raza
+    System Architect
+    raza_sh@sancharnet.in
+- id: 115
+  author: admin
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2007-02-03 17:44:13 +0100'
+  date_gmt: '2007-02-03 15:44:13 +0100'
+  content: |-
+    Here are the things you have to keep an eye on:
+
+    -) The drop-down list values (or the values indicated by the ValueMember property) must include the actual cell values or the DataGridView control will throw an exception.
+
+    -) In case the type of the values in the drop-down list is a reference type you will have to make sure to override the Equals method, otherwise the 'equality' will be determined with a simple call to Object.ReferenceEquals
+
+    -) Sometimes you don't have control over the type and thus overriding the Equals method is not an option. In that situation you can  handle the CellParsing event on the DataGridView it allows you to convert the user-specified value. I use that technique in http:&#47;&#47;www.timvw.be&#47;implementing-masterdetail-for-custom-objects-with-datagridviewcomboboxcolumns&#47; (Instead of adding&#47;removing items based on the choosen parent, you'll have to do that based on the dataGridView.CurrentCell.RowIndex...)
+- id: 116
+  author: Frank Neubecker
+  author_email: muga@mugaland.com
+  author_url: http://www.mugaland.com
+  date: '2007-02-21 00:56:35 +0100'
+  date_gmt: '2007-02-20 22:56:35 +0100'
+  content: |-
+    Thanks so much! There are some forums out there trying to solve the problem with the exception. Here is it all straightened out.
+
+    muga
+- id: 117
+  author: tfont
+  author_email: tfontana@tds.net
+  author_url: ''
+  date: '2007-03-07 22:57:43 +0100'
+  date_gmt: '2007-03-07 20:57:43 +0100'
+  content: This example is very close to something I've been struggling with.  I have
+    a DataTable that contains a name column and an enumeration column which I would
+    like to use to populate a DataGridViewComboBoxColumn (similar to your PersonType).  However,
+    I'd like the selected enumeration value from the combobox to be data bound to
+    an enumeration column within another DataTable.  Can you suggest a way to do this?
+- id: 118
+  author: Tim Van Wassenhove &raquo; Exploring DataGridViewComboBoxColumn databinding
+    (part2)
+  author_email: ''
+  author_url: http://www.timvw.be/exploring-datagridviewcomboboxcolumn-databinding-part2/
+  date: '2007-05-03 20:41:03 +0200'
+  date_gmt: '2007-05-03 18:41:03 +0200'
+  content: You can find an example using multiple DataTables if you follow the trackback...
+- id: 119
+  author: bokzer
+  author_email: juan.samaniego@yahoo.com
+  author_url: ''
+  date: '2008-03-05 17:08:39 +0100'
+  date_gmt: '2008-03-05 15:08:39 +0100'
+  content: |-
+    Hi Tim
+    I really have a problem with binding data to a combobox inside a datagridview. The thing is that the valuemember is some times repeated so when a select one item it changes to the first item that has the same value.
+    I work with the combobox datasource. Also Im programming in VB.NET
+    Please help me, its becoming very anoying
+    Thank you
+- id: 120
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2008-03-07 08:48:03 +0100'
+  date_gmt: '2008-03-07 06:48:03 +0100'
+  content: |-
+    <p>You should make sure that your items do not have the same Value because what you're experiencing now is expected behaviour.
+
+    A possible workaround i see is to declare a OrderedItem<Type> and use that to databind with:<&#47;p>
+
+    [code lang="csharp"]class OrderedItem<Type>
+    {
+     int OrderId { get; set;  }
+     Type Item { get; set; }
+    }
+    [&#47;code]
+- id: 121
+  author: bokzer
+  author_email: juan.samaniego@yahoo.com
+  author_url: ''
+  date: '2008-03-10 19:06:35 +0100'
+  date_gmt: '2008-03-10 17:06:35 +0100'
+  content: |-
+    As a matter of fact the valuemember is repeated several times. How can I solve this problem or should I resign to have this datagridviewcombobox.
+    thank you again for your time
+- id: 122
+  author: Lil
+  author_email: lillianne.arai@orthodyne.com
+  author_url: ''
+  date: '2008-03-10 20:42:16 +0100'
+  date_gmt: '2008-03-10 18:42:16 +0100'
+  content: |-
+    Hello Tim,
+
+    Very nice example.  But does not quite fit the problem I'm struggling with (.net 2005).
+
+    I have a datagrid combobox column that I want attached to a specific column in another datatable (all the other columns bind to tableA).  I also want the datasource on the combobox to be filtered (active userIDs + userID of the current record).
+
+    So, I'm looking for a combination of a combobox that displays a different source data, which is variable for each row (depending on the current userID stored in the main datatable for that row), and the data actually be stored in the main datatable.
+
+    Sorry, a bit difficult to explain, but I'm having a very difficult time trying to get this working correctly.
+
+    Any help is appreciated.
+
+    Thank you!
+- id: 123
+  author: Mike Gillson
+  author_email: mgillson@yahoo.com
+  author_url: ''
+  date: '2008-03-10 23:29:54 +0100'
+  date_gmt: '2008-03-10 21:29:54 +0100'
+  content: |-
+    I had the error.  Your example was very close to what I was doing.  After looking at your dynamic filling of PeopleType, I realized the rest of the solution fit my needs perfectly.
+    Your dynamic filling of the combo box allows me to handle business status, user security and list item edit state all in the EditingControlShowing.
+    I rarely respond to the examples people put on the web but I must respond to say how great your example is.  Coding in Alaska means I have only a few colleagues and the internet is the best source for help.
+- id: 124
+  author: Milo
+  author_email: miles@01792.org
+  author_url: http://01792.org
+  date: '2008-03-12 17:50:22 +0100'
+  date_gmt: '2008-03-12 15:50:22 +0100'
+  content: Nice article, work through my own version. Good work, hardly any good example
+    of this working.
+- id: 125
+  author: Linn
+  author_email: renata@it.dk
+  author_url: ''
+  date: '2008-04-30 10:09:54 +0200'
+  date_gmt: '2008-04-30 08:09:54 +0200'
+  content: |-
+    Hello Tim,
+    Thank you very much for great examples and
+    making them available for os others.
+    I have a little problem(quite anoying actually) with databound datagridview.
+    I have continued working on somebody else's project and it is quite hard.
+    The grid has 5 columns, and all of them are DataGridViewTextBoxColumns(all are databound), and everything works fine. The grid loads entries from the database and so on.
+    I have to change somethings now to satisfy my boss.
+    I sholud add some empty rows(I can do that) and in the added rows the first column sholud have both, a DataGridViewTextCell and a DataGridViewComboBoxCell.
+     Is this possible with databound gridview?
+    I have tried but cannot get it to work right. can you help me please, I'm quite desperate now. Is it possible to exchange private messages with you. I'm  grateful in advance for any help you can offer. Best regards, Linn
+- id: 126
+  author: Linn
+  author_email: renata@it.dk
+  author_url: ''
+  date: '2008-04-30 10:17:22 +0200'
+  date_gmt: '2008-04-30 08:17:22 +0200'
+  content: |-
+    Hello again
+    I can see that I have made a mistake.
+
+    In the added rows first cell I sholud have ComboBoxCell instead of
+    TexBoxCell. how do I do that. When I add empty row the first cell is texbox and I sholud cance it to combobox somehow
+    Best regards, Linn
+- id: 127
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2008-04-30 13:24:06 +0200'
+  date_gmt: '2008-04-30 11:24:06 +0200'
+  content: |-
+    Here is a little example that would replace the gender DGVTextBoxCell on the first row with a DGVComboBoxCell (The trick is to subscribe to the DataBindingComplete event, which allows you to replace stuff after DataBinding has completed...):
+
+    [code lang="csharp"]public partial class Form1 : Form
+    {
+     public Form1()
+     {
+      InitializeComponent();
+     }
+
+     private void Form1_Load(object sender, EventArgs e)
+     {
+      BindingList<Person> persons = new BindingList<Person>();
+      persons.Add(new Person(1, "Tim", Gender.Male));
+      persons.Add(new Person(2, "Evy", Gender.Female));
+
+      this.dataGridView1.DataBindingComplete += this.dataGridView1_DataBindingComplete;
+
+      this.dataGridView1.DataSource = persons;
+     }
+
+     private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+     {
+      DataGridViewComboBoxCell cboCell = new DataGridViewComboBoxCell();
+      cboCell.DataSource = Enum.GetValues(typeof(Gender));
+      cboCell.Value = ((Person)this.dataGridView1.Rows[0].DataBoundItem).Gender;
+      this.dataGridView1.Rows[0].Cells[2] = cboCell;
+     }
+    }
+
+    public class Person
+    {
+     private int personId;
+     private string name;
+     private Gender gender;
+
+     public Person(int personId, string name, Gender gender)
+     {
+      this.personId = personId;
+      this.name = name;
+      this.gender = gender;
+     }
+
+     public int PersonId
+     {
+      get { return this.personId; }
+      set { this.personId = value; }
+     }
+
+     public string Name
+     {
+      get { return this.name; }
+      set { this.name = value; }
+     }
+
+     public Gender Gender
+     {
+      get { return this.gender; }
+      set { this.gender = value; }
+     }
+    }
+
+    public enum Gender
+    {
+     Male,
+     Female
+    }[&#47;code]
+- id: 128
+  author: Linn
+  author_email: renata@it.dk
+  author_url: ''
+  date: '2008-04-30 15:27:49 +0200'
+  date_gmt: '2008-04-30 13:27:49 +0200'
+  content: |-
+    Thank you very very much for your replay.
+    I'm going to try it now, and than I'LL let you know about the result.
+    Best regards Linn
+- id: 129
+  author: Linn
+  author_email: renata@it.dk
+  author_url: ''
+  date: '2008-04-30 15:46:33 +0200'
+  date_gmt: '2008-04-30 13:46:33 +0200'
+  content: |-
+    I can see the dropdown, but it doesn't work, can't see any values in te box.
+    Can I send you a private message with my code.
+- id: 130
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2008-05-01 10:29:07 +0200'
+  date_gmt: '2008-05-01 08:29:07 +0200'
+  content: I've sent you an e-mail, so you should be good to send your code...
+- id: 131
+  author: qiux
+  author_email: qiu_sense77@yahoo.com
+  author_url: ''
+  date: '2008-05-02 07:42:04 +0200'
+  date_gmt: '2008-05-02 05:42:04 +0200'
+  content: |-
+    Hi,
+
+    is it possible we can get the datagridviewcombobox index? I need it urgently... thanks.
+- id: 132
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2008-05-02 11:33:48 +0200'
+  date_gmt: '2008-05-02 09:33:48 +0200'
+  content: You'll have to explain what "DGV ComboBox Index" means.. Because right
+    now, i really don't know what you're asking for...
+- id: 133
+  author: Linn
+  author_email: renata@it.dk
+  author_url: ''
+  date: '2008-05-28 14:30:32 +0200'
+  date_gmt: '2008-05-28 12:30:32 +0200'
+  content: |-
+    Hi Tim,
+    I'm glad you are back.
+    Do you remember me?
+    Linn
+- id: 134
+  author: Andreas
+  author_email: vriesdea@hotmail.com
+  author_url: ''
+  date: '2008-07-14 20:26:40 +0200'
+  date_gmt: '2008-07-14 18:26:40 +0200'
+  content: Don't know who you are but thank you very very much. Solved (all of my)
+    problem(s)
+- id: 135
+  author: Alexander Nowak
+  author_email: alexander.nowak@arcelormittal.com
+  author_url: http://appdevchronicles.blogspot.com/
+  date: '2008-07-15 10:42:20 +0200'
+  date_gmt: '2008-07-15 08:42:20 +0200'
+  content: |-
+    Hello Tim,
+
+    I struggling with a DataGridView ComboboxColumn. More specifically with the CTRL+0 keystroke to set a dbnull value into the combobox.
+    The datagrid has a datasource with a dataset. The combobox shows an optional relationship with a "lookup table".
+
+    It works fine.... That is to say it works fine if the type of valuemember of the combobox is for example a string. BUT if it is an integer ist doesn't work. And of course the primarykey of the lookup tables is a identity integer.
+
+    It gives following error when I type in CTRL+0 : Cannot set Column "myColumn" to be Null. Please use DBNull instead.
+
+    Once again it works OK with a combobox if the value is of a string type.
+
+    Could you help me out?
+
+    Thanks is advance.
+
+    Best Regards,
+
+    Alexander
+- id: 136
+  author: crbherde
+  author_email: crbherde@yahoo.co.in
+  author_url: ''
+  date: '2008-07-23 15:24:39 +0200'
+  date_gmt: '2008-07-23 13:24:39 +0200'
+  content: |-
+    Hi Tim,
+
+    I have a similar requirement in my project.  I have placed a combo box in the data grid.  I have also set the data source, datapropertyname, displaymember, valuemember for the combo.  I have set bindingsource for the datagrid too.  My problem is when I try to select a value from the combo, it doesn't drop down.  It doesn't show the list.  Can you please help me with this.  Thanks.
+- id: 137
+  author: Ryan Hansen
+  author_email: rhansen@ytscorp.com
+  author_url: http://www.ytscorp.com
+  date: '2008-09-11 18:19:06 +0200'
+  date_gmt: '2008-09-11 16:19:06 +0200'
+  content: |-
+    This thread seems to be a bit old but I will post here anyways for future reference for anyone who has experienced the same oddity with the combobox column as I have.
+
+    When working with the DataGridViewComboBoxColumn object that was bound to a datatable, I was getting the error: Cannot set Column "columnName" to be null. Please use DBNull instead. I got this error when attempting to select a blank item from the combobox. The blank item  was an actual record in the source table for the combobox because the client wanted to be able to set a blank value for the column. So, in this case the value of the ValueMember was 574 and the value of the DisplayMember was "" (String.Empty).
+
+    After an hour and a half of DataGridView related articles, I finally came upon a DataGridView white paper article. One of the sections refers to handling null values in the grid. After quickly looking over the table that listed the default values of the DefaultCellStyle.NullValue property of each different column object, I noticed the default for the combobox column just happens to be String.Empty. So, after setting the DefaultCellStyle.NullValue property to System.DBNull.Value my error dissapeared. It appears that the grid was "confused" by my use of String.Empty as the DisplayMember of an item in the combobox when its default "null" value was also String.Empty. I hope someone else out there finds this information useful.
+
+    Take Care,
+    Ryan Hansen
+    When working with the DataGridViewComboBoxColumn object that was bound to a datatable, I was getting the error: Cannot set Column "columnName" to be null. Please use DBNull instead. I got this error when attempting to select a blank item from the combobox. The blank column was an actual record in the source table for the
+- id: 138
+  author: leen
+  author_email: ''
+  author_url: ''
+  date: '2008-10-09 09:40:33 +0200'
+  date_gmt: '2008-10-09 07:40:33 +0200'
+  content: |-
+    is there a VB sourcecode for this ?
+    i'm quite new and there are some parts where i really am clueless on what it means
+- id: 139
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2008-10-09 10:22:08 +0200'
+  date_gmt: '2008-10-09 08:22:08 +0200'
+  content: You can always use a tool like <a href="http:&#47;&#47;converter.telerik.com&#47;"
+    rel="nofollow">http:&#47;&#47;converter.telerik.com&#47;<&#47;a> to do the translation.
+- id: 140
+  author: vi$$u
+  author_email: ''
+  author_url: ''
+  date: '2008-11-19 18:53:31 +0100'
+  date_gmt: '2008-11-19 16:53:31 +0100'
+  content: |-
+    hai, i used a DataGridViewComboBoxCell in a DataGridviewControl
+
+    i set the data source and display member and value member but my problem is to set a default value to that combo box !!! thnaks in advance !!!
+- id: 141
+  author: onyhr
+  author_email: reno_enopia@hotmail.com
+  author_url: ''
+  date: '2009-05-13 16:46:03 +0200'
+  date_gmt: '2009-05-13 15:46:03 +0200'
+  content: |-
+    Hi Tim,
+
+    In DataGridViewComboBoxColumn, user has to go four clicks in order to pick an option:
+    1)select the cell
+    2)select the dropdown control within the cell
+    3)click to drop down control to display its items
+    4)select an item
+
+    Is there a way such that DataGridViewComboBoxColumn behaves like a normal combobox where user will only click dropdown box and then pick an option.
+
+    Thanks,
+
+    Reno
+- id: 142
+  author: Eric
+  author_email: ejwipp@gmail.com
+  author_url: ''
+  date: '2009-09-16 22:43:43 +0200'
+  date_gmt: '2009-09-16 21:43:43 +0200'
+  content: |-
+    Tim,
+
+    What do I do when my underlying data object has a property of type int, but I want to treat it as an enum?  I have a value in my database stored as an int that is effectively an enum and want to use a combobox like you show here.  I keep getting cell value is not valid exceptions from the datagridview and I don't know what to try next.
+- id: 143
+  author: Jack
+  author_email: jacklathome@yahoo.com
+  author_url: ''
+  date: '2009-10-05 02:53:52 +0200'
+  date_gmt: '2009-10-05 01:53:52 +0200'
+  content: |-
+    Hi Tim,
+
+    I situation is same as Linn, were I have get data from datatable. SupplierID base on CategoryID. on debug mode the supplierID have list but the combobox is empty.
+
+    Can you email me the code you send to Linn? that fix the empty combobox isure
+
+    Thanks
+    Jack
+- id: 729
+  author: Haresh Prajapati
+  author_email: haresh_bati@yahoo.com
+  author_url: ''
+  date: '2010-10-06 08:32:14 +0200'
+  date_gmt: '2010-10-06 07:32:14 +0200'
+  content: "My Question is  : \r\nHow I can display selected value from combo box
+    in data grid view using VB.Net\r\nPlease send me code in my email id"
+- id: 1989
+  author: sudha
+  author_email: sudha_friends2008@rediffmail.com
+  author_url: ''
+  date: '2010-12-16 08:35:23 +0100'
+  date_gmt: '2010-12-16 07:35:23 +0100'
+  content: hi, i need the code in vb.net.can u please send me the code in vb.net
+- id: 2002
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://timvw.myopenid.com/
+  date: '2010-12-16 21:36:32 +0100'
+  date_gmt: '2010-12-16 20:36:32 +0100'
+  content: No, i don't do vb.net
+- id: 10779
+  author: DimitriC
+  author_email: breinstein@hotmail.com
+  author_url: ''
+  date: '2011-05-18 08:31:45 +0200'
+  date_gmt: '2011-05-18 07:31:45 +0200'
+  content: "*like*\r\n\r\nthis article helped me quite a lot today :)\r\n\r\nThnx!"
+- id: 16077
+  author: Leke
+  author_email: realxenten@gmail.com
+  author_url: ''
+  date: '2011-07-29 12:22:19 +0200'
+  date_gmt: '2011-07-29 11:22:19 +0200'
+  content: "Pls. tim,\r\ni have a datagridview with a combobox column. the datasource
+    of the combobox is a datatable retrieved from a database. however, i cant seem
+    to get the datagridview to be editable @ runtime. the combbox will not dropdown
+    at all. pls. help thanks"
+- id: 18700
+  author: Aykut
+  author_email: aykut101@gmail.com
+  author_url: ''
+  date: '2011-09-12 18:51:12 +0200'
+  date_gmt: '2011-09-12 17:51:12 +0200'
+  content: "Thank you very much Tim, for this valuable article. \r\nComplex databinding
+    with business objects are much clear for me now:)"
+- id: 164615
+  author: Michael Be'eri
+  author_email: ''
+  author_url: ''
+  date: '2013-01-24 09:03:46 +0100'
+  date_gmt: '2013-01-24 08:03:46 +0100'
+  content: "Thank you !!\r\nI have been tring to get my combo column to work right
+    for a week with no success, until i read your article."
+- id: 178170
+  author: Alex
+  author_email: alexanderhess@gmx.net
+  author_url: ''
+  date: '2013-02-27 11:16:12 +0100'
+  date_gmt: '2013-02-27 10:16:12 +0100'
+  content: "Hey,\r\n\r\nnice work. Exactly what I was looking for. I've got one more
+    question. How did you get it that in the ComboboxColumn Item No.1 is preselected?
+    In my application SelectedIndex seems to be -1 and I have no clue how to change
+    this at application start.\r\n\r\nRegards, Alex"
+---
+<p>Let's start with a simple example: Each Person has a Name (string) and PersonTypeCode (an Enumerated value) property. We drag a DataGridView on the designer form and add two columns (DataGridViewComboBoxColumn for the PersonTypeCode property). And then we hook up the Bindingsource as following:<&#47;p><br />
+[code lang="csharp"]class Form1 : Form<br />
+{<br />
+ public Form1()<br />
+ {<br />
+  InitializeComponent();</p>
+<p>  this.dataGridView1.AutoGenerateColumns = false;<br />
+  this.ColumnName.DataPropertyName = "Name";<br />
+  this.ColumnPersonTypeCode.DataPropertyName = "PersonTypeCode";</p>
+<p>  BindingSource bindingSource = new BindingSource();<br />
+  bindingSource.DataSource = FindPersons();<br />
+  this.dataGridView1.DataSource = bindingSource;<br />
+ }</p>
+<p> private BindingList
+<person> FindPersons()<br />
+ {<br />
+  BindingList
+<person> bindingList = new BindingList
+<person>();<br />
+  bindingList.Add(new Person("Timvw", PersonTypeCode.Geek));<br />
+  bindingList.Add(new Person("John Doe", PersonTypeCode.Anonymous));<br />
+  bindingList.Add(new Person("An Onymous", PersonTypeCode.Anonymous));<br />
+  bindingList.Add(new Person("Jenna Jameson", PersonTypeCode.Babe));<br />
+  return bindingList;<br />
+ }<br />
+}</p>
+<p>enum PersonTypeCode<br />
+{<br />
+ Geek = 0,<br />
+ Anonymous = 1,<br />
+ Babe = 2<br />
+}</p>
+<p>class Person<br />
+{<br />
+ private PersonTypeCode personTypeCode;<br />
+ private string name;</p>
+<p> public Person(string name, PersonTypeCode personTypeCode)<br />
+ {<br />
+  this.name = name;<br />
+  this.personTypeCode = personTypeCode;<br />
+ }</p>
+<p> public string Name<br />
+ {<br />
+  get { return this.name; }<br />
+  set { this.name = value; }<br />
+ }</p>
+<p> public PersonTypeCode PersonTypeCode<br />
+ {<br />
+  get { return this.personTypeCode; }<br />
+  set { this.personTypeCode = value; }<br />
+ }<br />
+}[&#47;code]</p>
+<p>If we run this code we run in the following error:<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;databind-datagridviewcomboboxcolumn-1.gif" alt="DataGridViewComboBoxCell value is not valid."&#47;></p>
+<p>Always make sure the DataGridViewComboxColumn knows about all the possible values (<a href="http:&#47;&#47;www.timvw.be&#47;implementing-masterdetail-for-custom-objects-with-datagridviewcomboboxcolumns&#47;">Add them via the Items property<&#47;a> or use databinding). Let's extend our Form1 class as following:<&#47;p><br />
+[code lang="csharp"]public Form1()<br />
+{<br />
+ InitializeComponent();</p>
+<p> this.dataGridView1.AutoGenerateColumns = false;<br />
+ this.ColumnName.DataPropertyName = "Name";<br />
+ this.ColumnPersonTypeCode.DataPropertyName = "PersonTypeCode";<br />
+ this.ColumnPersonTypeCode.DataSource = FindPersonTypeCodes();</p>
+<p> BindingSource bindingSource = new BindingSource();<br />
+ bindingSource.DataSource = FindPersons();<br />
+ this.dataGridView1.DataSource = bindingSource;<br />
+}</p>
+<p>private BindingList
+<personTypeCode> FindPersonTypeCodes()<br />
+{<br />
+ BindingList
+<personTypeCode> bindingList = new BindingList
+<personTypeCode>();<br />
+ foreach (PersonTypeCode personTypeCode in Enum.GetValues(typeof(PersonTypeCode)))<br />
+ {<br />
+  bindingList.Add(personTypeCode);<br />
+ }<br />
+ return bindingList;<br />
+}[&#47;code]</p>
+<p>Allright, here is a screenshot of our first working version:<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;databind-datagridviewcomboboxcolumn-2.gif" alt="datagridviewcomboboxcolumn with enumerated values"&#47;></p>
+<p>Instead of displaying the bare enum values we want to display a nice label. In order to achieve this we define a class PersonType to hold both the PersonTypeCode and the label:<&#47;p><br />
+[code lang="csharp"]class PersonType<br />
+{<br />
+ private PersonTypeCode personTypeCode;<br />
+ private string label;</p>
+<p> public PersonType(string label, PersonTypeCode personTypeCode)<br />
+ {<br />
+  this.label = label;<br />
+  this.personTypeCode = personTypeCode;<br />
+ }</p>
+<p> public string Label<br />
+ {<br />
+  get { return this.label; }<br />
+  set { this.label = value; }<br />
+ }</p>
+<p> public PersonTypeCode PersonTypeCode<br />
+ {<br />
+  get { return this.personTypeCode; }<br />
+  set { this.personTypeCode = value; }<br />
+ }<br />
+}[&#47;code]</p>
+<p>We modify our code so that this new PersonType class is used for the ComboBoxColumn:<&#47;p><br />
+[code lang="csharp"]public Form1()<br />
+{<br />
+ InitializeComponent();</p>
+<p> this.dataGridView1.AutoGenerateColumns = false;<br />
+ this.ColumnName.DataPropertyName = "Name";<br />
+ this.ColumnPersonTypeCode.DataPropertyName = "PersonTypeCode";<br />
+ this.ColumnPersonTypeCode.DisplayMember = "Label";<br />
+ this.ColumnPersonTypeCode.ValueMember = "PersonTypeCode";<br />
+ this.ColumnPersonTypeCode.DataSource = FindPersonTypes();</p>
+<p> BindingSource bindingSource = new BindingSource();<br />
+ bindingSource.DataSource = FindPersons();<br />
+ this.dataGridView1.DataSource = bindingSource;<br />
+}</p>
+<p>private BindingList
+<personType> FindPersonTypes()<br />
+{<br />
+ BindingList
+<personType> bindingList = new BindingList
+<personType>();<br />
+ bindingList.Add(new PersonType("A geeky person", PersonTypeCode.Geek));<br />
+ bindingList.Add(new PersonType("A coward", PersonTypeCode.Anonymous));<br />
+ bindingList.Add(new PersonType("Feeling hot hot hot", PersonTypeCode.Babe));<br />
+ return bindingList;<br />
+}[&#47;code]<br />
+<br&#47;><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;databind-datagridviewcomboboxcolumn-3.gif" alt="datagridviewcomboboxcolumn with nice labels."&#47;></p>
+<p>Great! Now we'll add some functionality that limits the possible values in the ComboBoxColumn basesd on the Name (I already demonstrated this technique <a href="http:&#47;&#47;www.timvw.be&#47;implementing-masterdetail-for-custom-objects-with-datagridviewcomboboxcolumns&#47;">here<&#47;a>). Simply handle the EditingControlShowing Event on the DataGridView as following:<&#47;p><br />
+[code lang="csharp"]void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)<br />
+{<br />
+ BindingSource bindingSource = this.dataGridView1.DataSource as BindingSource;<br />
+ Person person = bindingSource.Current as Person;<br />
+ BindingList
+<personType> bindingList = this.FindPersonTypes(person);</p>
+<p> DataGridViewComboBoxEditingControl comboBox = e.Control as DataGridViewComboBoxEditingControl;<br />
+ comboBox.DataSource = bindingList;<br />
+}</p>
+<p>private BindingList
+<personType> FindPersonTypes(Person person)<br />
+{<br />
+ &#47;&#47; by default, all persons simply have one of the available persontypecodes<br />
+ BindingList
+<personType> bindingList = FindPersonTypes();</p>
+<p> if (person.PersonTypeCode == PersonTypeCode.Geek)<br />
+ {<br />
+  &#47;&#47; geeks are doomed to stay geeks<br />
+  bindingList.RemoveAt(2);<br />
+  bindingList.RemoveAt(1);<br />
+ }</p>
+<p> return bindingList;<br />
+}[&#47;code]</p>
+<p>If you open the combox for "Timvw" you see that you can only choose "A geeky person":<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;databind-datagridviewcomboboxcolumn-4.gif" alt="datagridviewcomboboxcolumn with limited options."&#47;></p>
+<p>Instead of using an enum we could have used a regular class too. The key is to override the Equals method:<&#47;p><br />
+[code lang="csharp"]class PersonTypeCode<br />
+{<br />
+ public static PersonTypeCode Geek<br />
+ {<br />
+  get { return new PersonTypeCode(0); }<br />
+ }</p>
+<p> public static PersonTypeCode Anonymous<br />
+ {<br />
+  get { return new PersonTypeCode(1); }<br />
+ }</p>
+<p> public static PersonTypeCode Babe<br />
+ {<br />
+  get { return new PersonTypeCode(2); }<br />
+ }</p>
+<p> private int id;</p>
+<p> public PersonTypeCode(int id)<br />
+ {<br />
+  this.id = id;<br />
+ }</p>
+<p> public override bool Equals(object obj)<br />
+ {<br />
+  if (obj == null) return false;<br />
+  if (obj == this) return true;<br />
+  PersonTypeCode personTypeCode = obj as PersonTypeCode;<br />
+  if (personTypeCode == null) return false;<br />
+  return this.id == personTypeCode.id;<br />
+ }</p>
+<p> public override int GetHashCode()<br />
+ {<br />
+  return this.id.GetHashCode();<br />
+ }<br />
+}</p>
+<p>private BindingList
+<personType> FindPersonTypes(Person person)<br />
+{<br />
+ &#47;&#47; by default, all persons simply have one of the available persontypecodes<br />
+ BindingList
+<personType> bindingList = FindPersonTypes();</p>
+<p> &#47;&#47;if (person.PersonTypeCode == PersonTypeCode.Geek)<br />
+ if (person.PersonTypeCode.Equals(PersonTypeCode.Geek))<br />
+ {<br />
+  &#47;&#47; geeks are doomed to stay geeks<br />
+  bindingList.RemoveAt(2);<br />
+  bindingList.RemoveAt(1);<br />
+ }</p>
+<p> return bindingList;<br />
+}<br />
+[&#47;code]</p>
+<p>And now you're thinking: But i want the user to not select a PersonTypeCode (null). We'll represent that with an empty string "":<&#47;p><br />
+[code lang="csharp"]private BindingList
+<person> FindPersons()<br />
+{<br />
+ BindingList
+<person> bindingList = new BindingList
+<person>();<br />
+ bindingList.Add(new Person("Timvw", PersonTypeCode.Geek));<br />
+ bindingList.Add(new Person("John Doe", PersonTypeCode.Anonymous));<br />
+ bindingList.Add(new Person("An Onymous", PersonTypeCode.Anonymous));<br />
+ bindingList.Add(new Person("Jenna Jameson", PersonTypeCode.Babe));<br />
+ bindingList.Add(new Person("Null Able", null));<br />
+ return bindingList;<br />
+}</p>
+<p>private BindingList
+<personType> FindPersonTypes()<br />
+{<br />
+ BindingList
+<personType> bindingList = new BindingList
+<personType>();<br />
+ bindingList.Add(new PersonType("A geeky person", PersonTypeCode.Geek));<br />
+ bindingList.Add(new PersonType("A coward", PersonTypeCode.Anonymous));<br />
+ bindingList.Add(new PersonType("Feeling hot hot hot", PersonTypeCode.Babe));<br />
+ bindingList.Add(new PersonType(string.Empty, null));<br />
+ return bindingList;<br />
+}</p>
+<p>private BindingList
+<personType> FindPersonTypes(Person person)<br />
+{<br />
+ &#47;&#47; by default, all persons simply have one of the available persontypecodes<br />
+ BindingList
+<personType> bindingList = FindPersonTypes();</p>
+<p> if (person.PersonTypeCode != null && person.PersonTypeCode.Equals(PersonTypeCode.Geek))<br />
+ {<br />
+  &#47;&#47; geeks are doomed to stay geeks<br />
+  bindingList.RemoveAt(2);<br />
+  bindingList.RemoveAt(1);<br />
+ }</p>
+<p> return bindingList;<br />
+}[&#47;code]<br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;databind-datagridviewcomboboxcolumn-5.gif" alt="datagridviewcomboboxcolumn with null option."&#47;></p>
+<p>When the user starts editing the record, the combobox will choose the first item in the list (A geeky person). Now we change this behaviour so that the actual PersonTypeCode is selected:<&#47;p><br />
+[code lang="csharp"]void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)<br />
+{<br />
+ if (this.dataGridView1.CurrentCell.ColumnIndex == this.ColumnPersonTypeCode.Index)<br />
+ {<br />
+  BindingSource bindingSource = this.dataGridView1.DataSource as BindingSource;<br />
+  Person person = bindingSource.Current as Person;<br />
+  BindingList
+<personType> bindingList = this.FindPersonTypes(person);</p>
+<p>  DataGridViewComboBoxEditingControl comboBox = e.Control as DataGridViewComboBoxEditingControl;<br />
+  comboBox.DataSource = bindingList;<br />
+  if (person.PersonTypeCode != null)<br />
+  {<br />
+   comboBox.SelectedValue = person.PersonTypeCode;<br />
+  }<br />
+  else<br />
+  {<br />
+   comboBox.SelectedValue = string.Empty;<br />
+  }<br />
+ }<br />
+}[&#47;code]<br />
+<br&#47;><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;databind-datagridviewcomboboxcolumn-6.gif" alt="datagridviewcomboboxcolumn with selected item."&#47;></p>
+<p>In order to make the DataGridView more usable we set the EditMode property to EditOnEnter. Selected values in the ComboBox are only commited when the user leaves the current cell. Handling the SelectionChangeCommited event on the ComboBox allows us to commit that value without requiring the user to leave the current cell:<&#47;p><br />
+[code lang="csharp"]void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)<br />
+{<br />
+ if (this.dataGridView1.CurrentCell.ColumnIndex == this.ColumnPersonTypeCode.Index)<br />
+ {<br />
+  BindingSource bindingSource = this.dataGridView1.DataSource as BindingSource;<br />
+  Person person = bindingSource.Current as Person;<br />
+  BindingList
+<personType> bindingList = this.FindPersonTypes(person);</p>
+<p>  DataGridViewComboBoxEditingControl comboBox = e.Control as DataGridViewComboBoxEditingControl;<br />
+  comboBox.DataSource = bindingList;<br />
+  if (person.PersonTypeCode != null)<br />
+  {<br />
+   comboBox.SelectedValue = person.PersonTypeCode;<br />
+  }<br />
+  else<br />
+  {<br />
+   comboBox.SelectedValue = string.Empty;<br />
+  }</p>
+<p>  comboBox.SelectionChangeCommitted -= this.comboBox_SelectionChangeCommitted;<br />
+  comboBox.SelectionChangeCommitted += this.comboBox_SelectionChangeCommitted;<br />
+ }<br />
+}</p>
+<p>void comboBox_SelectionChangeCommitted(object sender, EventArgs e)<br />
+{<br />
+ this.dataGridView1.EndEdit();<br />
+}[&#47;code]</p>
+<p>Now it's up to you to apply these simple techniques and build great software. Feel free to download the complete source: <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;DataGridViewComboBoxBinding.zip">DataGridViewComboBoxBinding.zip<&#47;a>.<&#47;p></p>

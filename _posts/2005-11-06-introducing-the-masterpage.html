@@ -1,0 +1,82 @@
+---
+layout: post
+status: publish
+published: true
+title: Introducing the masterpage
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 121
+wordpress_url: http://www.timvw.be/introducing-the-masterpage/
+date: '2005-11-06 02:51:31 +0100'
+date_gmt: '2005-11-06 00:51:31 +0100'
+categories: []
+tags:
+- PHP
+comments: []
+---
+<p>Most websites have the same layout and an area with dynamic content. So most people choose for the following solution: generate a couple of template files for the static content and then write the code for the dynamic content and include the static templates. Here is how the code for a contact and an aboutme page would look like:<&#47;p></p>
+<dl>
+<dt>contact.php<&#47;dt></p>
+<dd>
+[code lang="php"]<?php<br />
+include('header.php');<br />
+include('leftpanel.php');<br />
+&#47;&#47; code for contact page<br />
+include('rightpanel.php');<br />
+include('footer.php');<br />
+?>[&#47;code]<br />
+<&#47;dd></p>
+<dt>aboutme.php<&#47;dt></p>
+<dd>
+[code lang="php"]<?php<br />
+include('header.php');<br />
+include('leftpanel.php');<br />
+&#47;&#47;something about me<br />
+include('rightpanel.php');<br />
+include('footer.php');<br />
+?>[&#47;code]<br />
+<&#47;dd><br />
+<&#47;dl></p>
+<p>This code is pretty flexible. But what happens if you want to change your layout to something without a rightpanel? Right, you have to edit each page and remove the include call. A couple of weeks ago i discovered the concept of <a href="http:&#47;&#47;www.lifl.fr&#47;~dumoulin&#47;tiles&#47;">tiles<&#47;a> and immediately realised this is useful for php too. Here is an example implementation:<&#47;p></p>
+<dl>
+<dt>contact.php<&#47;dt></p>
+<dd>
+[code lang="php"]<?php<br />
+require_once('init.php');<br />
+$tiles = array();<br />
+$tiles['main'] = PAGE_CONTENT . '&#47;contact.html';<br />
+include('masterpage.php');<br />
+?>[&#47;code]<br />
+<&#47;dd></p>
+<dt>aboutme.php<&#47;dt></p>
+<dd>
+[code lang="php"]<?php<br />
+require_once('init.php');<br />
+$tiles = array();<br />
+$tiles['main'] = PAGE_CONTENT . '&#47;aboutme.html';<br />
+include('masterpage.php');<br />
+?>[&#47;code]<br />
+<&#47;dd></p>
+<dt>masterpage.php<&#47;dt></p>
+<dd>
+[code lang="php"]<?php<br />
+if (!isset($tiles)) $tiles = array();<br />
+if (!isset($tiles['header']) $tiles['headers'] = PAGE_CONTENT . '&#47;default-header.html';<br />
+if (!isset($tiles['leftpanel']) $tiles['headers'] = PAGE_CONTENT . '&#47;default-leftpanel.html';<br />
+if (!isset($tiles['main']) $tiles['headers'] = PAGE_CONTENT . '&#47;default-main.html';<br />
+if (!isset($tiles['footer']) $tiles['headers'] = PAGE_CONTENT . '&#47;default-footer.html';<br />
+include($tiles['header']);<br />
+include($tiles['leftpanel']);<br />
+include($tiles['main']);<br />
+include($tiles['footer.php']);<br />
+?>[&#47;code]<br />
+<&#47;dd><br />
+<&#47;dl></p>
+<p>
+As you can see, this allows the programmer to change the layout in a single file, the masterpage. If a programmer wants to change the content of a specific area of a page all he has to do is change the $tiles array.<&#47;p></p>

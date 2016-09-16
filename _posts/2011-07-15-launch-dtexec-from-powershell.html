@@ -1,0 +1,57 @@
+---
+layout: post
+status: publish
+published: true
+title: Launch DtExec from PowerShell
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2163
+wordpress_url: http://www.timvw.be/?p=2163
+date: '2011-07-15 18:47:01 +0200'
+date_gmt: '2011-07-15 17:47:01 +0200'
+categories:
+- Uncategorized
+tags:
+- PowerShell
+- SSIS
+comments: []
+---
+<p>Running an SSIS package from PowerShell (using DTExec) can be as simple as:<&#47;p></p>
+<p>[code lang="powershell"]<br />
+RunPackage -File 'C:\test.dtsx' -DatabaseHost '.' -DatabaseName 'TEST';<br />
+[&#47;code]</p>
+<p>Here are the functions that make it this simple:<&#47;p></p>
+<p>[code lang="powershell"]<br />
+function GetDtExecPath {<br />
+    $DtsPath = (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup').SQLPath;<br />
+    $DtExecPath = (Resolve-Path "$DtsPath\Binn\DTExec.exe");<br />
+    $DtExecPath;<br />
+}</p>
+<p>function GetDtExecPropertyPathValue() {<br />
+    param(<br />
+        $PropertyPath = '',<br />
+        $Value = ''<br />
+    );<br />
+    "$PropertyPath;\`"`"$Value\`"`"";<br />
+}</p>
+<p>function RunPackage {<br />
+    param(<br />
+        $DtExecPath = (GetDtExecPath),<br />
+        $File = 'test.dtsx'<br />
+    );</p>
+<p>    $Params = "&#47;FILE $File";<br />
+    for($i = 0; $i -lt $Args.Length; $i += 2) {<br />
+        $PropertyPath = $Args[$i].SubString(1);<br />
+        $Value = $Args[$i+1];<br />
+        $PropertyPathValue = GetDtExecPropertyPathValue -PropertyPath $PropertyPath -Value $Value;<br />
+        $Params += " &#47;SET $PropertyPathValue";<br />
+    } </p>
+<p>    &amp;"$DtExecPath" $Params;<br />
+}<br />
+[&#47;code]</p>

@@ -1,0 +1,44 @@
+---
+layout: post
+status: publish
+published: true
+title: Exploring the FTP functions
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 96
+wordpress_url: http://www.timvw.be/exploring-the-ftp-functions/
+date: '2005-05-04 01:35:25 +0200'
+date_gmt: '2005-05-03 23:35:25 +0200'
+categories: []
+tags:
+- PHP
+comments: []
+---
+<p>I'm still drowning in the work, and exams are coming close too, but i decided to blog something about the <a href="http:&#47;&#47;www.php.net&#47;ftp">FTP<&#47;a> functions in <a href="http:&#47;&#47;www.php.net">PHP<&#47;a>. The script will download all the files that are available on the remote server.<br &#47;><&#47;p><br />
+[code lang="php"]&#47;&#47; make sure we have time enough to execute this script<br />
+set_time_limit(1200);</p>
+<p>&#47;&#47; connect to the ftp server<br />
+$ftp = ftp_connect('ftp.scarlet.be');<br />
+ftp_login($ftp, 'anonymous', 'password');</p>
+<p>&#47;&#47; get the files that are available here<br />
+$local = glob('*.*');</p>
+<p>&#47;&#47; get the files that are available there<br />
+$remote = ftp_nlist($ftp, '.');</p>
+<p>&#47;&#47; get the files there that are not availble here<br />
+foreach($remote as $file)<br />
+{<br />
+  if (!in_array($file, $local))<br />
+  {<br />
+    &#47;&#47; we don't have the file, thus download it<br />
+    ftp_get($ftp, $file, $file, FTP_BINARY);<br />
+  }<br />
+}</p>
+<p>&#47;&#47; close the connection<br />
+ftp_close($ftp);<br />
+[&#47;code]</p>

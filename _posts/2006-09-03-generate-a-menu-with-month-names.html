@@ -1,0 +1,48 @@
+---
+layout: post
+status: publish
+published: true
+title: Generate a menu with month names
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 18
+wordpress_url: http://www.timvw.be/generate-a-menu-with-month-names/
+date: '2006-09-03 02:11:21 +0200'
+date_gmt: '2006-09-03 00:11:21 +0200'
+categories: []
+tags:
+- PHP
+comments: []
+---
+<p>I still see people building their calendar control or month (or day) picker with a hardcoded array of month (or day) names. With the use of <a href="http:&#47;&#47;www.php.net&#47;strftime">strftime<&#47;a> you can easily build a <a href="http:&#47;&#47;www.php.net&#47;setlocale">locale aware<&#47;a> version. Here is an example:<&#47;p><br />
+[code lang="php"]<?php<br />
+function SelectMonths($name = 'selectMonths', $id = 'selectMonths') {<br />
+ $current_month = date('n');</p>
+<p> echo '<br />
+<select name="' . $name .'" id="' . $id . '">';</p>
+<p> for ($i = 1; $i < 13; ++$i) {<br />
+  echo '<br />
+<option value="' . $i . '"';</p>
+<p>  if ($i == $current_month) {<br />
+   echo ' selected';<br />
+  }</p>
+<p> $month_name = strftime('%B', mktime(0, 0, 0, $i, 1, 2006));</p>
+<p>  echo '>' . $month_name . '<&#47;option>';<br />
+ }</p>
+<p> echo '<&#47;select>';<br />
+}<br />
+?>[&#47;code]</p>
+<p>And now you can easily generate a localized menu:<&#47;p><br />
+[code lang="php"]<?php<br />
+include('SelectMonths.php');</p>
+<p>SelectMonths();</p>
+<p>&#47;&#47; Tested on a Windows host - Read the http:&#47;&#47;be.php.net&#47;setlocale<br />
+setlocale(LC_TIME, 'dutch');<br />
+SelectMonths();<br />
+?>[&#47;code]</p>

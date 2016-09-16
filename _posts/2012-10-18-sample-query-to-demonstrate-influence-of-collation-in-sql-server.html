@@ -1,0 +1,42 @@
+---
+layout: post
+status: publish
+published: true
+title: Sample query to demonstrate influence of collation in Sql Server
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2301
+wordpress_url: http://www.timvw.be/?p=2301
+date: '2012-10-18 09:22:25 +0200'
+date_gmt: '2012-10-18 08:22:25 +0200'
+categories:
+- Uncategorized
+tags:
+- SQL
+- collation
+comments: []
+---
+<p>Lately I had the pleasure to investigate <a href="http:&#47;&#47;technet.microsoft.com&#47;en-us&#47;library&#47;aa174903(v=sql.80).aspx">collations<&#47;a> and here is a sample query that demonstrates how a collation impacts the behaviour of a query:<&#47;p></p>
+<p>[code language="sql"]<br />
+WITH [Words] AS (<br />
+	SELECT N'Een' AS [word]<br />
+	UNION ALL<br />
+	SELECT N'E&egrave;n'<br />
+	UNION ALL<br />
+	SELECT N'EEN'<br />
+)<br />
+	SELECT [word]<br />
+	FROM [Words]<br />
+	WHERE [word]<br />
+		--COLLATE Latin1_General_CS_AS -- returns Een<br />
+		--COLLATE Latin1_General_CI_AI -- returns Een, E&egrave;n and EEN<br />
+		--COLLATE LAtin1_General_CI_AS -- returns Een and EEN<br />
+		COLLATE Latin1_General_CS_AI -- returns Een and E&egrave;n<br />
+		= N'Een';<br />
+[&#47;code]</p>

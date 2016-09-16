@@ -1,0 +1,50 @@
+---
+layout: post
+status: publish
+published: true
+title: Example implementation of a callback method for use in the Asynchronous Programming
+  Model
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 239
+wordpress_url: http://www.timvw.be/?p=239
+date: '2008-06-28 14:00:01 +0200'
+date_gmt: '2008-06-28 12:00:01 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>I always seem to forget about the mechanics of implementing a Callback method that can be used in the <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;ms228963(VS.80).aspx">Asynchronous Programming Model (APM)<&#47;a>. So here is a simple example in C# 3.0 using the <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;bb549151.aspx">Func<T, TResult><&#47;a> delegate:<&#47;p><br />
+[code lang="csharp"]<br />
+class Program<br />
+{<br />
+ static void Main(string[] args)<br />
+ {<br />
+  Func<string, string> echoDelegate = Echo;<br />
+  IAsyncResult asyncResult = echoDelegate.BeginInvoke("some input", EchoCallback, "x");</p>
+<p>  WaitHandle.WaitAll(new WaitHandle[] {asyncResult.AsyncWaitHandle});</p>
+<p>  Console.Write("{0}Press any key to continue...", Environment.NewLine);<br />
+  Console.ReadKey();<br />
+ }</p>
+<p> static string Echo(string input)<br />
+ {<br />
+  return string.Format("Echoing {0}", input);<br />
+ }</p>
+<p> static void EchoCallback(object state)<br />
+ {<br />
+  IAsyncResult r = (IAsyncResult)state;<br />
+  Debug.Assert(r.AsyncState == "x");</p>
+<p>  AsyncResult asyncResult = (AsyncResult)state;<br />
+  Func<string, string> echoDelegate = (Func<string, string>)asyncResult.AsyncDelegate;<br />
+  string echoResult = echoDelegate.EndInvoke(asyncResult);<br />
+  Debug.Assert(echoResult == "Echoing some input");</p>
+<p>  Console.WriteLine("EchoCallback completed.");<br />
+ }<br />
+}[&#47;code]</p>

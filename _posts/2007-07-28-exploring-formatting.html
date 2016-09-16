@@ -1,0 +1,88 @@
+---
+layout: post
+status: publish
+published: true
+title: Exploring formatting...
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 184
+wordpress_url: http://www.timvw.be/consistent-formatting-via-cultureinfo/
+date: '2007-07-28 00:08:56 +0200'
+date_gmt: '2007-07-27 22:08:56 +0200'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments: []
+---
+<p>In the documentation you can read the following for <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.globalization.cultureinfo.aspx">CultureInfo<&#47;a>:<&#47;p></p>
+<blockquote>
+<div>
+The CultureInfo class holds culture-specific information, such as the associated language, sublanguage, country&#47;region, calendar, and cultural conventions. This class also provides access to culture-specific instances of DateTimeFormatInfo, NumberFormatInfo, CompareInfo, and TextInfo. These objects contain the information required for culture-specific operations, such as casing, formatting dates and numbers, and comparing strings.<br />
+<&#47;div><br />
+<&#47;blockquote></p>
+<p>First i'll initialize an instance of a customized CultureInfo and install it in the current thread:<&#47;p></p>
+<p>[code lang="csharp"]CultureInfo appCultureInfo = new CultureInfo("en-US");<br />
+appCultureInfo.NumberFormat.NumberDecimalSeparator = ".";<br />
+appCultureInfo.NumberFormat.NumberGroupSeparator = " ";<br />
+appCultureInfo.NumberFormat.NumberDecimalDigits = 2;<br />
+appCultureInfo.NumberFormat.CurrencySymbol = "&euro;";<br />
+Thread.CurrentThread.CurrentCulture = appCultureInfo;[&#47;code]</p>
+<p><b>Note: <&#47;b>The culture in Thread.CurrentThread.CurrentUICulture is only used by the Resource Manager to lookup culture-specific resources at run-time. Since we're not playing with resources, we don't have to care about this one.<&#47;p></p>
+<p>If you don't provide the desired format specifier, you will get the generic format specifier "G" ( Standard <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;dwhawy9k(VS.71).aspx">Numeric<&#47;a>, <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;az4se3k1(VS.71).aspx">DateTime<&#47;a>, <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;c3s1ez6e(VS.71).aspx">Enumeration<&#47;a> Format Strings) And now it's time for a little demo:<&#47;p></p>
+<p>[code lang="csharp"]public double SomeValue<br />
+{<br />
+ get { return 12345.6789; }<br />
+}</p>
+<p>private void Form1_Load(object sender, EventArgs e)<br />
+{<br />
+ label1.Text = "default to generic format: " + SomeValue.ToString();<br />
+ label2.Text = "numeric format: " + SomeValue.ToString("N");<br />
+ label3.Text = String.Format("currency format: {0:C}", SomeValue);<br />
+ label4.DataBindings.Add("Text", this, "SomeValue", true, DataSourceUpdateMode.Never, string.Empty, "P");</p>
+<p> this.Column1.DefaultCellStyle.Format = "E1";<br />
+ this.Column1.DataPropertyName = "SomeValue";<br />
+ this.dataGridView1.AutoGenerateColumns = false;<br />
+ this.dataGridView1.DataSource = new Form1[] { this };<br />
+}<br />
+[&#47;code]<br />
+<br&#47;><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;formatting-01.gif" alt=""&#47;></p>
+<p>Another important interface for formatting is <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.IFormattable.aspx">IFormattable<&#47;a> which provides functionality to format the value of an object into a string representation. Put simply, it allows you to define your own format specifiers. Here is an example that allows the user to build his own representation of a Person:<&#47;p><br />
+[code lang="csharp"]class Person : IFormattable<br />
+{<br />
+ &#47;&#47; omitted the code for 4 properties: Id, Name, Title and Birthday</p>
+<p> public override string ToString()<br />
+ {<br />
+  return ToString("{Id}, {Name}", null);<br />
+ }</p>
+<p> public string ToString(string format, IFormatProvider formatProvider)<br />
+ {<br />
+  string actualFormat = format;</p>
+<p>  string[] replacements = new string[] { "Id", "Name", "Title", "Birthday" };<br />
+  for (int i = 0; i < replacements.Length; ++i)<br />
+  {<br />
+   actualFormat = actualFormat.Replace(replacements[i], i.ToString());<br />
+  }</p>
+<p>  return string.Format(actualFormat, this.id, this.name, this.title, this.birthday);<br />
+ }<br />
+}</p>
+<p>private void Form1_Load(object sender, EventArgs e)<br />
+{<br />
+ List
+<person> persons = new List
+<person>();<br />
+ persons.Add(new Person(1, new DateTime(1980, 4, 30), "Tim", "Sir"));<br />
+ persons.Add(new Person(2, new DateTime(1974, 4, 9), "Jenna", "Miss"));</p>
+<p> this.comboBox1.FormatString = "{Name} born on {Birthday}";<br />
+ this.comboBox1.FormattingEnabled = true;<br />
+ this.comboBox1.DataSource = persons;<br />
+}[&#47;code]<br />
+<br&#47;><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;formatting-02.gif" alt=""&#47;></p>

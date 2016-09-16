@@ -1,0 +1,78 @@
+---
+layout: post
+status: publish
+published: true
+title: Update ConfigurationStrings in SSIS package with PowerShell
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1978
+wordpress_url: http://www.timvw.be/?p=1978
+date: '2010-11-11 13:50:12 +0100'
+date_gmt: '2010-11-11 12:50:12 +0100'
+categories:
+- Uncategorized
+tags:
+- PowerShell
+- SSIS
+comments:
+- id: 36320
+  author: Andrew de Ruiter
+  author_email: a.c.de.ruiter@gmail.com
+  author_url: ''
+  date: '2012-03-14 16:08:54 +0100'
+  date_gmt: '2012-03-14 15:08:54 +0100'
+  content: "Hi Tim, looks great, this is exactly what i need.!! Replace configuration
+    key in dtsx package after deployment.\r\n\r\nBut it doesnot work. I dont know
+    mucht about powershell, can make some simple scripts and run them but can't fix
+    this. \r\nThe error is on \"\r\n$ns = New-Object Xml.XmlNamespaceManager $xml.NameTable;
+    \"\r\n\r\nCan you fix this for me?\r\n\r\nKind regards,\r\nAndrew\r\n\r\nNew-Object
+    : Constructor not found. Cannot find an appropriate constructor for type \r\nXml.XmlNamespaceManager.\r\nAt
+    M:\\SQLAdmin\\Interface\\ADB\\PS1\\FindEnReplace.ps1:6 char:19\r\n+   $ns = New-Object
+    <<<<  Xml.XmlNamespaceManager $xml.NameTable; \r\n    + CategoryInfo          :
+    ObjectNotFound: (:) [New-Object], PSArgumentException\r\n    + FullyQualifiedErrorId
+    : CannotFindAppropriateCtor,Microsoft.PowerShell.Comman \r\n   ds.NewObjectCommand"
+- id: 36478
+  author: timvw
+  author_email: tim@timvw.be
+  author_url: http://timvw.myopenid.com/
+  date: '2012-03-15 22:18:32 +0100'
+  date_gmt: '2012-03-15 21:18:32 +0100'
+  content: Can you double check that you are using powershell v2? If memory serves
+    me well, we once saw this exception when running on a freshly installed windows
+    2008 r2 box (seemed to ship with powershell v1.x)
+---
+<p>Here are some functions that allow you to update ConfigurationStrings in a SSIS package (dtsx) using PowerShell:<&#47;p></p>
+<p>[code lang="powershell"]<br />
+function UpdateConfigurationStrings($file)<br />
+{<br />
+ $xml = [xml] (Get-Content $file);<br />
+ $ns = New-Object Xml.XmlNamespaceManager $xml.NameTable;<br />
+ $ns.AddNamespace("DTS", "www.microsoft.com&#47;SqlServer&#47;Dts");<br />
+ UpdateConfigurationNodes $xml $ns;<br />
+ Set-Content $file $xml.OuterXml;<br />
+}</p>
+<p>function UpdateConfigurationNodes($xml, $ns)<br />
+{<br />
+ $selectConfigurationNodes = "&#47;&#47;DTS:Configuration";<br />
+ $xml.SelectNodes($selectConfigurationNodes, $ns) | foreach { UpdateConfigurationNode $_ $ns; };<br />
+}</p>
+<p>function UpdateConfigurationNode($configurationNode, $ns)<br />
+{<br />
+ $selectConfigurationString = ".&#47;DTS:Property[@DTS:Name='ConfigurationString']";<br />
+ $configurationStringNode = $configurationNode.SelectSingleNode($selectConfigurationString, $ns);</p>
+<p> $oldConfigurationStringValue = $configurationStringNode.'#text';<br />
+ $newConfigurationStringValue = GetNewConfigurationStringValue $oldConfigurationStringValue;<br />
+ $configurationStringNode.'#text' = "$newConfigurationStringValue";<br />
+}</p>
+<p>function GetNewConfigurationStringValue($oldConfigurationStringValue)<br />
+{<br />
+ # implement some logic to determine new value<br />
+ return "new value";<br />
+}<br />
+[&#47;code]</p>

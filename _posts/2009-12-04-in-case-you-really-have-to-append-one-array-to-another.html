@@ -1,0 +1,57 @@
+---
+layout: post
+status: publish
+published: true
+title: In case you really have to Append one array to another
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1544
+wordpress_url: http://www.timvw.be/?p=1544
+date: '2009-12-04 08:46:32 +0100'
+date_gmt: '2009-12-04 07:46:32 +0100'
+categories: []
+tags:
+- C#
+- Patterns
+comments: []
+---
+<p>Here is another problem i've seen people solve once too many: Append one array to another. STOP. Revisit the problem. Can't you simply use List<T> and move on to solving actual business problems? In case you really can't get rid of the arrays read the following:<&#47;p></p>
+<p>[code lang="csharp"]Given()<br />
+{<br />
+ source = new[] { SourceElement };<br />
+ destination = new[] { DestinationElement };<br />
+}[&#47;code]</p>
+<p><br&#47;></p>
+<p>[code lang="csharp"]When()<br />
+{<br />
+ source.AppendTo(ref destination);<br />
+}[&#47;code]</p>
+<p><br&#47;></p>
+<p>[code lang="csharp"]ThenTheDestinationShouldStillHaveTheDestinationElement()<br />
+{<br />
+ Assert.AreEqual(DestinationElement, destination[0]);<br />
+}[&#47;code]</p>
+<p><br&#47;></p>
+<p>[code lang="csharp"]ThenTheDestinationShouldHaveBeenExtendedWithTheSourceElement()<br />
+{<br />
+ Assert.AreEqual(SourceElement, destination[1]);<br />
+}[&#47;code]</p>
+<p>And here is the code which satisfies the requirements:<&#47;p></p>
+<p>[code lang="csharp"]public static class Extensions<br />
+{<br />
+ public static void AppendTo<t>(this T[] sourceArray, ref T[] destinationArray)<br />
+ {<br />
+  var sourceLength = sourceArray.Length;<br />
+  var destinationLength = destinationArray.Length;<br />
+  var extendedLength = destinationLength + sourceLength;<br />
+  Array.Resize(ref destinationArray, extendedLength);<br />
+  Array.Copy(sourceArray, 0, destinationArray, destinationLength, sourceLength);<br />
+ }<br />
+}[&#47;code]</p>
+<p>Perhaps it's time to start (or does it exist already, cause i can't find it) an open-source project with extension methods.<&#47;p></p>

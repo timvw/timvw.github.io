@@ -1,0 +1,34 @@
+---
+layout: post
+status: publish
+published: true
+title: Enumerate all properties and their value of an object
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 230
+wordpress_url: http://www.timvw.be/?p=230
+date: '2008-06-14 13:11:17 +0200'
+date_gmt: '2008-06-14 11:11:17 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Earlier today someone asked me how to generate a List with all the properties (and their respective value) that an object has. With C# 2.0 i would have created a class to represent a single element, PropertyRow, with a Name and a Value property and a class that is IEnumerable<PropertyRow> to hold all PropertyRows.<&#47;p></p>
+<p>With C# 3.0 we can take advantage of <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;bb397696.aspx">anonymous types<&#47;a> and the code we have to write is fairly minimal:<&#47;p><br />
+[code lang="csharp"]<br />
+Person angelina = new Person("Angelina", "Jolie", "0275198123", "CloseToMe blv 12");</p>
+<p>var propertyRows =<br />
+  from propertyInfo in angelina.GetType().GetProperties()<br />
+  select new { Name = propertyInfo.Name, Value = propertyInfo.GetValue(angelina, null) };</p>
+<p>BindingSource bs = new BindingSource();<br />
+bs.DataSource = propertyRows;</p>
+<p>this.dataGridView1.DataSource = bs;<br />
+[&#47;code]</p>
+<p>Just as with anonymous delegates, as soon as you notice that you define the same anonymous class more than once, you may want to consider to take it out of the anonymousity.<&#47;p></p>

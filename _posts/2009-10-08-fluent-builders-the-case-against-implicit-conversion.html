@@ -1,0 +1,45 @@
+---
+layout: post
+status: publish
+published: true
+title: 'Fluent Builders: The case against implicit conversion'
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1321
+wordpress_url: http://www.timvw.be/?p=1321
+date: '2009-10-08 08:45:59 +0200'
+date_gmt: '2009-10-08 07:45:59 +0200'
+categories: []
+tags:
+- C#
+comments:
+- id: 341
+  author: 'Tim Van Wassenhove &raquo; Archive &raquo; Fluent Builders: The case against
+    implicit conversion (2)'
+  author_email: ''
+  author_url: http://www.timvw.be/fluent-builders-the-case-against-implicit-conversion-2/
+  date: '2009-10-08 08:57:06 +0200'
+  date_gmt: '2009-10-08 07:57:06 +0200'
+  content: '[...] Fluent Builder can lead to surprises (Jan Van Ryswyck noticed this
+    too). Originally the code in my previous example was the following: var order
+    = new [...]'
+---
+<p>Most people add an implicit conversion to their builder API which gives them the advantage that they don't have to call Build explicitely. I have decided that i do not want to have this implicit conversion for a couple of reasons:<&#47;p></p>
+<ul>
+<li>C# does not allow to define implicit conversions to or from an interface<&#47;li>
+<li>Implicit conversions are not very discoverable<&#47;li>
+<li>Implicit conversions can break the API<&#47;li><br />
+<&#47;ul></p>
+<p>Here is an example to clarify that last reason: Consider an OrderBuilder which requires the user to provide a product and then a quantity:<&#47;p></p>
+<p>[code lang="csharp"]interface ITakeProduct { ITakeQuantity WithProduct(int productId); }<br />
+interface ITakeQuantity { IBuildProduct WithQuantity(int quantity); }<br />
+interface IBuildProduct { Product Build(); }[&#47;code]</p>
+<p>With the existence of an implicit conversion operator a developer can create an invalid order as following:<&#47;p></p>
+<p>[code lang="csharp"]Order order = new OrderBuilder();[&#47;code]</p>
+<p>Conclusion: I am not convinced that Fluent Builders should support implicit conversion.<&#47;p></p>

@@ -1,0 +1,57 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting NameValueCollectionHelper
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 359
+wordpress_url: http://www.timvw.be/?p=359
+date: '2008-08-08 19:22:31 +0200'
+date_gmt: '2008-08-08 17:22:31 +0200'
+categories: []
+tags:
+- C#
+comments:
+- id: 293
+  author: Tim Van Wassenhove &raquo; Archive &raquo; Presenting UriHelper
+  author_email: ''
+  author_url: http://www.timvw.be/presenting-urihelper/
+  date: '2008-08-09 13:38:35 +0200'
+  date_gmt: '2008-08-09 11:38:35 +0200'
+  content: '[...] parameters to an Uri is an example where my NameValueCollectionHelper
+    comes in handy. Although UriTemplate allows us to bind parameters, it doesn&#8217;t
+    really support [...]'
+---
+<p>Here are a couple functions that i find extremely useful when i'm working with a <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.collections.specialized.namevaluecollection.aspx">NameValueCollection<&#47;a>:<&#47;p><br />
+[code lang="csharp"]public static class NameValueCollectionHelper<br />
+{<br />
+ public static void AddOrIgnoreOnDuplicateKey(NameValueCollection collection, NameValueCollection nameValuesToAdd);<br />
+ public static void AddOrReplaceOnDuplicateKey(NameValueCollection collection, NameValueCollection nameValuesToAdd);<br />
+ public static void AddOrCombineOnDuplicateKey(NameValueCollection collection, NameValueCollection nameValuesToAdd);<br />
+ public static void AddOrFailOnDuplicateKey(NameValueCollection collection, NameValueCollection nameValuesToAdd)<br />
+}[&#47;code]</p>
+<p>All these methods provide a specific scenario of the more generic Add operation:<&#47;p><br />
+[code lang="csharp"] public static class NameValueCollectionHelper<br />
+{<br />
+ private static Dictionary<duplicateKeyBehavior, Action<nameValueCollection, NameValueCollection>> duplicateKeyBehaviors;</p>
+<p> static NameValueCollectionHelper()<br />
+ {<br />
+  duplicateKeyBehaviors = new Dictionary<duplicateKeyBehavior, Action<nameValueCollection, NameValueCollection>>();<br />
+  duplicateKeyBehaviors.Add(DuplicateKeyBehavior.Ignore, NameValueCollectionHelper.AddOrIgnoreOnDuplicateKey);<br />
+  duplicateKeyBehaviors.Add(DuplicateKeyBehavior.Replace, NameValueCollectionHelper.AddOrReplaceOnDuplicateKey);<br />
+  duplicateKeyBehaviors.Add(DuplicateKeyBehavior.Combine, NameValueCollectionHelper.AddOrCombineOnDuplicateKey);<br />
+  duplicateKeyBehaviors.Add(DuplicateKeyBehavior.Fail, NameValueCollectionHelper.AddOrFailOnDuplicateKey);<br />
+ }</p>
+<p> public static void Add(NameValueCollection collection, NameValueCollection nameValuesToAdd, DuplicateKeyBehavior duplicateKeyBehavior)<br />
+{<br />
+ duplicateKeyBehaviors[duplicateKeyBehavior](collection, nameValuesToAdd);<br />
+}<br />
+}[&#47;code]</p>
+<p>You should already know that the source is available at <a href="http:&#47;&#47;www.codeplex.com&#47;BeTimvwFramework">BeTimvwFramework<&#47;a>.<&#47;p></p>

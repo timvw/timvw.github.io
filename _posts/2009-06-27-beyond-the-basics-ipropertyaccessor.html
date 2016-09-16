@@ -1,0 +1,90 @@
+---
+layout: post
+status: publish
+published: true
+title: 'Beyond the basics: IPropertyAccessor'
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1091
+wordpress_url: http://www.timvw.be/?p=1091
+date: '2009-06-27 15:51:20 +0200'
+date_gmt: '2009-06-27 14:51:20 +0200'
+categories: []
+tags:
+- NHibernate
+comments: []
+---
+<p>Consider the following classes: an abstract Account and a concrete SavingAccount<&#47;p></p>
+<p>[code lang="csharp"]abstract class Account<br />
+{<br />
+ int Id { get; protected set; }<br />
+ int CustomerId { get; protected set; }<br />
+ abstract AccountType Type { get; }<br />
+}</p>
+<p>class SavingAccount : Account, ISavingAccount<br />
+{<br />
+ private SavingAccount() { }<br />
+ public SavingAccount(int customerId) {  CustomerId = customerId; }<br />
+ public override AccountType Type { get { return AccountType.SavingAccount; } }<br />
+}[&#47;code]</p>
+<p>And this is the schema on which we want to map these classes:<&#47;p></p>
+<p><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;accounts_schema.png" alt="screenshot of accounts schema" &#47;></p>
+<p>We define a <a href="http:&#47;&#47;fluentnhibernate.org&#47;">Fluent<&#47;a> NHibernate mapping as following:<&#47;p></p>
+<p>[code lang="csharp"]public class AccountMap : ClassMap<account><br />
+{<br />
+ public AccountMap()<br />
+ {<br />
+  WithTable("Accounts");<br />
+  Id(a => a.Id).ColumnName("account_id");<br />
+  Map(a => a.CustomerId).ColumnName("customer_id");<br />
+  Map(a => a.Type).ColumnName("account_type");<br />
+  SetAttribute("lazy", "false");</p>
+<p>  JoinedSubClass<savingAccount>("saving_account_id", MapSavingAccount);<br />
+ }</p>
+<p> public void MapSavingAccount(JoinedSubClassPart<savingAccount> jscp)<br />
+ {<br />
+  jscp.WithTableName("SavingAccounts");<br />
+  jscp.SetAttribute("lazy", "false");<br />
+ }<br />
+}[&#47;code]</p>
+<p>As soon as we try to use this mapping we run into an "Could not find a setter for property 'Type' in class 'Banking.Domain.CheckingAccount" exception. A quick look with reflector teaches us there are a couple of strategies, but none of them suits our needs.<&#47;p></p>
+<p><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;accounts_property_accessors.png" alt="screenshot of available property accessors in NHibernate assembly" &#47;></p>
+<p>Thus we decide to implement a custom PropertyAccessor as following:<&#47;p></p>
+<p>[code lang="csharp"]public class ReadOnlyProperty : IPropertyAccessor<br />
+{<br />
+ public bool CanAccessTroughReflectionOptimizer<br />
+ {<br />
+  get { return false; }<br />
+ }</p>
+<p> public IGetter GetGetter(Type theClass, string propertyName)<br />
+ {<br />
+  var basicPropertyAccessor = new BasicPropertyAccessor();<br />
+  var getter = basicPropertyAccessor.GetGetter(theClass, propertyName);<br />
+  return getter;<br />
+ }</p>
+<p> public ISetter GetSetter(Type theClass, string propertyName)<br />
+ {<br />
+  var setter = new NoOpSetter();<br />
+  return setter;<br />
+ }</p>
+<p> public class NoOpSetter : ISetter<br />
+ {<br />
+  public MethodInfo Method { get { return null; } }<br />
+  public string PropertyName { get { return null; } }<br />
+  public void Set(object target, object value) { }<br />
+ }<br />
+}[&#47;code]</p>
+<p>And now we can instruct NHibernate to use our custom PropertyAccessor as following:<&#47;p></p>
+<p>[code lang="csharp"]public AccountMap()<br />
+{<br />
+ ...<br />
+ Map(a => a.Type).Access.Using<readOnlyProperty>().ColumnName("account_type");<br />
+ ...<br />
+}[&#47;code]</p>
+<p>A couple of searches later it appears that <a href="http:&#47;&#47;blog.schuager.com&#47;2008&#47;12&#47;nhibernate-read-only-property-access.html">this problem had already been solved<&#47;a>, but is not available in the version of NHibernate that comes with Fluent NHibernate. Oh well, we learned something new ;)<&#47;p></p>

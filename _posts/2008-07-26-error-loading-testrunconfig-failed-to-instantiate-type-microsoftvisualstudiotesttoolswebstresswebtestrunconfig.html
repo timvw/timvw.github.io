@@ -1,0 +1,25 @@
+---
+layout: post
+status: publish
+published: true
+title: 'Error loading testrunconfig: Failed to instantiate type Microsoft.VisualStudio.TestTools.WebStress.WebTestRunConfig'
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 283
+wordpress_url: http://www.timvw.be/?p=283
+date: '2008-07-26 08:40:00 +0200'
+date_gmt: '2008-07-26 06:40:00 +0200'
+categories: []
+tags:
+- Visual Studio
+comments: []
+---
+<p>Earlier this week i ran into the following exception when opening a solution: "Error loading TestRunConfig1.testrunconfig: Failed to instantiate type Microsoft.VisualStudio.TestTools.WebStress.WebTestRunConfig".<&#47;p></p>
+<p><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;testrunconfig_notexpectedformat.gif" alt="screenshot of testrunconfig not expected format dialog box"&#47;></p>
+<p>Apparently (<a href="http:&#47;&#47;forums.microsoft.com&#47;MSDN&#47;ShowPost.aspx?PostID=228438&SiteID=1">here<&#47;a> and <a href="http:&#47;&#47;forums.microsoft.com&#47;MSDN&#47;ShowPost.aspx?PostID=425717&SiteID=1">here<&#47;a>) the VS2005 Developer edition is missing a couple of libraries that the VS2005 Tester edition adds to the testrunconfig. If your tests don't depend on these, the simplest way to solve this problem is to remove all the values nodes, and their childnodes, where the type is defined in the Microsoft.VisualStudio.QualityTools.LoadTest, Microsoft.VisualStudio.QualityTools.WebTest and Microsoft.VisualStudio.QualityTools.LoadTest.WebStress assemblies.<&#47;p></p>

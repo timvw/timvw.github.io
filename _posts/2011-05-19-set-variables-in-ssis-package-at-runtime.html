@@ -1,0 +1,46 @@
+---
+layout: post
+status: publish
+published: true
+title: Set variables in SSIS package at runtime
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2147
+wordpress_url: http://www.timvw.be/?p=2147
+date: '2011-05-19 20:23:48 +0200'
+date_gmt: '2011-05-19 19:23:48 +0200'
+categories:
+- Uncategorized
+tags:
+- PowerShell
+- SSIS
+comments: []
+---
+<p>The documentation on <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;ms162810.aspx">dtexec Utility (SSIS Tool)<&#47;a> says the following:<&#47;p></p>
+<blockquote><p>
+&#47;Set propertyPath;value</p>
+<p>(Optional). Overrides the configuration of a variable, property, container, log provider, Foreach enumerator, or connection within a package. When this option is used, &#47;Set changes the propertyPath argument to the value specified. Multiple &#47;Set options can be specified.<br />
+<&#47;blockquote></p>
+<p>At first sight this works like a charm but as soon as your value has a space dtexec seems to get confused :( It took me a couple of websearches to find a <a href="http:&#47;&#47;www.sqldev.org&#47;sql-server-integration-services&#47;escape-character-for-set-option-of-dtexec-34546.shtml">post that suggests the following<&#47;a>:</p>
+<blockquote><p>
+dtexec &#47;SET \Package.Variables[User::TheVariable].Properties[Value];\""; space"\"<br />
+<&#47;blockquote></p>
+<p>It seems that this works like a charm :) Because i'm lazy i wrapped this in a powershell function:<&#47;p></p>
+<p>[code lang="powershell"]<br />
+function PackageOption()<br />
+{<br />
+	param($name, $value);<br />
+	"$name;\`"`"$value\`"`"";<br />
+}<br />
+[&#47;code]</p>
+<p>And now you can use it as following in your deployment script:<&#47;p></p>
+<p>[code lang="powershell"]<br />
+$TheVariableOption = PackageOption -Name "\Package.Variables[User::TheVariable].Properties[Value]" -Value "some thing";<br />
+&amp;dtexec &#47;File "$package" &#47;Set $TheVariableOption;<br />
+[&#47;code]</p>

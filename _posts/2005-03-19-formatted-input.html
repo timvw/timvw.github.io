@@ -1,0 +1,44 @@
+---
+layout: post
+status: publish
+published: true
+title: Formatted input
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 93
+wordpress_url: http://www.timvw.be/formatted-input/
+date: '2005-03-19 01:31:34 +0100'
+date_gmt: '2005-03-18 23:31:34 +0100'
+categories: []
+tags:
+- Java
+comments: []
+---
+<p>I was in need for formatted input and the decomposition of the input into a stream of tokens so i came up with the following:<&#47;p></p>
+<p><code src="java&#47;TokSequence.java.txt" lang="java"&#47;></p>
+<p>And now i am ready for formatted input like this:<&#47;p></p>
+<p>[code lang="java"]<br />
+public class Main {<br />
+  public static void main(String[] args) {<br />
+    try {<br />
+      BufferedReader input = new BufferedReader(new FileReader("file.txt"));<br />
+      for (String in = input.readLine()) {<br />
+        TokSequence ts = new TokSequence(new StringTokenizer(in));<br />
+        int userId = ts.getIn();<br />
+        double score = ts.getDouble();<br />
+        String name = ts.getString();<br />
+        &#47;&#47; do stuff with userId, score and name<br />
+      }<br />
+    } catch (Exception e) {<br />
+      System.err.println(e);<br />
+      System.exit(1);<br />
+    }<br />
+  }<br />
+}<br />
+[&#47;code]</p>

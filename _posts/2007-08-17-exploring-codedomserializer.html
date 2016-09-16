@@ -1,0 +1,120 @@
+---
+layout: post
+status: publish
+published: true
+title: Exploring CodeDomSerializer
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 193
+wordpress_url: http://www.timvw.be/exploring-codedomserializer/
+date: '2007-08-17 23:45:32 +0200'
+date_gmt: '2007-08-17 21:45:32 +0200'
+categories: []
+tags:
+- C#
+comments:
+- id: 245
+  author: Tim Van Wassenhove &raquo; Archive &raquo; Bending the code generation of
+    IExtenderProvider to your will
+  author_email: ''
+  author_url: http://www.timvw.be/bending-the-code-generation-of-iextenderprovider-to-your-will/
+  date: '2007-08-21 19:15:30 +0200'
+  date_gmt: '2007-08-21 17:15:30 +0200'
+  content: '[...] Exploring CodeDomSerializer i already explained how we can modify
+    the code that the Visual Studio designer generates for us. [...]'
+- id: 246
+  author: misiek
+  author_email: ''
+  author_url: ''
+  date: '2008-08-22 01:41:35 +0200'
+  date_gmt: '2008-08-21 23:41:35 +0200'
+  content: |-
+    Is it possible to serialize code inside event handlers, e.g.
+    we have serialized
+    this.Click += new System.EventHandler(this.Form1_Click);
+    Form1.Designer.cs
+
+    but how to serialize code like this:
+
+            private void Form1_Click(object sender, EventArgs e)
+            {
+               &#47;&#47; some code here serialized at design time
+            }
+---
+<p>Sometimes we want absolute control over the code that the visual studio designer generates. Imagine that we have a UserControl with a Number property and instead of the default "this.userControl1.Number = 27;" code that the designer would generate we want it like "this.userControl1.Number = 1 + 3 + 23". In order to achieve this we first have to inform the designer that we want custom serialization. This is done by adding a <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.componentmodel.design.serialization.designerserializerattribute.aspx">DesignerSerializerAttribute<&#47;a> to our UserControl:<&#47;p><br />
+[code lang="csharp"][DesignerSerializer(typeof(PrimeSerializer), typeof(CodeDomSerializer))]<br />
+public partial class UserControl1 : UserControl<br />
+{<br />
+ private int number;</p>
+<p> public int Number<br />
+ {<br />
+  get { return this.number; }<br />
+  set { this.number = value; }<br />
+ }</p>
+<p> &#47;&#47; ...<br />
+}[&#47;code]</p>
+<p>And now it's time to implement the PrimeSerializer for the custom assignment code:<&#47;p><br />
+[code lang="csharp"]public class PrimeSerializer : CodeDomSerializer<br />
+{<br />
+ public override object Serialize(IDesignerSerializationManager manager, object value)<br />
+ {<br />
+  UserControl1 uc = value as UserControl1;<br />
+  if (uc == null) { return null; }</p>
+<p>  &#47;&#47; Instead of implementing all the serialization code, we'll rely on the implementation of the baseclass, namely UserControl<br />
+  CodeDomSerializer baseClassSerializer = manager.GetSerializer(typeof(UserControl1).BaseType, typeof(CodeDomSerializer)) as CodeDomSerializer;<br />
+  Object codeObject = baseClassSerializer.Serialize(manager, value);</p>
+<p>  &#47;&#47; The only thing we have to do is find the statement where the assigment to the Number property is made, and replace that...<br />
+  CodeStatementCollection codeStatements = codeObject as CodeStatementCollection;<br />
+  CodeAssignStatement numberAssignmentStatement = this.FindNumberCodeStatement(codeStatements) as CodeAssignStatement;<br />
+  numberAssignmentStatement.Right = new CodeSnippetExpression(GetNumberAsSumOfPrimes(uc.Number));</p>
+<p>  return codeObject;<br />
+ }</p>
+<p> private CodeStatement FindNumberCodeStatement(CodeStatementCollection codeStatements)<br />
+ {<br />
+  foreach (CodeStatement codeStatement in codeStatements)<br />
+  {<br />
+   CodeAssignStatement codeAssignment = codeStatement as CodeAssignStatement;<br />
+   if (codeAssignment != null)<br />
+   {<br />
+    CodePropertyReferenceExpression left = codeAssignment.Left as CodePropertyReferenceExpression;<br />
+    if (left != null && left.PropertyName == "Number")<br />
+    {<br />
+     return codeStatement;<br />
+    }<br />
+   }<br />
+  }</p>
+<p>  throw new Exception("The CodeStatement for Number was not found");<br />
+ }</p>
+<p> private static string GetNumberAsSumOfPrimes(int number)<br />
+ {<br />
+  StringBuilder sb = new StringBuilder();</p>
+<p>  int[] primes = new int[] { 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101 };<br />
+  for (int i = primes.Length - 1; i >= 0 && number > 0; --i)<br />
+  {<br />
+   if (primes[i] <= number)<br />
+   {<br />
+    sb.Insert(0, primes[i]);<br />
+    sb.Insert(0, " + ");<br />
+    number -= primes[i];<br />
+   }<br />
+  }</p>
+<p>  return sb.ToString().Substring(3);<br />
+ }<br />
+}[&#47;code]</p>
+<p>And now we can look at the generated code in Form1.Designer.cs to verify everything works as expected:<&#47;p><br />
+[code lang="csharp"]&#47;&#47;<br />
+&#47;&#47; userControl1<br />
+&#47;&#47;<br />
+this.userControl1.BackColor = System.Drawing.Color.Maroon;<br />
+this.userControl1.Location = new System.Drawing.Point(50, 23);<br />
+this.userControl1.Name = "userControl11";<br />
+this.userControl1.Number = 1 + 3 + 23;<br />
+this.userControl1.Size = new System.Drawing.Size(686, 294);<br />
+this.userControl1.TabIndex = 0;[&#47;code]</p>
+<p>I'll leave the implementation of the Deserialize method up to you. By adding the DesignerSerializer attribute to our <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.componentmodel.iextenderprovider.aspx">IExtenderProvider<&#47;a> implementations we can get full control over their code generation too :)<&#47;p></p>

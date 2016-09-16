@@ -1,0 +1,46 @@
+---
+layout: post
+status: publish
+published: true
+title: Using User-Defined Table Type with Identity column in ADO.NET
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2157
+wordpress_url: http://www.timvw.be/?p=2157
+date: '2011-07-13 09:33:29 +0200'
+date_gmt: '2011-07-13 08:33:29 +0200'
+categories:
+- Uncategorized
+tags:
+- C
+- t-sql
+- ado.net
+comments: []
+---
+<p>A while ago i wanted to use a <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;bb522526.aspx">User-Defined Table Type<&#47;a> to pass in a set of records. Nothing special about this except that the first column of the UDTT was an Identity column:<&#47;p></p>
+<p>[code lang="sql"]<br />
+CREATE TYPE [Star].[example] AS TABLE(<br />
+  [Ordinal] [int] IDENTITY(1,1) NOT NULL,<br />
+  [Name] [nvarchar](200) NOT NULL,<br />
+)<br />
+[&#47;code]         </p>
+<p>After finding a lot of posts saying that this is not supported a colleague of mine, <a href="http:&#47;&#47;stevehorsfield.wordpress.com&#47;">Stephen Horsfield<&#47;a>, found a way to do it as following:</p>
+<p>[code lang="csharp"]<br />
+var sqlMetaData = new[]<br />
+{<br />
+  new SqlMetaData("Ordinal", SqlDbType.Int, true, false, SortOrder.Unspecified, -1),<br />
+  new SqlMetaData("Name", SqlDbType.NVarChar, 200)<br />
+};</p>
+<p>sqlRecords = new HashSet<SqlDataRecord>(usersToInclude.Select(user =><br />
+{<br />
+  var record = new SqlDataRecord(sqlMetaData);<br />
+  record.SetString(1, user.Name);<br />
+  return record;<br />
+}));<br />
+[&#47;code]</p>

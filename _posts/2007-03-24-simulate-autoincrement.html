@@ -1,0 +1,48 @@
+---
+layout: post
+status: publish
+published: true
+title: Simulate AutoIncrement
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 157
+wordpress_url: http://www.timvw.be/simulate-autoincrement/
+date: '2007-03-24 00:25:01 +0100'
+date_gmt: '2007-03-23 22:25:01 +0100'
+categories: []
+tags:
+- SQL
+comments:
+- id: 1480
+  author: Obtaining the next primary key ID from a table in MySQL &laquo; Aldo Salzberg&#039;s
+    Blog
+  author_email: ''
+  author_url: http://aldosalzberg.wordpress.com/2010/07/16/obtaining-the-next-primary-key-id-from-a-table-in-mysql/
+  date: '2010-11-23 19:33:37 +0100'
+  date_gmt: '2010-11-23 18:33:37 +0100'
+  content: '[...] name together with the table name.&nbsp; Another option that seems
+    to work as well, as suggested by Tim Van Wassenhove is to use the [...]'
+---
+<p>Earlier today someone asked the following:<&#47;p></p>
+<blockquote>
+<div>
+I'm trying to move selected data from one table to another. The following works apart from the destination table is not incrementing the ID (I'm not using auto increment for that field).<br />
+<br&#47;><br />
+How can I increase the value of field_1_id for each select > insert? I'm guessing SQL doesn't loop through each SELECT match an insert correspondingly?<br />
+<&#47;div><br />
+<&#47;blockquote></p>
+<p>Here is a possible answer: (Don't forget to wrap these queries in a transaction if your MySQL Engine supports it)<&#47;p><br />
+[code lang="sql"]<br />
+-- Some demo tables (and data)<br />
+-- CREATE TABLE table1 (id INT(10), name VARCHAR(20), PRIMARY KEY(id));<br />
+-- CREATE TABLE table2 (id INT(10), name VARCHAR(20), PRIMARY KEY(id));<br />
+-- INSERT INTO table1 VALUES (1, "tim"), (2, "mike");</p>
+<p>SET @id := (SELECT MAX(id) + 1 FROM table2);<br />
+INSERT INTO table2 SELECT @id := @id  + 1, table1.name FROM (SELECT @id) AS id, table1 AS table1;<br />
+[&#47;code]</p>

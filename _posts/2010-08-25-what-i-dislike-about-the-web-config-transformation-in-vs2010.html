@@ -1,0 +1,51 @@
+---
+layout: post
+status: publish
+published: true
+title: What i dislike about the Web.config Transformation in VS2010
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1880
+wordpress_url: http://www.timvw.be/?p=1880
+date: '2010-08-25 20:34:15 +0200'
+date_gmt: '2010-08-25 19:34:15 +0200'
+categories: []
+tags:
+- Visual Studio
+- MSBuild
+comments:
+- id: 6593
+  author: Robb Schiefer
+  author_email: rschiefer@gmail.com
+  author_url: http://dotnetcatch.wordpress.com/
+  date: '2011-03-16 02:36:02 +0100'
+  date_gmt: '2011-03-16 01:36:02 +0100'
+  content: Can you provide an examples of using the TransformXml task on other config
+    files?  I'm new to MsBuild programming and can't figure it out.
+---
+<p>There are a couple of things that i strongly dislike about the <a href="http:&#47;&#47;blogs.msdn.com&#47;b&#47;webdevtools&#47;archive&#47;2009&#47;05&#47;04&#47;web-deployment-web-config-transformation.aspx">Web.config transformation in VS2010<&#47;a>:<&#47;p></p>
+<ul>
+<li>Only works with XML files (eg: Can't be used to generate a release notes.txt file)<&#47;li>
+<li><del datetime="2010-08-26T08:05:21+00:00">Does not seem to support externalized sections, eg: log4net.config in a separate file<&#47;del><&#47;li>
+<li><del datetime="2010-08-26T08:05:21+00:00">No support to copy&#47;paste transform files<&#47;del><&#47;li>
+<li>Only works when Visual Studio 2010 is installed (And i am still not convinced a build server should have this).<&#47;li>
+<li>Ties environment to build configuration<&#47;li><br />
+<&#47;ul></p>
+<p><b>Lesson learned: Don't trust your co-workers, always double-check!<&#47;b><&#47;p></p>
+<ul>
+<li>Having multiple transformations is easy-peasy, just invoke the TransformXml task for all your config files and make sure your transformation files are correct. For log4net this would look like:<&#47;li>
+<p>[code lang="xml"]<br />
+<log4net xmlns:xdt="http:&#47;&#47;schemas.microsoft.com&#47;XML-Document-Transform"><br />
+ <root><br />
+  <level value="ERROR" xdt:Transform="Replace"&#47;><br />
+ <&#47;root><br />
+<&#47;log4net><br />
+[&#47;code]</p>
+<li>The support for copy&#47;paste can be achieved by removing the DependentUpon tag in your proj file (At the cost that you don't have the + sign in solution explorer which 'hides' the transforms files)<&#47;li><br />
+<&#47;ul></p>

@@ -1,0 +1,141 @@
+---
+layout: post
+status: publish
+published: true
+title: About the Specification pattern
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 269
+wordpress_url: http://www.timvw.be/?p=269
+date: '2008-07-22 17:32:09 +0200'
+date_gmt: '2008-07-22 15:32:09 +0200'
+categories: []
+tags:
+- Patterns
+comments: []
+---
+<p>A couple of days ago i mentionned <a href="http:&#47;&#47;www.goeleven.com">Yves Goeleven's blog<&#47;a> as a reference for solutions using <a href="http:&#47;&#47;en.wikipedia.org&#47;wiki&#47;Domain-driven_design">DDD<&#47;a> principles. Let's have a look at his implementation of the AndSpecification and OrSpecification in <a href="http:&#47;&#47;www.goeleven.com&#47;blog&#47;entryDetail.aspx?entry=57">Design Patterns - The Specification Pattern - Part I<&#47;a>:<&#47;p></p>
+<p>[code lang="csharp"]class AndSpecification<t> : CompositeSpecification<t><br />
+{<br />
+ public override bool IsSatisfiedBy(T candidate)<br />
+ {<br />
+  bool isSatisfied = true;<br />
+  foreach( ISpecification<t> spec in Specifications)<br />
+  {<br />
+   isSatisfied &= spec.IsSatisfiedBy(candidate);<br />
+  }<br />
+  return isSatisfied;<br />
+ }<br />
+}<br />
+class OrSpecification<t> : CompositeSpecification<t><br />
+{<br />
+ public override bool IsSatisfiedBy(T obj)<br />
+ {<br />
+  bool isSatisfied = false;<br />
+  foreach( ISpecification<t> spec in Specifications)<br />
+  {<br />
+   isSatisfied |= spec.IsSatisfiedBy(obj);<br />
+  }<br />
+  return isSatisfied;<br />
+ }<br />
+}[&#47;code]</p>
+<p>I believe that it would be better if the implementations had the same lazy evaluation behaviour as the C# &amp;&amp; and || operators. Eg: in C# one can write (a && b) and if a evaluates to false, then b is not evaluated anymore. Consider the following code:<&#47;p></p>
+<p>[code lang="csharp"]<br />
+if (person != null && person.Age > 18) { }<br />
+[&#47;code]</p>
+<p>Let's rewrite that same code using Specifications:<&#47;p></p>
+<p>[code lang="csharp"]<br />
+class NotNullSpecification<t> : ISpecification<t><br />
+ where T : class<br />
+{<br />
+ public bool IsSatisfiedBy(T item)<br />
+ {<br />
+  return item != null;<br />
+ }<br />
+}</p>
+<p>class OlderThanSpecification : ISpecification
+<person>
+{<br />
+ private int age;</p>
+<p> public OlderThanSpecification(int age)<br />
+ {<br />
+  this.age = age;<br />
+ }</p>
+<p> public bool IsSatisfiedBy(Person person)<br />
+ {<br />
+  return person.Age > this.age;<br />
+ }<br />
+}</p>
+<p>class PersonNotNullAndOlderThan18Specification : AndSpecification
+<person>
+{<br />
+ public PersonNotNullAndOlderThan18Specification()<br />
+ : base(new NotNullSpecification
+<person>(), new OlderThanSpecification(18))<br />
+ {<br />
+ }<br />
+}<br />
+[&#47;code]</p>
+<p>Using the mentionned AndSpecification implementation the following unittest will fail:<&#47;p></p>
+<p>[code lang="csharp"][TestMethod]<br />
+public void TestPersonNotNullAndOlderThan18Specification()<br />
+{<br />
+ Person person = null;</p>
+<p> ISpecification
+<person> specification = new PersonNotNullAndOlderThan18Specifictation();<br />
+ Assert.IsFalse(specification.IsSatisfiedBy(person));<br />
+}[&#47;code]</p>
+<p>In order to make that test pass we could rewrite the specifications as following:<&#47;p></p>
+<p>[code lang="csharp"]public abstract class CompositeSpecification<t> : ISpecification<t><br />
+{<br />
+ private readonly IEnumerable<ispecification<t>> specifications;</p>
+<p> public CompositeSpecification(IEnumerable<ispecification<t>> specifications)<br />
+ {<br />
+  this.specifications = specifications;<br />
+ }</p>
+<p> protected IEnumerable<ispecification<t>> Specifications<br />
+ {<br />
+  get { return this.specifications; }<br />
+ }</p>
+<p> abstract public bool IsSatisfiedBy(T item);<br />
+}</p>
+<p>public class AndSpecification<t> : CompositeSpecification<t><br />
+{<br />
+ public AndSpecification(IEnumerable<ispecification<t>> specifications)<br />
+  :base(specifications)<br />
+ { }</p>
+<p> override public bool IsSatisfiedBy(T item)<br />
+ {<br />
+  foreach (ISpecification<t> specification in this.Specifications)<br />
+  {<br />
+   if (!specification.IsSatisfiedBy(item))<br />
+   {<br />
+    return false;<br />
+   }<br />
+  }</p>
+<p>  return true;<br />
+ }<br />
+}</p>
+<p>public class OrSpecification<t> : CompositeSpecification<t><br />
+{<br />
+ public OrSpecification(IEnumerable<ispecification<t>> specifications)<br />
+  : base(specifications)<br />
+ { }</p>
+<p> override public bool IsSatisfiedBy(T item)<br />
+ {<br />
+  foreach (ISpecification<t> specification in this.Specifications)<br />
+  {<br />
+   if (specification.IsSatisfiedBy(item))<br />
+   {<br />
+    return true;<br />
+   }<br />
+  }</p>
+<p>  return false;<br />
+ }<br />
+}[&#47;code]</p>

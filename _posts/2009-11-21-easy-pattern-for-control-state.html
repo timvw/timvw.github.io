@@ -1,0 +1,59 @@
+---
+layout: post
+status: publish
+published: true
+title: Easy pattern for Control state
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1531
+wordpress_url: http://www.timvw.be/?p=1531
+date: '2009-11-21 18:32:03 +0100'
+date_gmt: '2009-11-21 17:32:03 +0100'
+categories: []
+tags:
+- C#
+- ASP.NET
+comments: []
+---
+<p>If you have decided that your WebControl requires to maintain it's state you will want to figure out how to implement Control state. Most examples on the web will then create an array of objects and then hardcode the indices to find stuff back... Simply define a serializable inner class and use that instead of the 'magic array object'. Eg:<&#47;p></p>
+<p>[code lang="csharp"]class SilverlightHost : WebControl<br />
+{<br />
+ [Serializable]<br />
+ class State<br />
+ {<br />
+  public object BaseState { get; set; }<br />
+  public string SilverlightUrl { get; set; }<br />
+  public string SilverlightErrorHandlerUrl { get; set; }<br />
+  public Dictionary<string, string> Parameters { get; set; }<br />
+ }</p>
+<p> protected override void OnInit(EventArgs e)<br />
+ {<br />
+  base.OnInit(e);<br />
+  Page.RegisterRequiresControlState(this);<br />
+ }</p>
+<p> protected override object SaveControlState()<br />
+ {<br />
+  var state = new State<br />
+  {<br />
+   BaseState = base.SaveControlState(),<br />
+   SilverlightUrl = SilverlightUrl,<br />
+   SilverlightErrorHandlerUrl = SilverlightErrorHandlerUrl,<br />
+   Parameters = parameters<br />
+  };<br />
+  return state;<br />
+ }</p>
+<p> protected override void LoadControlState(object savedState)<br />
+ {<br />
+  var state = (State)savedState;<br />
+  SilverlightUrl = state.SilverlightUrl;<br />
+  SilverlightErrorHandlerUrl = state.SilverlightErrorHandlerUrl;<br />
+  parameters = state.Parameters;<br />
+  base.LoadControlState(state.BaseState);<br />
+ }<br />
+}[&#47;code]</p>

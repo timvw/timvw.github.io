@@ -1,0 +1,97 @@
+---
+layout: post
+status: publish
+published: true
+title: Pondering about the difference between abstract classes and interfaces
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 129
+wordpress_url: http://www.timvw.be/pondering-about-the-difference-between-abstract-classes-and-interfaces/
+date: '2006-12-16 23:27:14 +0100'
+date_gmt: '2006-12-16 21:27:14 +0100'
+categories: []
+tags:
+- C#
+comments:
+- id: 67
+  author: Pieter Gheysens
+  author_email: Pieter.Gheysens@gmail.com
+  author_url: http://kinnie.blogspot.com
+  date: '2006-12-30 22:10:40 +0100'
+  date_gmt: '2006-12-30 20:10:40 +0100'
+  content: Neat tip&#47;trick Tim! Abstract classes still feel like the best natural
+    solution in certain circumstances. Interfaces are definitely the way to go if
+    your design often changes. On the other hand if you are building for instance
+    an application framework [inheritance hierarchy] it might be a better choice to
+    set up abstract classes ... It always depends ;-)
+- id: 68
+  author: Starbuck
+  author_email: fubufbi02@sneakemail.com
+  author_url: ''
+  date: '2007-01-07 10:48:21 +0100'
+  date_gmt: '2007-01-07 08:48:21 +0100'
+  content: Shouldn't "private IAbstract myAbstract;" be "private Concrete myAbstract;"
+    ?
+- id: 69
+  author: admin
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2007-01-07 12:39:46 +0100'
+  date_gmt: '2007-01-07 10:39:46 +0100'
+  content: |-
+    The point is that Foo shouldn't be aware of a concrete implementation. All it needs to know is that it has an instance of something that realises the contract IAbstract (Just like an abstract class isn't aware of a concrete implementation).
+
+    By passing an instance of something that realises IAbstract in the constructor it is guaranteed that Foo can not exist without a realisation of IAbstract. This is the same as an instance of an abstract class cannot exist without the realisation of it's abstract methods...
+---
+<p>Back in May i was asked to explain the difference between an <a href="http:&#47;&#47;msdn.microsoft.com&#47;library&#47;en-us&#47;csref&#47;html&#47;vcreftheinterfacetype.asp">interface<&#47;a> and an <a href="http:&#47;&#47;msdn.microsoft.com&#47;library&#47;en-us&#47;csspec&#47;html&#47;vclrfcsharpspec_10_1_1_1.asp">abstract class<&#47;a> at a job interview. Obviously the interviewer wanted me to tell him that an abstract class allows you to provide a partial implementation... I answered that the major difference is the fact that with interface-based programming you're not forced into an inheritance tree that might not make sense and that i didn't see much use for abstract classes (I'm not sure he saw that one coming :P). For some unknown reason this kept spinning in my head... Here's an example of an abstract class and a concrete implementation:<&#47;p><br />
+[code lang="csharp"]abstract class FooAbstract<br />
+{<br />
+ public void DoX()<br />
+ {<br />
+  DoY();<br />
+ }</p>
+<p> protected abstract void DoY();<br />
+}</p>
+<p>class FooConcrete : FooAbstract<br />
+{<br />
+ protected override void DoY()<br />
+ {<br />
+  Console.WriteLine("FooConcrete does Y");<br />
+ }<br />
+}[&#47;code]</p>
+<p>I find the interface-based implementation below a lot cleaner because it still provides the partial implementation but a concrete implementation is not forced into the inheritance relationship anymore. Another advantage is that the implementation only depends on the interface (the unimplemented parts) so you get some looser coupling than with abstract classes. A disadvantage is that an interface requires you to make all the unimplemented methods public:<&#47;p><br />
+[code lang="csharp"]class Foo<br />
+{<br />
+ private IAbstract myAbstract;</p>
+<p> public Foo(IAbstract myAbstract)<br />
+ {<br />
+  if (myAbstract == null)<br />
+  {<br />
+   throw new ArgumentNullException();<br />
+  }</p>
+<p>  this.myAbstract = myAbstract;<br />
+ }</p>
+<p> public void DoX()<br />
+ {<br />
+  this.myAbstract.DoY();<br />
+ }<br />
+}</p>
+<p>interface IAbstract<br />
+{<br />
+ void DoY();<br />
+}</p>
+<p>class Concrete : IAbstract<br />
+{<br />
+ public void DoY()<br />
+ {<br />
+  Console.WriteLine("Concrete does Y");<br />
+ }<br />
+}<br />
+[&#47;code]</p>
+<p>Conclusion: I still don't see much use for abstract classes.<&#47;p></p>

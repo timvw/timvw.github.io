@@ -1,0 +1,42 @@
+---
+layout: post
+status: publish
+published: true
+title: Unable to enlist in a distributed transaction
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 46
+wordpress_url: http://www.timvw.be/unable-to-enlist-in-a-distributed-transaction/
+date: '2006-08-26 19:57:43 +0200'
+date_gmt: '2006-08-26 17:57:43 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Earlier today we were confronted with the following <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-US&#47;library&#47;system.data.oracleclient.oracleexception.aspx">OracleException<&#47;a>: <b>Unable to enlist in a distributed transaction<&#47;b>. Our code (and accompanying tests) had been running fine for the last two weeks thus we expected there was a problem with the database. A member of the DBA team assurred  us there was nothing wrong with the database. Finally we discovered that we had created a circular reference and thus the program ended up in an endless loop (well untill the database decided it had been enough anyway :p). Here is a simplified version of the problem:<&#47;p></p>
+<p>[code lang="csharp"]public void DoA() {<br />
+ using (TransactionScope scope = new TransactionScope()) {<br />
+  using (OracleConnection con = new OracleConnection(connectionString)) {<br />
+   con.Open();<br />
+   DoB();<br />
+   scope.Complete();<br />
+  }<br />
+ }<br />
+}</p>
+<p>public void DoB() {<br />
+ using (TransactionScope scope = new TransactionScope()) {<br />
+  using (OracleConnection con = new OracleConnection(connectionString)) {<br />
+   con.Open();<br />
+   DoA();<br />
+   scope.Complete();<br />
+  }<br />
+ }<br />
+}[&#47;code]</p>
+<p>Without the use of <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.transactions.transactionscope.aspx">TransactionScope<&#47;a> this results in a <b>Connection request timed out<&#47;b> exception.<&#47;p></p>

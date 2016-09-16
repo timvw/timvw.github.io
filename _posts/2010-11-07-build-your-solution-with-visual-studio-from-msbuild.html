@@ -1,0 +1,37 @@
+---
+layout: post
+status: publish
+published: true
+title: Build your solution with Visual Studio from MSBuild
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1947
+wordpress_url: http://www.timvw.be/?p=1947
+date: '2010-11-07 20:16:36 +0100'
+date_gmt: '2010-11-07 19:16:36 +0100'
+categories:
+- Uncategorized
+tags:
+- Visual Studio
+- MSBuild
+- ssas
+comments: []
+---
+<p>Unfortunately MSBuild and <a href="http:&#47;&#47;bidshelper.codeplex.com&#47;">BIDS Helper<&#47;a> are not able to build an .asdatabase from our Analysis Services project (.dwproj). Here is a task which invokes Visual Studio to build such a solution:<&#47;p></p>
+<p>[code lang="xml"]<br />
+<Target Name="DevEnvBuild"><br />
+ <Error Condition="'$(SolutionFile)'==''" Text="Missing SolutionFile" &#47;><br />
+ <PropertyGroup><br />
+  <DevEnvTool Condition="'$(DevEnvTool)'==''">C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe<&#47;DevEnvTool><br />
+  <DevEnvSwitch Condition="'$(DevEnvSwitch)'==''">Build<&#47;DevEnvSwitch><br />
+  <DevEnvBuildCommand>"$(DevEnvTool)" "$(SolutionFile)" &#47;$(DevEnvSwitch)<&#47;DevEnvBuildCommand><br />
+ <&#47;PropertyGroup><br />
+ <Exec Command="$(DevEnvBuildCommand)" &#47;><br />
+<&#47;Target><br />
+[&#47;code]</p>

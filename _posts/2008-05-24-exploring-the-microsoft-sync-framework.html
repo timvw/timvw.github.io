@@ -1,0 +1,52 @@
+---
+layout: post
+status: publish
+published: true
+title: Exploring the Microsoft Sync Framework
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 228
+wordpress_url: http://www.timvw.be/?p=228
+date: '2008-05-24 16:03:45 +0200'
+date_gmt: '2008-05-24 14:03:45 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Earlier this week i've been experimenting with the <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;sync&#47;default.aspx">Microsoft Sync Framework<&#47;a>. In a typical n-tier architecture the client can't access the remote database directly but uses a proxy instead. The available <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;microsoft.synchronization.data.serversyncproviderproxy(SQL.100).aspx">ServerSyncProviderProxy <&#47;a> has only one constructor which accepts an object. With reflector i found out that the proxy simply uses reflection to call some methods. Here are a couple of helper classes that help you prevent runtime errors due to this approach: <&#47;p><br />
+[code lang="csharp"]<br />
+[ServiceContract(Namespace = "http:&#47;&#47;www.timvw.be&#47;Synchronization")]<br />
+public interface IServerSyncProvider<br />
+{<br />
+ [OperationContract]<br />
+ SyncServerInfo GetServerInfo(SyncSession syncSession);</p>
+<p> [OperationContract]<br />
+ SyncSchema GetSchema(Collection<string> tableNames, SyncSession syncSession);</p>
+<p> [OperationContract]<br />
+ SyncContext GetChanges(SyncGroupMetadata groupMetadata, SyncSession syncSession);</p>
+<p> [OperationContract]<br />
+ SyncContext ApplyChanges(SyncGroupMetadata groupMetadata, DataSet dataSet, SyncSession syncSession);<br />
+}</p>
+<p>public class MyServerSyncProviderProxy : ServerSyncProviderProxy<br />
+{<br />
+ public MyServerSyncProviderProxy(IServerSyncProvider serverSyncProvider)<br />
+  : base(serverSyncProvider)<br />
+ {<br />
+ }<br />
+}[&#47;code]</p>
+<p>And now you can easily consume a ServerSyncProviderProxy as following:<&#47;p><br />
+[code lang="csharp"]<br />
+SyncAgent syncAgent = new SyncAgent();</p>
+<p>EndpointAddress address = new EndpointAddress("http:&#47;&#47;somewhere&#47;Be.Timvw.Demo.Host&#47;ServerSyncProvider.svc");<br />
+BasicHttpBinding binding = new BasicHttpBinding();<br />
+ChannelFactory<iserverSyncProvider> factory = new ChannelFactory<iserverSyncProvider>(binding, address);<br />
+IServerSyncProvider serverSyncProvider = factory.CreateChannel();<br />
+syncAgent.RemoteProvider = new SafeServerSyncProviderProxy(serverSyncProvider);<br />
+[&#47;code]</p>

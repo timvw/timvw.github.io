@@ -1,0 +1,78 @@
+---
+layout: post
+status: publish
+published: true
+title: About Thread-Safe GUI...
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 150
+wordpress_url: http://www.timvw.be/about-thread-safe-gui/
+date: '2007-01-21 15:57:25 +0100'
+date_gmt: '2007-01-21 13:57:25 +0100'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments:
+- id: 144
+  author: Tim Van Wassenhove &raquo; Performing long running tasks in a Windows Application
+  author_email: ''
+  author_url: http://www.timvw.be/performing-long-running-tasks-in-a-windows-application/
+  date: '2007-04-27 23:12:26 +0200'
+  date_gmt: '2007-04-27 21:12:26 +0200'
+  content: '[...] while ago i blogged about Thread Safe UI. Today someone asked the
+    following:  On a form i have a datagridview and two button. One is for [...]'
+---
+<p>If you're writing windows applications you'll most certainly recognize the following piece of code:<&#47;p><br />
+[code lang="csharp"]private delegate void UpdateIntResultDelegate(int result);</p>
+<p>private void UpdateIntResult(int result)<br />
+{<br />
+ if (this.labelIntResult.InvokeRequired)<br />
+  this.labelIntResult.Invoke(new UpdateIntResultDelegate(this.UpdateIntResult), result);<br />
+ else<br />
+  this.myDataSource.IntResult = result;<br />
+}</p>
+<p>private delegate void UpdateStringResultDelegate(string result);</p>
+<p>private void UpdateStringResult(string result)<br />
+{<br />
+ if (this.labelStringResult.InvokeRequired)<br />
+  this.labelStringResult.Invoke(new UpdateStringResultDelegate(this.UpdateStringResult), result);<br />
+ else<br />
+  this.myDataSource.StringResult = result;<br />
+}[&#47;code]</p>
+<p>Today i was fed up with defining all these Delegates.. So i decided to define a generic delegate instead:<&#47;p><br />
+[code lang="csharp"]delegate void Delegate<t>(T t);<br />
+[&#47;code]</p>
+<p>And now i can reuse this Delegate for my two update methods:<&#47;p><br />
+[code lang="csharp"]private void UpdateIntResult(int result)<br />
+{<br />
+ if (this.labelIntResult.InvokeRequired)<br />
+  this.labelIntResult.Invoke(new Delegate<int>(this.UpdateIntResult), result);<br />
+ else<br />
+  this.myDataSource.IntResult = result;<br />
+}</p>
+<p>private void UpdateStringResult(string result)<br />
+{<br />
+ if (this.labelStringResult.InvokeRequired)<br />
+  this.labelStringResult.Invoke(new Delegate<string>(this.UpdateStringResult), result);<br />
+ else<br />
+  this.myDataSource.StringResult = result;<br />
+}[&#47;code]</p>
+<p>Apparently (and not surprisingly) i'm not the first to come up with this idea, a little websearch for 'Generic Delegate' learned me that <a href="http:&#47;&#47;weblogs.asp.net&#47;rosherove&#47;default.aspx">Roy Osherove<&#47;a> blogged about it in: <a href="http:&#47;&#47;weblogs.asp.net&#47;rosherove&#47;archive&#47;2006&#47;03&#47;01&#47;439309.aspx">The 3 ways to create a Thread-Safe GUI with .NET 2.0, with one clear winner<&#47;a>. After reading the article i decided to take the following approach (The call to UpdateIntResult is type-safe, it only calls Invoke when it's required and no duplication):<&#47;p><br />
+[code lang="csharp"]void UpdateIntResult(int result)<br />
+{<br />
+ if (this.labelIntResult.InvokeRequired)<br />
+ {<br />
+  this.labelIntResult.Invoke(new MethodInvoker(delegate { this.UpdateIntResult(result); }));<br />
+ }<br />
+ else<br />
+ {<br />
+  this.myDataSource.IntResult = result;<br />
+ }<br />
+}[&#47;code]</p>

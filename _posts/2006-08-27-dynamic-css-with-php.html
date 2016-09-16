@@ -1,0 +1,46 @@
+---
+layout: post
+status: publish
+published: true
+title: Dynamic CSS with PHP
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 20
+wordpress_url: http://www.timvw.be/dynamic-css-with-php/
+date: '2006-08-27 02:13:40 +0200'
+date_gmt: '2006-08-27 00:13:40 +0200'
+categories: []
+tags:
+- PHP
+comments: []
+---
+<p>Both html and css are simply text. Thus you should be able to generate css as easily as html with php. Now if you add a reference to the css.php file in your html (eg:
+<link rel="stylesheet" href="http:&#47;&#47;example.com&#47;css.php" type="text&#47;css" media="screen" &#47;>) you'll probably experience that your browser ignores the file. How is this possible? Here is an example of a simple css.php file<&#47;p></p>
+<p>[code lang="php"]body {<br />
+        background-color: <?php echo 'yellow'; ?>;<br />
+}[&#47;code]</p>
+<p>Here is a simulation of what your browser recieves when it requests the file:<&#47;p></p>
+<pre>
+HTTP&#47;1.1 200 OK<br />
+Date: Sat, 26 Aug 2006 23:36:21 GMT<br />
+Server: Apache&#47;1.3.34 (Unix) PHP&#47;4.4.2 mod_macro&#47;1.1.2<br />
+X-Powered-By: PHP&#47;4.4.2<br />
+Connection: close<br />
+Content-Type: text&#47;html; charset=iso-8859-1</p>
+<p>body {<br />
+        background-color: yellow;<br />
+}<br />
+<&#47;pre></p>
+<p>Where did that content-type header come from? Well, php outputs a default content-type header (text&#47;html) when you don't set value explicitely. This means that your browser will try to interpret the file as html instead of css. Although it may seem weird, this behaviour is explicitely defined in <a href="http:&#47;&#47;www.w3.org&#47;Protocols&#47;rfc2616&#47;rfc2616-sec7.html#sec7.2.1">RFC 2616<&#47;a>.<&#47;p></p>
+<p>So the solution is pretty simple: explicitely generate content-type header. Here is an example for css: (You're smart enough to figure it out for csv, m3u, ...)<&#47;p></p>
+<p>[code lang="php"]<?php header('Content-type: text&#47;css');?><br />
+body {<br />
+  background-color: <?php echo 'white'; ?><br />
+}<br />
+[&#47;code]</p>

@@ -1,0 +1,78 @@
+---
+layout: post
+status: publish
+published: true
+title: Using DataGridViewComboBoxColumn with Custom Objects
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 14
+wordpress_url: http://www.timvw.be/using-datagridviewcomboboxcolumn-with-custom-objects/
+date: '2006-09-10 02:08:00 +0200'
+date_gmt: '2006-09-10 00:08:00 +0200'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments: []
+---
+<p>Earlier today i was playing with the <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.datagridview.aspx">DataGridView<&#47;a> control. I wanted to have a couple of <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;xwx934x7.aspx">DataGridViewComboBoxColumn<&#47;a>s in order to limit the available input options for the user. The documentation clearly mentions the following:<&#47;p></p>
+<blockquote>
+<div>
+The DataGridViewComboBoxColumn will only work properly if there is a mapping between all its cell values that are populated by the DataGridView.DataSource property and the range of choices populated either by the DataSource property or the Items property. If this mapping doesn't exist, the message "An Error happened Formatting, Display" will appear when the column is in view.<br />
+<&#47;div><br />
+<&#47;blockquote></p>
+<p>Here is sample of a custom object:<&#47;p></p>
+<p>[code lang="csharp"]public class Slot {<br />
+ private int id;<br />
+ private DateTime dateTime;</p>
+<p> public Slot( int id, DateTime dateTime ) {<br />
+  this.id = id;<br />
+  this.dateTime = dateTime;<br />
+ }</p>
+<p> public int Id {<br />
+  get { return this.id; }<br />
+ }</p>
+<p> public DateTime DateTime {<br />
+  get { return this.dateTime; }<br />
+ }<br />
+}[&#47;code]</p>
+<p>And here is the workaround for a one to one mapping:<&#47;p></p>
+<p>[code lang="csharp"]<br />
+public partial class Form1 : Form {<br />
+ &#47;&#47; here we'll store the value the user selected in one of the comboboxcolumns<br />
+ private Object selectedValue;</p>
+<p> public Form1() {<br />
+  InitializeComponent();<br />
+  selectedValues = new Object[this.dataGridView1.Columns.Count];</p>
+<p>  &#47;&#47; create a couple of slots an add them to the comboboxcolumns<br />
+  for ( int i = 0; i < 10; ++i ) {<br />
+   Slot slot = new Slot( i, DateTime.Now.AddDays( i ) );<br />
+   this.Column1.Items.Add( slot );<br />
+   this.Column2.Items.Add( slot );<br />
+  }</p>
+<p>  this.Column1.DisplayMember = "DateTime";<br />
+  this.Column2.DisplayMember = "Id";<br />
+ }</p>
+<p> private void dataGridView1_CellParsing( object sender, DataGridViewCellParsingEventArgs e ) {<br />
+  &#47;&#47; lookup the selected value<br />
+  e.Value = this.selectedValue;<br />
+  e.ParsingApplied = true;<br />
+ }</p>
+<p> private void dataGridView1_EditingControlShowing( object sender, DataGridViewEditingControlShowingEventArgs e ) {<br />
+  ComboBox cb = e.Control as ComboBox;<br />
+  if ( cb != null ) {<br />
+   cb.SelectedIndexChanged -= cb_SelectedIndexChanged;<br />
+   cb.SelectedIndexChanged += cb_SelectedIndexChanged;<br />
+  }<br />
+ }</p>
+<p> void cb_SelectedIndexChanged(object sender, EventArgs e) {<br />
+  ComboBox comboBox = sender as ComboBox;<br />
+  this.selectedValue = comboBox.SelectedItem;<br />
+ }<br />
+}[&#47;code]</p>

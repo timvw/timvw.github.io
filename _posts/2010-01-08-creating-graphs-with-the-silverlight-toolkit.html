@@ -1,0 +1,54 @@
+---
+layout: post
+status: publish
+published: true
+title: Creating graphs with the Silverlight Toolkit
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1594
+wordpress_url: http://www.timvw.be/?p=1594
+date: '2010-01-08 21:58:55 +0100'
+date_gmt: '2010-01-08 20:58:55 +0100'
+categories: []
+tags:
+- C#
+- Silverlight
+comments: []
+---
+<p>As i wrote already: In a chart the elements on the X-axis are usually numbers or dates, and the elements on the Y-axis are usually doubles. We can define such a combination as following:<&#47;p></p>
+<p>[code lang="csharp"]public class Point<t><br />
+{<br />
+ public T X { get; set; }<br />
+ public double Y { get; set; }<br />
+}[&#47;code]</p>
+<p>Here is a little helper function for creating line series that are used by the <a href="http:&#47;&#47;silverlight.codeplex.com&#47;">Silverlight Toolkit<&#47;a>:<&#47;p></p>
+<p>[code lang="csharp"]public LineSeries Create<t>(string title, Series<t> series, Func<t, double> f) where T : IComparable<t><br />
+{<br />
+ var points = series.Select(x => new Point<t> { X = x, Y = f(x) });</p>
+<p> var lineSeries = new LineSeries<br />
+ {<br />
+  Title = title,<br />
+  ItemsSource = points,<br />
+  IndependentValuePath = "X",<br />
+  DependentValuePath = "Y"<br />
+ };</p>
+<p> return lineSeries;<br />
+}[&#47;code]</p>
+<p>Given all this infrastructure we can easily draw the graph of a function:<&#47;p></p>
+<p>[code lang="csharp"]public MainPage()<br />
+{<br />
+ InitializeComponent();</p>
+<p> var series = 0.To(100);</p>
+<p> Func<int, double> multiplyByTwo = x => 2 * x;<br />
+ Chart1.Series.Add(Create("2x", series, multiplyByTwo));</p>
+<p> Func<int, double> multiplyByThree = x => 3 * x;<br />
+ Chart1.Series.Add(Create("x&#47;2", series, multiplyByThree));<br />
+}[&#47;code]</p>
+<p>Here is how the result looks like (too much data on the chart):<&#47;p></p>
+<p><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;silverlightchart.png" alt="screenshot of chart in silverlight toolkit" &#47;></p>

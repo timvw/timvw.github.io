@@ -1,0 +1,161 @@
+---
+layout: post
+status: publish
+published: true
+title: 'POC: Moq API adapter for Rhino Mocks'
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 960
+wordpress_url: http://www.timvw.be/?p=960
+date: '2009-04-03 08:21:16 +0200'
+date_gmt: '2009-04-03 07:21:16 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>One of my main concerns with third party software, and software in general, is maintainability. The Rhino Mocks project has been out there for a couple of years now and i'm pretty confident that it won't go away anytime soon. The Moq project is a lot younger and will have to proove that it can stay alive...<&#47;p></p>
+<p>Anyway, because most people seem to digg the Moq API i have decided to write an adapter that provides the same API using Rhino Mocks. Here are some simple examples:<&#47;p></p>
+<p>[code lang="csharp"]public interface IEcho<br />
+{<br />
+ string Echo(string input);<br />
+}</p>
+<p>[TestClass]<br />
+public class MockTests<br />
+{<br />
+ [TestMethod]<br />
+ public void ShouldBeAbleToReturnObject()<br />
+ {<br />
+  &#47;&#47; Arrange<br />
+  Mock<iecho> sut = new Mock<iecho>();</p>
+<p>  &#47;&#47; Act<br />
+  IEcho echo = sut.Object;</p>
+<p>  &#47;&#47; Assert<br />
+  Assert.IsNotNull(echo);<br />
+  Assert.IsInstanceOfType(echo, typeof(IEcho));<br />
+ }</p>
+<p> [TestMethod]<br />
+ public void ShouldBeAbleToSetupAnAction()<br />
+ {<br />
+  &#47;&#47; Arrange<br />
+  Mock<iecho> sut = new Mock<iecho>();</p>
+<p>  sut.Setup(delegate(IEcho echo)<br />
+  {<br />
+   echo.Echo("tim");<br />
+  }).Returns("tim");</p>
+<p>  &#47;&#47; Act<br />
+  string result = sut.Object.Echo("tim");</p>
+<p>  &#47;&#47; Assert<br />
+  Assert.AreEqual("tim", result);<br />
+ }</p>
+<p> [TestMethod]<br />
+ public void ShouldBeAbleToVerifyAnAction()<br />
+ {<br />
+  &#47;&#47; Arrange<br />
+  Mock<iecho> sut = new Mock<iecho>();</p>
+<p>  &#47;&#47; Act<br />
+  sut.Object.Echo("tim");</p>
+<p>  &#47;&#47; Assert<br />
+  sut.Verify(delegate(IEcho echo)<br />
+  {<br />
+   echo.Echo("tim");<br />
+  });<br />
+ }</p>
+<p> [TestMethod]<br />
+ [ExpectedException(typeof(ExpectationViolationException))]<br />
+ public void ShouldBeAbleToVerifyAnActionThatDidNotHappen()<br />
+ {<br />
+  &#47;&#47; Arrange<br />
+  Mock<iecho> sut = new Mock<iecho>();</p>
+<p>  &#47;&#47; Act<br />
+  sut.Object.Echo("tim");</p>
+<p>  &#47;&#47; Assert<br />
+  sut.Verify(delegate(IEcho echo)<br />
+  {<br />
+   echo.Echo("mike");<br />
+  });<br />
+ }</p>
+<p> [TestMethod]<br />
+ public void ShouldBeAbleToRaiseAnEvent()<br />
+ {<br />
+  &#47;&#47; Arrange<br />
+  Mock<iecho> sut = new Mock<iecho>();<br />
+  bool wasCalled = false;</p>
+<p>  sut.Object.EchoCompleted += delegate(object sender, EventArgs e)<br />
+  {<br />
+   if (sender == sut && e == EventArgs.Empty) wasCalled = true;<br />
+  };</p>
+<p>  &#47;&#47;  Act<br />
+  sut.Raise(delegate(IEcho echo) { echo.EchoCompleted += null; }, sut, EventArgs.Empty);</p>
+<p>  &#47;&#47; Assert<br />
+  Assert.IsTrue(wasCalled);<br />
+ }</p>
+<p> [TestMethod]<br />
+ [ExpectedException(typeof(ArgumentException))]<br />
+ public void ShouldBeAbleToThrowAnException()<br />
+ {<br />
+  &#47;&#47; Arrange<br />
+  Mock<iecho> sut = new Mock<iecho>();</p>
+<p>  sut.Setup(delegate(IEcho echo)<br />
+  {<br />
+   echo.Echo("tim");<br />
+  }).Throws<argumentException>();</p>
+<p>  &#47;&#47; Act<br />
+  sut.Object.Echo("tim");<br />
+ }<br />
+}[&#47;code]</p>
+<p>Here is the actual code for this simplistic adapter:<&#47;p></p>
+<p>[code lang="csharp"]public class Mock<t> where T : class<br />
+{<br />
+ private readonly T mockedObject;</p>
+<p> public Mock()<br />
+ {<br />
+  this.mockedObject = MockRepository.GenerateStub<t>();<br />
+ }</p>
+<p> public T Object<br />
+ {<br />
+  get { return this.mockedObject; }<br />
+ }</p>
+<p> public Setup<object, T> Setup(Action<t> action)<br />
+ {<br />
+  return new Setup<object, T>(RhinoMocksExtensions.Stub(this.mockedObject, action));<br />
+ }</p>
+<p> public Setup<r, T> Setup<r>(Delegates.Function<r, T> action)<br />
+ {<br />
+  return new Setup<r, T>(RhinoMocksExtensions.Stub(this.mockedObject, action));<br />
+ }</p>
+<p> public void Verify(Action<t> action)<br />
+ {<br />
+  RhinoMocksExtensions.AssertWasCalled(this.mockedObject, action);<br />
+ }</p>
+<p> public void Raise(Action<t> eventSubscription, params object[] args)<br />
+ {<br />
+  RhinoMocksExtensions.Raise(this.mockedObject, eventSubscription, args);<br />
+ }</p>
+<p> public Setup<r, T> Throws<e>() where E : Exception, new()<br />
+ {<br />
+  return new Setup<r, T>(this.options.Throw(new E()));<br />
+ }<br />
+}</p>
+<p>public class Setup<r, T><br />
+{<br />
+ private readonly IMethodOptions<r> options;</p>
+<p> public Setup(IMethodOptions<r> options)<br />
+ {<br />
+  this.options = options;<br />
+ }</p>
+<p> public Setup<r, T> Returns(R objToReturn)<br />
+ {<br />
+  return new Setup<r, T>(this.options.Return(objToReturn));<br />
+ }</p>
+<p> public Setup<r, T> Returns(Delegates.Function<r, T> action)<br />
+ {<br />
+  return new Setup<r, T>(this.options.Do(action));<br />
+ }<br />
+}[&#47;code]</p>

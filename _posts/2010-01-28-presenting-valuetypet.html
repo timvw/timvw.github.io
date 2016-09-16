@@ -1,0 +1,82 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting ValueType<T>
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1650
+wordpress_url: http://www.timvw.be/?p=1650
+date: '2010-01-28 19:27:34 +0100'
+date_gmt: '2010-01-28 18:27:34 +0100'
+categories: []
+tags:
+- C#
+- Patterns
+comments: []
+---
+<p>Here is a base class for some code that i have written once too many in my life: (In case you're an early adaptor (.Net 4.0) you may want to use System.Tuple<T1> as base class)<&#47;p></p>
+<p>[code lang="csharp"]public class ValueType<t> : IComparable, IComparable<valueType<t>>, IEquatable<valueType<t>><br />
+ where T : IComparable<t><br />
+{<br />
+ protected T Value { get; private set; }public ValueType(T value)<br />
+ {<br />
+  Value = value;<br />
+ }</p>
+<p> public override int GetHashCode()<br />
+ {<br />
+  return Value.GetHashCode();<br />
+ }</p>
+<p> public override string ToString()<br />
+ {<br />
+  return Value.ToString();<br />
+ }</p>
+<p> public override bool Equals(object obj)<br />
+ {<br />
+  return Equals(obj as ValueType<t>);<br />
+ }</p>
+<p> public bool Equals(ValueType<t> other)<br />
+ {<br />
+  return Compare(this, other) == 0;<br />
+ }</p>
+<p> public int CompareTo(object obj)<br />
+ {<br />
+  return CompareTo(this, obj as ValueType<t>);<br />
+ }</p>
+<p> public int CompareTo(ValueType<t> other)<br />
+ {<br />
+  return Compare(this, other);<br />
+ }</p>
+<p> static int Compare(ValueType<t> instance1, ValueType<t> instance2)<br />
+ {<br />
+  if (ReferenceEquals(instance1, instance2)) return 0;<br />
+  if (ReferenceEquals(instance1, null)) return -1;<br />
+  if (ReferenceEquals(instance2, null)) return 1;</p>
+<p>  if (ReferenceEquals(instance1.Value, instance2.Value)) return 0;<br />
+  if (ReferenceEquals(instance1.Value, null)) return -1;<br />
+  if (ReferenceEquals(instance2.Value, null)) return 1;</p>
+<p>  return instance1.Value.CompareTo(instance2.Value);<br />
+ }</p>
+<p> public static bool operator ==(ValueType<t> instance1, ValueType<t> instance2)<br />
+ {<br />
+  return Compare(instance1, instance2) == 0;<br />
+ }</p>
+<p> public static bool operator !=(ValueType<t> instance1, ValueType<t> instance2)<br />
+ {<br />
+  return !(instance1 == instance2);<br />
+ }</p>
+<p> public static bool operator <(ValueType<t> instance1, ValueType<t> instance2)<br />
+ {<br />
+   return Compare(instance1, instance2) < 0;<br />
+ }</p>
+<p> public static bool operator >(ValueType<t> instance1, ValueType<t> instance2)<br />
+ {<br />
+   return Compare(instance1, instance2) > 0;<br />
+ }<br />
+}[&#47;code]</p>

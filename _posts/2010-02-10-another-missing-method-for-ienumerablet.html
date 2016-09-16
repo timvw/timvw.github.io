@@ -1,0 +1,46 @@
+---
+layout: post
+status: publish
+published: true
+title: Another missing method for IEnumerable<T>
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1669
+wordpress_url: http://www.timvw.be/?p=1669
+date: '2010-02-10 19:29:33 +0100'
+date_gmt: '2010-02-10 18:29:33 +0100'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Currently there are two overloads for OrderBy on Enumerable:<&#47;p></p>
+<ul>
+<li>OrderBy(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)<&#47;li>
+<li>OrderBy(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)<&#47;li><br />
+<&#47;ul></p>
+<p>Because i don't want to implement an IComparer<TKey> each time i have implemented the following class:<&#47;p></p>
+<p>[code lang="csharp"]class DelegateComparer<t> : IComparer<t><br />
+{<br />
+ public Func<t, T, int> CompareFunction { get; set; }</p>
+<p> public DelegateComparer(Func<t, T, int> compareFunction)<br />
+ {<br />
+  CompareFunction = compareFunction;<br />
+ }</p>
+<p> public int Compare(T x, T y)<br />
+ {<br />
+  return CompareFunction(x, y);<br />
+ }<br />
+}[&#47;code]</p>
+<p>And now i can define a nice extension method:<&#47;p></p>
+<p>[code lang="csharp"]public static IOrderedEnumerable<tsource> OrderBy<tsource, TKey>(this IEnumerable<tsource> source, Func<tsource, TKey> keySelector, Func<tkey, TKey, int> compareFunction)<br />
+{<br />
+ var comparer = new DelegateComparer<tkey>(compareFunction);<br />
+ return source.OrderBy(keySelector, comparer);<br />
+}[&#47;code]</p>

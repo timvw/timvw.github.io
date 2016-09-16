@@ -1,0 +1,46 @@
+---
+layout: post
+status: publish
+published: true
+title: Running .NET applications on Debian GNU&#47;Linux with Mono
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 29
+wordpress_url: http://www.timvw.be/running-net-applications-on-debian-gnulinux-with-mono/
+date: '2006-04-25 02:40:04 +0200'
+date_gmt: '2006-04-25 00:40:04 +0200'
+categories: []
+tags:
+- Free Software
+comments:
+- id: 18
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2007-06-30 16:21:20 +0200'
+  date_gmt: '2007-06-30 14:21:20 +0200'
+  content: |-
+    Today i had to run this same procedure again:
+
+    # notice that the keyserver, recv-keys and export are starting with two dashes ( - )
+    gpg --keyserver hkp:&#47;&#47;subkeys.pgp.net --recv-keys 7127E5ABEEF946C8
+    gpg -armor --export 7127E5ABEEF946C8 | apt-key add -
+---
+<p>Today i noticed <a href="http:&#47;&#47;www.linux.com&#47;article.pl?sid=06&#47;04&#47;12&#47;1921225">Running .Net applications on Linux with Mono<&#47;a> and the author wrote the following:<&#47;p></p>
+<blockquote><p>
+I found that on Debian at this stage I got an error: The assembly mscorlib.dll was not found or could not be loaded. It should have been installed in the '&#47;usr&#47;lib&#47;mono&#47;2.0&#47;mscorlib.dll' directory. I cured that by executing:<br />
+$ cd &#47;usr&#47;lib&#47;mono<br />
+$ sudo ln -s 1.0 2.0<br />
+<&#47;p><&#47;blockquote></p>
+<p>There is only one error, and it's in the <a href="en.wikipedia.org&#47;wiki&#47;PEBKAC">PEBKAC<&#47;a> category. I can understand that the author couldn't find the TargetFrameworkVersion tag in his project file and generated 2.0 code. What i don't understand is that he didn't notice the <a href="http:&#47;&#47;www.mono-project.com&#47;Downloads">Other Downloads<&#47;a> section and that there are <a href="http:&#47;&#47;www.debian.org">Debian<&#47;a> packages available with support for the 2.0 runtime. Ok, apt-get might complain about the packages and you would have to add a key to your keyring as following before you can install the packages:<&#47;p><br />
+[code lang="dos"]<br />
+gpg --recv-keys 7127E5ABEEF946C8<br />
+gpg --armor --export 7127E5ABEEF946C8 | apt-key add -<br />
+[&#47;code]</p>
+<p>How hard is that? :P<&#47;p></p>

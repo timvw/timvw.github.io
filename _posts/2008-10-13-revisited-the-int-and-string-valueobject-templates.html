@@ -1,0 +1,35 @@
+---
+layout: post
+status: publish
+published: true
+title: Revisited the int and string ValueObject templates
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 677
+wordpress_url: http://www.timvw.be/?p=677
+date: '2008-10-13 18:08:45 +0200'
+date_gmt: '2008-10-13 16:08:45 +0200'
+categories: []
+tags:
+- C#
+- Visual Studio
+comments: []
+---
+<p>After reading <a href="http:&#47;&#47;blogs.msdn.com&#47;bclteam&#47;archive&#47;2008&#47;10&#47;06&#47;the-compare-contract-kim-hamilton.aspx">The Compare Contract<&#47;a> last week i realized that my <a href="http:&#47;&#47;www.timvw.be&#47;presenting-templates-for-int-and-string-valueobjects">templates for int and string ValueObjects<&#47;a> did not comply with the contract so i decided to add a unittest that reproduces the faulty behavior (and then corrected the implementation):<&#47;p></p>
+<p>[code lang="csharp"]&#47;&#47;&#47;<br />
+<summary>
+&#47;&#47;&#47; When comparing instance with null, instance should be greater.<br />
+&#47;&#47;&#47; <&#47;summary><br />
+[TestMethod]<br />
+public void ShouldReturnPositiveWhenComparedWithNull()<br />
+{<br />
+ $classname$ value = new $classname$("0");<br />
+ Assert.IsTrue(value.CompareTo(null) > 0);<br />
+}[&#47;code]</p>
+<p>Anyway, feel free to download the corrected <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;IntValueObject.zip">IntValueObject<&#47;a> and <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;StringValueObject.zip">StringValueObject<&#47;a> templates.<&#47;p></p>

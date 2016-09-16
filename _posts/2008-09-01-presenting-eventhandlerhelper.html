@@ -1,0 +1,59 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting EventHandlerHelper
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 467
+wordpress_url: http://www.timvw.be/?p=467
+date: '2008-09-01 15:22:30 +0200'
+date_gmt: '2008-09-01 13:22:30 +0200'
+categories: []
+tags:
+- C#
+comments:
+- id: 219905
+  author: Pat
+  author_email: no@thanks.com
+  author_url: http://patkujawa.com
+  date: '2013-07-31 19:00:00 +0200'
+  date_gmt: '2013-07-31 18:00:00 +0200'
+  content: "I've created an issue (https:&#47;&#47;betimvwframework.codeplex.com&#47;workitem&#47;24571)
+    but here's the gist:\r\n\r\nThe code for raising an event is not that recommended
+    in Framework Design Guidelines by Cwalina and Abrams; it does not make a local
+    copy and check for null before invoking. See http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;vstudio&#47;edzehd2t.aspx
+    for the following example:\r\nclass Counter\r\n{\r\n    public event EventHandler
+    ThresholdReached;\r\n\r\n    protected virtual void OnThresholdReached(EventArgs
+    e)\r\n    {\r\n        EventHandler handler = ThresholdReached;\r\n        if
+    (handler != null)\r\n        {\r\n            handler(this, e);\r\n        }\r\n
+    \   }\r\n\r\n    &#47;&#47; provide remaining implementation for the class\r\n}"
+- id: 219909
+  author: Pat
+  author_email: no@thanks.com
+  author_url: http://patkujawa.com
+  date: '2013-07-31 19:01:46 +0200'
+  date_gmt: '2013-07-31 18:01:46 +0200'
+  content: Regarding my last comment, I'm starting to recall something about passing
+    into a method creating a new copy, so maybe making a copy within the method is
+    redundant. If so, sorry about that.
+---
+<p>Being bored of writing code to raise an event, i have added an EventHandlerHelper to <a href="http:&#47;&#47;www.codeplex.com&#47;BeTimvwFramework">BeTimvwFramework<&#47;a>.<&#47;p><br />
+[code lang="csharp"]public static class EventHandlerHelper<br />
+{<br />
+ [MethodImpl(MethodImplOptions.NoInlining)]<br />
+ public static void Raise<t>(EventHandler<t> handler, object sender, T e)<br />
+  where T : EventArgs<br />
+ {<br />
+  if (handler != null)<br />
+  {<br />
+   handler(sender, e);<br />
+  }<br />
+ }<br />
+}[&#47;code]</p>

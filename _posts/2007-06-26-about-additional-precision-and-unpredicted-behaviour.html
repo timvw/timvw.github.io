@@ -1,0 +1,33 @@
+---
+layout: post
+status: publish
+published: true
+title: About additional precision and unpredicted behaviour...
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 177
+wordpress_url: http://www.timvw.be/about-additional-precision-and-unpredicted-behaviour/
+date: '2007-06-26 19:27:22 +0200'
+date_gmt: '2007-06-26 17:27:22 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Earlier today someone posted the following code:<&#47;p><br />
+[code lang="csharp"]<br />
+float a = 0.12f;<br />
+float b = a * 100f;<br />
+Console.WriteLine((int) b);  &#47;&#47; prints 12<br />
+Console.WriteLine((int)(a * 100f)); &#47;&#47; prints 11 !!!!!!!!<br />
+[&#47;code]</p>
+<p>An (extensive) explanation for this strange behaviour can be found at <a href="http:&#47;&#47;blogs.msdn.com&#47;davidnotario&#47;archive&#47;2005&#47;08&#47;08&#47;449092.aspx">CLR and floating point: Some answers to common questions<&#47;a>... A possible way to force the compiler and runtime to get rid of the additional precision would be the following:<&#47;p><br />
+[code lang="csharp"]<br />
+Console.WriteLine((int)(float)(a * 100f));<br />
+[&#47;code]</p>

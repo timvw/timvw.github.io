@@ -1,0 +1,34 @@
+---
+layout: post
+status: publish
+published: true
+title: Silly bug in Visual Studio 2005 editor
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 54
+wordpress_url: http://www.timvw.be/silly-bug-in-visual-studio-2005-editor/
+date: '2006-03-29 21:20:33 +0200'
+date_gmt: '2006-03-29 19:20:33 +0200'
+categories: []
+tags:
+- Visual Studio
+comments: []
+---
+<p>If you try to compile the code below you will see that the i in the second loop is not defined in my main function. Position your mouse over the i, click right and choose "Go To Definition" in the context menu. Why does the cursor move to the i in the struct? Btw, if you remove the first for loop this doesn't happen.<&#47;p></p>
+<p>[code lang="cpp"]<br />
+#include "stdafx.h"<br />
+struct {<br />
+  int i;<br />
+} BLAH;</p>
+<p>int _tmain(int argc, _TCHAR* argv[]) {<br />
+  for (int i = 0; i < 10; ++i) { ; }<br />
+  for (i = 0; i < 10; ++i) { ; }<br />
+  return 0;<br />
+}<br />
+[&#47;code]</p>

@@ -1,0 +1,46 @@
+---
+layout: post
+status: publish
+published: true
+title: NHibernate SessionFactory configuration
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 303
+wordpress_url: http://www.timvw.be/?p=303
+date: '2008-07-28 17:03:36 +0200'
+date_gmt: '2008-07-28 15:03:36 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>My preferred way for configuring <a href="http:&#47;&#47;www.nhibernate.org">NHibernate<&#47;a> is as following:<&#47;p></p>
+<ul>
+<li>Create a hibernate.cfg.xml file for session-factory settings.<&#47;li>
+<li>Add mapping files, named type.hbm.xml, as embedded resources to the library project that implements the repository.<&#47;li><br />
+<&#47;ul></p>
+<p>When i looked at the <a href="http:&#47;&#47;www.hibernate.org&#47;hib_docs&#47;nhibernate&#47;1.2&#47;reference&#47;en&#47;html_single&#47;#configuration-programmatic">documentation<&#47;a> i found the following:<&#47;p></p>
+<blockquote>
+<p>Another alternative (probably the best) way is to let NHibernate load all of the mapping files contained in an Assembly:<&#47;p><br />
+[code lang="csharp"]Configuration cfg = new Configuration();<br />
+  .AddAssembly( "NHibernate.Auction" );[&#47;code]<br />
+<&#47;blockquote></p>
+<p>Whenever i tried that code i received an InvalidOperationException: Could not find the dialect in the configuration. In order to make the configuration work the way i prefer you have to do the following:<&#47;p></p>
+<p>[code lang="csharp"]Configuration cfg = new Configuration().Configure();<br />
+cfg.AddAssembly(typeof(MyRepository).Assembly);[&#47;code]</p>
+<p>Another attention point is the fact that i believe that all connectionStrings belong in App.Config. This can be realised by using the connection.connection_string_name attribute:<&#47;p></p>
+<p>[code lang="xml"]<?xml version="1.0" encoding="utf-8" ?><br />
+<hibernate-configuration xmlns="urn:nhibernate-configuration-2.2"><br />
+ <session-factory></p>
+<property name="connection.provider">NHibernate.Connection.DriverConnectionProvider<&#47;property</p>
+<property name="dialect">NHibernate.Dialect.MsSql2005Dialect<&#47;property></p>
+<property name="connection.driver_class">NHibernate.Driver.SqlClientDriver<&#47;property></p>
+<property name="connection.connection_string_name">AdventureWorks<&#47;property><br />
+ <&#47;session-factory><br />
+<&#47;hibernate-configuration>[&#47;code]</p>

@@ -1,0 +1,66 @@
+---
+layout: post
+status: publish
+published: true
+title: Databinding a Nullable <T> property
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 144
+wordpress_url: http://www.timvw.be/experimenting-with-iextenderprovider/
+date: '2007-01-10 01:21:55 +0100'
+date_gmt: '2007-01-09 23:21:55 +0100'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments: []
+---
+<p>I find it frustrating that data binding does not really support Nullable<T>. Anyway, it's relatively easy to workaround this shortcoming:<&#47;p><br />
+[code lang="csharp"]public partial class Form1 : Form<br />
+{<br />
+ private MyDataSource myDataSource;</p>
+<p> public Form1()<br />
+ {<br />
+   InitializeComponent();</p>
+<p>   this.myDataSource = new MyDataSource();<br />
+   this.textBox1.DataBindings.Add("Text", this.myDataSource, "Double", true);<br />
+   this.textBox1.DataBindings["Text"].Parse += this.Text_Parse;<br />
+ }</p>
+<p> void Text_Parse( object sender, ConvertEventArgs e )<br />
+ {<br />
+  if( e.Value == null || e.Value.ToString().Length == 0 )<br />
+  {<br />
+   e.Value = null;<br />
+  }<br />
+ }</p>
+<p> private void buttonTellMe_Click(object sender, EventArgs e)<br />
+ {<br />
+  if (this.myDataSource.Double.HasValue)<br />
+  {<br />
+   MessageBox.Show("The double is: " + this.myDataSource.Double);<br />
+  }<br />
+  else<br />
+  {<br />
+   MessageBox.Show("The double is null");<br />
+  }<br />
+ }<br />
+}</p>
+<p>class MyDataSource<br />
+{<br />
+ private double? _double;</p>
+<p> public double? Double<br />
+ {<br />
+  get { return this._double; }<br />
+  set { this._double = value; }<br />
+ }<br />
+}<br />
+[&#47;code]<br />
+<br&#47;><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;databind-nullabletext1.gif" alt="screenshot of double value in textbox"&#47;><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;databind-nullabletext2.gif" alt="screenshot of null value in textbox"&#47;></p>

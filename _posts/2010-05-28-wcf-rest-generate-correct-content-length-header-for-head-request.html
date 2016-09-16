@@ -1,0 +1,38 @@
+---
+layout: post
+status: publish
+published: true
+title: 'WCF REST: generate correct Content-Length header for HEAD request'
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1754
+wordpress_url: http://www.timvw.be/?p=1754
+date: '2010-05-28 20:50:54 +0200'
+date_gmt: '2010-05-28 19:50:54 +0200'
+categories: []
+tags:
+- C#
+comments:
+- id: 20507
+  author: Norman Harebottle III
+  author_email: normanh@gmail.com
+  author_url: ''
+  date: '2011-10-18 18:01:14 +0200'
+  date_gmt: '2011-10-18 17:01:14 +0200'
+  content: "Did you ever try: \r\n\r\nWebOperationContext.Current.OutgoingResponse.SuppressEntityBody
+    = true;\r\n\r\n??"
+- id: 20512
+  author: timvw
+  author_email: tim@timvw.be
+  author_url: http://timvw.myopenid.com/
+  date: '2011-10-18 19:40:05 +0200'
+  date_gmt: '2011-10-18 18:40:05 +0200'
+  content: No. And I hope I never have to go back to that painful piece of code :)
+---
+<p> The point of a HEAD request is to return a Content-Length header, but with an empty body. The WCF transport stack has the annoying 'feature' that it 'corrects' the Content-Length header based on the stream that is returned. With the aid of Carlos Figueira's <a href="http:&#47;&#47;social.msdn.microsoft.com&#47;Forums&#47;en&#47;wcf&#47;thread&#47;c2672206-f255-4b14-b45e-7e3d057f4ffc">MyLengthOnlyStream<&#47;a> i was able to workaround that 'feature' :) (I know, i know, a good old HttpHandler is so much easier to implement!)<&#47;p></p>

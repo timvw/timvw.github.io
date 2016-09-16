@@ -1,0 +1,60 @@
+---
+layout: post
+status: publish
+published: true
+title: 'Remove all access rules from a directory '
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2226
+wordpress_url: http://www.timvw.be/?p=2226
+date: '2011-09-22 18:56:04 +0200'
+date_gmt: '2011-09-22 17:56:04 +0200'
+categories:
+- Uncategorized
+tags:
+- C
+- security
+comments:
+- id: 38302
+  author: Raj
+  author_email: ''
+  author_url: ''
+  date: '2012-03-27 20:09:03 +0200'
+  date_gmt: '2012-03-27 19:09:03 +0200'
+  content: "I tried the RemoveAccessRule &amp; frustated.. Finally, I tried this &amp;
+    worked! Great peace of work! Thanks man!\r\n\r\n-Raj"
+- id: 59264
+  author: MrCube
+  author_email: ''
+  author_url: ''
+  date: '2012-06-29 15:12:52 +0200'
+  date_gmt: '2012-06-29 14:12:52 +0200'
+  content: "You made my day! I got very frustrated removing each single rule and didn't
+    manage to remove all at once.\r\nGreat!"
+- id: 104126
+  author: Nahuel
+  author_email: nahuel.rodrigo@gmail.com
+  author_url: ''
+  date: '2012-11-20 12:12:11 +0100'
+  date_gmt: '2012-11-20 11:12:11 +0100'
+  content: "I know I'm late to the party, but after almost 3 hours of failed attempts,
+    I found this and it worked like a charm.\r\n\r\nThank you very much, you saves
+    my sprint task! :P"
+---
+<p>A while ago i needed to write some code that removes all (existing&#47;inherited) access rules from a given directory. It was pretty frustrating to notice that all my attempts seemed to fail (<a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.security.accesscontrol.commonobjectsecurity.removeaccessrule.aspx">RemoveAccessRule<&#47;a>, <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.security.accesscontrol.objectsecurity.purgeaccessrules.aspx">PurgeAccessRule<&#47;a>, ...)<&#47;p></p>
+<p>Finally i found that <a href="">SetAccessRuleProtection<&#47;a> was the method that i needed to invoke.<&#47;p></p>
+<p>[code lang="csharp"]<br />
+const string Folder = @"c:\temp\secured";<br />
+var directory = new DirectoryInfo(Folder);<br />
+var directorySecurity = directory.GetAccessControl();<br />
+directorySecurity.SetAccessRuleProtection(true,false);<br />
+directory.SetAccessControl(directorySecurity);<br />
+[&#47;code]</p>
+<p>[caption id="attachment_2235" align="alignnone" width="377" caption="Image of the security properties tab in windows"]<a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;uploads&#47;2011&#47;09&#47;directorysecurity.png"><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;uploads&#47;2011&#47;09&#47;directorysecurity.png" alt="Image of the security properties tab in windows" title="directorysecurity" width="377" height="461" class="size-full wp-image-2235" &#47;><&#47;a>[&#47;caption]</p>
+<p>There you go ;)<&#47;p></p>

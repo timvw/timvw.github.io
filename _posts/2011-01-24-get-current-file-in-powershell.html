@@ -1,0 +1,44 @@
+---
+layout: post
+status: publish
+published: true
+title: Get current file in PowerShell
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2044
+wordpress_url: http://www.timvw.be/?p=2044
+date: '2011-01-24 20:23:58 +0100'
+date_gmt: '2011-01-24 19:23:58 +0100'
+categories:
+- Uncategorized
+tags:
+- PowerShell
+comments: []
+---
+<p>A while ago i wrote a small script to take care of deployment. Configuring the source folders went as following:<&#47;p><br />
+[code lang="powershell"]<br />
+param(<br />
+	$BaseDir = (Get-Location).Path,<br />
+	$WebDir = (Resolve-Path "$BaseDir\web"),<br />
+	$DatabaseDir = (Resolve-Path "$BaseDir\database")<br />
+)<br />
+[&#47;code]</p>
+<p>The problem with this code is that it only works when your current working directory is set to the location of this script. An administrator (or build system) invokes the script as following:<&#47;p></p>
+<p>[code lang="powershell"]<br />
+PS C:\Users\Admin>&amp; 'D:\Deployments\20110124\Deploy.ps1';<br />
+[&#47;code]</p>
+<p>Because we don't want to annoy the consumer of our script with the burden of making sure he is in the correct directory we modified our code as following:<&#47;p></p>
+<p>[code lang="powershell"]<br />
+param(<br />
+	$BaseDir = (Split-Path $MyInvocation.MyCommand.Definition),<br />
+	$WebDir = (Resolve-Path "$BaseDir\web"),<br />
+	$DatabaseDir = (Resolve-Path "$BaseDir\database")<br />
+)<br />
+[&#47;code]</p>
+<p>A quick win :)<&#47;p></p>

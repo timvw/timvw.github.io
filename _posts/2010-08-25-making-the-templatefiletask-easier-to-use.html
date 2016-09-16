@@ -1,0 +1,64 @@
+---
+layout: post
+status: publish
+published: true
+title: Making the TemplateFileTask easier to use...
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1871
+wordpress_url: http://www.timvw.be/?p=1871
+date: '2010-08-25 20:19:52 +0200'
+date_gmt: '2010-08-25 19:19:52 +0200'
+categories: []
+tags:
+- MSBuild
+comments: []
+---
+<p>One of the disadvantages of the TemplateFile task (<a href="http:&#47;&#47;msbuildtasks.tigris.org&#47;">msbuildtasks<&#47;a>) is the fact that it requires a lot of typing to define template values:<&#47;p></p>
+<p>[code lang="xml"]<br />
+<ItemGroup Condition= " '$(ConfigurationEnvironment)'=='build' "><br />
+ <Tokens Include="a"><br />
+  <ReplacementValue>localhost<&#47;ReplacementValue><br />
+ <&#47;Tokens><br />
+ <Tokens Include="b"><br />
+  <ReplacementValue><mynode&#47;><&#47;ReplacementValue><br />
+ <&#47;Tokens><br />
+<&#47;ItemGroup><br />
+[&#47;code]</p>
+<p>Here is a format proposition to make this a lot more finger friendly:<&#47;p></p>
+<p>[code lang="xml"]<br />
+<configuration><br />
+ <variables env="build"><br />
+  <x name="a">localhost<&#47;x><br />
+  <x name="b><mynode&#47;><&#47;x><br />
+ <&#47;variables><br />
+<&#47;configuration><br />
+[&#47;code]</p>
+<p>Here is the msbuild script we need to achieve that:<&#47;p></p>
+<p>[code lang="xml"]<br />
+<PropertyGroup><br />
+ <ConfigurationFile>configuration.xml<&#47;ConfigurationFile><br />
+ <ConfigurationEnvironment>build<&#47;ConfigurationEnvironment><br />
+<&#47;PropertyGroup></p>
+<p><!-- Retreive all template values for the specific environment --><br />
+<XmlQuery XmlFileName="$(ConfigurationFile)" XPath = "&#47;&#47;variables[@env='$(ConfigurationEnvironment)']&#47;*"><br />
+ <Output TaskParameter="Values" ItemName="Values" &#47;><br />
+<&#47;XmlQuery></p>
+<p><!-- Construct @Tokens --><br />
+<ItemGroup><br />
+ <Tokens Include="%(Values.name)"><br />
+  <ReplacementValue>%(Values._innerxml)<&#47;ReplacementValue><br />
+ <&#47;Tokens><br />
+<&#47;ItemGroup></p>
+<p><!-- Generate the configuration files --><br />
+<Message Text="Available variables:" &#47;><br />
+<Message Text="====================" &#47;><br />
+<Message Text="%(Tokens.Identity): %(Tokens.ReplacementValue)" &#47;><br />
+[&#47;code]</p>
+<p>Happy coding!<&#47;p></p>

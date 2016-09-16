@@ -1,0 +1,50 @@
+---
+layout: post
+status: publish
+published: true
+title: TryGetResult
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2186
+wordpress_url: http://www.timvw.be/?p=2186
+date: '2011-08-01 11:55:18 +0200'
+date_gmt: '2011-08-01 10:55:18 +0200'
+categories:
+- Uncategorized
+tags:
+- C
+comments: []
+---
+<p>I think this entry has been in the pipeline for a couple of years now and today i have decided to finally post it ;) I got frustrated with the annoying out parameter in TryGet methods so i decided to use a different signature using TryGetResult:<&#47;p></p>
+<p>[code lang="csharp"]<br />
+public class TryGetResult<T><br />
+{<br />
+ public TryGetResult()<br />
+ {<br />
+  Success = false;<br />
+ }</p>
+<p> public TryGetResult(T result)<br />
+ {<br />
+  Success = true;<br />
+  Result = result;<br />
+ }</p>
+<p> public bool Success { get; private set; }<br />
+ public T Result { get; private set; }<br />
+}<br />
+[&#47;code]</p>
+<p>And now your TryGet methods can have the following signature:<&#47;p></p>
+<p>[code lang="csharp"]<br />
+public TryGetResult<Person> TryGetPersonByName(string name)<br />
+{<br />
+ &#47;&#47; person is not available<br />
+ if(name.IsInvalidPersonName()) return new TryGetResult();<br />
+ &#47;&#47; return the person<br />
+ return new TryGetResult(new Person(name));<br />
+}<br />
+[&#47;code]</p>

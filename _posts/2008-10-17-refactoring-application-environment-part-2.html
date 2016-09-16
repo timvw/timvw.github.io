@@ -1,0 +1,28 @@
+---
+layout: post
+status: publish
+published: true
+title: Refactoring Application Environment (Part 2)
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 718
+wordpress_url: http://www.timvw.be/?p=718
+date: '2008-10-17 17:02:58 +0200'
+date_gmt: '2008-10-17 15:02:58 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p><a href="http:&#47;&#47;lucamilan.blogspot.com&#47;">Luca Milan<&#47;a> notified me of a design issue. Until now the ApplicationEnvironment had an Instance property as following:<&#47;p></p>
+<p>[code lang="csharp"]public static ApplicationEnvironment Instance { get { ... } }[&#47;code]</p>
+<p>A lot of flexibility can be added by extracting an interface IApplicationEnvironment and use that as return type for the property:<&#47;p></p>
+<p>[code lang="csharp"]public static IApplicationEnvironment Instance { get { ... } }[&#47;code]</p>
+<p>Now that we have <a href="http:&#47;&#47;www.codeplex.com&#47;CommonServiceLocator">Common Service Locator<&#47;a> i have decided to completely remove the Instance property. Code that requires an instance of the IApplicationEnvironment will have to resolve it via the ServiceLocator:<&#47;p></p>
+<p>[code lang="csharp"]IApplicationEnvironment appEnv = ServiceLocator.Current.GetInstance<iapplicationEnvironment>();[&#47;code]</p>

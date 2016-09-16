@@ -1,0 +1,45 @@
+---
+layout: post
+status: publish
+published: true
+title: Parsing http headers
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 65
+wordpress_url: http://www.timvw.be/parsing-http-headers/
+date: '2005-11-14 21:42:37 +0100'
+date_gmt: '2005-11-14 19:42:37 +0100'
+categories: []
+tags:
+- Perl
+comments: []
+---
+<p>Today i updated my HTTP proxy a little. <a href="http:&#47;&#47;www.w3.org&#47;Protocols&#47;rfc2616&#47;rfc2616.html">RFC 2616<&#47;a> describes <a href="http:&#47;&#47;www.w3.org&#47;Protocols&#47;rfc2616&#47;rfc2616-sec4.html#sec4.2">Message Headers<&#47;a> as following:<&#47;p></p>
+<blockquote>
+<div>
+<pre>
+message-header = field-name ":" [ field-value ]<br />
+field-name     = token<br />
+field-value    = *( field-content | LWS )<br />
+field-content  =
+<the OCTETs making up the field-value and consisting of<br />
+                 either *TEXT or combinations of token, separators,<br />
+                 and quoted-string><br />
+<&#47;pre><br />
+<&#47;div><br />
+<&#47;blockquote></p>
+<p>Here is the code i used to get the field-name and field-value. Do you see the bug?<&#47;p><br />
+[code lang="perl"]<br />
+my ($name, $value) = split &#47;:&#47;, $in;<br />
+[&#47;code]</p>
+<p>Location headers look like "header: http:&#47;&#47;www.example.com". Now, the problem is that <a href="http:&#47;&#47;perldoc.perl.org&#47;functions&#47;split.html">split<&#47;a> returns a list with "location", "http" and "www.example.com". Here is the solution:<&#47;p></p>
+<p>[code lang="perl"]<br />
+my $in = "location: http:&#47;&#47;www.example.com";<br />
+my ($name, $value) = split &#47;:&#47;, $in, 2;<br />
+[&#47;code]</p>

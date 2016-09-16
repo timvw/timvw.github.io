@@ -1,0 +1,30 @@
+---
+layout: post
+status: publish
+published: true
+title: 'Ninject: connect an IProxyFactory component to the kernel'
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1572
+wordpress_url: http://www.timvw.be/?p=1572
+date: '2009-12-16 18:54:30 +0100'
+date_gmt: '2009-12-16 17:54:30 +0100'
+categories: []
+tags:
+- Free Software
+- C#
+comments: []
+---
+<p>Because it's the second time that i run into this i will post the solution here so that i (and all the other people that run into the same issue) can easily solve it next time. Anyway, i was playing with <a href="http:&#47;&#47;ninject.org&#47;">Ninject<&#47;a> and ran into the following exception:<&#47;p></p>
+<blockquote><p>Error activating XXX: the implementation type YYY requests static interceptors, or dynamic interceptors have been defined.<br />
+In order to provide interception, you must connect an IProxyFactory component to the kernel.<&#47;blockquote></p>
+<p>If you search for implementations of IProxyFactory you will find the DynamicProxy2ProxyFactory and the LinFuProxyFactory classes. But how can you tell your kernel to use them? This is pretty simple (but hard to find on the web):<&#47;p></p>
+<p>[code lang="csharp"]Kernel.Components.Connect<iproxyFactory>(new DynamicProxy2ProxyFactory());[&#47;code]</p>
+<p>Instead of writing this code to connect the ProxyFactory implementation you can also use the XXX module (which does it for you) as following:<&#47;p></p>
+<p>[code lang="csharp"]var kernel = new StandardKernel(new DynamicProxy2Module(), new BusinessModule());[&#47;code]</p>

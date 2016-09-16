@@ -1,0 +1,68 @@
+---
+layout: post
+status: publish
+published: true
+title: Global hotkeys for iTunes on windows
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2103
+wordpress_url: http://www.timvw.be/?p=2103
+date: '2011-03-16 19:57:07 +0100'
+date_gmt: '2011-03-16 18:57:07 +0100'
+categories:
+- Uncategorized
+tags:
+- iTunes
+- AutoHotkey
+comments:
+- id: 17588
+  author: Alex
+  author_email: counting_crows_always@hotmail.co.uk
+  author_url: ''
+  date: '2011-08-24 15:25:18 +0200'
+  date_gmt: '2011-08-24 14:25:18 +0200'
+  content: 'Hay! It doesn''t seem to work&mdash;ctrl + up&#47;down just mutes iTunes?
+    What''s up with that?  :???:'
+---
+<p>These days i use iTunes as media player. Unlike winamp this program does not seem to support system-wide hotkeys to control playback. This is the place where a productivity tool like <a href="http:&#47;&#47;www.autohotkey.com&#47;">AutoHotkey<&#47;a> comes into the rescue ;).<&#47;p></p>
+<p>I have configured the following keys:<&#47;p></p>
+<ul>
+<li>Move to next song: [Ctrl] + [Alt] + [Right]<&#47;li>
+<li>Move to previous song: [Ctrl] + [Alt] + [Left]<&#47;li>
+<li>Toggle play&#47;pause: [Ctrl] + [Alt] + p<&#47;li>
+<li>Turn volume up: [Ctrl] + [Alt] + [Up]<&#47;li>
+<li>Turn volume down: [Ctrl] + [Alt] + [Down]<&#47;li><br />
+<&#47;ul></p>
+<p>[code lang="plain"]<br />
+^!right::<br />
+DetectHiddenWindows , On<br />
+ControlSend , ahk_parent, ^{right}, iTunes ahk_class iTunes<br />
+DetectHiddenWindows , Off<br />
+return</p>
+<p>^!left::<br />
+DetectHiddenWindows , On<br />
+ControlSend , ahk_parent, ^{left}, iTunes ahk_class iTunes<br />
+DetectHiddenWindows , Off<br />
+return</p>
+<p>^!p::<br />
+DetectHiddenWindows , On<br />
+ControlSend , ahk_parent, {space}, iTunes ahk_class iTunes<br />
+DetectHiddenWindows , Off<br />
+return</p>
+<p>^!up::<br />
+DetectHiddenWindows , On<br />
+ControlSend, ahk_parent, ^{UP}, iTunes ahk_class iTunes<br />
+DetectHiddenWindows , Off<br />
+return</p>
+<p>^!down::<br />
+DetectHiddenWindows , On<br />
+ControlSend, ahk_parent, ^{DOWN}, iTunes ahk_class iTunes<br />
+DetectHiddenWindows , Off<br />
+return<br />
+[&#47;code]</p>

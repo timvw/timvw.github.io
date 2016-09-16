@@ -1,0 +1,67 @@
+---
+layout: post
+status: publish
+published: true
+title: Removing selected items from a ListBox
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 39
+wordpress_url: http://www.timvw.be/removing-selected-items-from-a-listbox/
+date: '2006-02-16 02:53:39 +0100'
+date_gmt: '2006-02-16 00:53:39 +0100'
+categories: []
+tags:
+- Visual Basic
+- Windows Forms
+comments:
+- id: 14
+  author: Helga
+  author_email: helgaana1@gmail.com
+  author_url: ''
+  date: '2008-07-30 20:57:02 +0200'
+  date_gmt: '2008-07-30 18:57:02 +0200'
+  content: excellent - only real working example googled up to now!  Modified it to
+    c# and it works!
+- id: 15
+  author: John W
+  author_email: jwgalaxy@gmail.com
+  author_url: http://johnwilliams.eu
+  date: '2009-05-24 15:56:29 +0200'
+  date_gmt: '2009-05-24 14:56:29 +0200'
+  content: |-
+    Here's an alternative that worked for me:
+
+
+            For i As Integer = (videosListBox.SelectedItems.Count - 1) To 0 Step -1
+                videosListBox.Items.Remove(videosListBox.SelectedItems(i))
+            Next
+- id: 791
+  author: Patrick H
+  author_email: patrick.honorez@idevlop.com
+  author_url: http://www.idevlop.com
+  date: '2010-10-15 12:35:34 +0200'
+  date_gmt: '2010-10-15 11:35:34 +0200'
+  content: '@John W: That''s an elegant solution !! Thank you !'
+---
+<p>Today i was experimenting with a couple of windows controls. For some reason i wasn't able to remove the selected items from a <a href="http:&#47;&#47;msdn.microsoft.com&#47;library&#47;default.asp?url=&#47;library&#47;en-us&#47;cpref&#47;html&#47;frlrfsystemwindowsformslistboxmemberstopic.asp">ListBox<&#47;a>. Here is the code that didn't work:<&#47;p><br />
+[code lang="vbnet"]<br />
+For Each index As Integer = ListBox1.SelectedIndices<br />
+  ListBox2.Items.Add(ListBox1.Items(index))<br />
+  ListBox1.Items.Remove(index)<br />
+End For<br />
+[&#47;code]</p>
+<p>The problem is that when you remove an item from the collection the indices change. Here is a possible solution:<&#47;p><br />
+[code lang="vbnet"]<br />
+Dim index As Integer = ListBox1.SelectedIndex<br />
+While index <> -1<br />
+  ListBox2.Items.Add(ListBox1.Items(index))<br />
+  ListBox1.Items.Remove(index)<br />
+  index = ListBox1.SelectedIndex<br />
+End While<br />
+[&#47;code]</p>

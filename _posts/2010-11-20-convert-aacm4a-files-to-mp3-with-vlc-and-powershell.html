@@ -1,0 +1,64 @@
+---
+layout: post
+status: publish
+published: true
+title: Convert AAC&#47;M4A files to MP3 with VLC and PowerShell
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1992
+wordpress_url: http://www.timvw.be/?p=1992
+date: '2010-11-20 21:19:27 +0100'
+date_gmt: '2010-11-20 20:19:27 +0100'
+categories:
+- Uncategorized
+tags:
+- PowerShell
+- VLC
+- MP3
+- AAC
+- M4A
+comments:
+- id: 113458
+  author: Batch convert audio files to MP3 with PowerShell and VLC Player - roadha.us
+  author_email: ''
+  author_url: http://roadha.us/2012/11/batch-convert-audio-files-to-mp3-with-powershell-and-vlc-player/
+  date: '2012-12-06 05:27:41 +0100'
+  date_gmt: '2012-12-06 04:27:41 +0100'
+  content: '[...] files to MP3 with PowerShell and VLC Player Posted on November 23,
+    2012 by haliphax      I adapted a PowerShell script by Tim Van Wassenhove that
+    recurses through a given directory, searching for various types of audio files.
+    These files [...]'
+---
+<p>Here is a way to convert your AAC&#47;M4A files to MP3 using <a href="http:&#47;&#47;www.videolan.org&#47;vlc">VLC<&#47;a> media player:<&#47;p></p>
+<p>[code lang="text"]<br />
+vlc.exe -I dummy old.m4a :sout=#transcode{acodec=$codec,vcodec=dummy}:standard{access=file,mux=raw,dst=new.mp3} vlc:&#47;&#47;quit<br />
+[&#47;code]</p>
+<p>Let's wrap this command in a bit of PowerShell:<&#47;p></p>
+<p>[code lang="powershell"]<br />
+function ConvertToMp3([switch] $inputObject, [string] $vlc = 'C:\Program Files\VideoLAN\VLC\vlc.exe') {<br />
+    PROCESS {<br />
+        $codec = 'mp3';<br />
+        $oldFile = $_;<br />
+        $newFile = $oldFile.FullName.Replace($oldFile.Extension, ".$codec");<br />
+        &amp;"$vlc" -I dummy "$oldFile" ":sout=#transcode{acodec=$codec,vcodec=dummy}:standard{access=file,mux=raw,dst=`'$newFile`'}" vlc:&#47;&#47;quit | out-null;<br />
+        #Only remove source files when you are sure that the conversion works as you want<br />
+        #Remove-Item $oldFile;<br />
+    }<br />
+}<br />
+[&#47;code]</p>
+<p>And now we can use this function for *all* m4a files in a given folder:<&#47;p></p>
+<p>[code lang="powershell"]<br />
+function ConvertAllToMp3([string] $sourcePath) {<br />
+    Get-ChildItem "$sourcePath\*" -recurse -include *.m4a | ConvertToMp3;<br />
+}<br />
+[&#47;code]</p>
+<p>Using the function is as easy as:<&#47;p></p>
+<p>[code lang="powershell"]<br />
+ConvertAllToMp3 'C:\Users\timvw\Music';<br />
+[&#47;code]</p>

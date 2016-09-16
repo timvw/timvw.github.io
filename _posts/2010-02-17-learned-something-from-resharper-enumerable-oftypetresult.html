@@ -1,0 +1,35 @@
+---
+layout: post
+status: publish
+published: true
+title: 'Learned something from Resharper: Enumerable.OfType<TResult>'
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1697
+wordpress_url: http://www.timvw.be/?p=1697
+date: '2010-02-17 19:18:23 +0100'
+date_gmt: '2010-02-17 18:18:23 +0100'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>A couple of weeks ago i discovered <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;bb360913.aspx">Enumerable.OfType<TResult><&#47;a> when i let Resharper rewrite my code as a Linq statement. Here is the original code:<&#47;p></p>
+<p>[code lang="csharp"]var selectedPersons = new List
+<personSelectItem>();<br />
+foreach(var selectedItem in selectedItems)<br />
+{<br />
+ var selectedPerson = selectedItem as PersonSelectItem;<br />
+ if (selectedPerson == null) continue;<br />
+ selectedPersons.Add(selectedPerson);<br />
+}[&#47;code]</p>
+<p>And here is how it looks after the rewrite:<&#47;p></p>
+<p>[code lang="csharp"]var selectedPersons = selectedItems.OfType
+<personSelectItem>().ToList();[&#47;code]</p>
+<p>Yup, the <a href="http:&#47;&#47;www.jetbrains.com&#47;resharper&#47;">Resharper<&#47;a> license was definitely worth it's money.<&#47;p></p>

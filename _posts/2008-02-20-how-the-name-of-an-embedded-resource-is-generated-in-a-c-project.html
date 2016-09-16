@@ -1,0 +1,44 @@
+---
+layout: post
+status: publish
+published: true
+title: How the name of an embedded resource is generated in a C# project
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 206
+wordpress_url: http://www.timvw.be/how-the-name-of-an-embedded-resource-is-generated-in-a-c-project/
+date: '2008-02-20 19:32:04 +0100'
+date_gmt: '2008-02-20 17:32:04 +0100'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments: []
+---
+<p>A while ago i was wondering how the name of an embedded resource is generated in a C&#35; project. Earlier today i was looking in Microsoft.CSharp.targets and found the answer:<&#47;p></p>
+<blockquote><pre>
+The CreateManifestResourceNames target create the manifest resource names from the .RESX files.</p>
+<p>[IN]<br />
+@(ResxWithNoCulture) - The names the non-culture .RESX files.<br />
+@(ResxWithCulture) - The names the culture .RESX files.<br />
+@(NonResxWithNoCulture) - The names of the non-culture non-RESX files (like bitmaps, etc).<br />
+@(NonResxWithCulture) - The names of the culture non-RESX files (like bitmaps, etc).</p>
+<p>[OUT]<br />
+@(ManifestResourceWithNoCultureName) - The corresponding manifest resource name (.RESOURCE)<br />
+@(ManifestResourceWithCultureName) - The corresponding manifest resource name (.RESOURCE)<br />
+@(ManifestNonResxWithNoCulture) - The corresponding manifest resource name.<br />
+@(ManifestNonResxWithCulture) - The corresponding manifest resource name.</p>
+<p>For C# applications the transformation is like:</p>
+<p>Resources1.resx => RootNamespace.Resources1 => Build into main assembly<br />
+SubFolder\Resources1.resx => RootNamespace.SubFolder.Resources1 => Build into main assembly<br />
+Resources1.fr.resx => RootNamespace.Resources1.fr => Build into satellite assembly<br />
+Resources1.notaculture.resx => RootNamespace.Resources1.notaculture => Build into main assembly</p>
+<p>For other project systems, this transformation may be different.<br />
+<&#47;pre><&#47;blockquote></p>
+<p>With <a href="http:&#47;&#47;www.attrice.info&#47;msbuild&#47;index.htm">Attrice Corporation Microsoft Build Sidekick v2<&#47;a> you can easily visualize the flow throughout the targets via Tools -> View Targets Diagram.<&#47;p></p>

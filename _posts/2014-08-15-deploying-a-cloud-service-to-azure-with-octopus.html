@@ -1,0 +1,52 @@
+---
+layout: post
+status: publish
+published: true
+title: Deploying a Cloud Service to Azure with Octopus
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2430
+wordpress_url: http://www.timvw.be/?p=2430
+date: '2014-08-15 06:41:03 +0200'
+date_gmt: '2014-08-15 05:41:03 +0200'
+categories:
+- Uncategorized
+tags:
+- PowerShell
+- Octopus
+- Dev-Ops
+comments: []
+---
+<p>Currently Octopus has limited support to deploy a Cloud Service on Azure. A typical use-case is that you need a different Web.Config file per environment. Simply add the Web.Environment.Config files to your NuGet package and use the following <a href="https:&#47;&#47;gist.github.com&#47;timvw&#47;4e32226dd1ff149b5eab.js">PreDeploy.ps1<&#47;a> script:</p>
+<p>[code language="powershell"]<br />
+# Load unzip support<br />
+[Reflection.Assembly]::LoadWithPartialName("System.IO.Compression.FileSystem") | Out-Null</p>
+<p>function Unzip($zipFile, $destination)<br />
+{<br />
+	If (Test-Path $destination){<br />
+		Remove-Item $destination -Recurse | Out-Null<br />
+	}<br />
+	New-Item -ItemType directory -Force -Path $destination | Out-Null<br />
+	[System.IO.Compression.ZipFile]::ExtractToDirectory($zipFile, $destination) | Out-Null<br />
+}</p>
+<p># Unzip deployment package<br />
+$CsPkg = "Customer.Project.Api.Azure.cspkg"<br />
+Unzip $CsPkg "azurePackage"<br />
+Unzip (Get-Item (join-path -path "azurePackage" -childPath "*.cssx")) "website"</p>
+<p># Perform replacements, eg: replace Web.Config<br />
+$ConfigFileToUse = "Web." + $OctopusParameters["Octopus.Environment.Name"] + ".config"<br />
+Copy-Item -Path $ConfigFileToUse -Destination "website&#47;sitesroot&#47;0&#47;Web.Config" -Force</p>
+<p># Repackage<br />
+$role = "Customer.Project.Api"<br />
+$contentPath = "website\approot"<br />
+$rolePath = "website&#47;approot"<br />
+$webPath = "website&#47;sitesroot&#47;0"<br />
+$cspackPath = "C:\Program Files\Microsoft SDKs\Windows Azure\.NET SDK\v2.2\bin\cspack.exe"<br />
+&amp; $cspackPath "ServiceDefinition.csdef" "&#47;out:$CsPkg" "&#47;role:$role;$rolePath;Customer.Project.Api.dll" "&#47;sites:$role;Web;$webPath" "&#47;sitePhysicalDirectories:$role;Web;$webPath"<br />
+[&#47;code]</p>

@@ -1,0 +1,72 @@
+---
+layout: post
+status: publish
+published: true
+title: Exploring graphical programming with Blend, Visual State Manager and Behaviors
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1437
+wordpress_url: http://www.timvw.be/?p=1437
+date: '2009-10-16 21:37:21 +0200'
+date_gmt: '2009-10-16 20:37:21 +0200'
+categories: []
+tags:
+- WPF
+- Silverlight
+comments:
+- id: 7462
+  author: Bid
+  author_email: bid@bid.com
+  author_url: ''
+  date: '2011-03-28 19:32:39 +0200'
+  date_gmt: '2011-03-28 18:32:39 +0200'
+  content: Can you show us the declaration for the ic namespace?
+- id: 7601
+  author: timvw
+  author_email: tim@timvw.be
+  author_url: http://timvw.myopenid.com/
+  date: '2011-03-30 10:14:17 +0200'
+  date_gmt: '2011-03-30 09:14:17 +0200'
+  content: ic is the namespace for Microsoft.Expression.Interactions (in microsoft.expression.interactions.dll)
+---
+<p>A while ago i presented the <a href="http:&#47;&#47;www.timvw.be&#47;experimenting-with-controlstatemachine-and-fluent-interfaces&#47;">ControlStateMachine<&#47;a> and in Silverlight this concept is implemented as the <a href="http:&#47;&#47;windowsclient.net&#47;wpf&#47;wpf35&#47;wpf-35sp1-toolkit-visual-state-manager-overview.aspx">Visual State Manager<&#47;a>.<&#47;p></p>
+<p>In my sokoban implementation i have a cellview which exists out of 6 canvasses but only two of them (one for the cell type and one for the piece type) are visible at any given point in time. I have implemented this with 6 properties CanvasXVisible (with X being Player, Box, Wall, Goal, Floor and Cell) in my ViewModel but a State Machine &#47; Manager may help clarify how the visibility of the canvasses are related. Here are the 2 visual state groups and their states that i would need for the CellView:<&#47;p></p>
+<p><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;cellview-vsm.png" alt="screenshot of visual state manager in expression blend" &#47;></p>
+<p>As you can see there is quite a lof of XAML involved to make the correct canvas visible:<&#47;p></p>
+<p>[code lang="xml"><visualState x:Name="Space1"]<br />
+ <storyboard><br />
+  <objectAnimationUsingKeyFrames BeginTime="00:00:00"  Duration="00:00:00.0010000"<br />
+   Storyboard.TargetName="Space"  Storyboard.TargetProperty="(UIElement.Visibility)"><br />
+    <discreteObjectKeyFrame KeyTime="00:00:00"><br />
+     <discreteObjectKeyFrame.Value><br />
+      <visibility>Visible<&#47;visibility><br />
+     <&#47;discreteObjectKeyFrame.Value><br />
+    <&#47;discreteObjectKeyFrame><br />
+   <&#47;objectAnimationUsingKeyFrames><br />
+  <&#47;storyboard><br />
+<&#47;visualState>[&#47;code]</p>
+<p>For a simple modification to the Visibility property this seems like overkill but in many situations you will want to change more than this one property.<&#47;p></p>
+<p>With the aid of the behaviors that come with Blend i can quickly add a couple of radio buttons, toss in some gotostate actions and end up with an interactive application:<&#47;p></p>
+<p><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;gotostateaction.png" alt="screenshot of gotostate action properties" &#47;></p>
+<p>[code lang="xml"><radioButton Width="63" Canvas.Left="8" Canvas.Top="172" Content="Wall" GroupName="PieceTypes"]<br />
+ <i:Interaction.Triggers><br />
+  <i:EventTrigger EventName="Checked"><br />
+   <ic:GoToStateAction StateName="Wall1"&#47;><br />
+  <&#47;i:EventTrigger><br />
+ <&#47;i:Interaction.Triggers><br />
+<&#47;radioButton>[&#47;code]</p>
+<p>Feel free to try it yourself by changing the radio buttons:<&#47;p></p>
+<div id="exploringVSM">
+ <object data="data:application&#47;x-silverlight-2," type="application&#47;x-silverlight-2"  width="300" height="240"><param name="source" value="http:&#47;&#47;www.timvw.be&#47;ClientBin&#47;ExploringVSM.xap"&#47;><param name="onError" value="onSilverlightError" &#47;><param name="background" value="white" &#47;><param name="minRuntimeVersion" value="3.0.40624.0" &#47;><param name="autoUpgrade" value="true" &#47;><a href="http:&#47;&#47;go.microsoft.com&#47;fwlink&#47;?LinkID=149156&#038;v=3.0.40624.0" style="text-decoration:none"><br />
+   <img src="http:&#47;&#47;go.microsoft.com&#47;fwlink&#47;?LinkId=108181" alt="Get Microsoft Silverlight" style="border-style:none"&#47;><br />
+  <&#47;a><br />
+ <&#47;object><br />
+ <iframe id="_sl_historyFrame" style="visibility:hidden;height:0px;width:0px;border:0px"><&#47;iframe><br />
+<&#47;div><&#47;div></p>
+<p>Conclusion: All in all it is relatively easy to create interactive applications using Blend without writing a single line of code. Too bad that the behaviors are in an Expression assembly and don't come with standard Silverlight. Another attention point is the maintainability of this new style of programming.<&#47;p></p>

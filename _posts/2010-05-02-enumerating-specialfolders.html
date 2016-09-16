@@ -1,0 +1,100 @@
+---
+layout: post
+status: publish
+published: true
+title: Enumerating SpecialFolders
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1719
+wordpress_url: http://www.timvw.be/?p=1719
+date: '2010-05-02 07:02:16 +0200'
+date_gmt: '2010-05-02 06:02:16 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p><a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.environment.specialfolder.aspx">Environment.SpecialFolder<&#47;a> is a value-type that i always seem to forget about. Let's try to do something about that by posting about it here ;)<&#47;p></p>
+<p>[code lang="csharp"]foreach (var name in Enum.GetNames(typeof(Environment.SpecialFolder)))<br />
+{<br />
+ var specialFolder = (Environment.SpecialFolder)Enum.Parse(typeof(Environment.SpecialFolder), name);<br />
+ Console.WriteLine("{0,25} => {1}", name, Environment.GetFolderPath(specialFolder));<br />
+}[&#47;code]</p>
+<p><br&#47;></p>
+<table>
+<tr>
+<td>Desktop<&#47;td>
+<td>C:\Users\timvw\Desktop<&#47;td><&#47;tr></p>
+<tr>
+<td>Programs<&#47;td>
+<td>C:\Users\timvw\AppData\Roaming\Microsoft\Windows\Start Menu\Programs<&#47;td><&#47;tr></p>
+<tr>
+<td>Personal<&#47;td>
+<td>C:\Users\timvw\Documents<&#47;td><&#47;tr></p>
+<tr>
+<td>MyDocuments<&#47;td>
+<td>C:\Users\timvw\Documents<&#47;td><&#47;tr></p>
+<tr>
+<td>Favorites<&#47;td>
+<td>C:\Users\timvw\Favorites<&#47;td><&#47;tr></p>
+<tr>
+<td>Startup<&#47;td>
+<td>C:\Users\timvw\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup<&#47;td><&#47;tr></p>
+<tr>
+<td>Recent<&#47;td>
+<td>C:\Users\timvw\AppData\Roaming\Microsoft\Windows\Recent<&#47;td><&#47;tr></p>
+<tr>
+<td>SendTo<&#47;td>
+<td>C:\Users\timvw\AppData\Roaming\Microsoft\Windows\SendTo<&#47;td><&#47;tr></p>
+<tr>
+<td>StartMenu<&#47;td>
+<td>C:\Users\timvw\AppData\Roaming\Microsoft\Windows\Start Menu<&#47;td><&#47;tr></p>
+<tr>
+<td>MyMusic<&#47;td>
+<td>C:\Users\timvw\Music<&#47;td><&#47;tr></p>
+<tr>
+<td>DesktopDirectory<&#47;td>
+<td>C:\Users\timvw\Desktop<&#47;td><&#47;tr></p>
+<tr>
+<td>MyComputer<&#47;td>
+<td><&#47;td><&#47;tr></p>
+<tr>
+<td>Templates<&#47;td>
+<td>C:\Users\timvw\AppData\Roaming\Microsoft\Windows\Templates<&#47;td><&#47;tr></p>
+<tr>
+<td>ApplicationData<&#47;td>
+<td>C:\Users\timvw\AppData\Roaming<&#47;td><&#47;tr></p>
+<tr>
+<td>LocalApplicationData<&#47;td>
+<td>C:\Users\timvw\AppData\Local<&#47;td><&#47;tr></p>
+<tr>
+<td>InternetCache<&#47;td>
+<td>C:\Users\timvw\AppData\Local\Microsoft\Windows\Temporary Internet Files<&#47;td><&#47;tr></p>
+<tr>
+<td>Cookies<&#47;td>
+<td>C:\Users\timvw\AppData\Roaming\Microsoft\Windows\Cookies<&#47;td><&#47;tr></p>
+<tr>
+<td>History<&#47;td>
+<td>C:\Users\timvw\AppData\Local\Microsoft\Windows\History<&#47;td><&#47;tr></p>
+<tr>
+<td>CommonApplicationData<&#47;td>
+<td>C:\ProgramData<&#47;td><&#47;tr></p>
+<tr>
+<td>System<&#47;td>
+<td>C:\Windows\system32<&#47;td><&#47;tr></p>
+<tr>
+<td>ProgramFiles<&#47;td>
+<td>C:\Program Files<&#47;td><&#47;tr></p>
+<tr>
+<td>MyPictures<&#47;td>
+<td>C:\Users\timvw\Pictures<&#47;td><&#47;tr></p>
+<tr>
+<td>CommonProgramFiles<&#47;td>
+<td>C:\Program Files\Common Files<&#47;td><&#47;tr><br />
+<&#47;table></p>

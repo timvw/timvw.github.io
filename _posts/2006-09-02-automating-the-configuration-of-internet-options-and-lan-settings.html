@@ -1,0 +1,47 @@
+---
+layout: post
+status: publish
+published: true
+title: Automating the configuration of Internet Options &#47; Lan Settings
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 45
+wordpress_url: http://www.timvw.be/45/
+date: '2006-09-02 19:51:09 +0200'
+date_gmt: '2006-09-02 17:51:09 +0200'
+categories: []
+tags:
+- Information Technology
+comments:
+- id: 43
+  author: Tim Van Wassenhove &raquo; Archive &raquo; Updating the Internet Options
+    &#47; Lan Settings
+  author_email: ''
+  author_url: http://www.timvw.be/updating-the-internet-options-lan-settings/
+  date: '2009-09-16 07:16:05 +0200'
+  date_gmt: '2009-09-16 06:16:05 +0200'
+  content: '[...] while ago i wrote that i had created two .reg files to update my
+    Internet Options &#47; Lan Settings (Automating the configuration of Internet
+    Options &#47; Lan Settings). Yesterday i build a little Windows Service that automates
+    this completely. With NotifyAddrChange [...]'
+---
+<p>I got tired of manually changing my Internet Options &#47; Lan Settings. It was really time to say goodbye to the dialog below:<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;lansettingsdialog.jpg" alt="screenshot of lan settings dialog"&#47;></p>
+<p>With the help of <a href="http:&#47;&#47;support.microsoft.com&#47;kb&#47;310516&#47;">How to add, modify, or delete registry subkeys and values by using a registration entries (.reg) file<&#47;a> i wrote two little files that add&#47;remove the automatic configuration location.The work.reg file looks like:<&#47;p><br />
+[code lang="reg"]<br />
+REGEDIT4<br />
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings]<br />
+"AutoConfigURL"="http:&#47;&#47;192.168.1.99&#47;"<br />
+[&#47;code]</p>
+<p>And the home.reg file looks like:<&#47;p><br />
+[code lang="reg"]<br />
+REGEDIT4<br />
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings]<br />
+"AutoConfigURL"=-<br />
+[&#47;code]</p>

@@ -1,0 +1,41 @@
+---
+layout: post
+status: publish
+published: true
+title: A TableModel for Entity Beans
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 24
+wordpress_url: http://www.timvw.be/a-tablemodel-for-entity-beans/
+date: '2006-06-18 02:28:22 +0200'
+date_gmt: '2006-06-18 00:28:22 +0200'
+categories: []
+tags:
+- Hibernate
+comments: []
+---
+<p>For my graduation project i needed a component that could display a list of <a href="http:&#47;&#47;java.sun.com&#47;j2ee&#47;tutorial&#47;1_3-fcs&#47;doc&#47;EJBConcepts4.html">Entity Beans<&#47;a>. I found that <a href="http:&#47;&#47;java.sun.com&#47;j2se&#47;1.5.0&#47;docs&#47;api&#47;javax&#47;swing&#47;JTable.html">JTable<&#47;a> is such a component and with the help of custom <a href="http:&#47;&#47;java.sun.com&#47;j2se&#47;1.5.0&#47;docs&#47;api&#47;javax&#47;swing&#47;table&#47;TableCellRenderer.html">TableCellRenderer<&#47;a> and <a href="http:&#47;&#47;java.sun.com&#47;j2se&#47;1.5.0&#47;docs&#47;api&#47;javax&#47;swing&#47;table&#47;TableCellEditor.html">TableCellEditor<&#47;a> components i was able to customize the rendering to my needs. In order to get the data into the JTable i implemented a custom <a href="http:&#47;&#47;java.sun.com&#47;j2se&#47;1.5.0&#47;docs&#47;api&#47;javax&#47;swing&#47;table&#47;TableModel.html">TableModel<&#47;a>, namely <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;java&#47;EntityTableModel.java.txt">EntityTableModel<&#47;a>. Now i can easily generate a JTable that displays Entity Beans: <&#47;p></p>
+<p>[code lang="java"]<br />
+&#47;&#47; fetch the elements we want to display<br />
+Object[] elements = employeeController<br />
+  .getEntityManager()<br />
+  .createNamedQuery("findEmployees")<br />
+  .getResultList()<br />
+  .toArray();</p>
+<p>&#47;&#47; build map with column name, entity attribute pairs<br />
+HashMap<string, String> colAttrs = new LinkedHashMap<string, String>();<br />
+colAttrs.put("First Name", "firstName");<br />
+colAttrs.put("Last Name", "lastName");</p>
+<p>&#47;&#47; build collection with editable attributes<br />
+Collection<string> editables = new ArrayList<string>();</p>
+<p>&#47;&#47; initialise the tablemodel<br />
+TableModel tableModel = new EntityTableModel(elements, colAttrs, editables);</p>
+<p>&#47;&#47; initialise the table<br />
+JTable table = new JTable(tableModel);<br />
+[&#47;code]</p>

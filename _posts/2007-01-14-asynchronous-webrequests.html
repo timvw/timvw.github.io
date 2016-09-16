@@ -1,0 +1,127 @@
+---
+layout: post
+status: publish
+published: true
+title: Making WebRequests in parallel...
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 147
+wordpress_url: http://www.timvw.be/asynchronous-webrequests/
+date: '2007-01-14 02:00:00 +0100'
+date_gmt: '1999-11-29 22:00:00 +0100'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Under the assumption that making sequential WebRequests is slower than making them in parallel i wrote a little program that returns the HTTP status code for each URI in a list. Because the number of WaitHandles on a system is limited to 64 and i would have been required to hack around this limitation i decided to use ThreadPool instead...<&#47;p><br />
+[code lang="csharp"]using System;<br />
+using System.Collections.Generic;<br />
+using System.Text;<br />
+using System.Threading;<br />
+using System.Net;</p>
+<p>namespace ManyRequests<br />
+{<br />
+ class Program<br />
+ {<br />
+  static void Main(string[] args)<br />
+  {<br />
+   List<uri> uris = new List<uri>();<br />
+   uris.Add(new Uri("http:&#47;&#47;www.timvw.be"));<br />
+   uris.Add(new Uri("http:&#47;&#47;example.com&#47;does_not_exist"));<br />
+   uris.Add(new Uri("http:&#47;&#47;www.timvw.be&#47;c-sharp"));<br />
+   uris.Add(new Uri("http:&#47;&#47;www.timvw.be&#47;rss-feed&#47;"));<br />
+   uris.Add(new Uri("http:&#47;&#47;localhost"));</p>
+<p>   Console.WriteLine("Getting the HttpStatusCodes...");<br />
+   HttpStatusCodeReader httpStatusCodeReader = new HttpStatusCodeReader(uris);<br />
+   int[] httpStatusCodes = httpStatusCodeReader.GetHttpStatusCodes();</p>
+<p>   for (int i = 0; i < uris.Count; ++i)<br />
+   {<br />
+    Console.WriteLine("{0} {1}", httpStatusCodes[i], uris[i]);<br />
+   }</p>
+<p>   Console.Write("{0}Press any key to continue&acirc;&euro;&brvbar;", Environment.NewLine);<br />
+   Console.ReadKey();<br />
+  }<br />
+ }</p>
+<p> public class HttpStatusCodeReader<br />
+ {<br />
+  private List<uri> uris;<br />
+  private int[] httpStatusCodes;<br />
+  private object syncLock;<br />
+  private int completed;</p>
+<p>  public HttpStatusCodeReader(List<uri> uris)<br />
+  {<br />
+   if (uris == null)<br />
+   {<br />
+    throw new ArgumentNullException("uris");<br />
+   }</p>
+<p>   foreach (Uri uri in uris)<br />
+   {<br />
+    if (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps)<br />
+    {<br />
+     throw new ArgumentException(uri.ToString() + " is not valid http(s) uri.", "uris");<br />
+    }<br />
+   }</p>
+<p>   this.uris = uris;<br />
+   this.httpStatusCodes = new int[uris.Count];<br />
+   this.syncLock = new object();<br />
+   this.completed = 0;<br />
+  }</p>
+<p>  public int[] GetHttpStatusCodes()<br />
+  {<br />
+   for (int i = 0; i < this.httpStatusCodes.Length; ++i)<br />
+   {<br />
+    HttpWebRequest httpWebRequest = WebRequest.Create(this.uris[i]) as HttpWebRequest;<br />
+    httpWebRequest.Method = "HEAD";<br />
+    httpWebRequest.AllowAutoRedirect = true;<br />
+    httpWebRequest.BeginGetResponse(this.GetResponseCompleted, new object[] { httpWebRequest, i });<br />
+   }</p>
+<p>   lock (this.syncLock)<br />
+   {<br />
+    while (this.completed < this.httpStatusCodes.Length)<br />
+    {<br />
+     Monitor.Wait(this.syncLock);<br />
+    }<br />
+   }</p>
+<p>   return this.httpStatusCodes;<br />
+  }</p>
+<p>  private void GetResponseCompleted(IAsyncResult ar)<br />
+  {<br />
+   object[] objects = ar.AsyncState as object[];<br />
+   HttpWebRequest httpWebRequest = objects[0] as HttpWebRequest;<br />
+   int index = (int)objects[1];</p>
+<p>   HttpWebResponse httpWebResponse = null;</p>
+<p>   try<br />
+   {<br />
+    httpWebResponse = httpWebRequest.EndGetResponse(ar) as HttpWebResponse;<br />
+    this.httpStatusCodes[index] = (int)httpWebResponse.StatusCode;<br />
+   }<br />
+   catch (WebException webException)<br />
+   {<br />
+    httpWebResponse = webException.Response as HttpWebResponse;<br />
+    if (httpWebResponse != null)<br />
+    {<br />
+     this.httpStatusCodes[index] = (int)httpWebResponse.StatusCode;<br />
+    }<br />
+   }<br />
+   finally<br />
+   {<br />
+    if (httpWebResponse != null)<br />
+    {<br />
+     httpWebResponse.Close();<br />
+    }</p>
+<p>    lock (this.syncLock)<br />
+    {<br />
+     Interlocked.Add(ref this.completed, 1);<br />
+     Monitor.Pulse(this.syncLock);<br />
+    }<br />
+   }<br />
+  }<br />
+ }<br />
+}[&#47;code]</p>

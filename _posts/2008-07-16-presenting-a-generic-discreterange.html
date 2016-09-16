@@ -1,0 +1,90 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting a generic DiscreteValuesRange
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 242
+wordpress_url: http://www.timvw.be/?p=242
+date: '2008-07-16 18:11:19 +0200'
+date_gmt: '2008-07-16 16:11:19 +0200'
+categories: []
+tags:
+- Patterns
+comments:
+- id: 281
+  author: Tim Van Wassenhove &raquo; Archive &raquo; Refactoring EffectivityManager
+  author_email: ''
+  author_url: http://www.timvw.be/refactoring-effectivitymanager/
+  date: '2008-10-15 07:52:44 +0200'
+  date_gmt: '2008-10-15 05:52:44 +0200'
+  content: '[...] the implementation i have added a constructor that accepts a DiscreteValuesGenerator<DateTime>
+    which makes it possible to create Periods with a resolution of a day instead of
+    [...]'
+---
+<p>Let me start with a real world example demonstrating the usefulness of a generic DiscreteValuesRange. Imagine that i run a grid computing business and my clients want to book capacity on the grid for a given period. Before their booking is approved, i have to verify that the client has contracts that allow him to use the system for each day of the booking period. Usually, such a check is implemented as following:<&#47;p></p>
+<p>[code lang="csharp"]bool CheckEachDayIsCovered(Booking booking, Client client)<br />
+{<br />
+ DateRange periodToCheck = booking.Period;<br />
+ DateTime endOfTime = new DateTime(9999, 12, 31);</p>
+<p> DateTime dayToCheck = periodToCheck.Begin;<br />
+ while (dayToCheck <= periodToCheck.End)<br />
+ {<br />
+  bool dayIsCovered = false;</p>
+<p>  foreach (Contract contract in client.Contracts)<br />
+  {<br />
+   if (contract.Period.Includes(dayToCheck))<br />
+   {<br />
+    dayIsCovered = true;</p>
+<p>    if (contract.Period.End < endOfTime)<br />
+    {<br />
+     dayToCheck = contract.Period.End.AddDays(1);<br />
+    }<br />
+    else<br />
+    {<br />
+     return true;<br />
+    }<br />
+   }<br />
+  }</p>
+<p>  if (!dayIsCovered)<br />
+  {<br />
+   return false;<br />
+  }<br />
+ }</p>
+<p> return true;<br />
+}[&#47;code]</p>
+<p>After a while clients want to buy licenses for only a couple of hours instead of a full day. I realise that my check can remain the same, but that the concept "EndOfTime" has become DateTime(9999, 12, 31, 23, 59, 59) and that i can advance only an hour instead of a day. Since i want to reuse my code i define the IDiscreteValueProvider<T> interface (See <a href="http:&#47;&#47;en.wikipedia.org&#47;wiki&#47;Discrete_space">Discrete Space<&#47;a>):<&#47;p></p>
+<p>[code lang="csharp"]interface IDiscreteValuesProvider<t><br />
+{<br />
+ T GetNextValue(T value);<br />
+ T MaxValue { get; }<br />
+}[&#47;code]</p>
+<p>After this i'm able to implement a DiscreteValuesRange<T> that implements the following interface (See: <a href="http:&#47;&#47;www.timvw.be&#47;presenting-a-generic-range&#47;">Generic Range<&#47;a>):<&#47;p></p>
+<p>[code lang="csharp"]interface IDiscreteValuesRange<t> : IRange<t><br />
+{<br />
+ bool IsCoveredByRanges(IEnumerable<idiscreteValuesRange<t>> ranges);<br />
+}[&#47;code]</p>
+<p>Now, with all this infrastructure i can rewrite my original method as following:<&#47;p><br />
+[code lang="csharp"]bool CheckEachDayIsCovered(Booking booking, Client client)<br />
+{<br />
+ return booking.Period.IsCoveredByRanges(client.GetContractPeriods());<br />
+}</p>
+<p>class Client<br />
+{<br />
+ ...<br />
+ IEnumerable<range<dateTime>> GetContractPeriods()<br />
+ {<br />
+  foreach (Contract contract in this.Contracts)<br />
+  {<br />
+   yield return contract.Period;<br />
+  }<br />
+ }<br />
+}[&#47;code]</p>
+<p>Feel free to download all this infrastructure: <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;DiscreteRange.zip">DiscreteRange.zip<&#47;a> and use it for your next coverage check.<&#47;p></p>

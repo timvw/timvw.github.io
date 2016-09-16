@@ -1,0 +1,84 @@
+---
+layout: post
+status: publish
+published: true
+title: Exploring System.Interactive
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1702
+wordpress_url: http://www.timvw.be/?p=1702
+date: '2010-02-18 20:09:15 +0100'
+date_gmt: '2010-02-18 19:09:15 +0100'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>A couple of weeks ago i was working on an application that would transfer data through a couple of components as a List<object>. In essence, all we were doing over and over again was the following:<&#47;p></p>
+<p>[code lang="csharp"]interface IMapper<tentity><br />
+{<br />
+ TEntity FromObjectList(List<object> objectList);<br />
+ List<object> ToObjectList(TEntity entity);<br />
+}[&#47;code]</p>
+<p>My initial implementation (using EnumerableEx operators from <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;devlabs&#47;ee794896.aspx">Reactive Extensions<&#47;a>) looked like this:<&#47;p></p>
+<p>[code lang="csharp"]public TEntity FromObjectList(List<object> objectList)<br />
+{<br />
+ var entity = new TEntity();</p>
+<p> properties<br />
+  .Zip(objectList, (property, value) => AssignValueToProperty(entity, property, value))<br />
+  .Run();</p>
+<p> return entity;<br />
+}</p>
+<p>int AssignValueToProperty(object entity, PropertyInfo property, object value)<br />
+{<br />
+ property.SetValue(entity, value, null);<br />
+ return 0;<br />
+}</p>
+<p>public List<object> ToObjectList(TEntity entity)<br />
+{<br />
+ return properties<br />
+  .Select(property => property.GetValue(entity, null))<br />
+  .ToList();<br />
+ }[&#47;code]</p>
+<p>And the consumer code looks like this:<&#47;p></p>
+<p>[code lang="csharp"]var person = new Person {  Id = 2, Score = 1.3, Name = "Tim", Title = "Sir" };</p>
+<p>var personMapper = new Mapper
+<person>()<br />
+ .Map(x => x.Id)<br />
+ .Map(x => x.Score)<br />
+ .Map(x => x.Name)<br />
+ .Map(x => x.Title);</p>
+<p>var data = personMapper.ToObjectList(person);<br />
+var clonedPerson = personMapper.FromObjectList(data);[&#47;code]</p>
+<p>Wait a minute, in most situations we simply want to map all properties on the object. Let's create a mapper for this:<&#47;p></p>
+<p>[code lang="csharp"]class AutoMapper<tentity> : Mapper<tentity> where TEntity : new()<br />
+{<br />
+ public AutoMapper()<br />
+ {<br />
+  typeof(TEntity).GetProperties().Run(property => Map(property));<br />
+ }<br />
+}[&#47;code]</p>
+<p>And now we don't have to waste time doing the same thing over and over again! Because we always need to map all properties of our types we ended up with the following:<&#47;p></p>
+<p>[code lang="csharp"]public static class Mapper<br />
+{<br />
+ public static List<object> ToObjectsList<tentity>(this TEntity entity)<br />
+ {<br />
+  return entity.GetType().GetProperties()<br />
+   .Select(property => property.GetValue(entity, null))<br />
+   .ToList();<br />
+  }</p>
+<p> public static TEntity ToEntity<tentity>(this List<object> objectsList) where TEntity : new()<br />
+ {<br />
+  TEntity entity = new TEntity();<br />
+  entity.GetType().GetProperties()<br />
+   .Zip(objectsList, (property, value) =>{ property.SetValue(entity, value,null); return 0;})<br />
+   .Run();<br />
+  return entity;<br />
+ }<br />
+}[&#47;code]</p>

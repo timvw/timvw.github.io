@@ -1,0 +1,39 @@
+---
+layout: post
+status: publish
+published: true
+title: Querying Active Directory
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 125
+wordpress_url: http://www.timvw.be/querying-active-directory/
+date: '2006-11-04 15:22:15 +0100'
+date_gmt: '2006-11-04 13:22:15 +0100'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>A while ago i wanted to figure out which demo accounts i had already created in my <a href="http:&#47;&#47;www.microsoft.com&#47;windowsserver2003&#47;technologies&#47;directory&#47;activedirectory&#47;default.mspx">Active Directory<&#47;a>. Since i was smart enough to give them all a description 'Demo User' this was easily done as following:<&#47;p><br />
+[code lang="csharp"]<br />
+using( DirectoryEntry directoryEntry = new DirectoryEntry() )<br />
+{<br />
+ using( DirectorySearcher directorySearcher = new DirectorySearcher() )<br />
+ {<br />
+  directorySearcher.Filter = "(&(objectClass=user)(description=Demo User))";<br />
+  directorySearcher.SearchScope = SearchScope.Subtree;<br />
+  directorySearcher.Sort = new SortOption("displayname", SortDirection.Ascending );</p>
+<p>  SearchResultCollection results = directorySearcher.FindAll();<br />
+  foreach( SearchResult result in results )<br />
+  {<br />
+   ResultPropertyCollection propertyCollection = result.Properties;<br />
+   Console.WriteLine( "{0}: {1}", propertyCollection["displayname"][0].ToString(), propertyCollection["description"][0].ToString() );<br />
+   }<br />
+  }<br />
+}[&#47;code]</p>

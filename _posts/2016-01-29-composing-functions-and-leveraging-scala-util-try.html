@@ -1,0 +1,52 @@
+---
+layout: post
+status: publish
+published: true
+title: Composing functions and leveraging scala.util.Try
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2532
+wordpress_url: http://www.timvw.be/?p=2532
+date: '2016-01-29 19:25:09 +0100'
+date_gmt: '2016-01-29 18:25:09 +0100'
+categories:
+- Uncategorized
+tags:
+- fsharp
+- scala
+- railway oriented programming
+comments: []
+---
+<p>Last couple of days I have been hacking around trying to find a cute way to express the intent of my code. Typically it involves parsing some input, validating whatever rules that are in charge and persisting some values. In scala one can compose such a function by using the <a href="http:&#47;&#47;www.scala-lang.org&#47;api&#47;2.11.x&#47;index.html#scala.Function1">andThen<&#47;a> method. Here is a concrete example:<&#47;p></p>
+<p>[code lang="scala"]<br />
+def id(x: String) = x<br />
+def parseInput = id _<br />
+def validate = id _<br />
+def persist = id _</p>
+<p>def usecase1 = parseInput andThen validate andThen persist<br />
+<&#47;code></p>
+<p>Inspired by the excellent series on <a href="http:&#47;&#47;fsharpforfunandprofit.com&#47;posts&#47;recipe-part2&#47;">Railway Oriented Programming<&#47;a> series by <a href="@ScottWlaschin">Scott Wlaschin<&#47;a> I wanted to take advange of <a href="http:&#47;&#47;www.scala-lang.org&#47;files&#47;archive&#47;api&#47;current&#47;index.html#scala.util.Try">scala.util.Try<&#47;a> to remove try&#47;catch clutter from my code. With a little helper function I can now compose my usecase as following:<&#47;p></p>
+<p>[code lang="scala"]<br />
+def makeTry[TIn, TOut](fn: TIn => TOut) = (x: TIn) => Try(fn(x))</p>
+<p>def usecase =<br />
+  makeTry(parseInput andThen validate andThen persist) andThen<br />
+  processErrors andThen<br />
+  proceedOrRetry<br />
+[&#47;code]</p>
+<p>Instead of composing functions I could have also written code as a chain of values that are transformed by subsequent functions as following (Very much fsharp like):<&#47;p></p>
+<p>[code lang="scala"]<br />
+class Pipe[T](val x: T) {<br />
+  def |> [U](f: T => U) = f(x)<br />
+}</p>
+<p>implicit def toPipe[T](x: T) = new Pipe(x)</p>
+<p>def usecase(x: String) = Try(x |> parseInput |> validate |> persist) |><br />
+  processErrors |><br />
+  proceedOrRetry<br />
+[&#47;code]</p>
+<p>As you can see, with scala there is more than one way to express something in an elegant way! ;)<&#47;p></p>

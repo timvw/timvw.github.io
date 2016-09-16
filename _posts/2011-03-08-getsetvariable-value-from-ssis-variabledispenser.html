@@ -1,0 +1,63 @@
+---
+layout: post
+status: publish
+published: true
+title: Get&#47;SetVariable value from SSIS VariableDispenser
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2071
+wordpress_url: http://www.timvw.be/?p=2071
+date: '2011-03-08 20:37:57 +0100'
+date_gmt: '2011-03-08 19:37:57 +0100'
+categories:
+- Uncategorized
+tags:
+- C
+- SSIS
+comments:
+- id: 49302
+  author: Jim C
+  author_email: ''
+  author_url: ''
+  date: '2012-05-22 18:25:43 +0200'
+  date_gmt: '2012-05-22 17:25:43 +0200'
+  content: Hi - I am having trouble getting this to work.  Any chance you could provide
+    an example of how to use it?
+---
+<p>Here is some code that allows you to Get&#47;Set a variable (object) value from&#47;on the <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;microsoft.sqlserver.dts.runtime.variabledispenser.aspx">VariableDispenser<&#47;a> in an SSIS package:<&#47;p></p>
+<p>[code lang="csharp"]<br />
+public static T GetVariable<T>(this VariableDispenser variableDispenser, string scopedVariableName)<br />
+{<br />
+ Variables variables = null;</p>
+<p> try<br />
+ {<br />
+  variableDispenser.LockForRead(scopedVariableName);<br />
+  variableDispenser.GetVariables(ref variables);<br />
+  return (T)variables[0].Value;<br />
+ }<br />
+ finally<br />
+ {<br />
+  if (variables != null) variables.Unlock();<br />
+ }<br />
+}</p>
+<p>public static void SetVariable<T>(this VariableDispenser variableDispenser, string scopedVariableName, T value)<br />
+{<br />
+ Variables variables = null;</p>
+<p> try<br />
+ {<br />
+  variableDispenser.LockForWrite(scopedVariableName);<br />
+  variableDispenser.GetVariables(ref variables);<br />
+  variables[0].Value = value;<br />
+ }<br />
+ finally<br />
+ {<br />
+  if (variables != null) variables.Unlock();<br />
+ }<br />
+}<br />
+[&#47;code]</p>

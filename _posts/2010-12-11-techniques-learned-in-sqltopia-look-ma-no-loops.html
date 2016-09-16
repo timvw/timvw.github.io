@@ -1,0 +1,125 @@
+---
+layout: post
+status: publish
+published: true
+title: 'Techniques learned in SQLtopia: Look Ma, no loops!'
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2012
+wordpress_url: http://www.timvw.be/?p=2012
+date: '2010-12-11 10:31:56 +0100'
+date_gmt: '2010-12-11 09:31:56 +0100'
+categories:
+- Uncategorized
+tags:
+- SQL
+comments:
+- id: 15100
+  author: Building a Nums table (quickly) | Tim Van Wassenhove
+  author_email: ''
+  author_url: http://www.timvw.be/2011/07/13/building-a-nums-table-quickly/
+  date: '2011-07-13 09:45:20 +0200'
+  date_gmt: '2011-07-13 08:45:20 +0200'
+  content: '[...] A while ago i presented my approach to generate a nums table here.
+    [...]'
+---
+<p>I have been programming in c-based languages for more than 10 years now. Lately i have spent quite a bit of time in SQLtopia and learned a couple of techniques that are quite different from what i was used to.<&#47;p></p>
+<p>Let me explain with an example: The boss comes in and asks for a report that contains all the days on which i have worked this year. As a typical c# programmer i come up with the following solution: Iterate over all the days in the year and skip the days i was out on holidays:<&#47;p></p>
+<p>[code lang="csharp"]<br />
+IEnumerable<DateTime> FindWorkingDays()<br />
+{<br />
+ var begin = new DateTime(2010, 01, 01);<br />
+ var end = new DateTime(2010, 12, 31);</p>
+<p> var holidays = new[]<br />
+ {<br />
+  new Holiday { Begin = new DateTime(2010, 07, 01), End = new DateTime(2010, 07, 31) },<br />
+  new Holiday { Begin = new DateTime(2010, 09, 01), End = new DateTime(2010, 09, 15) }<br />
+ };             </p>
+<p> for (var date = begin; date <= end; date = date.AddDays(1))<br />
+ {<br />
+  if(holidays.Any(holiday => holiday.Begin <= date &amp;&amp; date <= holiday.End)) continue;<br />
+  yield return date;<br />
+ }<br />
+}<br />
+[&#47;code]</p>
+<p>In SQLtopia it is recommended to use set-based solutions instead of loops so we need a radically different solution.<&#47;p></p>
+<p>Here is how we generate rows:<&#47;p></p>
+<p>[code lang="sql"]<br />
+WITH<br />
+    [Nums1] AS ( SELECT 1 AS [Value] UNION SELECT 2 AS [Value] )<br />
+  , [Nums2] AS ( SELECT A.* FROM [Nums1] AS A, [Nums1] AS B, [Nums1] AS C)<br />
+  , [Nums3] AS ( SELECT A.* FROM [Nums2] AS A, [Nums2] AS B, [Nums2] AS C)<br />
+  , [Nums4] AS ( SELECT A.* FROM [Nums3] AS A, [Nums3] AS B )<br />
+SELECT * FROM [Nums4];<br />
+[&#47;code]</p>
+<p>With rows we can generate numbers:<&#47;p></p>
+<p>[code lang="sql"]<br />
+DECLARE @count INT = 1000;</p>
+<p>WITH<br />
+    [Nums1] AS ( SELECT 1 AS [Value] UNION SELECT 2 AS [Value] )<br />
+  , [Nums2] AS ( SELECT A.* FROM [Nums1] AS A, [Nums1] AS B, [Nums1] AS C)<br />
+  , [Nums3] AS ( SELECT A.* FROM [Nums2] AS A, [Nums2] AS B, [Nums2] AS C)<br />
+  , [Nums4] AS ( SELECT A.* FROM [Nums3] AS A, [Nums3] AS B )<br />
+  , [Numbers] AS ( SELECT TOP(@count) -1 + ROW_NUMBER() OVER(ORDER BY [Value]) AS [Value] FROM[Nums4] )<br />
+SELECT * FROM [Numbers];<br />
+[&#47;code]</p>
+<p>And with numbers we can generate dates:<&#47;p></p>
+<p>[code lang="sql"]<br />
+DECLARE @begin DATETIME =  '2010-01-01';<br />
+DECLARE @end DATETIME =  '2010-12-31';<br />
+DECLARE @count INT = DATEDIFF(DAY, @begin, @end) + 1;</p>
+<p>WITH<br />
+    [Nums1] AS ( SELECT 1 AS [Value] UNION SELECT 2 AS [Value] )<br />
+  , [Nums2] AS ( SELECT A.* FROM [Nums1] AS A, [Nums1] AS B, [Nums1] AS C)<br />
+  , [Nums3] AS ( SELECT A.* FROM [Nums2] AS A, [Nums2] AS B, [Nums2] AS C)<br />
+  , [Nums4] AS ( SELECT A.* FROM [Nums3] AS A, [Nums3] AS B )<br />
+  , [Numbers] AS ( SELECT TOP(@count) -1 + ROW_NUMBER() OVER(ORDER BY [Value]) AS [Value] FROM[Nums4] )<br />
+  , [Dates] AS ( SELECT DATEADD(DAY, [Value], @begin) AS [Date] FROM [Numbers] )<br />
+SELECT * FROM [Dates];<br />
+[&#47;code] </p>
+<p>With dates we can build the dates on which we were out on holidays:<&#47;p></p>
+<p>[code lang="sql"]<br />
+DECLARE @begin DATETIME =  '2010-01-01';<br />
+DECLARE @end DATETIME =  '2010-12-31';<br />
+DECLARE @count INT = DATEDIFF(DAY, @begin, @end) + 1;</p>
+<p>WITH<br />
+    [Nums1] AS ( SELECT 1 AS [Value] UNION SELECT 2 AS [Value] )<br />
+  , [Nums2] AS ( SELECT A.* FROM [Nums1] AS A, [Nums1] AS B, [Nums1] AS C)<br />
+  , [Nums3] AS ( SELECT A.* FROM [Nums2] AS A, [Nums2] AS B, [Nums2] AS C)<br />
+  , [Nums4] AS ( SELECT A.* FROM [Nums3] AS A, [Nums3] AS B )<br />
+  , [Numbers] AS ( SELECT TOP(@count) -1 + ROW_NUMBER() OVER(ORDER BY [Value]) AS [Value] FROM[Nums4] )<br />
+  , [Dates] AS ( SELECT DATEADD(DAY, [Value], @begin) AS [Date] FROM [Numbers] )<br />
+  , [Holidays] AS ( SELECT '2010-07-01' AS [Begin], '2010-07-31' AS [End]<br />
+                    UNION<br />
+                    SELECT '2010-09-01' AS [Begin], '2010-09-15' AS [End]<br />
+                  )<br />
+SELECT [Date] FROM [Holidays],[Dates] WHERE [Date] BETWEEN [Begin] AND [End] ORDER BY [Date];<br />
+[&#47;code]</p>
+<p>And now we can easily select the dates that are not holiday dates:<&#47;p></p>
+<p>[code lang="sql"]<br />
+DECLARE @begin DATETIME =  '2010-01-01';<br />
+DECLARE @end DATETIME =  '2010-12-31';<br />
+DECLARE @count INT = DATEDIFF(DAY, @begin, @end) + 1;</p>
+<p>WITH<br />
+	[Nums1] AS ( SELECT 1 AS [Value] UNION SELECT 2 AS [Value] )<br />
+  , [Nums2] AS ( SELECT A.* FROM [Nums1] AS A, [Nums1] AS B, [Nums1] AS C)<br />
+  , [Nums3] AS ( SELECT A.* FROM [Nums2] AS A, [Nums2] AS B, [Nums2] AS C)<br />
+  , [Nums4] AS ( SELECT A.* FROM [Nums3] AS A, [Nums3] AS B )<br />
+  , [Numbers] AS ( SELECT TOP(@count) -1 + ROW_NUMBER() OVER(ORDER BY [Value]) AS [Value] FROM[Nums4] )<br />
+  , [Dates] AS ( SELECT DATEADD(DAY, [Value], @begin) AS [Date] FROM [Numbers] WHERE [Value] <= DATEDIFF(DAY, @begin, @end))<br />
+  , [Holidays] AS ( SELECT '2010-07-01' AS [Begin], '2010-07-31' AS [End]<br />
+                    UNION<br />
+                    SELECT '2010-09-01' AS [Begin], '2010-09-15' AS [End]<br />
+                  )<br />
+  , [HolidayDates] AS (SELECT [Date] FROM [Holidays],[Dates] WHERE [Date] BETWEEN [Begin] AND [End] )</p>
+<p>SELECT [Dates].[Date] FROM [Dates]<br />
+					  LEFT OUTER JOIN [HolidayDates] ON [Dates].[Date] = [HolidayDates].[Date]<br />
+					  WHERE [HolidayDates].[Date] IS NULL;<br />
+[&#47;code]</p>
+<p>Look Ma, no loops!<&#47;p></p>

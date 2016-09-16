@@ -1,0 +1,94 @@
+---
+layout: post
+status: publish
+published: true
+title: Drag and Drop on a DataGridView
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 9
+wordpress_url: http://www.timvw.be/drag-and-drop-on-a-datagridview/
+date: '2006-09-16 02:02:36 +0200'
+date_gmt: '2006-09-16 00:02:36 +0200'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments:
+- id: 50
+  author: Tim Lee
+  author_email: tj_lee@bresnan.net
+  author_url: ''
+  date: '2007-01-04 05:36:51 +0100'
+  date_gmt: '2007-01-04 03:36:51 +0100'
+  content: Is there a way to make all the items in the datagridview remain and just
+    move the items. this code writes over the drop site intead of shifting it. please
+    let me know. tj-lee@bresnan.net
+- id: 51
+  author: admin
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2007-01-04 18:28:07 +0100'
+  date_gmt: '2007-01-04 16:28:07 +0100'
+  content: |-
+    I'm not quite sure what you're asking for..
+
+    The only thing i can imagine is the following:
+    In the MouseDownEventHandler uncomment the line that removes the value
+    &#47;&#47;this.dataGridView1.Rows[info.RowIndex].Cells[info.ColumnIndex].Value = null;
+    &#47;&#47; you may want to store the location of the source cell somewhere
+
+    And in the DragDropEventHandler you do the actual removing (using the stored location).
+- id: 52
+  author: Arif
+  author_email: marifdu@gmail.com
+  author_url: ''
+  date: '2007-10-11 11:19:18 +0200'
+  date_gmt: '2007-10-11 09:19:18 +0200'
+  content: |-
+    Hello.
+    Is there any way to drag item from one data gridview to another data grid view.
+    And is any validation rule that if i type text other than numerial then it show error message.
+- id: 53
+  author: Varuna
+  author_email: avhathwaick@gmail.com
+  author_url: ''
+  date: '2008-07-03 07:35:09 +0200'
+  date_gmt: '2008-07-03 05:35:09 +0200'
+  content: Thnx dear
+---
+<p>Here is a bit of sample code that allows you to drag and drop a cellvalue in a DataGridView (don't forget to set the AllowDrop property of the DataGridView to true). Notice that you need to translate the X and Y properties of the DragEventArgs first (unlike the X and Y properties of the MouseEventArgs):<&#47;p><br />
+[code lang="csharp"]<br />
+private void dataGridView1_MouseDown( object sender, MouseEventArgs e )<br />
+{<br />
+ DataGridView.HitTestInfo info = this.dataGridView1.HitTest( e.X, e.Y );<br />
+ if ( info.RowIndex != -1 && info.ColumnIndex != -1 )<br />
+ {<br />
+  Object value = this.dataGridView1.Rows[info.RowIndex].Cells[info.ColumnIndex].Value;<br />
+  if (  value != null )<br />
+  {<br />
+   this.dataGridView1.Rows[info.RowIndex].Cells[info.ColumnIndex].Value = null;<br />
+   this.DoDragDrop( value, DragDropEffects.Move );<br />
+  }<br />
+ }<br />
+}</p>
+<p>private void dataGridView1_DragDrop( object sender, DragEventArgs e )<br />
+{<br />
+ Point p = this.dataGridView1.PointToClient( new Point( e.X, e.Y ) );<br />
+ DataGridView.HitTestInfo info = this.dataGridView1.HitTest( p.X, p.Y );<br />
+ if ( info.RowIndex != -1 && info.ColumnIndex != -1 )<br />
+ {<br />
+  Object value = (Object)e.Data.GetData( typeof( string ) );<br />
+  this.dataGridView1.Rows[info.RowIndex].Cells[info.ColumnIndex].Value = value;<br />
+ }<br />
+}</p>
+<p>private void dataGridView1_DragEnter( object sender, DragEventArgs e )<br />
+{<br />
+ e.Effect = DragDropEffects.Move;<br />
+}<br />
+[&#47;code]</p>

@@ -1,0 +1,50 @@
+---
+layout: post
+status: publish
+published: true
+title: Professional SQL Server 2005 Reporting Services
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 185
+wordpress_url: http://www.timvw.be/displaying-northwind-employees-image-with-sql-server-reporting-services/
+date: '2007-08-04 22:09:06 +0200'
+date_gmt: '2007-08-04 20:09:06 +0200'
+categories: []
+tags:
+- Book reviews
+comments:
+- id: 242
+  author: digitalsuperman
+  author_email: digitalsuperman@gmail.com
+  author_url: ''
+  date: '2008-10-10 11:07:47 +0200'
+  date_gmt: '2008-10-10 09:07:47 +0200'
+  content: |-
+    Hi Tim,
+
+    I've got the same problem too. but this time the photo doesn't come from the database but from an public website? any ideas how to solve it?
+
+    Thanks a bunch in advance.
+
+    Joseph
+---
+<p>Last couple of days i've been reading <a href="http:&#47;&#47;www.wrox.com&#47;WileyCDA&#47;WroxTitle&#47;productCd-0764568787.html">Professional SQL Server Reporting Services<&#47;a>. Today i wanted to display some images so i decided to use the Northwind database which has an Employees table that contains photos.. I set the MIMEType to image&#47;bmp, Source to Database and Value to =Fields!Photo.Value but i kept getting a red cross instead of the image:<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;reportingservices-01.gif" alt="image of a sql server reporting service report where an error box appears instead of the image"&#47;></p>
+<p>After a lot of searching, i found the following in <a href="http:&#47;&#47;www.sqlreportingservices.net&#47;BookSrs2000&#47;default.aspx">Hitchhiker's Guide to SQL Server 2000 Reporting Services<&#47;a>:<&#47;p></p>
+<blockquote>
+<div>
+As we touched on earlier, you might find there is a problem if you need to use images that have been added to SQL Server through Microsoft Access or drawn directly from an Access&#47;JET database or another similar tool. If you've run the Image wizard and bound the images to the DataSet and they still don't appear to render, the image data might be corrupted or simply prefixed with an OLE header. The Northwind Employees report is an example of a report with this issuered error boxes appear in the Image controls.<br />
+<br&#47;><br&#47;><br />
+The reason for this could be that the image data is corrupted or simply has an OLE header at the beginning of the binary image data. Once this header is removed or bypassed, the image displays correctly. The typical OLE header is 105 bytes long and can be stepped over by editing the image control's Value property to the following expression:<br />
+<br&#47;><br&#47;><br />
+<b>=System.Convert.FromBase64String(Mid(System.Convert.ToBase64String( Fields!Photo.Value ),105))<&#47;b><br />
+<&#47;div><br />
+<&#47;blockquote></p>
+<p>And yes, once i used this as value for the image, everything worked as expected:<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;reportingservices-02.gif" alt="image of a sql server reporting service report where an image is correctly displayed"&#47;></p>

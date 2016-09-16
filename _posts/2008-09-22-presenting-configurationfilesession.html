@@ -1,0 +1,48 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting ConfigurationFileSession
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 565
+wordpress_url: http://www.timvw.be/?p=565
+date: '2008-09-22 17:08:46 +0200'
+date_gmt: '2008-09-22 15:08:46 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Here is a little class that allows you to use different configuration files. I find it extremely useful for tests where i want to mock the values that would be retrieved via the <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.configuration.configurationmanager.aspx">ConfigurationManager<&#47;a>. Here are a couple of examples how it can be used:<&#47;p></p>
+<p>[code lang="csharp"][TestMethod]<br />
+public void ShouldUseSystemTimeWhenNoValuesAreProvided()<br />
+{<br />
+ using (new ConfigurationFileSession("WithoutDateTimeManipulation.config"))<br />
+ {<br />
+  ApplicationEnvironment.Instance.Refresh();</p>
+<p>  DateTime now = DateTime.UtcNow;<br />
+  TimeSpan allowedDifference = TimeSpan.FromSeconds(1);<br />
+  TimeSpan actualDifference = ApplicationEnvironment.Instance.CurrentDateTime - configurationNow;<br />
+  Assert.IsTrue(actualDifference  < allowedDifference);<br />
+ }<br />
+}</p>
+<p>[TestMethod]<br />
+public void ShouldUseValuesAsProvided()<br />
+{<br />
+ using (new ConfigurationFileSession("WithDateTimeManipulation.config"))<br />
+ {<br />
+  ApplicationEnvironment.Instance.Refresh();</p>
+<p>  DateTime now = new DateTime(2000, 1, 1);<br />
+  TimeSpan allowedDifference = TimeSpan.FromSeconds(1);<br />
+  TimeSpan actualDifference = ApplicationEnvironment.Instance.CurrentDateTime - configurationNow;<br />
+  Assert.IsTrue(actualDifference < allowedDifference);<br />
+ }<br />
+}[&#47;code]</p>
+<p>Feel free to download the code from <a href="http:&#47;&#47;www.codeplex.com&#47;BeTimvwFramework">BeTimvwFramework<&#47;a>.</p>

@@ -1,0 +1,60 @@
+---
+layout: post
+status: publish
+published: true
+title: Listen to online radio
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 77
+wordpress_url: http://www.timvw.be/listen-to-online-radio/
+date: '2004-05-21 00:40:28 +0200'
+date_gmt: '2004-05-20 22:40:28 +0200'
+categories: []
+tags:
+- Bash
+comments: []
+---
+<p>[code lang="bash"]<br />
+#!&#47;bin&#47;sh<br />
+#<br />
+# Author: Tim Van Wassenhove <timvw@users.sourceforge.net><br />
+# Update: 2004-05-21 02:50:31<br />
+#<br />
+# This script allows you to listen to Belgian online radio streams.<br />
+#</p>
+<p>if [ "$1" == "" ]; then<br />
+echo "<br />
+[1]   Radio 1<br />
+[2]   Radio 2<br />
+[3]   Studio Brussel<br />
+[4]   Donna<br />
+[5]   4FM<br />
+[6]   QMusic<br />
+[7]   Topradio<br />
+[9]   Klara</p>
+<p>Enter your choice: "<br />
+read choice<br />
+else<br />
+choice="$1"<br />
+fi</p>
+<p>case "$choice" in<br />
+    1) station="mms:&#47;&#47;streampower.belgacom.be:1755&#47;radio1high" ;;<br />
+    2) station="mms:&#47;&#47;streampower.belgacom.be:1755&#47;ra2vlbhigh" ;;<br />
+    3) station="mms:&#47;&#47;streampower.belgacom.be:1755&#47;stubruhigh" ;;<br />
+    4) station="mms:&#47;&#47;streampower.belgacom.be:1755&#47;donnahigh" ;;<br />
+    5) station="mms:&#47;&#47;mss.streampower.be&#47;4fmhi" ;;<br />
+    6) station="mms:&#47;&#47;mss.streampower.be&#47;qmusic_ahi" ;;<br />
+    7) station="mms:&#47;&#47;mss.streampower.be&#47;topahi" ;;<br />
+    9) station="mms:&#47;&#47;streampower.belgacom.be:1755&#47;stubruhigh" ;;<br />
+    *) echo "Wrong choice!"<br />
+    exit<br />
+esac</p>
+<p>mplayer $station</p>
+<p>exit<br />
+[&#47;code]</p>

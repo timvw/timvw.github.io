@@ -1,0 +1,49 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting FilterList
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1504
+wordpress_url: http://www.timvw.be/?p=1504
+date: '2009-11-06 11:18:27 +0100'
+date_gmt: '2009-11-06 10:18:27 +0100'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments:
+- id: 21343
+  author: JJ
+  author_email: jpjjones@hotmail.com
+  author_url: ''
+  date: '2011-10-31 17:19:53 +0100'
+  date_gmt: '2011-10-31 16:19:53 +0100'
+  content: Brilliant - many thanks. I cant believe that the Generic List and DataGridViews
+    can cause so much pain. Both your FilterList and the SortableBindingList are brilliant!
+    Do exactly what I'm after. Basically two lists A &amp; B, and I'm filtering both
+    lists, and moving items from one list to another - and modifying items in the
+    list. Awesome. No more troublesome DataGridView not refreshing because I was using
+    the BindingList with Generic Lists... great!
+---
+<p>Earlier today i decided to add 'Filtering' to my SortableBindingList. This resulted in writing a <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;FilterList.txt">FilterList<&#47;a> class. This class can be easily used as following:<&#47;p></p>
+<p>[code lang="csharp"]void textBoxFilter_KeyUp(object sender, KeyEventArgs e)<br />
+{<br />
+ var filterChars = this.textBoxFilter.Text.ToLower();<br />
+ this.Filter(filterChars);<br />
+}</p>
+<p>void Filter(string filterChars)<br />
+{<br />
+ var persons = (FilterList
+<person>)this.dataGridView1.DataSource;<br />
+ persons.Filter(p => p.Firstname.ToLower().Contains(filterChars));<br />
+}[&#47;code]</p>
+<p>I even created a screencast to demonstrate it:<&#47;p></p>
+<p>[mediaplayer src='http:&#47;&#47;www.timvw.be&#47;screencasts&#47;filterlist.wmv'  width=512 height=344]</p>

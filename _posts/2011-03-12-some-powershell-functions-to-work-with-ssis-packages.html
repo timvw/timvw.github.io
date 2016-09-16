@@ -1,0 +1,64 @@
+---
+layout: post
+status: publish
+published: true
+title: Some PowerShell functions to work with SSIS packages
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2095
+wordpress_url: http://www.timvw.be/?p=2095
+date: '2011-03-12 14:23:48 +0100'
+date_gmt: '2011-03-12 13:23:48 +0100'
+categories:
+- Uncategorized
+tags:
+- PowerShell
+- SSIS
+- xpath
+comments:
+- id: 9137
+  author: Dmitriy
+  author_email: 4dr@mail.ru
+  author_url: ''
+  date: '2011-04-22 13:40:28 +0200'
+  date_gmt: '2011-04-22 12:40:28 +0200'
+  content: Thank you Tim. You function set is what I really looking for. Will add
+    several functions to update specific variable for completeness
+---
+<p>Here are some powershell functions (using XPath) that come in handy when working with SSIS packages:<&#47;p></p>
+<p>[code lang="powershell"]<br />
+function FindConnectionManagerNames {<br />
+	param($fileName)<br />
+	$xml = [xml] (Get-Content $fileName);<br />
+	$ns = New-Object Xml.XmlNamespaceManager $xml.NameTable;<br />
+	$ns.AddNamespace("DTS", "www.microsoft.com&#47;SqlServer&#47;Dts");<br />
+	$xml.SelectNodes("&#47;&#47;DTS:ConnectionManager&#47;DTS:Property[@DTS:Name='ObjectName']", $ns) | Foreach { $_."#text"; }<br />
+}</p>
+<p>function GetConnectionManagerConnectionString {<br />
+	param($fileName, $connectionManagerName)<br />
+	$xml = [xml] (Get-Content $fileName);<br />
+	$ns = New-Object Xml.XmlNamespaceManager $xml.NameTable;<br />
+	$ns.AddNamespace("DTS", "www.microsoft.com&#47;SqlServer&#47;Dts");<br />
+	$xml.SelectSingleNode("&#47;&#47;DTS:ConnectionManager[DTS:Property='$connectionManagerName']&#47;DTS:ObjectData&#47;DTS:ConnectionManager&#47;DTS:Property[@DTS:Name='ConnectionString']", $ns)."#text";<br />
+}</p>
+<p>function FindVariables {<br />
+	param($fileName)<br />
+	$xml = [xml] (Get-Content $fileName);<br />
+	$ns = New-Object Xml.XmlNamespaceManager $xml.NameTable;<br />
+	$ns.AddNamespace("DTS", "www.microsoft.com&#47;SqlServer&#47;Dts");<br />
+	$xml.SelectNodes("&#47;&#47;DTS:Variable&#47;DTS:Property[@DTS:Name='ObjectName']", $ns) | Foreach { $_."#text"; }<br />
+}</p>
+<p>function GetVariable {<br />
+	param($fileName, $variableName)<br />
+	$xml = [xml] (Get-Content $fileName);<br />
+	$ns = New-Object Xml.XmlNamespaceManager $xml.NameTable;<br />
+	$ns.AddNamespace("DTS", "www.microsoft.com&#47;SqlServer&#47;Dts");<br />
+	$xml.SelectSingleNode("&#47;&#47;DTS:Variable[DTS:Property='$variableName']&#47;DTS:VariableValue", $ns)."#text";<br />
+}<br />
+[&#47;code]</p>

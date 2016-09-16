@@ -1,0 +1,98 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting ApplicationEnvironment
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 571
+wordpress_url: http://www.timvw.be/?p=571
+date: '2008-09-22 17:18:11 +0200'
+date_gmt: '2008-09-22 15:18:11 +0200'
+categories: []
+tags:
+- C#
+comments:
+- id: 302
+  author: Tim Van Wassenhove &raquo; Archive &raquo; Refactoring ApplicationEnvironment
+  author_email: ''
+  author_url: http://www.timvw.be/refactoring-applicationenvironment/
+  date: '2008-09-23 16:39:14 +0200'
+  date_gmt: '2008-09-23 14:39:14 +0200'
+  content: '[...] i blogged about an ApplicationEnvironment which had a dependency
+    on the application configuration file. With my ConfigurationFileSession i [...]'
+- id: 303
+  author: Luca Milan
+  author_email: luca.milan@gmail.com
+  author_url: ''
+  date: '2008-10-16 01:00:38 +0200'
+  date_gmt: '2008-10-15 23:00:38 +0200'
+  content: 'Can you use a generic IClock interface, and inject this. IClock have a
+    simple method: IClock.GetTime(). You can create many mocks: PastClock, UtcClock
+    and so on...'
+- id: 304
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2008-10-16 08:03:51 +0200'
+  date_gmt: '2008-10-16 06:03:51 +0200'
+  content: You are absolutely right. Modifying the static Instance property to return
+    an IApplicationEnvironment instead would increase the flexibility.
+---
+<p>Imagine we are an ice cream vendor. During summer months our available capacity is twice as high as in the rest of the year. In code this problem looks like the following:<&#47;p></p>
+<p>[code lang="csharp"]public int AvailableCapacity<br />
+{<br />
+ get<br />
+ {<br />
+  DateTime now = DateTime.UtcNow;</p>
+<p>  if (new DateTime(now.Year, 6, 1) <= now && now <= new DateTime(now.Year, 9, 1)  )<br />
+  {<br />
+   return 10000;<br />
+  }<br />
+  else<br />
+  {<br />
+   return 5000;<br />
+  }<br />
+ }<br />
+}[&#47;code]</p>
+<p>This code is pretty difficult to test because it depends on DateTime.UtcNow. In order to get control over that dependency i have defined an ApplicationEnvironment and rewritten the code as following:<&#47;p></p>
+<p>[code lang="csharp"]public int AvailableCapacity<br />
+{<br />
+ get<br />
+ {<br />
+  DateTime now = ApplicationEnvironment.Instance.CurrentDateTime;</p>
+<p>  if (new DateTime(now.Year, 6, 1) <= now && now <= new DateTime(now.Year, 9, 1)  )<br />
+  {<br />
+   return 10000;<br />
+  }<br />
+  else<br />
+  {<br />
+   return 5000;<br />
+  }<br />
+ }<br />
+}[&#47;code]</p>
+<p>Now i can use my <a href="http:&#47;&#47;www.timvw.be&#47;presenting-configurationfilesession&#47;">ConfigurationFileSession<&#47;a> to test this code:<&#47;p></p>
+<p>[code lang="csharp"][TestMethod]<br />
+public void ShouldReturn10000InSummer()<br />
+{<br />
+ using (new ConfigurationFileSession("Summer.config"))<br />
+ {<br />
+  ApplicationEnvironment.Instance.Refresh();<br />
+  Assert.AreEqual(10000, new IceCreamPlant().AvailableCapacity);<br />
+ }<br />
+}</p>
+<p>[TestMethod]<br />
+public void ShouldReturn5000InWinter()<br />
+{<br />
+ using (new ConfigurationFileSession("Winter.config"))<br />
+ {<br />
+  ApplicationEnvironment.Instance.Refresh();<br />
+  Assert.AreEqual(5000, new IceCreamPlant().AvailableCapacity);<br />
+ }<br />
+}[&#47;code]</p>

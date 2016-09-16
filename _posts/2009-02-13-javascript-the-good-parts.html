@@ -1,0 +1,38 @@
+---
+layout: post
+status: publish
+published: true
+title: 'JavaScript: The Good Parts'
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 830
+wordpress_url: http://www.timvw.be/?p=830
+date: '2009-02-13 08:59:10 +0100'
+date_gmt: '2009-02-13 07:59:10 +0100'
+categories: []
+tags:
+- Book reviews
+comments: []
+---
+<p>This week i have been reading <a href="http:&#47;&#47;www.amazon.com&#47;JavaScript-Good-Parts-Douglas-Crockford&#47;dp&#47;0596517742">JavaScript: The Good Parts<&#47;a>. Although the book is pretty thin, approximitaly. 150 pages, the information that is inside the book is really powerful. The book provides deep insight for people that are considering to implement functionality in JavaScript. I would say that this is a must read.<&#47;p></p>
+<p>Here is an example of something that i learned from the book (A workaround for an error in the ECMAScript Language Specification which causes this to be set incorrectly for inner functions):<&#47;p></p>
+<p>[code lang="javascript"]function Broken(name) {<br />
+ this.name = name;<br />
+ function GetName() { return this.name; }<br />
+ this.Display = function() { alert(GetName()); }<br />
+}</p>
+<p>new Broken("broken").Display(); &#47;&#47; displays 'undefined'[&#47;code]</p>
+<p>&nbsp;</p>
+<p>[code lang="javascript"]function Fixed(name) {<br />
+ var that = this;<br />
+ this.name = name;</p>
+<p>  function GetName() { return that.name; }<br />
+  this.Display = function() { alert(GetName()); }<br />
+}</p>
+<p>new Fixed("fixed").Display(); &#47;&#47; displays 'fixed'[&#47;code]</p>

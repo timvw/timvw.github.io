@@ -1,0 +1,29 @@
+---
+layout: post
+status: publish
+published: true
+title: Instruct T4 to use C# v3.5
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1248
+wordpress_url: http://www.timvw.be/?p=1248
+date: '2009-09-11 09:05:33 +0200'
+date_gmt: '2009-09-11 08:05:33 +0200'
+categories: []
+tags:
+- Visual Basic
+- C#
+comments: []
+---
+<p>Consider this simple T4 template:<&#47;p></p>
+<p>[code lang="xml"]<# for (var i = 0; i < 10; ++i) { WriteLine("hello"); } #>[&#47;code]</p>
+<p>Trying to build the project results in a compilation error because 'var' is an unknown type. A bit of research learned me that i should instruct the processor to use a specific c# version like this:<&#47;p></p>
+<p>[code lang="xml"]<#@ template language="C#v3.5" inherits="Microsoft.VisualStudio.TextTemplating.VSHost.ModelingTextTransformation"  #><br />
+<# for (var i = 0; i < 10; ++i) { WriteLine("hello"); } #>[&#47;code]</p>
+<p>Problem solved :)<&#47;p></p>

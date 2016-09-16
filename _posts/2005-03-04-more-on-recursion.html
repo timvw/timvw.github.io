@@ -1,0 +1,71 @@
+---
+layout: post
+status: publish
+published: true
+title: More on recursion
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 95
+wordpress_url: http://www.timvw.be/more-on-recursion/
+date: '2005-03-04 01:34:26 +0100'
+date_gmt: '2005-03-03 23:34:26 +0100'
+categories: []
+tags:
+- PHP
+comments: []
+---
+<p>Yesterday i already wrote that an interative implementation for a recursive function is more efficient. And i gave you an example of the fibonacci function. Well, today i'm here to present you an implementation for every recursive function.<&#47;p><br />
+[code lang="php"]class Math<br />
+{<br />
+    &#47;&#47; calculate the linear combination<br />
+    &#47;&#47; fe:<br />
+    &#47;&#47; coefficients = array(1, 2, 3)<br />
+    &#47;&#47; values = array(4, 5, 6)<br />
+    &#47;&#47; returns:  (1 * 4) + (2 * 5) + (3 * 6)<br />
+    function lc($coefficients, $values)<br />
+    {<br />
+        if (count($coefficients) != count($values))<br />
+        {<br />
+            return false;<br />
+        }</p>
+<p>        $result = 0;<br />
+        for ($i = 0; $i < count($coefficients); ++$i)<br />
+        {<br />
+            $result += $coefficients[$i] * $values[$i];<br />
+        }<br />
+        return $result;<br />
+    }</p>
+<p>    &#47;&#47; lookup the value for the recursive function<br />
+    &#47;&#47; fe:<br />
+    &#47;&#47; n: 3<br />
+    &#47;&#47; coefficients = array(a, b)<br />
+    &#47;&#47; initvalues = array(0, 1)<br />
+    &#47;&#47; returns: 2<br />
+    &#47;&#47; this is the same as f(n) = (a * (n-2)) + (b * (n-1))<br />
+    function recursive($n, $coefficients, $initvalues)<br />
+    {<br />
+        if ($n < count($initvalues))<br />
+        {<br />
+            return $initvalues[$n];<br />
+        }</p>
+<p>        for ($i = count($initvalues); $i <= $n; ++$i)<br />
+        {<br />
+            $result = Math::lc($coefficients, $initvalues);<br />
+            array_shift($initvalues);<br />
+            array_push($initvalues, $result);<br />
+        }<br />
+        return $result;<br />
+    }<br />
+}<br />
+[&#47;code]</p>
+<p>As an example we use this class to calculate fibonacci(3):<&#47;p><br />
+[code lang="php"]$coefficients = array(1, 1); &#47;&#47; f(n) = (1 * f(n-2)) + (1 * f(n-1))<br />
+$initvalues = array(0, 1); &#47;&#47; f(0) = 0 and f(1) = 1<br />
+echo Math::recursive(3, $coefficients, $initvalues);<br />
+[&#47;code]</p>

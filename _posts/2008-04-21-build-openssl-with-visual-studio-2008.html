@@ -1,0 +1,113 @@
+---
+layout: post
+status: publish
+published: true
+title: Build OpenSSL with Visual Studio 2008
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 223
+wordpress_url: http://www.timvw.be/?p=223
+date: '2008-04-21 18:29:45 +0200'
+date_gmt: '2008-04-21 16:29:45 +0200'
+categories: []
+tags:
+- Free Software
+comments:
+- id: 271
+  author: YKY
+  author_email: yongkieyong@yahoo.com
+  author_url: ''
+  date: '2008-05-03 11:26:09 +0200'
+  date_gmt: '2008-05-03 09:26:09 +0200'
+  content: |-
+    Newbie in OpenSSL :)
+    Sorry for asking, could you tell me where to patch the code?
+- id: 272
+  author: Ken
+  author_email: ''
+  author_url: ''
+  date: '2010-01-13 02:55:54 +0100'
+  date_gmt: '2010-01-13 01:55:54 +0100'
+  content: Thanks for the information! I've got struggled with this stuff yesterday
+    now I think I can resolve this problem thanks to you.
+- id: 273
+  author: Ken
+  author_email: ken@wisetodd.com
+  author_url: http://none
+  date: '2010-01-13 03:00:23 +0100'
+  date_gmt: '2010-01-13 02:00:23 +0100'
+  content: thanks for the information. now I think I can resolve the problem I faced
+    yesterday.
+- id: 701
+  author: detys
+  author_email: detys@gmail.com
+  author_url: ''
+  date: '2010-10-02 12:19:25 +0200'
+  date_gmt: '2010-10-02 11:19:25 +0200'
+  content: "it's \r\nperl Configure VC-WIN32 &ndash;-prefix=c:&#47;openssl\r\n\r\nNOT
+    perl Configure VC-WIN32 &ndash;prefix=c:&#47;openssl\r\n\r\nnotice the missing
+    - before -prefix"
+- id: 728
+  author: david
+  author_email: david_slask@hotmail.com
+  author_url: ''
+  date: '2010-10-06 07:40:07 +0200'
+  date_gmt: '2010-10-06 06:40:07 +0200'
+  content: "Thanks for the info!\r\nHowever, now;\r\nperl Configure VC-WIN32 &ndash;prefix=c:&#47;openssl\r\nms\\do_masm\r\nnmake
+    -f ms\\ntdll.mak\r\nnmake -f ms\\ntdll.mak test\r\nnmake -f ms\\ntdll.mak install\r\nall
+    work fine ('test' says ~\"all ok\"),\r\n\r\nBUT: I still can't build client.cpp
+    (just copy&#47;paste from http:&#47;&#47;www.boost.org&#47;doc&#47;libs&#47;1_41_0&#47;doc&#47;html&#47;boost_asio&#47;example&#47;ssl&#47;client.cpp)
+    in VC 2008 IDE - it keeps complaing about link-error:\r\n\r\n1>main.obj : error
+    LNK2019: unresolved external symbol _SSLv23_server_method referenced in function
+    \"public: void __thiscall boost::asio::ssl::detail::openssl_context_service::create(struct
+    ssl_ctx_st * &amp;,enum boost::asio::ssl::context_base::method)\" (?create@openssl_context_service@detail@ssl@asio@boost@@QAEXAAPAUssl_ctx_st@@W4method@context_base@345@@Z)\r\netc.\r\n\r\nAny
+    ideas?"
+- id: 6571
+  author: John Cooper
+  author_email: list@planetz.com
+  author_url: ''
+  date: '2011-03-15 18:23:06 +0100'
+  date_gmt: '2011-03-15 17:23:06 +0100'
+  content: "Hey there,\r\nYou a have a typo in your instructions.  It should read
+    \"ms\\do_nasm\", not \"ms\\do_masm\".\r\n\r\n-John"
+- id: 10864
+  author: ''
+  author_email: ''
+  author_url: ''
+  date: '2011-05-19 16:00:25 +0200'
+  date_gmt: '2011-05-19 15:00:25 +0200'
+  content: "@John Cooper \r\nThe choice between NASM and MASM is a choice between
+    assemblers, MASM is Microsoft's and since these are instructions to build OpenSsl
+    with Visual Studio 2008 installed, using MASM makes more sense."
+---
+<p>These days building <a href="http:&#47;&#47;www.openssl.org">OpenSSL<&#47;a> with Visual Studio 2008 has become really easy. I don't like to edit .cnf files so i decided to patch the code a little so that the default configuration file becomes openssl.config:<&#47;p></p>
+<p>[code lang="csharp"]string basePath = @"C:\src\openssl-0.9.8g";</p>
+<p>string originalConfigfile = "openssl.cnf";<br />
+string updatedConfigfile = "openssl.config";<br />
+foreach (string filename in Directory.GetFiles(basePath, "*.*", SearchOption.AllDirectories))<br />
+{<br />
+ string contents = File.ReadAllText(filename);<br />
+ if (contents.Contains(originalConfigfile))<br />
+ {<br />
+  Console.WriteLine(filename);<br />
+  File.WriteAllText(filename, contents.Replace(originalConfigfile, updatedConfigfile));<br />
+ }<br />
+}</p>
+<p>File.WriteAllText(basePath + @"\apps\" + updatedConfigfile, File.ReadAllText(basePath + @"\apps\" + originalConfigfile));[&#47;code]</p>
+<p>Open a Visual Studio 2008 Command prompt and add references to the <a href="http:&#47;&#47;blogs.msdn.com&#47;windowssdk">Microsoft SDK<&#47;a> as following:<&#47;p></p>
+<p>[code lang="dos"]SET PATH=%PATH%;C:\Program Files\Microsoft SDKs\Windows\v6.0A\bin<br />
+SET LIB=%LIB%;C:\Program Files\Microsoft SDKs\Windows\v6.0A\Lib<br />
+SET INCLUDE=%INCLUDE%;C:\Program Files\Microsoft SDKs\Windows\v6.0A\Include[&#47;code]</p>
+<p>Now we simply have to follow the tasks listed in INSTALL.W32:<&#47;p><br />
+[code lang="dos"]perl Configure VC-WIN32 --prefix=c:&#47;openssl<br />
+ms\do_masm<br />
+nmake -f ms\ntdll.mak<br />
+nmake -f ms\ntdll.mak test<br />
+nmake -f ms\ntdll.mak install[&#47;code]</p>
+<p>Happy OpenSSL'ing!<&#47;p></p>

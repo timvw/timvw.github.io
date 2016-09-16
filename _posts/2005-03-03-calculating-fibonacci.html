@@ -1,0 +1,70 @@
+---
+layout: post
+status: publish
+published: true
+title: Calculating Fibonacci
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 94
+wordpress_url: http://www.timvw.be/calculating-fibonacci/
+date: '2005-03-03 01:32:49 +0100'
+date_gmt: '2005-03-02 23:32:49 +0100'
+categories: []
+tags:
+- PHP
+comments: []
+---
+<p>What is a <a href="http:&#47;&#47;en.wikipedia.org&#47;wiki&#47;Recursion">recursive<&#47;a> function? It is a function where the value for input n is calculated as a linear combination of the previous 1, 2, ..., n-1 function values. An example is the fibonacci function: f(n) = f(n-1) + f(n-2).<&#47;p></p>
+<p>If we program this our first code would look like:<&#47;p><br />
+[code lang="php"]<br />
+function fibonacci($n)<br />
+{<br />
+  if ($n < = 1)<br />
+  {<br />
+    return $n;<br />
+  }<br />
+  return fibonacci($n-1) + fibonacci($n-2);<br />
+}<br />
+[&#47;code]</p>
+<p>It becomes clear that this is really inefficient. For example if we call fibonacci(3) the following function calls will be made:<br &#47;><br />
+fibonacci(3)<br &#47;><br />
+-- fibonacci(2)<br &#47;><br />
+---- fibonacci(1)<br &#47;><br />
+---- fibonacci(0)<br &#47;><br />
+-- fibonacci(1)<br &#47;><br />
+<&#47;p></p>
+<p>We can optimize this function by implementing it as an iteration. We still have to calculate all the previous values, thus the time-complexity of this algorithm is O(n). Here is the code:<&#47;p><br />
+[code lang="php"]<br />
+function fibonacci($n)<br />
+{<br />
+  if ($n < = 1)<br />
+  {<br />
+    return $n;<br />
+  }</p>
+<p>  $nmin2 = 0;<br />
+  $nmin1 = 1;<br />
+  $result = 0;</p>
+<p>  for ($i = 2; $i <= n; ++$i)<br />
+  {<br />
+    $result = $nmin1 + $nmin2;<br />
+    $nmin2 = $nmin1;<br />
+    $nmin1 = $result;<br />
+  }<br />
+  return $result;<br />
+}<br />
+[&#47;code]</p>
+<p>Time to take our math course and lookup a non-recursive function for fibonacci. Eureka, we have found one! The algorithm has constant time complexity. The proof for this function is can be found <a href="http:&#47;&#47;mathforum.org&#47;library&#47;drmath&#47;view&#47;52686.html">here<&#47;a>.<&#47;p><br />
+[code lang="php"]<br />
+function fibonacci($n)<br />
+{<br />
+  $denominator = pow((1+sqrt(5))&#47;2, $n) - pow((1-sqrt(5))&#47;2, $n);<br />
+  $nominator = sqrt(5);<br />
+  return $denominator &#47; $nominator;<br />
+}<br />
+[&#47;code]</p>

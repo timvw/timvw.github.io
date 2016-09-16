@@ -1,0 +1,38 @@
+---
+layout: post
+status: publish
+published: true
+title: ViewModel to translate domain messages to view events
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1430
+wordpress_url: http://www.timvw.be/?p=1430
+date: '2009-10-13 17:18:16 +0200'
+date_gmt: '2009-10-13 16:18:16 +0200'
+categories: []
+tags:
+- C#
+- WPF
+- Silverlight
+comments: []
+---
+<p>Here is an example of a ViewModel that translates domain messages to view events:<&#47;p></p>
+<p>[code lang="csharp"]class GameViewModel : INotifyPropertyChanged, IListener<boardChanged><br />
+{<br />
+ public event PropertyChangedEventHandler PropertyChanged = delegate { };</p>
+<p> public GameViewModel()<br />
+ {<br />
+  var messageBus = ServiceLocator.MessageBus;<br />
+  messageBus.Subscribe<boardChanged>(this);<br />
+ }</p>
+<p> void IListener<boardChanged>.Handle(BoardChanged message)<br />
+ {<br />
+  PropertyChanged("Board");<br />
+ }<br />
+}[&#47;code]</p>

@@ -1,0 +1,43 @@
+---
+layout: post
+status: publish
+published: true
+title: Using cmd.exe
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 115
+wordpress_url: http://www.timvw.be/using-cmdexe/
+date: '2006-04-01 02:30:07 +0200'
+date_gmt: '2006-04-01 00:30:07 +0200'
+categories: []
+tags:
+- PHP
+comments: []
+---
+<p>Earlier someone asked me how he could use <a href="http:&#47;&#47;www.microsoft.com&#47;resources&#47;documentation&#47;windows&#47;xp&#47;all&#47;proddocs&#47;en-us&#47;cmd.mspx?mfr=true">windows cmd.exe<&#47;a> with PHP. People run into trouble as soon as there are quotes needed because there are special characters (>&#47;&()[]{}^=;!'+,`~ and <space>) in the command. I do it like this:<&#47;p><br />
+[code lang="php"]<?php<br />
+$result = `""c:\\my path\\prog.exe" "filename""`;<br />
+?>[&#47;code]</p>
+<p>In case you have to do it often you might want to wrap it into a little function like this:<&#47;p><br />
+[code lang="php"]<?php<br />
+function cmd($command, $arguments = null)<br />
+{<br />
+        $commandline = '';<br />
+        foreach(func_get_args() as $word) {<br />
+                $commandline .= '"' . $word . '" ';<br />
+        }<br />
+        $commandline = rtrim($commandline, ' ');<br />
+        $commandline = '"' . $commandline . '"';<br />
+        return `$commandline`;<br />
+}</p>
+<p>&#47;&#47; run blah.exe<br />
+cmd('blah.exe');</p>
+<p>&#47;&#47; run c:\my path\blah.exe with the arguments "foo" and "bar bar"<br />
+cmd('c:\\my path\\blah.exe', 'foo', 'bar bar');<br />
+?>[&#47;code]</p>

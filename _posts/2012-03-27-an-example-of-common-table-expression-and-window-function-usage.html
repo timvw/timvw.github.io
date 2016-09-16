@@ -1,0 +1,74 @@
+---
+layout: post
+status: publish
+published: true
+title: An example of Common Table Expression and Window function usage...
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2260
+wordpress_url: http://www.timvw.be/?p=2260
+date: '2012-03-27 10:33:37 +0200'
+date_gmt: '2012-03-27 09:33:37 +0200'
+categories:
+- Uncategorized
+tags:
+- SQL
+- t-sql
+comments: []
+---
+<p>Earlier this week some colleague had been assigned a maintenance task and asked me how I would solve it. Every customer is permitted to have an amount of publications. All excess publications should be removed from the system (only the n most recent ones are permitted to remain on the system).<&#47;p></p>
+<p>Here is an example of the Customer table:<&#47;p><br />
+[code lang="sql"]<br />
+CREATE TABLE [dbo].[Customer](<br />
+	[CustomerId] [int] IDENTITY(1,1) NOT NULL,<br />
+	[CustomerName] [nvarchar](50) NOT NULL,<br />
+	[PermittedPublications] [int] NOT NULL<br />
+);</p>
+<p>INSERT INTO [dbo].[Customer]<br />
+			([CustomerName], [PermittedPublications])<br />
+VALUES<br />
+			('timvw', 2),<br />
+			('mike', 3);<br />
+[&#47;code]</p>
+<p>An example of the customer publications table:<&#47;p><br />
+[code lang="sql"]<br />
+CREATE TABLE [dbo].[Publication](<br />
+	[PublicationId] [int] IDENTITY(1,1) NOT NULL,<br />
+	[CustomerId] [int] NOT NULL,<br />
+	[PublicationName] [nvarchar](50) NOT NULL,<br />
+	[PublicationTime] [datetime2] NOT NULL<br />
+);</p>
+<p>INSERT INTO [dbo].[Publication]<br />
+			([CustomerId], [PublicationName],[PublicationTime])<br />
+VALUES<br />
+			((SELECT [CustomerId] FROM [dbo].[Customer] WHERE [CustomerName] = 'timvw'), 'tim pub1', SYSUTCDATETIME()),<br />
+			((SELECT [CustomerId] FROM [dbo].[Customer] WHERE [CustomerName] = 'timvw'), 'tim pub2', SYSUTCDATETIME()),<br />
+			((SELECT [CustomerId] FROM [dbo].[Customer] WHERE [CustomerName] = 'timvw'), 'tim pub3', SYSUTCDATETIME()),<br />
+			((SELECT [CustomerId] FROM [dbo].[Customer] WHERE [CustomerName] = 'timvw'), 'tim pub4', SYSUTCDATETIME()),<br />
+			((SELECT [CustomerId] FROM [dbo].[Customer] WHERE [CustomerName] = 'mike'), 'mike pub1', SYSUTCDATETIME()),<br />
+			((SELECT [CustomerId] FROM [dbo].[Customer] WHERE [CustomerName] = 'mike'), 'mike pub2', SYSUTCDATETIME());<br />
+[&#47;code]</p>
+<p>My colleague was keen on using some cursor logic, but I demonstrated him how a set-based alternative:<&#47;p></p>
+<p>[code lang="sql"]<br />
+WITH [RankedPublication] AS (<br />
+	SELECT [CustomerId]<br />
+	      ,[PublicationId]<br />
+	      ,[PublicationName]<br />
+	      ,[PublicationTime]<br />
+	      ,ROW_NUMBER() OVER(PARTITION BY [CustomerId] ORDER BY [PublicationTime]) AS [PublicationRank]<br />
+	FROM [dbo].[Publication]<br />
+), [ExcessPublication] AS (<br />
+	SELECT [PublicationId]<br />
+	FROM [RankedPublication]<br />
+	INNER JOIN [dbo].[Customer] ON [Customer].[CustomerId] = [RankedPublication].[CustomerId]<br />
+	WHERE [PublicationRank] > [Customer].[PermittedPublications]<br />
+)<br />
+	DELETE FROM [dbo].[Publication]<br />
+	WHERE [PublicationId] IN (SELECT [PublicationId] FROM [ExcessPublication]);<br />
+[&#47;code]</p>

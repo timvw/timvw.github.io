@@ -1,0 +1,75 @@
+---
+layout: post
+status: publish
+published: true
+title: Brainteaser
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 44
+wordpress_url: http://www.timvw.be/brainteaser/
+date: '2006-01-14 02:59:45 +0100'
+date_gmt: '2006-01-14 00:59:45 +0100'
+categories: []
+tags:
+- PHP
+comments: []
+---
+<p>Earlier today Chung Leong, an intelligent regular at <a href="news:&#47;&#47;comp.lang.php">comp.lang.php<&#47;a>, posted a little brainteaser:<&#47;p></p>
+<blockquote>
+<p>
+The two functions in the example below behave differently. The difference is easy to spot, of ocurse. The challenge is correctly explaining why this is so. Why does the second function<br />
+seemingly corrupt the cloned copy of an object?<br />
+<&#47;p></p>
+<p>[code lang="php"]<?php<br />
+&#47;&#47; uncomment the clone operator for PHP 5</p>
+<p>function Bobcat(&$obj) {<br />
+        $clone = &#47;* clone *&#47; $obj;<br />
+        $obj->attributes['Length'] = 0;<br />
+        $obj->data = "";<br />
+        return $clone;<br />
+}</p>
+<p>function BritneySpear(&$obj) {<br />
+        $attr =& $obj->attributes;<br />
+        $clone = &#47;* clone *&#47; $obj;<br />
+        $obj->attributes['Length'] = 0;<br />
+        $obj->data = "";<br />
+        return $clone;<br />
+}</p>
+<p>$data = "This is a test";<br />
+$obj1->attributes = array('Length' => strlen($data));<br />
+$obj1->data = $data;<br />
+$clone1 = Bobcat($obj1);<br />
+print_r($clone1);</p>
+<p>$obj2->attributes = array('Length' => strlen($data));<br />
+$obj2->data = $data;<br />
+$clone2 = BritneySpear($obj2);<br />
+print_r($clone2);<br />
+?>[&#47;code]</p>
+<pre>
+Result:</p>
+<p>stdClass Object<br />
+(<br />
+    [attributes] => Array<br />
+        (<br />
+            [Length] => 14<br />
+        )</p>
+<p>    [data] => This is a test<br />
+)<br />
+stdClass Object<br />
+(<br />
+    [attributes] => Array<br />
+        (<br />
+            [Length] => 0<br />
+        )</p>
+<p>    [data] => This is a test<br />
+)<br />
+<&#47;pre><br />
+<&#47;blockquote></p>
+<p>It took me fifteen minutes to figure out the source of this mysterious behaviour, but it took me a couple of hours to come up with the following explanation: After $attr =& $obj->attributes in the BritneySpear function the container that holds this variables has is_ref=1. Any properties that are references to other variables, will remain references when $obj is copied into $clone as explained in <a href="http:&#47;&#47;php.belnet.be&#47;manual&#47;en&#47;language.oop5.cloning.php">Object cloning<&#47;a>. <&#47;p></p>
+<p>If you want to know more about references i can advise you to read <a href="http:&#47;&#47;derickrethans.nl&#47;files&#47;phparch-php-variables-article.pdf">PHP References<&#47;a> by <a href="http:&#47;&#47;derickrethans.nl">Derick Rethans<&#47;a>.<&#47;p></p>

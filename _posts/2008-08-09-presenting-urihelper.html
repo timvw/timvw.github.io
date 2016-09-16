@@ -1,0 +1,35 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting UriHelper
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 371
+wordpress_url: http://www.timvw.be/?p=371
+date: '2008-08-09 13:38:28 +0200'
+date_gmt: '2008-08-09 11:38:28 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Adding parameters to an <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.uri.aspx">Uri<&#47;a> is an example where my <a href="http:&#47;&#47;www.timvw.be&#47;presenting-namevaluecollectionhelper&#47;">NameValueCollectionHelper<&#47;a> comes in handy. Although <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.uritemplate.aspx">UriTemplate<&#47;a> allows us to bind parameters, it doesn't really support add&#47;remove&#47;fail on duplicate parameters. Here is an example:<&#47;p></p>
+<p>[code lang="csharp"][TestMethod]<br />
+public void TestAddParametersReplaceWithReplaceOfExistingParameters()<br />
+{<br />
+ Uri originalUri = new Uri("http:&#47;&#47;www.example.com&#47;path&#47;?key1=val1&key2=val2#abcd")</p>
+<p> NameValueCollection parameters = new NameValueCollection();<br />
+ parameters.Add("key1", "newval");<br />
+ parameters.Add("key3", "val3");</p>
+<p> Uri expected = new Uri("http:&#47;&#47;www.example.com&#47;path&#47;?key1=newval&key2=val2&key3=val3#abcd");</p>
+<p> Uri actual = UriHelper.AddParameters(originalUri, parameters, DuplicateKeyBehavior.Replace);<br />
+ Assert.AreEqual(expected, actual);<br />
+}[&#47;code]</p>
+<p>Once again, source of this class can be found at <a href="http:&#47;&#47;www.codeplex.com&#47;BeTimvwFramework">BeTimvwFramework<&#47;a>.<&#47;p></p>

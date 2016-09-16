@@ -1,0 +1,238 @@
+---
+layout: post
+status: publish
+published: true
+title: Pagination for all
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 40
+wordpress_url: http://www.timvw.be/pagination-for-all/
+date: '2006-02-12 02:54:14 +0100'
+date_gmt: '2006-02-12 00:54:14 +0100'
+categories: []
+tags:
+- PHP
+comments:
+- id: 10
+  author: moise
+  author_email: moisea@yahoo.com
+  author_url: http://local
+  date: '2006-11-02 01:42:39 +0100'
+  date_gmt: '2006-11-01 23:42:39 +0100'
+  content: |-
+    thanks Tim, i tried the file paginator on my CSS template, here is an example
+
+
+
+
+    run();
+    $paginator2->run();
+
+    &#47;&#47; add extra url parameters for pagewriters
+    $pagewriter->setParameters(array(
+            $pagewriter2->getPageParam() => $pagewriter2->pager->getCurrentPage(),
+            $pagewriter2->getItemsPerPageParam() => $pagewriter2->pager->getItemsPerPage()
+    ));
+
+    $pagewriter2->setParameters(array(
+            $pagewriter->getPageParam() => $pagewriter->pager->getCurrentPage(),
+            $pagewriter->getItemsPerPageParam() => $pagewriter->pager->getItemsPerPage()
+    ));
+
+    &#47;&#47; step 6 - output
+    $paginator->output();
+    $paginator2->output();
+    ?>
+
+
+
+
+    however, i am getting this error: "Parse error: parse error in c:\program files\easyphp1-8\www\webdesign\solutions.php on line 140" here is the what line 140 looks like:Parse error: parse error in c:\program files\easyphp1-8\www\webdesign\solutions.php on line 140
+
+    need help to know where i did wrong. please bear in mind that i am new to php.
+    many thanks Tim.
+- id: 11
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2006-11-02 20:27:35 +0100'
+  date_gmt: '2006-11-02 18:27:35 +0100'
+  content: |-
+    There must be something wrong in your own code, because i can't reproduce your problem...
+
+    [code lang="php"]<?php
+    ini_set('error_reporting', E_ALL);
+    ini_set('display_errors', TRUE);
+
+    include('pagination.txt');
+
+    &#47;&#47; file example
+    $pageabledata = new PageableFile('testdata.txt');
+    &#47;&#47; step 2 - create the pager
+    $pager = new Pager($pageabledata);
+    &#47;&#47; step 3 - create the pagewriter
+    $pagewriter = new PageWriter($pager);
+    &#47;&#47; step 4 - create the paginator
+    $paginator = new Paginator($pagewriter);
+    &#47;&#47; step 5 - run the paginators
+    $paginator->run();
+    &#47;&#47; setp 6 - output
+    $paginator->output();
+    ?>[&#47;code]
+- id: 12
+  author: hiutopor
+  author_email: hiutopor@ramireschat.com
+  author_url: ''
+  date: '2007-09-17 09:50:07 +0200'
+  date_gmt: '2007-09-17 07:50:07 +0200'
+  content: |-
+    Hello
+
+    Very interesting information! Thanks!
+
+    G'night
+- id: 13
+  author: antonio
+  author_email: dzunahu@gmail.com
+  author_url: ''
+  date: '2008-08-05 07:20:52 +0200'
+  date_gmt: '2008-08-05 05:20:52 +0200'
+  content: |-
+    Hi Tim,
+
+    I hv input from txt file.  The size is about 10MB.
+    I'm having problem with the pagination. user can enter how many lines per page. Pls help.
+    (p&#47;s: i am new to php)
+---
+<p>Suppose you have a a large collection of items and you want to display them. Users don't want to see 5000 items at once. They only want to see a couple of items and have the possibility to look at the next (or previous) couple of items. The solution for this problem is usually named pagination. You can compare this technique with <a href="http:&#47;&#47;en.wikipedia.org&#47;paging">paging<&#47;a>. Most people seem to come up with their own (My)SQL specific implementation. Here are a couple of examples how you can use <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;php&#47;pagination.txt">mine<&#47;a>:<&#47;p><br />
+[code lang="php"]<?php<br />
+require('http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;php&#47;pagination.txt');</p>
+<p>&#47;&#47; step 1 - create pageable data: array example<br />
+$data = array(<br />
+	array('name' => 'Jameson', 'surname' => 'Jenna'),<br />
+	array('name' => 'Banks', 'surname' => 'Briana'),<br />
+	array('name' => 'Giovanni', 'surname' => 'Aria'),<br />
+	array('name' => 'Rush', 'surname' => 'Daniella'),<br />
+	array('name' => 'Flowers', 'surname' => 'April')<br />
+);<br />
+$pageabledata = new PageableArray($data);</p>
+<p>&#47;&#47; step 2 - create the pager<br />
+$pager = new Pager($pageabledata);</p>
+<p>&#47;&#47; step 3 - create the pagewriter<br />
+$pagewriter = new PageWriter($pager);</p>
+<p>&#47;&#47; step 4 - create the paginator<br />
+$paginator = new Paginator($pagewriter);</p>
+<p>&#47;&#47; step 5 - run the paginators<br />
+$paginator->run();</p>
+<p>&#47;&#47; setp 6 - output<br />
+$paginator->output();<br />
+?>[&#47;code]</p>
+<p>I have also provided code for situations where you want to paginate File contents, MySQL or ADODB resultsets. In that case the code for step 1 would look like:<&#47;p></p>
+<p>[code lang="php"]<?php<br />
+&#47;&#47; file example<br />
+$pageabledata = new PageableFile("&#47;home&#47;users&#47;timvw&#47;.bash_history");</p>
+<p>&#47;&#47; mysql example<br />
+$dblink = mysql_connect('localhost', 'username', 'password');<br />
+mysql_select_db('dbname', $dblink);<br />
+$pageabledata = new PageableMySQL('SELECT * FROM wp_posts ORDER BY 1', $dblink);</p>
+<p>&#47;&#47; adodb example<br />
+require('adodb&#47;adodb.inc.php');<br />
+$db = NewADOConnection('mysql:&#47;&#47;username:password@localhost&#47;dbname');<br />
+$pageabledata = new PageableADODB('SELECT * FROM wp_posts ORDER BY 1', $db);<br />
+?>[&#47;code]</p>
+<p>You will probably want to modify the code so that it generates the html you want. Here is how an example of such a change:<&#47;p></p>
+<p>[code lang="php"]<?php<br />
+&#47;**<br />
+ * This class represents a PageJumpWriter<br />
+ *&#47;<br />
+class PageJumpWriter extends PageWriter {<br />
+        &#47;**<br />
+         * Default constructor<br />
+         * @param $pager the pager<br />
+         * @param $base_url the baseurl for the pager<br />
+         * @param $page_param the name of the page parameter<br />
+	 * @param $items_per_page_param the name of the items per page parameter<br />
+	 * @param $params additional url parameters in the form of a name=>value array<br />
+         *&#47;<br />
+	function PageJumpWriter(&$pager, $base_url = '', $page_param = 'page', $items_per_page_param = 'items_per_page', $params = null) {<br />
+		parent::PageWriter($pager, $base_url, $page_param, $items_per_page_param, $params);<br />
+	}</p>
+<p>	&#47;**<br />
+	 * Generate html for the items pager<br />
+	 * @see PageWriter#makeItemsPager<br />
+	 *&#47;<br />
+	function makeItemsPager() {<br />
+                $current_page = $this->pager->getCurrentPage();<br />
+                $last_page = $this->pager->getLastPage();<br />
+                $prev_page = $current_page - 1;<br />
+                $next_page = $current_page + 1;<br />
+		$items_per_page = $this->pager->getItemsPerPage();<br />
+                $html = "
+<div class='itemspager'>";<br />
+		$html .= "<br />
+<form method='GET' action='{$this->base_url}' onChange='this.submit()'>";<br />
+		$html .= "<br />
+<select name='{$this->page_param}'>";<br />
+		for ($i = 1; $i <= $last_page; ++$i) {<br />
+			if ($i != $current_page) {<br />
+				$html .= "<br />
+<option value='{$i}'>Page {$i} of {$last_page}<&#47;option>";<br />
+			} else {<br />
+				$html .= "<br />
+<option value='{$i}' selected>Page {$i} of {$last_page}<&#47;option>";<br />
+			}<br />
+		}<br />
+		$html .= "<&#47;select>";<br />
+		$html .= "<input type='hidden' name='{$this->items_per_page_param}' value='{$items_per_page}'&#47;>";<br />
+		foreach($this->params as $name => $value) {<br />
+			$html .= "<input type='hidden' name='{$name}' value='{$value}'&#47;>";<br />
+		}<br />
+		$html .= "<input type='submit' value='Go'&#47;>";<br />
+		$html .= "<&#47;form>";<br />
+                $html .= "<&#47;div>";<br />
+                return $html;<br />
+	}<br />
+}<br />
+?>[&#47;code]</p>
+<p>If you want to use this customized html generator you simple change the code in step 3 as following:<&#47;p></p>
+<p>[code lang="php"]<?php<br />
+$pagewriter2 = new PageJumpWriter($pager2);<br />
+?>[&#47;code]</p>
+<p>The problem with most of these paginators is that you can only use one per page. This is a serious <a href="http:&#47;&#47;en.wiktionary.org&#47;wiki&#47;PITA">PITA<&#47;a>. It's your lucky day, here is an example of two paginators that can run separately in the same page:<&#47;p></p>
+<p>[code lang="php"]<?php<br />
+&#47;&#47; step 1 - create the pageable data<br />
+$dblink = mysql_connect('localhost', 'username', 'password');<br />
+mysql_select_db('dbname', $dblink);<br />
+$pageabledata = new PageableMySQL('SELECT * FROM wp_posts ORDER BY 1', $dblink);<br />
+$pageabledata2 = new PageableFile('&#47;var&#47;www&#47;somefile.txt');</p>
+<p>&#47;&#47; step 2 - create the pagers<br />
+$pager = new Pager($pageabledata);<br />
+$pager2 = new Pager($pageabledata2);</p>
+<p>&#47;&#47; step 3 - create the pagewriters<br />
+$pagewriter = new PageWriter($pager);<br />
+$pagewriter2 = new PageJumpWriter($pager2, '', 'page2', 'items_per_page2');</p>
+<p>&#47;&#47; step 4 - create the paginators<br />
+$paginator = new Paginator($pagewriter);<br />
+$paginator2 = new Paginator($pagewriter2);</p>
+<p>&#47;&#47; step 5 - run the paginators<br />
+$paginator->run();<br />
+$paginator2->run();</p>
+<p>&#47;&#47; add extra url parameters for pagewriters<br />
+$pagewriter->setParameters(array(<br />
+	$pagewriter2->getPageParam() => $pagewriter2->pager->getCurrentPage(),<br />
+	$pagewriter2->getItemsPerPageParam() => $pagewriter2->pager->getItemsPerPage()<br />
+));</p>
+<p>$pagewriter2->setParameters(array(<br />
+	$pagewriter->getPageParam() => $pagewriter->pager->getCurrentPage(),<br />
+	$pagewriter->getItemsPerPageParam() => $pagewriter->pager->getItemsPerPage()<br />
+));</p>
+<p>&#47;&#47; step 6 - output<br />
+$paginator->output();<br />
+$paginator2->output();<br />
+?>[&#47;code]</p>

@@ -1,0 +1,45 @@
+---
+layout: post
+status: publish
+published: true
+title: More about marshalling
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 53
+wordpress_url: http://www.timvw.be/more-about-marshalling/
+date: '2006-03-28 21:16:20 +0200'
+date_gmt: '2006-03-28 19:16:20 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Last month i've started programming with the <a href="http:&#47;&#47;msdn.microsoft.com&#47;netframework&#47;">.NET Framework<&#47;a> using Visual Basic, C++.NET and C# on a daily basis. The first thing i noticed is that some useful functions that were available in kernel32.dll, user32.dll, etc. have been removed from the <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;ms306608.aspx">API<&#47;a>. At <a href="http:&#47;&#47;www.pinvoke.net">pinvoke.net<&#47;a> you find a summary of the functions in these <a href="http:&#47;&#47;en.wikipedia.org&#47;wiki&#47;Dynamic-link_library">DLL<&#47;a>s and the PInvoke signatures.The most common approach is to build classes for the DLLs as following:<&#47;p><br />
+[code lang="csharp"]<br />
+namespace InterOp {<br />
+  public class User32 {<br />
+    [DllImport("user32.dll")]<br />
+    public static extern IntPtr GetDesktopWindow();<br />
+    [DllImport("user32.dll")]<br />
+    public static extern IntPtr GetWindowDC(IntPtr hWnd);<br />
+    [DllImport("user32.dll")]<br />
+    public static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hDC);<br />
+    [DllImport("user32.dll")]<br />
+    public static extern IntPtr GetWindowRect(IntPtr hWnd, RECT rect);<br />
+  }</p>
+<p>  public  class GDI32 {<br />
+    [DllImport("gdi32.dll")]<br />
+    public static extern bool DeleteDC(IntPtr hDC);<br />
+    [DllImport("gdi32.dll")]<br />
+    public static extern bool DeleteObject(IntPtr hObject);<br />
+    [DllImport("gdi32.dll")]<br />
+    public static extern IntPtr SelectObject(IntPtr hDC, IntPtr hObject);<br />
+  }<br />
+}<br />
+[&#47;code]</p>

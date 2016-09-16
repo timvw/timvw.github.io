@@ -1,0 +1,33 @@
+---
+layout: post
+status: publish
+published: true
+title: Invoke PowerShell script from MSBuild
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1955
+wordpress_url: http://www.timvw.be/?p=1955
+date: '2010-11-07 20:30:17 +0100'
+date_gmt: '2010-11-07 19:30:17 +0100'
+categories:
+- Uncategorized
+tags:
+- MSBuild
+- PowerShell
+comments: []
+---
+<p>Here is a small MSBuild target that allows you to invoke a PowerShell script, eg: powershell.exe & 'script.ps1' -SomeParam 'x'<&#47;p></p>
+<p>[code lang="xml"]<br />
+<Target Name="InvokePowerShell"><br />
+ <PropertyGroup><br />
+  <PowerShellCommand>"$(PowerShellTool)" "&amp;amp; '$(ScriptFile)' -SomeParam '$(SomeParam)' "<&#47;PowerShellCommand><br />
+ <&#47;PropertyGroup><br />
+ <Exec Command="$(PowerShellCommand)" &#47;><br />
+<&#47;Target><br />
+[&#47;code]</p>

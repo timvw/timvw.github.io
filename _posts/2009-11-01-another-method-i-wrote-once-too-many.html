@@ -1,0 +1,51 @@
+---
+layout: post
+status: publish
+published: true
+title: Another method i wrote once too many
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1496
+wordpress_url: http://www.timvw.be/?p=1496
+date: '2009-11-01 16:57:59 +0100'
+date_gmt: '2009-11-01 15:57:59 +0100'
+categories: []
+tags:
+- C#
+comments:
+- id: 637
+  author: Krsitof Deneyer
+  author_email: aalion@skynet.be
+  author_url: http://music.yellowsnow.be
+  date: '2010-09-22 16:27:23 +0200'
+  date_gmt: '2010-09-22 15:27:23 +0200'
+  content: Hehe, nice i've also created an extension method to remove these repeated
+    checks. I guess it's a common&#47;helpfull way.
+---
+<p>Virtually every Silverlight application will fetch resources at one point or another. In case you're using the <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.net.webclient(VS.95).aspx">WebClient<&#47;a> you have probably written the following in your xxxCompletedEventHandler:<&#47;p></p>
+<p>[code lang="csharp"]if (e.Error != null && !e.Cancelled)<br />
+{<br />
+ &#47;&#47; do something with the result<br />
+}[&#47;code]</p>
+<p>Anyway, i don't like repetition so i captured the conditions in a method:<&#47;p></p>
+<p>[code lang="csharp"]public static class ExtensionMethods<br />
+{<br />
+ public static bool HasResult(this AsyncCompletedEventArgs e)<br />
+ {<br />
+  if (e.Error != null) return false;<br />
+  if (e.Cancelled) return false;<br />
+  return true;<br />
+ }<br />
+}[&#47;code]</p>
+<p>And now we can write our code as:<&#47;p></p>
+<p>[code lang="csharp"]if (e.HasResult())<br />
+{<br />
+ &#47;&#47; do something with the result<br />
+}[&#47;code]</p>
+<p>Apart from saving a couple of keystrokes this also allows us to easily add another condition to determine the success of the operation.<&#47;p></p>

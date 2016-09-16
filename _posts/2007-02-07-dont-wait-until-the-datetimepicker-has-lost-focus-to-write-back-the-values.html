@@ -1,0 +1,134 @@
+---
+layout: post
+status: publish
+published: true
+title: Don&#039;t wait until the DateTimePicker has lost focus to write back the values
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 154
+wordpress_url: http://www.timvw.be/dont-wait-until-the-datetimepicker-has-lost-focus-to-write-back-the-values/
+date: '2007-02-07 22:52:52 +0100'
+date_gmt: '2007-02-07 20:52:52 +0100'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments:
+- id: 45041
+  author: ''
+  author_email: ''
+  author_url: ''
+  date: '2012-05-03 05:22:41 +0200'
+  date_gmt: '2012-05-03 04:22:41 +0200'
+  content: ':twisted:  :wink:'
+---
+<p>Drag a TextBox and a DateTimePicker control on a Form and databind them to a DateTime property, eg:<&#47;p><br />
+[code lang="csharp"]public partial class Form1 : Form<br />
+{<br />
+ public Form1()<br />
+ {<br />
+  InitializeComponent();</p>
+<p>  SimpleObject simpleObject = new SimpleObject();<br />
+  simpleObject.Birthday = DateTime.Now;</p>
+<p>  this.dateTimePicker1.DataBindings.Add("Value", simpleObject, "Birthday");<br />
+  this.textBox1.DataBindings.Add("Text", simpleObject, "Birthday", true, DataSourceUpdateMode.OnPropertyChanged);<br />
+ }<br />
+}</p>
+<p>public class SimpleObject : INotifyPropertyChanged<br />
+{<br />
+ private DateTime birthday;</p>
+<p> public event PropertyChangedEventHandler PropertyChanged;</p>
+<p> public DateTime Birthday<br />
+ {<br />
+  get { return this.birthday; }<br />
+  set<br />
+  {<br />
+   this.birthday = value;<br />
+   this.OnPropertyChanged("Birthday");<br />
+  }<br />
+ }</p>
+<p> private void OnPropertyChanged(string propertyName)<br />
+ {<br />
+  if (this.PropertyChanged != null)<br />
+  {<br />
+   this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));<br />
+  }<br />
+ }<br />
+}[&#47;code]</p>
+<p>The annoying bit is that every time the user picks a datetime, he has to move the focus before the changes in the DateTimePicker control are written back to the datasource... You can circumvent this by handling the CloseUp event of the DataTimePicker as following:<&#47;p><br />
+[code lang="csharp"]private void dateTimePicker1_CloseUp(object sender, EventArgs e)<br />
+{<br />
+ DateTimePicker dateTimePicker = sender as DateTimePicker;<br />
+ if (dateTimePicker != null)<br />
+ {<br />
+  foreach (Binding binding in dateTimePicker.DataBindings)<br />
+  {<br />
+   binding.WriteValue();<br />
+  }<br />
+ }<br />
+}[&#47;code]</p>
+<p>I think mosts users will appreciate this new behaviour :) We can also apply this technique on a ComboBox (using the SelectionChangeCommitted event). Instead of manually hooking up to all these events, i've implemented an IExtenderProvider that takes care of this tedious task (only showing the part for the datetimepicker)<&#47;p><br />
+[code lang="csharp"][ProvideProperty("WriteValuesAfterCloseUp", typeof(DateTimePicker))]<br />
+class WriteValueAfterEventExtender : Component, IExtenderProvider<br />
+{<br />
+ private Dictionary<dateTimePicker, bool> writeValuesAfterCloseUp;</p>
+<p> public WriteValueAfterEventExtender()<br />
+ {<br />
+  this.writeValuesAfterCloseUp = new Dictionary<dateTimePicker, bool>();<br />
+ }</p>
+<p> public bool CanExtend(object extendee)<br />
+ {<br />
+  return extendee is DateTimePicker;<br />
+ }</p>
+<p> #region WriteValuesAfterCloseUp</p>
+<p> [Description("Gets a boolean indicating if the values are written to the datasource after a CloseUp event.")]<br />
+ public bool GetWriteValuesAfterCloseUp(DateTimePicker dateTimePicker)<br />
+ {<br />
+  bool value;<br />
+  if (!this.writeValuesAfterCloseUp.TryGetValue(dateTimePicker, out value))<br />
+  {<br />
+   value = false;<br />
+  }<br />
+  return value;<br />
+ }</p>
+<p> public void SetWriteValuesAfterCloseUp(DateTimePicker dateTimePicker, bool value)<br />
+ {<br />
+  if (this.writeValuesAfterCloseUp.ContainsKey(dateTimePicker))<br />
+  {<br />
+   this.writeValuesAfterCloseUp[dateTimePicker] = value;<br />
+  }<br />
+  else<br />
+  {<br />
+   this.writeValuesAfterCloseUp.Add(dateTimePicker, value);<br />
+  }</p>
+<p>  if (value)<br />
+  {<br />
+   dateTimePicker.CloseUp += this.dateTimePicker_CloseUp;<br />
+  }<br />
+  else<br />
+  {<br />
+   dateTimePicker.CloseUp -= this.dateTimePicker_CloseUp;<br />
+  }<br />
+ }</p>
+<p> private void dateTimePicker_CloseUp(object sender, EventArgs e)<br />
+ {<br />
+  DateTimePicker dateTimePicker = sender as DateTimePicker;<br />
+  if (dateTimePicker != null)<br />
+  {<br />
+   foreach (Binding binding in dateTimePicker.DataBindings)<br />
+   {<br />
+    binding.WriteValue();<br />
+   }<br />
+  }<br />
+ }</p>
+<p> #endregion<br />
+}[&#47;code]</p>
+<p>As soon as you drop an instance of the WriteValueAfterEditExtender component on your designer form you will see the that an extra property appears on the datetimepicker:<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;writevalueaftereventextender.gif" alt="image of the propertylist for datetimepicker"&#47;></p>
+<p>As always, feel free to download the <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;ExtenderProvider.zip">ExtenderProvider.zip<&#47;a>.<&#47;p></p>

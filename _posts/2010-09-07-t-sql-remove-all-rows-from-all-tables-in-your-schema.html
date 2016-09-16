@@ -1,0 +1,44 @@
+---
+layout: post
+status: publish
+published: true
+title: 'T-SQL: Remove all rows from all tables in your schema'
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1901
+wordpress_url: http://www.timvw.be/?p=1901
+date: '2010-09-07 19:22:29 +0200'
+date_gmt: '2010-09-07 18:22:29 +0200'
+categories: []
+tags:
+- SQL
+- t-sql
+comments:
+- id: 100505
+  author: Jorge
+  author_email: jsr_af@hotmail.com
+  author_url: ''
+  date: '2012-11-13 17:17:08 +0100'
+  date_gmt: '2012-11-13 16:17:08 +0100'
+  content: Perfect!! finally one query that works!! thanks!
+---
+<p>Sometimes i want to quickly clean up a database and start from fresh. Here is a small script that does exactly that.. (I just run the script a couple of times, untill no affected rows remain... Far more efficient than figuring out which constraints exist, building up a dependency tree, and cleanly deleting all rows):<&#47;p></p>
+<p>[code lang="sql"]<br />
+-- Remove all rows from all tables<br />
+DECLARE @tableName VARCHAR(255)<br />
+DECLARE tableNames CURSOR FOR SELECT name FROM sys.Tables;<br />
+OPEN tableNames<br />
+FETCH NEXT FROM tableNames INTO @tableName<br />
+WHILE @@FETCH_STATUS = 0 BEGIN<br />
+	EXEC('DELETE FROM [' +  @tableName + ']')<br />
+	FETCH NEXT FROM tableNames INTO @tableName<br />
+END<br />
+CLOSE tableNames<br />
+DEALLOCATE tableNames<br />
+[&#47;code]</p>

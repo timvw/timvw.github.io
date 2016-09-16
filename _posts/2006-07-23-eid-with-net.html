@@ -1,0 +1,183 @@
+---
+layout: post
+status: publish
+published: true
+title: eID with .NET
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 21
+wordpress_url: http://www.timvw.be/eid-with-net/
+date: '2006-07-23 02:15:19 +0200'
+date_gmt: '2006-07-23 00:15:19 +0200'
+categories: []
+tags:
+- C#
+comments:
+- id: 31
+  author: Ayla
+  author_email: scarvy@hotmail.com
+  author_url: ''
+  date: '2007-07-02 16:59:44 +0200'
+  date_gmt: '2007-07-02 14:59:44 +0200'
+  content: |-
+    hey;
+    I'm also trying to create a program that reads the info out of the eid card but i have a problem concerning the unicode chars. &Atilde;&copy; and others...
+    utf8 saves it in 2 bytes and i can't convert these to de &Atilde;&copy; or &Atilde;&uml;, have you an idea? When i try to run your example it could not initialize the reader...
+
+    any help is welcome...
+    thanx in advance
+- id: 32
+  author: Ayla
+  author_email: scarvy@hotmail.com
+  author_url: ''
+  date: '2007-07-02 17:24:59 +0200'
+  date_gmt: '2007-07-02 15:24:59 +0200'
+  content: |-
+    Hello;
+
+    i was wrong in my previous post concerning your program: it seems EidLib.GetID(out data, out check).General gives a non zero value, which means i guess that he can't get the data out of my card (but he tries to access it, i get a warning for that...)
+
+    many greetings
+    ayla
+- id: 33
+  author: Redspider
+  author_email: wmeeus@skynet.be
+  author_url: ''
+  date: '2007-09-04 14:37:22 +0200'
+  date_gmt: '2007-09-04 12:37:22 +0200'
+  content: |-
+    Hi Tim,
+
+    I Downloaded your program but when I compile it in VS2005 I get an error: "Could not initialize reader"
+
+    I use a ACR38u and when i take a look at my hardware settings it's installed correct
+
+    Can you tell me what I do wrong ??
+
+    Thanks a lot
+    Redspider
+- id: 34
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2007-09-04 16:54:10 +0200'
+  date_gmt: '2007-09-04 14:54:10 +0200'
+  content: |-
+    I don't have an ACR38u device, and i can't reproduce the problem.. Can you confirm that the applications that come with the middleware work?
+
+    Anyway, you may want to use SCard.GetReaderNames() to figure out the names of the available readers on your system. And then try if you have more success initializing a reader if you pass in the actual name in Reader.GetReader(). Eg:
+
+    [code lang="csharp"]
+    eID.Simple.Reader.GetReader(eID.SmartCardAPI.SCard.GetReaderNames()[0]);
+    [&#47;code]
+
+    HTH
+- id: 35
+  author: Redspider
+  author_email: wmeeus@skynet.be
+  author_url: ''
+  date: '2007-09-04 17:00:22 +0200'
+  date_gmt: '2007-09-04 15:00:22 +0200'
+  content: |-
+    Hi, thanks for the advise
+
+    For an other issue on a new vista machine I noticed that there was a new runtime version.
+    I had 2.5.9 and now it's 2.6  I have installed the 2.6 version also on my XP machine and everything is working now.
+
+    Greetz.
+    Redspider
+- id: 36
+  author: Tommy Boy
+  author_email: tom.vanhaute@agiv.be
+  author_url: http://www.agiv.be
+  date: '2007-09-19 09:58:20 +0200'
+  date_gmt: '2007-09-19 07:58:20 +0200'
+  content: |-
+    Dear Tim,
+
+    thank you for your code. When i try to run it, i get the following error:
+
+    Unable to load DLL 'C:\Windows\System32\Eidlib.dll': The specified module could not be found.
+
+    I'm on working on a 64-bit machine, so the dll is in the  C:\Windows\SysWOW64 folder.
+
+    when i try to use this dll, i get the following error:
+    An attempt was made to load a program with an incorrect format.
+
+    what's wrong?
+- id: 37
+  author: Johan
+  author_email: johan@hagelstein.be
+  author_url: ''
+  date: '2007-10-31 12:32:28 +0100'
+  date_gmt: '2007-10-31 10:32:28 +0100'
+  content: |-
+    Hi Tim,
+
+    I'm trying to get my program to act when a card is entered. unfortunately I couldn't get it to work yet. have you any expierience with this?
+    or anyone else...
+    thanx in advance
+- id: 38
+  author: Eric Culus
+  author_email: thepofo@gmail.com
+  author_url: ''
+  date: '2007-11-29 12:13:40 +0100'
+  date_gmt: '2007-11-29 10:13:40 +0100'
+  content: |-
+    Hartelijk dank,
+
+    Kan je me ook vertellen hoe ik zoiets voor PHP kan doen. eID gegevens invullen in Form.
+
+    Eric
+- id: 39
+  author: Marc
+  author_email: ''
+  author_url: ''
+  date: '2007-12-08 16:18:20 +0100'
+  date_gmt: '2007-12-08 14:18:20 +0100'
+  content: |-
+    Reply to message from Tommy Boy.
+
+    EidLib.dll is a 32 bit dll. Hence it is placed in C:\Windows\SysWOW64.
+    If you create a standard app, visual studio assummes you target 'any cpu'. On your machine it will run as a 64 bit application. And you can't intermix 32 and 64 bit code.
+    So go to properties of you application and choose the targets x86 selection. Your app will run as 32 bit and will magically find the dll in the syswow64 folder without you having to change anything.
+- id: 40
+  author: Paul
+  author_email: ''
+  author_url: ''
+  date: '2008-08-14 11:25:26 +0200'
+  date_gmt: '2008-08-14 09:25:26 +0200'
+  content: |-
+    Great stuff!
+
+    After checking out the SDK, I decided I needed a decent .NET wrapper to access the eID.
+    Finding this blog entry saved me a lot of typing work as well as all the finetuning effort that comes as a free bonus with this kind of work.
+
+    Thanks!
+- id: 4310
+  author: Stijn Staelens
+  author_email: stijn@lcp.be
+  author_url: ''
+  date: '2011-02-01 13:09:45 +0100'
+  date_gmt: '2011-02-01 12:09:45 +0100'
+  content: "Hello, I am using your class to read e-id cards. \r\nBut the problem is
+    that the pc this will be running on has now internet connection. Apparently this
+    class doesn't work if there is no internet connection. Any ideas on how to solve
+    this?\r\n\r\nThanks in advance."
+---
+<p>When i started working (already 3 weeks ago) i recieved a laptop. Friday i discovered that this laptop has a <a href="http:&#47;&#47;en.wikipedia.org&#47;wiki&#47;Smartcard">Smart card<&#47;a> reader and i wanted to experiment with it. I thought it would be nice if i could read the data on my <a href="http:&#47;&#47;eid.belgium.be&#47;">eID<&#47;a>. Apart from <a href="http:&#47;&#47;download.microsoft.com&#47;download&#47;4&#47;f&#47;d&#47;4fd49a94-8772-4bd0-88ca-bf46e2d029fc&#47;WHITEPAPERS&#47;Accessing%20the%20eID%20Middleware%20from%20.NET%20(Version%201.0).doc">Accessing the eID Middleware from .NET (Version 1.0)<&#47;a> i couldn't find much information. I decided to use the document as the basis for my own libeid wrapper. With the Simple (Wrapper API) reading data becomes extremely easy: <&#47;p></p>
+<p>[code lang="csharp"]<br />
+using eID.Simple;</p>
+<p>Reader reader = Reader.GetReader();<br />
+pictureBox.Image = reader.GetImage();<br />
+labelName.Text = reader.GetName();<br />
+labelGivenNames.Text = reader.GetFirstName1() + reader.GetFirstName2() + reader.GetFirstName3();<br />
+dateTimePickerBirthdate.Value = reader.GetBirthdate();<br />
+[&#47;code]</p>
+<p>As usual, feel free to download the source (<a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;Belgium.zip">Belgium.zip<&#47;a>) and&#47;or leave any comments<&#47;p></p>

@@ -1,0 +1,77 @@
+---
+layout: post
+status: publish
+published: true
+title: Brad Abrams and extension methods to the rescue..
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1273
+wordpress_url: http://www.timvw.be/?p=1273
+date: '2009-09-29 16:32:30 +0200'
+date_gmt: '2009-09-29 15:32:30 +0200'
+categories: []
+tags:
+- C#
+comments:
+- id: 339
+  author: Stijn Guillemyn
+  author_email: stijnguillemyn@gmail.com
+  author_url: http://stijnguillemyn.wordpress.com
+  date: '2009-09-29 21:45:23 +0200'
+  date_gmt: '2009-09-29 20:45:23 +0200'
+  content: |-
+    Did you consider the generic variant: Holds.
+
+    I think you'd like to limit your type parameter to some base class maybe? Which would be possible with the generic approach.
+
+    Your HoldsPieceOfType allows any type and some just don't make sense.
+- id: 340
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2009-09-30 15:43:25 +0200'
+  date_gmt: '2009-09-30 14:43:25 +0200'
+  content: |-
+    @Stijn: You are absolutely right.
+
+    [code lang="csharp"]bool Holds<T>() where T : Piece[&#47;code]
+
+    Seems like a viable solution :)
+---
+<p>Currently i am implementing <a href="http:&#47;&#47;en.wikipedia.org&#47;wiki&#47;Sokoban">Sokoban<&#47;a> and i was pondering which methods i should add to my Cell class:<&#47;p></p>
+<ul>
+<li>bool HoldsWall<&#47;li>
+<li>bool HoldsBox<&#47;li>
+<li>bool HoldsPlayer<&#47;li><br />
+<&#47;ul></p>
+<p>Or<&#47;p></p>
+<ul>
+<li>bool HoldsPieceOfType(Type type)<&#47;li><br />
+<&#47;ul></p>
+<p>Which option should i choose? With the aid of extension methods (in the same namespace) i can have them both:<&#47;p></p>
+<p>[code lang="csharp"]namespace Sokoban.Domain<br />
+{<br />
+ public static class ExtensionMethods<br />
+ {<br />
+  public static bool HoldsBox(this Cell cell)<br />
+  {<br />
+   return cell.HoldsPieceOfType(typeof(Box));<br />
+  }</p>
+<p>  public static bool HoldsPlayer(this Cell cell)<br />
+  {<br />
+   return cell.HoldsPieceOfType(typeof(Player));<br />
+  }</p>
+<p>  public static bool HoldsWall(this Cell cell)<br />
+  {<br />
+   return cell.HoldsPieceOfType(typeof(Wall));<br />
+  }<br />
+ }<br />
+}[&#47;code]</p>
+<p>In case you don't like this solution, blame <a href="http:&#47;&#47;blogs.msdn.com&#47;brada&#47;">Brad Abrams<&#47;a> who inspired me to implement it this way with his session at <a href="http:&#47;&#47;www.visug.be">Visug<&#47;a> yesterday.<&#47;p></p>
+<p><b>Remark:<&#47;b> Because the possible pieces in Sokoban are very well known (the game&#47;requirements are not going to change) thus one should choose the first option (No extension methods required.)<&#47;p></p>

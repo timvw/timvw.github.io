@@ -1,0 +1,143 @@
+---
+layout: post
+status: publish
+published: true
+title: Exploring DataGridViewComboBoxColumn databinding (part2)
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 167
+wordpress_url: http://www.timvw.be/exploring-datagridviewcomboboxcolumn-databinding-part2/
+date: '2007-05-03 20:40:59 +0200'
+date_gmt: '2007-05-03 18:40:59 +0200'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments:
+- id: 236
+  author: Bob
+  author_email: bobyang3@army.com
+  author_url: ''
+  date: '2008-06-26 21:16:33 +0200'
+  date_gmt: '2008-06-26 19:16:33 +0200'
+  content: |-
+    bug?
+
+    thanks for this, but I found it doens't work correctly. here is what I did.
+
+
+    1. click on first "persontypecode" dropdown, it is correct.
+    2. click on second one, and it shows corrrect.
+    3. click on the first dropdown again, it is good.
+    4. slick on second one again. the list is wrong, it shows as the first one.
+    and so on. to 3rd and 4th..etc
+
+    PS. don't change the value for each drop down.
+
+    thanks!
+- id: 237
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2008-06-27 07:58:13 +0200'
+  date_gmt: '2008-06-27 05:58:13 +0200'
+  content: |-
+    <p>The problem is that when the dropdownlist is shown, it selects the first value (a geeky person). As soon as you click on a different dropdown, that 'new' selection is committed (thus, the person becomes a geek), which explains why the next time the dropdown list is different.
+
+    Here is an implementation that does not have that unwanted behaviour:
+    <&#47;p>
+
+    [code lang="csharp"]
+    void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+    {
+     if (this.dataGridView1.CurrentCell.ColumnIndex == this.ColumnPersonTypeCode.Index)
+     {
+      BindingSource bindingSource = (BindingSource)this.dataGridView1.DataSource;
+      PersonsDataSet.PersonRow person = (PersonsDataSet.PersonRow)((DataRowView)bindingSource.Current).Row;
+      PersonsDataSet.PersonTypeDataTable personTypeDataTable = DataSetDac.FindPersonTypes(person);
+
+      DataGridViewComboBoxEditingControl comboBox = (DataGridViewComboBoxEditingControl)e.Control;
+      comboBox.DataSource = personTypeDataTable;
+      &#47;&#47; force the combobox to pick up the correct value.
+      comboBox.SelectedValue = person.PersonTypeId;
+
+      comboBox.SelectionChangeCommitted -= this.comboBox_SelectionChangeCommitted;
+      comboBox.SelectionChangeCommitted += this.comboBox_SelectionChangeCommitted;
+     }
+    }[&#47;code]
+
+    <p>I'll post an updated zip package as soon as i'm able to setup an ftp connection.<&#47;p>
+
+    <p><b>EDIT 28&#47;06&#47;2008<&#47;b>: I've uploaded (and overwritten) the zip file with the modification.<&#47;p>
+---
+<p>A while ago i wrote about <a href="http:&#47;&#47;www.timvw.be&#47;exploring-datagridviewcomboboxcolumn-databinding&#47;">Exploring DataGridViewComboBoxColumn databinding<&#47;a> using Business Objects. Some people asked me to give an example using DataSets...<&#47;p></p>
+<p>I'll start with creating a DataSet, add two DataTables, and create a relation on PersonType.Id (int32). In the designer this looks like:<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;databind-dataset1.gif" alt="screenshot of dataset designer displaying person and persontype"&#47;></p>
+<p>Next i create a DataSetDac that will return an instance of a Filled PersonDataSet (In real life you would probably use a TableAdapter and get the data from a database) The code is as simple as:<&#47;p><br />
+[code lang="csharp"]public static PersonsDataSet Find()<br />
+{<br />
+ PersonsDataSet personsDataSet = new PersonsDataSet();</p>
+<p> personsDataSet.PersonType.Rows.Add(new object[] { 0, "A geeky person" });<br />
+ personsDataSet.PersonType.Rows.Add(new object[] { 1, "A coward" });<br />
+ personsDataSet.PersonType.Rows.Add(new object[] { 2, "Feeling hot hot hot" });<br />
+ personsDataSet.PersonType.Rows.Add(new object[] { -1, "(None)" });</p>
+<p> personsDataSet.Person.Rows.Add(new object[] { "Timvw", 0 });<br />
+ personsDataSet.Person.Rows.Add(new object[] { "John Doe", 1 });<br />
+ personsDataSet.Person.Rows.Add(new object[] { "An Onymous", 1 });<br />
+ personsDataSet.Person.Rows.Add(new object[] { "Jenna Jameson", 2 });<br />
+ personsDataSet.Person.Rows.Add(new object[] { "Null Able", -1 });</p>
+<p> return personsDataSet;<br />
+}[&#47;code]</p>
+<p>And now comes the important stuff: Bind the data to the DataGridView and DataGridViewComboBoxColumn:<&#47;p><br />
+[code lang="csharp"]public Form1()<br />
+{<br />
+ InitializeComponent();</p>
+<p> PersonsDataSet personsDataSet = DataSetDac.Find();</p>
+<p> this.dataGridView1.AutoGenerateColumns = false;<br />
+ this.ColumnName.DataPropertyName = "Name";<br />
+ this.ColumnPersonTypeCode.DataPropertyName = "PersonTypeId";</p>
+<p> this.ColumnPersonTypeCode.DisplayMember = "Label";<br />
+ this.ColumnPersonTypeCode.ValueMember = "Id";<br />
+ this.ColumnPersonTypeCode.DataSource = personsDataSet.PersonType;</p>
+<p> BindingSource bindingSource = new BindingSource();<br />
+ bindingSource.DataSource = personsDataSet.Person;<br />
+ this.dataGridView1.DataSource = bindingSource;<br />
+}[&#47;code]</p>
+<p>Geeks are doomed to stay Geeks forever. When you try change a Person that is a Geek, the values in ComboBox should be limited to Geek and (None). The following code takes care of that:<&#47;p><br />
+[code lang="csharp"]void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)<br />
+{<br />
+ if (this.dataGridView1.CurrentCell.ColumnIndex == this.ColumnPersonTypeCode.Index)<br />
+ {<br />
+  BindingSource bindingSource = this.dataGridView1.DataSource as BindingSource;<br />
+  PersonsDataSet.PersonRow person = (bindingSource.Current as DataRowView).Row as PersonsDataSet.PersonRow;</p>
+<p>  &#47;&#47; this method returns the allowed persontypes for the given person<br />
+  PersonsDataSet.PersonTypeDataTable personTypeDataTable = DataSetDac.FindPersonTypes(person);</p>
+<p>  DataGridViewComboBoxEditingControl comboBox = e.Control as DataGridViewComboBoxEditingControl;<br />
+  comboBox.DataSource = personTypeDataTable;</p>
+<p>  comboBox.SelectionChangeCommitted -= this.comboBox_SelectionChangeCommitted;<br />
+  comboBox.SelectionChangeCommitted += this.comboBox_SelectionChangeCommitted;<br />
+ }<br />
+}</p>
+<p>public static PersonsDataSet.PersonTypeDataTable FindPersonTypes(PersonsDataSet.PersonRow person)<br />
+{<br />
+ &#47;&#47; by default, all persons simply have one of the available persontypecodes<br />
+ PersonsDataSet personsDataSet = Find();</p>
+<p> if (person.PersonTypeId.Equals(0))<br />
+ {<br />
+  &#47;&#47; geeks are doomed to stay geeks<br />
+  personsDataSet.PersonType.Rows.RemoveAt(2);<br />
+  personsDataSet.PersonType.Rows.RemoveAt(1);<br />
+ }</p>
+<p> return personsDataSet.PersonType;<br />
+}</p>
+<p>void comboBox_SelectionChangeCommitted(object sender, EventArgs e)<br />
+{<br />
+ this.dataGridView1.EndEdit();<br />
+}[&#47;code]</p>
+<p>As always, feel free to download <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;DataGridViewComboBoxBinding2.zip">DataGridViewComboBoxBinding2.zip<&#47;a>.<&#47;p></p>

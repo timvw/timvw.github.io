@@ -1,0 +1,41 @@
+---
+layout: post
+status: publish
+published: true
+title: Dynamic scriptblock with PowerShell
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2090
+wordpress_url: http://www.timvw.be/?p=2090
+date: '2011-03-12 14:00:29 +0100'
+date_gmt: '2011-03-12 13:00:29 +0100'
+categories:
+- Uncategorized
+tags:
+- PowerShell
+comments:
+- id: 38446
+  author: salman
+  author_email: salman_qayyum@hotmail.com
+  author_url: ''
+  date: '2012-03-28 15:34:29 +0200'
+  date_gmt: '2012-03-28 14:34:29 +0200'
+  content: thanks it helped me a lot
+---
+<p>Earlier this week i tried to run a command on a remote computer but it did not seem to work:<&#47;p></p>
+<p>[code lang="powershell"]<br />
+$name = 'tim';<br />
+$computer = 'localhost';<br />
+Invoke-Command -ComputerName $computer -ScriptBlock { Write-Host "Hello $name" }<br />
+[&#47;code]</p>
+<p>Because powershell serialises the { Write-Host "Hello $name" } as a string this ends up at the remote computer as { Write-Host "Hello $null" }. In order to send our 'dynamic' command string over the wire we have to make sure it is serialised correctly:<&#47;p></p>
+<p>[code lang="powershell"]<br />
+$scriptBlock = $executioncontext.InvokeCommand.NewScriptBlock("Write-Host `"Hello $name`"");<br />
+Invoke-Command -ComputerName $computer -ScriptBlock $scriptBlock;<br />
+[&#47;code]</p>

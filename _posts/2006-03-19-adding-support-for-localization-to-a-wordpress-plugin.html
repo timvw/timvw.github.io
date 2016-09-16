@@ -1,0 +1,61 @@
+---
+layout: post
+status: publish
+published: true
+title: Adding support for localization to a WordPress plugin
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 117
+wordpress_url: http://www.timvw.be/adding-support-for-localization-to-a-wordpress-plugin/
+date: '2006-03-19 02:34:29 +0100'
+date_gmt: '2006-03-19 00:34:29 +0100'
+categories: []
+tags:
+- WordPress
+comments: []
+---
+<p>WordPress uses <a href="http:&#47;&#47;www.gnu.org&#47;software&#47;gettext&#47;">GNU gettext<&#47;a>, as explained in <a href="http:&#47;&#47;codex.wordpress.org&#47;Localizing_WordPress">Translating WordPress<&#47;a> and <a href="http:&#47;&#47;codex.wordpress.org&#47;Writing_a_Plugin">Writing a Plugin<&#47;a>, for <a href="http:&#47;&#47;en.wikipedia.org&#47;wiki&#47;Software_localization">localization<&#47;a>. I decided that my plugins should support l10n too. Here is how i realised it:<&#47;p></p>
+<p>I started with defining the WPLANG constant in my wp-config.php:<&#47;p><br />
+[code lang="php"]define ('WPLANG', 'en_EN');[&#47;code]</p>
+<p>Then i changed the beginning of my localized plugin as following:<&#47;p><br />
+[code lang="php"]<?php<br />
+&#47;*<br />
+Plugin Name: WP-SpamFilter<br />
+Version: 0.4<br />
+Plugin URI: http:&#47;&#47;timvw.madoka.be&#47;?p=533<br />
+Description: Mark the new comment as spam if the sender is in the spammers list.<br />
+Author: Tim Van Wassenhove <timvw@users.sourceforge.net><br />
+Author URI: http:&#47;&#47;timvw.be<br />
+*&#47;</p>
+<p>&#47;&#47; If this function does not exist it means that the file is accessed directly.<br />
+&#47;&#47; Accessing this file directly is not allowed.<br />
+if (!function_exists('load_plugin_textdomain')) {<br />
+  exit;<br />
+}</p>
+<p>load_plugin_textdomain('wp_spamfilter', 'wp-content&#47;plugins&#47;wp-spamfilter');<br />
+[&#47;code]</p>
+<p>In wp-includes&#47;wp-l10n.php you see that the result of this call is that the locale and the path are used to determine the mo-file to be loaded. Because this function uses ABSPATH it's impossible to use dirname(__FILE__) as path parameter :(<&#47;p></p>
+<p>The _e($string, $domain) function echos a localized string and the __($string, $domain) function returns a localized string that you can use in function calls etc... Below you can see an example of the original version and the updated version with localization support: <&#47;p><br />
+[code lang="php"]</p>
+<h2>some string<&#47;h2><br />
+<?php echo('some other string'); ?><br />
+[&#47;code]</p>
+<p>[code lang="php"]</p>
+<h2><?php _e('some string', 'wp_spamfilter'); ?><&#47;h2><br />
+<?php echo(__('some other string', 'wp_spamfilter')); ?><br />
+[&#47;code]</p>
+<p>Then i used xgettext to extract all the strings that should be localized into wp_spamfilter-en_EN.po:<&#47;p><br />
+[code lang="dos"]<br />
+xgettext --keyword=__ --keyword=_e --default-domain=wordpress --language=php *.php --output=wp_spamfilter-en_EN.po<br />
+[&#47;code]</p>
+<p>After that i editted the po file and i compiled a mo file with it using msgfmt:<&#47;p><br />
+[code lang="dos"]<br />
+msgfmt wp_spamfilter-en_EN.po -o wp_spamfilter-en_EN.mo<br />
+[&#47;code]</p>
+<p>Once i had made sure that wp_spamfilter-en_EN.mo was readable by my webserver i was ready.<&#47;p></p>

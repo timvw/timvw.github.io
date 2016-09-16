@@ -1,0 +1,43 @@
+---
+layout: post
+status: publish
+published: true
+title: Printing an array of strings
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 26
+wordpress_url: http://www.timvw.be/printing-an-array-of-strings/
+date: '2006-05-31 02:34:52 +0200'
+date_gmt: '2006-05-31 00:34:52 +0200'
+categories: []
+tags:
+- Java
+comments: []
+---
+<p>Yesterday i've been experimenting with <a href="http:&#47;&#47;java.sun.com&#47;printing&#47;">Printing on the Java Platform<&#47;a>. I needed to generate a printout of ordered menuitems on the default printer. It took a while before i found out there is translation needed between the coordinates of the <a href="http:&#47;&#47;java.sun.com&#47;j2se&#47;1.4.2&#47;docs&#47;api&#47;java&#47;awt&#47;Graphics.html">Graphics<&#47;a> device and the <a href="http:&#47;&#47;java.sun.com&#47;j2se&#47;1.4.2&#47;docs&#47;api&#47;java&#47;awt&#47;print&#47;PageFormat.html">PageFormat<&#47;a>. Here is my <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;java&#47;LinesPrinter.java.txt">LinesPrinter<&#47;a>. Here is an example of how you can use the class:<&#47;p></p>
+<p>[code lang="java"]<br />
+ArrayList<string> lines = new ArrayList<string>();</p>
+<p>StringBuffer buf = new StringBuffer("De RegaPan\t");<br />
+buf.append(DateFormat.getDateTimeInstance().format(new Date()));<br />
+lines.add(buf.toString());<br />
+lines.add("");</p>
+<p>DecimalFormat df = new DecimalFormat("##.00");</p>
+<p>Enumeration e = billModel.elements();<br />
+while (e.hasMoreElements()) {<br />
+  Order o = (Order) e.nextElement();<br />
+  MenuItem mi = o.getMenuItem();</p>
+<p>  buf = new StringBuffer(mi.getName());<br />
+  buf.append("\t");<br />
+  buf.append(df.format(mi.getPriceIncVat()));</p>
+<p>  lines.add(buf.toString());<br />
+}</p>
+<p>lines.add("\t----------");<br />
+lines.add("\t" + df.format(getTotal()));</p>
+<p>LinesPrinter.print((String[]) lines.toArray(new String[0]));<br />
+[&#47;code]</p>

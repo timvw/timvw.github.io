@@ -1,0 +1,45 @@
+---
+layout: post
+status: publish
+published: true
+title: Using interfaces with Drag and Drop
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 183
+wordpress_url: http://www.timvw.be/using-interfaces-with-drag-and-drop/
+date: '2007-07-26 19:10:42 +0200'
+date_gmt: '2007-07-26 17:10:42 +0200'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments: []
+---
+<p>Earlier today i was refactoring some graphical components. I wanted to use an interface instead of concrete implementations for my drag and drop code... Although i was using an instance of Foo, and thus IFoo, the following code never allowed me to drop:<&#47;p><br />
+[code lang="csharp"]interface IFoo { }<br />
+class Foo : IFoo { }</p>
+<p>private void label1_MouseDown(object sender, MouseEventArgs e)<br />
+{<br />
+ this.DoDragDrop(new Foo(), DragDropEffects.All);<br />
+}</p>
+<p>private void Form1_DragEnter(object sender, DragEventArgs e)<br />
+{<br />
+ &#47;&#47; for an instance of Foo it returns false,<br />
+ &#47;&#47; if you use typeof(Foo) it returns true though...<br />
+ if (e.Data.GetDataPresent(typeof(IFoo)))<br />
+ {<br />
+  e.Effect = DragDropEffects.All;<br />
+ }<br />
+}[&#47;code]</p>
+<p>Simply wrapping the concrete instance in a <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.dataobject(VS.80).aspx">DataObject<&#47;a> results in the desired behaviour:<&#47;p><br />
+[code lang="csharp"]<br />
+private void label1_MouseDown(object sender, MouseEventArgs e)<br />
+{<br />
+ this.DoDragDrop(new DataObject(typeof(IFoo).FullName,new Foo()), DragDropEffects.All);<br />
+}[&#47;code]</p>

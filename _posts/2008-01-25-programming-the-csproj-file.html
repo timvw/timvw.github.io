@@ -1,0 +1,81 @@
+---
+layout: post
+status: publish
+published: true
+title: Programming the csproj file
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 204
+wordpress_url: http://www.timvw.be/programming-the-csproj-file/
+date: '2008-01-25 23:19:33 +0100'
+date_gmt: '2008-01-25 21:19:33 +0100'
+categories: []
+tags:
+- C#
+comments:
+- id: 263
+  author: Tim Van Wassenhove &raquo; Archive &raquo; Updating Assembly References
+    with TFS
+  author_email: ''
+  author_url: http://www.timvw.be/updating-assembly-references-with-tfs/
+  date: '2008-02-20 19:08:33 +0100'
+  date_gmt: '2008-02-20 17:08:33 +0100'
+  content: '[...] while ago i posted some code that allows you to update the Assembly
+    references. Here is some code that uses the Team Foundation Server SDK that checks
+    the csproj files out and [...]'
+- id: 264
+  author: Gireesh
+  author_email: gireesh.sco@gmail.com
+  author_url: ''
+  date: '2009-10-03 07:12:50 +0200'
+  date_gmt: '2009-10-03 06:12:50 +0200'
+  content: |-
+    Hi Tim,
+
+    The article is very nice and the code was very nicely structured.
+
+    I have one question related to the CSProj file.
+
+    How can i get the output path from the CSProj file?
+
+    By default it will be bin\debug, but if change the build configuration it will different like bin\release or bin\x64\debug etc.
+
+
+
+    Thank You
+    -Giri
+---
+<p>Imagine that you have a couple of project files that reference framework libraries that are on a buildserver. Upgrading to a newer version requires that you update all the references... I wrote some wrapper classes (<a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;ProjectFile.txt">ProjectFile<&#47;a>, <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;AssemblyReference.txt">AssemblyReference<&#47;a>) that make this tedious task a breeze. Here is an example of their usage:<&#47;p><br />
+[code lang="csharp"]<br />
+string path = "D:\\Projects\\MyProject";<br />
+string[] projectFileNames = ProjectFile.Find(path);<br />
+foreach (string projectFileName in projectFileNames)<br />
+{<br />
+ ProjectFile projectFile = new ProjectFile(projectFileName);</p>
+<p> bool updated = false;<br />
+ foreach (AssemblyReference assemblyReference in projectFile.AssemblyReferences)<br />
+ {<br />
+  if (assemblyReference.HintPath.ToLower().StartsWith("\\\\buildserver\\framework\\2.0"))<br />
+  {<br />
+   string newHintPath = assemblyReference.HintPath.Replace("\\2.0\\", "\\2.1\\");<br />
+   assemblyReference.HintPath = newHintPath;</p>
+<p>   AssemblyName assemblyName = AssemblyName.GetAssemblyName(assemblyReference.HintPath);<br />
+   assemblyReference.AssemblyName = assemblyName.FullName + ", processorArchitecture=" + assemblyName.ProcessorArchitecture;</p>
+<p>   updated = true;<br />
+  }<br />
+ }</p>
+<p> if (updated)<br />
+ {<br />
+  projectFile.Save();<br />
+ }<br />
+}<br />
+[&#47;code]</p>
+<p>
+<b>Edit:<&#47;b> Be careful because it might be possible that the code changes the encoding of your csproj file (and it seems that the TFS 2005 merge tool doesn't like that). Currently files are written as UTF-8, which is the default for VS2005 csproj files.<br />
+<&#47;p></p>

@@ -1,0 +1,155 @@
+---
+layout: post
+status: publish
+published: true
+title: Image scroller
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 108
+wordpress_url: http://www.timvw.be/image-scroller/
+date: '2005-09-01 02:09:11 +0200'
+date_gmt: '2005-09-01 00:09:11 +0200'
+categories: []
+tags:
+- JavaScript
+comments: []
+---
+<p>[code lang="javascript"]<br />
+&#47;&#47; +---------------------------------------------------------------------------<br />
+&#47;&#47; | Author: Tim Van Wassenhove <timvw@users.sourceforge.net><br />
+&#47;&#47; |<br />
+&#47;&#47; | A javascript picture scroller<br />
+&#47;&#47; +---------------------------------------------------------------------------</p>
+<p>var i = 0;<br />
+var pics = new Array();</p>
+<p>&#47;&#47; define the pictures you want to show (html id, image url, link url)<br />
+pics[i++] = new picture('pic' + i, '&#47;images&#47;scroller&#47;top03.jpg', 'http:&#47;&#47;www.microsoft.com');<br />
+&#47;&#47;pics[i++] = new picture('pic' + i, '&#47;images&#47;scroller&#47;top04.jpg', 'http:&#47;&#47;www.khleuven.be');<br />
+pics[i++] = new picture('pic' + i, '&#47;images&#47;scroller&#47;top05.jpg', '&#47;rss.php');<br />
+pics[i++] = new picture('pic' + i, '&#47;images&#47;scroller&#47;top11.jpg', '');</p>
+<p>&#47;&#47; define the sleep interval<br />
+var slow = 100;</p>
+<p>&#47;**<br />
+ * global variables<br />
+ *&#47;<br />
+var lastindex = pics.length;<br />
+var pause;<br />
+var pictures;<br />
+var offset;<br />
+var left;</p>
+<p>&#47;**<br />
+ * Scroll<br />
+ *<br />
+ * @param id the id in which the scroller should be drawn<br />
+ *&#47;<br />
+function scroller(id)<br />
+{<br />
+	&#47;&#47; load pictures<br />
+	pictures = new Array(lastindex);<br />
+	for (i = 0; i < lastindex; ++i)<br />
+	{<br />
+		pictures[i] = new Image();<br />
+		pictures[i].src = pics[i].pictureurl;<br />
+	}</p>
+<p>	offset = document.getElementById(id).offsetLeft + 161;</p>
+<p>	&#47;&#47; attach pictures to html, display:none<br />
+	for (i = 0; i < lastindex; ++i)<br />
+	{<br />
+		purl = pics[i].pictureurl;<br />
+		lurl = pics[i].linkurl;<br />
+		pid = pics[i].id;<br />
+		ileft = 0;<br />
+		document.getElementById(id).innerHTML += '<a href="' + lurl + '"><img src="' + purl + '" id="' + pid + '" style="display: none; position: absolute; left:' + ileft + 'px; top: 27px;"&#47;><&#47;a>';<br />
+	}</p>
+<p>	&#47;&#47; start<br />
+	pause = setInterval("start()", 500);<br />
+}</p>
+<p>&#47;**<br />
+ * A container for a picture<br />
+ *<br />
+ * @param id the DOM id for this picture<br />
+ * @param imageurl the URL where the picture can be found<br />
+ * @param linkurl the URL where the user should be directed to if he clicks the picture<br />
+ *&#47;<br />
+function picture(id, pictureurl, linkurl)<br />
+{<br />
+	this.id = id;<br />
+	this.pictureurl = pictureurl;<br />
+	this.linkurl = linkurl;<br />
+}</p>
+<p>&#47;**<br />
+ * Determine of the pictures are ready to be displayed<br />
+ *&#47;<br />
+function ready()<br />
+{<br />
+	&#47;&#47; test if there is a picture that is not completely loaded<br />
+	for (i = 0; i < lastindex; ++i)<br />
+	{<br />
+		id = pics[i].id;<br />
+		if (!document.getElementById(id).complete)<br />
+		{<br />
+			return false;<br />
+		}<br />
+	}<br />
+	return true;<br />
+}</p>
+<p>&#47;**<br />
+ * Do the actual scrolling<br />
+ *&#47;<br />
+function work()<br />
+{<br />
+	&#47;&#47; move all the pictures to the left<br />
+	for (i = 0; i < lastindex; ++i)<br />
+	{<br />
+		left[i] -= 1;</p>
+<p>		&#47;&#47; if picture is out the container, position it at the right of the other pictures<br />
+		if (left[i] <= offset)<br />
+		{</p>
+<p>			n = i - 1;<br />
+			if (n < 0)<br />
+			{<br />
+				n = lastindex - 1;<br />
+			}</p>
+<p>			l = left[n];<br />
+			l += pictures[n].width + 10;<br />
+			left[i] = l;<br />
+		}</p>
+<p>		id = pics[i].id;<br />
+		ileft = left[i];<br />
+		document.getElementById(id).style.left = ileft + 'px';<br />
+	}<br />
+}</p>
+<p>&#47;**<br />
+ * Start the scroller<br />
+ *&#47;<br />
+function start()<br />
+{<br />
+	if (ready())<br />
+	{<br />
+		window.clearInterval(pause);</p>
+<p>		&#47;&#47; calculate positions and make visible<br />
+		left = new Array(lastindex);</p>
+<p>		for (i = 0; i < lastindex; ++i)<br />
+		{<br />
+			l = offset;<br />
+			for (n = 0; n < i; ++n)<br />
+			{<br />
+				l += pictures[n].width + 10;<br />
+			}<br />
+			left[i] = l;</p>
+<p>			id = pics[i].id;<br />
+			ileft = left[i];<br />
+			document.getElementById(id).style.display = 'inline';<br />
+			document.getElementById(id).style.left = ileft + 'px';<br />
+		}</p>
+<p>		&#47;&#47; work<br />
+		interval = setInterval('work();', slow);<br />
+	}<br />
+}<br />
+[&#47;code]</p>

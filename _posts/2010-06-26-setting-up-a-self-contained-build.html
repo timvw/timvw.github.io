@@ -1,0 +1,54 @@
+---
+layout: post
+status: publish
+published: true
+title: Setting up a self-contained build
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1779
+wordpress_url: http://www.timvw.be/?p=1779
+date: '2010-06-26 16:31:35 +0200'
+date_gmt: '2010-06-26 15:31:35 +0200'
+categories: []
+tags:
+- MSBuild
+comments: []
+---
+<p>Here is something you may have experienced already: As a newcomer on an existing project, you check out the code from source-control and discover that the build is broken. When you ask around no-one else seems to have that problem but a helpful collegue is kind enough to tell you that you can find the installers for the missing dependencies at location X (Let's not even mention the places where those installers are not available *sigh*).<&#47;p></p>
+<p>Anway, in order to avoid such a situation you could organize your solution in such a way that all the dependencies (libraries and tools) are part of it. A typical folder structure would look like this:<&#47;p></p>
+<p><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;solution_tools.png" alt="screenshot of typical solution folder organization" &#47;></p>
+<p>In order to get those files out of the installer and in your solution (instead of installed under %Program Files%) you could do an administrative install of the msi (eg: msiexec &#47;a Blah.msi) but i find it easier to use <a href="http:&#47;&#47;www.qwerty-msi.com&#47;">Qwerty.Msi<&#47;a>.<&#47;p></p>
+<p>Here are a couple of settings you may want to add to your build configuration in order to make your self-contained build work:<&#47;p></p>
+<p>[code lang="xml"]<!-- Configure solution directories --><br />
+<basePath Condition="'$(BasePath)'==''">$(MSBuildThisFileDirectory)..<&#47;basePath><br />
+<buildPath>$(BasePath)\build<&#47;buildPath><br />
+<sourcePath>$(BasePath)\src<&#47;sourcePath><br />
+<toolsPath>$(BasePath)\tools<&#47;toolsPath></p>
+<p><!-- Configure tool directories --><br />
+<!-- the ending \ is required for the extension pack --><br />
+<extensionTasksPath>$(ToolsPath)\MSBuild.ExtensionPack\<&#47;extensionTasksPath><br />
+<msbuildCommunityTasksPath>$(ToolsPath)\MSBuildCommunityTasks<&#47;msbuildCommunityTasksPath><br />
+<ilmergeToolPath>$(ToolsPath)\ILMerge<&#47;ilmergeToolPath><br />
+<svnToolPath>$(ToolsPath)\Subversion\bin<&#47;svnToolPath><br />
+<!-- wix will use this property to determine the location of other files --><br />
+<wixToolPath>$(ToolsPath)\Wix<&#47;wixToolPath></p>
+<p><!-- Configure target file paths --><br />
+<commonTargetsPath>$(BuildPath)\common.targets<&#47;commonTargetsPath><br />
+<msbuildCommunityTasksTargetsPath>$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets<&#47;msbuildCommunityTasksTargetsPath><br />
+<extensionPackTargetsPath>$(ExtensionTasksPath)MSBuild.ExtensionPack.tasks<&#47;extensionPackTargetsPath></p>
+<p><!-- Configure WIX --><br />
+<wixTargetsPath>$(WixToolPath)\Wix.targets<&#47;wixTargetsPath><br />
+<wixTasksPath>$(WixToolPath)\WixTasks.dll<&#47;wixTasksPath><br />
+<wixTargetsPath>$(WixToolPath)\Wix.targets<&#47;wixTargetsPath><br />
+<wixTasksPath>$(WixToolPath)\WixTasks.dll<&#47;wixTasksPath><br />
+<luxTargetsPath>$(WixToolPath)\Lux.targets<&#47;luxTargetsPath><br />
+<luxTasksPath>$(WixToolPath)\LuxTasks.dll<&#47;luxTasksPath><br />
+<luxTargetsPath>$(WixToolPath)\Lux.targets<&#47;luxTargetsPath><br />
+<luxTasksPath>$(WixToolPath)\LuxTasks.dll<&#47;luxTasksPath>[&#47;code]</p>
+<p>With this solution in place the next 'new guy' does not have to waste time trying to figure out where those dependencies are ;)<&#47;p></p>

@@ -1,0 +1,90 @@
+---
+layout: post
+status: publish
+published: true
+title: Little INotifyPropertyChanged helper
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 156
+wordpress_url: http://www.timvw.be/little-inotifypropertychanged-helper/
+date: '2007-03-19 10:58:53 +0100'
+date_gmt: '2007-03-19 08:58:53 +0100'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments:
+- id: 181
+  author: Simon
+  author_email: simon.dahlbacka@gmail.com
+  author_url: http://mostlytech.blogspot.com
+  date: '2007-04-30 23:26:34 +0200'
+  date_gmt: '2007-04-30 21:26:34 +0200'
+  content: ..except that this will potentially break due to inlining during optimization
+- id: 182
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2007-05-01 01:25:31 +0200'
+  date_gmt: '2007-04-30 23:25:31 +0200'
+  content: You're right, the code would need more MethodImplOptions.NoInlining..
+---
+<p>Most implementations of INotifyPropertyChanged look as following (notice that you have to make sure that the hardcoded PropertyName is spelled correctly):<&#47;p><br />
+[code lang="csharp"]class MyClass : INotifyPropertyChanged<br />
+{<br />
+ public event PropertyChangedEventHandler PropertyChanged;</p>
+<p> private int x;</p>
+<p> public int X<br />
+ {<br />
+  get { return this.x; }<br />
+  set<br />
+  {<br />
+   if (this.x != value)<br />
+   {<br />
+    this.x = value;<br />
+    this.OnPropertyChanged("X");<br />
+   }<br />
+  }<br />
+ }</p>
+<p> [MethodImpl(MethodImplOptions.NoInlining)]<br />
+ private void Fire(Delegate del, params object[] args)<br />
+ {<br />
+  if (del != null)<br />
+  {<br />
+   foreach (Delegate sink in del.GetInvocationList())<br />
+   {<br />
+    try { sink.DynamicInvoke(args); }<br />
+    catch { }<br />
+   }<br />
+  }<br />
+ }</p>
+<p> protected virtual void OnPropertyChanged( string propertyName )<br />
+ {<br />
+  this.Fire( this.PropertyChanged, new PropertyChangedEventArgs( propertyName ) );<br />
+ }<br />
+}[&#47;code]</p>
+<p>Everytime you refactor a property you also have to make sure to refactor the string with it's name in the setter method. Here's a helper method that makes life a little easier:<&#47;p><br />
+[code lang="csharp"]<br />
+protected void OnPropertyChanged()<br />
+{<br />
+ this.OnPropertyChanged(new StackTrace(false).GetFrame(1).GetMethod().Name.Substring(4));<br />
+}[&#47;code]</p>
+<p>This makes the implementation of a property as simple as (No more hardcoded strings to maintain):<&#47;p><br />
+[code lang="csharp"] public int X<br />
+{<br />
+ get { return this.x; }<br />
+ set<br />
+ {<br />
+  if (this.x != value)<br />
+  {<br />
+   this.x = value;<br />
+   this.OnPropertyChanged();<br />
+  }<br />
+ }<br />
+}[&#47;code]</p>

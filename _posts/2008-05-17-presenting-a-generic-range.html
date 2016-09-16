@@ -1,0 +1,41 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting a generic Range
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 225
+wordpress_url: http://www.timvw.be/?p=225
+date: '2008-05-17 19:14:14 +0200'
+date_gmt: '2008-05-17 17:14:14 +0200'
+categories: []
+tags:
+- Patterns
+comments:
+- id: 274
+  author: Tim Van Wassenhove &raquo; Archive &raquo; Presenting a generic Effectivity
+  author_email: ''
+  author_url: http://www.timvw.be/presenting-a-generic-effectivity/
+  date: '2008-05-19 18:56:41 +0200'
+  date_gmt: '2008-05-19 16:56:41 +0200'
+  content: '[...] often we have to manage objects and their changes over time. Usually
+    we implement this by adding a Range<DateTime> to the data. Martin Fowler has a
+    name for this pattern: Effectivity and i have an implementation [...]'
+---
+<p>Quite often i'm writing code that compares one value against a range of other values. Most implementations compare the value against the boundaries (smallest and largest in the collection of other values). Having written this sort of code way too much i've decided to generalize the problem and distill an interface:<&#47;p><br />
+[code lang="csharp"]public interface IRange<t><br />
+{<br />
+ T Begin { get; set; }<br />
+ T End { get; set; }<br />
+ bool Includes(T t);<br />
+ bool Includes(IRange<t> range);<br />
+ bool Overlaps(IRange<t> range);<br />
+}[&#47;code]</p>
+<p>Offcourse, i've also written implementation ;) Feel free to download <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;IRange.txt">IRange.txt<&#47;a>, <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;Range.txt">Range.txt<&#47;a> and <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;RangeTester.txt">RangeTester.txt<&#47;a><&#47;p></p>

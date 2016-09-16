@@ -1,0 +1,35 @@
+---
+layout: post
+status: publish
+published: true
+title: An example of why i don&#039;t like the ext&#47;filter API
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 136
+wordpress_url: http://www.timvw.be/an-example-of-why-i-dont-like-extfilter/
+date: '2006-12-27 03:11:30 +0100'
+date_gmt: '2006-12-27 01:11:30 +0100'
+categories: []
+tags:
+- PHP
+comments: []
+---
+<p>Earlier this week i decided to experiment with the <a href="http:&#47;&#47;be2.php.net&#47;manual&#47;en&#47;function.filter-input.php">Filter<&#47;a> functions. Here's an example that illustrates why i think the API needs to be improved:<&#47;p><br />
+[code lang="php"]<?php<br />
+$isgoodapi = filter_input(INPUT_GET, 'isgoodapi', FILTER_VALIDATE_BOOLEAN);</p>
+<p>if (is_null($isgoodapi)) {<br />
+ echo "the 'isgoodapi' argument is missing.";<br />
+} else if ($isgoodapi === FALSE) {<br />
+ echo "The 'isgoodapi' argument must be a valid boolean.";<br />
+} else {<br />
+ echo "isgoodapi is: $isgoodapi.";<br />
+}<br />
+?>[&#47;code]</p>
+<p>And now you request the page with ?isgoodapi=false. The obvious problem is the fact that the function returns multiple 'sorts' of return values: Value of the requested variable on success, FALSE if the filter fails, or NULL if the variable_name variable is not set. If the flag FILTER_NULL_ON_FAILURE is used, it returns FALSE if the variable is not set and NULL if the filter fails.<&#47;p></p>
+<p>The documentation for <a href="http:&#47;&#47;be2.php.net&#47;manual&#47;en&#47;ref.filter.php">Filter Functions<&#47;a> says for FILTER_VALIDATE_BOOLEAN: Returns TRUE for "1", "true", "on" and "yes", FALSE for "0", "false", "off", "no", and "", NULL otherwise. So if you try with ?isgoodapi=konijn you would expect NULL but that isn't the case either.<&#47;p></p>

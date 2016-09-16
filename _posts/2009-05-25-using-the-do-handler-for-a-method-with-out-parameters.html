@@ -1,0 +1,38 @@
+---
+layout: post
+status: publish
+published: true
+title: Using the Do handler for a method with out parameters
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1054
+wordpress_url: http://www.timvw.be/?p=1054
+date: '2009-05-25 07:48:10 +0200'
+date_gmt: '2009-05-25 06:48:10 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>As you can read in <a href="http:&#47;&#47;ayende.com&#47;Wiki&#47;(S(mc1hst55a1303emfc34dkmyr))&#47;Rhino+Mocks+The+Do()+Handler.ashx">the documentation<&#47;a> for Rhino Mocks:<&#47;p></p>
+<blockquote><p>There are times when the returning a static value is not good enough for the scenario that you are testing, so for those cases, you can use the Do() handler to add custom behavior when the method is called. In general, the Do() handler simply replaces the method call. Its return value will be returned from the mocked call (as well as any exception thrown). The handler's signature must match the method signature, since it gets the same parameters as the call.<&#47;blockquote></p>
+<p>There are quite a lot of delegates defined in Rhino.Mocks.Delegates but none of them has an output parameter so we got stuck when we tried to mock a method with the following signature:<&#47;p></p>
+<p>[code lang="csharp"]bool TryGet(int id, out Entity entity);[&#47;code]</p>
+<p>Luckily enough it didn't take too long before i realised we could simply define our own delegate:<&#47;p></p>
+<p>[code lang="csharp"]delegate bool TryGetMethod<keyType, ValueType>(KeyType key, out ValueType value);[&#47;code]</p>
+<p>And now we can easily setup a result for our method:<&#47;p></p>
+<p>[code lang="csharp"]myEntityRepository<br />
+  .Stub(repository => repository.TryGet(0, out myEntity);)<br />
+  .IgnoreArguments()<br />
+  .Do((TryGetMethod<int, MyEntity>)delegate(int id, out MyEntity entity)<br />
+  {<br />
+    entity = new MyEntity();<br />
+    return id == 1;<br />
+  });<br />
+[&#47;code]</p>

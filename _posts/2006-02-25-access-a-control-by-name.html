@@ -1,0 +1,47 @@
+---
+layout: post
+status: publish
+published: true
+title: Access a control by name
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 38
+wordpress_url: http://www.timvw.be/access-a-control-by-name/
+date: '2006-02-25 02:52:01 +0100'
+date_gmt: '2006-02-25 00:52:01 +0100'
+categories: []
+tags:
+- Visual Basic
+comments: []
+---
+<p>I know a mathematician that can do magic with stats. That's also the reason why he works at <a href="http:&#47;&#47;epp.eurostat.cec.eu.int&#47;portal&#47;page?_pageid=1090,30070682,1090_33076576&_dad=portal&_schema=PORTAL">Eurostat<&#47;a>. He's automating a lot of his work by programming in <a href="http:&#47;&#47;msdn.microsoft.com&#47;isv&#47;technology&#47;vba&#47;default.aspx">Visual Basic for Applications<&#47;a>. He asked me if i wanted to look at his code because he had the feeling there was a smell. Here are a couple lines:<&#47;p><br />
+[code lang="vb"]<br />
+With SomeForm<br />
+ .txtJanvier60.Value = vaData1(1, 2)<br />
+ .txtFevrier60.Value = vaData1(1, 3)<br />
+ .txtJanvier61.Value = vaData1(1, 2)<br />
+ .txtFevrier61.Value = vaData1(1, 3)<br />
+ ...<br />
+ .txtJanvier70.Value = vaData1(1, 2)<br />
+ .txtFevrier70.Value = vaData1(1, 3)<br />
+End With<br />
+[&#47;code]</p>
+<p>It took me 5 minutes to search the web and change his code as following:<&#47;p><br />
+[code lang="vb"]<br />
+Dim months(1) as String<br />
+months(0) = "Janvier"<br />
+months(1) = "Fevrier"</p>
+<p>With SomeForm<br />
+ For i = 60 to 70<br />
+  For j = 0 to UBound(months)<br />
+   .Controls("txt" & months(j) & CStr(i)).Value = vaData1(1, j + 2)<br />
+  Next j<br />
+ Next i<br />
+End With<br />
+[&#47;code]</p>

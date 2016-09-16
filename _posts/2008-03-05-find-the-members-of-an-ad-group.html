@@ -1,0 +1,62 @@
+---
+layout: post
+status: publish
+published: true
+title: Find the members of an AD group
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 212
+wordpress_url: http://www.timvw.be/find-the-members-of-an-ad-group/
+date: '2008-03-05 18:08:39 +0100'
+date_gmt: '2008-03-05 16:08:39 +0100'
+categories: []
+tags:
+- C#
+comments:
+- id: 265
+  author: Tim Van Wassenhove &raquo; Archive &raquo; Using System.DirectoryServices.AccountManagement
+    to find the members of an AD group
+  author_email: ''
+  author_url: http://www.timvw.be/using-systemdirectoryservicesaccountmanagement-to-find-the-members-of-an-ad-group/
+  date: '2008-03-08 21:14:53 +0100'
+  date_gmt: '2008-03-08 19:14:53 +0100'
+  content: '[...] while ago i posted some code that demonstrated how to find the members
+    of an AD group. If you&#8217;re using the brandnew .Net 3.5 framework you can
+    take advantage of the [...]'
+---
+<p>Because i always seem to forget about the syntax of LDAP Search Filters (<a href="http:&#47;&#47;www.ietf.org&#47;rfc&#47;rfc2254.txt">RFC 2254: The String Representation of LDAP Search Filters<&#47;a> and <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;ms675768(VS.85).aspx">Creating a Query Filter<&#47;a>) i'm going to post a basic demo of <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.directoryservices.directorysearcher.aspx">DirectorySearcher<&#47;a> that returns the members that are part of a given AD group:<&#47;p><br />
+[code lang="csharp"]private static void Main(string[] args)<br />
+{<br />
+ foreach (string member in FindUsernames("?CWBE-PS-.NetDev"))<br />
+ {<br />
+  Console.WriteLine(member);<br />
+ }</p>
+<p> Console.Write("{0}Press any key to continue...", Environment.NewLine);<br />
+ Console.ReadKey();<br />
+}</p>
+<p>private static IEnumerable<string> FindUsernames(string groupname)<br />
+{<br />
+ string filter = "(&(&(objectCategory=Group)(objectClass=Group))(name={0}))";<br />
+ filter = string.Format(filter, groupname);</p>
+<p> DirectoryEntry directoryEntry = new DirectoryEntry();<br />
+ DirectorySearcher searcher = new DirectorySearcher(directoryEntry);<br />
+ searcher.SearchScope = SearchScope.Subtree;<br />
+ searcher.Filter = filter;</p>
+<p> DirectoryEntry groupEntry = searcher.FindOne().GetDirectoryEntry();<br />
+ PropertyValueCollection members = (PropertyValueCollection)groupEntry.Properties["member"];<br />
+ return ConvertAll<object, string>((object[])members.Value);<br />
+}</p>
+<p>private static IEnumerable<to> ConvertAll<from, To>(IEnumerable<from> elements)<br />
+{<br />
+ Type toType = typeof(To);</p>
+<p> foreach (From element in elements)<br />
+ {<br />
+  yield return (To)Convert.ChangeType(element, toType);<br />
+ }<br />
+}[&#47;code]</p>

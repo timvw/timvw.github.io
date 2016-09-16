@@ -1,0 +1,34 @@
+---
+layout: post
+status: publish
+published: true
+title: Load all script files at PowerShell startup
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1986
+wordpress_url: http://www.timvw.be/?p=1986
+date: '2010-11-17 21:28:25 +0100'
+date_gmt: '2010-11-17 20:28:25 +0100'
+categories:
+- Uncategorized
+tags:
+- PowerShell
+comments: []
+---
+<p>These days i have quite some scripts files that i want to be loaded each time i launch PowerShell. <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;bb613488%28VS.85%29.aspx">Windows PowerShell Profiles<&#47;a> teaches me where i should store my $profile. Here is what it looks like:<&#47;p></p>
+<p>[code lang="powershell"]<br />
+# Lookup powershell scripts location<br />
+$UserProfile = (Get-ChildItem Env:UserProfile).Value;<br />
+$ScriptFolder = "$UserProfile\My documents\WindowsPowerShell";</p>
+<p># Source all .ps1 files in PowerShell profile folder<br />
+Get-ChildItem $ScriptFolder -name -include '*.ps1' -exclude 'profile.ps1'<br />
+ | foreach {  (. "$ScriptFolder\$_") };</p>
+<p># Configure environment for VS2010<br />
+SetVS2010;<br />
+[&#47;code]</p>

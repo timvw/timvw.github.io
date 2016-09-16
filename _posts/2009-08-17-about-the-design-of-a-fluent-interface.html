@@ -1,0 +1,94 @@
+---
+layout: post
+status: publish
+published: true
+title: About the design of a fluent interface
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1184
+wordpress_url: http://www.timvw.be/?p=1184
+date: '2009-08-17 14:59:43 +0200'
+date_gmt: '2009-08-17 13:59:43 +0200'
+categories: []
+tags:
+- C#
+- Visual Studio
+comments:
+- id: 336
+  author: Tim Van Wassenhove &raquo; Archive &raquo; About the implementation of a
+    fluent interface
+  author_email: ''
+  author_url: http://www.timvw.be/about-the-implementation-of-a-fluent-interface/
+  date: '2009-08-17 16:46:13 +0200'
+  date_gmt: '2009-08-17 15:46:13 +0200'
+  content: '[...] that i have defined my API for initialization it is time to implement
+    it. Inspired by the Moq.Language and Moq.Language.Flow namespaces in Moq i [...]'
+- id: 337
+  author: 'Tim Van Wassenhove &raquo; Archive &raquo; Fluent Builders: More than creating
+    context specifications'
+  author_email: ''
+  author_url: http://www.timvw.be/fluent-builders-more-than-creating-context-specifications/
+  date: '2009-10-08 08:13:21 +0200'
+  date_gmt: '2009-10-08 07:13:21 +0200'
+  content: '[...] been using the concept of (Fluent) Builder classes in order to create
+    context specifications and i blogged about the steps i take to design their API.
+    Lately i have realised that this concept has more uses than context specifcation
+    only. Here is an [...]'
+---
+<p>Now that i have <a href="">presented a simple ControlStateMachine<&#47;a> i can raise the bar a little. A statemachine that handles commands. Here is how a developer should be able to initialize this machine:<&#47;p></p>
+<p>[code lang="csharp"]sut.WhenIn(States.Loading)<br />
+ .On(Commands.Next)<br />
+  .Do(() => Console.WriteLine("got next command while loading..."))<br />
+  .Do(() => Console.WriteLine("doing it again..."))<br />
+ .On(Commands.Previous)<br />
+  .Do(() => Console.WriteLine("got previous command while loading..."));</p>
+<p>sut.WhenIn(States.Ready)<br />
+ .On(Commands.Previous)<br />
+  .Do(() => Console.WriteLine("got previous command while ready..."));[&#47;code]</p>
+<p>So how should we define our methods to accomplish this initialization style? Let's begin with identifying the methods we need.<&#47;p></p>
+<ul>
+<li>WhenIn(TSTate state)<&#47;li>
+<li>On(TCommand command)<&#47;li>
+<li>Do(Action action)<&#47;li><br />
+<&#47;ul></p>
+<p>Next thing to do is analyze in which sequence these methods can be called:<&#47;p></p>
+<table>
+<tr>
+<th style="width: 200px">From -> To<&#47;th>
+<th style="width: 100px">WhenIn<&#47;th>
+<th style="width: 100px">On<&#47;th>
+<th style="width: 100px">Do<&#47;th><&#47;tr></p>
+<tr>
+<td>WhenIn<&#47;td>
+<td><&#47;td>
+<td>X<&#47;td>
+<td><&#47;td><&#47;tr></p>
+<tr>
+<td>On<&#47;td>
+<td><&#47;td>
+<td><&#47;td>
+<td>X<&#47;td><&#47;tr></p>
+<tr>
+<td>Do<&#47;td>
+<td><&#47;td>
+<td>X<&#47;td>
+<td>X<&#47;td><&#47;tr><br />
+<&#47;table></p>
+<p>Ok, now that we have clarified the requirements a little we can start working on a solution. Let's start with defining an interface for each of the methods:<&#47;p></p>
+<p>[code lang="csharp"]interface IChooseState<tstate, TCommand> { Q1 WhenIn(TState state); }<br />
+interface IChooseCommand<tstate, TCommand> { Q2 On(TCommand command); }<br />
+interface IChooseAction<tstate, TCommand> { Q3 Do(Action action); }[&#47;code]</p>
+<p>From WhenIn we need to be able to call On. Thus Q1 = IChooseCommand<TState, TCommand>. Q2 is also easily solved because from On we only have to be able to call Do, thus Q2 = IChooseAction<TState, TCommand>.<&#47;p></p>
+<p>From Do we should be able to call both On and Do. We can do that by defining another interface which has both methods:<&#47;p></p>
+<p>[code lang="csharp"]interface IChooseCommandAndAction<tstate, TCommand> : IChooseCommand<tstate, TCommand>, IChooseAction<tstate, TCommand> { }[&#47;code]</p>
+<p>Now that we have found answers for Q1, Q2 and Q3 we can define the API for initializing our StateMachine as following:<&#47;p></p>
+<p>[code lang="csharp"]IChooseCommand<tstate, TCommand> WhenIn(TState state);<br />
+IChooseAction<tstate, TCommand> On(TCommand command);<br />
+IChooseCommandAndAction<tstate, TCommand> Do(Action action);[&#47;code]</p>
+<p>Now tell me about your strategy for implementing a fluent interface!<&#47;p></p>

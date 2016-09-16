@@ -1,0 +1,77 @@
+---
+layout: post
+status: publish
+published: true
+title: Looking up the MediaType of a given Logical Drive
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 134
+wordpress_url: http://www.timvw.be/looking-up-the-mediatype-of-a-given-logical-drive/
+date: '2006-12-18 22:11:26 +0100'
+date_gmt: '2006-12-18 20:11:26 +0100'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Earlier today i saw someone asking how he could find out the MediaType of a given logical drive. The easy solution would be to iterate over <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.io.driveinfo.getdrives.aspx">DriveInfo.GetDrives<&#47;a> and pick the one you are looking for... Anyway, i thought it would be nice to experiment with <a href="http:&#47;&#47;msdn.microsoft.com&#47;library&#47;default.asp?url=&#47;library&#47;en-us&#47;wmisdk&#47;wmi&#47;wmi_start_page.asp">WMI<&#47;a> so i wrote a little function that uses <a href="http:&#47;&#47;msdn.microsoft.com&#47;library&#47;default.asp?url=&#47;library&#47;en-us&#47;wmisdk&#47;wmi&#47;Win32_LogicalDisk.asp">Win32_LogicalDisk<&#47;a> to look the MediaType up:<&#47;p><br />
+[code lang="csharp"]<br />
+static void Main(string[] args)<br />
+{<br />
+ char[] driveLetters = new char[] { 'a', 'c', 'd', 'e' };<br />
+ foreach (char driveLetter in driveLetters)<br />
+ {<br />
+  try<br />
+  {<br />
+   Console.WriteLine("Drive {0} is a {1}", driveLetter, GetMediaType(driveLetter));<br />
+  }<br />
+  catch (ManagementException)<br />
+  {<br />
+   Console.WriteLine("Drive {0} was not found", driveLetter);<br />
+  }<br />
+ }</p>
+<p> Console.WriteLine("Press any key to continue...");<br />
+ Console.ReadKey();<br />
+}</p>
+<p>static string GetMediaType(char driveLetter)<br />
+{<br />
+ ManagementObject disk = new ManagementObject("win32_logicaldisk.deviceid=\"" + driveLetter + ":\"");<br />
+ disk.Get();<br />
+ return GetMediaMeaning((uint)disk["MediaType"]);<br />
+}</p>
+<p>static string GetMediaMeaning(uint mediaType)<br />
+{<br />
+ Dictionary<uint, string> mediaTypes = new Dictionary<uint, string>();<br />
+ mediaTypes.Add(0, "Unknown Format");<br />
+ mediaTypes.Add(1, "51&#47;4-Inch Floppy Disk - 1.2Mb - 512bytes&#47;sector");<br />
+ mediaTypes.Add(2, "31&#47;2-Inch Floppy Disk - 1.44Mb -512bytes&#47;sector");<br />
+ mediaTypes.Add(3, "31&#47;2-Inch Floppy Disk - 2.88Mb - 512bytes&#47;sector");<br />
+ mediaTypes.Add(4, "31&#47;2-Inch Floppy Disk - 20.8Mb - 512bytes&#47;sector");<br />
+ mediaTypes.Add(5, "31&#47;2-Inch Floppy Disk - 720Kb - 512bytes&#47;sector");<br />
+ mediaTypes.Add(6, "51&#47;4-Inch Floppy Disk - 360Kb - 512bytes&#47;sector");<br />
+ mediaTypes.Add(7, "51&#47;4-Inch Floppy Disk - 320Kb - 512bytes&#47;sector");<br />
+ mediaTypes.Add(8, "51&#47;4-Inch Floppy Disk - 320Kb - 1024bytes&#47;sector");<br />
+ mediaTypes.Add(9, "51&#47;4-Inch Floppy Disk - 180Kb - 512bytes&#47;sector");<br />
+ mediaTypes.Add(10, "51&#47;4-Inch Floppy Disk - 160Kb - 512bytes&#47;sector");<br />
+ mediaTypes.Add(11, "Removable media other than floppy");<br />
+ mediaTypes.Add(12, "Fixed hard disk media");<br />
+ mediaTypes.Add(13, "31&#47;2-Inch Floppy Disk - 120Mb - 512bytes&#47;sector");<br />
+ mediaTypes.Add(14, "31&#47;2-Inch Floppy Disk - 640Kb - 512bytes&#47;sector");<br />
+ mediaTypes.Add(15, "51&#47;4-Inch Floppy Disk - 640Kb - 512bytes&#47;sector");<br />
+ mediaTypes.Add(16, "51&#47;4-Inch Floppy Disk - 720Kb - 512bytes&#47;sector");<br />
+ mediaTypes.Add(17, "31&#47;2-Inch Floppy Disk - 1.2Mb - 512bytes&#47;sector");<br />
+ mediaTypes.Add(18, "31&#47;2-Inch Floppy Disk - 1.23Mb - 1024bytes&#47;sector");<br />
+ mediaTypes.Add(19, "51&#47;4-Inch Floppy Disk - 1.23Mb - 1024bytes&#47;sector");<br />
+ mediaTypes.Add(20, "31&#47;2-Inch Floppy Disk - 128Mb - 512bytes&#47;sector");<br />
+ mediaTypes.Add(21, "31&#47;2-Inch Floppy Disk - 230Mb - 512bytes&#47;sector");<br />
+ mediaTypes.Add(22, "8-Inch Floppy Disk - 256Kb - 128bytes&#47;sector");</p>
+<p> string meaning = "Unknown format";<br />
+ mediaTypes.TryGetValue(mediaType, out meaning);<br />
+ return meaning;<br />
+}[&#47;code]</p>

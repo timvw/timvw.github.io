@@ -1,0 +1,129 @@
+---
+layout: post
+status: publish
+published: true
+title: Easily switching between App.Config files with MSBuild
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 217
+wordpress_url: http://www.timvw.be/easily-switching-between-appconfig-files-with-msbuild/
+date: '2008-03-17 20:04:03 +0100'
+date_gmt: '2008-03-17 18:04:03 +0100'
+categories: []
+tags:
+- Visual Studio
+comments:
+- id: 267
+  author: Tim Van Wassenhove &raquo; Archive &raquo; Easily switching between configuration
+    files with MSBuild
+  author_email: ''
+  author_url: http://www.timvw.be/easily-switching-between-configuration-files-with-msbuild/
+  date: '2008-03-22 18:41:03 +0100'
+  date_gmt: '2008-03-22 16:41:03 +0100'
+  content: '[...] couple of days ago i wrote about Easily switching between App.Config
+    files with MSBuild. Christophe Gijbels, a fellow compuwarrior, pointed out that
+    developers usually need to copy more [...]'
+- id: 268
+  author: S Chugh
+  author_email: chugh97@yahoo.com
+  author_url: ''
+  date: '2009-04-20 17:01:58 +0200'
+  date_gmt: '2009-04-20 16:01:58 +0200'
+  content: Does it work with Web projects...I tried it and it does not seem to work.
+    Do you have any workaround for a web project so I can have multible web.[Build].config
+    but choose only the config on the type of build?
+- id: 269
+  author: Mai
+  author_email: mai_52@hotmail.com
+  author_url: ''
+  date: '2010-02-02 00:06:21 +0100'
+  date_gmt: '2010-02-01 23:06:21 +0100'
+  content: |-
+    I'm confused...I'm not familiar with MSBuild. I've got a vbproj, and I can't find any file that resembles that xml build file anywhere.
+    I've added a new solution configuration, now where do I go to make it pick up a different app.config?
+- id: 270
+  author: Mai
+  author_email: mai_52@hotmail.com
+  author_url: ''
+  date: '2010-02-02 00:32:07 +0100'
+  date_gmt: '2010-02-01 23:32:07 +0100'
+  content: Don't worry I found it in .vbproj. Explorer doesn't do a very good job
+    of searching for files.
+- id: 17893
+  author: T
+  author_email: ''
+  author_url: ''
+  date: '2011-08-29 19:14:28 +0200'
+  date_gmt: '2011-08-29 18:14:28 +0200'
+  content: "Awesome post.  I'm just now stumbling on it after begging the goog to
+    answer me.  I ended up using a modified version of this where I included the configuration
+    name in the file name of the app config for that configuration.  Then all I had
+    to do was add a single line and the build auto-magically picks the correct config
+    file.\r\n\r\nEx App.Config file names.\r\n   App.Debug.Config\r\n   App.Release.Config\r\n\r\nSimply
+    added <code>App.$(ConfigurationName).Config<&#47;code>to the project file in it's
+    own PropertyGroup and Done.\r\n\r\nThanks again."
+- id: 18028
+  author: timvw
+  author_email: tim@timvw.be
+  author_url: http://timvw.myopenid.com/
+  date: '2011-09-01 06:45:38 +0200'
+  date_gmt: '2011-09-01 05:45:38 +0200'
+  content: "These days i would strongly recommend that you look into the Web.Config
+    transformation syntax (eg: <a href=\"http:&#47;&#47;www.hanselman.com&#47;blog&#47;SlowCheetahWebconfigTransformationSyntaxNowGeneralizedForAnyXMLConfigurationFile.aspx\"
+    rel=\"nofollow\">here<&#47;a>.)\r\n\r\nOr use something completely different if
+    you don't want to couple your configuration system to your build configuration
+    system."
+- id: 168759
+  author: Yury Schkatula
+  author_email: ''
+  author_url: ''
+  date: '2013-01-29 13:07:56 +0100'
+  date_gmt: '2013-01-29 12:07:56 +0100'
+  content: "Agree with <b>timvw<&#47;b>, transformation syntax is really powerful
+    feature. And you can apply it to any XML-styled file in your project. If you don't
+    mind, let me post an example for sitemap transformation:\r\nhttp:&#47;&#47;windowsasusual.blogspot.ru&#47;2012&#47;01&#47;live-like-you-were-webconfig.html"
+---
+<p>Imagine the following situation: One codebase, two customers with different <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;kkz9kefa(VS.80).aspx">Application Configuration files<&#47;a>. How can we easily switch between the different configurations? By taking advantage of the <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;kkz9kefa(VS.80).aspx">Build Configurations<&#47;a> functionality in Visual Studio we can easily switch between different configurations:<&#47;p></p>
+<p><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;vsconfigurationmanager.gif" alt="screenshot of the configuration manager in visual studio"&#47;></p>
+<p>A brute-force solution would be to add a <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;42x5kfw4(VS.80).aspx">Post-build Event<&#47;a> that copies the desired App.Config file to the destination directory. In the Microsoft.Common.targets file (usually at C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727) around line 725 you can read how <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;wea2sca5.aspx">MSBuild<&#47;a> chooses the App.Config that is copied to the destination folder:<&#47;p></p>
+<blockquote>
+<p>Choose exactly one app.config to be the main app.config that is copied to the destination folder.<br&#47;><br />
+The search order is:<&#47;p></p>
+<ol>
+<li>Choose the value $(AppConfig) set in the main project.<&#47;li>
+<li>Choose @(None) App.Config in the same folder as the project.<&#47;li>
+<li>Choose @(Content) App.Config in the same folder as the project.<&#47;li>
+<li>Choose @(None) App.Config in any subfolder in the project.<&#47;li>
+<li>Choose @(Content) App.Config in any subfolder in the project.<&#47;li><br />
+<&#47;ol><br />
+<&#47;blockquote></p>
+<p>Thus, simply setting $(AppConfig) should be enough to make sure that MSBuild chooses the appropriate App.Config file. Here is an example of a csproj section that defines $(AppConfig) as App.Customer1.Config or App.Customer2.Config depending on the choosen Build configuration:<&#47;p></p>
+<p>[code lang="xml"]</p>
+<propertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug Customer1|AnyCPU' ">
+ <debugSymbols>true<&#47;debugSymbols><br />
+ <debugType>full<&#47;debugType><br />
+ <optimize>false<&#47;optimize><br />
+ <outputPath>bin\Debug\<&#47;outputPath><br />
+ <defineConstants>DEBUG;TRACE<&#47;defineConstants><br />
+ <errorReport>prompt<&#47;errorReport><br />
+ <warningLevel>4<&#47;warningLevel><br />
+ <appConfig>App.Customer1.Config<&#47;appConfig><br />
+<&#47;propertyGroup></p>
+<propertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug Customer2|AnyCPU' ">
+ <debugSymbols>true<&#47;debugSymbols><br />
+ <outputPath>bin\Debug Customer2\<&#47;outputPath><br />
+ <defineConstants>DEBUG;TRACE<&#47;defineConstants><br />
+ <debugType>full<&#47;debugType></p>
+<platformTarget>AnyCPU<&#47;platformTarget><br />
+ <codeAnalysisUseTypeNameInSuppression>true<&#47;codeAnalysisUseTypeNameInSuppression><br />
+ <codeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs<&#47;codeAnalysisModuleSuppressionsFile><br />
+ <errorReport>prompt<&#47;errorReport><br />
+ <appConfig>App.Customer2.Config<&#47;appConfig><br />
+  <&#47;propertyGroup><br />
+[&#47;code]</p>

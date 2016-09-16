@@ -1,0 +1,36 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting MyTestRunner
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 751
+wordpress_url: http://www.timvw.be/?p=751
+date: '2008-12-24 13:58:11 +0100'
+date_gmt: '2008-12-24 12:58:11 +0100'
+categories: []
+tags:
+- C#
+- Visual Studio
+comments: []
+---
+<p>Here are a couple of reasons why i dislike the <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;ms243147(VS.80).aspx">Unit Testing Framework<&#47;a> that comes with <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;fda2bad5(VS.80).aspx">Visual Studio Team System<&#47;a>:<&#47;p></p>
+<ul>
+<li>Not all versions of Visual Studio are capable of running the tests.<&#47;li>
+<li>Test inheritance is not supported.<&#47;li>
+<li>Running tests via mstest.exe is slow.<&#47;li>
+<li>Visual Studio creating tens of .vmsdi files.<&#47;li><br />
+<&#47;ul></p>
+<p>There are already a couple of better frameworks out there, and currently <a href="http:&#47;&#47;mbunit.com&#47;">MbUnit<&#47;a> is my favorite one, certainly in combination with <a href="http:&#47;&#47;www.testdriven.net&#47;">TestDriven.NET<&#47;a>.<&#47;p></p>
+<p>I have created a custom implementation of the Microsoft.VisualStudio.QualityTools.UnitTestingFramework assembly. Actually, the assembly only has a couple of Attributes for the moment but contributions are always welcome ;)<&#47;p></p>
+<p>In order to achieve better performance i decided to implement a custom test runner. Currently <a href="http:&#47;&#47;www.gallio.org&#47;">Gallio<&#47;a> uses mstest.exe but there might be a day that i decide to write a plugin so that mytestrunner can be used instead.<&#47;p></p>
+<p>I was inspired by <a href="http:&#47;&#47;docs.mbunit.com&#47;help&#47;html&#47;MbUnitAndVisualStudio&#47;CreatingSelfTestingAssemblies.htm">Creating Self-testing Assemblies<&#47;a> and decided to use that approach but for some odd reason visual studio insists on running unit tests although the assembly is a console application :( Anyway, i can still invoke mytestrunner via the external tools as following:<&#47;p></p>
+<p><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;mytestrunner-external-tools.gif" alt="screenshot of external tools dialog"&#47;></p>
+<p>The source code is available at <a href="http:&#47;&#47;code.google.com&#47;p&#47;mytestrunner&#47;">http:&#47;&#47;code.google.com&#47;p&#47;mytestrunner&#47;<&#47;a>.<&#47;p></p>

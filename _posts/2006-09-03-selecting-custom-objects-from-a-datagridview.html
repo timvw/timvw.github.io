@@ -1,0 +1,42 @@
+---
+layout: post
+status: publish
+published: true
+title: Selecting custom Objects from a DataGridView
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 16
+wordpress_url: http://www.timvw.be/selecting-custom-objects-from-a-datagridview/
+date: '2006-09-03 02:09:56 +0200'
+date_gmt: '2006-09-03 00:09:56 +0200'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments: []
+---
+<p>Here is a way that allows the user to select a row (custom object properties are used as column values) from a <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.datagridview.aspx">DataGridView<&#47;a> assuming that the <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.datagridview.selectionmode.aspx">SelectionMode<&#47;a> property is set FullRowSelect:<&#47;p><br />
+[code lang="csharp"]<br />
+private void FillDataGridViewPersons( List
+<person> persons ) {<br />
+ this.dataGridViewPersons.Rows.Clear();</p>
+<p> for ( int i = 0; i < persons.Count; ++i ) {<br />
+  this.dataGridViewPersons.Rows.Add();<br />
+  this.dataGridViewPersons.Rows[i].Tag = persons[i];<br />
+  this.dataGridViewPersons.Rows[i].SetValues( new object[] { persons[i].Id, persons[i].Name } );<br />
+ }<br />
+}</p>
+<p>private void buttonDoSomething_Click( object sender, EventArgs e ) {<br />
+ if ( this.dataGridViewPersons.SelectedRows.Count == 1 ) {<br />
+  int selectedRowIndex = this.dataGridViewPersons.SelectedCells[0].RowIndex;<br />
+  Person selectedPerson = (Person)this.dataGridViewPersons.Rows[selectedRowIndex].Tag;<br />
+  MessageBox.Show( String.Format( "You selected the person with id: {0}", selectedPerson.Id ) );<br />
+ }<br />
+}<br />
+[&#47;code]</p>

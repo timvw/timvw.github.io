@@ -1,0 +1,76 @@
+---
+layout: post
+status: publish
+published: true
+title: Updating Assembly References with TFS
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 205
+wordpress_url: http://www.timvw.be/updating-assembly-references-with-tfs/
+date: '2008-02-18 19:00:55 +0100'
+date_gmt: '2008-02-18 17:00:55 +0100'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>A while ago i <a href="http:&#47;&#47;www.timvw.be&#47;programming-the-csproj-file&#47;">posted some code that allows you to update the Assembly references<&#47;a>. Here is some code that uses the <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;bb130146(VS.80).aspx">Team Foundation Server SDK<&#47;a> that checks the csproj files out and updates their references. Afterwards it's possible to check the modified csproj files in with a reference to a WorkItem (or to undo the checkout in case no modifications were made).<&#47;p></p>
+<p>[code lang="csharp"]static void Main()<br />
+{<br />
+ string tfsServerName = "tfsrtm08";<br />
+ string projectsPath = @"D:\Projects";</p>
+<p> Console.WriteLine( "Connecting to TFS [" + tfsServerName + "]..." );<br />
+ TeamFoundationServer teamFoundationServer = TeamFoundationServerFactory.GetServer( tfsServerName );</p>
+<p> Console.WriteLine( Environment.NewLine + "Modified ProjectFiles:" );<br />
+ List<workspace> workSpacesWithUpdatedProjectFiles = UpdateReferencesInProjectFiles( teamFoundationServer, projectsPath );</p>
+<p> Console.WriteLine( Environment.NewLine + "Modified Workspaces: " );<br />
+ foreach( Workspace workSpace in workSpacesWithUpdatedProjectFiles )<br />
+ {<br />
+  Console.WriteLine( workSpace.Name );<br />
+ }</p>
+<p> &#47;&#47;int workItemId = -1;<br />
+ &#47;&#47;CheckInPendingChanges( teamFoundationServer, workItemId, workSpacesWithUpdatedProjectFiles );</p>
+<p> Console.Write( "{0}Press any key to continue...", Environment.NewLine );<br />
+ Console.ReadKey();<br />
+}</p>
+<p>private static List<workspace> UpdateReferencesInProjectFiles( TeamFoundationServer teamFoundationServer, string projectsPath )<br />
+{<br />
+ VersionControlServer versionControlServer = (VersionControlServer) teamFoundationServer.GetService( typeof( VersionControlServer ) );</p>
+<p> List<workspace> workSpacesWithUpdatedProjectFiles = new List<workspace>();<br />
+ foreach( string projectFileName in ProjectFile.Find( projectsPath ) )<br />
+ {<br />
+  Workspace workSpace = versionControlServer.GetWorkspace( Path.GetFullPath( projectFileName ) );<br />
+  workSpace.PendEdit( projectFileName );</p>
+<p>  if( UpdateReferencesInProjectFile( projectFileName ) )<br />
+  {<br />
+   Console.WriteLine( projectFileName );<br />
+   if( !workSpacesWithUpdatedProjectFiles.Contains( workSpace ) )<br />
+   {<br />
+    workSpacesWithUpdatedProjectFiles.Add( workSpace );<br />
+   }<br />
+  }<br />
+  else<br />
+  {<br />
+   workSpace.Undo( projectFileName );<br />
+  }<br />
+ }<br />
+ return workSpacesWithUpdatedProjectFiles;<br />
+}</p>
+<p>private static void CheckInPendingChanges( TeamFoundationServer teamFoundationServer, int workItemId, List<workspace> workSpacesWithUpdatedProjectFiles )<br />
+{<br />
+ WorkItemStore workItemStore = (WorkItemStore) teamFoundationServer.GetService( typeof( WorkItemStore ) );</p>
+<p> WorkItem workItem = workItemStore.GetWorkItem( workItemId );<br />
+ WorkItemCheckinInfo[] workItemChanges = new WorkItemCheckinInfo[] { new WorkItemCheckinInfo( workItem, WorkItemCheckinAction.Associate ) };<br />
+ foreach( Workspace workSpace in workSpacesWithUpdatedProjectFiles )<br />
+ {<br />
+  PendingChange[] pendingChanges = workSpace.GetPendingChanges();<br />
+  workSpace.CheckIn( pendingChanges, string.Empty, null, workItemChanges, null );<br />
+ }<br />
+}[&#47;code]</p>
+<p>Feel free to download the code: <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;ReferenceManager.zip">ReferenceManager.zip<&#47;a>.<&#47;p></p>

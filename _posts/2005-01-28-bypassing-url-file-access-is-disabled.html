@@ -1,0 +1,52 @@
+---
+layout: post
+status: publish
+published: true
+title: Bypassing URL file-access is disabled
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 92
+wordpress_url: http://www.timvw.be/bypassing-url-file-access-is-disabled/
+date: '2005-01-28 01:18:19 +0100'
+date_gmt: '2005-01-27 23:18:19 +0100'
+categories: []
+tags:
+- PHP
+comments: []
+---
+<p>For some odd reason this host has disabled URL file-access.<br />
+So i needed something simple to bypass this problem:<&#47;p><br />
+[code lang="php"]<br />
+function fetch_url($url)<br />
+{<br />
+    if (preg_match("#^http:&#47;&#47;(.*?)&#47;(.*)$#", $url, $matches))<br />
+    {<br />
+        $host = $matches[1];<br />
+        $uri = $matches[2];<br />
+        $msg = "GET &#47;$uri HTTP&#47;1.0\r\nHost: $host\r\n\r\n";</p>
+<p>        $fp = fsockopen($host, 80, $errno, $errstr, 10);<br />
+        fwrite($fp, $msg);<br />
+        $ignore = true;<br />
+        while (!feof($fp))<br />
+        {<br />
+            $read = fgets($fp, 1024);<br />
+            if (!$ignore)<br />
+            {<br />
+                $contents .= $read;<br />
+            }<br />
+            if (preg_match("#^Content-Type: .*?\r\n$#", $read))<br />
+            {<br />
+                $ignore = false;<br />
+            }<br />
+        }<br />
+        fclose($fp);<br />
+        return $contents;<br />
+    }<br />
+}<br />
+[&#47;code]</p>

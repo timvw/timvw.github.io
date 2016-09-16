@@ -1,0 +1,41 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting TimeSpanHelper
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 418
+wordpress_url: http://www.timvw.be/?p=418
+date: '2008-08-20 19:19:56 +0200'
+date_gmt: '2008-08-20 17:19:56 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>A <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.timespan.aspx">TimeSpan<&#47;a> is a structure that represents a time interval or a duration. To make the everything as clear as possible, a well designed system should not only know the quantity, but also the unit of that quantity. In order to create a TimeSpan that represents the right value, you will probably use one of the <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.timespan_methods.aspx">FromXXX (Hours, Days, Minutes, Seconds) methods<&#47;a> as following:<&#47;p></p>
+<p>[code lang="csharp"]double value = 1;<br />
+string unit = "Day";</p>
+<p>TimeSpan actual;<br />
+if (unit == "Day")<br />
+{<br />
+ actual = TimeSpan.FromDays(value);<br />
+}<br />
+else if (unit == "Hour")<br />
+{<br />
+ actual = TimeSpan.FromHours(value);<br />
+}<br />
+&#47;&#47; more else if statements...[&#47;code]</p>
+<p>After a while you get bored of writing that same if-else (or switch) construct and you end up wishing for something like:<&#47;p><br />
+[code lang="csharp"]double value = 1;<br />
+string unit = "Day";</p>
+<p>TimeUnit timeUnit = EnumHelper.Parse<timeUnit>(unit);<br />
+TimeSpan actual = TimeSpanHelper.Create(value, timeUnit);[&#47;code]</p>
+<p>Well, from now on you can find it in <a href="http:&#47;&#47;www.codeplex.com&#47;BeTimvwFramework">BeTimvwFramework<&#47;a> ;)<&#47;p></p>

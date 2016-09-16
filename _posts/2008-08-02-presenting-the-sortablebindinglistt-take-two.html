@@ -1,0 +1,450 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting the SortableBindingList<T> (take two)
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 314
+wordpress_url: http://www.timvw.be/?p=314
+date: '2008-08-02 12:47:49 +0200'
+date_gmt: '2008-08-02 10:47:49 +0200'
+categories: []
+tags:
+- C#
+comments:
+- id: 282
+  author: Scott Ballard
+  author_email: sd_ballard@hotmail.com
+  author_url: ''
+  date: '2008-09-29 23:58:47 +0200'
+  date_gmt: '2008-09-29 21:58:47 +0200'
+  content: "Hi Tim,\n\nFirst, let me thank you for providing this source code.  It
+    really helped me quickly develop a concrete class for the IBindingList interface
+    that supports sorting.  I did have one small piece of feedback though.  My business
+    objects have several string properties. If I use your source code as is, the first
+    string property I sort on works fine.  However, if I try to sort on a second string
+    property, it uses the sorting from the first string property.  I think this is
+    because the PropertyComparer you store for each property type is tied to the first
+    property that was used for sorting.  I think your PropertyComparer class needs
+    a new method as follows:\n\npublic void SetPropertyDescriptor(PropertyDescriptor
+    property)\n{\n\tthis.propertyDescriptor = property;\n\n}\n\nThen, the ApplySortCore
+    method in your SortableBindingList class needs a new line as follows:\n\ncomparer.SetPropertyDescriptor(property);\n\nThis
+    would go right before:\n\ncomparer.SetListSortDirection(direction);\n\nSo not
+    only does the new sort direction get updated, but the new property to sort on
+    gets updated too.  That seemed to fix the problem for me.  I hope this all makes
+    sense.  You can see the behavior I'm describing if you take your demo app and
+    add first and last name string properties to your Person class.  If you sort on
+    last name first, it works fine.  But then if you sort on first name, it still
+    uses the sorting from the last name.  Again, nice work, I just wanted to offer
+    a slight improvement.\n\nRegards,\n\nScott Ballard\nsd_ballard@hotmail.com"
+- id: 283
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2008-09-30 09:20:17 +0200'
+  date_gmt: '2008-09-30 07:20:17 +0200'
+  content: |-
+    Hello Scott,
+
+    Thanks for the feedback, it allowed me to reproduce the problem quickly.
+
+    It took me a bit more to write a failing unittest that reproduced the behaviour because there was a bug in my unittests :&#47;
+
+    Anyway, the problem has been solved now and the code has been committed into the BeTimvwFramework repository. I have uploaded a fixed demo application.
+- id: 284
+  author: Andy B
+  author_email: andy.r.beal@att.net
+  author_url: ''
+  date: '2009-01-31 08:55:42 +0100'
+  date_gmt: '2009-01-31 07:55:42 +0100'
+  content: This works a treat.  Fantastic code Tim!
+- id: 285
+  author: Paul Hodgson
+  author_email: sharktraiger@hotmail.com
+  author_url: ''
+  date: '2009-04-06 22:59:20 +0200'
+  date_gmt: '2009-04-06 21:59:20 +0200'
+  content: |-
+    Very nice saved me a bit of grief and given how simple it is I can't see why the doesn't DGV include this functionality?  ho-hum.
+
+    VB is my native language and ran the BindingList and comparer source through a c#-to-vb translator and it pretty much worked straight out of the box.  Just have to look for
+
+    Public Function Compare(ByVal x As T, ByVal y As T) As Integer and be certain it implements  System.Collections.Generic.IComparer(Of T).Compare.
+
+    Thanks again.
+
+    Paul
+- id: 286
+  author: Alex Birch
+  author_email: timvw-fan@lifesabirch.org
+  author_url: http://www.lifesabirch.org
+  date: '2009-04-08 22:17:41 +0200'
+  date_gmt: '2009-04-08 21:17:41 +0200'
+  content: |-
+    Thank you for not only doing this but sharing.
+
+    Way to go!
+- id: 287
+  author: Mathieu Daigle
+  author_email: mathieu.daigle@usherbrooke.ca
+  author_url: ''
+  date: '2009-05-21 16:19:28 +0200'
+  date_gmt: '2009-05-21 15:19:28 +0200'
+  content: |-
+    Works like a charm.
+
+    Good job and thanks for sharing your knowledge.
+- id: 288
+  author: Yvan Rodrigues
+  author_email: yvan@mabel.ca
+  author_url: http://www.mabel.ca
+  date: '2009-05-25 02:08:12 +0200'
+  date_gmt: '2009-05-25 01:08:12 +0200'
+  content: Very nice work!
+- id: 289
+  author: Ramiro
+  author_email: ramiro.guasti@yahoo.com
+  author_url: ''
+  date: '2009-06-02 19:23:49 +0200'
+  date_gmt: '2009-06-02 18:23:49 +0200'
+  content: |-
+    Perfect! a good solution for an incomplete topic of .NET.
+
+    Gracias por todo. Saludos
+- id: 290
+  author: Tom Bushell
+  author_email: tbushell@bic.com
+  author_url: ''
+  date: '2009-12-29 21:10:53 +0100'
+  date_gmt: '2009-12-29 20:10:53 +0100'
+  content: |-
+    Nice job - I just dropped 2 files into my project, and it "just worked"!
+
+    The only tweak I've done so far is to put the PropertyComparer class in the same file as the SortableBindingList - I like having a single file solution that can be shared with other projects.
+
+    -Tom
+- id: 291
+  author: Robin Clark
+  author_email: robalexclark@HOTMAIL.com
+  author_url: ''
+  date: '2010-02-19 18:27:26 +0100'
+  date_gmt: '2010-02-19 17:27:26 +0100'
+  content: Wow - I have to confess that as I was mucking about with IQueryable results
+    from Entity Framework queries I would have a lot of problems, but just converting
+    the IQueryable to a list and wrapping it in the sortablelist worked immediately!
+- id: 292
+  author: Paul Peavyhouse
+  author_email: pv@swooby.com
+  author_url: ''
+  date: '2010-03-23 21:42:00 +0100'
+  date_gmt: '2010-03-23 20:42:00 +0100'
+  content: |-
+    Excellent!
+    Two questions:
+    1) Is there an obviously simple &amp; efficient way to make the sort not mutate the original list?  I want add&#47;inserts to list to remain immutable; I just want them to *display* in different order according to the chosen sorting column.
+    2) Do you think this would easily work on VirtualMode=true DGVs?
+
+    Danka!
+
+    Pv
+- id: 836
+  author: Mikael Fredriksson
+  author_email: frimurare@gmail.com
+  author_url: ''
+  date: '2010-10-19 13:30:40 +0200'
+  date_gmt: '2010-10-19 12:30:40 +0200'
+  content: Many thanks! Works perfectly.
+- id: 3267
+  author: Haw-Bin Chai
+  author_email: hbchai@gmail.com
+  author_url: http://ttwhy.org
+  date: '2011-01-16 17:54:32 +0100'
+  date_gmt: '2011-01-16 16:54:32 +0100'
+  content: Fantastic - thanks for this!!
+- id: 5701
+  author: Rajesh
+  author_email: ''
+  author_url: ''
+  date: '2011-02-25 07:29:44 +0100'
+  date_gmt: '2011-02-25 06:29:44 +0100'
+  content: "HI Tim,\r\n           it was a great solution, it helped me very much
+    in enabling sorting for DataGridView. ThankYou very much."
+- id: 7413
+  author: Uwe
+  author_email: uh3738@hotmail.com
+  author_url: ''
+  date: '2011-03-28 02:39:59 +0200'
+  date_gmt: '2011-03-28 01:39:59 +0200'
+  content: Unfortunately, it does not support filtering. How to implement that? Help
+    would be appreciated
+- id: 12712
+  author: Alex Terra
+  author_email: alexterra@gmail.com
+  author_url: http://www.sequenza.com.br
+  date: '2011-06-10 21:19:42 +0200'
+  date_gmt: '2011-06-10 20:19:42 +0200'
+  content: "Genius your are my friend!!!\r\n\r\nCongrats from Brazil!"
+- id: 15053
+  author: Koby
+  author_email: ''
+  author_url: ''
+  date: '2011-07-12 16:30:25 +0200'
+  date_gmt: '2011-07-12 15:30:25 +0200'
+  content: "I've spent a few hours today on the web trying to figure how to enable
+    the sort of the DataGridView.\r\nfinally I have found this great article.\r\nThanks
+    for sharing! \r\nit really works great!"
+- id: 15816
+  author: kra
+  author_email: ''
+  author_url: ''
+  date: '2011-07-25 10:26:25 +0200'
+  date_gmt: '2011-07-25 09:26:25 +0200'
+  content: "It helped me a lot, thanks\r\n\r\ncheers"
+- id: 20999
+  author: Marcel
+  author_email: mailtocallo@yahoo.fr
+  author_url: ''
+  date: '2011-10-25 14:53:36 +0200'
+  date_gmt: '2011-10-25 13:53:36 +0200'
+  content: "Congratulations for this nice class.\r\nI have though a question:\r\nHow
+    can I use this when working with Entity Framework:\r\n\r\npublic partial class
+    FrmEF : Form\r\n{\r\n   private academieEntities acaEnt;\r\n\r\nprivate void FrmEF_Load(object
+    sender, EventArgs e)\r\n{\r\nmyDataGridView.DataSource = myBindingSource;  \r\naca
+    = new academieEntities();\r\n\r\nmyBindingSource.DataSource = aca.acaEnt;    \r\n\r\n}
+    \   \r\n}\r\nMy Gridview is populate but I don't know how to use your class to
+    make its column sortable.\r\n\r\nThanks"
+- id: 21418
+  author: Cris McL
+  author_email: crismclaughlin@gmail.com
+  author_url: http://trucksmartsales.com
+  date: '2011-11-01 19:53:16 +0100'
+  date_gmt: '2011-11-01 18:53:16 +0100'
+  content: "@Marcel you can do it like this:\r\n\r\naca = new academiEntities();\r\nvar
+    academi = from a in aca.TableName select a;\r\nmyBindingSource.DataSource = new
+    SortableBindingList(academi.AsEnumerable());"
+- id: 31261
+  author: Andrew
+  author_email: ''
+  author_url: ''
+  date: '2012-01-20 05:35:48 +0100'
+  date_gmt: '2012-01-20 04:35:48 +0100'
+  content: Thanks for the great work!
+- id: 32455
+  author: Jakub
+  author_email: ''
+  author_url: ''
+  date: '2012-02-03 21:30:35 +0100'
+  date_gmt: '2012-02-03 20:30:35 +0100'
+  content: This is it, thank you!
+- id: 36391
+  author: Dan J
+  author_email: ''
+  author_url: ''
+  date: '2012-03-15 11:26:09 +0100'
+  date_gmt: '2012-03-15 10:26:09 +0100'
+  content: Tim, this is great. Thank you for doing it, and thank you for releasing
+    it.
+- id: 36770
+  author: Ronzul
+  author_email: ''
+  author_url: ''
+  date: '2012-03-17 14:25:26 +0100'
+  date_gmt: '2012-03-17 13:25:26 +0100'
+  content: Many thanks for this!
+- id: 40861
+  author: Dave Nicolas
+  author_email: dnico81@gmail.com
+  author_url: http://dotnetmiami.com
+  date: '2012-04-11 17:07:17 +0200'
+  date_gmt: '2012-04-11 16:07:17 +0200'
+  content: Thanks for the excellent work!
+- id: 46547
+  author: Dovlet Mamenov
+  author_email: dovlet84@mail.ru
+  author_url: ''
+  date: '2012-05-10 10:44:14 +0200'
+  date_gmt: '2012-05-10 09:44:14 +0200'
+  content: "Hi Tim,\r\n\r\nThank you for your source code, \r\n\r\nmy question:\r\nIs
+    it possible to add a second parameter for sort operation in your SortableBindingList
+    \r\n\r\nfor example I have a SortableBindingList of Person class which has properties:
+    Name (string) Surname (string) DateOfBirth (DateTime) and PersonID which is Integer.
+    When I press to Name column header of dagatagridview which is bound to my SortableBindingList
+    can I have my Persons to be sorted by Name + by PersonID (if names are equal then
+    use PersonID for comparison).\r\n\r\nWill be very glad for your detailed answer!\r\n\r\nThank
+    you for your time! :razz:"
+- id: 47108
+  author: Artiom K.
+  author_email: inormis@gmail.com
+  author_url: ''
+  date: '2012-05-13 16:07:06 +0200'
+  date_gmt: '2012-05-13 15:07:06 +0200'
+  content: "Hi Tim. Thank you very much for this solution. It's really great when
+    it is very easy to apply solution just in a few clicks. Thanks a lot!!!\r\n\r\nBy
+    the way, I needed to use sorting, but to keep the last row in the fixed position
+    (to be always the last row).\r\nMay be it will be useful for somebody. Happy codding.\r\n<code>\r\n
+    \   public class FixedLastRowSortedList : SortableBindingList {\r\n        public
+    FixedLastRowSortedList() {}\r\n\r\n        public FixedLastRowSortedList(IEnumerable
+    enumeration) : base(enumeration) {}\r\n\r\n        protected override void ApplySortCore(PropertyDescriptor
+    property, ListSortDirection direction) {\r\n            var lastRow = Items.LastOrDefault();\r\n
+    \           var itemsList = (List)GetListButLastRow();\r\n\r\n            var
+    propertyType = property.PropertyType;\r\n            var comparer = GetOrCreateComparer(property,
+    direction, propertyType);\r\n\r\n            comparer.SetPropertyAndDirection(property,
+    direction);\r\n            itemsList.Sort(comparer);\r\n            if(!Equals(lastRow,
+    default(T)))\r\n                itemsList.Add(lastRow);\r\n            \r\n            Items.Clear();\r\n
+    \           foreach (var item in itemsList) {\r\n                Items.Add(item);\r\n
+    \           }\r\n\r\n            PropertyDescriptor = property;\r\n            ListSortDirection
+    = direction;\r\n            isSorted = true;\r\n\r\n            OnListChanged(new
+    ListChangedEventArgs(ListChangedType.Reset, -1));\r\n        }\r\n        \r\n
+    \       private IList GetListButLastRow() {\r\n            return Items.Count
+    > 1 ? Items.ToList().GetRange(0, Items.Count - 1) : Items;\r\n        }\r\n    }\r\n<&#47;code>"
+- id: 64787
+  author: Steve
+  author_email: ''
+  author_url: ''
+  date: '2012-07-27 16:18:51 +0200'
+  date_gmt: '2012-07-27 15:18:51 +0200'
+  content: Thank you, this is a quick and easy solution to a big shortfall of the
+    Entity Framework.
+- id: 81773
+  author: Drew
+  author_email: dbutler@balaw.org
+  author_url: ''
+  date: '2012-09-26 17:44:15 +0200'
+  date_gmt: '2012-09-26 16:44:15 +0200'
+  content: Awesome for the most part, although I&rsquo;m running into an issue. When
+    a user clicks a column in which the data is bound to a child table&rsquo;s column
+    I get a null reference exception. &ldquo;Object Reference Not Set To An Instance
+    Of An Object.&rdquo; (Using Linq) It&rsquo;s something to do with not being able
+    to handle the child table.
+- id: 98322
+  author: Tim F
+  author_email: ''
+  author_url: ''
+  date: '2012-11-08 02:10:54 +0100'
+  date_gmt: '2012-11-08 01:10:54 +0100'
+  content: Very grateful, thanks Tim.
+- id: 101823
+  author: Lukas
+  author_email: ''
+  author_url: ''
+  date: '2012-11-16 11:18:32 +0100'
+  date_gmt: '2012-11-16 10:18:32 +0100'
+  content: Great job, thanks a lot for sharing
+- id: 168118
+  author: david
+  author_email: ''
+  author_url: ''
+  date: '2013-01-28 17:17:03 +0100'
+  date_gmt: '2013-01-28 16:17:03 +0100'
+  content: Super useful class!  Thanks for sharing it.
+- id: 170774
+  author: Karel
+  author_email: Karel.de.groot@gmail.com
+  author_url: ''
+  date: '2013-02-01 10:39:26 +0100'
+  date_gmt: '2013-02-01 09:39:26 +0100'
+  content: "Perfect, just what the doctor ordered!\r\n\r\nThanks for sharing!"
+- id: 174870
+  author: SANTOSH
+  author_email: ''
+  author_url: http://santosh@jamara.com.np
+  date: '2013-02-11 07:57:11 +0100'
+  date_gmt: '2013-02-11 06:57:11 +0100'
+  content: "Hello tim, thank you for sharing, Its works great,\r\ni have a problem,\r\nI
+    have a datagridview which reload every second and I wanted to use this sorting
+    mechanism. This works well but after reload the sorted data no longer exist, can
+    you help me out.\r\n\r\nthank you"
+- id: 176183
+  author: Roy
+  author_email: roydemartines@hotmail.com
+  author_url: ''
+  date: '2013-02-19 08:57:46 +0100'
+  date_gmt: '2013-02-19 07:57:46 +0100'
+  content: "Thanks for creating and sharing this, however I request some help, I have
+    selected some Properties from my Database with the Select statement from the Entity
+    Framework and it does not show any items, however when I put .ToList() at the
+    end, it show the records but it is not sortable, please help. Thanks in Advance.\r\ndatabase
+    = new Database(connectionString);\r\nSortableBindingList programs = new SortableBindingList(database.Programs);\r\ndgvPrograms.DataSource
+    = programs.Select(p => new\r\n{\r\n      ID = p.ProgramId,\r\n      p.ProgramDate,\r\n});"
+- id: 203455
+  author: DataGridView not updating when bound BindingList is changed | BlogoSfera
+  author_email: ''
+  author_url: http://www.blogosfera.co.uk/2013/06/datagridview-not-updating-when-bound-bindinglist-is-changed/
+  date: '2013-06-14 03:02:13 +0200'
+  date_gmt: '2013-06-14 02:02:13 +0200'
+  content: '[...] Asking For: A working SortableBindingList that can be sorted programatically
+    and has binding (adding&#47;removing from the list is reflected on the DataGridView).
+    It would, ideally, used similarly to how I&#8217;m currently using it in the code
+    below (to prevent too much refactoring). Or some fix to what I&#8217;m doing wrong
+    as it&#8217;s probably really obvious. The SortableBindingList I&#8217;m using
+    was taken from this article. [...]'
+- id: 253928
+  author: Nick
+  author_email: ''
+  author_url: ''
+  date: '2013-09-16 12:08:57 +0200'
+  date_gmt: '2013-09-16 11:08:57 +0200'
+  content: "Was looking for a while for something like this. Dropped in the 2 files,
+    changed my code a bit and that was it.\r\n\r\nThanks again :)\r\n\r\nNick"
+- id: 285016
+  author: DataGridView not updating when bound BindingList is changed | Technology
+    &amp; Programming
+  author_email: ''
+  author_url: http://programminganswer.com/191453/datagridview-not-updating-when-bound-bindinglist-is-changed.html
+  date: '2013-11-21 05:24:20 +0100'
+  date_gmt: '2013-11-21 04:24:20 +0100'
+  content: '[&#8230;] Asking For: A working SortableBindingList that can be sorted
+    programatically and has binding (adding&#47;removing from the list is reflected
+    on the DataGridView). It would, ideally, used similarly to how I&#8217;m currently
+    using it in the code below (to prevent too much refactoring). Or some fix to what
+    I&#8217;m doing wrong as it&#8217;s probably really obvious. The SortableBindingList
+    I&#8217;m using was taken from this article. [&#8230;]'
+---
+<p>I'm in the progress of adding classes that i find interesting to the <a href="http:&#47;&#47;www.codeplex.com&#47;BeTimvwFramework">BeTimvwFramework<&#47;a> project. The original implementation of my <a href="http:&#47;&#47;www.timvw.be&#47;presenting-the-sortablebindinglistt&#47;">SortableBindingList<T><&#47;a> relied on <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.icomparable.aspx">IComparable<&#47;a> to implement ApplySortCore(PropertyDescriptor property, ListSortDirection direction). I received some good feedback and <a href="http:&#47;&#47;www.timvw.be&#47;improvements-for-the-sortablebindinglist-and-typedlist&#47;">blogged about those improvements<&#47;a>.<&#47;p></p>
+<p>Because some of my classes only implement <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;4d7sx9hd.aspx">IComparable<T><&#47;a> i needed support for this too. My first thought was to use Comparer<T>:<&#47;p></p>
+<p>[code lang="csharp"]IComparer comparer = Comparer<t>.Default;<br />
+itemsList.Sort(delegate(T t1, T t2)<br />
+{<br />
+ object property1 = prop.GetValue(t1);<br />
+ object property2 = prop.GetValue(t2);<br />
+ return reverse * comparer.Compare(property1, property2);<br />
+});[&#47;code]</p>
+<p>Obviously that didn't work. The problem is that i received the default Comparer for T, instead of the Comparer for the type of the property. Anyway, with a bit of reflection i got access to that Comparer:<&#47;p></p>
+<p>[code lang="csharp"]Type comparablePropertyType = typeof(Comparer<>).MakeGenericType(property.PropertyType);<br />
+IComparer comparer = (IComparer)comparablePropertyType.InvokeMember("Default", BindingFlags.Static | BindingFlags.GetProperty | BindingFlags.Public, null, null, null);<br />
+[&#47;code]</p>
+<p>After a bit of refactoring i ended up with a PropertyComparer<T> which allowed me to implement the sorting as following:<&#47;p></p>
+<p>[code lang="csharp"]Type propertyType = property.PropertyType;</p>
+<p>&#47;&#47; this cache minimizes the cost of reflection in the PropertyComparer constructor<br />
+PropertyComparer<t> comparer;<br />
+if (!this.comparers.TryGetValue(propertyType, out comparer))<br />
+{<br />
+ comparer = new PropertyComparer<t>(property, direction);<br />
+ this.comparers.Add(propertyType, comparer);<br />
+}<br />
+else<br />
+{<br />
+ comparer.SetListSortDirection(direction);<br />
+}</p>
+<p>itemsList.Sort(comparer);[&#47;code]</p>
+<p>In order to write unittests, i needed a way to get instances of a <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.componentmodel.propertydescriptor.aspx">PropertyDescriptor<&#47;a>. This was achieved by using the <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.componentmodel.typedescriptor_methods.aspx">TypeDescriptor<&#47;a> as following:<&#47;p></p>
+<p>[code lang="csharp"]PropertyDescriptor GetPropertyDescriptor(object component, string propertyName)<br />
+{<br />
+ PropertyDescriptorCollection propertyDescriptors = TypeDescriptor.GetProperties(component);<br />
+ foreach (PropertyDescriptor propertyDescriptor in propertyDescriptors)<br />
+ {<br />
+  if (propertyDescriptor.Name == propertyName)<br />
+  {<br />
+   return propertyDescriptor;<br />
+  }<br />
+ }</p>
+<p> throw new ArgumentException(string.Format("The property '{0}' was not found.", propertyName));<br />
+}[&#47;code]</p>
+<p>Feel free to download the updated demo application: <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;SortableBindingList.zip">sortablebindinglist.zip<&#47;a>. There are even real applications that use this class, eg: <a href="http:&#47;&#47;vstrac.devjavu.com&#47;">VSTrac<&#47;a> and <a href="http:&#47;&#47;monotorrent.com&#47;">MonoTorrent<&#47;a>. If you're interested in the unittests you'll have to get the code at <a href="http:&#47;&#47;www.codeplex.com&#47;BeTimvwFramework">BeTimvwFramework<&#47;a>.<&#47;p></p>

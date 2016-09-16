@@ -1,0 +1,74 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting SqlCeClientFactory
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 202
+wordpress_url: http://www.timvw.be/presenting-sqlceclientfactory/
+date: '2007-09-09 16:15:41 +0200'
+date_gmt: '2007-09-09 14:15:41 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Apart from Microsoft.SqlServerCe.Client.SqlCeClientFactory in Microsoft.SqlServerCe.Client (an undocumented and unsupported library) there is no DbProviderFactory for System.Data.SqlServerCe. Today i decided to write a SqlCeClientFactory:<&#47;p><br />
+[code lang="csharp"]<br />
+public class SqlCeClientFactory : DbProviderFactory<br />
+{<br />
+ public static readonly SqlCeClientFactory Instance = new SqlCeClientFactory();</p>
+<p> public override DbCommand CreateCommand()<br />
+ {<br />
+  return new SqlCeCommand();<br />
+ }</p>
+<p> public override DbCommandBuilder CreateCommandBuilder()<br />
+ {<br />
+  return new SqlCeCommandBuilder();<br />
+ }</p>
+<p> public override DbConnection CreateConnection()<br />
+ {<br />
+  return new SqlCeConnection();<br />
+ }</p>
+<p> public override DbDataAdapter CreateDataAdapter()<br />
+ {<br />
+  return new SqlCeDataAdapter();<br />
+ }</p>
+<p> public override DbParameter CreateParameter()<br />
+ {<br />
+  return new SqlCeParameter();<br />
+ }<br />
+}[&#47;code]</p>
+<p>As you can see, the implementation is trivial, so i still wonder why microsoft didn't provide it. Anyway, here is how our App.config would look like if we wanted to register and use the SqlCeClientFactory (we could also install the assembly in the GAC and edit machine.config so that all applications can take advantage of it):<&#47;p><br />
+[code lang="xml"]<configuration><br />
+ <connectionStrings><br />
+  <add name="localdb" providerName="System.Data.SqlServerCe" connectionString="Data Source='localdb.sdf';"&#47;><br />
+ <&#47;connectionStrings><br />
+ <system.data><br />
+  <dbProviderFactories><br />
+   <add name="SQL Server Everywhere Edition Data Provider"<br />
+        invariant="System.Data.SqlServerCe"<br />
+        description=".NET Framework Data Provider for Microsoft SQL Server Everywhere Edition"<br />
+        type="SqlCeApplication.SqlCeClientFactory, SqlCeApplication" &#47;><br />
+  <&#47;dbProviderFactories><br />
+ <&#47;system.data><br />
+<&#47;configuration>[&#47;code]</p>
+<p>And now we can use the <a href="http:&#47;&#47;www.timvw.be&#47;helper-methods-for-dbconnection&#47;">DbConnectionHelper<&#47;a> to create a DbConnection and do some work:<&#47;p><br />
+[code lang="csharp"]<br />
+static void Main(string[] args)<br />
+{<br />
+ using (DbConnection conn = DbConnectionHelper.GetConnection("localdb"))<br />
+ {<br />
+  conn.Open();<br />
+  &#47;&#47; do some work...<br />
+ }</p>
+<p> Console.Write("{0}Press any key to continue...", Environment.NewLine);<br />
+ Console.ReadKey();<br />
+}[&#47;code]</p>

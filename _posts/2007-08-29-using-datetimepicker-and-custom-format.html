@@ -1,0 +1,128 @@
+---
+layout: post
+status: publish
+published: true
+title: Using DateTimePicker and Custom Format
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 199
+wordpress_url: http://www.timvw.be/using-datetimepicker-and-custom-format/
+date: '2007-08-29 17:32:42 +0200'
+date_gmt: '2007-08-29 15:32:42 +0200'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments:
+- id: 247
+  author: Ashutosh
+  author_email: ashutosh.kendurkar@gmail.com
+  author_url: http://none
+  date: '2007-09-24 12:16:39 +0200'
+  date_gmt: '2007-09-24 10:16:39 +0200'
+  content: |-
+    Hi Tim,
+
+    I ran into the same datepicker problem today...and yours is the only page on whole of the internet which gives a solution for this problem. Thanks for that.
+
+    BUT, I would like to know if microsoft has confirmed this as bug in the framework? any URLs? links? I mean is it seems to be bug but i dont find any documentation for that on microsoft forum.
+
+
+    Thanks,
+    Ashutosh
+- id: 248
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2007-09-24 12:37:52 +0200'
+  date_gmt: '2007-09-24 10:37:52 +0200'
+  content: Since it seems as a flaw in the win32 control i didn't report a bug. <a
+    href="http:&#47;&#47;forums.microsoft.com&#47;MSDN&#47;ShowPost.aspx?PostID=2069468&SiteID=1"
+    rel="nofollow">The thread i've started on the msdn forums<&#47;a>, only has a
+    reply from Hans Passant, but not official MS feedback was provided.
+- id: 249
+  author: Ashutosh
+  author_email: ashutosh.kendurkar@gmail.com
+  author_url: http://none
+  date: '2007-09-27 15:53:14 +0200'
+  date_gmt: '2007-09-27 13:53:14 +0200'
+  content: |-
+    Thanks Tim,
+
+    Would you report that as a bug to microsoft? I mean it would be good to have the official reply to this bug.
+
+    If you are buzy and dont mind I can try to report that as a bug.
+
+    Thanks
+    Ashutosh
+- id: 9675
+  author: Marcio Bandeira
+  author_email: mbmelo@gmail.com
+  author_url: ''
+  date: '2011-04-30 20:43:26 +0200'
+  date_gmt: '2011-04-30 19:43:26 +0200'
+  content: "Tive problema semelhante.\r\n\r\nAdicionei o formato custom para MM&#47;yyyy.\r\nQuando
+    meu calendario marca, por exemplo, 30&#47;03&#47;2011, meu datepicker mostra 03&#47;2011.
+    Entretanto, parece que internamente exibe 30&#47;03&#47;2011. quando altero o
+    datepicker para o m&ecirc;s 2, ele tenta montar a data em 30&#47;02&#47;2011.
+    sendo que o m&ecirc;s 2 n&atilde;o possui o dia 30. causando o erro. N&atilde;o
+    sei como resolver este problema."
+---
+<p>Today we ran into a nasty problem with <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.datetimepickerformat.aspx">DateTimePickerFormat<&#47;a>.Custom. We allow the user to input a month&#47;date with a DateTimePicker as following (nothing fancy):<&#47;p><br />
+[code lang="csharp"]private void Form1_Load(object sender, EventArgs e)<br />
+{<br />
+ this.dateTimePicker1.Value = new DateTime(2007, 8, 31);<br />
+ this.dateTimePicker1.Format = DateTimePickerFormat.Custom;<br />
+ this.dateTimePicker1.CustomFormat = "MM&#47;yyyy";<br />
+}[&#47;code]</p>
+<p>Now, change to 09&#47;2007 and notice that you get an Exception, because the control tries to create an unrepresentable new DateTime(2007, 8+1, 31). Thus, if you're going to use the DateTimePicker for MM&#47;yyyy input make sure to set it's value to a DateTimeTime with a day component that exists for all months&#47;years (thus a value between 1 and 28).<&#47;p></p>
+<p><b>Addendum:<&#47;b> As usual, super moderator and MVP <a href="https:&#47;&#47;mvp.support.microsoft.com&#47;default.aspx&#47;profile=6c93adc6-026f-42bf-823c-8e65ca732af2">Hans Passant<&#47;a> provided a nice workaround for the problem:)<&#47;p><br />
+[code lang="csharp"]public class MonthPicker : DateTimePicker {<br />
+  public MonthPicker() {<br />
+    this.Format = DateTimePickerFormat.Custom;<br />
+    this.CustomFormat = "MM&#47;yyyy";<br />
+    DateTime now = DateTime.Now;<br />
+    this.Value = new DateTime(now.Year, now.Month, 1);<br />
+  }<br />
+  protected override void WndProc(ref Message m) {<br />
+    if (m.Msg == 0x204e) {<br />
+      NMHDR hdr = (NMHDR)m.GetLParam(typeof(NMHDR));<br />
+      if (hdr.code == -759) {<br />
+        NMDATETIMECHANGE dt = (NMDATETIMECHANGE)m.GetLParam(typeof(NMDATETIMECHANGE));<br />
+        this.Value = new DateTime(dt.st.wYear, dt.st.wMonth, 1);<br />
+        return;<br />
+      }<br />
+    }<br />
+    base.WndProc(ref m);<br />
+  }<br />
+  &#47;&#47; P&#47;Invoke declarations<br />
+  [StructLayout(LayoutKind.Sequential)]<br />
+  private struct NMHDR {<br />
+    public IntPtr hWnd;<br />
+    public IntPtr id;<br />
+    public int code;<br />
+  }<br />
+  [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]<br />
+  private class NMDATETIMECHANGE {<br />
+    public NMHDR nmhdr;<br />
+    public int dwFlags;<br />
+    public SYSTEMTIME st;<br />
+  }<br />
+  [StructLayout(LayoutKind.Sequential)]<br />
+  private class SYSTEMTIME {<br />
+    public short wYear;<br />
+    public short wMonth;<br />
+    public short wDayOfWeek;<br />
+    public short wDay;<br />
+    public short wHour;<br />
+    public short wMinute;<br />
+    public short wSecond;<br />
+    public short wMilliseconds;<br />
+  }<br />
+}[&#47;code]</p>

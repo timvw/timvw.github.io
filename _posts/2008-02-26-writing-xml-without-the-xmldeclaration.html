@@ -1,0 +1,45 @@
+---
+layout: post
+status: publish
+published: true
+title: Writing Xml without the XmlDeclaration
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 209
+wordpress_url: http://www.timvw.be/writing-xml-without-the-xmldeclaration/
+date: '2008-02-26 20:16:02 +0100'
+date_gmt: '2008-02-26 18:16:02 +0100'
+categories: []
+tags:
+- XML
+- C#
+comments: []
+---
+<p>Consider the following xml file:<&#47;p><br />
+[code lang="xml"]<br />
+<?xml version="1.0" encoding="utf-8" ?><br />
+<!-- some comment --><br />
+<root><br />
+<&#47;root><br />
+<!-- another comment --><br />
+[&#47;code]</p>
+<p>If you look at the <a href="http:&#47;&#47;www.w3.org&#47;TR&#47;REC-xml&#47;#sec-well-formed">Well-Formed XML Documents<&#47;a> section in the <a href="http:&#47;&#47;www.w3.org&#47;TR&#47;REC-xml&#47;">XML specification<&#47;a>  you see that a well-formed document is defined as:<&#47;p></p>
+<blockquote><p>
+[1] document ::= <a href="http:&#47;&#47;www.w3.org&#47;TR&#47;REC-xml&#47;#NT-prolog">prolog<&#47;a> <a href="http:&#47;&#47;www.w3.org&#47;TR&#47;REC-xml&#47;#NT-element">element<&#47;a> <a href="http:&#47;&#47;www.w3.org&#47;TR&#47;REC-xml&#47;#NT-Misc">Misc*<&#47;a><br />
+<&#47;blockquote></p>
+<p>Since there is only 1 root element (ever), i assumed that if you <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.xml.xmldocument.load.aspx">Load<&#47;a> this file with <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.xml.xmldocument.aspx">XmlDocument<&#47;a> their would be only one <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.xml.xmlnode.aspx">XmlNode<&#47;a> in the document <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.xml.xmlnode.childnodes.aspx">ChildNodes<&#47;a>. In reality there ChildNodes.Count returns 4.<&#47;p></p>
+<p>The simplest way to write this XmlDocument without the declaration would be as following:<&#47;p></p>
+<p>[code lang="csharp"]XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();<br />
+xmlWriterSettings.OmitXmlDeclaration = true;<br />
+xmlWriterSettings.Encoding = Encoding.UTF8;<br />
+using (XmlWriter writer = XmlWriter.Create(@"result.xml", xmlWriterSettings))<br />
+{<br />
+ xmlDoc.WriteTo(writer);<br />
+}<br />
+[&#47;code]</p>

@@ -1,0 +1,73 @@
+---
+layout: post
+status: publish
+published: true
+title: Screenshot of DataGridViews
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 6
+wordpress_url: http://www.timvw.be/screenshot-of-datagridviews/
+date: '2006-10-08 01:42:08 +0200'
+date_gmt: '2006-10-07 23:42:08 +0200'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments: []
+---
+<p>The problem with a regular screenshot is that you only get to see a part of the DataGridViews. Here's an example of a typical form:<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;datagridviews-with-scrollbars.jpg" alt="image of datagridview with scrollbars"&#47;></p>
+<p>Here is a snippet that makes a screenshot of the complete DataGridViews:<&#47;p><br />
+[code lang="csharp"]<br />
+List<bitmap> bitmaps = new List<bitmap>();<br />
+Size size = new Size();</p>
+<p>for (int i = 1; i < 4; ++i)<br />
+{<br />
+ &#47;&#47; lookup the datagridview<br />
+ DataGridView dataGridView = (DataGridView)this.Controls["dataGridView" + i];</p>
+<p> &#47;&#47; maximize the datagridview size (choosing between current and preferred)<br />
+ Size oldSize = dataGridView.Size;<br />
+ Size newSize = dataGridView.PreferredSize;</p>
+<p> if (dataGridView.Size.Width > newSize.Width)<br />
+ {<br />
+  newSize.Width = dataGridView.Size.Width;<br />
+ }</p>
+<p> if (dataGridView.Size.Height > newSize.Height)<br />
+ {<br />
+  newSize.Height = dataGridView.Size.Height;<br />
+ }</p>
+<p> dataGridView.Size = newSize;</p>
+<p> &#47;&#47; draw the datagridview into a bitmap<br />
+ Bitmap bitmap = new Bitmap(dataGridView.Width, dataGridView.Height);<br />
+ dataGridView.DrawToBitmap(bitmap, new Rectangle(0, 0, dataGridView.Width, dataGridView.Height));</p>
+<p> &#47;&#47; restore the datagridview to it's original size<br />
+ dataGridView.Size = oldSize;</p>
+<p> bitmaps.Add(bitmap);</p>
+<p> &#47;&#47; update total bitmap size<br />
+ if (newSize.Width > size.Width)<br />
+ {<br />
+  size.Width = newSize.Width;<br />
+ }<br />
+ size.Height += newSize.Height;<br />
+}</p>
+<p>&#47;&#47; copy all the bitmaps into one large bitmap<br />
+Bitmap bitmapComplete = new Bitmap(size.Width, size.Height);<br />
+Graphics g = Graphics.FromImage(bitmapComplete);</p>
+<p>int height = 0;<br />
+for (int i = 1; i < 4; ++i)<br />
+{<br />
+ g.DrawImageUnscaled(bitmaps[i - 1], 0, height);<br />
+ height += bitmaps[i - 1].Height;<br />
+}</p>
+<p>&#47;&#47; bitmapComplete is ready for use<br />
+&#47;&#47; eg: pictureBox1.Image = bitmapComplete<br />
+&#47;&#47; eg: bitmapComplete.Save(@"C:\screenshot.jpg", ImageFormat.Jpeg);<br />
+[&#47;code]<br />
+<br&#47;><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;datagridviews-without-scrollbars.jpg" alt="image of generated screenshot"&#47;></p>

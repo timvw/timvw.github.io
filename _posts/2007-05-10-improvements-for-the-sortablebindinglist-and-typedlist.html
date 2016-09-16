@@ -1,0 +1,65 @@
+---
+layout: post
+status: publish
+published: true
+title: Improvements for the SortableBindingList (and TypedList)
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 171
+wordpress_url: http://www.timvw.be/improvements-for-the-sortablebindinglist-and-typedlist/
+date: '2007-05-10 18:01:43 +0200'
+date_gmt: '2007-05-10 16:01:43 +0200'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments: []
+---
+<p>I found out that the sorting didn't work for 'Expression' properties. My first thought was to add another switch to the logic of the already existing code:<&#47;p><br />
+[code lang="csharp"]object value1 = t1;<br />
+object value2 = t2;</p>
+<p>if (prop.Name.StartsWith("||"))<br />
+{<br />
+ &#47;&#47; do something to find the 'ExpressionProperty' values<br />
+}<br />
+else<br />
+{<br />
+ foreach (string property in prop.Name.Split('.'))<br />
+ {<br />
+  &#47;&#47; navigate through the relations<br />
+  PropertyInfo propertyInfo = value1.GetType().GetProperty(property);<br />
+  value1 = propertyInfo.GetValue(value1, null);<br />
+  value2 = propertyInfo.GetValue(value2, null);<br />
+ }<br />
+}[&#47;code]</p>
+<p>Since i already have a PropertyDescriptor it seems a lot smarter to use it's GetValue instead:<&#47;p><br />
+[code lang="csharp"]object value1 = prop.GetValue(t1);<br />
+object value2 = prop.GetValue(t2);[&#47;code]</p>
+<p>At <a href="http:&#47;&#47;blog.developpez.com&#47;index.php?blog=121&title=typedlistalt_tagt&more=1&c=1&tb=1&pb=1">Matthieu MEZIL<&#47;a>'s blog i found a suggestion to use <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;cfttsh47(VS.80).aspx">Comparer<T><&#47;a>. This allowed me to reduce:<&#47;p><br />
+[code lang="csharp"]IComparable comparable = value1 as IComparable;<br />
+if (comparable != null)<br />
+{<br />
+ return reverse * comparable.CompareTo(value2);<br />
+}<br />
+else<br />
+{<br />
+ comparable = value2 as IComparable;<br />
+ if (comparable != null)<br />
+ {<br />
+  return -1 * reverse * comparable.CompareTo(value1);<br />
+ }<br />
+ else<br />
+ {<br />
+  return 0;<br />
+ }<br />
+}[&#47;code]</p>
+<p>with:<&#47;p><br />
+[code lang="csharp"]&#47;&#47; Notice that this requires that atleast value1 or value2 are an instance of a type that implements IComparable<br />
+return reverse * Comparer.Default.Compare(value1, value2);[&#47;code]</p>
+<p>Feel free to get yet another version of <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;TypedList.zip">TypedList.zip<&#47;a>.<&#47;p></p>

@@ -1,0 +1,54 @@
+---
+layout: post
+status: publish
+published: true
+title: Small modification to achieve better modularity with Prism
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1121
+wordpress_url: http://www.timvw.be/?p=1121
+date: '2009-07-11 15:29:10 +0200'
+date_gmt: '2009-07-11 14:29:10 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>I have been experimenting with WPF and Prism (<a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;cc707819.aspx">Composite Application Guidance for WPF and Silverlight<&#47;a>) and ran into a major issue: modularity. Here is an excerpt from the documentation:<&#47;p></p>
+<blockquote><p>Modules have explicit boundaries, typically by subsystem or feature. Having these boundaries makes it easier for separate teams to develop modules. On large applications, teams may be organized by cross-cutting capabilities in addition to being organized by a specific subsystem or feature. For example, there may be a team assigned to shared components of the application, such as the shell or the common infrastructure module.<&#47;blockquote></p>
+<p>The Modularity quick start solution uses the DirectoryModuleCatalog to discover modules. The module projects have a build event that copy their output to a single Modules folder:<&#47;p></p>
+<pre>xcopy "$(TargetDir)*.*" "$(SolutionDir)DirectoryLookupModularity\$(OutDir)Modules\" &#47;Y<&#47;pre></p>
+<p>This means that if two modules output a file with the same name, one of the two will get lost :(. In order to avoid this we create a directory per module:<&#47;p></p>
+<pre>xcopy "$(TargetDir)*.*" "$(SolutionDir)DirectoryLookupModularity\$(OutDir)Modules\$(TargetName)\" &#47;Y<&#47;pre></p>
+<p>To make this work we have to modify the catalog a little:<&#47;p></p>
+<p>[code lang="csharp"]protected override void InnerLoad()<br />
+{<br />
+ if (string.IsNullOrEmpty(this.ModulePath))<br />
+ throw new InvalidOperationException(Resources.ModulePathCannotBeNullOrEmpty);</p>
+<p> if (!Directory.Exists(this.ModulePath))<br />
+  throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.DirectoryNotFound, this.ModulePath));</p>
+<p> foreach (var assemblyFile in Directory.GetFiles(this.ModulePath, "*.dll", SearchOption.AllDirectories))<br />
+ {<br />
+  var privateBinPath = Path.GetFullPath(Path.GetDirectoryName(assemblyFile));<br />
+  var childDomain = this.BuildChildDomain(AppDomain.CurrentDomain, privateBinPath);</p>
+<p>  try<br />
+  {<br />
+   var loaderType = typeof(InnerModuleInfoLoader);<br />
+   if (loaderType.Assembly == null) continue;<br />
+   var loader = (InnerModuleInfoLoader)childDomain.CreateInstanceFromAndUnwrap(loaderType.Assembly.Location, loaderType.FullName);<br />
+   loader.LoadAssembly(assemblyFile);<br />
+   this.Items.AddRange(loader.GetModuleInfos());<br />
+  }<br />
+ }<br />
+finally<br />
+{<br />
+  AppDomain.Unload(childDomain);<br />
+ }<br />
+}[&#47;code]</p>
+<p>As long as we don't use (unsigned and different) assembly files with the same name in different modules we will have a working solution.<&#47;p></p>

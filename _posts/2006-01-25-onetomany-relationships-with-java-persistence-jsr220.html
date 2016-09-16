@@ -1,0 +1,115 @@
+---
+layout: post
+status: publish
+published: true
+title: OneToMany relationships with Java Persistence (JSR 220)
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 61
+wordpress_url: http://www.timvw.be/onetomany-relationships-with-java-persistence-jsr220/
+date: '2006-01-25 21:36:36 +0100'
+date_gmt: '2006-01-25 19:36:36 +0100'
+categories: []
+tags:
+- Hibernate
+comments:
+- id: 9
+  author: Tim Van Wassenhove &raquo; Archive &raquo; ManyToMany relationships with
+    Java Persistence (JSR-220)
+  author_email: ''
+  author_url: http://www.timvw.be/manytomany-relationships-with-java-persistence-jsr-220/
+  date: '2009-09-03 12:05:44 +0200'
+  date_gmt: '2009-09-03 11:05:44 +0200'
+  content: '[...] now we only have the linktable reservations_tables. Exactly the
+    same as we experienced with OneToMany relationships the cascading persist works
+    when we persist a child (reservation). If we want the [...]'
+- id: 60382
+  author: ''
+  author_email: ''
+  author_url: ''
+  date: '2012-07-06 07:10:43 +0200'
+  date_gmt: '2012-07-06 06:10:43 +0200'
+  content: ':smile:  :twisted:  :roll:'
+---
+<p>Let's experiment a bit with <a href="http:&#47;&#47;www.hibernate.org">Hibernate<&#47;a>. We want to model the tables employee and shift. Each employee has multiple shifts (and each shift belongs to an employee). We want an employee table and a shift table (which has the employee_id as a foreign key).<&#47;p><br />
+[code lang="java"]<br />
+&#47;&#47; Employee.java<br />
+@OneToMany(targetEntity=Shift.class) public List getShifts() {...}<br />
+&#47;&#47; Shift.java<br />
+@ManyToOne public Employee getEmployee() {...}<br />
+[&#47;code]</p>
+<p>The code above generates the following tables: employee, employee_shift and shift. Time to read the documentation and discover the mappedBy attribute.<&#47;p><br />
+[code lang="java"]<br />
+&#47;&#47; Employee.java<br />
+@OneToMany(targetEntity=Shift.class, mappedBy="employee") public List getShifts() {...}<br />
+[&#47;code]</p>
+<p>Ok, now we get the tables we want. Let's remove an employee that has shifts referencing him. An exception is thrown because of a foreign key constraint.<&#47;p><br />
+[code lang="java"]<br />
+&#47;&#47; Employee.java<br />
+@OneToMany(targetEntity=Shift.class, mappedBy="employee", cascade=CascadeType.REMOVE) public List getShifts() {...}<br />
+[&#47;code]</p>
+<p>Ok, now we have cascading deletes working. Let's try cascading inserts:<&#47;p><br />
+[code lang="java"]<br />
+&#47;&#47; Employee.java<br />
+@OneToMany(targetEntity=Shift.class, mappedBy="employee", cascade=CascadeType.ALL) public List getShifts() {...}<br />
+&#47;&#47; Main.java<br />
+Employee employee = new Employee();<br />
+Shift shift = new Shift();<br />
+Vector shifts = new Vector();<br />
+shifts.add(shift);<br />
+employee.setShifts(shifts);<br />
+em.persist(employee);<br />
+[&#47;code]</p>
+<p>With the code above the foreign key of shift will NULL instead of the employee_id. According to the documentation it is expected behaviour that cascading inserts only work when the children are saved.<&#47;p><br />
+[code lang="java"]<br />
+&#47;&#47; Employee.java<br />
+@OneToMany(targetEntity=Shift.class, mappedBy="employee", cascade=CascadeType.ALL) public List getShifts() {...}<br />
+&#47;&#47; Main.java<br />
+Employee employee = new Employee();<br />
+Shift shift = new Shift();<br />
+shift.setEmployee(employee);<br />
+Vector shifts = new Vector();<br />
+shifts.add(shift);<br />
+employee.setShifts(shifts);<br />
+em.persist(employee);<br />
+[&#47;code]</p>
+<p>It appears we can get cascading inserts to work as long as we don't forget to set the employee. We add a constraint so employee can't be null.<&#47;p><br />
+[code lang="java"]<br />
+&#47;&#47; Shift.java<br />
+@ManyToOne @Column(nullable=false) public Employee getEmployee() {...}<br />
+&#47;&#47; Main.java<br />
+Shift shift = new Shift();<br />
+em.persist(shift);<br />
+[&#47;code]</p>
+<p>WTF? I can persist a NULL reference anyway? The value for employee_id is allowed to be NULL? Have we found a bug? Let's check the documentation:<&#47;p><br />
+[code lang="java"]<br />
+&#47;&#47; Shift.java<br />
+@ManyToOne @JoinColumn(nullable=false) public Employee getEmployee() {...}<br />
+&#47;&#47; Main.java<br />
+Shift shift = new Shift();<br />
+em.persist(shift);<br />
+[&#47;code]</p>
+<p>Ok, now are getting somewhere. And exception is thrown if we try to persist a shift that references to an employee that doesn't exist in the database yet.<&#47;p><br />
+[code lang="java"]<br />
+&#47;&#47; Shift.java<br />
+@ManyToOne(cascade=CascadeType.PERSIST) @JoinColumn(nullable=false) public Employee getEmployee() {...}<br />
+[&#47;code]</p>
+<p>CascadeType.ALL means that i want to cascade events on ALL events. My only requirements where that i cascade on PERSIST (insert) and on REMOVE (delete). So i need to change my annotation as following:<&#47;p><br />
+[code lang="java"]<br />
+&#47;&#47; Employee.java<br />
+@OneToMany(<br />
+  targetEntity=Shift.class,<br />
+  mappedBy="employee",<br />
+  cascade={<br />
+    CascadeType.PERSIST,<br />
+    CascadeType.REMOVE<br />
+  }<br />
+)<br />
+public List getShifts() {return shifts;}<br />
+[&#47;code]</p>

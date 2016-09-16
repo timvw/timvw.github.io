@@ -1,0 +1,68 @@
+---
+layout: post
+status: publish
+published: true
+title: Find WorkItems that have been changed between two dates
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 210
+wordpress_url: http://www.timvw.be/find-workitems-that-have-been-changed-between-two-dates/
+date: '2008-02-28 18:44:20 +0100'
+date_gmt: '2008-02-28 16:44:20 +0100'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Sometimes i want to know which WorkItems i have closed (or completed) between two dates. According to <a href="http:&#47;&#47;forums.microsoft.com&#47;MSDN&#47;ShowPost.aspx?PostID=2528099&SiteID=1">Amit Ghosh<&#47;a> it's not possible to write such a query so i wrote some code that uses the <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;bb130146(VS.80).aspx">TFS SDK<&#47;a> to get that list:<&#47;p><br />
+[code lang="csharp"]<br />
+static void Main(string[] args)<br />
+{<br />
+ TeamFoundationServer tfs = TeamFoundationServerFactory.GetServer("tfsrtm08");<br />
+ WorkItemStore wis = (WorkItemStore)tfs.GetService(typeof(WorkItemStore));</p>
+<p> DateTime begin = new DateTime(2008, 1, 1);<br />
+ DateTime end = new DateTime(2008, 2, 28);<br />
+ string username = "Darren";</p>
+<p> foreach (WorkItem workItem in FindChangesByUserInRange(wis, username, begin, end))<br />
+ {<br />
+  Console.WriteLine("[{0:00000}] {1}", workItem.Id, workItem.Title);<br />
+ }</p>
+<p> Console.WriteLine("Press any key to continue...");<br />
+ Console.ReadKey();<br />
+}</p>
+<p>static List<workItem> FindChangesByUserInRange(WorkItemStore workItemStore, string username, DateTime begin, DateTime end)<br />
+{<br />
+ string query = "SELECT System.ID, System.Title FROM workitems WHERE [Changed By] EVER '{0}' AND [State] IN ('Closed', 'Resolved') AND [Changed Date] >= '{1}'";<br />
+ query = string.Format(query, username, begin.Date.ToShortDateString());</p>
+<p> List<workItem> result = new List<workItem>();</p>
+<p> foreach (WorkItem workItem in workItemStore.Query(query))<br />
+ {<br />
+  if (IsChangedByUserInRange(workItem, username, begin, end))<br />
+  {<br />
+   result.Add(workItem);<br />
+  }<br />
+ }</p>
+<p> return result;<br />
+}</p>
+<p>private static bool IsChangedByUserInRange(WorkItem workItem, string username, DateTime begin, DateTime end)<br />
+{<br />
+ foreach (Revision rev in workItem.Revisions)<br />
+ {<br />
+  string changedBy = (string)rev.Fields["Changed By"].Value;<br />
+  if (changedBy == username)<br />
+  {<br />
+   DateTime changedDate = (DateTime)rev.Fields["Changed Date"].Value;<br />
+   if (begin <= changedDate && changedDate <= end)<br />
+   {<br />
+    return true;<br />
+   }<br />
+  }<br />
+ }</p>
+<p> return false;<br />
+}[&#47;code]</p>

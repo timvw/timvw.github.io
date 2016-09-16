@@ -1,0 +1,59 @@
+---
+layout: post
+status: publish
+published: true
+title: 'Fluent Builders: More than creating context specifications'
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1313
+wordpress_url: http://www.timvw.be/?p=1313
+date: '2009-10-08 08:13:14 +0200'
+date_gmt: '2009-10-08 07:13:14 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Last couple of months i have been using the concept of (Fluent) Builder classes in order to create context specifications and i <a href="http:&#47;&#47;www.timvw.be&#47;about-the-design-of-a-fluent-interface&#47;<br />
+">blogged about the steps i take to design their API<&#47;a>. Lately i have realised that this concept has more uses than context specifcation only. Here is an example:<&#47;p></p>
+<p>In sokoban a game board can be stored in plain text using the following 'protocol':<&#47;p></p>
+<table>
+<tr>
+<th>Level element<&#47;th>
+<th>Character<&#47;th><&#47;tr></p>
+<tr>
+<td>Wall<&#47;td>
+<td>#<&#47;td><&#47;tr></p>
+<tr>
+<td>Player<&#47;td>
+<td>@<&#47;td><&#47;tr></p>
+<tr>
+<td>Player on Goal<&#47;td>
+<td>+<&#47;td><&#47;tr></p>
+<tr>
+<td>Box<&#47;td>
+<td>$<&#47;td><&#47;tr></p>
+<tr>
+<td>Box on Goal<&#47;td>
+<td>*<&#47;td><&#47;tr></p>
+<tr>
+<td>Goal<&#47;td>
+<td>.<&#47;td><&#47;tr></p>
+<tr>
+<td>Floor<&#47;td>
+<td>  (space)<&#47;td><&#47;tr><br />
+<&#47;table></p>
+<p>Notice how a Fluent Builder allows us to implement this protocol with some elegant code:<&#47;p></p>
+<p>[code lang="csharp"]actions.Add('#', aBoard => aBoard.AddFloor().WithWall());<br />
+actions.Add('@', aBoard => aBoard.AddFloor().WithPlayer());<br />
+actions.Add('+', aBoard => aBoard.AddGoal().WithPlayer());<br />
+actions.Add('$', aBoard => aBoard.AddFloor().WithBox());<br />
+actions.Add('*', aBoard => aBoard.AddGoal().WithBox());<br />
+actions.Add('.', aBoard => aBoard.AddGoal());<br />
+actions.Add(' ', aBoard => aBoard.AddFloor());[&#47;code]</p>

@@ -1,0 +1,156 @@
+---
+layout: post
+status: publish
+published: true
+title: Setup expectation with successive function calls using Moq
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 864
+wordpress_url: http://www.timvw.be/?p=864
+date: '2009-03-14 14:45:33 +0100'
+date_gmt: '2009-03-14 13:45:33 +0100'
+categories: []
+tags:
+- C#
+comments:
+- id: 307
+  author: Matt Hamilton
+  author_email: mabster@madprops.org
+  author_url: http://www.madprops.org
+  date: '2009-03-15 22:34:45 +0100'
+  date_gmt: '2009-03-15 21:34:45 +0100'
+  content: |-
+    That's inspired, Tim!
+
+    Is there any reason why your "ReturnsInOrder" method couldn't take an array of TResult rather than Func? Have you only done that for the added flexibility of lazy evaluation?
+
+    Thanks for the ping!
+- id: 308
+  author: Matt Hamilton
+  author_email: mabster@madprops.org
+  author_url: http://www.madprops.org
+  date: '2009-03-15 22:54:59 +0100'
+  date_gmt: '2009-03-15 21:54:59 +0100'
+  content: 'One small thing: You could simply pass the valueFunctions array into the
+    constructor of your Queue, rather than ''foreaching'' over it and Enqueueing every
+    item individually. Cuts one line out of the method and potentially speeds it up
+    slightly.'
+- id: 309
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2009-03-16 07:32:24 +0100'
+  date_gmt: '2009-03-16 06:32:24 +0100'
+  content: |-
+    @Matt:
+
+    <blockquote>Is there any reason why your &ldquo;ReturnsInOrder&rdquo; method couldn&rsquo;t take an array of TResult rather than Func?<&#47;blockquote>
+
+    I ran into the problem of setting "ordered" results while playing with callbacks.. That is why i choose for functions instead of values.
+
+    <blockquote>You could simply pass the valueFunctions array into the constructor of your Queue, rather than &lsquo;foreaching&rsquo; over it and Enqueueing every item individually.<&#47;blockquote>
+
+    You are absolutely right. While i was writing the method i looked for a constructed that accepted an IEnumerable but didn't find see it. Now that i'm more awake, i could easily spot it ;) Thanks for the feedback.
+- id: 310
+  author: Matt Hamilton
+  author_email: mabster@madprops.org
+  author_url: http://www.madprops.org
+  date: '2009-03-17 01:20:20 +0100'
+  date_gmt: '2009-03-17 00:20:20 +0100'
+  content: |-
+    > I ran into the problem of setting &ldquo;ordered&rdquo; results while playing with callbacks.. That is why i choose for functions instead of values.
+
+    Fair enough. I took your code and "ported" it back to Moq 2.x, and while I was at it I added an overload which simply took an array of TResult, so it's possible to have both! Pretty handy!
+- id: 311
+  author: Jason
+  author_email: jslocomb@gmail.com
+  author_url: ''
+  date: '2009-07-29 22:10:54 +0200'
+  date_gmt: '2009-07-29 21:10:54 +0200'
+  content: Thank you for this code example. It is helping me mock an IDataReader with
+    successive Read() calls.
+- id: 312
+  author: Paul
+  author_email: paul.riley@playrisk.net
+  author_url: ''
+  date: '2009-08-31 20:54:17 +0200'
+  date_gmt: '2009-08-31 19:54:17 +0200'
+  content: |-
+    I found this worked, to replace the Funcs with values.  Great starting point though, thanks for that; could not think for the life of me where to start with this problem.
+
+        public static class MoqExtensions
+        {
+            public static IReturnsResult ReturnsInOrder(this ISetup setup, params TResult[] values) where TMock : class
+            {
+                var valueQueue = new Queue(values);
+                return setup.Returns(valueQueue.Dequeue);
+            }
+        }
+- id: 313
+  author: Paul
+  author_email: paul.riley@playrisk.net
+  author_url: ''
+  date: '2009-08-31 20:57:18 +0200'
+  date_gmt: '2009-08-31 19:57:18 +0200'
+  content: |-
+    Uggh.  Forgot that HTML and Generics aren't friends.  Try this...
+
+        public static class MoqExtensions
+        {
+            public static IReturnsResult<TMock>ReturnsInOrder<TMock, TResult>(this ISetup<TMock, TResult setup, params TResult[] values) where TMock : class
+            {
+                var valueQueue = new Queue<TResult>(values);
+                return setup.Returns(valueQueue.Dequeue);
+            }
+        }
+- id: 314
+  author: Lou
+  author_email: ''
+  author_url: ''
+  date: '2010-08-10 22:45:43 +0200'
+  date_gmt: '2010-08-10 21:45:43 +0200'
+  content: super cool, thanks!
+---
+<p>In the <a href="http:&#47;&#47;code.google.com&#47;p&#47;moq&#47;wiki&#47;QuickStart">Quickstart<&#47;a> guide we find an example that shows us how to setup a different return value for each invocation as following:<&#47;p></p>
+<p>[code lang="csharp"]&#47;&#47; returning different values on each invocation<br />
+var mock = new Mock<ifoo>();<br />
+var calls = 0;<br />
+mock.Setup(foo => foo.Execute("ping"))<br />
+    .Returns(() => calls)<br />
+    .Callback(() => calls++);<br />
+&#47;&#47; returns 0 on first invocation, 1 on the next, and so on<br />
+Console.WriteLine(mock.Object.Execute("ping"));[&#47;code]</p>
+<p>In <a href="http:&#47;&#47;www.madprops.org&#47;blog&#47;moq-triqs-successive-expectations&#47;">Moq Triqs - Successive Expectations<&#47;a> i found inspiration to implement an extension method that allows me to define an expectation that calls a set of successive functions:<&#47;p><br />
+[code lang="csharp"]public static class MoqExtensions<br />
+{<br />
+ public static IReturnsResult<tmock> ReturnsInOrder<tmock, TResult>(this ISetup<tmock, TResult> setup, params Func<br />
+<tresult>[] valueFunctions) where TMock : class<br />
+ {<br />
+  var functionQueue = new Queue<func<br />
+<tresult>>(valueFunctions);<br />
+  return setup.Returns(() => functionQueue.Dequeue()());<br />
+ }<br />
+}[&#47;code]</p>
+<p>This allows me to define a set of functions that i want to be called for each successive call:<&#47;p><br />
+[code lang="csharp"]public class WhenSettingUpOrderedExpectationFunctions<br />
+{<br />
+ interface ICategory { int Id { get; } }</p>
+<p> [Fact]<br />
+ public void ShouldReturnTheSequenceOfIds()<br />
+ {<br />
+  var category = new Mock<icategory>();</p>
+<p>  category.Setup(c => c.Id).ReturnsInOrder(<br />
+   () => 1,<br />
+   () => 2,<br />
+   () => 3,<br />
+   () => 4);</p>
+<p>  var expectedIds = new List<int> { 1, 2, 3, 4 };<br />
+  foreach (var expectedId in expectedIds) Assert.Equal(expectedId, category.Object.Id);<br />
+ }<br />
+}[&#47;code]</p>

@@ -1,0 +1,84 @@
+---
+layout: post
+status: publish
+published: true
+title: 'WIF: Change STS per request'
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1893
+wordpress_url: http://www.timvw.be/?p=1893
+date: '2010-09-05 16:56:23 +0200'
+date_gmt: '2010-09-05 15:56:23 +0200'
+categories:
+- Uncategorized
+tags:
+- wif
+- sts
+comments:
+- id: 356
+  author: 'WIF: whr parameter is a hint for user Home Realm | Tim Van Wassenhove'
+  author_email: ''
+  author_url: http://www.timvw.be/wif-whr-parameter-is-a-hint-for-user-home-realm/
+  date: '2010-09-07 06:41:42 +0200'
+  date_gmt: '2010-09-07 05:41:42 +0200'
+  content: '[...] Tim Van Wassenhove   The journey of a thousand miles begins with
+    one step.    Skip to content HomeAbout meContact        &larr; WIF: Change STS
+    per request [...]'
+---
+<p>Here is some code that will redirect unauthenticated users to their respective STS (Eg: A user visiting ~&#47;CompanyA&#47;Default.aspx will be asked to authenticate at the STS linked to CompanyA.<&#47;p></p>
+<p>Notice that in the enterprise you typically have multiple applications that require this kind of behavior, so you would solve this by establishing trust between your app(s) and your STS + establish trust between your STS and the client STSes.)<&#47;p></p>
+<p>[code lang="csharp"]<br />
+public class Global : HttpApplication<br />
+{<br />
+ protected void wSFederationAuthenticationModule_RedirectingToIdentityProvider(object sender, RedirectingToIdentityProviderEventArgs e)<br />
+ {<br />
+  e.Cancel = true;<br />
+  RedirectToCompanySts();<br />
+ }</p>
+<p> void RedirectToCompanySts()<br />
+ {<br />
+  var httpContext = HttpContext.Current;<br />
+  var rawUrl = httpContext.Request.RawUrl;</p>
+<p>  var returnUrl = rawUrl;<br />
+  var companyName = ExtractCompanyName(rawUrl);<br />
+  var companySts = GetCompanySts(companyName);<br />
+  var realm = GetRealm(companyName);<br />
+  var redirectUrl = GetRedirectUrl(companySts, realm, returnUrl);</p>
+<p>  httpContext.Response.Redirect(redirectUrl, false);<br />
+  httpContext.ApplicationInstance.CompleteRequest();<br />
+ }</p>
+<p> string ExtractCompanyName(string rawUrl)<br />
+ {<br />
+  var regex = @"~&#47;(.*?)&#47;.*";<br />
+  var relativeUrl = VirtualPathUtility.ToAppRelative(rawUrl);<br />
+  var match = Regex.Match(relativeUrl, regex);<br />
+  return match.Success ? match.Groups[1].Value : "";<br />
+ }</p>
+<p> string GetCompanySts(string companyName)<br />
+ {<br />
+  if (companyName == "CompanyA") return @"http:&#47;&#47;localhost&#47;STS2Site";<br />
+  return @"http:&#47;&#47;localhost&#47;STSSite";<br />
+ }</p>
+<p> string GetRealm(string companyName)<br />
+ {<br />
+  var realm = @"http:&#47;&#47;localhost&#47;RPSite&#47;";<br />
+  if (!string.IsNullOrEmpty(companyName)) realm += companyName +"&#47;";<br />
+  return realm;<br />
+ }</p>
+<p> string GetRedirectUrl(string companySts, string realm, string returnUrl)<br />
+ {<br />
+  var signInRequestMessage = new SignInRequestMessage(new Uri(companySts), realm)<br />
+  {<br />
+   Context = returnUrl,<br />
+   HomeRealm = "timvw"<br />
+  };</p>
+<p>  return signInRequestMessage.WriteQueryString();<br />
+ }<br />
+}<br />
+[&#47;code]</p>

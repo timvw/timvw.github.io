@@ -1,0 +1,94 @@
+---
+layout: post
+status: publish
+published: true
+title: Introducing DeferredExecutionHelper
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 208
+wordpress_url: http://www.timvw.be/introducing-deferredexecutionhelper/
+date: '2008-02-23 18:49:49 +0100'
+date_gmt: '2008-02-23 16:49:49 +0100'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Sometimes i don't want a costly function to be performed unless it's really necessary. In Patterns of Enterprise Application Architecture it's described as <a href="http:&#47;&#47;www.martinfowler.com&#47;eaaCatalog&#47;lazyLoad.html">Lazy Load<&#47;a>. Anyway, in order to achieve that i've written a wrapper for <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.runtime.remoting.proxies.realproxy.aspx">RealProxy<&#47;a>:<&#47;p></p>
+<p>[code lang="csharp"]public static class DeferredExecutionHelper<br />
+{<br />
+ public static IList<br />
+<tresult> GetListHelper<t, TResult>(Func<t, IList<br />
+<tresult>> costlyFunction, T t)<br />
+ {<br />
+  return new Proxy<t, IList<br />
+<tresult>>(costlyFunction, t).ResultProxy;<br />
+ }</p>
+<p> public static TResult GetHelper<t, TResult>(Func<t, TResult> costlyFunction, T t) where TResult : MarshalByRefObject<br />
+ {<br />
+  return new Proxy<t, TResult>(costlyFunction, t).ResultProxy;<br />
+ }<br />
+}[&#47;code]</p>
+<p>Here are a couple of unittests that demonstrate how the wrapper can be used for MarshalByRefObjects:<&#47;p></p>
+<p>[code lang="csharp"][TestMethod]<br />
+public void GetHelperTestDeferredExecution()<br />
+{<br />
+ string expectedParameter = "x";<br />
+ Order expectedResult = new Order(1, new List<amount>(new Amount[] { new Amount(1) }));</p>
+<p> &#47;&#47; DeferredExecutionHelper.GetHelper<t, TResult> where TResult : MarshalByRefObject<br />
+ Order actualResult = DeferredExecutionHelper.GetHelper<string, Order>(delegate(string actualParameter)<br />
+ {<br />
+  Assert.AreEqual(expectedParameter, actualParameter);<br />
+  Assert.Fail("Should not perform this method.");<br />
+  return expectedResult;<br />
+ }, expectedParameter);<br />
+}</p>
+<p>[TestMethod]<br />
+public void GetHelperTestDeferredExecutionResult()<br />
+{<br />
+ string expectedParameter = "x";<br />
+ Order expectedResult = new Order(1, new List<amount>(new Amount[] { new Amount(1) }));</p>
+<p> Order actualResult = DeferredExecutionHelper.GetHelper<string, Order>(delegate(string actualParameter)<br />
+ {<br />
+  Assert.AreEqual(expectedParameter, actualParameter);<br />
+  return expectedResult;<br />
+ }, expectedParameter);</p>
+<p> Assert.AreEqual(expectedResult.Id, actualResult.Id);<br />
+ Assert.AreEqual(expectedResult.Amounts, actualResult.Amounts);<br />
+}[&#47;code]</p>
+<p>I've also added a helper method that allows you to defer execution of methods that return an IList of T. Here are some tests that demonstrate it's usage:<&#47;p></p>
+<p>[code lang="csharp"][TestMethod]<br />
+public void GetListHelperTestDeferredExecution()<br />
+{<br />
+ double expectedParameter = 1;<br />
+ IList<int> expectedResult = new List<int>(new int[] { 1, 2, 3 });</p>
+<p> IList<int> actualResult = DeferredExecutionHelper.GetListHelper<double, int>(delegate(double actualParameter)<br />
+ {<br />
+  Assert.AreEqual(expectedParameter, actualParameter);<br />
+  Assert.Fail("Should not perform this method.");<br />
+  return expectedResult;<br />
+ }, expectedParameter);<br />
+}</p>
+<p>[TestMethod]<br />
+public void GetListHelperTestDeferredExecutionResult()<br />
+{<br />
+ double expectedParameter = 1;<br />
+ IList<int> expectedResult = new List<int>(new int[] { 1, 2, 3 });</p>
+<p> IList<int> actualResult = DeferredExecutionHelper.GetListHelper<double, int>(delegate(double actualParameter)<br />
+ {<br />
+  Assert.AreEqual(expectedParameter, actualParameter);<br />
+  return expectedResult;<br />
+ }, expectedParameter);</p>
+<p> Assert.AreEqual(expectedResult.Count, actualResult.Count);<br />
+ for (int i = 0; i < expectedResult.Count; ++i)<br />
+ {<br />
+  Assert.AreEqual(expectedResult[i], actualResult[i]);<br />
+ }<br />
+}[&#47;code]</p>
+<p>Feel free to download <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;DeferredExecution.zip">DeferredExecution.zip<&#47;a><&#47;p></p>

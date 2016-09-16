@@ -1,0 +1,76 @@
+---
+layout: post
+status: publish
+published: true
+title: Programming .NET Components
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 160
+wordpress_url: http://www.timvw.be/exploring-contextboundobjects/
+date: '2007-04-07 01:50:10 +0200'
+date_gmt: '2007-04-06 23:50:10 +0200'
+categories: []
+tags:
+- C#
+- Book reviews
+comments: []
+---
+<p>I couple of weeks ago i got a copy of <a href="http:&#47;&#47;www.oreilly.com&#47;catalog&#47;pnetcomp2&#47;">Programming .NET Components<&#47;a>... I can only suggest to read it yourself because i found it really good ;) Anyway, in one of the chapters <a href="http:&#47;&#47;www.oreillynet.com&#47;pub&#47;au&#47;741">Juval Lowy<&#47;a> talks about context and interception (<a href="http:&#47;&#47;msdn.microsoft.com&#47;msdnmag&#47;issues&#47;03&#47;03&#47;ContextsinNET&#47;default.aspx">msdnmag article<&#47;a>). I got inspired and implemented my own log4net LoggingSink:<&#47;p><br />
+[code lang="csharp"]<br />
+public class LoggingSink : IMessageSink<br />
+{<br />
+ ...</p>
+<p> public IMessage SyncProcessMessage(IMessage msg)<br />
+ {<br />
+  IMethodMessage methodMessage = msg as IMethodMessage;<br />
+  ILog log = LogManager.GetLogger(methodMessage.TypeName);<br />
+  log.Debug(methodMessage);</p>
+<p>  IMessage message = this.nextSink.SyncProcessMessage(msg);</p>
+<p>  IMethodReturnMessage methodReturnMessage = message as IMethodReturnMessage;<br />
+  if (methodReturnMessage != null)<br />
+  {<br />
+   log.Debug(methodReturnMessage);<br />
+  }</p>
+<p>  return message;<br />
+ }<br />
+}[&#47;code]</p>
+<p>I also implemented my own MethodMessageRenderer and MethodReturnMessageRenderer using an ObjectRenderer that was inspired on the ObjectDumper that comes with the <a href="http:&#47;&#47;blogs.msdn.com&#47;charlie&#47;archive&#47;2007&#47;03&#47;01&#47;february-ctp-now-available.aspx">LINQ CTP samples<&#47;a><&#47;p><br />
+[code lang="csharp"]<br />
+public class MethodReturnMessageRenderer : IObjectRenderer<br />
+{<br />
+ #region Constructors</p>
+<p> public MethodReturnMessageRenderer()<br />
+ {<br />
+ }</p>
+<p> #endregion</p>
+<p> #region IObjectRenderer Members</p>
+<p> public void RenderObject(RendererMap rendererMap, object obj, TextWriter writer)<br />
+ {<br />
+  IMethodReturnMessage methodReturnMessage = obj as IMethodReturnMessage;<br />
+  writer.WriteLine("{0}Called: {1}{2}Params:", Environment.NewLine, methodReturnMessage.MethodName, Environment.NewLine);<br />
+  ObjectRenderer.RenderObject(methodReturnMessage.Args, writer);<br />
+  if (methodReturnMessage.MethodName != ".ctor")<br />
+  {<br />
+   writer.WriteLine("{0}ReturnValue:", Environment.NewLine);<br />
+   ObjectRenderer.RenderObject(methodReturnMessage.ReturnValue, writer);<br />
+  }<br />
+  if (methodReturnMessage.Exception != null)<br />
+  {<br />
+   writer.WriteLine("{0}Exception:", Environment.NewLine);<br />
+   ObjectRenderer.RenderObject(methodReturnMessage.Exception, writer);<br />
+  }<br />
+  writer.WriteLine();<br />
+ }</p>
+<p> #endregion<br />
+}[&#47;code]</p>
+<p>Adding an [assembly: XmlConfigurator(Watch = true)] attribute to the AssemblyInfo.cs of projects that use log4Net seems the easiest way to get the configuration right. In your configuration you still have to register the IObjectRenderers:<&#47;p><br />
+[code lang="xml"]<br />
+<renderer renderingClass="EndPointTools.MethodReturnMessageRenderer, EndPointTools" renderedClass="System.Runtime.Remoting.Messaging.IMethodReturnMessage, mscorlib"&#47;><br />
+[&#47;code]</p>
+<p>Have a look at the generated <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;log4net.txt">log<&#47;a> and feel free to download the complete solution: <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;ContextBoundSamples.zip">ContextBoundSamples.zip<&#47;a>.<&#47;p></p>

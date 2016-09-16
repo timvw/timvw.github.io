@@ -1,0 +1,90 @@
+---
+layout: post
+status: publish
+published: true
+title: Some tips for .Net developers using git on cygwin
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2083
+wordpress_url: http://www.timvw.be/?p=2083
+date: '2011-03-12 10:26:04 +0100'
+date_gmt: '2011-03-12 09:26:04 +0100'
+categories:
+- Uncategorized
+tags:
+- MSBuild
+- cygwin
+- git
+comments:
+- id: 18952
+  author: Latish Sehgal
+  author_email: latish.sehgal@gmail.com
+  author_url: http://www.dotnetsurfers.com
+  date: '2011-09-16 23:46:50 +0200'
+  date_gmt: '2011-09-16 22:46:50 +0200'
+  content: "I have recently started using Cgywin, and can't seem to get git-tfs to
+    work with it (works fine on msysgit). I am able to quick-clone a respository,
+    and checkin as well. But if I issued a \"git tfs pull\" request, I get the error
+    \r\n\"You have local changes; cannot pull refs&#47;remotes&#47;tfs&#47;default.\".
+    I was wondering if you faced this issue at all?"
+---
+<p>Here are some tips that i want to share with fellow .Net developers that use git on cygwin.<&#47;p></p>
+<p>First of all i defined some aliases in my ~&#47;.bashrc:<&#47;p></p>
+<p>[code lang="bash"]<br />
+# open explorer in the current working directory<br />
+alias explorer='explorer.exe "`cygpath -aw \"$PWD\"`"'</p>
+<p># invoke MSBuild<br />
+alias msbuild='&#47;cygdrive&#47;c&#47;Windows&#47;Microsoft.NET&#47;Framework&#47;v4.0.30319&#47;MSBuild.exe'<br />
+[&#47;code]</p>
+<p>Because i don't like the TFS source control story i use <a href="https:&#47;&#47;github.com&#47;spraints&#47;git-tfs">git-tfs<&#47;a>. As a .Net developer you want to add the following to your .git&#47;info&#47;exclude file:<&#47;p></p>
+<p>[code lang="bash"]<br />
+#OS junk files<br />
+[Tt]humbs.db<br />
+*.DS_Store</p>
+<p>#Visual Studio files<br />
+*.[Oo]bj<br />
+*.exe<br />
+*.pdb<br />
+*.user<br />
+*.aps<br />
+*.pch<br />
+*.vspscc<br />
+*.vssscc<br />
+*_i.c<br />
+*_p.c<br />
+*.ncb<br />
+*.suo<br />
+*.tlb<br />
+*.tlh<br />
+*.bak<br />
+*.[Cc]ache<br />
+*.ilk<br />
+*.log<br />
+*.lib<br />
+*.sbr<br />
+*.sdf<br />
+ipch&#47;<br />
+obj&#47;<br />
+[Bb]in<br />
+[Dd]ebug*&#47;<br />
+[Rr]elease*&#47;<br />
+Ankh.NoLoad</p>
+<p>#Tooling<br />
+_ReSharper*&#47;<br />
+*.resharper<br />
+[Tt]est[Rr]esult*</p>
+<p>#Subversion files<br />
+.svn<br />
+[&#47;code]</p>
+<p>Whenever i work online i usually run these two commands consecutively: git -a -m "commit message" and git-tfs checkin -m "commit message". Here is a small ~&#47;bin&#47;commit script that combines these:<&#47;p></p>
+<p>[code lang="bash"]<br />
+#!&#47;bin&#47;bash<br />
+git commit -a -m "$1";<br />
+git-tfs checkin -m "$1";<br />
+[&#47;code]</p>

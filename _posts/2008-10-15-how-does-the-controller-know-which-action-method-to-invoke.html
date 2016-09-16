@@ -1,0 +1,56 @@
+---
+layout: post
+status: publish
+published: true
+title: How does the controller know which action method to invoke?
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 696
+wordpress_url: http://www.timvw.be/?p=696
+date: '2008-10-15 07:46:08 +0200'
+date_gmt: '2008-10-15 05:46:08 +0200'
+categories: []
+tags:
+- C#
+- ASP.NET
+comments: []
+---
+<p>Yesterday i attended another great <a href="http:&#47;&#47;www.visug.be">VISUG<&#47;a> event on ASP.NET presented by <a href="http:&#47;&#47;blog.maartenballiauw.be&#47;">Maarten Balliauw<&#47;a>. He demonstrated a custom filter but did not dig into the mechanics of action method resolving. With the aid of of the ActionName attribute we can map different methods to the same action. The following methods will all map to the same "Detail" action:<&#47;p></p>
+<p>[code lang="csharp"]public ActionResult Detail(int productId) { ... }<br />
+public ActionResult Detail(int productId, string name) { ... }<br />
+[ActionName("Detail")] public ActionResult DisplayDetail(int productId) { ... }<br />
+[ActionName("Detail")] public ActionResult ModifyDetail(int productId, string name) { ... }[&#47;code]</p>
+<p>So how does the Controller know which method to invoke? The answer can be found in the ActionMethodSelector which tries to find the method as following:<&#47;p></p>
+<p>[code lang="csharp"]public MethodInfo FindActionMethod(ControllerContext controllerContext, string action)<br />
+{<br />
+ List<methodInfo> methodsMatchingName = GetMatchingAliasedMethods(controllerContext, action);<br />
+ methodsMatchingName.AddRange(NonAliasedMethods[action]);<br />
+ List<methodInfo> finalMethods = RunSelectionFilters(controllerContext, methodsMatchingName);</p>
+<p> switch (finalMethods.Count)<br />
+ {<br />
+  case 0: return null;<br />
+  case 1: return finalMethods[0];<br />
+  default: throw CreateAmbiguousMatchException(finalMethods, action);<br />
+ }<br />
+}[&#47;code]</p>
+<p>In the RunSelectionFilters method all the found ActionSelection Attributes have their IsValidForRequest method called in the hope that only one potential method remains.<&#47;p></p>
+<p>The most common scenario is that we want our controller to behave depending upon the request method (POST vs GET). For this scenario there is the AcceptVerbsAttribute. eg:<&#47;p></p>
+<p>[code lang="csharp"][ActionName("Detail")]<br />
+[AcceptVerbs("GET")]<br />
+public ActionResult DisplayDetail(int productId) { ... }</p>
+<p>[ActionName("Detail")]<br />
+[AcceptVerbs("POST")]<br />
+public ActionResult ModifyDetail(int productId, string name) { ... }[&#47;code]</p>
+<p>The implementation of the IsValidForRequest method in the AcceptVerbsAttribute is pretty simple:<&#47;p></p>
+<p>[code lang="csharp"]public override bool IsValidForRequest(ControllerContext controllerContext, MethodInfo methodInfo)<br />
+{<br />
+ if (controllerContext == null) throw new ArgumentNullException("controllerContext");</p>
+<p> string incomingVerb = controllerContext.HttpContext.Request.HttpMethod;<br />
+ return Verbs.Contains(incomingVerb, StringComparer.OrdinalIgnoreCase);<br />
+}[&#47;code]</p>

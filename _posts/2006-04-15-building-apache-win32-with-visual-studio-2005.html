@@ -1,0 +1,73 @@
+---
+layout: post
+status: publish
+published: true
+title: Building apache-win32 with Visual Studio 2005
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 31
+wordpress_url: http://www.timvw.be/building-apache-win32-with-visual-studio-2005/
+date: '2006-04-15 02:44:35 +0200'
+date_gmt: '2006-04-15 00:44:35 +0200'
+categories: []
+tags:
+- Free Software
+comments:
+- id: 16
+  author: help
+  author_email: ''
+  author_url: ''
+  date: '2007-10-15 10:35:40 +0200'
+  date_gmt: '2007-10-15 08:35:40 +0200'
+  content: sorry i cannot find the httpd.exe in task manager n i cannot stop debugging
+    can anyone help
+- id: 17
+  author: Steve
+  author_email: quick_lets@yahoo.com
+  author_url: ''
+  date: '2009-03-10 14:12:55 +0100'
+  date_gmt: '2009-03-10 13:12:55 +0100'
+  content: |-
+    Is there any link for source code for apache 2.2 Windows 64-bit.
+    Actually I visited so many sites but can't get anything.
+- id: 4778
+  author: '>How to build zlib-1.2.3 with Visual Studio 2005. &laquo; eXPerences Of
+    Life.'
+  author_email: ''
+  author_url: http://xpol.wordpress.com/2008/06/25/how-to-build-zlib-1-2-3-with-visual-studio-2005/
+  date: '2011-02-09 03:17:04 +0100'
+  date_gmt: '2011-02-09 02:17:04 +0100'
+  content: '[...] >To build zlib-1.2.3 with VS 2005 just do this. &#8220;Prepend &#8216;dword
+    ptr&#8216; to the second argument of the &#8216;movd&#8217; instructions on lines647,
+    649, 663 and 720 in srclib&#47;zlib&#47;contrib&#47;masmx86&#47;inffas32.asm&#8220;(original
+    article) [...]'
+---
+<p>Today i decided to build apache-win32. Here's how i did it:<&#47;p></p>
+<ul>
+<li>Download Apache <a href="http:&#47;&#47;apache.be.proserve.nl&#47;httpd&#47;httpd-2.2.0-win32-src-rev2.zip">httpd-2.2.0-win32-src-rev2.zip<&#47;a>.<&#47;li>
+<li>Unzip and read README.TXT, INSTALL.TXT and docs&#47;manual&#47;platform&#47;win_compiling.html.en<&#47;li>
+<li>Save <a href="http:&#47;&#47;cm.bell-labs.com&#47;cm&#47;cs&#47;who&#47;bwk&#47;awk95.exe">awk95.exe<&#47;a> as awk.exe in a directory that's in your %PATH%.<&#47;li>
+<li>Open Apache.dsw with VS2005 and choose "Yes To All" to convert the project.<&#47;li>
+<li>Uncheck abs, mod_deflate and mod_ssl in the the configuration form via Build -> Configuration Manager.<&#47;li>
+<li>Choose InstallBin, click right and Set as StartUp Project.<&#47;li>
+<li>Open InstallBin&#47;Makefile.win and remove the lines 129, 130, 131, 133, 134, 135 and 136.<&#47;li>
+<li>Start debugging (F5). Stop debugging and end the httpd.exe process via your Task Manager.<&#47;li>
+<li>Download and extract <a href="http:&#47;&#47;www.zlib.net&#47;zlib-1.2.3.tar.bz2">zlib-1.2.3.tar.bz2<&#47;a> into srclib&#47;zlib.<&#47;li>
+<li>Prepend "dword ptr" to the second argument of the movd instructions on lines647, 649, 663 and 720 in srclib&#47;zlib&#47;contrib&#47;masmx86&#47;inffas32.asm<&#47;li>
+<li>Open srclib&#47;zlib&#47;projects&#47;visualc6&#47;zlib.dsp, choose the zlib project in the solution explorer. Choose "LIB ASM Release" in the configuration explorer and build zlib.<&#47;li>
+<li>Copy srclib&#47;zlib&#47;projects&#47;visualc6&#47;Win32_LIB_ASM_Release&#47;zlib.lib to srclib&#47;zlib.<&#47;li>
+<li>Check the mod_deflate in the configuration form via Build -> Configuration Manager.<&#47;li>
+<li>Choose the mod_deflate project in the solution explorer and build it.<&#47;li>
+<li>The original <a href="http:&#47;&#47;www.openssl.org&#47;source&#47;openssl-0.9.8a.tar.gz">openssl-0.9.8a.tar.gz<&#47;a> doesn't compile with Visual Studio 2005 but someone has already made a <a href="http:&#47;&#47;bbdev.fluffy.co.uk&#47;svn&#47;box&#47;chris&#47;win32&#47;support&#47;openssl-0.9.8a-win32fix.patch">patch<&#47;a>. Download <a href="http:&#47;&#47;bbdev.fluffy.co.uk&#47;svn&#47;box&#47;chris&#47;win32&#47;support&#47;openssl-0.9.8a-vc2005.zip">openssl-0.9.8a-vc2005.zip<&#47;a> and extract it into srclib&#47;openssl.<&#47;li>
+<li>Open a Visual Studio 2005 Command Prompt and cd to the openssl directory and run: "perl Configure VC-WIN32" (don't close this prompt yet).<&#47;li>
+<li>Insert before line 61 in srclib&#47;openssl&#47;ms&#47;do_masm.bat the following line: "perl util\mk1mf.pl debug dll VC-WIN32 > ms\ntdll-dbg.mak". Now run: "ms\do_masm" and "nmake -f ms\ntdll-dbg.mak".<&#47;li>
+<li>Check the abs and mod_ssl project in the configuration from via Build -> Configuration Manager.<&#47;li>
+<li>Build the two projects.<&#47;li>
+<li>Done!<&#47;li><br />
+<&#47;ul></p>

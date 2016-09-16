@@ -1,0 +1,122 @@
+---
+layout: post
+status: publish
+published: true
+title: Adding DataGridViewColumns (lots of them)
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 12
+wordpress_url: http://www.timvw.be/adding-datagridviewcolumns-lots-of-them/
+date: '2006-09-14 02:06:26 +0200'
+date_gmt: '2006-09-14 00:06:26 +0200'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments:
+- id: 47
+  author: Alessio
+  author_email: alessio@littlelite.net
+  author_url: http://www.littlelite.net/
+  date: '2007-02-12 16:18:07 +0100'
+  date_gmt: '2007-02-12 14:18:07 +0100'
+  content: Thank you so much! I had the very same problem...
+- id: 48
+  author: Le Hai
+  author_email: hai.techno@shinmei.co.jp
+  author_url: ''
+  date: '2008-07-29 02:28:49 +0200'
+  date_gmt: '2008-07-29 00:28:49 +0200'
+  content: |-
+    Hi TimVan
+
+    I want create new property ( Rows , Cols) to DataGridView
+    (->So I can choice and set Rows munber and cols munber from form design)
+    I have create a new UserControl
+    ----------
+    Public Property Cols() As Integer
+    Get
+    Return Me._Cols
+    End Get
+    Set(ByVal value As Integer)
+    Me._Cols = value
+    Me.Invalidate()
+    End Set
+    End Property
+    ------------------
+    on form design display property Cols, I don't know after that what I must todo
+    Please help me !
+- id: 49
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2008-07-29 07:36:23 +0200'
+  date_gmt: '2008-07-29 05:36:23 +0200'
+  content: |-
+    @Le Hai
+
+    I'm not sure what you're trying to achieve. A DataGridView already has properties ColumnCount and RowCount.
+- id: 8751
+  author: Nepaluz
+  author_email: nepaluz@live.com
+  author_url: http://icreateofx.co.uk/
+  date: '2011-04-15 19:49:10 +0200'
+  date_gmt: '2011-04-15 18:49:10 +0200'
+  content: "The performance improvement is un-believable when you disable columnheaderresizing!
+    BRILLIANT\r\n\r\nFor those interested in the VB.NET translation, (and I hope the
+    author does notmind) here it is\r\n\r\n<code>\r\nDim columns As DataGridViewColumn()
+    = New DataGridViewColumn(749) {}\r\nFor i As Integer = 0 To columns.Length - 1\r\n\tDim
+    column As DataGridViewColumn = New DataGridViewTextBoxColumn()\r\n\tcolumn.FillWeight
+    = 1\r\n\tcolumns(i) = column\r\nNext\r\nMe.dataGridView1.Columns.AddRange(columns)\r\n<&#47;code>"
+- id: 10158
+  author: Dennis van der Pool
+  author_email: ''
+  author_url: ''
+  date: '2011-05-06 11:04:20 +0200'
+  date_gmt: '2011-05-06 10:04:20 +0200'
+  content: Thanks!!! Finally my performance issue with DataGridView has been solved.
+- id: 33642
+  author: andrew
+  author_email: bakasa.andrew@gmail.com
+  author_url: ''
+  date: '2012-02-16 13:31:38 +0100'
+  date_gmt: '2012-02-16 12:31:38 +0100'
+  content: thank so much about sumof column fillweight. it solved my problem
+- id: 294722
+  author: Stanimir
+  author_email: test@test.com
+  author_url: ''
+  date: '2013-12-06 13:52:33 +0100'
+  date_gmt: '2013-12-06 12:52:33 +0100'
+  content: "Thanks!\r\n\r\nSetting ColumnHeadersHeightSizeMode to DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+    resolved the performance issues."
+---
+<p>Last couple of days i've been trying to add a couple (750+) columns into a DataGridView. Initially i tried the following:<&#47;p></p>
+<p>[code lang="csharp"]this.dataGridView1.ColumnCount = 750;[&#47;code]</p>
+<p>The code above results in the following error: <b>Sum of the columns' FillWeight values cannot exceed 65535.<&#47;b> Then i tried the following:<&#47;p></p>
+<p>[code lang="csharp"]DataGridViewColumn[] columns = new DataGridViewColumn[750];<br />
+for ( int i = 0; i < columns.Length; ++i )<br />
+{<br />
+ DataGridViewColumn column = new DataGridViewColumn();<br />
+ column.CellTemplate = new DataGridViewTextBoxCell();<br />
+ column.FillWeight = 1;<br />
+ columns[i] = column;<br />
+}<br />
+this.dataGridView1.Columns.AddRange( columns );[&#47;code]</p>
+<p>This results in the following error: <b>At least one of the DataGridView control's columns has no cell template.<&#47;b> Thus i tried the following:<&#47;p></p>
+<p>[code lang="csharp"]DataGridViewColumn[] columns = new DataGridViewColumn[750];<br />
+for ( int i = 0; i < columns.Length; ++i )<br />
+{<br />
+ DataGridViewColumn column = new DataGridViewTextBoxColumn();<br />
+ column.FillWeight = 1;<br />
+ columns[i] = column;<br />
+}<br />
+this.dataGridView1.Columns.AddRange( columns );<br />
+[&#47;code]</p>
+<p>This code works but the AddRange call took about 15 seconds to complete. With the aid of a collegue and  <a href="http:&#47;&#47;www.aisto.com&#47;roeder&#47;dotnet&#47;">Reflector<&#47;a> i set the ColumnHeadersHeightSize to DisableResizing. This reduced the calltime to less than 0.5 seconds :)<&#47;p></p>

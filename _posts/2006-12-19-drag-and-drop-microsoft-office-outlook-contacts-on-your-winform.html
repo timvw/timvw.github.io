@@ -1,0 +1,43 @@
+---
+layout: post
+status: publish
+published: true
+title: Drag and Drop Microsoft Office Outlook Contacts on your WinForm
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 135
+wordpress_url: http://www.timvw.be/drag-and-drop-microsoft-office-outlook-contacts-on-your-winform/
+date: '2006-12-19 23:44:23 +0100'
+date_gmt: '2006-12-19 21:44:23 +0100'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments: []
+---
+<p>Earlier today i saw someone that wanted to know how to drag and drop Microsoft Office Outlook Contacts on his winform (and get the data of the contact). Here are the few lines of code that do what he asked for:<&#47;p><br />
+[code lang="csharp"]<br />
+&#47;&#47; in the constructor of the form (or in the InitializeComponent method if you set it via the Designer)<br />
+this.AllowDrop = true;</p>
+<p>&#47;&#47; handle the DragOver event<br />
+private void Form1_DragOver(object sender, DragEventArgs e)<br />
+{<br />
+ e.Effect = DragDropEffects.All;<br />
+}</p>
+<p>&#47;&#47; handle the DragDrop event<br />
+private void Form1_DragDrop(object sender, DragEventArgs e)<br />
+{<br />
+ string text = (string)e.Data.GetData("Text", true);<br />
+ this.label1.Text = text;</p>
+<p> &#47;&#47; for more finegrained access to the data<br />
+ &#47;&#47;string[] lines = text.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);<br />
+}<br />
+[&#47;code]<br />
+<br&#47;><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;outlookcontactdragdrop.jpg" alt="screenshot of outlook contact that was dragged and dropped on the form"&#47;></p>

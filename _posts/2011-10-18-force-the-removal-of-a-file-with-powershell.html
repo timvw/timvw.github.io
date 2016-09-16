@@ -1,0 +1,57 @@
+---
+layout: post
+status: publish
+published: true
+title: Force the removal of a file with PowerShell
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2240
+wordpress_url: http://www.timvw.be/?p=2240
+date: '2011-10-18 19:44:08 +0200'
+date_gmt: '2011-10-18 18:44:08 +0200'
+categories:
+- Uncategorized
+tags:
+- PowerShell
+comments:
+- id: 191278
+  author: Doug
+  author_email: dweems@codesigned.com
+  author_url: http://www.codesigned.com
+  date: '2013-04-30 14:58:53 +0200'
+  date_gmt: '2013-04-30 13:58:53 +0200'
+  content: Thanks Tim!
+---
+<p>Last couple of weeks I have been generating a lot of files (and restricting their ACLs) and today I decided to remove all those files. The problem is that my user account did not have permissions on those files. Here is a small script that will first take ownership of the file, then grants FullControl permissions, and finally removes the file :)<&#47;p></p>
+<p>[code lang="powershell"]<br />
+function RemoveFile<br />
+{<br />
+	param($FileName)</p>
+<p>	&amp;takeown &#47;F $FileName</p>
+<p>	$User = [System.Security.Principal.WindowsIdentity]::GetCurrent().User</p>
+<p>	$Acl = Get-Acl $FileName<br />
+	$Acl.SetOwner($User)<br />
+	$AccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($User, "FullControl", "Allow")<br />
+	$Acl.SetAccessRule($AccessRule)<br />
+	Set-Acl $FileName $Acl</p>
+<p>	Remove-Item $FileName<br />
+}</p>
+<p>Get-ChildItem *.txt -R | % { RemoveFile $_.FullName; }<br />
+[&#47;code]</p>
+<p><b>Edit on 2011-10-19<&#47;b></p>
+<p>Resetting the permissions with icacls c:\output &#47;reset &#47;t and then calling Remove-Item c:\output -R does the trick.<&#47;p></p>
+<p>[code lang="powershell"]<br />
+function RemoveFiles<br />
+{<br />
+ param($Directory)<br />
+ icacls $Directory &#47;reset &#47;t<br />
+ Remove-Item $Directory -R<br />
+}</p>
+<p>RemoveFiles c:\output;<br />
+[&#47;code]</p>

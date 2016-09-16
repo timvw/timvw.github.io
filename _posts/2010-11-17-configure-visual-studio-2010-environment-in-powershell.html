@@ -1,0 +1,49 @@
+---
+layout: post
+status: publish
+published: true
+title: Configure Visual Studio 2010 environment in PowerShell
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1982
+wordpress_url: http://www.timvw.be/?p=1982
+date: '2010-11-17 21:20:13 +0100'
+date_gmt: '2010-11-17 20:20:13 +0100'
+categories:
+- Uncategorized
+tags:
+- Visual Studio
+- PowerShell
+comments: []
+---
+<p>Instead of using the "Visual Studo Command Prompt (2010)" i wanted to use PowerShell instead. I found <a href="http:&#47;&#47;blogs.msdn.com&#47;b&#47;ploeh&#47;archive&#47;2008&#47;04&#47;09&#47;visualstudio2008powershell.aspx">this<&#47;a> post which does it for VS2008. Extending it for VS2010 was pretty easy:<&#47;p></p>
+<p>[code lang="powershell"]<br />
+function SetVS2008()<br />
+{<br />
+    $vs90comntools = (Get-ChildItem env:VS90COMNTOOLS).Value<br />
+    $batchFile = [System.IO.Path]::Combine($vs90comntools, "vsvars32.bat")<br />
+    Get-Batchfile $BatchFile<br />
+    [System.Console]::Title = "Visual Studio 2008 Windows PowerShell"<br />
+}</p>
+<p>function SetVS2010()<br />
+{<br />
+    $vs100comntools = (Get-ChildItem env:VS100COMNTOOLS).Value<br />
+    $batchFile = [System.IO.Path]::Combine($vs100comntools, "vsvars32.bat")<br />
+    Get-Batchfile $BatchFile<br />
+    [System.Console]::Title = "Visual Studio 2010 Windows PowerShell"<br />
+}</p>
+<p>function Get-Batchfile($file)<br />
+{<br />
+    $cmd = "`"$file`" &amp; set"<br />
+    cmd &#47;c $cmd | Foreach-Object {<br />
+        $p, $v = $_.split('=')<br />
+        Set-Item -path env:$p -value $v<br />
+    }<br />
+}<br />
+[&#47;code]</p>

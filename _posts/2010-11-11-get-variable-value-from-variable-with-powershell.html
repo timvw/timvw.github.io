@@ -1,0 +1,34 @@
+---
+layout: post
+status: publish
+published: true
+title: Get variable value from variable with PowerShell
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1972
+wordpress_url: http://www.timvw.be/?p=1972
+date: '2010-11-11 13:37:45 +0100'
+date_gmt: '2010-11-11 12:37:45 +0100'
+categories:
+- Uncategorized
+tags:
+- PowerShell
+comments: []
+---
+<p>Sometimes you only know at runtime in which variable a certain value is stored. Let me clarify with an example:<&#47;p></p>
+<p>[code lang="powershell"]<br />
+$tim = 30;<br />
+$evy = 24;<br />
+$name = Read-Host "Enter your name";<br />
+[&#47;code]</p>
+<p>In essence, if $name equals tim we want to use $tim and if $name equals evy we want to use $evy. This can be achieved with Get-Variable:<&#47;p></p>
+<p>[code lang="powershell"]<br />
+$age = Get-Variable $name -valueOnly;<br />
+Write-Host "Your age is $age";<br />
+[&#47;code]</p>

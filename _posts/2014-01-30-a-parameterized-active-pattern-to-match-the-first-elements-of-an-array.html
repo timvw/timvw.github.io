@@ -1,0 +1,44 @@
+---
+layout: post
+status: publish
+published: true
+title: A parameterized active pattern to match the first elements of an array
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2401
+wordpress_url: http://www.timvw.be/?p=2401
+date: '2014-01-30 21:16:53 +0100'
+date_gmt: '2014-01-30 20:16:53 +0100'
+categories:
+- Uncategorized
+tags:
+- F#
+- Pattern Matching
+- Active Pattern
+comments: []
+---
+<p>Been writing code in F# for almost a year and never blogged about it. Time to change that ;) Earlier today someone asked the following on twitter:<&#47;p></p>
+<p><quote>Is it possible to pattern match the first part of an array in #FSharp? Something like | 1::2::3::tail but for arrays? #lazyweb<&#47;quote></p>
+<p>I accepted the challenge ;)<&#47;p></p>
+<p>[code lang="fsharp"]<br />
+let (|Array|_|) pattern toMatch =<br />
+    let patternLength = Array.length pattern<br />
+    let toMatchLength = Array.length toMatch<br />
+    let tailLength = toMatchLength - patternLength</p>
+<p>    if patternLength > toMatchLength then<br />
+        None<br />
+    else<br />
+        let firstElementsAreEqual = [ 0 .. (patternLength - 1) ] |> Seq.forall (fun i -> pattern.[i] = toMatch.[i])<br />
+        if firstElementsAreEqual then<br />
+            Some(Array.sub toMatch patternLength tailLength)<br />
+        else<br />
+            None</p>
+<p>match [|1;2;3|] with<br />
+| Array [|1|] tail -> sprintf "bingo %i" (tail |> Array.sum) &#47;&#47; the tail is [|2;3|][&#47;code]</p>
+<p>Or as a gist: <a href="https:&#47;&#47;gist.github.com&#47;timvw&#47;8717796">https:&#47;&#47;gist.github.com&#47;timvw&#47;8717796<&#47;a>.<&#47;p></p>

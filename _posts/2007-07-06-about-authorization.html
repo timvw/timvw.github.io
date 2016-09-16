@@ -1,0 +1,79 @@
+---
+layout: post
+status: publish
+published: true
+title: About Authorization
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 178
+wordpress_url: http://www.timvw.be/about-iidentity-and-iprincipal/
+date: '2007-07-06 15:30:14 +0200'
+date_gmt: '2007-07-06 13:30:14 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Yesterday i visited an evening session about authentication and authorization at <a href="http:&#47;&#47;www.compuware.be">Compuware<&#47;a> (Yes, i've got interesting collegues that are willing to share their knowledige). Anyway, i left the meeting with a couple of questions:<&#47;p></p>
+<p><b>How does System.Security.Principal.PrincipalPolicy work under <a href="http:&#47;&#47;www.mono-project.com&#47;Main_Page">Mono<&#47;a>?<&#47;b><br />
+<br&#47;>Well, NoPrincipal and UnauthenticatedPrincipal behave exactly the same way as they do in the Microsoft implementation. For the WindowsPrincipal the unix groups are used to determine the result of IsInRole. eg:<&#47;p><br />
+[code lang="csharp"]&#47;&#47;lists the groups the user timvw is part of:<br />
+&#47;&#47;timvw@debian:~$ groups<br />
+&#47;&#47;timvw dialout cdrom floppy audio video plugdev</p>
+<p>AppDomain.CurrentDomain.SetPrincipalPolicy(PrincipalPolicy.WindowsPrincipal);<br />
+IPrincipal principal = Thread.CurrentPrincipal;</p>
+<p>string[] roles = new string[] { "floppy", "wheel" };<br />
+foreach(string role in roles)<br />
+{<br />
+ Console.WriteLine("{0} is in the {1} role: {2}.", principal.Identity.Name, role, principal.IsInRole(role));<br />
+}</p>
+<p>&#47;&#47; the output:<br />
+&#47;&#47;timvw@debian:~$ .&#47;Main.exe<br />
+&#47;&#47;timvw is in the floppy role: True.<br />
+&#47;&#47;timvw is in the wheel role: False.[&#47;code]</p>
+<p><b>How are instances of IPrincipal propgated into other threads?<&#47;b><br />
+<br&#47;>A bit of research learned me that BeginInvoke and Thread.Start copy the Thread.CurrentPrincipal into the new thread and that ThreadPool.QueueUserWorkItem and System.Threading.Timer don't copy the Thread.CurrentPrincipal.<&#47;p></p>
+<p><b>How can i use the <a href="http:&#47;&#47;blogs.msdn.com&#47;azman&#47;">Authorization Manager<&#47;a> without Windows Identity?<&#47;b><br />
+<br&#47;>A possible solution would be the following:<&#47;p><br />
+[code lang="csharp"]static string GetSid()<br />
+{<br />
+ &#47;&#47; modify this so that it contains an application and user id<br />
+ return "S-1-9-1-1";<br />
+}</p>
+<p>&#47;&#47; By passing in 1 as the second parameter, no verification of the SID against the AD is performed<br />
+IAzClientContext cctx = app.InitializeClientContextFromStringSid(GetSid(), 1, null);</p>
+<p>&#47;&#47; Because the MMC does not allow you to add custom SIDs you'll have to edit to add these manually (eg: by using the API)<br />
+IAzApplicationGroup group = app.OpenApplicationGroup("DemoApplicationUsers", null);<br />
+group.AddMember(GetSid(), null);<br />
+group.Submit(0, null);</p>
+<p>&#47;&#47; And now you can verify is the custom SID has access to a given operation:<br />
+Console.WriteLine(HasAccess(cctx, null, new int[] { 1 }));</p>
+<p>static bool HasAccess(IAzClientContext context, string[] scopeNames, int[] operationIds)<br />
+{<br />
+ string subject = "audit";</p>
+<p> object scopes;<br />
+ if (scopeNames == null || scopeNames.Length == 0)<br />
+ {<br />
+  scopes = new object[] { "" };<br />
+ }<br />
+ else<br />
+ {<br />
+  scopes = Array.ConvertAll<string, object>(scopeNames, delegate(string scopeName) { return scopeName; });<br />
+ }</p>
+<p> object[] operations = Array.ConvertAll<int, object>(operationIds, delegate(int operationId) { return operationId; });<br />
+ object[] results = (object[])context.AccessCheck(subject, scopes, operations, null, null, null, null, null);<br />
+ foreach (object result in results)<br />
+ {<br />
+  if ((int)result != 0)<br />
+  {<br />
+   return false;<br />
+  }<br />
+ }</p>
+<p> return true;<br />
+}[&#47;code]</p>

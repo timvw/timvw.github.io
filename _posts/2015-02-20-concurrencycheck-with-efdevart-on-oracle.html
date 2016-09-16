@@ -1,0 +1,65 @@
+---
+layout: post
+status: publish
+published: true
+title: ConcurrencyCheck with EF&#47;Devart on Oracle
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2461
+wordpress_url: http://www.timvw.be/?p=2461
+date: '2015-02-20 10:57:59 +0100'
+date_gmt: '2015-02-20 09:57:59 +0100'
+categories:
+- Uncategorized
+tags: []
+comments: []
+---
+<p>Earlier this week I was wondering how I could easily achieve optimistic concurrency in a system using EF&#47;Devart targetting an Oracle database (Not really my preferred technologies, but whatever... :P). Here is a potential solution:<&#47;p></p>
+<p>Using a column for optimistic concurrency is documented on the devart website:<&#47;p></p>
+<p>[code lang="csharp"]<br />
+[Table("TEST")]<br />
+public class Test : IRequireConcurrencyCheck<br />
+{<br />
+  ..<br />
+  [Required]<br />
+  [Column("VERSION")]<br />
+  [ConcurrencyCheck] &#47;&#47; <-- TELL EF to use this column as our "timestamp&#47;logical version"<br />
+  public virtual int Version { get; protected set; } &#47;&#47; protected, so users of this type can not touch this (easily)<br />
+}<br />
+[&#47;code]</p>
+<p>By introducing an interface and some custom behaviour on SaveChanges we can now take away the burden of having to update the Version property correctly:<&#47;p></p>
+<p>[code lang="csharp"]<br />
+public interface IRequireConcurrencyCheck<br />
+{<br />
+  int Version { get; }<br />
+}<br />
+[&#47;code]</p>
+<p>[code lang="csharp"]<br />
+public class DataContext : DbContext<br />
+{<br />
+  public DataContext(DbConnection existingConnection)<br />
+    : base(existingConnection, true)<br />
+  {<br />
+    Database.SetInitializer<DataContext>(null);<br />
+  }</p>
+<p>  public override int SaveChanges()<br />
+  {<br />
+    var = ChangeTracker<br />
+      .Entries<IRequireConcurrencyCheck>()<br />
+      .Where(x => x.State == EntityState.Modified)<br />
+      .ToArray();</p>
+<p>    foreach (var entity in entitiesWhichHaveConcurrencyCheck)<br />
+    {<br />
+      entity.Property<int>(x => x.Version).CurrentValue++;<br />
+    }</p>
+<p>    return base.SaveChanges();<br />
+  }</p>
+<p>  public IDbSet<Test> Tests { get; set; }<br />
+}<br />
+[&#47;code]</p>

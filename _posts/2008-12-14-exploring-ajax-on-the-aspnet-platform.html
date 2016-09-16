@@ -1,0 +1,52 @@
+---
+layout: post
+status: publish
+published: true
+title: Exploring AJAX on the ASP.NET platform
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 752
+wordpress_url: http://www.timvw.be/?p=752
+date: '2008-12-14 16:50:04 +0100'
+date_gmt: '2008-12-14 15:50:04 +0100'
+categories: []
+tags:
+- ASP.NET
+comments: []
+---
+<p>I finally found some time to experiment with AJAX on the ASP.NET platform. The first technique i looked into was <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;bb386573.aspx">Partial-Page Rendering<&#47;a> with controls like <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;bb386454.aspx">UpdatePanel<&#47;a>. It gave me an awkward feeling but even Dino Esposito, who spent a whole chapter on this technique in his <a href="http:&#47;&#47;www.amazon.com&#47;Programming-Microsoft-ASP-NET-Dino-Esposito&#47;dp&#47;0735625271">book<&#47;a>, seems to <a href="http:&#47;&#47;weblogs.asp.net&#47;despos&#47;archive&#47;2007&#47;09&#47;19&#47;partial-rendering-misses-ajax-architectural-points.aspx">share<&#47;a> that feeling.<&#47;p></p>
+<p>Page methods, public static methods that are decorated with the <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.web.services.webmethodattribute.aspx">WebMethodAttribute<&#47;a> declared on a <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.web.ui.page.aspx">Page<&#47;a> are exposed as a WebService method and return the result as <a href="http:&#47;&#47;www.json.org&#47;">JSON<&#47;a>. An easy solution but it comes with the cost that it does not offer much flexibility.<&#47;p></p>
+<p>Thanks to the <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.servicemodel.webhttpbinding.aspx">WebHttpBinding<&#47;a> and <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.servicemodel.web.webinvokeattribute.aspx">WebInvokeAttribute<&#47;a> the <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;ms735119.aspx">Windows Communication Foundation<&#47;a> now supports services that return JSON in a <a href="http:&#47;&#47;en.wikipedia.org&#47;wiki&#47;Representational_State_Transfer">REST<&#47;a>full call style. This is the technique that i prefer.<&#47;p></p>
+<p><a href="http:&#47;&#47;jquery.com&#47;">jQuery<&#47;a> is a very sweet library that simplifies JavaScript  development seriously and provides an easy way to consume WCF&#47;JSON services easily. Here is an example of a page with a button that by default triggers a postback (supporting all users, even those without JavaScript) but that behavior is overriden with a XMLHTTP request instead once the document is loaded (an enhancement for users with JavaScript):<&#47;p></p>
+<p>[code lang="javascript"]$(document).ready(function() {<br />
+ $('#RequestEchoButton').click(function() {<br />
+  $.ajax({<br />
+   type: 'POST',<br />
+   url: 'Default.svc&#47;Echo',<br />
+   data: '{}',<br />
+   contentType: 'application&#47;json; charset=utf-8',<br />
+   dataType: 'json',<br />
+   success: function(data) {<br />
+    $('#EchoResultDiv').html(data);<br />
+   },<br />
+   error: function(data) {<br />
+    $('#EchoResultDiv').html('Failed to request Echo.');<br />
+   }<br />
+  });<br />
+  return false;<br />
+ });<br />
+});[&#47;code]</p>
+<p>Notice that my Default.svc page uses the <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.servicemodel.activation.webservicehostfactory.aspx">WebServiceHostFactory<&#47;a>:<&#47;p></p>
+<p>[code lang="xml"]<%@ ServiceHost<br />
+ Language="C#"<br />
+ Debug="true"<br />
+ Service="PageServices.Default"<br />
+ Factory="System.ServiceModel.Activation.WebServiceHostFactory"<br />
+%>[&#47;code]</p>
+<p>Conclusion: Unlike jQuery and WCF, I am not convinced that controls like UpdatePanel and ScriptManager add any value to my toolkit.<&#47;p></p>

@@ -1,0 +1,42 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting ControlStateMachine
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1170
+wordpress_url: http://www.timvw.be/?p=1170
+date: '2009-08-17 08:10:42 +0200'
+date_gmt: '2009-08-17 07:10:42 +0200'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments: []
+---
+<p>Here is a situation we are all familiar with: A form that only displays a certain set of controls depending on the mode or state of the application. Let me start with an example: At design time there are three buttons<&#47;p></p>
+<p><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;controlstatemachine.design.png" alt="screenshot of flowlayoutpanel with three buttons: edit, save and cancel." &#47;></p>
+<p>The user can look at the data and decide to edit it:<&#47;p></p>
+<p><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;controlstatemachine.display.png" alt="screenshot of flowlayoutpanel with only one visible button: edit." &#47;></p>
+<p>Or the user is editing the data and can decide to commit or discard her changes:<&#47;p></p>
+<p><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;controlstatemachine.edit.png" alt="screenshot of flowlayoutpanel with two visible buttons: save and cancel." &#47;></p>
+<p>A couple of years i ago i used to spread such display logic all over my code and it was hard to figure out which control was visible at a given point. Later on i refactored that code and encapsulated it in functions like: MakeControlsForDisplayVisible and MakeControlsForEditVisible which felt like a huge improvement. These days i have the feeling that a very simple state machine can improve the readability even better.<&#47;p></p>
+<p>Ok, so how simple is simple? Currently the requirements list is pretty limited:<&#47;p></p>
+<p><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;controlstatemachine.specs.png" alt="screenshot of unittests for controlstatemachine" &#47;></p>
+<p>Anyway, here is how i would write the code today (Yeah, for a stupid example this looks like overkill):<&#47;p></p>
+<p>[code lang="csharp"]private void InitializeButtonLayoutPanelMachine()<br />
+{<br />
+ controlStateMachine = new ControlStateMachine<displayAndEditStates>(buttonLayoutPanel);</p>
+<p> controlStateMachine.WhenStateChangesTo(DisplayAndEditStates.Display)<br />
+  .TheOnlyVisibleControlsAre(buttonEdit);</p>
+<p> controlStateMachine.WhenStateChangesTo(DisplayAndEditStates.Edit)<br />
+  .TheOnlyVisibleControlsAre(buttonSave, buttonCancel);<br />
+}[&#47;code]</p>
+<p>As always, here is the source: <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;ControlStateMachine.cs.txt">ControlStateMachine<&#47;a> and <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;WhenChangingState.cs.txt">WhenChangingState<&#47;a>.<&#47;p></p>

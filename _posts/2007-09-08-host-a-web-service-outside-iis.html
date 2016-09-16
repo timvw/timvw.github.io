@@ -1,0 +1,145 @@
+---
+layout: post
+status: publish
+published: true
+title: Query a Web Service hosted outside IIS with it&#039;s DNS name
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 200
+wordpress_url: http://www.timvw.be/host-a-web-service-outside-iis/
+date: '2007-09-08 02:16:36 +0200'
+date_gmt: '2007-09-08 00:16:36 +0200'
+categories: []
+tags:
+- C#
+comments:
+- id: 250
+  author: Anand
+  author_email: ''
+  author_url: ''
+  date: '2007-09-13 21:32:21 +0200'
+  date_gmt: '2007-09-13 19:32:21 +0200'
+  content: It's gr8 article to host webservice outside IIS... how do invoke the webservice
+    method using soap.tcp?
+- id: 251
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2007-09-13 23:26:34 +0200'
+  date_gmt: '2007-09-13 21:26:34 +0200'
+  content: 'Well, i''ve decided to add  a demo solution: http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;MsdnSoapExample.zip
+    which contains a console application that consumes the service (the proxy was
+    generated with WseWsdl3.exe)'
+- id: 252
+  author: Anand
+  author_email: ''
+  author_url: ''
+  date: '2007-09-14 15:43:47 +0200'
+  date_gmt: '2007-09-14 13:43:47 +0200'
+  content: |-
+    I'm getting the following exception
+    #1: "WSE101: An asynchronous operation raised an exception."
+    #2: Internal Exception:
+    "No connection could be made because the target machine actively refused it"
+
+    FYI
+    I'm running the windows service under "local system account" credentails.
+- id: 253
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2007-09-14 17:42:59 +0200'
+  date_gmt: '2007-09-14 15:42:59 +0200'
+  content: |-
+    - Make sure that example.com resolves to an ip on your machine
+    - Verify that there is not a firewall that blocks incoming traffic
+- id: 254
+  author: Anand
+  author_email: ''
+  author_url: ''
+  date: '2007-09-27 15:00:18 +0200'
+  date_gmt: '2007-09-27 13:00:18 +0200'
+  content: |-
+    I de-installed and re-installed WSE 3.0 and is working fine :)
+
+    Thanks for your help.
+- id: 255
+  author: Anand
+  author_email: ''
+  author_url: ''
+  date: '2007-10-17 19:57:05 +0200'
+  date_gmt: '2007-10-17 17:57:05 +0200'
+  content: |-
+    Earlier I tried to access soap.tcp:&#47;&#47;localhost&#47;MyService and it was working fine. but when I tried to access soap.tcp:&#47;&#47;example.com:9090&#47;BookService I'm still getting the error.
+
+    I have added ip address and example.com to hosts file.
+
+    What else I have to do to access the service installed outside my system?
+- id: 256
+  author: jdstuart
+  author_email: jd@ikubu.com
+  author_url: http://www.jdsweblog.com
+  date: '2008-08-01 12:01:30 +0200'
+  date_gmt: '2008-08-01 10:01:30 +0200'
+  content: |-
+    Good day.
+
+    Thank you very much for this article. It helped me a lot in setting up a web service that doesn't run in iis.
+
+    I however am still strugling with discovering the webservice. Is there a way of making these type of web services discoverable?
+
+    http:&#47;&#47;www.timvw.be&#47;host-a-web-service-outside-iis&#47;
+- id: 257
+  author: Julian
+  author_email: jftasis@ideawurx.com.ph
+  author_url: ''
+  date: '2008-08-13 07:13:17 +0200'
+  date_gmt: '2008-08-13 05:13:17 +0200'
+  content: Hi great example. I tried using it and it works very well on my own pc.
+    But when I tried to invoke the web service on ther pc over lan I always get Message
+    Expired Error. Can you help me resolved this issue? Thanks
+---
+<p>Yesterday someone asked the following:<&#47;p></p>
+<blockquote>
+<div>
+I am developing a Web Service inside a Windows Service via the soap.tcp protocol. This all works, and I have created the webservice at soap.tcp:&#47;&#47;localhost:9090&#47;BookService.</p>
+<p>However, when I set the Url to soap.tcp:&#47;&#47;example.com:9090&#47;BookService on my local machine, I get an exception that the computer actively refused the connection.<br />
+<&#47;div><br />
+<&#47;blockquote></p>
+<p>My first attempt was to simulate the problem. I added an entry in my hosts file so that example.com resolves to 192.168.10.1 (My machine's IP address) and wrote the following code:<&#47;p><br />
+[code lang="csharp"]<br />
+EndpointReference epr = new EndpointReference(new Uri("soap.tcp:&#47;&#47;example.com:9090&#47;BookService"));<br />
+SoapReceivers.Add(epr, typeof(BookService));<br />
+[&#47;code]</p>
+<p>When i tried to run this code i received an ArgumentException: "WSE813: The following transport address could not be mapped to a local network interface: soap.tcp:&#47;&#47;example.com:9090&#47;BookService". My intuition said that i should help the infrastructure a little:<&#47;p><br />
+[code lang="csharp"]<br />
+EndpointReference epr = new EndpointReference(new Uri("soap.tcp:&#47;&#47;192.168.10.1:9090&#47;BookService"));<br />
+[&#47;code]</p>
+<p>The application started fine this time, but when i used wsewsdl3.exe to generate the proxy i received the following error: Destination Unreachable. Anyway, after a lot of experimenting i found that the following method allows me to generate a proxy using the DNS name:<&#47;p><br />
+[code lang="csharp"]<br />
+static EndpointReference GetEndpointReference(string host, int port, string path)<br />
+{<br />
+ &#47;&#47; we happy:<br />
+ &#47;&#47; for the Address part we use the DNS name<br />
+ &#47;&#47;<br />
+ &#47;&#47; infrastructure happy:<br />
+ &#47;&#47; for the Via par we use the first IP that maps to the provided DNS name</p>
+<p> Uri address = new Uri(string.Format("soap.tcp:&#47;&#47;{0}:{1}&#47;{2}", host, port, path));<br />
+ Uri via = new Uri(string.Format("soap.tcp:&#47;&#47;{0}:{1}&#47;{2}", Dns.GetHostEntry(host).AddressList[0], port, path));<br />
+ return new EndpointReference(address, via);<br />
+}</p>
+<p>static void Main(string[] args)<br />
+{<br />
+ EndpointReference epr = GetEndpointReference("example.com", 9090, "BookService");<br />
+ SoapReceivers.Add(epr, typeof(BookService));</p>
+<p> Console.Write("{0}Press any key to continue...", Environment.NewLine);<br />
+ Console.ReadKey();</p>
+<p> SoapReceivers.Remove(epr);<br />
+}[&#47;code]</p>
+<p>As always, you can download a sample solution with a windows service that hosts the webservice, and a console application that consumes the webservice: <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;MsdnSoapExample.zip">MsdnSoapExample.zip<&#47;a></p>

@@ -1,0 +1,44 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting the MultiPanel
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 166
+wordpress_url: http://www.timvw.be/presenting-the-multipanel/
+date: '2007-04-29 11:51:42 +0200'
+date_gmt: '2007-04-29 09:51:42 +0200'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments: []
+---
+<p>A while ago i was thinking that i would be nice to have a control that exposes multiple designer panels, but only shows one at a time... Somewhat like a TabControl, but without the header.. Anyway, i found out (<a href="http:&#47;&#47;forums.microsoft.com&#47;MSDN&#47;ShowPost.aspx?PostID=1518961&SiteID=1">here<&#47;a>) that a TabControl can be tweaked into that behaviour:<&#47;p><br />
+[code lang="csharp"]public class MultiPanel : TabControl<br />
+{<br />
+ protected override void WndProc(ref Message m)<br />
+ {<br />
+  if (m.Msg == 0x1328 && !DesignMode)<br />
+  {<br />
+   m.Result = (IntPtr) 1;<br />
+  }<br />
+  else<br />
+  {<br />
+   base.WndProc(ref m);<br />
+  }<br />
+ }<br />
+}[&#47;code]</p>
+<p>In the designer it appears as following:<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;MultiPanel1.gif" alt="screenshot of MultiPanel at designtime"&#47;><br&#47;><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;MultiPanel2.gif" alt="screenshot of MultiPanel at designtime"&#47;><br&#47;></p>
+<p>And at runtime it appears as following:<&#47;p><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;MultiPanel3.gif" alt="screenshot of MultiPanel at designtime"&#47;><br&#47;><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;MultiPanel4.gif" alt="screenshot of MultiPanel at designtime"&#47;><br&#47;></p>

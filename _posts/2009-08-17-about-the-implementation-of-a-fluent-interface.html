@@ -1,0 +1,50 @@
+---
+layout: post
+status: publish
+published: true
+title: About the implementation of a fluent interface
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1218
+wordpress_url: http://www.timvw.be/?p=1218
+date: '2009-08-17 16:45:47 +0200'
+date_gmt: '2009-08-17 15:45:47 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Now that i have <a href="http:&#47;&#47;www.timvw.be&#47;about-the-design-of-a-fluent-interface&#47;">defined my API for initialization<&#47;a> it is time to implement it. Inspired by the Moq.Language and Moq.Language.Flow namespaces in <a href="http:&#47;&#47;code.google.com&#47;p&#47;moq&#47;">Moq<&#47;a> i have decided to define my interfaces in a separate namespace: Infrastructure.StateMachineLanguage.<&#47;p></p>
+<p>Ever since i have read <a href="http:&#47;&#47;www.amazon.com&#47;Clean-Code-Handbook-Software-Craftsmanship&#47;dp&#47;0132350882">Clean code<&#47;a> i feel the need to write classes that do one thing (and one thing only) so i came up with the following classes:<&#47;p></p>
+<ul>
+<li>something to store commands per state, CommandsForState<&#47;li>
+<li>something to store actions per command, ActionsForCommand<&#47;li><br />
+<&#47;ul></p>
+<p>For the implementation of the IChooseCommandAndAction interface i have decided to create a class that falls back on my classes that handle IChooseCommand and IChooseAction already:<&#47;p></p>
+<p>[code lang="csharp"]public class CommandAndActionForState<tstate, TCommand> : IChooseCommandAndAction<tstate, TCommand><br />
+{<br />
+ private readonly CommandsForState<tstate, TCommand> commandsForState;<br />
+ private readonly ActionsForCommand<tstate, TCommand> actionsForCommand;</p>
+<p> public CommandAndActionForState(CommandsForState<tstate, TCommand> commands, ActionsForCommand<tstate, TCommand> actions)<br />
+ {<br />
+  commandsForState = commands;<br />
+  actionsForCommand = actions;<br />
+ }</p>
+<p> public IChooseAction<tstate, TCommand> On(TCommand command)<br />
+ {<br />
+  return commandsForState.On(command);<br />
+ }</p>
+<p> public IChooseCommandAndAction<tstate, TCommand> Do(Action action)<br />
+ {<br />
+  return actionsForCommand.Do(action);<br />
+ }<br />
+}[&#47;code]</p>
+<p><br&#47;></p>
+<p><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;statemachine.solution.png" alt="screenshot of files in statemachine solution." &#47;></p>
+<p>As you can see, complex problems can have simple solutions. Feel free to download the complete solution: <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;StateMachine.zip">StateMachine.zip<&#47;a>.<&#47;p></p>

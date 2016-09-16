@@ -1,0 +1,60 @@
+---
+layout: post
+status: publish
+published: true
+title: Experimenting with ControlStateMachine and Fluent interfaces
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1157
+wordpress_url: http://www.timvw.be/?p=1157
+date: '2009-08-13 19:52:25 +0200'
+date_gmt: '2009-08-13 18:52:25 +0200'
+categories: []
+tags:
+- C#
+- Windows Forms
+- Patterns
+comments:
+- id: 335
+  author: Tim Van Wassenhove &raquo; Archive &raquo; Exploring graphical programming
+    with Blend, Visual State Manager and Behaviors
+  author_email: ''
+  author_url: http://www.timvw.be/exploring-graphical-programming-with-blend-visual-state-manager-and-behaviors/
+  date: '2009-10-16 21:37:26 +0200'
+  date_gmt: '2009-10-16 20:37:26 +0200'
+  content: '[...] while ago i presented the ControlStateMachine and in Silverlight
+    this concept is implemented as the Visual State [...]'
+---
+<p>A long time ago i read <a href="http:&#47;&#47;codebetter.com&#47;blogs&#47;jeremy.miller&#47;archive&#47;2007&#47;07&#47;25&#47;the-build-your-own-cab-series-table-of-contents.aspx">Build your own CAB series<&#47;a> and recently i noticed that there is a wiki: <a href="http:&#47;&#47;www.jeremydmiller.com&#47;ppatterns&#47;Default.aspx?Page=MainPage&AspxAutoDetectCookieSupport=1">Presentation Patterns Wiki!<&#47;a> and it inspired me to experiment with state machines. Here are a couple of examples:<&#47;p></p>
+<p>[code lang="csharp"]controlStateMachine = new ControlStateMachine<states>(this);</p>
+<p>controlStateMachine.AfterEachStateChange()<br />
+ .Do(MakeRelevantButtonsVisible);</p>
+<p>controlStateMachine.WhenStateChangesTo(States.RetrievingSubscriptionPeriod)<br />
+ .TheOnlyVisibleControlsAre(flowLayoutPanel1, datePicker1);</p>
+<p>controlStateMachine.WhenStateChangesTo(States.RetrievingCustomerInformation)<br />
+ .MakeVisible(customerInput1)<br />
+ .Do(() => customerInput1.Dock = DockStyle.Fill);</p>
+<p>controlStateMachine.WhenStateChangesTo(States.Ready)<br />
+ .MakeInvisible(customerInput1);<br />
+[&#47;code]</p>
+<p>And here is another example:<&#47;p></p>
+<p>[code lang="csharp"]wizardStateMachine = new WizardStateMachine<states>(controlStateMachine);</p>
+<p>wizardStateMachine.InState(States.RetrievingSubscriptionPeriod)<br />
+ .OnCommand(WizardCommands.Next)<br />
+  .TransitionTo(States.RetrievingCustomerInformation);</p>
+<p>wizardStateMachine.InState(States.RetrievingCustomerInformation)<br />
+ .OnCommand(WizardCommands.Back)<br />
+  .TransitionTo(States.RetrievingSubscriptionPeriod)<br />
+ .OnCommand(WizardCommands.Finish)<br />
+  .TransitionTo(States.Ready);</p>
+<p>wizardStateMachine.InState(States.Ready)<br />
+ .OnCommand(WizardCommands.New)<br />
+  .Do(() => MessageBox.Show("Currently not supported"));<br />
+[&#47;code]</p>
+<p>Stay tuned for future posts where i describe the problem space that have lead to this API.<&#47;p></p>

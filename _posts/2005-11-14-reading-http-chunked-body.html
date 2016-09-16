@@ -1,0 +1,44 @@
+---
+layout: post
+status: publish
+published: true
+title: Reading http chunked body
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 64
+wordpress_url: http://www.timvw.be/reading-http-chunked-body/
+date: '2005-11-14 21:40:53 +0100'
+date_gmt: '2005-11-14 19:40:53 +0100'
+categories: []
+tags:
+- Perl
+comments: []
+---
+<p>Here is my implementation of <a href="http:&#47;&#47;www.w3.org&#47;Protocols&#47;rfc2616&#47;rfc2616-sec3.html#sec3.6.1">Chunked Transfer Coding<&#47;a>. I find it quite elegant compared to other snippets i've seen.<&#47;p></p>
+<p>[code lang="perl"]<br />
+###################################################<br />
+# {{{ read body chunked<br />
+###################################################<br />
+sub getbodychunked<br />
+{<br />
+	my $sh = shift; # the socket handle should be passed<br />
+	my ($in, $body);</p>
+<p>	for ($in = < $sh>; defined $in; $in = < $sh>)<br />
+	{<br />
+		$in = trim $in;<br />
+		my $chunk = hex $in;<br />
+		while (defined $in && $chunk > 0)<br />
+		{<br />
+			$chunk -= read $sh, $in, $chunk;<br />
+			$body .= $in;<br />
+		}<br />
+	}<br />
+	return $body;<br />
+}<br />
+[&#47;code]</p>

@@ -1,0 +1,129 @@
+---
+layout: post
+status: publish
+published: true
+title: Enable and disable TabPages on a TabControl
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 141
+wordpress_url: http://www.timvw.be/enable-and-disable-tabpages-on-a-tabcontrol/
+date: '2007-01-06 15:29:41 +0100'
+date_gmt: '2007-01-06 13:29:41 +0100'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments:
+- id: 94
+  author: coloncm
+  author_email: coloncm@hotmail.com
+  author_url: ''
+  date: '2008-06-19 18:02:19 +0200'
+  date_gmt: '2008-06-19 16:02:19 +0200'
+  content: This is a hard to find solution online. Thanks for the help; will come
+    handy.
+- id: 95
+  author: devmania
+  author_email: devmania@naver.com
+  author_url: ''
+  date: '2008-07-30 10:38:46 +0200'
+  date_gmt: '2008-07-30 08:38:46 +0200'
+  content: |-
+    thanks.
+    Many man say, 'just remove tabpage..'
+    but i find solution here.
+- id: 96
+  author: vietduc
+  author_email: ''
+  author_url: ''
+  date: '2008-08-09 18:52:38 +0200'
+  date_gmt: '2008-08-09 16:52:38 +0200'
+  content: thanks
+- id: 97
+  author: Miklos
+  author_email: miklos.lukacs@silabs.com
+  author_url: ''
+  date: '2009-05-26 15:57:10 +0200'
+  date_gmt: '2009-05-26 14:57:10 +0200'
+  content: |-
+    Thank you Tim!
+
+    This is a great solution!
+---
+<p><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;disabled-tabcontrol-1.gif" alt="screenshot of tabcontrol with disabled tabpages"&#47;><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;disabled-tabcontrol-2.gif" alt="screenshot of tabcontrol with disabled tabpages"&#47;></p>
+<p>Apparently <a href="http:&#47;&#47;www.microsoft.com">Microsoft<&#47;a> choose not to implement support for disabled <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.tabpage.aspx">TabPage<&#47;a>s. The reason seems to be that it's against their <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;aa511493.aspx">Guidelines for Tabs<&#47;a>. Let's ignore the guideline and implement the support anyway. First we set the <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.tabcontrol.drawmode.aspx">DrawMode<&#47;a> property of the <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.tabcontrol.aspx">TabControl<&#47;a> to <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.tabdrawmode.aspx">OwnerDrawFixed<&#47;a>. Next we add an eventhandler for the <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.tabcontrol.drawitem.aspx">DrawItem<&#47;a> Event:<&#47;p><br />
+[code lang="csharp"]private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)<br />
+{<br />
+ TabControl tabControl = sender as TabControl;<br />
+ TabPage tabPage = tabControl.TabPages[e.Index];<br />
+ Rectangle tabRectangle = tabControl.GetTabRect(e.Index);</p>
+<p> if (tabControl.Alignment == TabAlignment.Left || tabControl.Alignment == TabAlignment.Right)<br />
+ {<br />
+  float rotateAngle = 90;<br />
+  if (tabControl.Alignment == TabAlignment.Left)<br />
+  {<br />
+   rotateAngle = 270;<br />
+  }</p>
+<p>  PointF cp = new PointF(tabRectangle.Left + (tabRectangle.Width &#47; 2), tabRectangle.Top + (tabRectangle.Height &#47; 2));<br />
+  e.Graphics.TranslateTransform(cp.X, cp.Y);<br />
+  e.Graphics.RotateTransform(rotateAngle);<br />
+  tabRectangle = new Rectangle(-(tabRectangle.Height &#47; 2), -(tabRectangle.Width &#47; 2), tabRectangle.Height, tabRectangle.Width);<br />
+ }</p>
+<p> using (SolidBrush foreBrush = new SolidBrush(tabPage.ForeColor))<br />
+ {<br />
+  using (SolidBrush backBrush = new SolidBrush(tabPage.BackColor))<br />
+  {<br />
+   if (!tabPage.Enabled)<br />
+   {<br />
+    foreBrush.Color = SystemColors.GrayText;<br />
+   }</p>
+<p>   e.Graphics.FillRectangle(backBrush, tabRectangle);</p>
+<p>   using (StringFormat stringFormat = new StringFormat())<br />
+   {<br />
+    stringFormat.Alignment = StringAlignment.Center;<br />
+    stringFormat.LineAlignment = StringAlignment.Center;<br />
+    e.Graphics.DrawString(tabPage.Text, e.Font, foreBrush, tabRectangle, stringFormat);<br />
+   }<br />
+  }<br />
+ }</p>
+<p> e.Graphics.ResetTransform();<br />
+}[&#47;code]</p>
+<p>And we handle the <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.tabcontrol.selecting.aspx">Selecting<&#47;a> Event as following:<&#47;p><br />
+[code lang="csharp"]private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)<br />
+{<br />
+ if (!e.TabPage.Enabled)<br />
+ {<br />
+  e.Cancel = true;<br />
+ }<br />
+}[&#47;code]</p>
+<p>This works pretty fine, but we still have to make sure that the TabPages are Invalidated when the users changes their <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.control.enabled.aspx">Enabled<&#47;a> property. We do this by attaching and detaching an eventhandler for their <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.control.enabledchanged.aspx">EnabledChanged<&#47;a> Event when they're <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.control.controladded.aspx">added<&#47;a> and <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.windows.forms.control.controlremoved.aspx">removed<&#47;a>.<&#47;p><br />
+[code lang="csharp"]private void tabControl1_ControlAdded(object sender, ControlEventArgs e)<br />
+{<br />
+ TabPage tabPage = sender as TabPage;<br />
+ if (tabPage != null)<br />
+ {<br />
+  tabPage.EnabledChanged += new EventHandler(this.tabPage_EnabledChanged);<br />
+ }<br />
+}</p>
+<p>private void tabControl1_ControlRemoved(object sender, ControlEventArgs e)<br />
+{<br />
+ TabPage tabPage = sender as TabPage;<br />
+ if (tabPage != null)<br />
+ {<br />
+  tabPage.EnabledChanged -= new EventHandler(this.tabPage_EnabledChanged);<br />
+ }<br />
+}</p>
+<p>void tabPage_EnabledChanged(object sender, EventArgs e)<br />
+{<br />
+ TabPage tabPage = sender as TabPage;<br />
+ TabControl tabControl = tabPage.Parent as TabControl;<br />
+ tabControl.Invalidate(tabPage.ClientRectangle);<br />
+}[&#47;code]</p>
+<p>Feel free to download the demo application: <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;DisabledTabControl.zip">DisabledTabControl.zip<&#47;a>.<&#47;p></p>

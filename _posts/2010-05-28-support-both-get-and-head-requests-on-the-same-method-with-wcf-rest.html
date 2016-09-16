@@ -1,0 +1,45 @@
+---
+layout: post
+status: publish
+published: true
+title: Support both GET and HEAD requests on the same method with WCF REST
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1737
+wordpress_url: http://www.timvw.be/?p=1737
+date: '2010-05-28 20:33:05 +0200'
+date_gmt: '2010-05-28 19:33:05 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>A while ago i had to modify an existing <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;netframework&#47;cc950529.aspx">WCF REST<&#47;a> service which was being consumed by <a href="http:&#47;&#47;en.wikipedia.org&#47;wiki&#47;Background_Intelligent_Transfer_Service">BITS<&#47;a>. Apparently the implementation has changed in Windows7 in such a way that the BITS client first makes a HEAD request to discover the file size.<&#47;p></p>
+<p>The following attempts did not work:<&#47;p></p>
+<p>[code lang="csharp"]&#47;&#47; A method can not have both WebGet and WebInvoke attributes<br />
+[OperationContract]<br />
+[WebGet]<br />
+[WebInvoke(Method="HEAD")]<br />
+public Stream Download(string token) { }[&#47;code]</p>
+<p><br&#47;></p>
+<p>[code lang="csharp"]&#47;&#47; A method can not have multiple WebInvoke attributes<br />
+[OperationContract]<br />
+[WebInvoke(Method="GET")]<br />
+[WebInvoke("HEAD")]<br />
+public Stream Download(string token) { }[&#47;code]</p>
+<p>The trick is to use * as Method and handle the method related logic in your code:<&#47;p></p>
+<p>[code lang="csharp"][OperationContract]<br />
+[WebInvoke(Method="*")]<br />
+public Stream Download(string token)<br />
+{<br />
+ var method = WebOperationContext.Current.IncomingRequest.Method;<br />
+ if (method == "HEAD") return ProcessHead();<br />
+ if (method == "GET") return ProcessGet();<br />
+ throw new ArgumentException(method + " is not supported.");<br />
+}[&#47;code]</p>

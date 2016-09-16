@@ -1,0 +1,58 @@
+---
+layout: post
+status: publish
+published: true
+title: Select best 3 laptimes for each player
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 32
+wordpress_url: http://www.timvw.be/select-best-3-laptimes-for-each-player/
+date: '2006-04-14 02:45:03 +0200'
+date_gmt: '2006-04-14 00:45:03 +0200'
+categories: []
+tags:
+- SQL
+comments: []
+---
+<p>Imagine that you have a schema where you store all the times a player needed to complete a parcours. A possible schema could be (<a href="http:&#47;&#47;www.postgresql.org">postgresql<&#47;a>):<&#47;p></p>
+<p>[code lang="sql"]<br />
+CREATE TABLE laptimes (<br />
+ lap_id SERIAL NOT NULL,<br />
+ player_id INT NOT NULL,<br />
+ laptime INT NOT NULL,<br />
+ PRIMARY KEY (lap_id)<br />
+);</p>
+<p>INSERT INTO laptimes (player_id, laptime) VALUES (1, 250);<br />
+INSERT INTO laptimes (player_id, laptime) VALUES (1, 450);<br />
+INSERT INTO laptimes (player_id, laptime) VALUES (1, 350);<br />
+INSERT INTO laptimes (player_id, laptime) VALUES (1, 300);<br />
+INSERT INTO laptimes (player_id, laptime) VALUES (1, 327);</p>
+<p>INSERT INTO laptimes (player_id, laptime) VALUES (2, 327);<br />
+INSERT INTO laptimes (player_id, laptime) VALUES (2, 249);<br />
+INSERT INTO laptimes (player_id, laptime) VALUES (2, 123);<br />
+INSERT INTO laptimes (player_id, laptime) VALUES (2, 489);<br />
+INSERT INTO laptimes (player_id, laptime) VALUES (2, 158);</p>
+<p>INSERT INTO laptimes (player_id, laptime) VALUES (3, 158);<br />
+INSERT INTO laptimes (player_id, laptime) VALUES (3, 120);<br />
+INSERT INTO laptimes (player_id, laptime) VALUES (3, 190);</p>
+<p>INSERT INTO laptimes (player_id, laptime) VALUES (4, 600);<br />
+[&#47;code]</p>
+<p>Now imagine that you want to display the best 3 results for each player. Here's how:<&#47;p></p>
+<p>[code lang="sql"]<br />
+SELECT *<br />
+FROM laptimes AS l1<br />
+WHERE lap_id IN (<br />
+ SELECT lap_id<br />
+ FROM laptimes AS l2<br />
+ WHERE l1.player_id = l2.player_id<br />
+ ORDER BY laptime ASC<br />
+ LIMIT 3<br />
+)<br />
+ORDER BY player_id ASC, laptime ASC;<br />
+[&#47;code]</p>

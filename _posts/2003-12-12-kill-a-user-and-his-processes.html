@@ -1,0 +1,37 @@
+---
+layout: post
+status: publish
+published: true
+title: Kill a user and his processes
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 76
+wordpress_url: http://www.timvw.be/kill-a-user-and-his-processes/
+date: '2003-12-12 00:37:06 +0100'
+date_gmt: '2003-12-11 22:37:06 +0100'
+categories: []
+tags:
+- Bash
+comments: []
+---
+<p>[code lang="bash"]<br />
+#!&#47;bin&#47;sh<br />
+#<br />
+# Author: Tim Van Wassenhove<br />
+# Update: 12-12-2003 13:15<br />
+#<br />
+# This script kills all processes that are owned by a given user.<br />
+#</p>
+<p>if [ -n "1" ]<br />
+then<br />
+        ps -ef | grep $1 | grep -v grep | awk &lsquo;{ print }&rsquo; | xargs kill -9<br />
+else<br />
+        echo "Usage: killuser.sh username"<br />
+fi<br />
+[&#47;code]</p>

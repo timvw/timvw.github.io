@@ -1,0 +1,106 @@
+---
+layout: post
+status: publish
+published: true
+title: 'Silverlight: leveraging attached properties to handle key events'
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1457
+wordpress_url: http://www.timvw.be/?p=1457
+date: '2009-10-17 23:21:18 +0200'
+date_gmt: '2009-10-17 22:21:18 +0200'
+categories: []
+tags:
+- C#
+- Silverlight
+comments:
+- id: 348
+  author: guest
+  author_email: ''
+  author_url: ''
+  date: '2009-11-22 15:13:20 +0100'
+  date_gmt: '2009-11-22 14:13:20 +0100'
+  content: You don't have to unsubscribe from the events. The reference to your attached
+    behavior is held by your control (and it's absolutely acceptable, since you want
+    your behavior to work as long as control is accesible by the user). When you remove
+    the control so that it can be GCed, the attached behavior will be GCed as well.
+---
+<p>I strongly believe that input handling is a responsability that belongs to the View. At first i simply added the following in the code-behind of my GameView:<&#47;p></p>
+<p>[code lang="csharp"]protected override void OnKeyDown(KeyEventArgs e)<br />
+{<br />
+ base.OnKeyDown(e);</p>
+<p> if (e.Key == Key.Left) Model.MovePlayerLeft();<br />
+ ...<br />
+}[&#47;code]</p>
+<p>But i wanted to play with the cool kids so i exposed ICommand properties on my ViewModel instead and rewrote the code like this:<&#47;p></p>
+<p>[code lang="csharp"]protected override void OnKeyDown(KeyEventArgs e)<br />
+{<br />
+ base.OnKeyDown(e);</p>
+<p> if (e.Key == Key.Left) Model.PlayerLeft.Execute(null);<br />
+ ...<br />
+[&#47;code]</p>
+<p>Offcourse, designers should not have to write code at all, thus i searched for a different solution. Because there isn't a behavior that allows me to differentiate the command based on the actual key being pressed i wrote my own KeyEvents class which allows the designer to map a key to a command. Here is an example:<&#47;p></p>
+<p>[code lang="xml"><grid x:Name="LayoutRoot"]<br />
+ <inf:KeyEvents.Down><br />
+  <inf:KeyCommand Key="Right" CommandName="PlayerRight"  &#47;><br />
+  <inf:KeyCommand Key="Left" CommandName="PlayerLeft" &#47;><br />
+  <inf:KeyCommand Key="Up" CommandName="PlayerUp" &#47;><br />
+  <inf:KeyCommand Key="Down" CommandName="PlayerDown" &#47;><br />
+ <&#47;inf:KeyEvents.Down><br />
+ ...<br />
+<&#47;grid>[&#47;code]</p>
+<p>The down property is nothing more than an attached property:<&#47;p></p>
+<p>[code lang="csharp"]public static readonly DependencyProperty DownProperty =<br />
+ DependencyProperty.RegisterAttached("Down", typeof(List<keyCommand>), typeof(KeyEvents), new PropertyMetadata(null, OnSetDownCallback));<br />
+[&#47;code]</p>
+<p>A KeyCommand is a simple pair of a Key and a Command name:<&#47;p></p>
+<p>[code lang="csharp"]public class KeyCommand<br />
+{<br />
+ public Key Key { get; set; }<br />
+ public string CommandName { get; set; }<br />
+}[&#47;code]</p>
+<p>The GetDown method (for the attached Down property) will instantiate a KeyBehavior class which hooks up to the element's KeyDown and KeyUp events and uses a bit of reflection to find the commands...<&#47;p></p>
+<p>[code lang="csharp"]public class KeyBehavior<br />
+{<br />
+ public KeyBehavior(FrameworkElement frameworkElement)<br />
+ {<br />
+  FrameworkElement = frameworkElement;<br />
+  DownKeyCommands = new List<keyCommand>();<br />
+  UpKeyCommands = new List<keyCommand>();</p>
+<p>  frameworkElement.KeyDown += frameworkElement_KeyDown;<br />
+  frameworkElement.KeyUp += frameworkElement_KeyUp;<br />
+ }</p>
+<p> public FrameworkElement FrameworkElement { get; set; }<br />
+ public IList<keyCommand> DownKeyCommands { get; set; }<br />
+ public IList<keyCommand> UpKeyCommands { get; set; }</p>
+<p> void frameworkElement_KeyUp(object sender, KeyEventArgs e)<br />
+ {<br />
+  ExecuteCommandsForKey(e.Key, UpKeyCommands);<br />
+ }</p>
+<p> void frameworkElement_KeyDown(object sender, KeyEventArgs e)<br />
+ {<br />
+  ExecuteCommandsForKey(e.Key, DownKeyCommands);<br />
+ }</p>
+<p> void ExecuteCommandsForKey(Key key, IEnumerable<keyCommand> commands)<br />
+ {<br />
+  var commandNamesForKey = commands.Where(p => p.Key == key).Select(p => p.CommandName);<br />
+  var viewModel = FrameworkElement.DataContext;<br />
+  foreach (var command in commandNamesForKey) GetCommandAndExecuteIt(viewModel, command);<br />
+ }</p>
+<p> void GetCommandAndExecuteIt(object model, string name)<br />
+ {<br />
+  var command = GetCommand(model, name);<br />
+  command.Execute(null);<br />
+ }</p>
+<p> ICommand GetCommand(object model, string name)<br />
+ {<br />
+  return (ICommand)model.GetType().GetProperty(name).GetValue(model, null);<br />
+ }<br />
+}[&#47;code]</p>
+<p>The only thing that is missing is a way to unsubscribe from the events (and so you will end up with memory leaks). WeakReferences may come of use but i'll leave that as an exercise for the reader. Many thanks go to the <a href="http:&#47;&#47;wpfdisciples.wordpress.com&#47;">WPF Disciples<&#47;a> because they inspired me to come up with this attached properties magic.<&#47;p></p>

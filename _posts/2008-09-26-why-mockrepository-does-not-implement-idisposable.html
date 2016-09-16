@@ -1,0 +1,57 @@
+---
+layout: post
+status: publish
+published: true
+title: Why MockRepository does not implement IDisposable
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 622
+wordpress_url: http://www.timvw.be/?p=622
+date: '2008-09-26 17:31:35 +0200'
+date_gmt: '2008-09-26 15:31:35 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Earlier this week i was experimenting with <a href="http:&#47;&#47;ayende.com&#47;projects&#47;rhino-mocks.aspx">Rhino Mocks<&#47;a> and i was wondering why the MockRepository does not implement <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.idisposable.aspx">IDisposable<&#47;a> unlike most other mocking frameworks for .NET<&#47;a>. After a bit of searching i found out that (<a href="http:&#47;&#47;groups.google.com&#47;group&#47;RhinoMocks&#47;browse_thread&#47;thread&#47;c1a89f58d512d03e&#47;48ca85746276c97b?lnk=gst&q=idisposable+mockrepository&pli=1">here<&#47;a>) originally the MockRepository did implement the interface, but that the implementation was removed because it is can be painful (hiding the original exception) when unexpected exceptions are thrown.<&#47;p></p>
+<p>I really like the API. Here is a simple example and notice that i did not have to provide the method name (as in the string "GetTime") for the excepted calls.:<&#47;p></p>
+<p>[code lang="csharp"][TestClass]<br />
+public class WhenTestingApplicabilityOfContract<br />
+{<br />
+ private MockRepository repository;</p>
+<p> [TestInitialize]<br />
+ public void BeforeEachMethod()<br />
+ {<br />
+  this.repository = new MockRepository();<br />
+ }</p>
+<p> [TestCleanup]<br />
+ public void AfterEachMethod()<br />
+ {<br />
+  this.repository.VerifyAll();<br />
+ }</p>
+<p> [TestMethod]<br />
+ public void ShouldReturnTrueWhenTimeInPeriodOfContract()<br />
+ {<br />
+  ITimeProvider provider = this.repository.StrictMock<itimeProvider>();</p>
+<p>  using(this.repository.Record())<br />
+  {<br />
+   Expect.Call(provider.GetTime()).Return(new DateTime(2007, 01, 01));<br />
+   Expect.Call(provider.GetTime()).Return(new DateTime(2008, 01, 01));<br />
+   Expect.Call(provider.GetTime()).Return(new DateTime(2009, 01, 01));<br />
+  }</p>
+<p>  using(this.repository.Playback())<br />
+  {<br />
+   Contract contract = new Contract(provider, new DateTime(2008, 01, 01), new DateTime(2008, 12, 31));</p>
+<p>   Assert.IsFalse(contract.IsApplicable(), "not applicablein 2007");<br />
+   Assert.IsTrue(contract.IsApplicable(), "applicable in 2008");<br />
+   Assert.IsFalse(contract.IsApplicable(), "not applicable in 2009");<br />
+  }<br />
+ }<br />
+}[&#47;code]</p>

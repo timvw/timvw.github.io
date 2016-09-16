@@ -1,0 +1,72 @@
+---
+layout: post
+status: publish
+published: true
+title: Getting started with Moq
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 872
+wordpress_url: http://www.timvw.be/?p=872
+date: '2009-03-21 15:04:18 +0100'
+date_gmt: '2009-03-21 14:04:18 +0100'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>In this article I will demonstrate the Moq API by means of a simple application that allows the user to manage a quote.<&#47;p></p>
+<p><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;QuoteOfTheDay-01.jpg" alt="screenshot of quote manager displaying opening screen."&#47;><br />
+<br&#47;><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;QuoteOfTheDay-02.jpg" alt="screenshot of quote manager displaying edit screen."&#47;></p>
+<p>In order to prevent that we have to rewrite our application when we move to a different graphical environment such as Web Forms, Silverlight or WPF I have decided to apply the <a href="http:&#47;&#47;xunitpatterns.com&#47;Humble Object.html">Humble Object<&#47;a> pattern in the design. The implementation of the application has been based on the <a href="http:&#47;&#47;martinfowler.com&#47;eaaDev&#47;PassiveScreen.html">Passive View pattern<&#47;a>.<&#47;p></p>
+<p>First we describe what should happen when the user launches the application:<&#47;p></p>
+<ul>
+<li>The quote should be displayed<&#47;li>
+<li>The Edit button should be visible<&#47;li>
+<li>The OK button should be invisible<&#47;li>
+<li>The Cancel button should be invisible<&#47;li>
+<li>It should not be possible to edit the quote<&#47;li><br />
+<&#47;ul></p>
+<p>Now we translate these requirements in <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;Code-01.txt">code<&#47;a>. Because it is too expensive to test with actual Windows resources I have decided to use a mock object that mimics the actual resource. This is done in the Given method which arranges the context in which we want to verify the behavior:<&#47;p></p>
+<p>[code lang="csharp"]this.quoteFormViewMock = new Mock<iquoteFormView>();<br />
+&#47;&#47; The mimicked view object is available via the Object property<br />
+this.sut = new QuoteFormPresenter(this.quoteFormViewMock.Object);[&#47;code]</p>
+<p>The When method is used to invoke the behavior that we want to verify. In the situation where the user launches the application this means raising the Load event:<&#47;p></p>
+<p>[code lang="csharp"]this.quoteFormViewMock.Raise(view => view.Load += null, null, EventArgs.Empty);[&#47;code]</p>
+<p>We can verify that a certain method has been called as following:<&#47;p></p>
+<p>[code lang="csharp"]this.quoteFormViewMock.Verify(view => view.MakeEditButtonVisible(true));[&#47;code]</p>
+<p>In situations where we don&rsquo;t have the exact parameters for the method that should be invoked we can use the <a href="http:&#47;&#47;api.moq.me&#47;html&#47;FBE0FFA5.htm">It<&#47;a> class to describe those parameters:<&#47;p></p>
+<p>[code lang="csharp"]this.quoteFormViewMock.Verify(view => view.DisplayQuote(It.IsAny<string>()));[&#47;code]</p>
+<p>We repeat this process of defining and implementing the requirements for the other interactions we want to describe. We end up with a set of requirements that looks like this:<&#47;p></p>
+<p><br&#47;><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;QuoteOfTheDay-03.jpg" alt="screenshot of test manager" &#47;></p>
+<p>In case the user clicked the Cancel button we want to verify that the updated quote is not displayed:<&#47;p></p>
+<p>[code lang="csharp"]this.quoteFormViewMock.Verify(view => view.DisplayQuote(It.IsAny<string>()), Times.Never());[&#47;code]</p>
+<p>In case the user clicked the OK button we have to ensure a context where an updated quote is available. This is achieved by adding the following in our Given method:<&#47;p></p>
+<p>[code lang="csharp"]this.quoteFormViewMock<br />
+  .Setup(view => view.UpdatedQuote)<br />
+  .Returns(this.updatedQuote);[&#47;code]</p>
+<p>Now we can verify that the updated quote is displayed:<&#47;p></p>
+<p>[code lang="csharp"]this.quoteFormViewMock.Verify(view => view.DisplayQuote(this.updatedQuote));[&#47;code]</p>
+<p>Virtually every application interacts with a database and the same is true for our application. Just like we abstracted our view, we decide to abstract our quote resource too. In case the user clicked the OK button we want to verify that the resource was instructed to update the quote.<&#47;p></p>
+<p>[code lang="csharp"]var quote = this.quoteFormViewMock.Object.UpdatedQuote;<br />
+this.quoteResourceMock.Verify(resource => resource.Update(quote));[&#47;code]</p>
+<p>In case the quote resource fails we would like to display an error message. To achieve this we create a new test that establishes a context where the quote resource throws an exception when it is asked to update a quote as following:<&#47;p></p>
+<p>[code lang="csharp"]base.Given();<br />
+base.quoteResourceMock<br />
+  .Setup(resource => resource.Update(It.IsAny<string>()))<br />
+  .Throws(new ApplicationException("Resource is unavailable."));[&#47;code]</p>
+<p>Sometimes we want to determine what should happen based on the parameters that are provided. In that case we can provide the Returns function a delegate:<&#47;p></p>
+<p>[code lang="csharp"]base.quoteResourceMock<br />
+  .Setup(resource => resource.Update(It.IsAny<string>()))<br />
+  .Returns<string>(quote =><br />
+  {<br />
+    if (string.IsNullOrEmpty(quote)) throw new ApplicationException();<br />
+    return quote.Replace("a", "b");<br />
+  });[&#47;code]</p>
+<p>I think that this covers most typical usage scenarios. Feel free to download the code: <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;QuoteManager.zip">QuoteManager.zip<&#47;a>.<&#47;p></p>

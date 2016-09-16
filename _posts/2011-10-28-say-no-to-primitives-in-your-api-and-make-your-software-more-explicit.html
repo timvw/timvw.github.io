@@ -1,0 +1,72 @@
+---
+layout: post
+status: publish
+published: true
+title: Say no to primitives in your API.. and make your software more explicit
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2245
+wordpress_url: http://www.timvw.be/?p=2245
+date: '2011-10-28 10:51:52 +0200'
+date_gmt: '2011-10-28 09:51:52 +0200'
+categories:
+- Uncategorized
+tags: []
+comments:
+- id: 21201
+  author: Josh
+  author_email: joshua@codecisions.com
+  author_url: http://www.codecisions.com
+  date: '2011-10-28 15:29:20 +0200'
+  date_gmt: '2011-10-28 14:29:20 +0200'
+  content: While I can agree that using primitives can open potential problems, I'm
+    not sure about passing each value as a class. Perhaps if you're going to create
+    a Message class, you could add properties for Author, Topic, etc., (they could
+    still be strings) and just pass the one Message parameter to the Broadcast() method.
+    That would be my opinion based on your example. Do you have a reason for that
+    being less desirable? Interested to hear your opinion. Thanks for posting.
+- id: 21625
+  author: timvw
+  author_email: tim@timvw.be
+  author_url: http://timvw.myopenid.com/
+  date: '2011-11-04 08:44:29 +0100'
+  date_gmt: '2011-11-04 07:44:29 +0100'
+  content: "I am not opposed to having methods that have a method specific input and
+    output type, eg.\r\n\r\n[code lang=\"csharp\"]\r\nDoXResult DoX(DoXInput) { ...
+    }\r\n[&#47;code]\r\n\r\nIn my experience the concepts of Author and Topic quickly
+    start their own life, and then it is a lot easier to factor those changes into
+    an Author type than figuring out where a string should be interpreted as an Author."
+---
+<p>A while ago I wrote some code like this:<&#47;p></p>
+<p>[code lang="csharp"]<br />
+public interface ICanBroadcast<br />
+{<br />
+ public void Broadcast(string message) { ... }<br />
+ public void Broadcast(string message, string author) { ... }<br />
+}<br />
+[&#47;code]</p>
+<p>A bit later the requirements changed and from now on it was required to specify the topic:<&#47;p></p>
+<p>[code lang="csharp"]<br />
+public interface ICanBroadcast<br />
+{<br />
+ public void Broadcast(string message, string topic) { ... }<br />
+ public void Broadcast(string message, string author, string topic) { ... }<br />
+}<br />
+[&#47;code]</p>
+<p>In case you were using Broadcast(string message) the compiler would rightfully inform you that no such method exists. In case you were using Broadcast(string message, string author) the compiler does not catch the error and incorrectly uses the author as topic. I can only hope that you have a suite of tests that makes you notice that something is wrong when you upgrade to my latest release.
+<p&#47;>
+<p>Let's make the difference between an Author and a Topic more explicit (to our API consumers and the compiler) by creating explicit types to represent the concepts:<&#47;p></p>
+<p>[code lang="csharp"]<br />
+public interface ICanBroadcast<br />
+{<br />
+ public void Broadcast(Message message, Topic topic) { ... }<br />
+ public void Broadcast(Message message, Author author, Topic topic) { ... }<br />
+}<br />
+[&#47;code]</p>
+<p>The joy of using a typed language ;)<&#47;p></p>

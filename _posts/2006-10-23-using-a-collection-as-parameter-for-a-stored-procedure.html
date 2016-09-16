@@ -1,0 +1,151 @@
+---
+layout: post
+status: publish
+published: true
+title: Using a collection as parameter for a stored procedure
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 124
+wordpress_url: http://www.timvw.be/using-a-collection-as-parameter-for-a-stored-procedure/
+date: '2006-10-23 21:33:00 +0200'
+date_gmt: '2006-10-23 19:33:00 +0200'
+categories: []
+tags:
+- SQL
+- C#
+comments:
+- id: 63
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2007-04-08 12:43:37 +0200'
+  date_gmt: '2007-04-08 10:43:37 +0200'
+  content: |-
+    With PHP it's as easy as:
+
+    [code lang="php"]$connection = oci_connect('u', 'p', 'ORCL');
+
+    $query = "BEGIN TIMVW.TESTPACKAGE.GET_TESTS(:P_IDS, :P_CURSOR); END;";
+    $handler = oci_parse($connection, $query);
+
+    $ids = array(1, 2, 3);
+    $cursor = oci_new_cursor($connection);
+
+    oci_bind_array_by_name($handler, ":P_IDS", $ids, count($ids), -1, SQLT_NUM);
+    oci_bind_by_name($handler, ":P_CURSOR", $cursor, -1, OCI_B_CURSOR);
+
+    oci_execute($handler);
+    oci_execute($cursor);
+
+    while ($row = oci_fetch_assoc($cursor))
+    {
+     print $row['TEST_ID'] . "\r\n";
+    }
+
+    oci_close($connection);
+    ?>[&#47;code]
+- id: 64
+  author: C.Hariharasudhan
+  author_email: hariharasudhan_c@apollohealthstreet.com
+  author_url: http://hspharic.blogspot.com
+  date: '2008-10-15 15:52:26 +0200'
+  date_gmt: '2008-10-15 13:52:26 +0200'
+  content: |-
+    Hi,
+    Did you use ODP.Net for Oracle, for achieving this concept. Because System.Data.OracleClient (.Net Native) doesnt have OracleCollectionType class. Please let me know the details. Thanks.
+- id: 65
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2008-10-16 08:01:04 +0200'
+  date_gmt: '2008-10-16 06:01:04 +0200'
+  content: Yes, i have used ODP.NET for the implementation.
+- id: 66
+  author: How to send an array as a parameter to Oracle using Microsoft's Da | keyongtech
+  author_email: ''
+  author_url: http://www.keyongtech.com/680551-how-to-send-an-array
+  date: '2009-01-18 18:02:06 +0100'
+  date_gmt: '2009-01-18 17:02:06 +0100'
+  content: '[...] Da     Sysan,  I believe that this willd o what you want with MS''s
+    Oracle data provider:  http:&#47;&#47;www.timvw.be&#47;using-a-collecti...red-procedure&#47;  As
+    for doing it in Java, you might get a response here, but you might want to repost
+    this question [...]'
+- id: 7548
+  author: RS
+  author_email: rsaval@pancanal.com
+  author_url: ''
+  date: '2011-03-29 18:32:09 +0200'
+  date_gmt: '2011-03-29 17:32:09 +0200'
+  content: "Sorry, im a newbie in Oracle with .Net programming.\r\n\r\nIf my type
+    was created like this:\r\nCREATE OR REPLACE TYPE TableNumberType as table of number;\r\n\r\n&#47;\r\n\r\nAnd
+    my procedure is like this:\r\n\r\nCREATE OR REPLACE PROCEDURE Z_TEST(pn_data TableNumberType)
+    IS\r\n\r\nBEGIN\r\n\r\n    FORALL i IN 1 .. pn_data.COUNT\r\n\r\n    INSERT INTO
+    Z_TEST_TABLE VALUES (pn_data(i));\r\n\r\nEND;\r\n\r\n&#47;\r\n\r\nI must still
+    create a Package to implement this?    I am getting \"wrong number or types of
+    args\" when i use:\r\n\r\nOracleParameter prm = new OracleParameter(\"parname\",
+    \ OracleDbType.Decimal);\r\n\r\nand \r\n\r\n\"invalid parameter binding\" when
+    i use:\r\n\r\nOracleParameter prm = new OracleParameter(\"parname\",  OracleDbType.Array);\r\n\r\nI
+    am losing my mind on this one"
+---
+<p>Sometimes you want to select rows where a value is in a specific collection. Here's an example that show how you can select all the rows in the TEST table with an id of 1, 2 or 3. First we create an SQL type to contain a list of numbers:<&#47;p><br />
+[code lang="sql"]CREATE TYPE LIST_NUMBER AS TABLE OF NUMBER(10);<br />
+&#47;[&#47;code]</p>
+<p>Next thing to do is add a custom type and function header to the package specification:<&#47;p><br />
+[code lang="sql"]PACKAGE TIMVW.TESTPACKAGE AS</p>
+<p>TYPE CRSR_REF IS REF CURSOR;<br />
+TYPE ARR_IDS IS TABLE OF TEST.TEST_ID%Type INDEX BY BINARY_INTEGER;</p>
+<p>PROCEDURE GET_TESTS<br />
+(<br />
+ P_IDS        IN        ARR_IDS,<br />
+ P_CURSOR  OUT     CRSR_REF<br />
+);<br />
+END;[&#47;code]</p>
+<p>And offcourse we have to implement the function in the body:<&#47;p><br />
+[code lang="sql"]PROCEDURE GET_TESTS<br />
+(<br />
+ P_IDS       IN        ARR_IDS,<br />
+ P_CURSOR OUT     CRSR_REF<br />
+)</p>
+<p>AS</p>
+<p>V_IDS LIST_NUMBER := LIST_NUMBER();</p>
+<p>BEGIN</p>
+<p>V_IDS.EXTEND(P_IDS.COUNT);<br />
+FOR i IN P_IDS.FIRST .. P_IDS.LAST LOOP<br />
+  V_IDS(i) := P_IDS(i);<br />
+END LOOP;</p>
+<p>OPEN       P_CURSOR FOR<br />
+SELECT<br />
+              TEST.TEST_ID,<br />
+              TEST.NAME,<br />
+              TEST.TYPE_CODE<br />
+FROM<br />
+              TEST<br />
+WHERE<br />
+              TEST_ID IN (SELECT * FROM TABLE(V_IDS))<br />
+ORDER BY<br />
+              TEST.TEST_ID ASC;<br />
+END;[&#47;code]</p>
+<p>Now that we have done all this we can consume the function from our client code:<&#47;p><br />
+[code lang="csharp"]using (OracleConnection conn = new OracleConnection("User Id=u;password=p;Data Source=ORCL"))<br />
+{<br />
+ conn.Open();</p>
+<p> OracleCommand command = conn.CreateCommand();<br />
+ command.CommandType = CommandType.StoredProcedure;</p>
+<p> command.CommandText = "TIMVW.TESTPACKAGE.GET_TESTS";<br />
+ command.Parameters.Add("P_IDS", OracleDbType.Int32, new int[] { 1, 2, 3 }, ParameterDirection.Input);<br />
+ command.Parameters["P_IDS"].CollectionType = OracleCollectionType.PLSQLAssociativeArray;<br />
+ command.Parameters.Add("P_CURSOR", OracleDbType.RefCursor, ParameterDirection.Output);</p>
+<p> OracleDataReader reader = command.ExecuteReader();<br />
+ while (reader.Read())<br />
+ {<br />
+  Console.WriteLine("test id: " + reader.GetDecimal(0));<br />
+ }</p>
+<p> Console.Write("{0}Press any key to continue...", Environment.NewLine);<br />
+ Console.ReadKey();<br />
+}[&#47;code]</p>

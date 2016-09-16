@@ -1,0 +1,59 @@
+---
+layout: post
+status: publish
+published: true
+title: 'Separation of concerns: Behavior = Trigger + TriggerAction'
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1482
+wordpress_url: http://www.timvw.be/?p=1482
+date: '2009-10-19 20:40:43 +0200'
+date_gmt: '2009-10-19 19:40:43 +0200'
+categories: []
+tags:
+- C#
+- Silverlight
+comments: []
+---
+<p>If you look at my <a href="http:&#47;&#47;www.timvw.be&#47;true-keybehavior-with-system-windows-interactivity-behavior&#47;">KeyBehavior<&#47;a> you notice that it is doing two things: register for events so that the behavior can be triggered and handle the actual command invocation. In order to enhance reuse we can refactor this KeyBehavior in a KeyTrigger and an InvokeCommandAction. Well, we're not going to do that, because they exist already in the silverlight sdk ;)<&#47;p></p>
+<p>A shortcoming of the InvokeCommandAction is that it can only invoke commands on the FrameworkElement itself, thus we write a custom implementation that finds commands on the DataContext instead:<&#47;p></p>
+<p>[code lang="csharp"]public class InvokeCommandAction : TriggerAction<frameworkElement><br />
+{<br />
+ public string CommandName { get; set; }</p>
+<p> protected override void Invoke(object parameter)<br />
+ {<br />
+  var viewModel = AssociatedObject.DataContext;<br />
+  GetCommandAndExecuteIt(viewModel, CommandName);<br />
+ }</p>
+<p> void GetCommandAndExecuteIt(object viewModel, string commandName)<br />
+ {<br />
+  var command = viewModel.GetPropertyValue<icommand>(commandName);<br />
+  if(command.CanExecute(null)) command.Execute(null);<br />
+ }<br />
+}[&#47;code]</p>
+<p>And now we can drag this action on our design surface in Blend and select a trigger that goes with it:<&#47;p></p>
+<p><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;InvokeCommandAction_ChooseTrigger.png" alt="choosing a keypress trigger in blend" &#47;></p>
+<p>All we have to do is choose the Key and Command to invoke:<&#47;p></p>
+<p><img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;InvokeCommandAction_SetProperties.png" alt="setting properties for action in blend" &#47;></p>
+<p>In XAML this looks like:<&#47;p></p>
+<p>[code lang="xml"]<interactivity:Interaction.Triggers><br />
+ <ii:KeyTrigger Key="Right"><br />
+  <inf:InvokeCommandAction CommandName="PlayerRight"&#47;><br />
+ <&#47;ii:KeyTrigger><br />
+ <ii:KeyTrigger Key="Left"><br />
+  <inf:InvokeCommandAction CommandName="PlayerLeft"&#47;><br />
+ <&#47;ii:KeyTrigger><br />
+ <ii:KeyTrigger Key="Up"><br />
+  <inf:InvokeCommandAction CommandName="PlayerUp"&#47;><br />
+ <&#47;ii:KeyTrigger><br />
+ <ii:KeyTrigger Key="Down"><br />
+  <inf:InvokeCommandAction CommandName="PlayerDown"&#47;><br />
+ <&#47;ii:KeyTrigger><br />
+<&#47;interactivity:Interaction.Triggers>[&#47;code]</p>
+<p>I guess this ends our exploration of the behavior features in Silverlight.<&#47;p></p>

@@ -1,0 +1,45 @@
+---
+layout: post
+status: publish
+published: true
+title: Refactoring ApplicationEnvironment
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 584
+wordpress_url: http://www.timvw.be/?p=584
+date: '2008-09-23 16:39:03 +0200'
+date_gmt: '2008-09-23 14:39:03 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Yesterday i blogged about an <a href="http:&#47;&#47;www.timvw.be&#47;presenting-applicationenvironment&#47;">ApplicationEnvironment<&#47;a> which had a dependency on the application configuration file. With my <a href="http:&#47;&#47;www.timvw.be&#47;presenting-configurationfilesession&#47;">ConfigurationFileSession<&#47;a> i was able to test the implementation despite that dependency. Today i modified the design a little so that i do not require the ConfigurationFileSession hack anymore.<&#47;p></p>
+<p>First i added an internal constructor as following:<&#47;p></p>
+<p>[code lang="csharp"]internal protected ApplicationEnvironment(DateTime instanceEpoch, DateTime applicationEpoch)<br />
+{<br />
+ this.instanceEpoch = instanceEpoch;<br />
+ this.applicationEpoch = applicationEpoch;<br />
+}[&#47;code]</p>
+<p>Then i made the internals visible to the test project:<&#47;p><br />
+[code lang="csharp"]<br />
+[assembly: InternalsVisibleTo("Be.Timvw.Framework.Domain.Tests")]<br />
+[&#47;code]</p>
+<p>And finally i added a base class that takes care of the initialization and clean up as following:<&#47;p><br />
+[code lang="csharp"][TestInitialize]<br />
+public void TestInitialize()<br />
+{<br />
+ this.original = ApplicationEnvironment.Instance;<br />
+ ApplicationEnvironment.Instance = new ApplicationEnvironment(DateTime.UtcNow, new DateTime(1998, 01, 01));<br />
+}</p>
+<p>[TestCleanup]<br />
+public void TestCleanUp()<br />
+{<br />
+ ApplicationEnvironment.Instance = this.original;<br />
+}[&#47;code]</p>

@@ -1,0 +1,34 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting PathBuilder
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1493
+wordpress_url: http://www.timvw.be/?p=1493
+date: '2009-10-29 09:19:40 +0100'
+date_gmt: '2009-10-29 08:19:40 +0100'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Currently it is annoying to build a path with <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;fyy7a5kt.aspx">Path.Combine<&#47;a>:<&#47;p></p>
+<p>[code lang="csharp"]var home1 = Path.Combine(Path.Combine(Path.Combine("C", "Users"), "timvw"), "My Documents");[&#47;code]</p>
+<p>And here is how it can be:<&#47;p></p>
+<p>[code lang="csharp"]var home2 = PathBuilder.Combine("C", "Users", "timvw", "My Documents");[&#47;code]</p>
+<p>The implementation is pretty simple:<&#47;p></p>
+<p>[code lang="csharp"]public static class PathBuilder<br />
+{<br />
+ public static string Combine(params string[] parts)<br />
+ {<br />
+  return parts.Aggregate((l, r) => Path.Combine(l, r));<br />
+ }<br />
+}[&#47;code]</p>

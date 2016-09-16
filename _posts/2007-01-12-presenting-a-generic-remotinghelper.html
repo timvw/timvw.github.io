@@ -1,0 +1,66 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting a Generic RemotingHelper
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 145
+wordpress_url: http://www.timvw.be/presenting-a-generic-remotinghelper/
+date: '2007-01-12 01:29:26 +0100'
+date_gmt: '2007-01-11 23:29:26 +0100'
+categories: []
+tags:
+- C#
+comments:
+- id: 111
+  author: Kenn Minear
+  author_email: kminear@freedomprod.com
+  author_url: ''
+  date: '2007-02-20 09:01:50 +0100'
+  date_gmt: '2007-02-20 07:01:50 +0100'
+  content: |-
+    Tim,
+
+    Thank you so much for response...
+
+    I really appreciated it... It is good to know that individuals look at what is going on, and care about others.
+
+    I just wanted to say thank you.
+
+    Kenn
+---
+<p>Last couple of months i've been experimenting with <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;kwdt6w2k.aspx">Remoting<&#47;a>. Here is a class that helps a client to acquire proxies to an endpoint served by the requested well-known object:<&#47;p><br />
+[code lang="csharp"]public static class RemotingHelper<br />
+{<br />
+ static RemotingHelper()<br />
+ {<br />
+  RemotingConfiguration.Configure(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, false);<br />
+ }</p>
+<p> private static object GetService(string fullName)<br />
+ {<br />
+  WellKnownClientTypeEntry[] wellKnownClientTypeEntries = RemotingConfiguration.GetRegisteredWellKnownClientTypes();<br />
+  foreach (WellKnownClientTypeEntry welknownClientTypeEntry in wellKnownClientTypeEntries)<br />
+  {<br />
+   if (welknownClientTypeEntry.ObjectType.FullName == fullName)<br />
+   {<br />
+    return Activator.GetObject(welknownClientTypeEntry.ObjectType, welknownClientTypeEntry.ObjectUrl);<br />
+   }<br />
+  }</p>
+<p>  throw new ArgumentException(fullName + " is not a wellKnownClientType.");<br />
+ }</p>
+<p> public static T GetService<t>()<br />
+ {<br />
+   return (T) RemotingHelper.GetService(typeof(T).FullName);<br />
+ }<br />
+}[&#47;code]</p>
+<p>Getting a proxy is as easy as (Presuming that you've configured the system.runtime.remoting in your App.config):<&#47;p><br />
+[code lang="csharp"]<br />
+IContract contract = RemotingHelper.GetService<icontract>();<br />
+[&#47;code]</p>

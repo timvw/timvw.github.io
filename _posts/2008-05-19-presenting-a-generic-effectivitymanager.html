@@ -1,0 +1,38 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting a generic EffectivityManager
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 227
+wordpress_url: http://www.timvw.be/?p=227
+date: '2008-05-19 19:09:33 +0200'
+date_gmt: '2008-05-19 17:09:33 +0200'
+categories: []
+tags:
+- Patterns
+comments:
+- id: 276
+  author: Tim Van Wassenhove &raquo; Archive &raquo; Refactoring EffectivityManager
+  author_email: ''
+  author_url: http://www.timvw.be/refactoring-effectivitymanager/
+  date: '2008-09-23 17:33:26 +0200'
+  date_gmt: '2008-09-23 15:33:26 +0200'
+  content: '[...] while ago i presented the EffectivityManager. Having used this class
+    for a while i have decided to rename it to Temporal<T>. The [...]'
+---
+<p>I've already presented a <a href="http:&#47;&#47;www.timvw.be&#47;presenting-a-generic-effectivity&#47;">Generic Effectivity<&#47;a>. Offcourse, managing all these effectivities (versions of data) can be handled in a generic way too. A bit of experience mixed with <a href="http:&#47;&#47;martinfowler.com&#47;ap2&#47;timeNarrative.html">Patterns for things that change with time<&#47;a> allowed me to come up with the following interface:<&#47;p><br />
+[code lang="csharp"]public interface IEffectivityManager<t> : IList<ieffectivity<t>><br />
+{<br />
+ IEffectivity<t> Add(T t, DateTime begin);<br />
+ IEffectivity<t> GetSnapshot(DateTime validityDate);<br />
+ bool TryGetSnapshot(DateTime validityDate, out IEffectivity<t> effectivity);<br />
+}[&#47;code]</p>
+<p>Feel free to download <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;IEffectivityManager.txt">IEffectivityManager.txt<&#47;a>, <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;EffectivityManager.txt">EffectivityManager.txt<&#47;a> and <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;EffectivityManagerTester.txt">EffectivityManagerTester.txt<&#47;a>.<&#47;p></p>

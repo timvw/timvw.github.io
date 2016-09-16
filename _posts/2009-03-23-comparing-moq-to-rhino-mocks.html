@@ -1,0 +1,268 @@
+---
+layout: post
+status: publish
+published: true
+title: Comparing Moq to Rhino Mocks
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 888
+wordpress_url: http://www.timvw.be/?p=888
+date: '2009-03-23 17:51:31 +0100'
+date_gmt: '2009-03-23 16:51:31 +0100'
+categories: []
+tags:
+- C#
+comments:
+- id: 315
+  author: Igor T.
+  author_email: legigor@mail.ru
+  author_url: http://igor.quatrocode.com
+  date: '2009-03-24 17:54:03 +0100'
+  date_gmt: '2009-03-24 16:54:03 +0100'
+  content: What about comparing Moq with a new AAA capable syntax was introduced in
+    the Rhino.Mocks 3.5?
+- id: 316
+  author: David
+  author_email: tchepak@gmail.com
+  author_url: http://davesquared.blogspot.com
+  date: '2009-03-25 03:22:54 +0100'
+  date_gmt: '2009-03-25 02:22:54 +0100'
+  content: |-
+    Hi Tim,
+
+    You might prefer Rhino Mocks' AAA syntax. You don't need to use record&#47;replay then, and it makes stubbing results and creating mocks much easier, (very much like the Moq approach).
+
+    Rhino Mocks also supports the same event raising syntax as Moq.
+
+    Regards,
+    David
+- id: 317
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2009-03-25 09:34:49 +0100'
+  date_gmt: '2009-03-25 08:34:49 +0100'
+  content: As shown in the updated code snippets, the new API is considerable cleaner...
+    But i don't know how i can change a stubbed result in a clean way.
+- id: 318
+  author: David
+  author_email: tchepak@gmail.com
+  author_url: http://davesquared.blogspot.com
+  date: '2009-03-25 12:15:12 +0100'
+  date_gmt: '2009-03-25 11:15:12 +0100'
+  content: |-
+    Here's my attempt at some examples. Haven't compiled or tested them, but they should be close.
+
+    Example of stubbing return values:
+      var productDetailView = MockRepository.GenerateStub();
+      productDetailView
+        .Stub(view => view.GetCategory(Arg.Is.Anything()))
+        .Return(category);
+
+    Example of setting property on stubs:
+      var productDetailView = MockRepository.GenerateStub();
+      productDetailView.CategoryId = 2;  &#47;&#47; Stubs have PropertyBehavior by default, so can use them as normal properties
+
+    Hope this helps. (For the record, I've mainly used Rhino Mocks, but quite like Moq too :)).
+    -- David
+- id: 319
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2009-03-25 12:53:17 +0100'
+  date_gmt: '2009-03-25 11:53:17 +0100'
+  content: |-
+    @David: The inital stubbing is easy.. But changing it later on is something which i can't figure out.
+
+    [code lang="csharp"]productDetailView
+    .Stub(view => GetCategory(0))
+    .Return(null);
+
+    &#47;&#47; When i add productDetailView.BackToRecord it does work.
+    &#47;&#47; But that would mean that i have to mess with the record-replay model :&#47;
+
+    productDetailView
+    .Stub(view => view.GetCategory(0))
+    .Throw(new Exception());[&#47;code]
+- id: 320
+  author: Dew Drop &ndash; March 25, 2009 | Alvin Ashcraft's Morning Dew
+  author_email: ''
+  author_url: http://www.alvinashcraft.com/2009/03/25/dew-drop-march-25-2009/
+  date: '2009-03-25 14:12:45 +0100'
+  date_gmt: '2009-03-25 13:12:45 +0100'
+  content: '[...] Comparing Moq to Rhino Mocks (Tim Van Wassenhove) [...]'
+- id: 321
+  author: David
+  author_email: tchepak@gmail.com
+  author_url: http://davesquared.blogspot.com
+  date: '2009-03-26 00:01:52 +0100'
+  date_gmt: '2009-03-25 23:01:52 +0100'
+  content: |-
+    Hi Tim,
+
+    Is this what you mean?
+
+    [Test]
+    public void Stub_with_multiple_calls() {
+        var productDetailView = MockRepository.GenerateStub();
+        productDetailView.Stub(s => s.GetCategory()).Return(1).Repeat.Once();
+        Assert.That(productDetailView.GetCategory(), Is.EqualTo(1));
+
+        productDetailView.Stub(s => s.GetCategory()).Return(2);
+        Assert.That(productDetailView.GetCategory(), Is.EqualTo(2));
+    }
+
+    I find the repeat stuff a bit confusing and tend to avoid it in favour of simpler tests where possible.
+
+    If you are talking about queuing up multiple results before performing any actions then I don't know how to do that. I know this post is intended as a quick comparison, but if you are interested in following up some of the Rhino Mocks questions the Rhino Mocks Google group is quite good: http:&#47;&#47;groups.google.com&#47;group&#47;RhinoMocks.
+
+    Regards,
+    David
+- id: 322
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2009-03-26 07:31:31 +0100'
+  date_gmt: '2009-03-26 06:31:31 +0100'
+  content: |-
+    @David:
+
+    That is not what i mean. What i mean is the following:
+
+    class BehaviorInAHappyPathContext
+    {
+     virtual void Given() { &#47;&#47; Stub a result }
+    }
+
+    class BehaviorInAOneBadPropertyContext : BehaviorInAHappyPathContext
+    {
+     override void Given()
+     {
+      base.Given();
+
+      &#47;&#47; inject the bad variable
+      &#47;&#47; requires me to Stub a different result for the same method.
+      &#47;&#47; seems impossible without a BackToRecord call.
+     }
+    }[&#47;code]
+- id: 323
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2009-03-26 08:05:19 +0100'
+  date_gmt: '2009-03-26 07:05:19 +0100'
+  content: |-
+    @David:
+
+    For the queing of calls i have found a rather clean solution (<a href="http:&#47;&#47;www.timvw.be&#47;setup-expectation-with-successive-function-calls-using-moq&#47;" rel="nofollow">here<&#47;a>) by using a Queue of callback methods.
+- id: 324
+  author: David
+  author_email: tchepak@gmail.com
+  author_url: http://davesquared.blogspot.com
+  date: '2009-03-27 04:36:48 +0100'
+  date_gmt: '2009-03-27 03:36:48 +0100'
+  content: |-
+    Oh I see. You can use Repeat.Any() to override results stubbed out in the Given() method.
+
+    E.g.:
+
+    [Test]
+    public void Stub_with_multiple_calls()
+    {
+        var productDetailView = MockRepository.GenerateStub();
+        productDetailView.Stub(s => s.GetCategory()).Return(1);
+        productDetailView.Stub(s => s.GetCategory()).Return(2).Repeat.Any();
+        Assert.That(productDetailView.GetCategory(), Is.EqualTo(2));
+    }
+
+
+    That's provided you don't use Repeat.Any() when you initially stubbed the result.
+- id: 325
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2009-03-27 08:19:54 +0100'
+  date_gmt: '2009-03-27 07:19:54 +0100'
+  content: |-
+    @David:
+
+    Ok, that seems to work.
+
+    (I don't care about supporting more than one level of inheritance in a test fixture because i've experienced how it becomes a maintenance nightmare)
+- id: 326
+  author: David
+  author_email: tchepak@gmail.com
+  author_url: http://davesquared.blogspot.com
+  date: '2009-03-27 11:25:18 +0100'
+  date_gmt: '2009-03-27 10:25:18 +0100'
+  content: Great. By the way, I noticed in your previous comment you mentioned using
+    Context&#47;Given() for your tests. I would love to read a post on how you are
+    using that style. :) I've been toying around with different approaches but haven't
+    found one that works for me yet.
+---
+<p>So which mocking framework should we use? Do we fall back on good old <a href="http:&#47;&#47;ayende.com&#47;projects&#47;rhino-mocks.aspx">Rhino Mocks<&#47;a> or do we choose for the new kid on the block <a href="http:&#47;&#47;code.google.com&#47;p&#47;moq&#47;">Moq<&#47;a>?<&#47;p></p>
+<p>From a technical point of view i would dare to say that they will be able to support the same set of features because they're both based on Castle's <a href="http:&#47;&#47;www.castleproject.org&#47;dynamicproxy&#47;index.html">DynamicProxy<&#47;a>. Rhino Mocks has the advantages that it, unlike Moq, supports the mocking of Delegates and can be used in a .Net 2.0 only environment. Whether or not we should care about these differences is a question i will leave unanswered.<&#47;p></p>
+<p>From a user point of view i find the Moq API a bit cleaner because <strike>it frees me from thinking about the record-replay model<&#47;strike> and Rhino Mocks wants me to make assertions on a stub. Apart from that the differences are rather small given for the use-cases i presented in <a href="http:&#47;&#47;www.timvw.be&#47;getting-started-with-moq&#47;">Getting started with Moq<&#47;a>.<&#47;p></p>
+<ul>
+<li>Creating instances:
+<p>[code lang="csharp"]&#47;&#47; Rhino<br />
+var productDetailView = MockRepository.GenerateStub<iproductDetailView>();[&#47;code]</p>
+<p><br&#47;></p>
+<p>[code lang="csharp"]&#47;&#47; Moq<br />
+var productDetailViewMock = new Mock<iproductDetailView>();[&#47;code]</p>
+<p><&#47;li></p>
+<li>Setting up results:
+<p>[code lang="csharp"]&#47;&#47; Rhino Mocks<br />
+productRepository<br />
+  .Stub(repository => repository.GetCategory(0)).IgnoreArguments()<br />
+  .Do((Delegates.Function<icategory, int>)(categoryId => return category;));[&#47;code]</p>
+<p><br&#47;></p>
+<p>[code lang="csharp"]&#47;&#47; Moq<br />
+productRepositoryMock<br />
+  .Setup(repository => repository.GetCategory(It.IsAny<int>()))<br />
+  .Returns<int>(categoryId => return category.Object;});[&#47;code]</p>
+<p><&#47;li></p>
+<li>Consuming the mocked objects:
+<p>[code lang="csharp"]&#47;&#47; Rhino Mocks<br />
+&#47;&#47; Nothing to do[&#47;code]</p>
+<p><br&#47;></p>
+<p>[code lang="csharp"]&#47;&#47; Moq<br />
+&#47;&#47; Nothing to do[&#47;code]</p>
+<p><&#47;li></p>
+<li>Raising events:
+<p>[code lang="csharp"]&#47;&#47; Rhino Mocks<br />
+productDetailView.Raise(view => view.EditClick += null).Raise(sender, EventArgs.Empty);[&#47;code]</p>
+<p><br&#47;></p>
+<p>[code lang="csharp"]&#47;&#47; Moq<br />
+productDetailViewMock.Raise(view => view.EditClick += null, sender, EventArgs.Empty);[&#47;code]</p>
+<p><&#47;li></p>
+<li>Verifying that a method was invoked:
+<p>[code lang="csharp"]&#47;&#47; Rhino Mocks - Odd that i'm asserting on a Stub.<br />
+productRepository.AssertWasCalled(<br />
+  repository => repository.FindCategories(<br />
+    Arg<ispecification<icategory>>.Matches(Is.TypeOf(typeof(All<icategory>)))));[&#47;code]</p>
+<p><br&#47;></p>
+<p>[code lang="csharp"]&#47;&#47; Moq<br />
+productRepositoryMock.Verify(<br />
+  repository => repository.FindCategories(<br />
+    It.Is<ispecification<icategory>>(specification => specification.GetType() == typeof(All<icategory>))));[&#47;code]</p>
+<p><&#47;li></p>
+<li>Override a result
+<p>[code lang="csharp"]&#47;&#47; Rhino Mocks<br />
+productDetailView.BackToRecord();</p>
+<p>productDetailView<br />
+  .Stub(view => view.CategoryId)<br />
+  .Returns(2);[&#47;code]</p>
+<p><br&#47;></p>
+<p>[code lang="csharp"]&#47;&#47; Moq<br />
+productDetailViewMock<br />
+  .Setup(view => view.CategoryId).Returns(2);[&#47;code]</p>
+<p><&#47;li></p>
+<p><&#47;ul></p>
+<p><b>Editted code to take advantage of the new AAA syntax that comes with Rhino Mocks 3.5 If only someone could show me how i can override a Stubbed result...<&#47;b><&#47;p></p>

@@ -1,0 +1,46 @@
+---
+layout: post
+status: publish
+published: true
+title: Building a Nums table (quickly)
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2159
+wordpress_url: http://www.timvw.be/?p=2159
+date: '2011-07-13 09:45:14 +0200'
+date_gmt: '2011-07-13 08:45:14 +0200'
+categories:
+- Uncategorized
+tags:
+- SQL
+- t-sql
+comments: []
+---
+<p>A while ago i presented my approach to generate a nums table <a href="http:&#47;&#47;www.timvw.be&#47;2010&#47;12&#47;11&#47;techniques-learned-in-sqltopia-look-ma-no-loops&#47;">here<&#47;a>. </p>
+<p>[code lang="sql"]<br />
+DECLARE @count INT = 1000;</p>
+<p>WITH<br />
+    [Nums1] AS ( SELECT 1 AS [Value] UNION SELECT 2 AS [Value] )<br />
+  , [Nums2] AS ( SELECT A.* FROM [Nums1] AS A, [Nums1] AS B, [Nums1] AS C)<br />
+  , [Nums3] AS ( SELECT A.* FROM [Nums2] AS A, [Nums2] AS B, [Nums2] AS C)<br />
+  , [Nums4] AS ( SELECT A.* FROM [Nums3] AS A, [Nums3] AS B )<br />
+  , [Numbers] AS ( SELECT TOP(@count) -1 + ROW_NUMBER() OVER(ORDER BY [Value]) AS [Value] FROM[Nums4] )<br />
+SELECT * FROM [Numbers];<br />
+[&#47;code]</p>
+<p>Because we only use this code once to fill the table we don't really care that it is not very fast. Today i discovered there is a way to speed it up in this wonderful book: <a href="http:&#47;&#47;oreilly.com&#47;catalog&#47;9780735626034&#47;">Inside Microsoft&reg; SQL Server&reg; 2008: T-SQL Querying<&#47;a>:</p>
+<p>[code lang="sql"]<br />
+WITH<br />
+    [Nums1] AS ( SELECT 1 AS [Value] UNION SELECT 2 AS [Value] )<br />
+  , [Nums2] AS ( SELECT A.* FROM [Nums1] AS A, [Nums1] AS B, [Nums1] AS C)<br />
+  , [Nums3] AS ( SELECT A.* FROM [Nums2] AS A, [Nums2] AS B, [Nums2] AS C)<br />
+  , [Nums4] AS ( SELECT A.* FROM [Nums3] AS A, [Nums3] AS B )<br />
+  , [Numbers] AS ( SELECT TOP(@count) -1 + ROW_NUMBER() OVER(ORDER BY (SELECT 0)) AS [Value] FROM[Nums4] )<br />
+SELECT * FROM [Numbers];<br />
+[&#47;code]</p>
+<p>Yay for features like ORDER BY (SELECT <Constant>).<&#47;p></p>

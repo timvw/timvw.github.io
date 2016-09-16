@@ -1,0 +1,80 @@
+---
+layout: post
+status: publish
+published: true
+title: ManyToMany relationships with Java Persistence (JSR-220)
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 114
+wordpress_url: http://www.timvw.be/manytomany-relationships-with-java-persistence-jsr-220/
+date: '2006-01-28 02:27:24 +0100'
+date_gmt: '2006-01-28 00:27:24 +0100'
+categories: []
+tags:
+- Hibernate
+comments: []
+---
+<p>The scenario is as following: each table can have many reservations, and each reservation can span many tables. Here is our first trial:<&#47;p><br />
+[code lang="java"]<br />
+&#47;&#47; Table.java<br />
+@ManyToMany(<br />
+  targetEntity=Reservation.class<br />
+)<br />
+public List getReservations() {..}</p>
+<p>&#47;&#47; Reservation.java<br />
+@ManyToMany(<br />
+  targetEntity=Table.class<br />
+)<br />
+public List getTables() {..}<br />
+[&#47;code]</p>
+<p>We end up with linktables tables_reservations and reservations_tables. This is not what we want. It shouldn't be possible to remove a table when there are still reservations related to that table. We change our code so that table becomes the owner of the relationship.<&#47;p><br />
+[code lang="java"]<br />
+&#47;&#47; Table.java<br />
+@ManyToMany(<br />
+  targetEntity=Reservation.class,<br />
+  mappedBy="tables"<br />
+)<br />
+public List getReservations() {..}<br />
+[&#47;code]</p>
+<p>Allright, now we only have the linktable reservations_tables. Exactly the same as we experienced with <a href="http:&#47;&#47;www.timvw.be&#47;onetomany-relationships-with-java-persistence-jsr220&#47;">OneToMany<&#47;a> relationships the cascading persist works when we persist a child (reservation). If we want the cascading persist to work when we persist a parent (table) we have to make sure that the child (reservation) has the parent set. An important difference is that we can't enforce this thus i advise not to use the cascade attribute on the owner (table).<&#47;p><br />
+[code lang="java"]<br />
+&#47;&#47; Table.java<br />
+@ManyToMany(<br />
+  targetEntity=Reservation.class,<br />
+  mappedBy="tables"<br />
+)<br />
+public List getReservations() {..}</p>
+<p>&#47;&#47; Reservation.java<br />
+@ManyToMany(<br />
+  targetEntity=Table.class,<br />
+  cascade=CascadeType.PERSIST<br />
+)<br />
+public List getTables() {..}<br />
+[&#47;code]</p>
+<p>We decide to use the <a href="http:&#47;&#47;www.hibernate.org&#47;hib_docs&#47;annotations&#47;reference&#47;en&#47;html&#47;validator.html">Hibernate Validator<&#47;a> classes to enforce that a reservation is associated with at least one table. For some reason the SizeValidator returns true if the value is null thus we also add a NotNullValidator:<&#47;p><br />
+[code lang="java"]<br />
+&#47;&#47; Reservation.java<br />
+import org.hibernate.validator.*;<br />
+@ManyToMany(<br />
+  targetEntity=Table.class,<br />
+  cascade=CascadeType.PERSIST<br />
+)<br />
+@NotNull<br />
+@Size(min=1)<br />
+public List getTables() { .. }<br />
+[&#47;code]</p>
+<p>Ok, this allows us to enforce that reservations are always associated with at least one table. We decide to allow cascading persist on the parent.<&#47;p><br />
+[code lang="java"]<br />
+@ManyToMany(<br />
+  targetEntity=Reservation.class,<br />
+  mappedBy="tables",<br />
+  cascade=CascadeType.PERSIST<br />
+)<br />
+public List getReservations() {..}<br />
+[&#47;code]</p>

@@ -1,0 +1,78 @@
+---
+layout: post
+status: publish
+published: true
+title: Exploring System.CodeDom
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 137
+wordpress_url: http://www.timvw.be/exploring-systemcodedom/
+date: '2006-12-26 02:52:12 +0100'
+date_gmt: '2006-12-26 00:52:12 +0100'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Today i wanted to experiment with <a href="http:&#47;&#47;msdn2.microsoft.com&#47;en-us&#47;library&#47;system.codedom.aspx">System.CodeDom<&#47;a>. This little program requests the user to input names for a namespace, class and method. It also asks the user to input the code that should go into the method body. Then it generates an assembly (test.dll) and creates a new appdomain in which the assembly is loaded... Finally it initializes an instance of the created class and calls the method...<&#47;p><br />
+[code lang="csharp"]static void Main(string[] args)<br />
+{<br />
+ string loopEnd = "";<br />
+ while (loopEnd != "X")<br />
+ {<br />
+  &#47;&#47;string namespaceName = "MySpace";<br />
+  &#47;&#47;string className = "MyClass";<br />
+  &#47;&#47;string methodName = "MyMethod";<br />
+  &#47;&#47;StringBuilder stringBuilder = new StringBuilder("System.Console.WriteLine(\"hihi\");");</p>
+<p>  Console.Write("Enter namespace: ");<br />
+  string namespaceName = Console.ReadLine();<br />
+  Console.Write("Enter class: ");<br />
+  string className = Console.ReadLine();<br />
+  Console.Write("Enter method: ");<br />
+  string methodName = Console.ReadLine();</p>
+<p>  StringBuilder stringBuilder = new StringBuilder();<br />
+  Console.WriteLine("Enter method body (X to stop)");<br />
+  string input = Console.ReadLine();<br />
+  while (input != "X")<br />
+  {<br />
+   stringBuilder.Append(input);<br />
+   input = Console.ReadLine();<br />
+  }</p>
+<p>  CodeCompileUnit codeCompileUnit = new CodeCompileUnit();</p>
+<p>  CodeAttributeDeclaration assemblyTitleAttribute = new CodeAttributeDeclaration("System.Reflection.AssemblyTitle");<br />
+  assemblyTitleAttribute.Arguments.Add(new CodeAttributeArgument(new CodePrimitiveExpression("A Generated Assembly")));<br />
+  codeCompileUnit.AssemblyCustomAttributes.Add(assemblyTitleAttribute);</p>
+<p>  CodeTypeDeclaration codeTypeDeclaration = new CodeTypeDeclaration();<br />
+  codeTypeDeclaration.Name = className;<br />
+  codeTypeDeclaration.IsClass = true;<br />
+  codeTypeDeclaration.Attributes = MemberAttributes.Public;</p>
+<p>  CodeMemberMethod codeMemberMethod = new CodeMemberMethod();<br />
+  codeMemberMethod.Name = methodName;<br />
+  codeMemberMethod.Attributes = MemberAttributes.Public;<br />
+  codeMemberMethod.ReturnType = new CodeTypeReference(typeof(void));<br />
+  codeMemberMethod.Statements.Add(new CodeSnippetStatement(stringBuilder.ToString()));</p>
+<p>  codeTypeDeclaration.Members.Add(codeMemberMethod);</p>
+<p>  CodeNamespace codeNamespace = new CodeNamespace(namespaceName);<br />
+  codeNamespace.Types.Add(codeTypeDeclaration);<br />
+  codeCompileUnit.Namespaces.Add(codeNamespace);</p>
+<p>  CompilerParameters compilerParameters = new CompilerParameters();<br />
+  compilerParameters.OutputAssembly = "test.dll";<br />
+  compilerParameters.GenerateExecutable = false;<br />
+  compilerParameters.GenerateInMemory = false;</p>
+<p>  CSharpCodeProvider cSharpCodeProvider = new CSharpCodeProvider();<br />
+  CompilerResults compilerResults = cSharpCodeProvider.CompileAssemblyFromDom(compilerParameters, codeCompileUnit);</p>
+<p>  AppDomain appDomain = AppDomain.CreateDomain("new appdomain");<br />
+  Assembly assembly = appDomain.Load(compilerResults.CompiledAssembly.FullName);<br />
+  object instance = assembly.CreateInstance(namespaceName + "." + className);<br />
+  instance.GetType().InvokeMember(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.InvokeMethod, null, instance, null);<br />
+  AppDomain.Unload(appDomain);</p>
+<p>  Console.WriteLine("Enter X to end (enter something different to continue)");<br />
+  loopEnd = Console.ReadLine();<br />
+ }<br />
+}[&#47;code]</p>

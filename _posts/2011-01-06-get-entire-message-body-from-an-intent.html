@@ -1,0 +1,53 @@
+---
+layout: post
+status: publish
+published: true
+title: 'Get entire message body from an Intent '
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2036
+wordpress_url: http://www.timvw.be/?p=2036
+date: '2011-01-06 20:15:42 +0100'
+date_gmt: '2011-01-06 19:15:42 +0100'
+categories:
+- Uncategorized
+tags:
+- Java
+- Android
+comments:
+- id: 19486
+  author: Shashank Sharma
+  author_email: shashanksharma21@gmail.com
+  author_url: http://theshank.tumblr.com
+  date: '2011-09-28 20:51:14 +0200'
+  date_gmt: '2011-09-28 19:51:14 +0200'
+  content: thanks this is exactly what i was looking for...
+- id: 67877
+  author: balaji
+  author_email: balaji.march31@gmail.com
+  author_url: http://www.timvw.be/2011/01/06/get-entire-message-body-from-an-intent/
+  date: '2012-08-08 09:35:28 +0200'
+  date_gmt: '2012-08-08 08:35:28 +0200'
+  content: really simple and useful code.
+---
+<p>I recently started programming the <a href="http:&#47;&#47;www.android.com&#47;">Android<&#47;a> and noticed that most examples for processing an incoming SMS are not entirely correct.<&#47;p></p>
+<p>An SMS message is <a href="http:&#47;&#47;en.wikipedia.org&#47;wiki&#47;SMS#Message_size">limited<&#47;a> to 160 characters. Current mobile phones break up a larger message in multiple messages transparently for the user. When Android notifies you about an incoming SMS it has all parts (of that large message) available. So here is how you reconstruct the entire message body from an Intent<&#47;p></p>
+<p>[code lang="java"]<br />
+Bundle bundle = intent.getExtras();<br />
+if (bundle == null) return;</p>
+<p>StringBuilder message = new StringBuilder();<br />
+Object[] pdus = (Object[]) bundle.get("pdus");</p>
+<p>&#47;&#47; Rebuild this entire message from the multi part smses&#47;pdus<br />
+for (Object pdu : pdus){<br />
+ &#47;&#47; Notice that i use the deprecated android.telephony.gsm.SmsMessage<br />
+ &#47;&#47; android.telephony.SmsMessage throws when i call createFromPdu<br />
+ SmsMessage msg = SmsMessage.createFromPdu((byte[])pdu);<br />
+ message.append(msg.getMessageBody().toString());<br />
+}<br />
+[&#47;code]</p>

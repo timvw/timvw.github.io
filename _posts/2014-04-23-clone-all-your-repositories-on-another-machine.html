@@ -1,0 +1,31 @@
+---
+layout: post
+status: publish
+published: true
+title: Clone all your repositories on another machine
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2411
+wordpress_url: http://www.timvw.be/?p=2411
+date: '2014-04-23 10:47:00 +0200'
+date_gmt: '2014-04-23 09:47:00 +0200'
+categories:
+- Uncategorized
+tags:
+- git bash awk
+comments: []
+---
+<p>Recently I was configuring a new machine (God, i love <a href="https:&#47;&#47;chocolatey.org&#47;">Chocolatey<&#47;a>) and I wanted to take all the repositories I have under c:&#47;src and clone them on my new machine. Here is how i did that:<&#47;p></p>
+<p>[code lang="bash"]<br />
+# write all remote fetch locations into repositories.txt<br />
+find &#47;c&#47;src -type d -mindepth 1 -maxdepth 1 -exec git --work-tree={} --git-dir={}&#47;.git remote -v \; | grep fetch | awk '{print $2}' > repositories.txt</p>
+<p># clone each repository<br />
+cat repositories.txt | xargs -l1 git clone<br />
+[&#47;code]</p>
+<p>Or as a gist: <a href="https:&#47;&#47;gist.github.com&#47;timvw&#47;11208834">https:&#47;&#47;gist.github.com&#47;timvw&#47;11208834<&#47;a>.<&#47;p></p>

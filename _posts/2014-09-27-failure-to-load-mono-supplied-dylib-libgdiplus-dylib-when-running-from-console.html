@@ -1,0 +1,43 @@
+---
+layout: post
+status: publish
+published: true
+title: Failure to load mono-supplied .dylib (libgdiplus.dylib) when running from console
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2440
+wordpress_url: http://www.timvw.be/?p=2440
+date: '2014-09-27 09:16:37 +0200'
+date_gmt: '2014-09-27 08:16:37 +0200'
+categories:
+- Uncategorized
+tags:
+- mono
+- osx
+- bug
+- libgdiplus
+comments: []
+---
+<p>So earlier this week I was bit by the following bug: <a href="https:&#47;&#47;bugzilla.xamarin.com&#47;show_bug.cgi?id=22140">Bug 22140 - Failure to load mono-supplied .dylib when running from console.<&#47;a><&#47;p></p>
+<p>The workaround that works for me is the following: Edit &#47;Library&#47;Frameworks&#47;Mono.framework&#47;Versions&#47;3.8.0&#47;etc&#47;mono&#47;config and<br />
+replace the entries for libgdiplus:<&#47;p></p>
+<p>[code language="xml"]</p>
+<dllmap dll="gdiplus"<br />
+target="&#47;Library&#47;Frameworks&#47;Mono.framework&#47;Versions&#47;3.8.0&#47;lib&#47;libgdiplus.dylib"<br />
+os="!windows"&#47;>
+<dllmap dll="gdiplus.dll"<br />
+target="&#47;Library&#47;Frameworks&#47;Mono.framework&#47;Versions&#47;3.8.0&#47;lib&#47;libgdiplus.dylib"<br />
+ os="!windows"&#47;>
+<dllmap dll="gdi32"<br />
+target="&#47;Library&#47;Frameworks&#47;Mono.framework&#47;Versions&#47;3.8.0&#47;lib&#47;libgdiplus.dylib"<br />
+os="!windows"&#47;>
+<dllmap dll="gdi32.dll"<br />
+target="&#47;Library&#47;Frameworks&#47;Mono.framework&#47;Versions&#47;3.8.0&#47;lib&#47;libgdiplus.dylib"<br />
+os="!windows"&#47;><br />
+[&#47;code]</p>

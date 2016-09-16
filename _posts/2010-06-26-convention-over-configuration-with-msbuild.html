@@ -1,0 +1,93 @@
+---
+layout: post
+status: publish
+published: true
+title: Convention over configuration with MSBuild
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1766
+wordpress_url: http://www.timvw.be/?p=1766
+date: '2010-06-26 13:44:52 +0200'
+date_gmt: '2010-06-26 12:44:52 +0200'
+categories: []
+tags:
+- MSBuild
+comments:
+- id: 9340
+  author: Saravanan
+  author_email: saravanan.k@rtmedibus.com
+  author_url: http://www.rtmedibus.com
+  date: '2011-04-26 05:21:47 +0200'
+  date_gmt: '2011-04-26 04:21:47 +0200'
+  content: The snippets that you have posted here does not give a complete understanding.
+    May be because this post assumes that the reader have read your previous post
+    <q cite="A while ago i blogged that i was using the TemplateFile task from the
+    MSBuild Community Tasks Project to generate configuration files."> about TemplateFile
+    msbuild task. Could you please provide the link for that Post too ?
+- id: 9374
+  author: timvw
+  author_email: tim@timvw.be
+  author_url: http://timvw.myopenid.com/
+  date: '2011-04-26 21:01:08 +0200'
+  date_gmt: '2011-04-26 20:01:08 +0200'
+  content: |-
+    You will have to elaborate on what you're not understanding then...
+
+    I was able to find the previous article by clicking on the 'msbuild' tag at the right hand side of this blog: <a href="http:&#47;&#47;www.timvw.be&#47;2010&#47;02&#47;12&#47;clever-templatefile-hack&#47;" rel="nofollow">http:&#47;&#47;www.timvw.be&#47;2010&#47;02&#47;12&#47;clever-templatefile-hack&#47;<&#47;a>
+---
+<p>A while ago i blogged that i was using the TemplateFile task from the <a hrefhttp:&#47;&#47;msbuildtasks.tigris.org&#47;">MSBuild Community Tasks Project<&#47;a> to generate configuration files. Each project that required templating would have modified it's csproj file as following:<&#47;p></p>
+<p>[code lang="xml"]<!-- To modify your build process, add your task inside one of the targets below and uncomment it.<br />
+Other similar extension points exist, see Microsoft.Common.targets. --><br />
+<import Project="$(MSBuildProjectDirectory)\config.msbuild" &#47;><br />
+<target Name="BeforeBuild"><br />
+ <callTarget Targets="GenerateConfigurationFiles" &#47;><br />
+<&#47;target>[&#47;code]</p>
+<p>And each of these config.msbuild files looked as following:<&#47;p></p>
+<p>[code lang="xml"><target Name="GenerateConfigurationFiles"]<br />
+<templateFile Template="web.template.config" OutputFileName="web.config" Tokens="@(TemplateTokens)" &#47;><br />
+<templateFile Template="Config\WcfClients.config" OutputFileName="Config\WcfClients.config" Tokens="@(TemplateTokens)" &#47;><br />
+<&#47;target>[&#47;code]</p>
+<p>As you can notice the convention here is that each template file has '.template.' in it's name, and the name of an output file is the template file name without '.template.'.<&#47;p></p>
+<p>[code lang="xml"><target Name="ProcessTemplate"]<br />
+ <!-- valide input --><br />
+ <error Condition="'$(SourceFile)'==''" Text="Missing SourceFile" &#47;><br />
+ <!-- calculate destination file --><br />
+ <regexReplace Input="$(SourceFile)" Expression="(\.template)\." Replacement="." Count="1"><br />
+  <output TaskParameter="Output" PropertyName="DestinationFile" &#47;><br />
+ <&#47;regexReplace><br />
+ <!-- generate file --><br />
+ <templateFile Template="$(SourceFile)" OutputFileName="$(DestinationFile)" Tokens="@(TemplateTokens)" &#47;><br />
+<&#47;target>[&#47;code]</p>
+<p>Now that we can do it for one file, we can do it for many files too:<&#47;p></p>
+<p>[code lang="xml"><target Name="ProcessTemplates"]<br />
+ <!-- valide input --><br />
+ <error Condition="'$(SourceDir)'==''" Text="Missing SourceDir" &#47;><br />
+ <!-- find all template files --><br />
+ <itemGroup><br />
+  <templateFiles Include="$(SourceDir)\**\*.template.*" Exlude="$(SourceDir)\**\*.svn*" &#47;><br />
+ <&#47;itemGroup><br />
+ <!-- process each template file --><br />
+ <msbuild Projects="$(MSBuildProjectFile)" Targets="ProcessTemplate" Properties="SourceFile=%(TemplateFiles.FullPath)" &#47;><br />
+<&#47;target>[&#47;code]</p>
+<p>After these core improvements we wrote a common.proj.targets file as following:<&#47;p></p>
+<p>[code lang="xml">
+<project xmlns="http:&#47;&#47;schemas.microsoft.com&#47;developer&#47;msbuild&#47;2003"]<br />
+ <!-- import global variables --><br />
+ <import Project="$(MSBuildThisFileDirectory)\configuration.proj" &#47;></p>
+<propertyGroup>
+  <buildDependsOn>CommonBeforeBuild;$(BuildDependsOn);CommonAfterBuild<&#47;buildDependsOn><br />
+ <&#47;propertyGroup></p>
+<p> <target Name="CommonBeforeBuild"><br />
+  <msbuild Projects="$(CommonTargetsPath)" Targets="ProcessTemplates" Properties="SourceDir=$(MSBuildProjectDirectory)" &#47;><br />
+ <&#47;target></p>
+<p> <target Name="CommonAfterBuild"><br />
+  <!--<msbuild Projects="$(CommonBuildTargetsPath)" Targets="PEVerify" Properties="SourceFile=$(TargetPath)" &#47;>--><br />
+ <&#47;target><br />
+<&#47;project>[&#47;code]</p>
+<p>Now we only need to import our common.proj.targets file in projects that have template files and focus on real business problems ;)<&#47;p></p>

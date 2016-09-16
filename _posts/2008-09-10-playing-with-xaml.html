@@ -1,0 +1,84 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting a couple of custom MarkupExtensions
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 540
+wordpress_url: http://www.timvw.be/?p=540
+date: '2008-09-10 17:38:08 +0200'
+date_gmt: '2008-09-10 15:38:08 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p><a href="http:&#47;&#47;en.wikipedia.org&#47;wiki&#47;Xaml">XAML<&#47;a> provides us a way to declare objects with xml. Because i don't want to clutter my domain classes with attributes like <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.componentmodel.typeconverterattribute.aspx">TypeConverterAttribute<&#47;a>, i needed a different approach to manipulate the parsing. This is where custom <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.windows.markup.markupextension.aspx">MarkupExtension<&#47;a>s come to the rescue. Here is an example where i use the <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;ms752340.aspx">x:Array MarkupExtension<&#47;a> in order to load a list of Lines into my IList<string> Lines property:<&#47;p><br />
+[code lang="xml"]<?xml version="1.0" encoding="utf-8" ?><br />
+<d:Address<br />
+    xmlns:x="http:&#47;&#47;schemas.microsoft.com&#47;winfx&#47;2006&#47;xaml"<br />
+    xmlns:s="clr-namespace:System;assembly=mscorlib"<br />
+    xmlns:d="clr-namespace:XamlDemo.Domain;assembly=XamlDemo"<br />
+    xmlns:e="clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo"><br />
+    <d:Address.Lines><br />
+        <x:Array Type="s:String"><br />
+            <s:String>Ikaroslaan 21<&#47;s:String><br />
+            <s:String>B-1930 Zaventem<&#47;s:String><br />
+        <&#47;x:Array><br />
+    <&#47;d:Address.Lines><br />
+<&#47;d:Address>[&#47;code]</p>
+<p>By default all XAML documents have all the data embedded. Sometimes this is undesirable so i decided to define External and ExternalList MarkupExtensions that allow us to specify that the resource is elsewhere available. Here is an example of Jeff  who has one address in a different file, Domain\Address\Leuven\Brusselsestraat_400.xaml:<&#47;p></p>
+<p>[code lang="xml"]<?xml version="1.0" encoding="utf-8" ?><br />
+<d:Person<br />
+    xmlns:x="http:&#47;&#47;schemas.microsoft.com&#47;winfx&#47;2006&#47;xaml"<br />
+    xmlns:s="clr-namespace:System;assembly=mscorlib"<br />
+    xmlns:d="clr-namespace:XamlDemo.Domain;assembly=XamlDemo"<br />
+    xmlns:e="clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo"<br />
+    Name="Jeff"<br />
+    Birthday="{e:DateTime 14&#47;10&#47;1972}"><br />
+  <d:Person.Addresses><br />
+    <e:ExternalList Type="XamlDemo.Domain.Address"><br />
+      <e:ExternalList.Resources><br />
+        <x:Array Type="s:String"><br />
+          <s:String>Domain.Address.Leuven.Brusselsestraat_400<&#47;s:String><br />
+        <&#47;x:Array><br />
+      <&#47;e:ExternalList.Resources><br />
+    <&#47;e:ExternalList><br />
+  <&#47;d:Person.Addresses><br />
+<&#47;d:Person>[&#47;code]</p>
+<p>It is also possible to have multiple redirections. Here is an example of Tim who has two addresses defined in Domain\Address\ForPerson\Tim.xaml:<&#47;p></p>
+<p>[code lang="xml"]<?xml version="1.0" encoding="utf-8" ?><br />
+<d:Person<br />
+    xmlns:x="http:&#47;&#47;schemas.microsoft.com&#47;winfx&#47;2006&#47;xaml"<br />
+    xmlns:s="clr-namespace:System;assembly=mscorlib"<br />
+    xmlns:d="clr-namespace:XamlDemo.Domain;assembly=XamlDemo"<br />
+    xmlns:e="clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo"<br />
+    Name="Tim"<br />
+    Birthday="{e:DateTime 30&#47;04&#47;1980}"><br />
+  <d:Person.Addresses><br />
+    <e:External Type="XamlDemo.Domain.Address" Resource="Domain.Address.ForPerson.Tim" &#47;><br />
+  <&#47;d:Person.Addresses><br />
+<&#47;d:Person>[&#47;code]</p>
+<p>And here is the definition for Domain\Address\ForPerson\Tim.xaml:<&#47;p></p>
+<p>[code lang="xml"]<?xml version="1.0" encoding="utf-8" ?><br />
+<e:ExternalList<br />
+    xmlns:x="http:&#47;&#47;schemas.microsoft.com&#47;winfx&#47;2006&#47;xaml"<br />
+    xmlns:s="clr-namespace:System;assembly=mscorlib"<br />
+    xmlns:d="clr-namespace:XamlDemo.Domain;assembly=XamlDemo"<br />
+    xmlns:e="clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo"<br />
+    Type="XamlDemo.Domain.Address"><br />
+  <e:ExternalList.Resources><br />
+    <x:Array Type="s:String"><br />
+      <s:String>Domain.Address.Leuven.Bondgenotenlaan_14<&#47;s:String><br />
+      <s:String>Domain.Address.Zaventem.Ikaroslaan_21<&#47;s:String><br />
+    <&#47;x:Array><br />
+  <&#47;e:ExternalList.Resources><br />
+<&#47;e:ExternalList>[&#47;code]</p>
+<p>Anyway, feel free to download the sample application, <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;XamlDemo.zip">XamlDemo.zip<&#47;a>.<&#47;p></p>

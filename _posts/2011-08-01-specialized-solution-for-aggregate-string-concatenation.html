@@ -1,0 +1,58 @@
+---
+layout: post
+status: publish
+published: true
+title: Specialized solution for aggregate string concatenation
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 2189
+wordpress_url: http://www.timvw.be/?p=2189
+date: '2011-08-01 11:35:36 +0200'
+date_gmt: '2011-08-01 10:35:36 +0200'
+categories:
+- Uncategorized
+tags:
+- t-sql
+comments: []
+---
+<p>I have noticed that most people come up with the following solution to build a string in T-SQL:<&#47;p></p>
+<p>[code lang="sql"]<br />
+WITH [Numbers] AS (<br />
+	SELECT TOP(10) [n]<br />
+	FROM [Nums]<br />
+)<br />
+	SELECT @message = COALESCE(@message, '') + ', ' + CAST([n] AS nvarchar(2))<br />
+	FROM [Numbers];</p>
+<p>SELECT @message = STUFF(@message, 1, 2, '');<br />
+SELECT @message;<br />
+[&#47;code]</p>
+<blockquote><p>Important! Microsoft has no official documentation describing this aggregate concatenation<br />
+technique that is based on the assignment SELECT syntax. The behavior described here is<br />
+based on observation alone. The current implementation of the ConcatOrders function doesn&rsquo;t<br />
+incorporate<br />
+an ORDER BY clause and does not guarantee the order of concatenation. According<br />
+to a blog entry by Microsoft&rsquo;s Conor Cunningham, it seems that SQL Server will respect an<br />
+ORDER BY clause if specified (http:&#47;&#47;blogs.msdn.com&#47;sqltips&#47;archive&#47;2005&#47;07&#47;20&#47;441053.aspx).<br />
+Conor is a very credible source, but I should stress that besides<br />
+this blog entry I haven&rsquo;t found<br />
+any official documentation describing how a multi-row assignment<br />
+SELECT should behave&mdash;with<br />
+or without an ORDER BY clause.<&#47;blockquote></p>
+<p>With the aid of FOR XML PATH (as mentionned in <a href="http:&#47;&#47;www.sql.co.il&#47;books&#47;insidetsql2008&#47;">Inside Microsoft SQL Server 2008: T-SQL Programming<&#47;a> we can solve this problem using a documented approach:<&#47;p></p>
+<p>[code lang="sql"]<br />
+WITH [Numbers] AS (<br />
+	SELECT TOP(10) [n]<br />
+	FROM [Nums]<br />
+)<br />
+	SELECT @message = (SELECT ', ' + CAST([n] AS nvarchar(2)) AS [text language="()"][&#47;text][&#47;text]<br />
+	FROM [Numbers]<br />
+	FOR XML PATH(''));</p>
+<p>SELECT @message = STUFF(@message, 1, 2, '');<br />
+SELECT @message;<br />
+[&#47;code]</p>

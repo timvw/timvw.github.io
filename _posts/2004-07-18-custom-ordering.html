@@ -1,0 +1,33 @@
+---
+layout: post
+status: publish
+published: true
+title: Custom ordering
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 86
+wordpress_url: http://www.timvw.be/custom-ordering/
+date: '2004-07-18 01:06:12 +0200'
+date_gmt: '2004-07-17 23:06:12 +0200'
+categories: []
+tags:
+- SQL
+comments: []
+---
+<p>Assume we have a fruits table. And we want to select all the fruits that have a red or orange or blue color. But we want the resultset to have first all the fruits with color=red, then the fruits with color=blue and then the fruits with color=orange. It's obvious we can't use an alphabetical order. Thus we have to introduce our own order relation.<&#47;p><br />
+[code lang="sql"]<br />
+select *<br />
+from fruits<br />
+where color = 'red' or color = 'blue' or color = 'orange'<br />
+order by case<br />
+when color = 'red' then 0<br />
+when color = 'blue' then 1<br />
+when color = 'orange' then 2<br />
+end<br />
+[&#47;code]</p>

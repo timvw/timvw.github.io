@@ -1,0 +1,34 @@
+---
+layout: post
+status: publish
+published: true
+title: Changing the include_path
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 67
+wordpress_url: http://www.timvw.be/changing-the-include_path/
+date: '2005-11-06 21:47:56 +0100'
+date_gmt: '2005-11-06 19:47:56 +0100'
+categories: []
+tags:
+- PHP
+comments: []
+---
+<p>PHP has a feature to change the <a href="http:&#47;&#47;www.php.net&#47;manual&#47;en&#47;ini.core.php#ini.include-path">include_path<&#47;a> programatically. The problem is that the path separator is : on unix and ; on windows. Luckily there is a constant <a href="http:&#47;&#47;www.php.net&#47;manual&#47;en&#47;reserved.constants.php">PATH_SEPARATOR<&#47;a> to overcome this issue. Here is how i would do it:<&#47;p><br />
+[code lang="php"]<?php<br />
+ini_set('error_reporting', E_ALL);<br />
+ini_set('display_errors', TRUE);</p>
+<p>$include_paths = array(<br />
+  '.',<br />
+  '&#47;home&#47;users&#47;timvw&#47;phpincs',<br />
+  '&#47;home&#47;users&#47;timvw&#47;pear',<br />
+  ini_get('include_path')<br />
+);</p>
+<p>ini_set('include_path', implode(PATH_SEPARATOR, $include_paths));</p>
+<p>?>[&#47;code]</p>

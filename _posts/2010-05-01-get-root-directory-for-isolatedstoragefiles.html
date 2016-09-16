@@ -1,0 +1,64 @@
+---
+layout: post
+status: publish
+published: true
+title: Get root directory for IsolatedStorageFiles
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1715
+wordpress_url: http://www.timvw.be/?p=1715
+date: '2010-05-01 20:07:04 +0200'
+date_gmt: '2010-05-01 19:07:04 +0200'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Sometimes you want to know the absolute path of a file that is persisted with <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.io.isolatedstorage.isolatedstoragefile(VS.95).aspx">IsolatedStorageFile<&#47;a>.  Apparently there is an internal property RootDirectory which contains this information:<&#47;p></p>
+<p>[code lang="csharp"]public static class IsolatedStorageFileExtensions<br />
+{<br />
+ public static string GetRootDirectory(this IsolatedStorageFile isf)<br />
+ {<br />
+  var property = isf.GetType().GetProperty("RootDirectory", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetProperty);<br />
+  return (string)property.GetValue(isf, null);<br />
+ }<br />
+}[&#47;code]</p>
+<p>Here is a real world example of using <a href="http:&#47;&#47;sharpbits.codeplex.com&#47;">SharpBITS.NET<&#47;a> to download a file to IsolatedStorage:<&#47;p></p>
+<p>[code lang="csharp"]class Program<br />
+{<br />
+ static void Main()<br />
+ {<br />
+  var mgr = new BitsManager();<br />
+  mgr.OnJobError += mgr_OnJobError;<br />
+  mgr.OnJobTransferred += mgr_OnJobTransferred;</p>
+<p>  var job = mgr.CreateJob("job@" + DateTime.Now, JobType.Download);<br />
+  var src = @"http:&#47;&#47;localhost&#47;";<br />
+  var dst = Path.Combine(GetIsfRoot(), "test.html");<br />
+  job.AddFile(src,dst);<br />
+  job.Resume();</p>
+<p>  Console.WriteLine("running...");<br />
+  Console.ReadKey();<br />
+ }</p>
+<p> static void mgr_OnJobTransferred(object sender, NotificationEventArgs e)<br />
+ {<br />
+   e.Job.Complete();<br />
+   Console.WriteLine("completed: " + e.Job.DisplayName);<br />
+  }</p>
+<p> static void mgr_OnJobError(object sender, ErrorNotificationEventArgs e)<br />
+ {<br />
+  Console.WriteLine("error: " + e.Error.Description);<br />
+ }</p>
+<p> static string GetIsfRoot()<br />
+ {<br />
+  using (var f = IsolatedStorageFile.GetUserStoreForAssembly())<br />
+  {<br />
+   return f.GetRootDirectory();<br />
+  }<br />
+ }<br />
+}[&#47;code]</p>

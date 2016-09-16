@@ -1,0 +1,107 @@
+---
+layout: post
+status: publish
+published: true
+title: Creating series of elements
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1579
+wordpress_url: http://www.timvw.be/?p=1579
+date: '2010-01-08 21:02:23 +0100'
+date_gmt: '2010-01-08 20:02:23 +0100'
+categories: []
+tags:
+- C#
+- Patterns
+comments: []
+---
+<p>Lately i have done quite a bit of charting. Very often the X-axis is populated with a series of numbers or dates. This can be as simple as: (My very little DSL in <a href="http:&#47;&#47;codebetter.com&#47;blogs&#47;jeremy.miller&#47;archive&#47;2010&#47;01&#47;06&#47;writing-internal-dsl-s-in-msdn.aspx">Jeremy D. Miller Style<&#47;a>)<&#47;p></p>
+<p>[code lang="csharp"][Test] public void ShouldBeAbleToGetSeriesOfNumbers()<br />
+{<br />
+ &#47;&#47; Arrange<br />
+ var series = 3.To(5);</p>
+<p> &#47;&#47; Act<br />
+ var elements = series.Elements;</p>
+<p> &#47;&#47; Assert<br />
+ var expected = new[] { 3, 4, 5 };<br />
+ CollectionAssert.AreEqual(expected, elements);<br />
+}</p>
+<p>[Test] public void ShouldBeAbleToGetSeriesOfDays()<br />
+{<br />
+ &#47;&#47; Arrange<br />
+ var now = DateTime.Now.Date;<br />
+ var twoDaysLater = now.AddDays(2);<br />
+ var series = now.To(twoDaysLater);</p>
+<p> &#47;&#47; Act<br />
+ var elements = series.Elements;</p>
+<p> &#47;&#47; Assert<br />
+ var expectedDays = new[] { now, now.AddDays(1), now.AddDays(2) };<br />
+ CollectionAssert.AreEqual(expectedDays, elements);<br />
+}[&#47;code]</p>
+<p>And here is the code that makes these tests pass:<&#47;p></p>
+<p>[code lang="csharp"]public static class Series<br />
+{<br />
+ public static Series<int> To(this int from, int to)<br />
+ {<br />
+  return Create(from, to);<br />
+ }</p>
+<p> public static Series<dateTime> To(this DateTime from, DateTime to)<br />
+ {<br />
+  return Create(from, to);<br />
+ }</p>
+<p> public static Series<dateTime> Create(DateTime from, DateTime to)<br />
+ {<br />
+  return new Series<dateTime>(from.Date, to.Date, d => d.AddDays(1));<br />
+ }</p>
+<p> public static Series<dateTime> Create(DateTime from, int numberOfDays)<br />
+ {<br />
+  return Create(from.Date, from.Date.AddDays(numberOfDays));<br />
+ }</p>
+<p> public static Series<int> Create(int from, int to)<br />
+ {<br />
+  return new Series<int>(from, to, n => n + 1);<br />
+ }</p>
+<p> public static Series<int> Create(int from, int to, int stepSize)<br />
+ {<br />
+  return new Series<int>(from, to, n => n + stepSize);<br />
+ }<br />
+}[&#47;code]</p>
+<p><br&#47;><br />
+[code lang="csharp"]public class Series<t> : IEnumerable<t> where T : IComparable<br />
+{<br />
+ public T From { get; private set; }<br />
+ public T To { get; private set; }<br />
+ public Func<t, T> Step { get; private set; }</p>
+<p> public Series(T from, T to, Func<t, T> step)<br />
+ {<br />
+  From = from;<br />
+  To = to;<br />
+  Step = step;<br />
+ }</p>
+<p> public IEnumerable<t> Elements<br />
+ {<br />
+  get<br />
+  {<br />
+   var current = From;<br />
+   while (current.CompareTo(To) <= 0)<br />
+   {<br />
+    yield return current;<br />
+    current = Step(current);<br />
+   }<br />
+  }<br />
+ }</p>
+<p> public IEnumerator<t> GetEnumerator()<br />
+ {<br />
+  return Elements.GetEnumerator();<br />
+ }</p>
+<p> IEnumerator IEnumerable.GetEnumerator()<br />
+ {<br />
+  return GetEnumerator();<br />
+ }<br />
+}[&#47;code]</p>

@@ -1,0 +1,38 @@
+---
+layout: post
+status: publish
+published: true
+title: Extension methods to improve readability
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1234
+wordpress_url: http://www.timvw.be/?p=1234
+date: '2009-08-28 07:59:16 +0200'
+date_gmt: '2009-08-28 06:59:16 +0200'
+categories: []
+tags:
+- C#
+- Patterns
+comments: []
+---
+<p>A common reason to take advantage of extension methods is to enhance readability (think fluent interfaces). My team uses the <a href="http:&#47;&#47;en.wikipedia.org&#47;wiki&#47;Specification_pattern">specification pattern<&#47;a> regularly and in case a requirement says something like "if the player has reached level 10 a message should be displayed" they would implement it as:<&#47;p></p>
+<p>[code lang="csharp"]if (new HasReachedLevel(10).IsSatisfiedBy(player))<br />
+{<br />
+ view.DisplayMessage("Congratulations! You have reached level 10.");<br />
+}[&#47;code]</p>
+<p>Pretty good but did you notice that they changed the order of player and level in their (code) story? With the aid of an extension method we can express this requirement as:<&#47;p></p>
+<p>[code lang="csharp"]if (player.Satisfies(new HasReachedLevel(10)))<br />
+{<br />
+ view.DisplayMessage("Congratulations! You have reached level 10.");<br />
+}[&#47;code]</p>
+<p>Here is the extension method that allows you to express the requirement in this way:<&#47;p></p>
+<p>[code lang="csharp"]public static bool Satisfies<t>(this T candidate, ISpecification<t> specification)<br />
+{<br />
+ return specification.IsSatisfiedBy(candidate);<br />
+}[&#47;code]</p>

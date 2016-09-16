@@ -1,0 +1,82 @@
+---
+layout: post
+status: publish
+published: true
+title: Handling options
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 66
+wordpress_url: http://www.timvw.be/handling-options/
+date: '2005-11-10 21:45:54 +0100'
+date_gmt: '2005-11-10 19:45:54 +0100'
+categories: []
+tags:
+- Perl
+comments: []
+---
+<p>Last couple of days i've been writing a little script in Perl. One of the requirements is the following: it accepts (eventual) parameters to indicate the port it should use, where it should write log messages, how verbose the logging is. To do implement this i use the <a href="http:&#47;&#47;perldoc.perl.org&#47;Getopt&#47;Std.html">Getopt::Std<&#47;a> module. You can see in the following snippet how easy it makes things: (Notice how it takes care of invalid option switches etc...)<&#47;p></p>
+<p>[code lang="perl"]<br />
+#!&#47;usr&#47;bin&#47;env perl<br />
+###############################################<br />
+# Author: Tim Van Wassenhove<br />
+# Update: $Id:$<br />
+###############################################<br />
+# {{{ initialize<br />
+###############################################<br />
+use strict;<br />
+use diagnostics;<br />
+use Getopt::Std;</p>
+<p>use constant {<br />
+        DEFAULT_PORT => 8888,<br />
+        DEFAULT_LOGFILE => "&STDOUT",<br />
+        DEFAULT_LOGLEVEL => 5,<br />
+        PROGNAME => "stupid proxy&#47;0.1",<br />
+};<br />
+# }}}<br />
+###############################################<br />
+# {{{ display usage options<br />
+###############################################<br />
+sub usage<br />
+{<br />
+        print STDERR < < "EOF";<br />
+usage: $0 [-p port] [-f logfile] [-l level]</p>
+<p>-h              : this (help) message<br />
+-p port         : the portnumber to run this proxy server on<br />
+-f logfile      : the file where the logging message go to<br />
+-l loglevel     : the level of verboseness of the logging, 0 is silent, 5 is loud</p>
+<p>Report bugs and suggestions at http:&#47;&#47;timvw.madoka.be<br />
+EOF<br />
+        exit;<br />
+}<br />
+# }}}<br />
+###############################################<br />
+# {{{ main entry point<br />
+###############################################<br />
+my %options;<br />
+getopts 'p:f:l:h', \%options or usage;<br />
+usage if exists $options{h};</p>
+<p># use default port unless user gave different port<br />
+my $port = DEFAULT_PORT;<br />
+if (exists $options{p} && $options{p} =~ &#47;^\d+$&#47;)<br />
+{<br />
+        $port = $options{p};<br />
+}</p>
+<p># use default logfile unless user gave different file<br />
+my $logfile = DEFAULT_LOGFILE;<br />
+if (exists $options{f})<br />
+{<br />
+        $logfile = $options{f};<br />
+}</p>
+<p># use default loglevel, unless user gave different level<br />
+my $loglevel = DEFAULT_LOGLEVEL;<br />
+if (exists $options{l} && $options{l} >= 0 && $options{l} < = 5)<br />
+{<br />
+        $loglevel = $options{l};<br />
+}<br />
+[&#47;code]</p>

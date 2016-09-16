@@ -1,0 +1,36 @@
+---
+layout: post
+status: publish
+published: true
+title: 'WIF: whr parameter is a hint for user Home Realm'
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1902
+wordpress_url: http://www.timvw.be/?p=1902
+date: '2010-09-07 06:39:23 +0200'
+date_gmt: '2010-09-07 05:39:23 +0200'
+categories:
+- Uncategorized
+tags:
+- wif
+- sts
+comments: []
+---
+<p>Yesterday i was reading the <a href="http:&#47;&#47;claimsid.codeplex.com&#47;">Claims Based Identity & Access Control Guide<&#47;a> and learned that the whr parameter is a hint from the application to the STS about the user's STS. So if i look back at the code in  <a href="http:&#47;&#47;www.timvw.be&#47;wif-change-sts-per-request&#47;">WIF: Change STS per request<&#47;a> i should not hardcode the HomeRealm parameter to timvw but use the company name instead.<&#47;p></p>
+<p>[code lang="csharp"]<br />
+string GetRedirectUrl(string company, string companySts, string realm, string returnUrl)<br />
+{<br />
+ var signInRequestMessage = new SignInRequestMessage(new Uri(companySts), realm)<br />
+ {<br />
+  Context = returnUrl,<br />
+  HomeRealm = company<br />
+ };</p>
+<p> return signInRequestMessage.WriteQueryString();<br />
+}<br />
+[&#47;code]</p>

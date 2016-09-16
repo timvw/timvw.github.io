@@ -1,0 +1,31 @@
+---
+layout: post
+status: publish
+published: true
+title: Verify that a X509Certificate can be used for key exchange
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 1663
+wordpress_url: http://www.timvw.be/?p=1663
+date: '2010-02-02 19:39:38 +0100'
+date_gmt: '2010-02-02 18:39:38 +0100'
+categories: []
+tags:
+- C#
+comments: []
+---
+<p>Here is another method that earned it's place in my ever growing toolbox:<&#47;p></p>
+<p>[code lang="csharp"]public static bool CanDoKeyExchange(this X509Certificate2 certificate)<br />
+{<br />
+ if (!certificate.HasPrivateKey) return false;</p>
+<p> var privateKey = certificate.PrivateKey as RSACryptoServiceProvider;<br />
+ if (privateKey == null) return false;</p>
+<p> var canDoKeyExchange = privateKey.CspKeyContainerInfo.KeyNumber == KeyNumber.Exchange;<br />
+ return canDoKeyExchange;<br />
+}[&#47;code]</p>

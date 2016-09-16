@@ -1,0 +1,44 @@
+---
+layout: post
+status: publish
+published: true
+title: Scriptable browser
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 103
+wordpress_url: http://www.timvw.be/scriptable-browser/
+date: '2005-07-10 02:00:05 +0200'
+date_gmt: '2005-07-10 00:00:05 +0200'
+categories: []
+tags:
+- PHP
+comments: []
+---
+<p>Last couple of days i've been trying out <a href="http:&#47;&#47;www.lastcraft.com&#47;simple_test.php">Simple Test<&#47;a>. It allowed me stop stop <a href="http:&#47;&#47;www.php.net&#47;echo">echo<&#47;a> and <a href="http:&#47;&#47;www.php.net&#47;print_r">print_r<&#47;a> variables all over the place. The package also has a <a href="http:&#47;&#47;www.lastcraft.com&#47;browser_documentation.php">Scriptable Browser<&#47;a>.<&#47;p></p>
+<p>At <a href="http:&#47;&#47;www.smscity.be">smscity.be<&#47;a> you can earn credits each day. Therefor you have to visit their site and click some links. I wrote a <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;php&#47;smscity.txt">smscity.txt script<&#47;a> that does this for me.<&#47;p></p>
+<p>Now all i had to do is make sure this script is executed each day, so i edited my <a href="http:&#47;&#47;unixhelp.ed.ac.uk&#47;CGI&#47;man-cgi?crontab+5">crontab<&#47;a>. It looks like:<&#47;p></p>
+<p>[code lang="php"]###############################################################################<br />
+#<br />
+# Author: Tim Van Wassenhove<br />
+#<br />
+###############################################################################<br />
+# $Id:<br />
+###############################################################################</p>
+<p>  @reboot                               &#47;usr&#47;bin&#47;fetchmail -d 1800<br />
+  0,10,20,30,40,50      *  *  *  *      &#47;usr&#47;bin&#47;wget -O &#47;dev&#47;null http:&#47;&#47;timvw&#47;cron&#47;blogmarks.php > &#47;dev&#47;null 2>&amp;1<br />
+  30                   02  *  *  *      &#47;usr&#47;bin&#47;wget -O &#47;dev&#47;null http:&#47;&#47;timvw&#47;cron&#47;smscity.php > &#47;dev&#47;null 2>&amp;1</p>
+<p># *                     *  *  *  *      *<br />
+# |                     |  |  |  |      |<br />
+# |                     |  |  |  |      +----- command to be executed<br />
+# |                     |  |  |  +------------ day of week (1 - 7) (monday = 1)<br />
+# |                     |  |  +--------------- month (1 - 12)<br />
+# |                     |  +------------------ day of month (1 - 31)<br />
+# |                     +--------------------- hour (0 - 23)<br />
+# +------------------------------------------- min (0 - 59)</p>
+<p>[&#47;code]</p>

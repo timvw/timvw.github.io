@@ -1,0 +1,498 @@
+---
+layout: post
+status: publish
+published: true
+title: Presenting the SortableBindingList<T>
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 155
+wordpress_url: http://www.timvw.be/presenting-the-sortablebindinglistt/
+date: '2007-02-22 01:32:43 +0100'
+date_gmt: '2007-02-21 23:32:43 +0100'
+categories: []
+tags:
+- C#
+- Windows Forms
+comments:
+- id: 156
+  author: ricka
+  author_email: a.ricka00@gmail.com
+  author_url: ''
+  date: '2007-03-10 05:08:48 +0100'
+  date_gmt: '2007-03-10 03:08:48 +0100'
+  content: The code got mangled and doesn't compile as is. Can you fix this (or post
+    the .zip)? Looks like a very good start of what I need.
+- id: 157
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2007-03-10 11:20:15 +0100'
+  date_gmt: '2007-03-10 09:20:15 +0100'
+  content: Apparently there was a } too much in the delegate... Anyway, as promised,
+    i've added a link to the source (and a demo project).
+- id: 158
+  author: Stan
+  author_email: stan@community.nospam.com
+  author_url: ''
+  date: '2007-05-04 14:47:00 +0200'
+  date_gmt: '2007-05-04 12:47:00 +0200'
+  content: |-
+    Your example works, but since I already have my own collection, I added another constructor:
+
+    [code lang="csharp"]public SortableBindingList(IList list)
+        : base(list)
+    {
+    }[&#47;code]
+
+    This compiles but when I click on column header it blows up in the delegete on this line:
+
+    [code lang="csharp"]List itemsList = this.Items as List;[&#47;code]
+
+    because it could not cast and itemsList was null.
+
+    So I changed this line to:
+
+    [code lang="csharp"]List itemsList = new List(Items);[&#47;code]
+
+    This compiles, I click on column, sort triangle appears, but it does not sort!
+
+    I can't figure out why...
+- id: 159
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2007-05-04 16:24:47 +0200'
+  date_gmt: '2007-05-04 14:24:47 +0200'
+  content: |-
+    Well, i don't know why, but these days my implementation does have a constructor that accepts an existing collection... I've uploaded an updated version of the <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;SortableBindingList.zip" rel="nofollow">source<&#47;a> with an example of the added constructor:
+
+    [code lang="csharp"]
+    public SortableBindingList(IEnumerable<T> enumerable)
+     : base(new List<T>(enumerable))
+    {
+    }
+    [&#47;code]
+- id: 160
+  author: Stan
+  author_email: stan@community.nospam.com
+  author_url: ''
+  date: '2007-05-04 19:02:31 +0200'
+  date_gmt: '2007-05-04 17:02:31 +0200'
+  content: |-
+    That did it! I guess it was
+
+     foreach (T t in enumerable)
+     {
+         this.Add(t);
+     }
+    which I was missing before in my constructor. One way or another it works
+
+    Very handy class, thanks
+- id: 161
+  author: Tim Van Wassenhove &raquo; Presenting the TypedList<T>
+  author_email: ''
+  author_url: http://www.timvw.be/presenting-the-typedlistt/
+  date: '2007-05-05 23:57:30 +0200'
+  date_gmt: '2007-05-05 21:57:30 +0200'
+  content: '[...] while ago i presented the SortableBindingList. One of the nice features
+    you get with DataSets is that you can use relations to navigate through [...]'
+- id: 162
+  author: Sam
+  author_email: ''
+  author_url: ''
+  date: '2007-08-02 04:09:41 +0200'
+  date_gmt: '2007-08-02 02:09:41 +0200'
+  content: Thanks for the class - works great.
+- id: 163
+  author: Tony
+  author_email: thewigglr@hotmail.com
+  author_url: ''
+  date: '2007-08-16 14:40:14 +0200'
+  date_gmt: '2007-08-16 12:40:14 +0200'
+  content: |-
+    I have used the above example in my own project with the effect that by DataGridView's columns now sort, but the column order is no longer as specified in the form designer.
+
+    For some reason, populating the SortableBindingList is reordering the DataGridView's columns so they are in alphabetical order
+- id: 164
+  author: Tony
+  author_email: thewigglr@hotmail.com
+  author_url: ''
+  date: '2007-08-16 16:51:50 +0200'
+  date_gmt: '2007-08-16 14:51:50 +0200'
+  content: I solved my problem, I was binding the SortableBindingList directly to
+    the DataGridView instead of setting up a BindingSource in-between.
+- id: 165
+  author: TomDeleu
+  author_email: tom.deleu@gmail.com
+  author_url: http://www.setl.eu
+  date: '2007-09-12 13:07:45 +0200'
+  date_gmt: '2007-09-12 11:07:45 +0200'
+  content: Aha tnx. Helped me :)
+- id: 166
+  author: Trey
+  author_email: trey_elliott@hotmail.com
+  author_url: ''
+  date: '2007-09-13 03:45:52 +0200'
+  date_gmt: '2007-09-13 01:45:52 +0200'
+  content: |-
+    How would I implement a multi-column (sub) sort.  It looks like ApplySortCore(...) only return the PropertyDescriptor of the column that was clicked.
+
+    Thanks
+- id: 167
+  author: Malcolm
+  author_email: malcolmyixu@hotmail.com
+  author_url: ''
+  date: '2008-04-25 22:00:00 +0200'
+  date_gmt: '2008-04-25 20:00:00 +0200'
+  content: |-
+    Hi Tim
+
+    I have already tried your code, it works very good, but one isuue you might not probably noticed, if I have on column with all same data, when I click this column to sort, what I expect should change nothing, but each time datagridview change the order of records. any suggestion?
+
+    THanks
+- id: 168
+  author: timvw
+  author_email: timvanwassenhove@gmail.com
+  author_url: http://www.timvw.be
+  date: '2008-04-26 10:55:24 +0200'
+  date_gmt: '2008-04-26 08:55:24 +0200'
+  content: |-
+    @Malcolm:
+
+    This is because the implementation always raises a ListChanged event... You could probably add a little tweak that does not do that...
+- id: 169
+  author: To&ntilde;o
+  author_email: blmanthony@yahoo.com
+  author_url: ''
+  date: '2008-04-27 07:54:46 +0200'
+  date_gmt: '2008-04-27 05:54:46 +0200'
+  content: |-
+    Tim,
+
+    Great class.  It is a beautiful, elegant solution to allow sorting of objects in a DataGridView.
+
+    Groetjes,
+    To&ntilde;o
+- id: 170
+  author: Malcolm
+  author_email: malcolmyixu@hotmail.com
+  author_url: ''
+  date: '2008-04-28 18:03:28 +0200'
+  date_gmt: '2008-04-28 16:03:28 +0200'
+  content: |-
+    Hi Tim
+
+    This is interesting, I look up msdn, here is some comment:"This method uses Array..::.Sort, which uses the QuickSort algorithm. This implementation performs an unstable sort; that is, if two elements are equal, their order might not be preserved. In contrast, a stable sort preserves the order of elements that are equal."
+
+    that means our Sort() has changed the order of binding list, even I don't raise ListChanged event this time, but later on, when datagridview needs refresh, all records' order will be changed. I have not found the solution so far. :-)
+- id: 171
+  author: Jochen
+  author_email: jst@solvion.net
+  author_url: ''
+  date: '2008-06-16 17:23:30 +0200'
+  date_gmt: '2008-06-16 15:23:30 +0200'
+  content: |-
+    Hi!
+
+    Your base class already implements the required constructors, just add
+
+    public SortableBindingList() : base() { }
+
+            public SortableBindingList(List list) : base(list) { }
+
+    to initialize with an existing List.
+- id: 172
+  author: Igor
+  author_email: mailmenow84@mail.ru
+  author_url: ''
+  date: '2008-06-16 22:51:46 +0200'
+  date_gmt: '2008-06-16 20:51:46 +0200'
+  content: |-
+    greate class!
+
+    It would be interesting to know why so simple functionality isn't implemented in standart NET framework by default (e.g. in BindingSource class)?
+    Is it in-depth intention?
+- id: 173
+  author: Anton
+  author_email: ''
+  author_url: ''
+  date: '2008-06-25 09:14:34 +0200'
+  date_gmt: '2008-06-25 07:14:34 +0200'
+  content: |-
+    Thanks a lot!
+    It's very helpful.
+- id: 174
+  author: delm
+  author_email: er_delm@hotmail.com
+  author_url: http://www.plurk.com/user/delm
+  date: '2008-08-05 22:40:04 +0200'
+  date_gmt: '2008-08-05 20:40:04 +0200'
+  content: |-
+    thanks man!
+
+    I'm going to implement your excellent peace of code with this other one:
+    http:&#47;&#47;www.codeproject.com&#47;KB&#47;cs&#47;ObjectBindingSource.aspx
+
+    if anyone is interested drop me a line on plurk (link on nick)
+- id: 175
+  author: Tahir Hussain
+  author_email: withaims@live.com
+  author_url: ''
+  date: '2008-08-06 15:38:46 +0200'
+  date_gmt: '2008-08-06 13:38:46 +0200'
+  content: Thanks Tim... your code helped me a lot.
+- id: 176
+  author: Sai
+  author_email: msaivara@gmail.com
+  author_url: ''
+  date: '2008-11-05 00:25:46 +0100'
+  date_gmt: '2008-11-04 22:25:46 +0100'
+  content: |-
+    Hi,,
+
+    Is there any we can make this as a stable sort rather than a unstable sort...??
+- id: 177
+  author: serans1
+  author_email: serans1@gmail.com
+  author_url: http://www.commentino.com/serans1
+  date: '2008-11-30 00:57:11 +0100'
+  date_gmt: '2008-11-29 22:57:11 +0100'
+  content: |-
+    Thanks, it is simple and elegant.
+    MS should take this one into the framework.
+- id: 178
+  author: Leroy
+  author_email: iownauass@gmail.com
+  author_url: ''
+  date: '2009-04-22 17:16:51 +0200'
+  date_gmt: '2009-04-22 16:16:51 +0200'
+  content: |-
+    You Rock man!
+    We use a binding source on all our db objects and this code will make it easy to implement sorting in all our apps.
+- id: 179
+  author: Tim Van Wassenhove &raquo; Archive &raquo; Presenting the SortableBindingList
+    &laquo; Devmanic &#8211; Software Development Mania
+  author_email: ''
+  author_url: http://devmanic.wordpress.com/2009/06/22/tim-van-wassenhove-%c2%bb-archive-%c2%bb-presenting-the-sortablebindinglist/
+  date: '2009-06-23 00:57:20 +0200'
+  date_gmt: '2009-06-22 23:57:20 +0200'
+  content: '[...] http:&#47;&#47;www.timvw.be&#47;presenting-the-sortablebindinglistt&#47;
+    [...]'
+- id: 180
+  author: Carlos
+  author_email: ''
+  author_url: http://u-ix.blogspot.com/
+  date: '2009-07-03 15:28:09 +0200'
+  date_gmt: '2009-07-03 14:28:09 +0200'
+  content: Very nice, thank you.
+- id: 11315
+  author: Plinyar
+  author_email: advo@advo.org.ru
+  author_url: ''
+  date: '2011-05-26 08:59:38 +0200'
+  date_gmt: '2011-05-26 07:59:38 +0200'
+  content: "I would suggest also the following method, in order that newly added items
+    are automatically sorted:\r\n    protected override void InsertItem(int index,
+    T item)\r\n    {\r\n      if (comparer != null &amp;&amp; index == Count)\r\n
+    \     {\r\n        List itemsList = (List)this.Items;\r\n\r\n        index = itemsList.BinarySearch(item,
+    comparer);\r\n        if (index < 0)\r\n        {\r\n          index = ~index;\r\n
+    \       }\r\n      }\r\n      base.InsertItem(index, item);\r\n    }"
+- id: 11330
+  author: karthick
+  author_email: karthick85selvaraj@gmail.com
+  author_url: http://yes
+  date: '2011-05-26 13:25:20 +0200'
+  date_gmt: '2011-05-26 12:25:20 +0200'
+  content: "Thanks Tim,\r\n\r\nBest of luck for all your future articles and all things.
+    Thanks once again.\r\n\r\nregards\r\nKarthick"
+- id: 11903
+  author: HalG
+  author_email: halldor02@gmail.com
+  author_url: ''
+  date: '2011-06-02 02:48:25 +0200'
+  date_gmt: '2011-06-02 01:48:25 +0200'
+  content: "Thank you Tim\r\nBeen looking for this a lot until i stumbled onto your
+    article. Great job \r\nRegards \r\nHal"
+- id: 31114
+  author: bull
+  author_email: ''
+  author_url: http://www.ellismis.com
+  date: '2012-01-18 16:19:09 +0100'
+  date_gmt: '2012-01-18 15:19:09 +0100'
+  content: good stuff man, works brilliantly.  Even sorts time correctly
+- id: 31653
+  author: Mack
+  author_email: ''
+  author_url: http://oddbytes.net
+  date: '2012-01-24 11:33:19 +0100'
+  date_gmt: '2012-01-24 10:33:19 +0100'
+  content: Thanks so much, works like a charm!
+- id: 31760
+  author: Cedric
+  author_email: cedric@sbsdomain.com
+  author_url: ''
+  date: '2012-01-26 10:45:09 +0100'
+  date_gmt: '2012-01-26 09:45:09 +0100'
+  content: ":grin: Works beautifully, THANKS! (After hours of battling with other
+    attempts)\r\n\r\nRegards\r\nCedric"
+- id: 32077
+  author: Gabor Toth
+  author_email: tgabi333@gmail.com
+  author_url: ''
+  date: '2012-01-31 01:11:14 +0100'
+  date_gmt: '2012-01-31 00:11:14 +0100'
+  content: "Big Thanks Tim!\r\n\r\nYou saved me a lot of coding with this example."
+- id: 36597
+  author: Nrike
+  author_email: ''
+  author_url: ''
+  date: '2012-03-16 13:26:58 +0100'
+  date_gmt: '2012-03-16 12:26:58 +0100'
+  content: "Super Thanks Tim!\r\n\r\nWorks brilliantly."
+- id: 47412
+  author: Vahid
+  author_email: vahid.62jafari@gmail.com
+  author_url: ''
+  date: '2012-05-15 14:07:15 +0200'
+  date_gmt: '2012-05-15 13:07:15 +0200'
+  content: Amaging man!!!!!!!
+- id: 74989
+  author: aaa
+  author_email: ''
+  author_url: ''
+  date: '2012-09-07 10:37:05 +0200'
+  date_gmt: '2012-09-07 09:37:05 +0200'
+  content: |-
+    public static class SortableDataSourceExtension
+        {
+            public static IList<T> ToSortable<T>(this IList<T> list)
+            {
+                return new SortableBindingList(list);
+            }
+        }
+- id: 74991
+  author: aaa
+  author_email: ''
+  author_url: ''
+  date: '2012-09-07 10:38:43 +0200'
+  date_gmt: '2012-09-07 09:38:43 +0200'
+  content: But with less than T greater than T where needed to make it generic. your
+    phorum ate my generics!
+- id: 79340
+  author: Trent
+  author_email: trentw64@comcast.net
+  author_url: ''
+  date: '2012-09-19 19:41:58 +0200'
+  date_gmt: '2012-09-19 18:41:58 +0200'
+  content: How would you modify this to allow a comparer for images (ie. red&#47;green&#47;yellow
+    circles that you would like grouped after a list of test in the gridview are run)?
+- id: 81731
+  author: Drew
+  author_email: dbutler@balaw.org
+  author_url: ''
+  date: '2012-09-26 15:42:15 +0200'
+  date_gmt: '2012-09-26 14:42:15 +0200'
+  content: "Awesome for the most part, although I'm running into an issue.  When a
+    user clicks a column in which the data is bound to a child table's column I get
+    a null reference exception. \"Object Reference Not Set To An Instance Of An Object.\"
+    \  (Using Linq)  And when I go back and try to save the employee it will throw
+    the same error.  It's something to do with not being able to handle the child
+    table.\r\n\r\n<code>\r\n\r\n<&#47;code>"
+- id: 81747
+  author: Drew
+  author_email: dbutler@balaw.org
+  author_url: ''
+  date: '2012-09-26 16:24:06 +0200'
+  date_gmt: '2012-09-26 15:24:06 +0200'
+  content: "Awesome for the most part, although I'm running into an issue.  When a
+    user clicks a column in which the data is bound to a child table's column I get
+    a null reference exception. \"Object Reference Not Set To An Instance Of An Object.\"
+    \  (Using Linq) It's something to do with not being able to handle the child table.\r\n\r\n<code>\r\n\r\n
+    \   \r\n        \r\n    \r\n\r\n<&#47;code>"
+- id: 83735
+  author: Max
+  author_email: ''
+  author_url: ''
+  date: '2012-10-04 12:00:52 +0200'
+  date_gmt: '2012-10-04 11:00:52 +0200'
+  content: Thanks man, very useful!
+- id: 187019
+  author: Tom
+  author_email: musictombo@gmail.com
+  author_url: ''
+  date: '2013-04-10 20:36:11 +0200'
+  date_gmt: '2013-04-10 19:36:11 +0200'
+  content: "Hi Tim,\r\nThank you so much.  This works great for me.  Do I need to
+    add a copyright reference or give you credit beyond a comment in the header?  \r\n\r\nThanks
+    again"
+- id: 187955
+  author: timvw
+  author_email: tim@timvw.be
+  author_url: http://timvw.myopenid.com/
+  date: '2013-04-15 12:58:14 +0200'
+  date_gmt: '2013-04-15 11:58:14 +0200'
+  content: 'Hi, no need to add a reference as per: <a href="http:&#47;&#47;www.timvw.be&#47;terms-of-use&#47;"
+    title="Terms of use" rel="nofollow">http:&#47;&#47;www.timvw.be&#47;terms-of-use&#47;<&#47;a>'
+- id: 211104
+  author: ''
+  author_email: ''
+  author_url: ''
+  date: '2013-07-05 16:37:29 +0200'
+  date_gmt: '2013-07-05 15:37:29 +0200'
+  content: This works great for me as well.  Thank you so much.
+- id: 257415
+  author: Steven
+  author_email: stevenreynders@hotmail.com
+  author_url: http://www.fotokorting.be
+  date: '2013-09-23 09:45:31 +0200'
+  date_gmt: '2013-09-23 08:45:31 +0200'
+  content: "Works very well out-of-the-box!\r\nThanks :)"
+- id: 269767
+  author: ''
+  author_email: jongsta@gmail.com
+  author_url: ''
+  date: '2013-10-16 17:05:31 +0200'
+  date_gmt: '2013-10-16 16:05:31 +0200'
+  content: It's working quite well.
+- id: 304199
+  author: Jon
+  author_email: thejonz@gmail.com
+  author_url: ''
+  date: '2013-12-19 18:27:02 +0100'
+  date_gmt: '2013-12-19 17:27:02 +0100'
+  content: Thank you very much!
+- id: 308979
+  author: Anonymous
+  author_email: ''
+  author_url: ''
+  date: '2013-12-27 15:53:23 +0100'
+  date_gmt: '2013-12-27 14:53:23 +0100'
+  content: Thank you! Works great for me, too.
+---
+<p>If you are databinding your custom objects (in a Bindinglist of <T>) to a DataGridView you will notice that the users can't sort the rows by clicking on the columnheaders... Unlike an unbound DataGridView, the SortCompare event is not raised. Here is a class that uses IComparer to implement a BindingList that supports Sorting:<&#47;p></p>
+<p><b>Please read the <a href="http:&#47;&#47;www.timvw.be&#47;presenting-the-sortablebindinglistt-take-two&#47;">follow up article<&#47;a> to find the updated source code.<&#47;b><&#47;p></p>
+<p>Using this SortableBindingList is as easy as:<&#47;p><br />
+[code lang="csharp"]public Form1()<br />
+{<br />
+ InitializeComponent();</p>
+<p> SortableBindingList
+<person> persons = new SortableBindingList
+<person>();<br />
+ persons.Add(new Person(1, "timvw", new DateTime(1980, 04, 30)));<br />
+ persons.Add(new Person(2, "John Doe", DateTime.Now));</p>
+<p> this.dataGridView1.AutoGenerateColumns = false;<br />
+ this.ColumnId.DataPropertyName = "Id";<br />
+ this.ColumnName.DataPropertyName = "Name";<br />
+ this.ColumnBirthday.DataPropertyName = "Birthday";<br />
+ this.dataGridView1.DataSource = persons;<br />
+}[&#47;code]<br />
+<br&#47;><br />
+<img src="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;images&#47;sortablebindinglist.gif" alt="the sortablebindinglist at work"&#47;></p>
+<p>Feel free to download the source and demoproject: <a href="http:&#47;&#47;www.timvw.be&#47;wp-content&#47;code&#47;csharp&#47;SortableBindingList.zip">SortableBindingList.zip<&#47;a>.<&#47;p></p>
+<p><b>Edit:<&#47;b> You can find the latest implementation at <a href="http:&#47;&#47;www.codeplex.com&#47;BeTimvwFramework">BeTimvwFramework<&#47;a>, a project where i will keep classes that i find interesting.<&#47;p></p>

@@ -1,0 +1,29 @@
+---
+layout: post
+status: publish
+published: true
+title: Note about makecert.exe
+author:
+  display_name: timvw
+  login: admin
+  email: tim@timvw.be
+  url: http://timvw.myopenid.com/
+author_login: admin
+author_email: tim@timvw.be
+author_url: http://timvw.myopenid.com/
+wordpress_id: 235
+wordpress_url: http://www.timvw.be/?p=235
+date: '2008-06-21 12:43:23 +0200'
+date_gmt: '2008-06-21 10:43:23 +0200'
+categories: []
+tags:
+- Information Technology
+comments: []
+---
+<p>A couple of days ago i didn't have a binary version of <a href="http:&#47;&#47;www.openssl.org">OpenSSL<&#47;a> around so i decided to use <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;bfsktky3(VS.80).aspx">Makecert.exe<&#47;a>. I generated a couple of test certificates and started playing around with them.<&#47;p></p>
+<p>Whenever i tried to decrypt an instance of <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.security.cryptography.xml.encryptedxml(VS.80).aspx">EncryptedXml<&#47;a> a <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;system.security.cryptography.cryptographicexception.aspx">CryptographicException<&#47;a> ("Bad Key.") was thrown and when i tried to use a <a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;aa529579.aspx">mutualCertificate11Security<&#47;a> assertion (<a href="http:&#47;&#47;msdn.microsoft.com&#47;en-us&#47;library&#47;aa139619.aspx">WSE 3.0<&#47;a>) the same CryptographicException ("WSE600: Unable to unwrap a symmetric key using the private key of an X.509 certificate. Please check if the account 'ASPNET' has permissions to read the private key of certificate with subject name... ") was thrown.<&#47;p></p>
+<p>The problem is that by default, makecert.exe generates a key type that is suited for signature. If you want to use the key for other purposes than signing (eg: SSL authentication) you have to use the -sky exchange option. The following commands made my problems disappear:<&#47;p></p>
+<p>[code lang="dos"]<br />
+makecert -n "CN=Client" -pe -ss My -sr CurrentUser -sky exchange client.cer<br />
+makecert -n "CN=Host" -pe -ss My -sr LocalMachine -sky exchange host.cer<br />
+[&#47;code]</p>
