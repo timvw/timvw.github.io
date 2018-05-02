@@ -1,0 +1,34 @@
+---
+id: 4
+title: From UnixTime to DateTime and back
+date: 2006-10-04T16:55:25+00:00
+author: timvw
+layout: post
+guid: http://www.timvw.be/?p=4
+permalink: /2006/10/04/from-unixtime-to-datetime-and-back/
+dsq_thread_id:
+  - 1921912032
+tags:
+  - 'C#'
+---
+Here are a couple of functions that allow you to convert from [UnixTime](http://en.wikipedia.org/wiki/Unixtime) to [DateTime](http://msdn2.microsoft.com/en-us/library/system.datetime.aspx) and back
+
+```csharp
+public class Util {
+	private static DateTime UnixTime
+	{
+		get { return new DateTime(1970, 1, 1); }
+	}
+
+	public static DateTime FromUnixTime( double unixTime )
+	{
+		return UnixTime.AddSeconds( unixTime );
+	}
+
+	public static double ToUnixTime( DateTime dateTime )
+	{
+		TimeSpan timeSpan = dateTime -- UnixTime;
+		return timeSpan.TotalSeconds;
+	}
+}
+```
