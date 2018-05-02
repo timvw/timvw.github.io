@@ -1,0 +1,65 @@
+/*
+ * Author: Tim Van Wassenhove <timvw@users.sourceforge.net>
+ * Update: 13-12-2003 17:43
+ *
+ * This class represents a server that accepts incoming connections,
+ * and then writes the content of a file to the client.
+ */
+
+import java.io.*;
+import java.net.*;
+
+public class Banner implements Runnable {
+
+	// Some variables
+	private int port;
+	private String file;
+	private ServerSocket serv;	
+	
+	// Main entry point for the program
+	public static void main(String[] args) {
+		if (args.length != 2) {
+			System.out.println("Usage: java Banner portnumber file");
+		} else {
+			new Banner(Integer.parseInt(args[0]),args[1]);
+		}
+	}
+
+	// Constructor
+	public Banner(int port,String file) {
+		this.port = port;
+		this.file = file;
+		try {
+			// Start listening on the ServerSocket
+			serv = new ServerSocket(port);
+			new Thread(this).start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// Main loop
+	public void run() {
+		while (true) {
+			try {
+				// Accept incoming connections
+				Socket client = serv.accept();
+				InputStream in = client.getInputStream();
+				OutputStream out = client.getOutputStream();
+				BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+				// Write the contents of the file to the client
+				String line = bufferedReader.readLine();
+				while (line != null){
+					out.write(line.getBytes());
+					out.write("\n".getBytes());
+					line = bufferedReader.readLine();
+				}
+				// Close the connection
+				client.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+}

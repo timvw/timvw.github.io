@@ -1,0 +1,39 @@
+public class SalesRows
+{
+ #region Private Fields
+ private BindingList<SalesRow> salesRows;
+ #endregion
+
+ #region Constructors
+ public SalesRows(BindingList<SalesRow> salesRows)
+ {
+  if (salesRows == null)
+  {
+   throw new ArgumentNullException();
+  }
+
+  this.salesRows = salesRows;
+ }
+ #endregion
+
+ #region Public Properties
+ public BindingList<SalesRow> Rows
+ {
+  get
+  {
+   BindingList<SalesRow> rows = new BindingList<SalesRow>();
+
+   GlobalSalesRow globalSalesRow = new GlobalSalesRow("GLOBAL", this.salesRows);
+
+   foreach (SalesRow salesRow in this.salesRows)
+   {
+    rows.Add(salesRow);
+   }
+   rows.Add(globalSalesRow);
+
+   return rows;
+  }
+ }
+ #endregion
+}
+

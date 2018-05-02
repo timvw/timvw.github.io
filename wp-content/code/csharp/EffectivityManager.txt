@@ -1,0 +1,181 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace Be.Timvw.Framework.Domain
+{
+    public class EffectivityManager<T> : IEffectivityManager<T> where T : IComparable<T>
+    {
+        #region Private Fields
+
+        private readonly List<IEffectivity<T>> effectivities;
+
+        #endregion
+
+        #region Public Constructors
+
+        public EffectivityManager()
+        {
+            this.effectivities = new List<IEffectivity<T>>();
+        }
+
+        #endregion
+
+        #region IEffectivityManager<T> Members
+
+        public IEffectivity<T> Add(T t, DateTime begin)
+        {
+            if (this.effectivities.Count == 0)
+            {
+                Range<DateTime> validityPeriod = new Range<DateTime>(begin, DateTime.MaxValue);
+                Effectivity<T> effectivity = new Effectivity<T>(t, validityPeriod);
+                this.effectivities.Add(effectivity);
+                return effectivity;
+            }
+
+            IEffectivity<T> snapshot;
+            if (!this.TryGetSnapshot(begin, out snapshot))
+            {
+                IEffectivity<T> effectivityFirstAfter = this.effectivities[0];
+                Range<DateTime> validityPeriod = new Range<DateTime>(begin, effectivityFirstAfter.ValidityPeriod.Begin.AddTicks(-1));
+                Effectivity<T> effectivity = new Effectivity<T>(t, validityPeriod);
+                this.effectivities.Insert(0, effectivity);
+                return effectivity;
+            }
+            else
+            {
+                Range<DateTime> validityPeriod = new Range<DateTime>(begin, snapshot.ValidityPeriod.End);
+                Effectivity<T> effectivity = new Effectivity<T>(t, validityPeriod);
+                this.effectivities.Insert(this.effectivities.IndexOf(snapshot) + 1, effectivity);
+
+                if (snapshot.ValidityPeriod.Begin < effectivity.ValidityPeriod.Begin.AddTicks(-1))
+                {
+                    snapshot.ValidityPeriod.End = effectivity.ValidityPeriod.Begin.AddTicks(-1);
+                }
+                else
+                {
+                    this.effectivities.Remove(snapshot);
+                }
+
+                return effectivity;
+            }
+        }
+
+        public IEffectivity<T> GetSnapshot(DateTime validityDate)
+        {
+            IEffectivity<T> effectivity;
+            if (this.TryGetSnapshot(validityDate, out effectivity))
+            {
+                return effectivity;
+            }
+
+            throw new ArgumentOutOfRangeException(string.Format("No element is effective on {0}", validityDate));
+        }
+
+        public bool TryGetSnapshot(DateTime validityDate, out IEffectivity<T> effectivity)
+        {
+            foreach (IEffectivity<T> anEffectivity in this.effectivities)
+            {
+                if (anEffectivity.IsEffectiveOn(validityDate))
+                {
+                    effectivity = anEffectivity;
+                    return true;
+                }
+            }
+
+            effectivity = default(IEffectivity<T>);
+            return false;
+        }
+
+        #endregion
+
+        #region IList<IEffectivity<T>> Members
+
+        public int IndexOf(IEffectivity<T> item)
+        {
+            return this.effectivities.IndexOf(item);
+        }
+
+        public void Insert(int index, IEffectivity<T> item)
+        {
+            throw new NotSupportedException();
+        }
+
+        public void RemoveAt(int index)
+        {
+            this.Remove(this.effectivities[index]);
+        }
+
+        public IEffectivity<T> this[int index]
+        {
+            get { return this.effectivities[index]; }
+            set { throw new NotSupportedException(); }
+        }
+
+        #endregion
+
+        #region ICollection<IEffectivity<T>> Members
+
+        public void Add(IEffectivity<T> item)
+        {
+            throw new NotSupportedException();
+        }
+
+        public void Clear()
+        {
+            this.effectivities.Clear();
+        }
+
+        public bool Contains(IEffectivity<T> item)
+        {
+            return this.effectivities.Contains(item);
+        }
+
+        public void CopyTo(IEffectivity<T>[] array, int arrayIndex)
+        {
+            this.effectivities.CopyTo(array, arrayIndex);
+        }
+
+        public int Count
+        {
+            get { return this.effectivities.Count; }
+        }
+
+        public bool IsReadOnly
+        {
+            get { return false; }
+        }
+
+        public bool Remove(IEffectivity<T> item)
+        {
+            int indexOfEffectivity = this.effectivities.IndexOf(item);
+            if (indexOfEffectivity > 0)
+            {
+                IEffectivity<T> effectivityFirstBefore = this.effectivities[indexOfEffectivity - 1];
+                effectivityFirstBefore.ValidityPeriod.End = item.ValidityPeriod.End;
+            }
+
+            return this.effectivities.Remove(item);
+        }
+
+        #endregion
+
+        #region IEnumerable<IEffectivity<T>> Members
+
+        public IEnumerator<IEffectivity<T>> GetEnumerator()
+        {
+            return this.effectivities.GetEnumerator();
+        }
+
+        #endregion
+
+        #region IEnumerable Members
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.effectivities.GetEnumerator();
+        }
+
+        #endregion
+    }
+}

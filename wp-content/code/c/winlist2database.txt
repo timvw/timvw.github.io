@@ -1,0 +1,145 @@
+/*
+ * winlist2database.c
+ *
+ * Author		: Tim Van Wassenhove
+ * Update		: May 05, 200112:53:24 AM
+ *
+ * Compile	: gcc winlist2database.c -o winlist.exe -L/usr/local/lib/mysql -lmysqlclient
+ * Platform : cygwin NT 5.0
+ *
+ * Compile	: gcc winlist2database.c -o winlist -lmysqlclient
+ * Platform	: Debian 2.2r4 Linux2.2.17 libmysqlclient10-dev
+ *
+ * This program reads a tetrinetx winlist file.
+ * After reading all the entries are copied into a database.
+ *
+ * The TABLE should contain COLUMNS:
+ *  -name VARCHAR(30),
+ *  -type VARCHAR(1),
+ *  -points INT
+ *
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <mysql/mysql.h>
+
+/* constants for database */
+#define HOST ""
+#define USER ""
+#define PASS ""
+#define DB   ""
+#define TABL ""
+
+/* constants for winlist file */
+#define NICKLEN 30
+#define MAXWINLIST 5120
+#define FILE_WINLIST "game.winlist"
+
+/* structur winlist */
+struct winlist_t {
+  char status;
+  char name[NICKLEN+1];
+  unsigned long int score;
+  char inuse;
+};
+
+/* main method */
+int main() {
+	MYSQL mysql;
+	char query[500];
+
+	int teller;
+	int score;
+	char omzet[100];
+
+	struct winlist_t w[MAXWINLIST];
+	FILE *file_in;
+	int i,valid;
+
+	/* initialise mysql */
+	if (!mysql_init(&mysql)) {
+		printf ("failed initialising\n");
+		return 1;
+	}
+
+	/* connect to mysql */
+	if (!mysql_real_connect(&mysql,HOST,USER,PASS,DB,3306,NULL,NULL)) {
+		printf ("failed connecting: %s\n",mysql_error(&mysql));
+		return 2;
+	}
+
+	/* clear previous entries */
+	strcpy (query,"DELETE FROM ");
+	strcat (query,TABL);
+	mysql_query(&mysql,query);
+
+	/* open winlist file */
+	file_in = fopen(FILE_WINLIST,"r");
+	if (file_in == NULL) {
+		printf ("winlistfile does not exist\n");
+		return 4;
+	}
+
+	/* read in entries from winlist */
+	for(i=0;i<MAXWINLIST;i++)
+	{
+		fread(&w[i], sizeof(struct winlist_t), 1, file_in);
+  }
+
+  /* close winlist file */
+  fclose(file_in);
+
+  /* generate a query */
+  i=0;
+  valid=1;
+  while ( (i<MAXWINLIST) && (w[i].inuse) && (valid))
+  {
+	  valid = (w[i].score >= 0);
+	  valid = valid && ( (w[i].status=='p') || (w[i].status=='t') );
+	  valid = valid && (strlen(w[i].name) <= NICKLEN);
+	  if (valid)
+	  {
+		  query[0] = '\0';
+	  	strcpy (query,"INSERT INTO ");
+			strcat (query,TABL);
+	 		strcat (query,"(name,type,points) VALUES ('");
+	 		strncat (query,w[i].name,NICKLEN);
+	 		strcat (query,"\',\'");
+			strncat (query,&w[i].status,1);
+	 		strcat (query,"\',");
+
+	 		/* converteer score naar char array */
+	 		score = w[i].score;
+			teller = 0;
+			while ((score /10) != 0) {
+				teller++;
+				score /= 10;
+			}
+			omzet[teller+1] = '\0';
+			score = w[i].score;
+			while (teller >= 0) {
+				omzet[teller] = '0'+(score%10);
+				score /= 10;
+				teller--;
+			}
+			strcat (query,omzet);
+			strcat (query,")");
+	 		//printf ("%d : %s \n",i,query);
+
+	 		/* perform the query */
+	 		mysql_query(&mysql,query);
+ 		}
+ 		else {
+	 		printf ("failure for entry %d \n",i);
+ 		}
+	 	i++;
+  }
+  printf ("We processed %d entries \n",i);
+
+	/* disconnect from mysql */
+	mysql_close(&mysql);
+
+	return 0;
+}

@@ -1,0 +1,46 @@
+<?php
+
+// +---------------------------------------------------------------------------
+// | Author: Tim Van Wassenhove <timvw@users.sourceforge.net>
+// | Update: 2005-07-10 01:26
+// |
+// | Requirements: http://simpletest.sf.net
+// +---------------------------------------------------------------------------
+// | $Id:
+// +---------------------------------------------------------------------------
+
+require_once('simpletest/browser.php');
+
+// credentials
+$username = '049xxxxxx';
+$password = 'password';
+
+// new browser
+$ua =& new SimpleBrowser;
+
+// goto index page
+$ua->get('http://www.smscity.be/index.php');
+
+// submit login form
+$ua->setField('send', 'versturen');
+$ua->setField('p', '');
+$ua->setField('ID', '');
+$ua->setField('login', $username);
+$ua->setField('pw', $password);
+$ua->setField('opslaan', 1);
+$ua->clickSubmit('Login!');
+
+// goto credits page
+$ua->get('http://www.smscity.be/index.php?p=verdiencr');
+
+// post credits form
+$params = array();
+$params['p'] = 'credits_innen';
+$params['a'] = $ua->getField('a');
+$params['b'] = $ua->getField('b');
+$params['formhandler'] = $ua->getField('formhandler');
+$ua->post('http://www.smscity.be/index.php?p=verdiencr', $params);
+
+// log out
+$ua->get('http://test/index.php?p=logout');
+?>
