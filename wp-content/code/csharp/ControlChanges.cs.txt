@@ -1,0 +1,83 @@
+using System.Collections.Generic;
+using System.Windows.Forms;
+
+namespace Infrastructure
+{
+    public class ControlChanges
+    {
+        private readonly Control owningControl;
+        private readonly List<Control> controlsToMakeVisible = new List<Control>();
+        private readonly List<Control> controlsToMakeInvisible = new List<Control>();
+        private readonly List<Control> onlyVisibleControls = new List<Control>();
+        private readonly List<Action> actions = new List<Action>();
+
+        public ControlChanges(Control host)
+        {
+            this.owningControl = host;
+        }
+
+        public ControlChanges MakeVisible(params Control[] controls)
+        {
+            this.controlsToMakeVisible.AddRange(controls);
+            return this;
+        }
+
+        public ControlChanges MakeInvisible(params Control[] controls)
+        {
+            this.controlsToMakeInvisible.AddRange(controls);
+            return this;
+        }
+
+        public ControlChanges TheOnlyVisibleControlsAre(params Control[] controls)
+        {
+            this.onlyVisibleControls.AddRange(controls);
+            return this;
+        }
+
+        public ControlChanges Do(Action action)
+        {
+            this.actions.Add(action);
+            return this;
+        }
+
+        public void Execute()
+        {
+            this.owningControl.SuspendLayout();
+            this.ExecuteMakeInvisible();
+            this.ExecuteMakeVisible();
+            this.ExecuteTheOnlyVisibleControlsAre();
+            this.ExecuteActions();
+            this.owningControl.ResumeLayout();
+        }
+
+        private void ExecuteMakeInvisible()
+        {
+            foreach (Control control in this.controlsToMakeInvisible) control.Visible = false;
+        }
+
+        private void ExecuteMakeVisible()
+        {
+            foreach (Control control in this.controlsToMakeVisible) control.Visible = true;
+        }
+
+        private void ExecuteTheOnlyVisibleControlsAre()
+        {
+            if (onlyVisibleControls.Count == 0) return;
+
+            foreach (Control control in this.owningControl.Controls)
+            {
+                control.Visible = this.ControlIsVisible(control, this.onlyVisibleControls);
+            }
+        }
+
+        private bool ControlIsVisible(Control control, ICollection<Control> visibleControls)
+        {
+            return visibleControls.Contains(control);
+        }
+
+        private void ExecuteActions()
+        {
+            foreach (Action action in actions) action();
+        }
+    }
+}

@@ -1,0 +1,536 @@
+#!/usr/bin/env perl
+###############################################################################
+# Author: Tim Van Wassenhove <timvw@users.sourceforge.net>
+# Update: $Id: httpproxy.pl,v 1.10 2005/12/20 11:54:55 timvw Exp $
+###############################################################################
+# {{{ init
+use strict;
+use diagnostics;
+use Getopt::Std;
+use Socket qw(:DEFAULT :crlf);
+
+use constant {
+	DEFAULT_PORT => 8888,
+	DEFAULT_LOGFILE => "&STDOUT",
+	DEFAULT_LOGLEVEL => 4,
+	PROGNAME => "stupid proxy/0.1",
+};
+
+use vars ('$loglevel');
+# }}}
+###############################################################################
+# {{{ display usage options
+###############################################################################
+sub usage
+{
+	print STDERR << "EOF";
+usage: $0 [-p port] [-f logfile] [-l level]
+
+-h 		: this (help) message
+-p port		: the portnumber to run this proxy server on
+-f logfile	: the file where the logging message go to
+-l loglevel	: the level of verboseness of the logging, 0 is silent, 5 is loud
+
+Report bugs and suggestions at http://timvw.madoka.be
+EOF
+	exit;
+}
+# }}}
+################################################################################
+# {{{ log messages
+###############################################################################
+sub logger
+{
+	my $curlevel = shift;
+
+	if ($curlevel <= $loglevel)
+	{
+		my @now = gmtime;
+		# year has an offset of 1900
+		$now[5] += 1900;
+		print LOG sprintf "[%02d-%02d-%02d %02d:%02d:%02d] %s%s",
+			@now[5, 4, 3, 2, 1, 0], @_, $CRLF;
+	}
+}
+# }}}
+###############################################################################
+# {{{ trim pattern from beginning and end of string
+###############################################################################
+sub trim
+{
+	my $string = shift;
+	my $pattern = shift || "\\s+";
+	$string =~ s/^$pattern//;
+	$string =~ s/$pattern$//;
+	return $string;
+}
+# }}}
+###############################################################################
+# {{{ read requestline
+###############################################################################
+sub getrequestline
+{
+	my $sh = shift;
+	my $in;
+
+	#http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4 4.1
+	for ($in = <$sh>; defined $in && $in =~ /^$CRLF$/; $in = <$sh>)
+	{
+		# skip
+	}
+
+	$in = trim $in, $CRLF;
+
+	# http://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html#sec5 5.1
+	# request-line: Method SP Request-URI SP HTTP-Version CRLF
+	my ($method, $uri, $version);
+	if ($in =~ /^(.*?)\s+(.*?)\s+HTTP\/(.*?)$/)
+	{
+		$method = $1;
+		$uri = $2;
+		$version = $3;
+	}
+
+	logger 3, "<- method: $method" if defined $method;
+	logger 3, "<- uri: $uri" if defined $uri;
+	logger 3, "<- version: $version" if defined $version; 
+	
+	return ($method, $uri, $version);
+}
+# }}}
+###############################################################################
+# {{{ read response line
+###############################################################################
+sub getresponseline
+{
+	my $sh = shift;
+	my $in;
+
+        # http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4 4.1
+	for ($in = <$sh>; defined $in && $in =~ /^$CRLF$/; $in = <$sh>)
+	{
+		# skip
+	}
+
+	$in = trim $in, $CRLF;
+
+  	# http://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html#sec6 6.1
+  	# Status-Line = HTTP-Version SP Status-Code SP Reason-Phrase CRLF
+	my ($version, $status, $reason);
+	if ($in =~ /^HTTP\/(.*?)\s+(.*?)\s+(.*?)$/i)
+	{
+		$version = $1;
+		$status = $2;
+		$reason = $3;
+	}
+
+	logger 3, "<- version: $version" if defined $version;
+	logger 3, "<- status: $status" if defined $status;
+	logger 3, "<- reason: $reason" if defined $reason;
+
+	return ($version, $status, $reason);
+}
+# }}}
+###############################################################################
+# {{{ read headers
+###############################################################################
+sub getheaders
+{
+	my $sh = shift;
+	my ($in, %headers);
+
+	# http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4 4.2
+	for ($in = <$sh>; defined $in && $in !~ /^$CRLF$/; $in = <$sh>)
+	{
+		$in = trim $in, $CRLF;
+		my ($name, $value) = split /:/, $in, 2;
+		$name = lc $name;
+		$value = trim $value;
+
+		if (exists $headers{$name})
+		{
+			$headers{$name} .= ", $value";
+		}
+		else
+		{
+			$headers{$name} = $value;
+		}
+	}
+
+	foreach my $header (keys %headers)
+	{
+		logger 4, "<- header: $header value: $headers{$header}";
+	}
+
+	return %headers;
+}
+# }}}
+###############################################################################
+# {{{ read body untill socket is closed
+###############################################################################
+sub getbody
+{
+	my $sh = shift;
+	my ($in, $body);
+
+	for ($in = <$sh>; defined $in; $in = <$sh>)
+	{
+		$body .= $in;
+	}
+
+	logger 5, "<- body: $body" if defined $body;
+
+	return $body;
+}
+# }}}
+###############################################################################
+# {{{ read body with length
+###############################################################################
+sub getbodywithlength
+{
+	my ($sh, $length) = @_;
+	my ($in, $total, $body);
+
+	for ($total = read $sh, $in, $length; defined $in && $total < $length; $total += read $sh, $in, $length)
+	{
+		$body .= $in;
+	}
+	$body .= $in if (defined $in && $total == $length);
+
+	logger 5, "<- body: $body" if defined $body;
+
+	return $body;
+}
+# }}}
+###############################################################################
+# {{{ read body chunked
+##############################################################################
+sub getbodychunked
+{
+	#http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.6
+	my $sh = shift;
+	my ($in, $body);
+
+	for ($in = <$sh>; defined $in; $in = <$sh>)
+	{
+		$in = trim $in;
+		my $chunk = hex $in;
+		while (defined $in && $chunk > 0)
+		{
+			$chunk -= read $sh, $in, $chunk;
+			$body .= $in;
+		}
+	}
+
+	logger 5, "<- body: $body" if defined $body;
+
+	return $body;
+}
+# }}}
+###############################################################################
+# {{{ write request line
+###############################################################################
+sub setrequestline
+{
+	my ($ch, $method, $uri) = @_;
+	print $ch "$method $uri HTTP/1.1$CRLF";
+
+	logger 3, "-> method: $method";
+	logger 3, "-> uri: $uri";
+}
+# }}}
+###############################################################################
+# {{{ write response line
+###############################################################################
+sub setresponseline
+{
+	my ($ch, $status, $reason) = @_;
+
+	# http://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html#sec6 6.1
+	# Status-Line = HTTP-Version SP Status-Code SP Reason-Phrase CRLF
+	print $ch "HTTP/1.0 $status $reason$CRLF";
+
+	logger 3, "-> status: $status";
+	logger 3, "-> reason: $reason";
+}
+# }}}
+###############################################################################
+# {{{ write headers
+###############################################################################
+sub setheaders
+{
+	my ($ch, $cversion, %headers) = @_;
+
+	$headers{"connection"} = "close";
+	$headers{"proxy-connection"} = "close";
+
+	if (exists($headers{"transfer-encoding"})) {
+		delete $headers{"transfer-encoding"};
+	}
+
+	if (defined $cversion && $cversion ne "")
+	{
+		my $via = "HTTP/$cversion localhost";
+			if (exists $headers{"via"})
+		{
+			$headers{"via"} = ", $via";
+		}
+		else
+		{
+			$headers{"via"} = $via;
+		}
+	}
+
+	foreach my $header (keys %headers)
+	{
+		print $ch "$header: $headers{$header}$CRLF";
+		logger 4, "-> header: $header value: $headers{$header}";
+	}
+	print $ch $CRLF;
+}
+# }}}
+###############################################################################
+# {{{ write body
+###############################################################################
+sub setbody
+{
+	my ($ch, $body) = @_;
+
+	# filter :))
+	if(open FH, "< filter.txt") 
+	{
+		my $filter = <FH>;
+		my $replace = <FH>;
+		while (defined $filter && defined $replace)
+		{
+			chomp $filter;
+			chomp $replace;
+			$body =~ s/$filter/$replace/mig;
+			logger 4, "-> filter: s/$filter/$replace/mg";
+			$filter = <FH>;
+			$replace = <FH>;
+		}
+		close FH;
+	}
+	
+	print $ch $body;
+	logger 5, "-> body: $body";
+}
+# }}}
+###############################################################################
+# {{{ client routine
+###############################################################################
+sub clientproc
+{
+	my ($ch, $caddr) = @_;
+	logger 2, "accepted incoming connection...";
+
+	# disable buffering on socket
+	select $ch;
+	$| = 1;
+	select STDOUT;
+
+	# fetch requestline
+	my ($cmethod, $curi, $cversion) = getrequestline $ch;
+
+	# fetch headers
+	my %cheaders = getheaders $ch;
+
+	# fetch body
+        my $cbody;
+	if (exists($cheaders{"transfer-encoding"}) && $cheaders{"transfer-encoding"} eq "chunked")
+	{
+		$cbody = getbodychunked $ch;
+	}
+	elsif (exists($cheaders{"content-length"}))
+	{
+		$cbody = getbodywithlength $ch, $cheaders{"content-length"};
+	}
+
+	logger 2, "fetched request from src";
+
+	# http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.3
+
+	my %headers = ();
+
+	if ($cmethod =~ /^OPTIONS$/i)
+	{
+		if (exists $cheaders{"max-forwards"})
+		{
+			if ($cheaders{"max-forwards"}  > 0)
+			{
+				$cheaders{"max-forwards"} -= 1;
+			} 
+			else 
+			{
+				# reply with own options
+				setresponseline $ch, 200, "OK";
+				setheaders $ch, $cversion, %headers;
+				return;
+			}
+		}
+	}
+
+	# calculate host and port
+	# http://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html#sec5 5.2
+	# http://www.faqs.org/rfcs/rfc2396.html
+	my ($chost, $cport);
+	if ($curi =~ /^http:\/\/([^\/]+)\/(.*)/)
+	{
+		($chost, $cport) = split /:/, $1;	
+	}
+	elsif (exists $cheaders{"host"})
+	{
+		($chost, $cport) = split /:/, $cheaders{"host"};
+	}
+	$cport = 80 if !defined $cport;
+
+	if (!defined $chost) {
+		setresponseline $ch, 400, "Bad Request";
+		setheaders $ch, $cversion, %headers;
+		return;
+	}
+
+	# initialise dst socket 
+	unless(socket DH, PF_INET, SOCK_STREAM, getprotobyname "tcp")
+	{
+		setresponseline $ch, 500, "Internal Server Error";
+		setheaders $ch, $cversion, %headers;
+		close DH;
+		return;
+	}
+
+	# lookup dst network 
+	my $dhost;
+	unless($dhost = inet_aton $chost)
+	{
+		setresponseline $ch, 500, "Internal Server Error";
+		setheaders $ch, $cversion, %headers;
+
+		close DH;
+		return;
+	}
+
+	# try to connect with server
+	unless(connect DH, sockaddr_in $cport, $dhost) 
+	{
+		setresponseline $ch, 500, "Internal Server Error";
+		setheaders $ch, $cversion, %headers;
+		close DH;
+		return;
+	}
+	
+	# disable buffering on socket
+	select DH;
+	$| = 1;
+	select STDOUT;
+
+	# perform request
+	setrequestline *DH, $cmethod, $curi;
+	setheaders *DH, $cversion, %cheaders;
+	if (defined $cbody)
+	{
+		logger 2, "writing body to dst...";
+		setbody *DH, $cbody if defined $cbody;
+	}
+
+	logger 2, "wrote request to dst";
+
+	# fetch response line
+	my ($dversion, $dstatus, $dreason) = getresponseline *DH;
+
+	# fetch response headers
+	my %dheaders = getheaders *DH;
+
+	# fetch response body
+	my $dbody;
+	if (exists($dheaders{"transfer-encoding"}) && $dheaders{"transfer-encoding"} eq "chunked")
+	{
+		$dbody = getbodychunked *DH;
+	}
+	elsif (exists($dheaders{"content-length"}))
+	{
+		$dbody = getbodywithlength *DH, $dheaders{"content-length"};
+	} 
+	else
+	{
+		$dbody = getbody *DH;
+	}
+
+	# clean up dst socket
+	close DH;
+
+	logger 2, "fetched response from dst";
+
+	setresponseline $ch, $dstatus, $dreason;
+	setheaders $ch, $cversion, %dheaders;
+
+	if ($cmethod !~ /^HEAD$/i)
+	{
+		setbody $ch, $dbody if defined $dbody;
+	}
+
+	logger 2, "wrote response to src";
+}
+# }}}
+###############################################################################
+# {{{ main entry point
+###############################################################################
+my %options;
+getopts 'p:f:l:h', \%options or usage;
+usage if exists $options{h};
+
+# use default port unless user gave different port 
+my $port = DEFAULT_PORT; 
+if (exists $options{p} && $options{p} =~ /^\d+$/)
+{
+	$port = $options{p};
+}
+
+# use default logfile unless user gave different file 
+my $logfile = DEFAULT_LOGFILE;
+if (exists $options{f})
+{
+	$logfile = $options{f};
+}
+
+# use default loglevel, unless user gave different level 
+$loglevel = DEFAULT_LOGLEVEL;
+if (exists $options{l} && $options{l} >= 0 && $options{l} <= 5)
+{
+	$loglevel = $options{l};
+}
+
+# open log file
+open LOG, ">$logfile" or die "open: $!";
+
+# open socket
+socket PH, PF_INET, SOCK_STREAM, getprotobyname "tcp" or die "socket: $!";
+# http://www.unixguide.net/network/socketfaq/4.5.shtml
+setsockopt PH, SOL_SOCKET, SO_REUSEADDR, pack "l", 1 or die "setsockopt: $!";
+
+# bind socket to all interfaces on port
+# bind PH, sockaddr_in $port, INADDR_ANY or die "bind: $!";
+
+# bind socket to local interface on port
+bind PH, pack_sockaddr_in $port, inet_aton "127.0.0.1" or die "bind: $!";
+
+# start listening
+listen PH, SOMAXCONN or die "listen: $!";
+logger 0, "we are up and running";
+
+while (1)
+{
+	# accept incoming connection
+	my $naddr = accept CH, PH or next;
+
+	# do client routine
+	clientproc *CH, $naddr;
+
+	# clean up
+	close CH;
+}
+
+# clean up
+close LOG;
+# }}}

@@ -1,0 +1,29 @@
+<?php
+
+// +---------------------------------------------------------------------------
+// | Author: Tim Van Wassenhove <timvw@users.sourceforge.net>
+// |
+// | Test if there is a proxy running at the given address
+// |
+// | Requirements: <a href="http://simpletest.sf.net">simpletest</a>
+// |
+// | Usage:
+// | $host = '200.250.32.130:3128';
+// | if (isProxy($host)) echo "$host is a proxy";
+// | else echo "$host is not a proxy";
+// +---------------------------------------------------------------------------
+// | $Id:$
+// +---------------------------------------------------------------------------
+
+require_once('simpletest/browser.php');
+
+function isProxy($proxy)
+{
+  $ua =& new SimpleBrowser();
+  $ua->useProxy($proxy);
+  $ua->setMaximumRedirects(5);
+  $ua->get('http://' . $_SERVER['SERVER_NAME']);
+  return ($ua->getResponseCode() == 200);
+}
+
+?>

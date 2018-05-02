@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>Tim Van Wassenhove :: WordFinder</title>
+</head>
+
+<body>
+<?php
+
+// +---------------------------------------------------------------------------
+// | Author: Tim Van Wassenhove <timvw@users.sourceforge.net>
+// | Update: 2005-11-15 22:24
+// +---------------------------------------------------------------------------
+
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', TRUE);
+
+if (isset($_POST['search']))
+{
+	$search = trim($_POST['search']);
+
+	echo '<div>Results for: <b>' . $search . '</b></div>';
+	echo '<ul>';
+
+ 	$search = '#^' . $search . '$#';
+
+	$fp = fopen('words', 'r');
+	while (!feof($fp)) {
+		$word = trim(fgets($fp, 4096), "\n");
+		if (preg_match($search, $word) > 0) {
+			echo '<li>' . $word . '</li>';
+		}
+	}
+	fclose($fp);
+
+	echo '</ul>';
+}
+?>
+
+<div>Enter your word, replace unknown characters by '.'</div>
+<div>
+	<form method="post">
+		<input type="text" name="search"/>
+		<input type="submit" value="Search"/>
+	</form>
+</div>
+
+</body>
+</html>
