@@ -1,0 +1,36 @@
+---
+id: 241
+title: Presenting HtmlClipboard
+date: 2008-06-30T09:28:38+00:00
+author: timvw
+layout: post
+guid: http://www.timvw.be/?p=241
+permalink: /2008/06/30/presenting-htmlclipboard/
+dsq_thread_id:
+  - 1933325909
+tags:
+  - 'C#'
+---
+Very often i need to encode/decode the contents of my Clipboard so i decided to write a little tray application to help me
+
+![screenshot of htmlclipboard tray application](http://www.timvw.be/wp-content/images/htmlclipboard.gif)
+
+With the aid of [Clipboard](http://msdn.microsoft.com/en-us/library/system.windows.forms.clipboard.aspx) and [HttpUtility](http://msdn.microsoft.com/en-us/library/system.web.httputility.aspx) this is quite easy to implement
+
+```csharp
+private void toolStripMenuItemDecode_Click(object sender, EventArgs e)
+{
+	string original = Clipboard.GetText();
+	string decodedHtml = HttpUtility.HtmlDecode(original);
+	Clipboard.SetText(decodedHtml);
+}
+
+private void toolStripMenuItemEncode_Click(object sender, EventArgs e)
+{
+	string original = Clipboard.GetText();
+	string encodedHtml = HttpUtility.HtmlEncode(original);
+	Clipboard.SetText(encodedHtml);
+}
+```
+
+Anyway, feel free to download [HtmlClipboard.zip](http://www.timvw.be/wp-content/code/csharp/HtmlClipboard.zip).

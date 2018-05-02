@@ -1,0 +1,14 @@
+---
+id: 215
+title: 'Heroes happened {Here}'
+date: 2008-03-14T08:34:19+00:00
+author: timvw
+layout: post
+guid: http://www.timvw.be/heroes-happened-here/
+permalink: /2008/03/14/heroes-happened-here/
+tags:
+  - Events
+---
+I'm back from [Heroes Happen Here](http://www.microsoft.com/belux/heroeshappenhere/default.aspx). Even with a fullhouse this convention was well organized and evertyhing went pretty smooth (In my experience that is true for all events organised by Microsoft). One suggestion though: Reduce the sugar buffet (although the cake and muffins are very tasty) and add some healthy fruit 😉
+
+I'm glad to notice, despite the fact that the main reason seems to be [SEO](http://en.wikipedia.org/wiki/Search_engine_optimisation), web developers are encouraged to develop websites that work without JavaScript and that they add it afterwards as a real usability enhancement.
