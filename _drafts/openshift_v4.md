@@ -1,6 +1,6 @@
 # Openshift
 
-oc login --token=vO2o3AJV5NNnFfcWeuUfvarc0W9bfSuWiFxIaj7ILzM --server=https://api.us-east-1.online-starter.openshift.com:6443
+oc login --server=https://api.us-east-1.online-starter.openshift.com:6443
 
 oc status
 
