@@ -1,5 +1,5 @@
 ---
-title: Leverage Terraform, NGINX Ingress Controller, cert-manager and letsencrypt to quickly create a Kubernetes cluster which can serve webapps over HTTPS.
+title: Leverage Terraform, NGINX Ingress Controller, cert-manager and Let's Encrypt to quickly create a Kubernetes cluster which can serve webapps over HTTPS.
 author: timvw
 layout: post
 ---
@@ -60,7 +60,7 @@ az network public-ip list | grep -Po '(?<="ipAddress": ")([^"]*)'
 In this example we want to access our applications as https://XXX.apps.icteam.be.
 We achieve this by adding an A-record (the azure public ip address) pointing to *.apps.icteam.be
 
-For the HTTPS part we [install cert-manager](https://cert-manager.io/docs/installation/kubernetes/) and use [letsencrypt](https://letsencrypt.org/) to provide certificates:
+For the HTTPS part we [install cert-manager](https://cert-manager.io/docs/installation/kubernetes/) and use [Let's Encrypt](https://letsencrypt.org/) to provide certificates:
 
 ```bash
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.13.0/cert-manager.yaml
