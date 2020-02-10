@@ -1,3 +1,8 @@
+---
+title: Create a kubernetes cluster on azure with HTTPS ingress using letsencrypt
+author: timvw
+layout: post
+---
 # Quickly setup a kubernetes cluster on azure with HTTPS ingress using letsencrypt for TLS.
 
 ## Configure the azure service principal for Terraform
