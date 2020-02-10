@@ -4,7 +4,7 @@ author: timvw
 layout: post
 ---
 
-The sample code files can be found in this (repository)[https://github.com/timvw/sample-terraform-azure-k8s-nginx-letsencrypt]
+The sample code files can be found in this [repository](https://github.com/timvw/sample-terraform-azure-k8s-nginx-letsencrypt)
 
 ## Configure the azure service principal for Terraform
 
