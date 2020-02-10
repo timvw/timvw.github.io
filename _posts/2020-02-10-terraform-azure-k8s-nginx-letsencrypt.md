@@ -74,13 +74,13 @@ kubectl expose deployment hello-node --port=8080
 kubectl apply -f ingress.yaml
 ```
 
-## Access the application over HTTPS
+Now we can access our application:
 
 ```bash
 curl -v https://hello-node.apps.icteam.be
 ```
 
-## Debugging commands
+Here are some useful commands to help with debugging:
 
 ```bash
 # get some cluster info
@@ -94,7 +94,7 @@ kubectl logs -n ingress-nginx deployment/nginx-ingress-controller -f
 kubectl scale deployment -n ingress-nginx --replicas=0 nginx-ingress-controller
 kubectl scale deployment -n ingress-nginx --replicas=1 nginx-ingress-controller
 ```
-## Destroy everything
+Finally you want to remove everything:
 
 ```bash
 terraform destroy -auto-approve
