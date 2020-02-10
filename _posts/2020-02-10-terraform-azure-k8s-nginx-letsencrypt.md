@@ -1,8 +1,9 @@
 ---
-title: Create a kubernetes cluster on azure with HTTPS ingress using letsencrypt
+title: Leverage Terraform, NGINX Ingress Controller, cert-manager and letsencrypt to quickly create a Kubernetes cluster which can serve webapps over HTTPS.
 author: timvw
 layout: post
 ---
+In this post I demonstrate how easy it has become to create a kubernetes cluster which serves webapplications over HTTPS.
 
 In order to follow along you should clone the sample code from this [repository](https://github.com/timvw/sample-terraform-azure-k8s-nginx-letsencrypt):
 
