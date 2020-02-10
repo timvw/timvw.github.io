@@ -4,13 +4,13 @@ author: timvw
 layout: post
 ---
 
-In order to follow along you should clone the sample code from this [repository](https://github.com/timvw/sample-terraform-azure-k8s-nginx-letsencrypt)
+In order to follow along you should clone the sample code from this [repository](https://github.com/timvw/sample-terraform-azure-k8s-nginx-letsencrypt):
 
 ```bash
 git clone https://github.com/timvw/sample-terraform-azure-k8s-nginx-letsencrypt
 ```
 
-First [configure the azure service principal for Terraform](https://www.terraform.io/docs/providers/azurerm/guides/service_principal_client_secret.html)
+First [configure the azure service principal for Terraform](https://www.terraform.io/docs/providers/azurerm/guides/service_principal_client_secret.html):
 
 ```bash
 export ARM_CLIENT_ID="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX"
@@ -43,7 +43,7 @@ az aks get-credentials --resource-group k8s-test --name kaz
 
 [kubectx](https://github.com/ahmetb/kubectx) is an awesome tool that allows you to easily switch between contexts.
 
-Now it is time to [deploy the NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/deploy/). We also need to apply the [azure specific](https://kubernetes.github.io/ingress-nginx/deploy/#azure) additions.
+Now it is time to [deploy the NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/deploy/). We also need to apply the [azure specific](https://kubernetes.github.io/ingress-nginx/deploy/#azure) additions:
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.28.0/deploy/static/mandatory.yaml
