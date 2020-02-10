@@ -1,0 +1,21 @@
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: hello-node
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"    
+spec:
+  tls:
+  - hosts:
+    - hello-node.apps.icteam.be
+    secretName: hello-node-tls
+  rules:
+  - host: hello-node.apps.icteam.be
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: hello-node
+          servicePort: 8080

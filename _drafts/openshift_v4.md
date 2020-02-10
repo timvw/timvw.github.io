@@ -12,6 +12,22 @@ oc project fun
 
 oc new-app --image-stream=java:11 --code=https://github.com/timvw/oc-jvm.git
 
+## More fun
+
+oc create imagestream demo
+
+oc new-build --name demo-docker --strategy docker --binary --docker-image centos:centos7 --to demo 
+
+-> docker builds are not allowed on "redhat openshift online"
+
+As alternative, build docker image locally and push then to registry
+
+https://docs.openshift.com/container-platform/4.1/registry/securing-exposing-registry.html
+
+
+
+
+
 ## Manual toying around...
 
 oc create -f https://gist.githubusercontent.com/tqvarnst/3ca512b01b7b7c1a1da0532939350e23/raw/3869a54c7dd960965f0e66907cdc3eba6d160cad/openjdk-s2i-imagestream.json
