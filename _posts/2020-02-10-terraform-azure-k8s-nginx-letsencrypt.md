@@ -95,6 +95,13 @@ kubectl logs -n ingress-nginx deployment/nginx-ingress-controller -f
 kubectl scale deployment -n ingress-nginx --replicas=0 nginx-ingress-controller
 kubectl scale deployment -n ingress-nginx --replicas=1 nginx-ingress-controller
 ```
+
+Remove the hello-node application (pods/deployment/service/ingress):
+
+```bash
+kubectl delete all -l app=hello-node
+```
+
 Finally you want to remove everything:
 
 ```bash
