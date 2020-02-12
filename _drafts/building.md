@@ -1,5 +1,5 @@
 ---
-title: Leverage Terraform, Azure Container Service, kaniko to create and use container images
+title: Leverage Terraform, Azure Container Service and kaniko to create and use container images on Kubernetes.
 author: timvw
 layout: post
 ---
@@ -18,28 +18,7 @@ terraform init
 terraform apply -auto-approve
 ```
 
-Create a docker config.json file with the credentials for your container registry:
-
-```bash
-cat >config.json <<EOL
-{
-	"auths": {
-		"$(terraform output cr_server)": {
-			"auth": "$(echo -n $(terraform output cr_admin_username):$(terraform output cr_admin_password) | base64)",
-            "email": "$(terraform output cr_admin_username)"
-		}
-	}
-} 
-EOL
-```
-
-Make this configfile available as a ConfigMap on k8s:
-
-```bash
-kubectl create configmap docker-config --from-file=config.json
-```
-
-Use the credentials to create a docker registry secret (for pulling images):
+We will use the admin credentials to create a docker registry secret:
 
 ```bash
 kubectl create secret docker-registry acr-secret \
@@ -47,6 +26,12 @@ kubectl create secret docker-registry acr-secret \
   --docker-server=https://$(terraform output cr_server) \
   --docker-username=$(terraform output cr_admin_username) \
   --docker-password=$(terraform output cr_admin_password)
+```
+
+Now we can build an image on our cluster and push it to our container registry:
+
+```bash
+kubectl apply -f [build-helloworld-job.yaml](https://raw.githubusercontent.com/timvw/sample-terraform-azure-k8s-acr-kaniko/master/build-helloworld-job.yaml)
 ```
 
 Now deploy the application we just built and verify that it's working:
