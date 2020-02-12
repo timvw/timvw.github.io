@@ -31,14 +31,15 @@ kubectl create secret docker-registry acr-secret \
 Now we can build an image on our cluster and push it to our container registry:
 
 ```bash
-kubectl apply -f [build-helloworld-job.yaml](https://raw.githubusercontent.com/timvw/sample-terraform-azure-k8s-acr-kaniko/master/build-helloworld-job.yaml)
+kubectl apply -f build-helloworld-job.yaml
+kubectl wait --for=condition=complete job/build-helloworld --timeout=300s
 ```
 
 Now deploy the application we just built and verify that it's working:
 
 ```bash
-kubectl apply -f hello.yaml
-curl -v https://hello.apps.icteam.be
+kubectl apply -f helloworld-deploy.yaml
+curl -v https://helloworld.apps.icteam.be
 ```
 
 
