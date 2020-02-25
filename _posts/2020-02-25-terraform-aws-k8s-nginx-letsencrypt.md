@@ -38,7 +38,7 @@ There are some differences with AKS:
 
 * On EKS the Kubernetes master runs in a different network and you need to provision such that the [nodegroups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) can connect to this master. In my example this is achieved by installing an [internet gateway](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html).
 
-Another remark: In case you try to create a [Fargat profile](https://www.terraform.io/docs/providers/aws/r/eks_fargate_profile.html) and it fails you should verify that you are doing it in a [supported region](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/).
+Another remark: In case you try to create a [Fargate profile](https://www.terraform.io/docs/providers/aws/r/eks_fargate_profile.html) and it fails you should verify that you are doing it in a [supported region](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/).
 
 Now it is time to [deploy the NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/deploy/). We also need to apply the [aws specific](https://kubernetes.github.io/ingress-nginx/deploy/#aws) additions:
 
