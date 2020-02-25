@@ -34,5 +34,6 @@ aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name demo
 
 There are some differences with AKS:
 
-    * On AKS a client and key certificate are added to your kubeconfig. On EKS an entry is added which invokes aws eks get-token
-    * On EKS the Kubernetes master runs in a different network and you need to provision such that the [nodegroups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) can connect to this master. In my example this is achieved by installing an internet gateway.
+* On AKS a client and key certificate are added to your kubeconfig. On EKS an entry is added which invokes aws eks get-token
+
+* On EKS the Kubernetes master runs in a different network and you need to provision such that the [nodegroups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) can connect to this master. In my example this is achieved by installing an internet gateway.
