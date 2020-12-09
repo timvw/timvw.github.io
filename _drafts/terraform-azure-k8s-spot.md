@@ -23,3 +23,39 @@ resource "azurerm_kubernetes_cluster_node_pool" "spot" {
     tags       = var.tags
 }
 ```
+
+The nodes in this pool will be [tainted](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) with kubernetes.azure.com/scalesetpriority=spot:NoSchedule.
+
+For a pod to land on a node in this pool you will have to specify a toleration. Here is how you would do this in [Apache Spark](https://spark.apache.org/):
+
+First create a pod.yml file in which you specify the toleration:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: true
+spec:
+  tolerations:
+  - key: "kubernetes.azure.com/scalesetpriority"
+    operator: "Equal"
+    value: "spot"
+    effect: "NoSchedule"
+```
+
+And now you can submit the app
+
+```bash
+./bin/spark-submit \
+  --master k8s://$KUBERNETES_MASTER_API \
+  --deploy-mode cluster \
+  --name spark-pi \
+  --class org.apache.spark.examples.SparkPi \
+  --conf spark.executor.instances=1 \
+  --conf spark.kubernetes.container.image=timvw/spark:3.0.1-hadoop2.7 \
+  --conf spark.kubernetes.driver.podTemplateFile=pod.yml \
+  --conf spark.kubernetes.executor.podTemplateFile=pod.yml \
+  --conf spark.kubernetes.node.selector.agentpool=spot \
+  local:///opt/spark/examples/jars/spark-examples_2.12-3.0.1.jar
+```
