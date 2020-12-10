@@ -9,4 +9,4 @@ permalink: /2005/02/02/elegantly-generate-sql-queries/
 tags:
   - PHP
 ---
-<code src="php/elegantsql.txt" lang="php" />
+Code: [php/elegantsql.txt](/wp-content/code/php/elegantsql.txt)

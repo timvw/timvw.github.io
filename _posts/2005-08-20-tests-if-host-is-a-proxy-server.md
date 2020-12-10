@@ -9,4 +9,4 @@ permalink: /2005/08/20/tests-if-host-is-a-proxy-server/
 tags:
   - PHP
 ---
-<code src="php/proxytester.txt" lang="php" />
+Code: [php/proxytester.txt](/wp-content/code/php/proxytester.txt)

@@ -9,4 +9,4 @@ permalink: /2004/06/26/get-all-the-languages-a-visitor-accepts/
 tags:
   - PHP
 ---
-<code src="php/languages.txt" lang="php" />
+Code: [php/languages.txt](/wp-content/code/php/languages.txt)

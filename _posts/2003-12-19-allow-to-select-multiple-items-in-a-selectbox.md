@@ -9,4 +9,4 @@ permalink: /2003/12/19/allow-to-select-multiple-items-in-a-selectbox/
 tags:
   - PHP
 ---
-<code src="php/select-multiple.txt" lang="php" />
+Code: [php/select-multiple.txt](/wp-content/code/php/select-multiple.txt)

@@ -11,8 +11,7 @@ tags:
 ---
 I was in need for formatted input and the decomposition of the input into a stream of tokens so i came up with the following:
 
-<code src="java/TokSequence.java.txt" lang="java" />
-
+Code: [java/TokSequence.java.txt](/wp-content/code/java/TokSequence.java.txt)
 And now i am ready for formatted input like this:
 
 ```java

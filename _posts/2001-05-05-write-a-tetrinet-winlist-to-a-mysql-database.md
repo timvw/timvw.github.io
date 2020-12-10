@@ -9,4 +9,4 @@ permalink: /2001/05/05/write-a-tetrinet-winlist-to-a-mysql-database/
 tags:
   - C
 ---
-<code src="c/winlist2database.txt" lang="c" />
+Code: [c/winlist2database.txt](/wp-content/code/c/winlist2database.txt)

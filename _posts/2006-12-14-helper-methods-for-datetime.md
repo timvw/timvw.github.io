@@ -11,4 +11,4 @@ tags:
 ---
 Here are a couple of methods that help you with the manipulation of DateTime structs:
 
-<code src="csharp/DateTimeHelpers.txt" lang="csharp" />
+Code: [csharp/DateTimeHelpers.txt](/wp-content/code/csharp/DateTimeHelpers.txt)

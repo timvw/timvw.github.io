@@ -9,4 +9,4 @@ permalink: /2004/12/29/basic-download-script/
 tags:
   - PHP
 ---
-<code src="php/download.txt" lang="php" />
+Code: [php/download.txt](/wp-content/code/php/download.txt)

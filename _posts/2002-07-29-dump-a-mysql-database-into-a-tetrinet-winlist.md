@@ -9,4 +9,4 @@ permalink: /2002/07/29/dump-a-mysql-database-into-a-tetrinet-winlist/
 tags:
   - C
 ---
-<code src="c/database2winlist.txt" lang="c" />
+Code: [c/database2winlist.txt](/wp-content/code/c/database2winlist.txt)
