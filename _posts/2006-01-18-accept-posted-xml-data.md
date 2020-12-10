@@ -1,11 +1,6 @@
 ---
-id: 42
 title: Accept posted XML data
-date: 2006-01-18T02:57:07+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/accept-posted-xml-data/
-permalink: /2006/01/18/accept-posted-xml-data/
 tags:
   - PHP
   - XML

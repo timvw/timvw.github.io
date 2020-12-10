@@ -1,11 +1,6 @@
 ---
-id: 178
 title: About Authorization
-date: 2007-07-06T15:30:14+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/about-iidentity-and-iprincipal/
-permalink: /2007/07/06/about-authorization/
 tags:
   - 'C#'
 ---

@@ -1,11 +1,6 @@
 ---
-id: 99
 title: Getting started with CVS
-date: 2005-02-08T01:44:42+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/getting-started-with-cvs/
-permalink: /2005/02/08/getting-started-with-cvs/
 tags:
   - Free Software
 ---

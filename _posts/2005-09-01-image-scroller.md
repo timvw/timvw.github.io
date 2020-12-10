@@ -1,18 +1,12 @@
 ---
-id: 108
 title: Image scroller
-date: 2005-09-01T02:09:11+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/image-scroller/
-permalink: /2005/09/01/image-scroller/
 tags:
   - JavaScript
 ---
 ```javascript
 // +—————————————————————————
-// | Author: Tim Van Wassenhove <timvw@users.sourceforge.net>
-// |
+// | // |
 // | A javascript picture scroller
 // +—————————————————————————
 

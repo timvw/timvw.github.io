@@ -1,11 +1,6 @@
 ---
-id: 163
 title: Get hexadecimal RGB value from System.Drawing.Color
-date: 2007-04-17T17:03:04+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/get-hexadecimal-rgb-value-from-systemdrawingcolor/
-permalink: /2007/04/17/get-hexadecimal-rgb-value-from-systemdrawingcolor/
 tags:
   - 'C#'
 ---

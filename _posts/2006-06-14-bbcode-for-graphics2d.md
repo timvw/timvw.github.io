@@ -1,11 +1,6 @@
 ---
-id: 25
 title: BBCode for Graphics2D
-date: 2006-06-14T02:34:06+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/bbcode-for-graphics2d/
-permalink: /2006/06/14/bbcode-for-graphics2d/
 tags:
   - Java
 ---

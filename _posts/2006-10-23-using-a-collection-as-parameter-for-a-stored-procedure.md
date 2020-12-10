@@ -1,11 +1,6 @@
 ---
-id: 124
 title: Using a collection as parameter for a stored procedure
-date: 2006-10-23T21:33:00+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/using-a-collection-as-parameter-for-a-stored-procedure/
-permalink: /2006/10/23/using-a-collection-as-parameter-for-a-stored-procedure/
 dsq_thread_id:
   - 1920843036
 tags:
@@ -87,8 +82,7 @@ using (OracleConnection conn = new OracleConnection("User Id=u;password=p;Data S
 	OracleDataReader reader = command.ExecuteReader();
 	while (reader.Read())
 	{
-		Console.WriteLine("test id: " + reader.GetDecimal(0));
-	}
+		Console.WriteLine("test 	}
 
 	Console.Write("{0}Press any key to continue...", Environment.NewLine);
 	Console.ReadKey();

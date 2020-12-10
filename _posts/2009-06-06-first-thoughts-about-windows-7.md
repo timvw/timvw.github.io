@@ -1,11 +1,7 @@
 ---
-id: 1063
 title: First thoughts about Windows 7
-date: 2009-06-06T15:46:29+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1063
-permalink: /2009/06/06/first-thoughts-about-windows-7/
 dsq_thread_id:
   - 1933325134
 tags:

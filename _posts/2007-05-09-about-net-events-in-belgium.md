@@ -1,11 +1,6 @@
 ---
-id: 170
 title: About .Net events in Belgium
-date: 2007-05-09T22:21:16+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/about-net-events-in-belgium/
-permalink: /2007/05/09/about-net-events-in-belgium/
 dsq_thread_id:
   - 1933324263
 tags:

@@ -1,11 +1,6 @@
 ---
-id: 21
 title: eID with .NET
-date: 2006-07-23T02:15:19+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/eid-with-net/
-permalink: /2006/07/23/eid-with-net/
 dsq_thread_id:
   - 1920134027
 tags:

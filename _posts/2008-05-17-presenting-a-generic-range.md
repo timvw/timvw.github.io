@@ -1,11 +1,7 @@
 ---
-id: 225
 title: Presenting a generic Range
-date: 2008-05-17T19:14:14+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=225
-permalink: /2008/05/17/presenting-a-generic-range/
 tags:
   - Patterns
 ---

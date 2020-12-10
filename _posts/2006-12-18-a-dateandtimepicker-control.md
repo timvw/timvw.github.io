@@ -1,11 +1,6 @@
 ---
-id: 133
 title: A DateAndTimePicker control
-date: 2006-12-18T00:13:15+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/a-dateandtimepicker-control/
-permalink: /2006/12/18/a-dateandtimepicker-control/
 tags:
   - 'C#'
   - Windows Forms

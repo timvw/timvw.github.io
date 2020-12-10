@@ -1,11 +1,6 @@
 ---
-id: 23
 title: Inserting pause to your Console Applications
-date: 2006-08-05T02:25:19+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/inserting-pause-to-your-console-applications/
-permalink: /2006/08/05/inserting-pause-to-your-console-applications/
 tags:
   - 'C#'
   - Visual Studio

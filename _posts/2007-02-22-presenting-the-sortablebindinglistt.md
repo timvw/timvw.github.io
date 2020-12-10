@@ -1,11 +1,6 @@
 ---
-id: 155
 title: 'Presenting the SortableBindingList&lt;T&gt;'
-date: 2007-02-22T01:32:43+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/presenting-the-sortablebindinglistt/
-permalink: /2007/02/22/presenting-the-sortablebindinglistt/
 dsq_thread_id:
   - 1920113687
 tags:

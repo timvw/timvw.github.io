@@ -1,11 +1,6 @@
 ---
-id: 45
 title: Automating the configuration of Internet Options / Lan Settings
-date: 2006-09-02T19:51:09+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/45/
-permalink: /2006/09/02/automating-the-configuration-of-internet-options-and-lan-settings/
 tags:
   - Information Technology
 ---

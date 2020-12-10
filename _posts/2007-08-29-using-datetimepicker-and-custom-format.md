@@ -1,11 +1,6 @@
 ---
-id: 199
 title: Using DateTimePicker and Custom Format
-date: 2007-08-29T17:32:42+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/using-datetimepicker-and-custom-format/
-permalink: /2007/08/29/using-datetimepicker-and-custom-format/
 dsq_thread_id:
   - 1920565393
 tags:

@@ -1,11 +1,7 @@
 ---
-id: 476
 title: Presenting AssemblyTypePicker
-date: 2008-09-01T17:32:27+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=476
-permalink: /2008/09/01/presenting-assemblytypepicker/
 tags:
   - 'C#'
   - Windows Forms

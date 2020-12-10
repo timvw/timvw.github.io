@@ -1,11 +1,7 @@
 ---
-id: 406
 title: Professional Visual Studio 2005 Team System
-date: 2008-08-16T08:29:34+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=406
-permalink: /2008/08/16/professional-visual-studio-2005-team-system/
 tags:
   - Book reviews
 ---

@@ -1,11 +1,7 @@
 ---
-id: 571
 title: Presenting ApplicationEnvironment
-date: 2008-09-22T17:18:11+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=571
-permalink: /2008/09/22/presenting-applicationenvironment/
 dsq_thread_id:
   - 1933325137
 tags:

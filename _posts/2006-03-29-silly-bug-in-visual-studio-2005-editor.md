@@ -1,11 +1,6 @@
 ---
-id: 54
 title: Silly bug in Visual Studio 2005 editor
-date: 2006-03-29T21:20:33+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/silly-bug-in-visual-studio-2005-editor/
-permalink: /2006/03/29/silly-bug-in-visual-studio-2005-editor/
 tags:
   - Visual Studio
 ---

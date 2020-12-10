@@ -1,11 +1,7 @@
 ---
-id: 1339
 title: 'MSTEST tip: Add &#039;Full Class Name&#039; column to results view'
-date: 2009-10-08T09:22:36+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1339
-permalink: /2009/10/08/mstest-tip-add-full-class-name-column-to-results-view/
 tags:
   - Visual Studio
 ---

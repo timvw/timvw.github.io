@@ -1,11 +1,6 @@
 ---
-id: 48
 title: Experimenting with Oracle and PL/SQL
-date: 2006-08-21T20:12:05+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/experimenting-with-oracle-and-plsql/
-permalink: /2006/08/21/experimenting-with-oracle-and-plsql/
 tags:
   - SQL
 ---

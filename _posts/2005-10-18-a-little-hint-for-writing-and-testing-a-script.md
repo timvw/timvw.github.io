@@ -1,11 +1,6 @@
 ---
-id: 119
 title: a little hint for writing and testing a script
-date: 2005-10-18T02:38:37+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/a-little-hint-for-writing-and-testing-a-script/
-permalink: /2005/10/18/a-little-hint-for-writing-and-testing-a-script/
 categories:
   - Uncategorized
 tags:

@@ -1,11 +1,6 @@
 ---
-id: 8
 title: Anonymous methods
-date: 2006-09-16T02:01:46+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/anonymous-methods/
-permalink: /2006/09/16/anonymous-methods/
 tags:
   - 'C#'
 ---

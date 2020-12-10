@@ -1,11 +1,6 @@
 ---
-id: 12
 title: Adding DataGridViewColumns (lots of them)
-date: 2006-09-14T02:06:26+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/adding-datagridviewcolumns-lots-of-them/
-permalink: /2006/09/14/adding-datagridviewcolumns-lots-of-them/
 dsq_thread_id:
   - 1920133897
 tags:

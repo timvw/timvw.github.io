@@ -1,11 +1,7 @@
 ---
-id: 1543
 title: Bing vs Google in 5 seconds
-date: 2009-12-05T13:42:23+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1543
-permalink: /2009/12/05/bing-vs-google-in-5-seconds/
 tags:
   - Information Technology
 ---

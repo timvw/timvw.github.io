@@ -1,11 +1,7 @@
 ---
-id: 622
 title: Why MockRepository does not implement IDisposable
-date: 2008-09-26T17:31:35+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=622
-permalink: /2008/09/26/why-mockrepository-does-not-implement-idisposable/
 tags:
   - 'C#'
 ---

@@ -1,11 +1,6 @@
 ---
-id: 26
 title: Printing an array of strings
-date: 2006-05-31T02:34:52+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/printing-an-array-of-strings/
-permalink: /2006/05/31/printing-an-array-of-strings/
 tags:
   - Java
 ---

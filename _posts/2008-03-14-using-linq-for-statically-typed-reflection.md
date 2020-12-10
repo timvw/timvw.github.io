@@ -1,11 +1,6 @@
 ---
-id: 216
 title: Using Linq for statically-typed reflection
-date: 2008-03-14T19:00:43+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/using-linq-for-statically-typed-reflection/
-permalink: /2008/03/14/using-linq-for-statically-typed-reflection/
 tags:
   - 'C#'
 ---

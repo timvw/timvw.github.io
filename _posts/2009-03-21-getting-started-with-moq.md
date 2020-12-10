@@ -1,11 +1,7 @@
 ---
-id: 872
 title: Getting started with Moq
-date: 2009-03-21T15:04:18+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=872
-permalink: /2009/03/21/getting-started-with-moq/
 tags:
   - 'C#'
 ---

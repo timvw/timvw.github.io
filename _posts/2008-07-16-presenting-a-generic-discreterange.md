@@ -1,11 +1,7 @@
 ---
-id: 242
 title: Presenting a generic DiscreteValuesRange
-date: 2008-07-16T18:11:19+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=242
-permalink: /2008/07/16/presenting-a-generic-discreterange/
 tags:
   - Patterns
 ---

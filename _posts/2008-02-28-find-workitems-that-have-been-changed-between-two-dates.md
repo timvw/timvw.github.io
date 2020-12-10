@@ -1,11 +1,6 @@
 ---
-id: 210
 title: Find WorkItems that have been changed between two dates
-date: 2008-02-28T18:44:20+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/find-workitems-that-have-been-changed-between-two-dates/
-permalink: /2008/02/28/find-workitems-that-have-been-changed-between-two-dates/
 tags:
   - 'C#'
 ---

@@ -1,11 +1,7 @@
 ---
-id: 960
 title: 'POC: Moq API adapter for Rhino Mocks'
-date: 2009-04-03T08:21:16+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=960
-permalink: /2009/04/03/poc-moq-api-adapter-for-rhino-mocks/
 tags:
   - 'C#'
 ---

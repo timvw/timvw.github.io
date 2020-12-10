@@ -1,11 +1,6 @@
 ---
-id: 206
 title: 'How the name of an embedded resource is generated in a C# project'
-date: 2008-02-20T19:32:04+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/how-the-name-of-an-embedded-resource-is-generated-in-a-c-project/
-permalink: /2008/02/20/how-the-name-of-an-embedded-resource-is-generated-in-a-c-project/
 tags:
   - 'C#'
   - Windows Forms

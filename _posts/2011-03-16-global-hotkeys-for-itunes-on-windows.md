@@ -1,11 +1,7 @@
 ---
-id: 2103
 title: Global hotkeys for iTunes on windows
-date: 2011-03-16T19:57:07+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2103
-permalink: /2011/03/16/global-hotkeys-for-itunes-on-windows/
 dsq_thread_id:
   - 1933325240
 categories:

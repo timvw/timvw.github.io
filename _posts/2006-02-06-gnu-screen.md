@@ -1,11 +1,6 @@
 ---
-id: 58
 title: GNU screen
-date: 2006-02-06T21:31:58+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/gnu-screen/
-permalink: /2006/02/06/gnu-screen/
 tags:
   - Free Software
 ---
@@ -13,9 +8,7 @@ Another tool that belongs to my favorites is [GNU Screen](http://www.gnu.org/sof
 
 ```bash
 ##############################################
-# Author: Tim Van Wassenhove
-# Update: 2006-02-06 03:02
-##############################################
+# # Up##############################################
 startup_message off
 escape ^Oo
 

@@ -1,11 +1,6 @@
 ---
-id: 107
 title: Currency convertor
-date: 2005-08-29T02:07:16+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/currency-convertor/
-permalink: /2005/08/29/currency-convertor/
 tags:
   - PHP
 ---

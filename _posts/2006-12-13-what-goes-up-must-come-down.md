@@ -1,11 +1,6 @@
 ---
-id: 130
 title: 'What goes up must come down...'
-date: 2006-12-13T23:06:15+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/what-goes-up-must-come-down/
-permalink: /2006/12/13/what-goes-up-must-come-down/
 dsq_thread_id:
   - 1933324908
 tags:

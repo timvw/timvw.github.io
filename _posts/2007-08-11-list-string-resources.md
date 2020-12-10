@@ -1,11 +1,6 @@
 ---
-id: 189
 title: List string resources
-date: 2007-08-11T19:05:34+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/list-string-resources/
-permalink: /2007/08/11/list-string-resources/
 tags:
   - 'C#'
 ---

@@ -1,11 +1,7 @@
 ---
-id: 2411
 title: Clone all your repositories on another machine
-date: 2014-04-23T10:47:00+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2411
-permalink: /2014/04/23/clone-all-your-repositories-on-another-machine/
 categories:
   - Uncategorized
 tags:

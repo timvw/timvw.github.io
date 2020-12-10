@@ -1,11 +1,7 @@
 ---
-id: 2012
 title: 'Techniques learned in SQLtopia: Look Ma, no loops!'
-date: 2010-12-11T10:31:56+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2012
-permalink: /2010/12/11/techniques-learned-in-sqltopia-look-ma-no-loops/
 categories:
   - Uncategorized
 tags:

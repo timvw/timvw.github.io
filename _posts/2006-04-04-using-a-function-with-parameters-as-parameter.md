@@ -1,11 +1,6 @@
 ---
-id: 33
 title: Using a function with parameters as parameter
-date: 2006-04-04T02:46:09+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/using-a-function-with-parameters-as-parameter/
-permalink: /2006/04/04/using-a-function-with-parameters-as-parameter/
 tags:
   - JavaScript
 ---

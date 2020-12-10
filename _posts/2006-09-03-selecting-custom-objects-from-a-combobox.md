@@ -1,11 +1,6 @@
 ---
-id: 17
 title: Selecting custom Objects from a ComboBox
-date: 2006-09-03T02:10:38+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/selecting-custom-objects-from-a-combobox/
-permalink: /2006/09/03/selecting-custom-objects-from-a-combobox/
 tags:
   - 'C#'
   - Windows Forms

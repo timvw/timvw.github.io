@@ -1,11 +1,6 @@
 ---
-id: 143
 title: Generating UTF-8 with System.Xml.XmlWriter
-date: 2007-01-08T23:59:44+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/generating-utf-8-with-systemxmlxmlwriter/
-permalink: /2007/01/08/generating-utf-8-with-systemxmlxmlwriter/
 dsq_thread_id:
   - 1921251479
 tags:

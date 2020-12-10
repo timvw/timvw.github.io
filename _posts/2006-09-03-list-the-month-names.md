@@ -1,11 +1,6 @@
 ---
-id: 19
 title: List the month names
-date: 2006-09-03T02:12:35+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/list-the-month-names/
-permalink: /2006/09/03/list-the-month-names/
 tags:
   - 'C#'
 ---

@@ -1,11 +1,6 @@
 ---
-id: 195
 title: 'WordPress: Import Blogroll from Sage'
-date: 2007-08-25T22:54:15+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/wordpress-import-blogroll-from-sage/
-permalink: /2007/08/25/wordpress-import-blogroll-from-sage/
 tags:
   - WordPress
 ---

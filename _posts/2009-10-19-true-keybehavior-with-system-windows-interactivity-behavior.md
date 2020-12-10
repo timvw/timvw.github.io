@@ -1,11 +1,7 @@
 ---
-id: 1472
 title: True KeyBehavior with System.Windows.Interactivity.Behavior
-date: 2009-10-19T11:22:56+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1472
-permalink: /2009/10/19/true-keybehavior-with-system-windows-interactivity-behavior/
 tags:
   - 'C#'
   - Silverlight

@@ -1,11 +1,7 @@
 ---
-id: 521
 title: Distributed Data Applications with ASP.NET, Second Edition
-date: 2008-09-06T14:28:11+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=521
-permalink: /2008/09/06/distributed-data-applications-with-aspnet-second-edition/
 tags:
   - Book reviews
 ---

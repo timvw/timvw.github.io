@@ -1,11 +1,7 @@
 ---
-id: 1922
 title: Update all repositories with Powershell
-date: 2010-10-25T20:48:48+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1922
-permalink: /2010/10/25/update-all-repositories-with-powershell/
 categories:
   - Uncategorized
 tags:

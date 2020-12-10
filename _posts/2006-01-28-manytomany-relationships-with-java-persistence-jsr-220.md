@@ -1,11 +1,6 @@
 ---
-id: 114
 title: ManyToMany relationships with Java Persistence (JSR-220)
-date: 2006-01-28T02:27:24+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/manytomany-relationships-with-java-persistence-jsr-220/
-permalink: /2006/01/28/manytomany-relationships-with-java-persistence-jsr-220/
 tags:
   - Hibernate
 ---

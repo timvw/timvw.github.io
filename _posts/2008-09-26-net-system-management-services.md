@@ -1,11 +1,7 @@
 ---
-id: 606
 title: .NET System Management Services
-date: 2008-09-26T16:42:03+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=606
-permalink: /2008/09/26/net-system-management-services/
 tags:
   - Book reviews
 ---

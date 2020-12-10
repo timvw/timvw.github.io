@@ -1,11 +1,7 @@
 ---
-id: 402
 title: The never ending race
-date: 2008-08-16T09:04:24+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=402
-permalink: /2008/08/16/the-never-ending-rac/
 tags:
   - Information Technology
 ---

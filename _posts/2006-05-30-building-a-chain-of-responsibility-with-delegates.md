@@ -1,11 +1,6 @@
 ---
-id: 28
 title: Building a chain of responsibility with delegates
-date: 2006-05-30T02:38:33+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/building-a-chain-of-responsibility-with-delegates/
-permalink: /2006/05/30/building-a-chain-of-responsibility-with-delegates/
 tags:
   - 'C#'
 ---

@@ -1,11 +1,7 @@
 ---
-id: 1295
 title: 'Professional WPF Programming: NET Development with the Windows Presentation Foundation'
-date: 2009-10-05T12:56:18+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1295
-permalink: /2009/10/05/professional-wpf-programming-net-development-with-the-windows-presentation-foundation/
 tags:
   - Book reviews
 ---

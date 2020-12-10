@@ -1,11 +1,6 @@
 ---
-id: 88
 title: Custom ordering with MySQL
-date: 2004-12-09T01:10:34+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/custom-ordering-with-mysql/
-permalink: /2004/12/09/custom-ordering-with-mysql/
 tags:
   - SQL
 ---

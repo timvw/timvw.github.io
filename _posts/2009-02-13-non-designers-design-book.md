@@ -1,11 +1,7 @@
 ---
-id: 825
 title: 'Non-Designer&#039;s Design Book'
-date: 2009-02-13T08:53:03+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=825
-permalink: /2009/02/13/non-designers-design-book/
 tags:
   - Book reviews
 ---

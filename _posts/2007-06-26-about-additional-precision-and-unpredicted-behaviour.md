@@ -1,11 +1,6 @@
 ---
-id: 177
 title: 'About additional precision and unpredicted behaviour...'
-date: 2007-06-26T19:27:22+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/about-additional-precision-and-unpredicted-behaviour/
-permalink: /2007/06/26/about-additional-precision-and-unpredicted-behaviour/
 tags:
   - 'C#'
 ---

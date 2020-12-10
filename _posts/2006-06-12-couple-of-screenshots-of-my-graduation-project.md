@@ -1,11 +1,6 @@
 ---
-id: 52
 title: Couple of screenshots of my graduation project
-date: 2006-06-12T21:12:28+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/couple-of-screenshots-of-my-graduation-project/
-permalink: /2006/06/12/couple-of-screenshots-of-my-graduation-project/
 dsq_thread_id:
   - 1933325361
 tags:

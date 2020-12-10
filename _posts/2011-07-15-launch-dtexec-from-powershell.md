@@ -1,11 +1,7 @@
 ---
-id: 2163
 title: Launch DtExec from PowerShell
-date: 2011-07-15T18:47:01+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2163
-permalink: /2011/07/15/launch-dtexec-from-powershell/
 dsq_thread_id:
   - 1920433465
 categories:

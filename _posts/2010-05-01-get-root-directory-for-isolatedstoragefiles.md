@@ -1,11 +1,7 @@
 ---
-id: 1715
 title: Get root directory for IsolatedStorageFiles
-date: 2010-05-01T20:07:04+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1715
-permalink: /2010/05/01/get-root-directory-for-isolatedstoragefiles/
 dsq_thread_id:
   - 1927140626
 tags:

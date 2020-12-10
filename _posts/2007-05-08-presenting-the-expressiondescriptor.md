@@ -1,11 +1,6 @@
 ---
-id: 169
 title: Presenting the ExpressionDescriptor
-date: 2007-05-08T21:07:47+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/presenting-the-expressiondescriptor/
-permalink: /2007/05/08/presenting-the-expressiondescriptor/
 tags:
   - 'C#'
   - Windows Forms

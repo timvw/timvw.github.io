@@ -1,11 +1,7 @@
 ---
-id: 436
 title: Presenting TimeOTPClient
-date: 2008-08-23T16:10:19+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=436
-permalink: /2008/08/23/presenting-timeotpclient/
 tags:
   - Java
 ---

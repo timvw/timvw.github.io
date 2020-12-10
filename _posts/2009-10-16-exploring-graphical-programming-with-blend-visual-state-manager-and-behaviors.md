@@ -1,11 +1,7 @@
 ---
-id: 1437
 title: Exploring graphical programming with Blend, Visual State Manager and Behaviors
-date: 2009-10-16T21:37:21+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1437
-permalink: /2009/10/16/exploring-graphical-programming-with-blend-visual-state-manager-and-behaviors/
 dsq_thread_id:
   - 1929627230
 tags:

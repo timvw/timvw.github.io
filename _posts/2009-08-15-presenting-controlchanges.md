@@ -1,11 +1,7 @@
 ---
-id: 1163
 title: Presenting ControlChanges
-date: 2009-08-15T19:16:02+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1163
-permalink: /2009/08/15/presenting-controlchanges/
 tags:
   - 'C#'
   - Windows Forms

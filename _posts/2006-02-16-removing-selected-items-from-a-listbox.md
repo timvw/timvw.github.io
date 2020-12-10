@@ -1,11 +1,6 @@
 ---
-id: 39
 title: Removing selected items from a ListBox
-date: 2006-02-16T02:53:39+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/removing-selected-items-from-a-listbox/
-permalink: /2006/02/16/removing-selected-items-from-a-listbox/
 dsq_thread_id:
   - 1920134208
 tags:

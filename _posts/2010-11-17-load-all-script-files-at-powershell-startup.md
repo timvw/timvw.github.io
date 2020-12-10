@@ -1,11 +1,7 @@
 ---
-id: 1986
 title: Load all script files at PowerShell startup
-date: 2010-11-17T21:28:25+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1986
-permalink: /2010/11/17/load-all-script-files-at-powershell-startup/
 categories:
   - Uncategorized
 tags:

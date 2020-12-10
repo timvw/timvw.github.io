@@ -1,11 +1,7 @@
 ---
-id: 1972
 title: Get variable value from variable with PowerShell
-date: 2010-11-11T13:37:45+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1972
-permalink: /2010/11/11/get-variable-value-from-variable-with-powershell/
 dsq_thread_id:
   - 1923497345
 categories:

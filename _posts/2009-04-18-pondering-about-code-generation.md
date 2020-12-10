@@ -1,11 +1,7 @@
 ---
-id: 979
 title: Pondering about code generation
-date: 2009-04-18T11:58:10+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=979
-permalink: /2009/04/18/pondering-about-code-generation/
 tags:
   - Information Technology
 ---

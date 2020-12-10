@@ -1,11 +1,7 @@
 ---
-id: 751
 title: Presenting MyTestRunner
-date: 2008-12-24T13:58:11+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=751
-permalink: /2008/12/24/presenting-mytestrunner/
 tags:
   - 'C#'
   - Visual Studio

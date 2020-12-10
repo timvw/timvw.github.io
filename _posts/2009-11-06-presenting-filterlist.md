@@ -1,11 +1,7 @@
 ---
-id: 1504
 title: Presenting FilterList
-date: 2009-11-06T11:18:27+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1504
-permalink: /2009/11/06/presenting-filterlist/
 enclosure:
   - |
     |

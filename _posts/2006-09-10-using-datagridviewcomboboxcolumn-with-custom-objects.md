@@ -1,11 +1,6 @@
 ---
-id: 14
 title: Using DataGridViewComboBoxColumn with Custom Objects
-date: 2006-09-10T02:08:00+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/using-datagridviewcomboboxcolumn-with-custom-objects/
-permalink: /2006/09/10/using-datagridviewcomboboxcolumn-with-custom-objects/
 dsq_thread_id:
   - 1932025671
 tags:

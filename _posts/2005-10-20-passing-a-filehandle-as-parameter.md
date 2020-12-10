@@ -1,11 +1,6 @@
 ---
-id: 113
 title: Passing a filehandle as parameter
-date: 2005-10-20T02:23:25+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/passing-a-filehandle-as-parameter/
-permalink: /2005/10/20/passing-a-filehandle-as-parameter/
 dsq_thread_id:
   - 1926900865
 tags:

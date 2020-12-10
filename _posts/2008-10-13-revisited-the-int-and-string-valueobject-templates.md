@@ -1,11 +1,7 @@
 ---
-id: 677
 title: Revisited the int and string ValueObject templates
-date: 2008-10-13T18:08:45+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=677
-permalink: /2008/10/13/revisited-the-int-and-string-valueobject-templates/
 tags:
   - 'C#'
   - Visual Studio

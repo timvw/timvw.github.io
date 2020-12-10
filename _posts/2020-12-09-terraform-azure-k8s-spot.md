@@ -1,6 +1,5 @@
 ---
 title: Leverage Terraform to create virtual machine scaleset with spot instances
-author: timvw
 layout: post
 ---
 In a [previous](https://timvw.be/2020/02/10/terraform-azure-k8s-nginx-letsencrypt.html) post I demonstrated how easy it has become to deploy a webapplications with an HTTPS backend on Kubernetes and Azure. Let's expand this cluster with a node pool that is backed by [spot](https://azure.microsoft.com/en-us/pricing/spot/) instances:

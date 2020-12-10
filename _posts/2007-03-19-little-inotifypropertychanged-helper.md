@@ -1,11 +1,6 @@
 ---
-id: 156
 title: Little INotifyPropertyChanged helper
-date: 2007-03-19T10:58:53+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/little-inotifypropertychanged-helper/
-permalink: /2007/03/19/little-inotifypropertychanged-helper/
 dsq_thread_id:
   - 1933325637
 tags:

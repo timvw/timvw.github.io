@@ -1,11 +1,7 @@
 ---
-id: 1109
 title: 'Enterprise Integration Patterns: Designing, Building, and Deploying Messaging Solutions'
-date: 2009-07-11T10:46:57+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1109
-permalink: /2009/07/11/enterprise-integration-patterns-designing-building-and-deploying-messaging-solutions/
 tags:
   - Book reviews
 ---

@@ -1,11 +1,7 @@
 ---
-id: 1490
 title: Party for one
-date: 2009-10-29T09:11:06+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1490
-permalink: /2009/10/29/party-for-one/
 tags:
   - 'C#'
 ---

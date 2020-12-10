@@ -1,11 +1,6 @@
 ---
-id: 7
 title: 'Code  39 barcodes recognizer'
-date: 2006-09-18T23:35:41+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/code-39-barcodes-recognizer/
-permalink: /2006/09/18/code-39-barcodes-recognizer/
 dsq_thread_id:
   - 1920133759
 tags:

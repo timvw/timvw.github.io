@@ -1,11 +1,7 @@
 ---
-id: 1932
 title: Deploying a Database Project does not create artefacts for custom schemas
-date: 2010-11-01T10:08:12+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1932
-permalink: /2010/11/01/deploying-a-database-project-does-not-create-artefacts-for-custom-schemas/
 categories:
   - Uncategorized
 tags:

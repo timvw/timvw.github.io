@@ -1,11 +1,6 @@
 ---
-id: 157
 title: Simulate AutoIncrement
-date: 2007-03-24T00:25:01+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/simulate-autoincrement/
-permalink: /2007/03/24/simulate-autoincrement/
 tags:
   - SQL
 ---

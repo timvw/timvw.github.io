@@ -1,11 +1,6 @@
 ---
-id: 115
 title: Using cmd.exe
-date: 2006-04-01T02:30:07+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/using-cmdexe/
-permalink: /2006/04/01/using-cmdexe/
 tags:
   - PHP
 ---

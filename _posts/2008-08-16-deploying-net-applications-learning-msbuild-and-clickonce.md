@@ -1,11 +1,7 @@
 ---
-id: 391
 title: 'Deploying .NET Applications: Learning MSBuild and ClickOnce'
-date: 2008-08-16T07:58:59+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=391
-permalink: /2008/08/16/deploying-net-applications-learning-msbuild-and-clickonce/
 tags:
   - Book reviews
 ---

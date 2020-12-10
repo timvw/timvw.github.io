@@ -1,11 +1,7 @@
 ---
-id: 2159
 title: Building a Nums table (quickly)
-date: 2011-07-13T09:45:14+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2159
-permalink: /2011/07/13/building-a-nums-table-quickly/
 categories:
   - Uncategorized
 tags:

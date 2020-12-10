@@ -1,11 +1,7 @@
 ---
-id: 1184
 title: About the design of a fluent interface
-date: 2009-08-17T14:59:43+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1184
-permalink: /2009/08/17/about-the-design-of-a-fluent-interface/
 dsq_thread_id:
   - 1925698629
 tags:

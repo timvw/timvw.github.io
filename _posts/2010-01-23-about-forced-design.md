@@ -1,11 +1,7 @@
 ---
-id: 1624
 title: About forced design
-date: 2010-01-23T12:46:09+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1624
-permalink: /2010/01/23/about-forced-design/
 tags:
   - Information Technology
 ---

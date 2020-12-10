@@ -1,11 +1,6 @@
 ---
-id: 167
 title: Exploring DataGridViewComboBoxColumn databinding (part2)
-date: 2007-05-03T20:40:59+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/exploring-datagridviewcomboboxcolumn-databinding-part2/
-permalink: /2007/05/03/exploring-datagridviewcomboboxcolumn-databinding-part2/
 dsq_thread_id:
   - 1920394058
 tags:

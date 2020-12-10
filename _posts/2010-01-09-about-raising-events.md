@@ -1,11 +1,7 @@
 ---
-id: 1605
 title: About raising events
-date: 2010-01-09T18:42:48+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1605
-permalink: /2010/01/09/about-raising-events/
 tags:
   - 'C#'
 ---

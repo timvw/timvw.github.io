@@ -1,11 +1,7 @@
 ---
-id: 383
 title: The Art of Agile Development
-date: 2008-08-16T07:44:50+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=383
-permalink: /2008/08/16/the-art-of-agile-development/
 tags:
   - Book reviews
 ---

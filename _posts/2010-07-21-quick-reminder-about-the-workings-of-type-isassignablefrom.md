@@ -1,11 +1,7 @@
 ---
-id: 1833
 title: Quick reminder about the workings of Type.IsAssignableFrom
-date: 2010-07-21T10:55:23+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1833
-permalink: /2010/07/21/quick-reminder-about-the-workings-of-type-isassignablefrom/
 tags:
   - 'C#'
 ---

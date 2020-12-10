@@ -1,11 +1,7 @@
 ---
-id: 4
 title: From UnixTime to DateTime and back
-date: 2006-10-04T16:55:25+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=4
-permalink: /2006/10/04/from-unixtime-to-datetime-and-back/
 dsq_thread_id:
   - 1921912032
 tags:

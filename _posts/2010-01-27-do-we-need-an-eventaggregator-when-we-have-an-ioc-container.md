@@ -1,11 +1,7 @@
 ---
-id: 1642
 title: Do we need an EventAggregator when we have an IOC container?
-date: 2010-01-27T12:55:34+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1642
-permalink: /2010/01/27/do-we-need-an-eventaggregator-when-we-have-an-ioc-container/
 tags:
   - Information Technology
   - Patterns

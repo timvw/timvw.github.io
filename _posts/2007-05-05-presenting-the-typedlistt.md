@@ -1,11 +1,6 @@
 ---
-id: 168
 title: 'Presenting the TypedList&lt;T&gt;'
-date: 2007-05-05T23:57:24+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/presenting-the-typedlistt/
-permalink: /2007/05/05/presenting-the-typedlistt/
 tags:
   - 'C#'
   - Windows Forms

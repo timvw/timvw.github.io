@@ -1,11 +1,7 @@
 ---
-id: 223
 title: Build OpenSSL with Visual Studio 2008
-date: 2008-04-21T18:29:45+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=223
-permalink: /2008/04/21/build-openssl-with-visual-studio-2008/
 dsq_thread_id:
   - 1925476951
 tags:

@@ -1,11 +1,6 @@
 ---
-id: 56
 title: Simple HTTP proxy with Perl
-date: 2005-12-20T21:23:45+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/simple-http-proxy-with-perl/
-permalink: /2005/12/20/simple-http-proxy-with-perl/
 dsq_thread_id:
   - 1920121213
 tags:

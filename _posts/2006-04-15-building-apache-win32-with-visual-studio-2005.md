@@ -1,11 +1,6 @@
 ---
-id: 31
 title: Building apache-win32 with Visual Studio 2005
-date: 2006-04-15T02:44:35+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/building-apache-win32-with-visual-studio-2005/
-permalink: /2006/04/15/building-apache-win32-with-visual-studio-2005/
 dsq_thread_id:
   - 1920134122
 tags:

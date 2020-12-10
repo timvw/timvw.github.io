@@ -1,11 +1,6 @@
 ---
-id: 211
 title: Display WorkItems in a WinForms application
-date: 2008-02-29T20:51:10+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/display-workitems-in-a-winforms-application/
-permalink: /2008/02/29/display-workitems-in-a-winforms-application/
 tags:
   - 'C#'
   - Windows Forms

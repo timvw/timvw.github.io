@@ -1,11 +1,6 @@
 ---
-id: 81
 title: Allow a form to be posted only once
-date: 2006-04-02T00:51:40+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/allow-a-form-to-be-posted-only-once/
-permalink: /2006/04/02/allow-a-form-to-be-posted-only-once/
 tags:
   - PHP
 ---

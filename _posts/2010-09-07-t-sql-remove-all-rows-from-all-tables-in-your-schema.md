@@ -1,11 +1,7 @@
 ---
-id: 1901
 title: 'T-SQL: Remove all rows from all tables in your schema'
-date: 2010-09-07T19:22:29+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1901
-permalink: /2010/09/07/t-sql-remove-all-rows-from-all-tables-in-your-schema/
 dsq_thread_id:
   - 1927051090
 tags:

@@ -1,11 +1,6 @@
 ---
-id: 18
 title: Generate a menu with month names
-date: 2006-09-03T02:11:21+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/generate-a-menu-with-month-names/
-permalink: /2006/09/03/generate-a-menu-with-month-names/
 tags:
   - PHP
 ---

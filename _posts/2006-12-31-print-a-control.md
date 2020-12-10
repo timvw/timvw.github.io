@@ -1,11 +1,6 @@
 ---
-id: 138
 title: Print a Control
-date: 2006-12-31T02:50:50+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/print-a-control/
-permalink: /2006/12/31/print-a-control/
 dsq_thread_id:
   - 1933324936
 tags:

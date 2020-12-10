@@ -1,11 +1,7 @@
 ---
-id: 953
 title: Mastering regular expressions
-date: 2009-04-25T13:56:45+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=953
-permalink: /2009/04/25/mastering-regular-expressions/
 tags:
   - Book reviews
 ---

@@ -1,11 +1,6 @@
 ---
-id: 11
 title: Inconsistent Drag and Drop API
-date: 2006-09-16T02:05:04+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/inconsistent-drag-and-drop-api/
-permalink: /2006/09/16/inconsistent-drag-and-drop-api/
 tags:
   - 'C#'
   - Windows Forms

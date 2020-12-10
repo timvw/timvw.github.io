@@ -1,11 +1,6 @@
 ---
-id: 94
 title: Calculating Fibonacci
-date: 2005-03-03T01:32:49+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/calculating-fibonacci/
-permalink: /2005/03/03/calculating-fibonacci/
 tags:
   - PHP
 ---

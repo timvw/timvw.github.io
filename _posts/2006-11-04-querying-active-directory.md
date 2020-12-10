@@ -1,11 +1,6 @@
 ---
-id: 125
 title: Querying Active Directory
-date: 2006-11-04T15:22:15+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/querying-active-directory/
-permalink: /2006/11/04/querying-active-directory/
 tags:
   - 'C#'
 ---

@@ -1,11 +1,6 @@
 ---
-id: 27
 title: Experimenting with LINQ Preview (May 2006)
-date: 2006-06-20T02:36:18+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/experimenting-with-linq-preview-may-2006/
-permalink: /2006/06/20/experimenting-with-linq-preview-may-2006/
 tags:
   - 'C#'
 ---

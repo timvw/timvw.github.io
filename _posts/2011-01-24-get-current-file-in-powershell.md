@@ -1,11 +1,7 @@
 ---
-id: 2044
 title: Get current file in PowerShell
-date: 2011-01-24T20:23:58+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2044
-permalink: /2011/01/24/get-current-file-in-powershell/
 dsq_thread_id:
   - 1924327119
 categories:

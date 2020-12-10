@@ -1,11 +1,7 @@
 ---
-id: 1962
 title: Modify a text file with PowerShell
-date: 2010-11-07T20:44:22+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1962
-permalink: /2010/11/07/modify-a-text-file-with-powershell/
 dsq_thread_id:
   - 1920241104
 categories:

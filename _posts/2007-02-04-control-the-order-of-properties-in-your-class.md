@@ -1,11 +1,6 @@
 ---
-id: 153
 title: Control the order of Properties in your Class
-date: 2007-02-04T13:05:00+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/control-the-order-of-properties-in-your-class/
-permalink: /2007/02/04/control-the-order-of-properties-in-your-class/
 dsq_thread_id:
   - 1933325617
 tags:

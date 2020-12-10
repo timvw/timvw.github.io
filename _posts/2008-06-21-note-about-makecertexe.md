@@ -1,11 +1,7 @@
 ---
-id: 235
 title: Note about makecert.exe
-date: 2008-06-21T12:43:23+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=235
-permalink: /2008/06/21/note-about-makecertexe/
 tags:
   - Information Technology
 ---

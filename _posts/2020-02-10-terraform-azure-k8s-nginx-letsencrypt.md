@@ -1,6 +1,5 @@
 ---
 title: Leverage Terraform, NGINX Ingress Controller, cert-manager and Let's Encrypt to quickly create a Kubernetes cluster which can serve webapps over HTTPS.
-author: timvw
 layout: post
 ---
 In this post I demonstrate how easy it has become to create a kubernetes cluster which serves webapplications over HTTPS.

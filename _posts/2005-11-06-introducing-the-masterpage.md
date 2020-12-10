@@ -1,11 +1,6 @@
 ---
-id: 121
 title: Introducing the masterpage
-date: 2005-11-06T02:51:31+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/introducing-the-masterpage/
-permalink: /2005/11/06/introducing-the-masterpage/
 tags:
   - PHP
 ---

@@ -1,11 +1,7 @@
 ---
-id: 2111
 title: Navigation to the webpage was canceled
-date: 2011-03-16T14:33:15+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2111
-permalink: /2011/03/16/navigation-to-the-webpage-was-canceled/
 dsq_thread_id:
   - 1923940861
 categories:

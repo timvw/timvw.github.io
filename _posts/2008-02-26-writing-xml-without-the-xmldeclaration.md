@@ -1,11 +1,6 @@
 ---
-id: 209
 title: Writing Xml without the XmlDeclaration
-date: 2008-02-26T20:16:02+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/writing-xml-without-the-xmldeclaration/
-permalink: /2008/02/26/writing-xml-without-the-xmldeclaration/
 tags:
   - 'C#'
   - XML

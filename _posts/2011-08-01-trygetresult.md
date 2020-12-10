@@ -1,11 +1,7 @@
 ---
-id: 2186
 title: TryGetResult
-date: 2011-08-01T11:55:18+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2186
-permalink: /2011/08/01/trygetresult/
 categories:
   - Uncategorized
 tags:

@@ -1,11 +1,7 @@
 ---
-id: 1594
 title: Creating graphs with the Silverlight Toolkit
-date: 2010-01-08T21:58:55+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1594
-permalink: /2010/01/08/creating-graphs-with-the-silverlight-toolkit/
 tags:
   - 'C#'
   - Silverlight

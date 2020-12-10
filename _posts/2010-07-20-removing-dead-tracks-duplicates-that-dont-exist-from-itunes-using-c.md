@@ -1,11 +1,7 @@
 ---
-id: 1811
 title: 'Removing Dead Tracks (Duplicates that don&#039;t exist) from iTunes using C#'
-date: 2010-07-20T18:59:15+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1811
-permalink: /2010/07/20/removing-dead-tracks-duplicates-that-dont-exist-from-itunes-using-c/
 tags:
   - 'C#'
 ---

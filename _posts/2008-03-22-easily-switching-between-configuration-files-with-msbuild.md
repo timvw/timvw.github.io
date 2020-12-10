@@ -1,11 +1,6 @@
 ---
-id: 220
 title: Easily switching between configuration files with MSBuild
-date: 2008-03-22T18:40:58+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/easily-switching-between-configuration-files-with-msbuild/
-permalink: /2008/03/22/easily-switching-between-configuration-files-with-msbuild/
 tags:
   - Visual Studio
 ---

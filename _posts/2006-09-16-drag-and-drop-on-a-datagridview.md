@@ -1,11 +1,6 @@
 ---
-id: 9
 title: Drag and Drop on a DataGridView
-date: 2006-09-16T02:02:36+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/drag-and-drop-on-a-datagridview/
-permalink: /2006/09/16/drag-and-drop-on-a-datagridview/
 dsq_thread_id:
   - 1920133752
 tags:

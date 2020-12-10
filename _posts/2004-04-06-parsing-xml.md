@@ -1,11 +1,6 @@
 ---
-id: 79
 title: Parsing XML
-date: 2004-04-06T00:42:36+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/parsing-xml/
-permalink: /2004/04/06/parsing-xml/
 tags:
   - 'C#'
   - XML

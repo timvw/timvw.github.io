@@ -1,11 +1,7 @@
 ---
-id: 1140
 title: 'Iconoclast: A Neuroscientist Reveals How to Think Differently'
-date: 2009-07-13T17:25:47+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1140
-permalink: /2009/07/13/iconoclast-a-neuroscientist-reveals-how-to-think-differently/
 tags:
   - Book reviews
 ---

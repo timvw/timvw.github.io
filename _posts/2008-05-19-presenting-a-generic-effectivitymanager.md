@@ -1,11 +1,7 @@
 ---
-id: 227
 title: Presenting a generic EffectivityManager
-date: 2008-05-19T19:09:33+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=227
-permalink: /2008/05/19/presenting-a-generic-effectivitymanager/
 tags:
   - Patterns
 ---

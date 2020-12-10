@@ -1,11 +1,7 @@
 ---
-id: 745
 title: 'Release It!: Design and Deploy Production-Ready Software'
-date: 2008-11-22T17:06:47+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=745
-permalink: /2008/11/22/release-it-design-and-deploy-production-ready-software/
 tags:
   - Book reviews
 ---

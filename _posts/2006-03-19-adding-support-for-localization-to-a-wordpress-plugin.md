@@ -1,11 +1,6 @@
 ---
-id: 117
 title: Adding support for localization to a WordPress plugin
-date: 2006-03-19T02:34:29+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/adding-support-for-localization-to-a-wordpress-plugin/
-permalink: /2006/03/19/adding-support-for-localization-to-a-wordpress-plugin/
 tags:
   - WordPress
 ---
@@ -26,7 +21,6 @@ Plugin Name: WP-SpamFilter
 Version: 0.4
 Plugin URI: http://timvw.madoka.be/?p=533
 Description: Mark the new comment as spam if the sender is in the spammers list.
-Author: Tim Van Wassenhove <timvw@users.sourceforge.net>
 
 
 Author URI: http://timvw.be

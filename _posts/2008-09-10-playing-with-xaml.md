@@ -1,11 +1,7 @@
 ---
-id: 540
 title: Presenting a couple of custom MarkupExtensions
-date: 2008-09-10T17:38:08+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=540
-permalink: /2008/09/10/playing-with-xaml/
 tags:
   - 'C#'
 ---

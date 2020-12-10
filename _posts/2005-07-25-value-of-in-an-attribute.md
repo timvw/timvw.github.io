@@ -1,11 +1,6 @@
 ---
-id: 104
 title: value-of in an attribute
-date: 2005-07-25T02:02:38+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/value-of-in-an-attribute/
-permalink: /2005/07/25/value-of-in-an-attribute/
 tags:
   - XML
 ---

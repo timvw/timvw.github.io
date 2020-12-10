@@ -1,6 +1,5 @@
 ---
 title: Parsing lines from Spark RDD
-author: timvw
 layout: post
 ---
 A typical [Apache Spark](http://spark.apache.org/) application using RDD api starts as following:

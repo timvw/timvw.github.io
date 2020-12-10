@@ -1,11 +1,7 @@
 ---
-id: 1457
 title: 'Silverlight: leveraging attached properties to handle key events'
-date: 2009-10-17T23:21:18+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1457
-permalink: /2009/10/17/silverlight-leveraging-attached-properties-to-handle-key-events/
 dsq_thread_id:
   - 1933325201
 tags:

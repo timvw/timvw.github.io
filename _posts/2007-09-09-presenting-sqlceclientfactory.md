@@ -1,11 +1,6 @@
 ---
-id: 202
 title: Presenting SqlCeClientFactory
-date: 2007-09-09T16:15:41+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/presenting-sqlceclientfactory/
-permalink: /2007/09/09/presenting-sqlceclientfactory/
 tags:
   - 'C#'
 ---

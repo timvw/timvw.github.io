@@ -1,11 +1,6 @@
 ---
-id: 144
 title: 'Databinding a Nullable &lt;T&gt; property'
-date: 2007-01-10T01:21:55+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/experimenting-with-iextenderprovider/
-permalink: /2007/01/10/databinding-a-nullable-t-property/
 tags:
   - 'C#'
   - Windows Forms

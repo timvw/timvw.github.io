@@ -1,11 +1,6 @@
 ---
-id: 53
 title: More about marshalling
-date: 2006-03-28T21:16:20+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/more-about-marshalling/
-permalink: /2006/03/28/more-about-marshalling/
 tags:
   - 'C#'
 ---

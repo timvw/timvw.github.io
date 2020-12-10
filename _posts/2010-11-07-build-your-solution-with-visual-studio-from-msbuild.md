@@ -1,11 +1,7 @@
 ---
-id: 1947
 title: Build your solution with Visual Studio from MSBuild
-date: 2010-11-07T20:16:36+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1947
-permalink: /2010/11/07/build-your-solution-with-visual-studio-from-msbuild/
 categories:
   - Uncategorized
 tags:

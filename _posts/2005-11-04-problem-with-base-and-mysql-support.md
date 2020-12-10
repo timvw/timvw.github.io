@@ -1,11 +1,6 @@
 ---
-id: 122
 title: Problem with Base and MySQL support
-date: 2005-11-04T02:52:02+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/problem-with-base-and-mysql-support/
-permalink: /2005/11/04/problem-with-base-and-mysql-support/
 tags:
   - Free Software
 ---

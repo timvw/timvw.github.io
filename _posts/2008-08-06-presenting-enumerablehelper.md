@@ -1,11 +1,7 @@
 ---
-id: 350
 title: Presenting EnumerableHelper
-date: 2008-08-06T18:36:23+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=350
-permalink: /2008/08/06/presenting-enumerablehelper/
 dsq_thread_id:
   - 1933324487
 tags:

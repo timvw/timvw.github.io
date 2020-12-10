@@ -1,11 +1,6 @@
 ---
-id: 96
 title: Exploring the FTP functions
-date: 2005-05-04T01:35:25+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/exploring-the-ftp-functions/
-permalink: /2005/05/04/exploring-the-ftp-functions/
 tags:
   - PHP
 ---

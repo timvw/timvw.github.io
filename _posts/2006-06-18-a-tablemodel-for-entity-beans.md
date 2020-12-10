@@ -1,11 +1,6 @@
 ---
-id: 24
 title: A TableModel for Entity Beans
-date: 2006-06-18T02:28:22+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/a-tablemodel-for-entity-beans/
-permalink: /2006/06/18/a-tablemodel-for-entity-beans/
 tags:
   - Hibernate
 ---

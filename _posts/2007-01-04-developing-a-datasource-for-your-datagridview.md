@@ -1,11 +1,6 @@
 ---
-id: 140
 title: Developing a DataSource for your DataGridView
-date: 2007-01-04T23:10:37+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/developing-a-datasource-for-your-datagridview/
-permalink: /2007/01/04/developing-a-datasource-for-your-datagridview/
 dsq_thread_id:
   - 1933324909
 tags:

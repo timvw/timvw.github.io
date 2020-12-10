@@ -1,11 +1,6 @@
 ---
-id: 44
 title: Brainteaser
-date: 2006-01-14T02:59:45+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/brainteaser/
-permalink: /2006/01/14/brainteaser/
 tags:
   - PHP
 ---

@@ -1,11 +1,7 @@
 ---
-id: 400
 title: Programming WCF Services
-date: 2008-08-16T08:10:50+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=400
-permalink: /2008/08/16/programming-wcf-services/
 tags:
   - Book reviews
 ---

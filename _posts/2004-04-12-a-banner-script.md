@@ -1,11 +1,6 @@
 ---
-id: 80
 title: A banner script
-date: 2004-04-12T00:46:47+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/a-banner-script/
-permalink: /2004/04/12/a-banner-script/
 tags:
   - PHP
 ---

@@ -1,11 +1,6 @@
 ---
-id: 95
 title: More on recursion
-date: 2005-03-04T01:34:26+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/more-on-recursion/
-permalink: /2005/03/04/more-on-recursion/
 tags:
   - PHP
 ---

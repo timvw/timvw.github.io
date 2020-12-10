@@ -1,11 +1,7 @@
 ---
-id: 1493
 title: Presenting PathBuilder
-date: 2009-10-29T09:19:40+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1493
-permalink: /2009/10/29/presenting-pathbuilder/
 tags:
   - 'C#'
 ---

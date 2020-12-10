@@ -1,11 +1,6 @@
 ---
-id: 68
 title: I am the manual
-date: 2005-07-06T21:47:56+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/i-am-the-manual/
-permalink: /2005/07/06/i-am-the-manual/
 tags:
   - Awards and Certifications
   - PHP

@@ -1,11 +1,7 @@
 ---
-id: 1028
 title: Enterprise Service Bus
-date: 2009-05-03T09:07:50+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1028
-permalink: /2009/05/03/enterprise-service-bus/
 tags:
   - Book reviews
 ---

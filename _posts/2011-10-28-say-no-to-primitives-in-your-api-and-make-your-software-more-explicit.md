@@ -1,11 +1,7 @@
 ---
-id: 2245
 title: Say no to primitives in your API.. and make your software more explicit
-date: 2011-10-28T10:51:52+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2245
-permalink: /2011/10/28/say-no-to-primitives-in-your-api-and-make-your-software-more-explicit/
 dsq_thread_id:
   - 1933324692
 categories:

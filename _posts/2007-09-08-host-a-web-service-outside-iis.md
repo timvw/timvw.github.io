@@ -1,11 +1,6 @@
 ---
-id: 200
 title: 'Query a Web Service hosted outside IIS with it&#039;s DNS name'
-date: 2007-09-08T02:16:36+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/host-a-web-service-outside-iis/
-permalink: /2007/09/08/host-a-web-service-outside-iis/
 dsq_thread_id:
   - 1925065455
 tags:

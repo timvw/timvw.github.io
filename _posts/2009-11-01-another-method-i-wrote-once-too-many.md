@@ -1,11 +1,7 @@
 ---
-id: 1496
 title: Another method i wrote once too many
-date: 2009-11-01T16:57:59+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1496
-permalink: /2009/11/01/another-method-i-wrote-once-too-many/
 dsq_thread_id:
   - 1933325143
 tags:

@@ -1,11 +1,6 @@
 ---
-id: 215
 title: 'Heroes happened {Here}'
-date: 2008-03-14T08:34:19+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/heroes-happened-here/
-permalink: /2008/03/14/heroes-happened-here/
 tags:
   - Events
 ---

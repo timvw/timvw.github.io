@@ -1,11 +1,6 @@
 ---
-id: 212
 title: Find the members of an AD group
-date: 2008-03-05T18:08:39+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/find-the-members-of-an-ad-group/
-permalink: /2008/03/05/find-the-members-of-an-ad-group/
 tags:
   - 'C#'
 ---

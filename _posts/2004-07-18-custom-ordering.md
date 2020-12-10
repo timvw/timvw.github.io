@@ -1,11 +1,6 @@
 ---
-id: 86
 title: Custom ordering
-date: 2004-07-18T01:06:12+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/custom-ordering/
-permalink: /2004/07/18/custom-ordering/
 tags:
   - SQL
 ---

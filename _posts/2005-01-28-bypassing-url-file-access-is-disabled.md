@@ -1,11 +1,6 @@
 ---
-id: 92
 title: Bypassing URL file-access is disabled
-date: 2005-01-28T01:18:19+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/bypassing-url-file-access-is-disabled/
-permalink: /2005/01/28/bypassing-url-file-access-is-disabled/
 dsq_thread_id:
   - 1923053113
 tags:

@@ -1,11 +1,6 @@
 ---
-id: 20
 title: Dynamic CSS with PHP
-date: 2006-08-27T02:13:40+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/dynamic-css-with-php/
-permalink: /2006/08/27/dynamic-css-with-php/
 dsq_thread_id:
   - 1926052835
 tags:
@@ -22,7 +17,6 @@ background-color: <?php echo 'yellow'; ?>;
 Here is a simulation of what your browser recieves when it requests the file:
 
 <pre>HTTP/1.1 200 OK
-Date: Sat, 26 Aug 2006 23:36:21 GMT
 Server: Apache/1.3.34 (Unix) PHP/4.4.2 mod_macro/1.1.2
 X-Powered-By: PHP/4.4.2
 Connection: close

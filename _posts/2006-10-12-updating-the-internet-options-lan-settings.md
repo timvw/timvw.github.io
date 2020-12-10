@@ -1,11 +1,6 @@
 ---
-id: 49
 title: Updating the Internet Options / Lan Settings
-date: 2006-10-12T20:43:48+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/updating-the-internet-options-lan-settings/
-permalink: /2006/10/12/updating-the-internet-options-lan-settings/
 dsq_thread_id:
   - 1920134401
 tags:

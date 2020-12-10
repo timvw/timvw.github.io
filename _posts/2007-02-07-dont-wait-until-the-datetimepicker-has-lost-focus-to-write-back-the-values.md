@@ -1,11 +1,6 @@
 ---
-id: 154
 title: 'Don&#039;t wait until the DateTimePicker has lost focus to write back the values'
-date: 2007-02-07T22:52:52+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/dont-wait-until-the-datetimepicker-has-lost-focus-to-write-back-the-values/
-permalink: /2007/02/07/dont-wait-until-the-datetimepicker-has-lost-focus-to-write-back-the-values/
 dsq_thread_id:
   - 1933325636
 tags:

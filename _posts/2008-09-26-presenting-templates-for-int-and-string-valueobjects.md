@@ -1,11 +1,7 @@
 ---
-id: 611
 title: Presenting templates for int and string ValueObjects
-date: 2008-09-26T17:01:30+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=611
-permalink: /2008/09/26/presenting-templates-for-int-and-string-valueobjects/
 tags:
   - 'C#'
   - Visual Studio

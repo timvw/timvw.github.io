@@ -1,11 +1,7 @@
 ---
-id: 1768
 title: Sometimes you can write it better than Resharper
-date: 2010-07-03T17:11:11+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1768
-permalink: /2010/07/03/sometimes-you-can-write-it-better-than-resharper/
 dsq_thread_id:
   - 1926529087
 tags:

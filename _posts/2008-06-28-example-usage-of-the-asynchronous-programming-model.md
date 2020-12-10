@@ -1,11 +1,7 @@
 ---
-id: 239
 title: Example implementation of a callback method for use in the Asynchronous Programming Model
-date: 2008-06-28T14:00:01+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=239
-permalink: /2008/06/28/example-usage-of-the-asynchronous-programming-model/
 tags:
   - 'C#'
 ---

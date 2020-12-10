@@ -1,11 +1,6 @@
 ---
-id: 150
 title: 'About Thread-Safe GUI...'
-date: 2007-01-21T15:57:25+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/about-thread-safe-gui/
-permalink: /2007/01/21/about-thread-safe-gui/
 tags:
   - 'C#'
   - Windows Forms

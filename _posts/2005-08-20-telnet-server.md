@@ -1,11 +1,6 @@
 ---
-id: 100
 title: Telnet server
-date: 2005-08-20T01:51:35+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/telnet-server/
-permalink: /2005/08/20/telnet-server/
 tags:
   - Java
 ---

@@ -1,11 +1,7 @@
 ---
-id: 228
 title: Exploring the Microsoft Sync Framework
-date: 2008-05-24T16:03:45+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=228
-permalink: /2008/05/24/exploring-the-microsoft-sync-framework/
 tags:
   - 'C#'
 ---

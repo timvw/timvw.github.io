@@ -1,11 +1,6 @@
 ---
-id: 205
 title: Updating Assembly References with TFS
-date: 2008-02-18T19:00:55+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/updating-assembly-references-with-tfs/
-permalink: /2008/02/18/updating-assembly-references-with-tfs/
 tags:
   - 'C#'
 ---

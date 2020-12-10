@@ -1,11 +1,6 @@
 ---
-id: 102
 title: Read from STDIN without echoing the input back
-date: 2005-07-24T01:57:14+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/read-from-stdin-without-echoing-the-input-back/
-permalink: /2005/07/24/read-from-stdin-without-echoing-the-input-back/
 tags:
   - PHP
 ---

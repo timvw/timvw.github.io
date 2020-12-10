@@ -1,11 +1,7 @@
 ---
-id: 1611
 title: 'Add &quot;Run as administrator&quot; to .sln files'
-date: 2010-01-09T20:07:01+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1611
-permalink: /2010/01/09/add-run-as-administrator-to-sln-files/
 tags:
   - Visual Studio
 ---

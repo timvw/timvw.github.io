@@ -1,11 +1,6 @@
 ---
-id: 118
 title: Wordfinder
-date: 2005-11-15T02:35:54+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/wordfinder/
-permalink: /2005/11/15/wordfinder/
 tags:
   - PHP
 ---

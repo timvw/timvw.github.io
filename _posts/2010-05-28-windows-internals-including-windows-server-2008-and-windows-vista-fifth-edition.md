@@ -1,11 +1,7 @@
 ---
-id: 1730
 title: 'Windows Internals: Including Windows Server 2008 and Windows Vista, Fifth Edition'
-date: 2010-05-28T19:37:07+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1730
-permalink: /2010/05/28/windows-internals-including-windows-server-2008-and-windows-vista-fifth-edition/
 tags:
   - Book reviews
 ---

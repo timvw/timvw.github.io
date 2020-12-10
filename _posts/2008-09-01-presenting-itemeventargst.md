@@ -1,11 +1,7 @@
 ---
-id: 463
 title: 'Presenting ItemEventArgs&lt;T&gt;'
-date: 2008-09-01T15:22:37+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=463
-permalink: /2008/09/01/presenting-itemeventargst/
 tags:
   - 'C#'
 ---

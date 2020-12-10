@@ -1,11 +1,7 @@
 ---
-id: 955
 title: 'xUnit Test Patterns: Refactoring Test Code'
-date: 2009-03-28T08:53:06+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=955
-permalink: /2009/03/28/xunit-test-patterns-refactoring-test-code/
 tags:
   - Book reviews
 ---

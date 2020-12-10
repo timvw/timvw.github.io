@@ -1,11 +1,6 @@
 ---
-id: 217
 title: Easily switching between App.Config files with MSBuild
-date: 2008-03-17T20:04:03+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/easily-switching-between-appconfig-files-with-msbuild/
-permalink: /2008/03/17/easily-switching-between-appconfig-files-with-msbuild/
 dsq_thread_id:
   - 1920274229
 tags:

@@ -1,11 +1,7 @@
 ---
-id: 1313
 title: 'Fluent Builders: More than creating context specifications'
-date: 2009-10-08T08:13:14+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1313
-permalink: /2009/10/08/fluent-builders-more-than-creating-context-specifications/
 tags:
   - 'C#'
 ---

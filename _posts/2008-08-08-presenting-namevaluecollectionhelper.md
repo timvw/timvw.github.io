@@ -1,11 +1,7 @@
 ---
-id: 359
 title: Presenting NameValueCollectionHelper
-date: 2008-08-08T19:22:31+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=359
-permalink: /2008/08/08/presenting-namevaluecollectionhelper/
 dsq_thread_id:
   - 1925951007
 tags:

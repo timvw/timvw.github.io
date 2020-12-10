@@ -1,11 +1,7 @@
 ---
-id: 857
 title: Another reason for not using mstest
-date: 2009-03-14T07:11:43+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=857
-permalink: /2009/03/14/another-reason-for-not-using-mstest/
 dsq_thread_id:
   - 1926745973
 tags:

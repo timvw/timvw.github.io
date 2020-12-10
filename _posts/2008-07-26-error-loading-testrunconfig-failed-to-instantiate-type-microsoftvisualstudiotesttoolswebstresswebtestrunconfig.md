@@ -1,11 +1,7 @@
 ---
-id: 283
 title: 'Error loading testrunconfig: Failed to instantiate type Microsoft.VisualStudio.TestTools.WebStress.WebTestRunConfig'
-date: 2008-07-26T08:40:00+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=283
-permalink: /2008/07/26/error-loading-testrunconfig-failed-to-instantiate-type-microsoftvisualstudiotesttoolswebstresswebtestrunconfig/
 tags:
   - Visual Studio
 ---

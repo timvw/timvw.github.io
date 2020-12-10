@@ -1,11 +1,7 @@
 ---
-id: 1544
 title: In case you really have to Append one array to another
-date: 2009-12-04T08:46:32+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1544
-permalink: /2009/12/04/in-case-you-really-have-to-append-one-array-to-another/
 tags:
   - 'C#'
   - Patterns

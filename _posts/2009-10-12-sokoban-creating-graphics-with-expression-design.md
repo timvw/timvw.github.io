@@ -1,11 +1,7 @@
 ---
-id: 1393
 title: 'Sokoban: Creating graphics with Expression Design'
-date: 2009-10-12T09:32:37+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1393
-permalink: /2009/10/12/sokoban-creating-graphics-with-expression-design/
 dsq_thread_id:
   - 1933324543
 tags:

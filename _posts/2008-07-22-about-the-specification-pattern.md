@@ -1,11 +1,7 @@
 ---
-id: 269
 title: About the Specification pattern
-date: 2008-07-22T17:32:09+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=269
-permalink: /2008/07/22/about-the-specification-pattern/
 tags:
   - Patterns
 ---

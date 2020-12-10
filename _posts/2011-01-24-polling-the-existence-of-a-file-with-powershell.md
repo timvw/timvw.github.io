@@ -1,11 +1,7 @@
 ---
-id: 2050
 title: Polling the existence of a file with PowerShell
-date: 2011-01-24T21:14:04+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2050
-permalink: /2011/01/24/polling-the-existence-of-a-file-with-powershell/
 dsq_thread_id:
   - 1920264831
 categories:

@@ -1,11 +1,7 @@
 ---
-id: 1091
 title: 'Beyond the basics: IPropertyAccessor'
-date: 2009-06-27T15:51:20+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1091
-permalink: /2009/06/27/beyond-the-basics-ipropertyaccessor/
 tags:
   - NHibernate
 ---

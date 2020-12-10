@@ -1,11 +1,7 @@
 ---
-id: 2483
 title: Notes on running spark-notebook
-date: 2015-08-27T09:39:15+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2483
-permalink: /2015/08/27/notes-on-running-spark-notebook/
 categories:
   - Uncategorized
 tags:

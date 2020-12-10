@@ -1,11 +1,7 @@
 ---
-id: 588
 title: Refactoring EffectivityManager
-date: 2008-09-23T17:33:22+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=588
-permalink: /2008/09/23/refactoring-effectivitymanager/
 tags:
   - 'C#'
   - Patterns

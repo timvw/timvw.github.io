@@ -1,11 +1,6 @@
 ---
-id: 181
 title: 'Pondering about DateTime and it&#039;s Ticks...'
-date: 2007-07-18T18:29:29+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/pondering-about-datetime-and-its-ticks/
-permalink: /2007/07/18/pondering-about-datetime-and-its-ticks/
 dsq_thread_id:
   - 1933325799
 tags:

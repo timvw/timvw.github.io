@@ -1,11 +1,7 @@
 ---
-id: 5
 title: Accessing ConnectionStrings from App.config in a Console Application Project
-date: 2006-10-04T17:07:15+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=5
-permalink: /2006/10/04/accessing-connectionstrings-from-appconfig-in-a-console-application-project/
 tags:
   - 'C#'
 ---

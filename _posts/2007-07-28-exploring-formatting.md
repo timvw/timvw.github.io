@@ -1,11 +1,6 @@
 ---
-id: 184
 title: 'Exploring formatting...'
-date: 2007-07-28T00:08:56+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/consistent-formatting-via-cultureinfo/
-permalink: /2007/07/28/exploring-formatting/
 tags:
   - 'C#'
   - Windows Forms

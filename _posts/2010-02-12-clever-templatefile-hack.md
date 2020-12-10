@@ -1,11 +1,7 @@
 ---
-id: 1679
 title: Clever TemplateFile hack
-date: 2010-02-12T21:50:58+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1679
-permalink: /2010/02/12/clever-templatefile-hack/
 dsq_thread_id:
   - 1922710157
 tags:

@@ -1,11 +1,7 @@
 ---
-id: 1669
 title: 'Another missing method for IEnumerable&lt;T&gt;'
-date: 2010-02-10T19:29:33+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1669
-permalink: /2010/02/10/another-missing-method-for-ienumerablet/
 tags:
   - 'C#'
 ---

@@ -1,11 +1,6 @@
 ---
-id: 201
 title: 'Build your own netstat.exe with c#'
-date: 2007-09-09T04:58:20+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/build-your-own-netstatexe-with-c/
-permalink: /2007/09/09/build-your-own-netstatexe-with-c/
 dsq_thread_id:
   - 1921178864
 tags:

@@ -1,11 +1,7 @@
 ---
-id: 864
 title: Setup expectation with successive function calls using Moq
-date: 2009-03-14T14:45:33+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=864
-permalink: /2009/03/14/setup-expectation-with-successive-function-calls-using-moq/
 dsq_thread_id:
   - 1922124629
 tags:

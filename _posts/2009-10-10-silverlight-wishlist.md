@@ -1,11 +1,7 @@
 ---
-id: 1354
 title: Silverlight wishlist
-date: 2009-10-10T06:52:26+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1354
-permalink: /2009/10/10/silverlight-wishlist/
 tags:
   - Silverlight
   - WPF

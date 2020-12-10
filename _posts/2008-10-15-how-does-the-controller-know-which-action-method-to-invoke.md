@@ -1,11 +1,7 @@
 ---
-id: 696
 title: How does the controller know which action method to invoke?
-date: 2008-10-15T07:46:08+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=696
-permalink: /2008/10/15/how-does-the-controller-know-which-action-method-to-invoke/
 tags:
   - ASP.NET
   - 'C#'

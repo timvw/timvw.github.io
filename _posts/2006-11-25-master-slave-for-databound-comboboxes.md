@@ -1,11 +1,6 @@
 ---
-id: 127
 title: Master-Slave for databound ComboBoxes
-date: 2006-11-25T14:16:52+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/master-slave-for-databound-comboboxes/
-permalink: /2006/11/25/master-slave-for-databound-comboboxes/
 dsq_thread_id:
   - 1923727470
 tags:

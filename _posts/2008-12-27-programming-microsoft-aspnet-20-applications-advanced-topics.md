@@ -1,11 +1,7 @@
 ---
-id: 800
 title: 'Programming Microsoft ASP.NET 2.0 Applications: Advanced Topics'
-date: 2008-12-27T08:31:09+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=800
-permalink: /2008/12/27/programming-microsoft-aspnet-20-applications-advanced-topics/
 tags:
   - Book reviews
 ---

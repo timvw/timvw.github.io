@@ -1,11 +1,7 @@
 ---
-id: 1635
 title: About dependencies
-date: 2010-01-26T08:38:23+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1635
-permalink: /2010/01/26/about-dependencies/
 tags:
   - Information Technology
 ---

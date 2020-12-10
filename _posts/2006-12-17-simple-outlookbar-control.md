@@ -1,11 +1,6 @@
 ---
-id: 132
 title: Simple OutlookBar Control
-date: 2006-12-17T02:30:37+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/simple-outlookbar-control/
-permalink: /2006/12/17/simple-outlookbar-control/
 tags:
   - 'C#'
   - Windows Forms
