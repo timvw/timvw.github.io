@@ -1,11 +1,7 @@
 ---
-id: 1345
 title: Configuring Apache to serve Office 2007 documents with the correct MIME type
-date: 2009-10-09T09:00:01+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1345
-permalink: /2009/10/09/configuring-apache-to-serve-office-2007-documents-with-the-correct-mime-type/
 tags:
   - Information Technology
 ---

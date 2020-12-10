@@ -1,11 +1,6 @@
 ---
-id: 147
 title: 'Making WebRequests in parallel...'
-date: 2007-01-14T02:00:00+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/asynchronous-webrequests/
-permalink: /2007/01/14/asynchronous-webrequests/
 dsq_thread_id:
   - 1929575324
 tags:

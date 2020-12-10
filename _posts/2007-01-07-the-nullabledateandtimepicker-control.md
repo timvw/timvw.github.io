@@ -1,11 +1,6 @@
 ---
-id: 142
 title: The NullableDateAndTimePicker Control
-date: 2007-01-07T14:53:47+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/the-nullabledateandtimepicker-control/
-permalink: /2007/01/07/the-nullabledateandtimepicker-control/
 tags:
   - 'C#'
   - Windows Forms

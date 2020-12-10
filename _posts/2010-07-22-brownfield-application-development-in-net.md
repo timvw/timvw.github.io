@@ -1,11 +1,7 @@
 ---
-id: 1809
 title: Brownfield Application Development in .NET
-date: 2010-07-22T17:26:16+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1809
-permalink: /2010/07/22/brownfield-application-development-in-net/
 tags:
   - Book reviews
 ---

@@ -1,11 +1,7 @@
 ---
-id: 371
 title: Presenting UriHelper
-date: 2008-08-09T13:38:28+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=371
-permalink: /2008/08/09/presenting-urihelper/
 tags:
   - 'C#'
 ---

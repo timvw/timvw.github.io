@@ -1,11 +1,6 @@
 ---
-id: 145
 title: Presenting a Generic RemotingHelper
-date: 2007-01-12T01:29:26+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/presenting-a-generic-remotinghelper/
-permalink: /2007/01/12/presenting-a-generic-remotinghelper/
 dsq_thread_id:
   - 1933325455
 tags:

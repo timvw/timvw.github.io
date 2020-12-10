@@ -1,11 +1,7 @@
 ---
-id: 1512
 title: Couple of methods missing on ObservableCollection
-date: 2009-11-06T16:42:40+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1512
-permalink: /2009/11/06/couple-of-methods-missing-on-observablecollection/
 tags:
   - 'C#'
   - Silverlight

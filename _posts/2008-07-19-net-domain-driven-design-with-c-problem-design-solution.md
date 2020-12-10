@@ -1,11 +1,7 @@
 ---
-id: 260
 title: '.NET Domain-Driven Design with C#: Problem -- Design -- Solution'
-date: 2008-07-19T15:43:18+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=260
-permalink: /2008/07/19/net-domain-driven-design-with-c-problem-design-solution/
 tags:
   - Book reviews
 ---

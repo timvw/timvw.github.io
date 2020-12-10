@@ -1,20 +1,13 @@
 ---
-id: 77
 title: Listen to online radio
-date: 2004-05-21T00:40:28+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/listen-to-online-radio/
-permalink: /2004/05/21/listen-to-online-radio/
 tags:
   - Bash
 ---
 ```bash
 #!/bin/sh
 #
-# Author: Tim Van Wassenhove <timvw@users.sourceforge.net> 
-# Update: 2004-05-21 02:50:31  
-# 
+# # Up# 
 # This script allows you to listen to Belgian online radio streams.  
 #
 

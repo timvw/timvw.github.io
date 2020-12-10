@@ -1,11 +1,7 @@
 ---
-id: 1650
 title: 'Presenting ValueType&lt;T&gt;'
-date: 2010-01-28T19:27:34+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1650
-permalink: /2010/01/28/presenting-valuetypet/
 tags:
   - 'C#'
   - Patterns

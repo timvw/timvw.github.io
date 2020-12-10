@@ -1,11 +1,6 @@
 ---
-id: 159
 title: DataGridView to Excel
-date: 2007-04-05T20:36:34+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/datagridview-to-excel/
-permalink: /2007/04/05/datagridview-to-excel/
 dsq_thread_id:
   - 1922255088
 tags:

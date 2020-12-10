@@ -1,11 +1,7 @@
 ---
-id: 2330
 title: The curious case of trailing spaces in SQL
-date: 2013-04-27T17:38:29+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2330
-permalink: /2013/04/27/the-curious-case-of-trailing-spaces-in-sql/
 dsq_thread_id:
   - 1920088178
 categories:

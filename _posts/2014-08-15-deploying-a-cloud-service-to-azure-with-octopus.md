@@ -1,11 +1,7 @@
 ---
-id: 2430
 title: Deploying a Cloud Service to Azure with Octopus
-date: 2014-08-15T06:41:03+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2430
-permalink: /2014/08/15/deploying-a-cloud-service-to-azure-with-octopus/
 categories:
   - Uncategorized
 tags:

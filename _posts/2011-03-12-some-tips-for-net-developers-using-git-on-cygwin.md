@@ -1,11 +1,7 @@
 ---
-id: 2083
 title: Some tips for .Net developers using git on cygwin
-date: 2011-03-12T10:26:04+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2083
-permalink: /2011/03/12/some-tips-for-net-developers-using-git-on-cygwin/
 dsq_thread_id:
   - 1933325226
 categories:

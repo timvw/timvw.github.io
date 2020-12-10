@@ -1,11 +1,7 @@
 ---
-id: 1248
 title: 'Instruct T4 to use C# v3.5'
-date: 2009-09-11T09:05:33+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1248
-permalink: /2009/09/11/instruct-t4-to-use-c-v3-5/
 tags:
   - 'C#'
   - Visual Basic

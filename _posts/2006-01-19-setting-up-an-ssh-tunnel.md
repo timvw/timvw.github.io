@@ -1,11 +1,6 @@
 ---
-id: 59
 title: Setting up an SSH tunnel
-date: 2006-01-19T21:31:58+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/gnu-sort-2/
-permalink: /2006/01/19/setting-up-an-ssh-tunnel/
 dsq_thread_id:
   - 1933324843
 tags:

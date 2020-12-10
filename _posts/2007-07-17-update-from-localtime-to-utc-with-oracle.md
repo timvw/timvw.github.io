@@ -1,11 +1,6 @@
 ---
-id: 180
 title: Update from localtime to UTC or any other timezone with Oracle
-date: 2007-07-17T22:34:58+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/update-from-localtime-to-utc-with-oracle/
-permalink: /2007/07/17/update-from-localtime-to-utc-with-oracle/
 tags:
   - SQL
 ---

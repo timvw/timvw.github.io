@@ -1,11 +1,7 @@
 ---
-id: 1719
 title: Enumerating SpecialFolders
-date: 2010-05-02T07:02:16+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1719
-permalink: /2010/05/02/enumerating-specialfolders/
 tags:
   - 'C#'
 ---

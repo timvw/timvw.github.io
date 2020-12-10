@@ -1,11 +1,7 @@
 ---
-id: 1579
 title: Creating series of elements
-date: 2010-01-08T21:02:23+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1579
-permalink: /2010/01/08/creating-series-of-elements/
 tags:
   - 'C#'
   - Patterns

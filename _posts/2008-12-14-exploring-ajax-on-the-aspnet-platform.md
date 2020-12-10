@@ -1,11 +1,7 @@
 ---
-id: 752
 title: Exploring AJAX on the ASP.NET platform
-date: 2008-12-14T16:50:04+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=752
-permalink: /2008/12/14/exploring-ajax-on-the-aspnet-platform/
 tags:
   - ASP.NET
 ---

@@ -1,11 +1,7 @@
 ---
-id: 1157
 title: Experimenting with ControlStateMachine and Fluent interfaces
-date: 2009-08-13T19:52:25+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1157
-permalink: /2009/08/13/experimenting-with-controlstatemachine-and-fluent-interfaces/
 tags:
   - 'C#'
   - Patterns

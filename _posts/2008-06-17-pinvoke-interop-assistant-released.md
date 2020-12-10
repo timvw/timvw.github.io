@@ -1,11 +1,7 @@
 ---
-id: 231
 title: PInvoke Interop Assistant released
-date: 2008-06-17T08:02:54+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=231
-permalink: /2008/06/17/pinvoke-interop-assistant-released/
 tags:
   - Information Technology
 ---

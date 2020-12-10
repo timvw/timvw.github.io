@@ -1,11 +1,7 @@
 ---
-id: 2280
 title: Using eID on OS X Mountain Lion
-date: 2012-08-06T22:45:52+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2280
-permalink: /2012/08/06/using-eid-on-os-x-mountain-lion/
 dsq_thread_id:
   - 1933063167
 categories:

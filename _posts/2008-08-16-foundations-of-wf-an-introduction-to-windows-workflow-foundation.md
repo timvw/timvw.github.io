@@ -1,11 +1,7 @@
 ---
-id: 379
 title: 'Foundations of WF: an Introduction to Windows Workflow Foundation'
-date: 2008-08-16T07:34:21+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=379
-permalink: /2008/08/16/foundations-of-wf-an-introduction-to-windows-workflow-foundation/
 tags:
   - Book reviews
 ---

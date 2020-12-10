@@ -1,11 +1,7 @@
 ---
-id: 1417
 title: About databinding and composite views
-date: 2009-10-13T16:44:43+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1417
-permalink: /2009/10/13/about-databinding-and-composite-views/
 tags:
   - Patterns
   - Silverlight

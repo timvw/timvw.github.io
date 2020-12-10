@@ -1,11 +1,6 @@
 ---
-id: 69
 title: Multiple joins explained
-date: 2006-02-03T21:52:06+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/multiple-joins-explained/
-permalink: /2006/02/03/multiple-joins-explained/
 tags:
   - SQL
 ---

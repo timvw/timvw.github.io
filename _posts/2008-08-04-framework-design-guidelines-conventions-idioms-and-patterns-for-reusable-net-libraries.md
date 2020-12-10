@@ -1,11 +1,7 @@
 ---
-id: 344
 title: 'Framework Design Guidelines: Conventions, Idioms, and Patterns for Reusable .NET Libraries'
-date: 2008-08-04T17:37:52+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=344
-permalink: /2008/08/04/framework-design-guidelines-conventions-idioms-and-patterns-for-reusable-net-libraries/
 tags:
   - Book reviews
 ---

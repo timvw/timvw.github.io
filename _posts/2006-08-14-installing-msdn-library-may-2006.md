@@ -1,11 +1,6 @@
 ---
-id: 22
 title: Installing MSDN Library May 2006
-date: 2006-08-14T02:20:15+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/installing-msdn-library-may-2006/
-permalink: /2006/08/14/installing-msdn-library-may-2006/
 dsq_thread_id:
   - 1920133987
 tags:

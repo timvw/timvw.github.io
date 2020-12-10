@@ -1,11 +1,6 @@
 ---
-id: 208
 title: Introducing DeferredExecutionHelper
-date: 2008-02-23T18:49:49+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/introducing-deferredexecutionhelper/
-permalink: /2008/02/23/introducing-deferredexecutionhelper/
 tags:
   - 'C#'
 ---

@@ -1,11 +1,6 @@
 ---
-id: 63
 title: How (not) to apply for a job?
-date: 2005-12-06T21:39:26+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/how-no-to-apply-for-a-job/
-permalink: /2005/12/06/how-no-to-apply-for-a-job/
 tags:
   - Information Technology
 ---

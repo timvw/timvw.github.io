@@ -1,11 +1,7 @@
 ---
-id: 387
 title: 'Domain-Driven Design: Tackling Complexity in the Heart of Software'
-date: 2008-08-16T07:50:45+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=387
-permalink: /2008/08/16/domain-driven-design-tackling-complexity-in-the-heart-of-software/
 tags:
   - Book reviews
 ---

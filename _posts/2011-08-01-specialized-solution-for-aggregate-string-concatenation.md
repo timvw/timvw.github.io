@@ -1,11 +1,7 @@
 ---
-id: 2189
 title: Specialized solution for aggregate string concatenation
-date: 2011-08-01T11:35:36+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2189
-permalink: /2011/08/01/specialized-solution-for-aggregate-string-concatenation/
 categories:
   - Uncategorized
 tags:

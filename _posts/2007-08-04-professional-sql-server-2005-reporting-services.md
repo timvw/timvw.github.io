@@ -1,11 +1,6 @@
 ---
-id: 185
 title: Professional SQL Server 2005 Reporting Services
-date: 2007-08-04T22:09:06+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/displaying-northwind-employees-image-with-sql-server-reporting-services/
-permalink: /2007/08/04/professional-sql-server-2005-reporting-services/
 dsq_thread_id:
   - 1933324316
 tags:

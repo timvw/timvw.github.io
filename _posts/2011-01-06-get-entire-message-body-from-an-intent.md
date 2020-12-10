@@ -1,11 +1,7 @@
 ---
-id: 2036
 title: Get entire message body from an Intent
-date: 2011-01-06T20:15:42+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2036
-permalink: /2011/01/06/get-entire-message-body-from-an-intent/
 dsq_thread_id:
   - 1930548491
 categories:

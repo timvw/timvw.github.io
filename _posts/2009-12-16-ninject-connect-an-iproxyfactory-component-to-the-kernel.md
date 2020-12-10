@@ -1,11 +1,7 @@
 ---
-id: 1572
 title: 'Ninject: connect an IProxyFactory component to the kernel'
-date: 2009-12-16T18:54:30+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1572
-permalink: /2009/12/16/ninject-connect-an-iproxyfactory-component-to-the-kernel/
 tags:
   - 'C#'
   - Free Software

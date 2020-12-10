@@ -1,11 +1,7 @@
 ---
-id: 1121
 title: Small modification to achieve better modularity with Prism
-date: 2009-07-11T15:29:10+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1121
-permalink: /2009/07/11/modularity-with-prism/
 tags:
   - 'C#'
 ---

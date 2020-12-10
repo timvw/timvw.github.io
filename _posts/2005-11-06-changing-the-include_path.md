@@ -1,11 +1,6 @@
 ---
-id: 67
 title: Changing the include_path
-date: 2005-11-06T21:47:56+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/changing-the-include_path/
-permalink: /2005/11/06/changing-the-include_path/
 tags:
   - PHP
 ---

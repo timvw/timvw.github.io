@@ -1,11 +1,6 @@
 ---
-id: 137
 title: Exploring System.CodeDom
-date: 2006-12-26T02:52:12+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/exploring-systemcodedom/
-permalink: /2006/12/26/exploring-systemcodedom/
 tags:
   - 'C#'
 ---

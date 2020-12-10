@@ -1,11 +1,7 @@
 ---
-id: 1517
 title: Silverlight and unit testing..
-date: 2009-11-19T21:32:13+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1517
-permalink: /2009/11/19/silverlight-and-unit-testing/
 dsq_thread_id:
   - 1933325202
 tags:

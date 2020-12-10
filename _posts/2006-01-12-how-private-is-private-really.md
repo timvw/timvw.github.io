@@ -1,11 +1,6 @@
 ---
-id: 120
 title: How private is private really?
-date: 2006-01-12T02:43:29+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/how-private-is-private-really/
-permalink: /2006/01/12/how-private-is-private-really/
 tags:
   - PHP
 ---

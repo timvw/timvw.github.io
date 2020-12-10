@@ -1,6 +1,5 @@
 ---
 title: Looking back at 2016
-author: timvw
 layout: post
 ---
 Starting 2016 at Emergency Care was a game changer for me.

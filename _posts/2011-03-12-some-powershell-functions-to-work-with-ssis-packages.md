@@ -1,11 +1,7 @@
 ---
-id: 2095
 title: Some PowerShell functions to work with SSIS packages
-date: 2011-03-12T14:23:48+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2095
-permalink: /2011/03/12/some-powershell-functions-to-work-with-ssis-packages/
 dsq_thread_id:
   - 1933325346
 categories:

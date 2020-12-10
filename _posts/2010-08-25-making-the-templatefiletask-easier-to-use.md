@@ -1,11 +1,7 @@
 ---
-id: 1871
 title: 'Making the TemplateFileTask easier to use...'
-date: 2010-08-25T20:19:52+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1871
-permalink: /2010/08/25/making-the-templatefiletask-easier-to-use/
 tags:
   - MSBuild
 ---

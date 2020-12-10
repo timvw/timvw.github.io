@@ -1,11 +1,6 @@
 ---
-id: 194
 title: Bending the code generation of IExtenderProvider to your will
-date: 2007-08-21T19:15:24+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/bending-the-code-generation-of-iextenderprovider-to-your-will/
-permalink: /2007/08/21/bending-the-code-generation-of-iextenderprovider-to-your-will/
 tags:
   - 'C#'
   - Visual Studio

@@ -1,11 +1,7 @@
 ---
-id: 241
 title: Presenting HtmlClipboard
-date: 2008-06-30T09:28:38+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=241
-permalink: /2008/06/30/presenting-htmlclipboard/
 dsq_thread_id:
   - 1933325909
 tags:

@@ -1,11 +1,7 @@
 ---
-id: 2532
 title: Composing functions and leveraging scala.util.Try
-date: 2016-01-29T19:25:09+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2532
-permalink: /2016/01/29/composing-functions-and-leveraging-scala-util-try/
 categories:
   - Uncategorized
 tags:

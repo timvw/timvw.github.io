@@ -1,11 +1,6 @@
 ---
-id: 207
 title: Generating Artifacts By Using Text Templates
-date: 2008-02-21T21:36:55+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/generating-artifacts-by-using-text-templates/
-permalink: /2008/02/21/generating-artifacts-by-using-text-templates/
 tags:
   - 'C#'
 ---

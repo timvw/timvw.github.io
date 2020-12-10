@@ -1,11 +1,6 @@
 ---
-id: 165
 title: Performing long running tasks in a Windows Application
-date: 2007-04-27T23:12:22+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/performing-long-running-tasks-in-a-windows-application/
-permalink: /2007/04/27/performing-long-running-tasks-in-a-windows-application/
 dsq_thread_id:
   - 1933325640
 tags:

@@ -1,11 +1,6 @@
 ---
-id: 13
 title: Implementing Master/Detail for Custom Objects with DataGridViewComboBoxColumns
-date: 2006-09-10T02:07:17+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/implementing-masterdetail-for-custom-objects-with-datagridviewcomboboxcolumns/
-permalink: /2006/09/10/implementing-masterdetail-for-custom-objects-with-datagridviewcomboboxcolumns/
 dsq_thread_id:
   - 1920133928
 tags:

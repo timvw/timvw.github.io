@@ -1,11 +1,7 @@
 ---
-id: 418
 title: Presenting TimeSpanHelper
-date: 2008-08-20T19:19:56+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=418
-permalink: /2008/08/20/presenting-timespanhelper/
 tags:
   - 'C#'
 ---

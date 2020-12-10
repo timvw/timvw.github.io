@@ -1,11 +1,6 @@
 ---
-id: 105
 title: Generating JavaScript strings
-date: 2005-07-29T02:05:02+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/generating-javascript-strings/
-permalink: /2005/07/29/generating-javascript-strings/
 tags:
   - PHP
 ---

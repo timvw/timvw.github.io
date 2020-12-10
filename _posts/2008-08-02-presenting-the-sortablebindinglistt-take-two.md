@@ -1,11 +1,7 @@
 ---
-id: 314
 title: 'Presenting the SortableBindingList&lt;T&gt; (take two)'
-date: 2008-08-02T12:47:49+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=314
-permalink: /2008/08/02/presenting-the-sortablebindinglistt-take-two/
 dsq_thread_id:
   - 1920126406
 tags:

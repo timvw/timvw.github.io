@@ -1,11 +1,6 @@
 ---
-id: 134
 title: Looking up the MediaType of a given Logical Drive
-date: 2006-12-18T22:11:26+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/looking-up-the-mediatype-of-a-given-logical-drive/
-permalink: /2006/12/18/looking-up-the-mediatype-of-a-given-logical-drive/
 tags:
   - 'C#'
 ---

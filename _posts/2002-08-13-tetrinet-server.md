@@ -1,11 +1,6 @@
 ---
-id: 72
 title: TetriNet server
-date: 2002-08-13T22:05:04+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/tetrinet-server/
-permalink: /2002/08/13/tetrinet-server/
 tags:
   - Java
 ---

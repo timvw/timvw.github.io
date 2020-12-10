@@ -1,11 +1,6 @@
 ---
-id: 123
 title: Searching made easy
-date: 2006-10-22T11:09:28+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/searching-made-easy/
-permalink: /2006/10/22/searching-made-easy/
 tags:
   - SQL
 ---
@@ -67,8 +62,7 @@ using (OracleConnection conn = new OracleConnection("User Id=u;password=p;Data S
 	OracleDataReader reader = command.ExecuteReader();
 	while (reader.Read())
 	{
-		Console.WriteLine("test id: " + reader.GetDecimal(0));
-	}
+		Console.WriteLine("test 	}
 
 	Console.Write("{0}Press any key to continue...", Environment.NewLine);
 	Console.ReadKey();

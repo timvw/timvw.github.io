@@ -1,11 +1,6 @@
 ---
-id: 51
 title: Windows Multimedia Video Capture
-date: 2006-06-26T21:10:26+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/windows-multimedia-video-capture/
-permalink: /2006/06/26/windows-multimedia-video-capture/
 dsq_thread_id:
   - 1920134432
 tags:

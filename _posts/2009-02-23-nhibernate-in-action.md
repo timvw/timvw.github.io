@@ -1,11 +1,7 @@
 ---
-id: 840
 title: NHibernate in Action
-date: 2009-02-23T20:15:55+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=840
-permalink: /2009/02/23/nhibernate-in-action/
 dsq_thread_id:
   - 1933325194
 tags:

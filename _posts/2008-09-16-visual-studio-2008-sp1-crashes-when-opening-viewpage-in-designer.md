@@ -1,11 +1,7 @@
 ---
-id: 562
 title: Visual Studio 2008 (SP1) crashes when opening ViewPage in designer
-date: 2008-09-16T18:44:32+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=562
-permalink: /2008/09/16/visual-studio-2008-sp1-crashes-when-opening-viewpage-in-designer/
 dsq_thread_id:
   - 1933325961
 tags:

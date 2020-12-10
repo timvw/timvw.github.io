@@ -1,11 +1,6 @@
 ---
-id: 183
 title: Using interfaces with Drag and Drop
-date: 2007-07-26T19:10:42+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/using-interfaces-with-drag-and-drop/
-permalink: /2007/07/26/using-interfaces-with-drag-and-drop/
 tags:
   - 'C#'
   - Windows Forms

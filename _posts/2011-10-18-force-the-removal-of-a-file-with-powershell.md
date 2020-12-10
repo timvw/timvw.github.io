@@ -1,11 +1,7 @@
 ---
-id: 2240
 title: Force the removal of a file with PowerShell
-date: 2011-10-18T19:44:08+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2240
-permalink: /2011/10/18/force-the-removal-of-a-file-with-powershell/
 dsq_thread_id:
   - 1924296740
 categories:

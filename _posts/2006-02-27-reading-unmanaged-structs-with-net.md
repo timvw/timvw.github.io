@@ -1,11 +1,6 @@
 ---
-id: 37
 title: Reading unmanaged structs with .NET
-date: 2006-02-27T02:50:41+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/reading-unmanaged-structs-with-net/
-permalink: /2006/02/27/reading-unmanaged-structs-with-net/
 dsq_thread_id:
   - 1920134231
 tags:

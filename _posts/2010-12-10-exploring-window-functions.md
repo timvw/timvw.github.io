@@ -1,11 +1,7 @@
 ---
-id: 2005
 title: Exploring window functions
-date: 2010-12-10T21:52:01+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2005
-permalink: /2010/12/10/exploring-window-functions/
 categories:
   - Uncategorized
 tags:

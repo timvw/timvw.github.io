@@ -1,11 +1,7 @@
 ---
-id: 1234
 title: Extension methods to improve readability
-date: 2009-08-28T07:59:16+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1234
-permalink: /2009/08/28/extension-methods-to-improve-readability/
 tags:
   - 'C#'
   - Patterns

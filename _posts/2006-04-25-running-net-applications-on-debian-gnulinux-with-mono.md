@@ -1,11 +1,6 @@
 ---
-id: 29
 title: Running .NET applications on Debian GNU/Linux with Mono
-date: 2006-04-25T02:40:04+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/running-net-applications-on-debian-gnulinux-with-mono/
-permalink: /2006/04/25/running-net-applications-on-debian-gnulinux-with-mono/
 dsq_thread_id:
   - 1920134121
 tags:

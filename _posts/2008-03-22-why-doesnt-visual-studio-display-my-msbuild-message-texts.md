@@ -1,11 +1,6 @@
 ---
-id: 218
 title: 'Why doesn&#039;t Visual Studio display my MSBuild message texts?'
-date: 2008-03-22T16:46:12+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/why-doesnt-visual-studio-display-my-msbuild-message-texts/
-permalink: /2008/03/22/why-doesnt-visual-studio-display-my-msbuild-message-texts/
 tags:
   - Visual Studio
 ---

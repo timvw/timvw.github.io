@@ -1,11 +1,6 @@
 ---
-id: 15
 title: Playing with VMWare Server
-date: 2006-09-09T02:08:40+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/playing-with-vmware-server/
-permalink: /2006/09/09/playing-with-vmware-server/
 tags:
   - Information Technology
 ---

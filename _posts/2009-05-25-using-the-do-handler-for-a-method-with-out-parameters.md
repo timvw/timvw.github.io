@@ -1,11 +1,7 @@
 ---
-id: 1054
 title: Using the Do handler for a method with out parameters
-date: 2009-05-25T07:48:10+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1054
-permalink: /2009/05/25/using-the-do-handler-for-a-method-with-out-parameters/
 tags:
   - 'C#'
 ---

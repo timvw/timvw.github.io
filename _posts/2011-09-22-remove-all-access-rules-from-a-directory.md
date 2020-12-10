@@ -1,11 +1,7 @@
 ---
-id: 2226
 title: Remove all access rules from a directory
-date: 2011-09-22T18:56:04+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2226
-permalink: /2011/09/22/remove-all-access-rules-from-a-directory/
 dsq_thread_id:
   - 1923585402
 categories:

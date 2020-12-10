@@ -1,11 +1,7 @@
 ---
-id: 1737
 title: Support both GET and HEAD requests on the same method with WCF REST
-date: 2010-05-28T20:33:05+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1737
-permalink: /2010/05/28/support-both-get-and-head-requests-on-the-same-method-with-wcf-rest/
 dsq_thread_id:
   - 1924294222
 tags:

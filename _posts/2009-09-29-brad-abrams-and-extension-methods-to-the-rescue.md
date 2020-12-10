@@ -1,11 +1,7 @@
 ---
-id: 1273
 title: Brad Abrams and extension methods to the rescue..
-date: 2009-09-29T16:32:30+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1273
-permalink: /2009/09/29/brad-abrams-and-extension-methods-to-the-rescue/
 dsq_thread_id:
   - 1933325141
 tags:

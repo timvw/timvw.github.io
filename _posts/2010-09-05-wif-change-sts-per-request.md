@@ -1,11 +1,7 @@
 ---
-id: 1893
 title: 'WIF: Change STS per request'
-date: 2010-09-05T16:56:23+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1893
-permalink: /2010/09/05/wif-change-sts-per-request/
 categories:
   - Uncategorized
 tags:

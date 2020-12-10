@@ -1,11 +1,7 @@
 ---
-id: 2401
 title: A parameterized active pattern to match the first elements of an array
-date: 2014-01-30T21:16:53+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2401
-permalink: /2014/01/30/a-parameterized-active-pattern-to-match-the-first-elements-of-an-array/
 categories:
   - Uncategorized
 tags:

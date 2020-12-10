@@ -1,11 +1,6 @@
 ---
-id: 214
 title: Using System.DirectoryServices.AccountManagement to find the members of an AD group
-date: 2008-03-08T21:14:48+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/using-systemdirectoryservicesaccountmanagement-to-find-the-members-of-an-ad-group/
-permalink: /2008/03/08/using-systemdirectoryservicesaccountmanagement-to-find-the-members-of-an-ad-group/
 dsq_thread_id:
   - 1922118654
 tags:

@@ -1,11 +1,6 @@
 ---
-id: 160
 title: Programming .NET Components
-date: 2007-04-07T01:50:10+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/exploring-contextboundobjects/
-permalink: /2007/04/07/programming-net-components/
 tags:
   - Book reviews
   - 'C#'

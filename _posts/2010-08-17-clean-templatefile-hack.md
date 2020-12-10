@@ -1,11 +1,7 @@
 ---
-id: 1853
 title: Clean TemplateFile hack
-date: 2010-08-17T20:59:42+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1853
-permalink: /2010/08/17/clean-templatefile-hack/
 tags:
   - MSBuild
 ---

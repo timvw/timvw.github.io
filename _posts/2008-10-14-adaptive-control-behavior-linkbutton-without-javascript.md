@@ -1,11 +1,7 @@
 ---
-id: 688
 title: 'Adaptive control behavior: LinkButton without javascript'
-date: 2008-10-14T17:06:08+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=688
-permalink: /2008/10/14/adaptive-control-behavior-linkbutton-without-javascript/
 tags:
   - ASP.NET
   - 'C#'

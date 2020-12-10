@@ -1,11 +1,7 @@
 ---
-id: 2425
 title: Cute sort implementation
-date: 2014-07-28T09:08:31+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2425
-permalink: /2014/07/28/cute-sort-implementation/
 categories:
   - Uncategorized
 tags:

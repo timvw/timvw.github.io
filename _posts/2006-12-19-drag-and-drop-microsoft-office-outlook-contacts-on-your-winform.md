@@ -1,11 +1,6 @@
 ---
-id: 135
 title: Drag and Drop Microsoft Office Outlook Contacts on your WinForm
-date: 2006-12-19T23:44:23+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/drag-and-drop-microsoft-office-outlook-contacts-on-your-winform/
-permalink: /2006/12/19/drag-and-drop-microsoft-office-outlook-contacts-on-your-winform/
 tags:
   - 'C#'
   - Windows Forms

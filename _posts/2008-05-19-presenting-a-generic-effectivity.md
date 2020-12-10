@@ -1,11 +1,7 @@
 ---
-id: 226
 title: Presenting a generic Effectivity
-date: 2008-05-19T18:56:36+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=226
-permalink: /2008/05/19/presenting-a-generic-effectivity/
 tags:
   - Patterns
 ---

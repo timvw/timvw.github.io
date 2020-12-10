@@ -1,11 +1,7 @@
 ---
-id: 1576
 title: Refactoring to Patterns
-date: 2009-12-27T08:52:48+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1576
-permalink: /2009/12/27/refactoring-to-patterns/
 dsq_thread_id:
   - 1933324556
 tags:

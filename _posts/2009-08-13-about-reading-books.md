@@ -1,11 +1,7 @@
 ---
-id: 1151
 title: About reading books
-date: 2009-08-13T19:36:57+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1151
-permalink: /2009/08/13/about-reading-books/
 tags:
   - Information Technology
 ---

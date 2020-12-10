@@ -1,11 +1,6 @@
 ---
-id: 10
 title: DataGridView with EditOnEnter as EditMode
-date: 2006-09-16T02:04:08+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/datagridview-with-editonenter-as-editmode/
-permalink: /2006/09/16/datagridview-with-editonenter-as-editmode/
 dsq_thread_id:
   - 1920133873
 tags:

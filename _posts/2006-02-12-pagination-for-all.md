@@ -1,11 +1,6 @@
 ---
-id: 40
 title: Pagination for all
-date: 2006-02-12T02:54:14+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/pagination-for-all/
-permalink: /2006/02/12/pagination-for-all/
 dsq_thread_id:
   - 1920134368
 tags:

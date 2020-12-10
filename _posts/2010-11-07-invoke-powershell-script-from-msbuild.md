@@ -1,11 +1,7 @@
 ---
-id: 1955
 title: Invoke PowerShell script from MSBuild
-date: 2010-11-07T20:30:17+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1955
-permalink: /2010/11/07/invoke-powershell-script-from-msbuild/
 categories:
   - Uncategorized
 tags:

@@ -1,11 +1,7 @@
 ---
-id: 1702
 title: Exploring System.Interactive
-date: 2010-02-18T20:09:15+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1702
-permalink: /2010/02/18/exploring-system-interactive/
 tags:
   - 'C#'
 ---

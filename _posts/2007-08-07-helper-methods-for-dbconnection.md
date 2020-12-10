@@ -1,11 +1,6 @@
 ---
-id: 186
 title: Helper methods for DbProviderFactory
-date: 2007-08-07T01:12:47+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/helper-methods-for-dbconnection/
-permalink: /2007/08/07/helper-methods-for-dbconnection/
 tags:
   - 'C#'
 ---

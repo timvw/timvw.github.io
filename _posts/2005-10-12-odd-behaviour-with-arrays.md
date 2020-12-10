@@ -1,11 +1,6 @@
 ---
-id: 109
 title: Odd behaviour with arrays
-date: 2005-10-12T02:10:37+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/odd-behaviour-with-arrays/
-permalink: /2005/10/12/odd-behaviour-with-arrays/
 tags:
   - PHP
 ---

@@ -1,11 +1,6 @@
 ---
-id: 158
 title: 'Developer &amp; IT Pro Days 2007'
-date: 2007-03-29T20:58:07+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/developer-it-pro-days-2007/
-permalink: /2007/03/29/developer-it-pro-days-2007/
 tags:
   - Events
 ---

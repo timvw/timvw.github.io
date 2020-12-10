@@ -1,11 +1,7 @@
 ---
-id: 303
 title: NHibernate SessionFactory configuration
-date: 2008-07-28T17:03:36+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=303
-permalink: /2008/07/28/nhibernate-sessionfactory-configuration/
 dsq_thread_id:
   - 1928261292
 tags:

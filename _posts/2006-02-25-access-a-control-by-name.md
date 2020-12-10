@@ -1,11 +1,6 @@
 ---
-id: 38
 title: Access a control by name
-date: 2006-02-25T02:52:01+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/access-a-control-by-name/
-permalink: /2006/02/25/access-a-control-by-name/
 tags:
   - Visual Basic
 ---

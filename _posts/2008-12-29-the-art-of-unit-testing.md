@@ -1,11 +1,7 @@
 ---
-id: 810
 title: The art of Unit Testing
-date: 2008-12-29T09:52:48+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=810
-permalink: /2008/12/29/the-art-of-unit-testing/
 tags:
   - Book reviews
 ---

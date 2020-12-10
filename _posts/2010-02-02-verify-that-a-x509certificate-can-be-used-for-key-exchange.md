@@ -1,11 +1,7 @@
 ---
-id: 1663
 title: Verify that a X509Certificate can be used for key exchange
-date: 2010-02-02T19:39:38+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1663
-permalink: /2010/02/02/verify-that-a-x509certificate-can-be-used-for-key-exchange/
 tags:
   - 'C#'
 ---

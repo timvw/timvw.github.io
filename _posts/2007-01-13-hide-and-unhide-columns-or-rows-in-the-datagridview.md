@@ -1,11 +1,6 @@
 ---
-id: 146
 title: Hide and unhide columns (or rows) in the DataGridView
-date: 2007-01-13T03:00:23+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/hide-and-unhide-columns-or-rows-in-the-datagridview/
-permalink: /2007/01/13/hide-and-unhide-columns-or-rows-in-the-datagridview/
 dsq_thread_id:
   - 1921455794
 tags:

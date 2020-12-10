@@ -1,11 +1,7 @@
 ---
-id: 781
 title: 'Applying Domain-Driven Design and Patterns: With Examples in C# and .NET'
-date: 2008-12-22T08:22:26+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=781
-permalink: /2008/12/22/applying-domain-driven-design-and-patterns-with-examples-in-c-and-net/
 tags:
   - Book reviews
 ---

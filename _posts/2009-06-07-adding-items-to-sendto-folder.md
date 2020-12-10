@@ -1,11 +1,7 @@
 ---
-id: 1076
 title: Adding items to SendTo folder
-date: 2009-06-07T20:12:28+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1076
-permalink: /2009/06/07/adding-items-to-sendto-folder/
 tags:
   - Information Technology
 ---

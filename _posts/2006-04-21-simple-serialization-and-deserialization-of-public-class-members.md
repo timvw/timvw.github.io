@@ -1,11 +1,6 @@
 ---
-id: 112
 title: Simple serialization and deserialization of public class members
-date: 2006-04-21T02:19:04+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/simple-serialization-and-deserialization-of-public-class-members/
-permalink: /2006/04/21/simple-serialization-and-deserialization-of-public-class-members/
 tags:
   - 'C#'
 ---

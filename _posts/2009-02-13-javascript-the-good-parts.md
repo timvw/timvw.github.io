@@ -1,11 +1,7 @@
 ---
-id: 830
 title: 'JavaScript: The Good Parts'
-date: 2009-02-13T08:59:10+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=830
-permalink: /2009/02/13/javascript-the-good-parts/
 tags:
   - Book reviews
 ---

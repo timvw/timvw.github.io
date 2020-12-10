@@ -1,11 +1,6 @@
 ---
-id: 50
 title: Windows Image Acquisition
-date: 2006-06-24T21:09:27+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/windows-image-acquisition/
-permalink: /2006/06/24/windows-image-acquisition/
 dsq_thread_id:
   - 1920134403
 tags:

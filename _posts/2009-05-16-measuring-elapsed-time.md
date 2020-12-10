@@ -1,11 +1,7 @@
 ---
-id: 1045
 title: Measuring elapsed time
-date: 2009-05-16T13:02:49+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1045
-permalink: /2009/05/16/measuring-elapsed-time/
 tags:
   - 'C#'
 ---

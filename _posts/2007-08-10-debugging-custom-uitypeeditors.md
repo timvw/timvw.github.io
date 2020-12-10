@@ -1,11 +1,6 @@
 ---
-id: 187
 title: Debugging custom UITypeEditors
-date: 2007-08-10T18:26:42+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/debugging-custom-uitypeeditors/
-permalink: /2007/08/10/debugging-custom-uitypeeditors/
 dsq_thread_id:
   - 1933325813
 tags:

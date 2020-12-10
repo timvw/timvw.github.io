@@ -1,11 +1,7 @@
 ---
-id: 565
 title: Presenting ConfigurationFileSession
-date: 2008-09-22T17:08:46+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=565
-permalink: /2008/09/22/presenting-configurationfilesession/
 tags:
   - 'C#'
 ---

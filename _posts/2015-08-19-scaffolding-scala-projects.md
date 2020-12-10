@@ -1,11 +1,7 @@
 ---
-id: 2480
 title: Scaffolding scala projects
-date: 2015-08-19T06:43:57+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2480
-permalink: /2015/08/19/scaffolding-scala-projects/
 categories:
   - Uncategorized
 tags:

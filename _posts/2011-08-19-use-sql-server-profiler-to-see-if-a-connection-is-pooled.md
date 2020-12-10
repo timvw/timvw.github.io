@@ -1,11 +1,7 @@
 ---
-id: 2216
 title: Use SQL Server Profiler to see if a connection is pooled
-date: 2011-08-19T00:13:27+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2216
-permalink: /2011/08/19/use-sql-server-profiler-to-see-if-a-connection-is-pooled/
 dsq_thread_id:
   - 1929244854
 categories:

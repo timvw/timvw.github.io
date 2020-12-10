@@ -1,11 +1,7 @@
 ---
-id: 1779
 title: Setting up a self-contained build
-date: 2010-06-26T16:31:35+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1779
-permalink: /2010/06/26/setting-up-a-self-contained-build/
 tags:
   - MSBuild
 ---

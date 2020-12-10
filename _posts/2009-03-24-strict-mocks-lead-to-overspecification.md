@@ -1,11 +1,7 @@
 ---
-id: 927
 title: Strict mocks lead to overspecification
-date: 2009-03-24T16:49:02+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=927
-permalink: /2009/03/24/strict-mocks-lead-to-overspecification/
 tags:
   - 'C#'
   - Patterns

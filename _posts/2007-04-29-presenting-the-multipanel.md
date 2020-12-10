@@ -1,11 +1,6 @@
 ---
-id: 166
 title: Presenting the MultiPanel
-date: 2007-04-29T11:51:42+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/presenting-the-multipanel/
-permalink: /2007/04/29/presenting-the-multipanel/
 tags:
   - 'C#'
   - Windows Forms

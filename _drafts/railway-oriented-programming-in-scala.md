@@ -1,6 +1,5 @@
 ---
 title: Railway Oriented Programming in Scala
-author: timvw
 layout: post
 ---
 

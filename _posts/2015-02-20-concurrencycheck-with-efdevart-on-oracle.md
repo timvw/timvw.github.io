@@ -1,11 +1,7 @@
 ---
-id: 2461
 title: ConcurrencyCheck with EF/Devart on Oracle
-date: 2015-02-20T10:57:59+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2461
-permalink: /2015/02/20/concurrencycheck-with-efdevart-on-oracle/
 categories:
   - Uncategorized
 ---

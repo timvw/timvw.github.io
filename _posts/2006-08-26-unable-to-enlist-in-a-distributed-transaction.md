@@ -1,11 +1,6 @@
 ---
-id: 46
 title: Unable to enlist in a distributed transaction
-date: 2006-08-26T19:57:43+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/unable-to-enlist-in-a-distributed-transaction/
-permalink: /2006/08/26/unable-to-enlist-in-a-distributed-transaction/
 dsq_thread_id:
   - 1927478948
 tags:

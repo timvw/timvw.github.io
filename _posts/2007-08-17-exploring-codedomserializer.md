@@ -1,11 +1,6 @@
 ---
-id: 193
 title: Exploring CodeDomSerializer
-date: 2007-08-17T23:45:32+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/exploring-codedomserializer/
-permalink: /2007/08/17/exploring-codedomserializer/
 dsq_thread_id:
   - 1923606182
 tags:

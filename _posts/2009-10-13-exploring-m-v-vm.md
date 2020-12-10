@@ -1,11 +1,7 @@
 ---
-id: 1403
 title: Exploring M-V-VM
-date: 2009-10-13T16:10:10+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1403
-permalink: /2009/10/13/exploring-m-v-vm/
 tags:
   - Patterns
   - Silverlight

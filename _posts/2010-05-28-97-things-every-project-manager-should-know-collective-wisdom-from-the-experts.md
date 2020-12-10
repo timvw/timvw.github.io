@@ -1,11 +1,7 @@
 ---
-id: 1726
 title: '97 Things Every Project Manager Should Know: Collective Wisdom from the Experts'
-date: 2010-05-28T19:23:20+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1726
-permalink: /2010/05/28/97-things-every-project-manager-should-know-collective-wisdom-from-the-experts/
 tags:
   - Book reviews
 ---

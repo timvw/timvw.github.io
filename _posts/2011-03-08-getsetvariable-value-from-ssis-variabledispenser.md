@@ -1,11 +1,7 @@
 ---
-id: 2071
 title: Get/SetVariable value from SSIS VariableDispenser
-date: 2011-03-08T20:37:57+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2071
-permalink: /2011/03/08/getsetvariable-value-from-ssis-variabledispenser/
 dsq_thread_id:
   - 1923237271
 categories:

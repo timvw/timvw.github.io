@@ -1,11 +1,7 @@
 ---
-id: 2056
 title: 'Exploring messaging at lower levels...'
-date: 2011-02-26T15:48:38+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2056
-permalink: /2011/02/26/exploring-messaging-at-lower-levels/
 dsq_thread_id:
   - 1933325321
 categories:

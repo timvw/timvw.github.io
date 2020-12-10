@@ -1,11 +1,6 @@
 ---
-id: 90
 title: XSLT annoyances
-date: 2005-01-20T01:15:04+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/xslt-annoyances/
-permalink: /2005/01/20/xslt-annoyances/
 tags:
   - XML
 ---

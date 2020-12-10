@@ -1,11 +1,6 @@
 ---
-id: 57
 title: Preparing for my internship
-date: 2006-02-11T21:26:22+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/preparing-for-my-internship/
-permalink: /2006/02/11/preparing-for-my-internship/
 tags:
   - C++
 ---

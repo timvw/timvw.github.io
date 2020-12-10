@@ -1,11 +1,7 @@
 ---
-id: 631
 title: Experimenting with NDepend
-date: 2008-09-27T10:50:41+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=631
-permalink: /2008/09/27/experimenting-with-ndepend/
 tags:
   - 'C#'
 ---

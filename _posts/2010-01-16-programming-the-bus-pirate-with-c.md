@@ -1,11 +1,7 @@
 ---
-id: 1614
 title: 'Programming the Bus Pirate with C#'
-date: 2010-01-16T12:10:21+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1614
-permalink: /2010/01/16/programming-the-bus-pirate-with-c/
 dsq_thread_id:
   - 1923792238
 tags:

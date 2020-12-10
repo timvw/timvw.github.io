@@ -1,11 +1,6 @@
 ---
-id: 32
 title: Select best 3 laptimes for each player
-date: 2006-04-14T02:45:03+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/select-best-3-laptimes-for-each-player/
-permalink: /2006/04/14/select-best-3-laptimes-for-each-player/
 tags:
   - SQL
 ---

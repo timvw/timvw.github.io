@@ -1,11 +1,6 @@
 ---
-id: 36
 title: 'More marshalling...'
-date: 2006-03-01T02:49:22+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/more-marshalling/
-permalink: /2006/03/01/more-marshalling/
 tags:
   - C++
 ---

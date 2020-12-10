@@ -1,11 +1,6 @@
 ---
-id: 204
 title: Programming the csproj file
-date: 2008-01-25T23:19:33+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/programming-the-csproj-file/
-permalink: /2008/01/25/programming-the-csproj-file/
 dsq_thread_id:
   - 1933325055
 tags:

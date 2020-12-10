@@ -1,11 +1,7 @@
 ---
-id: 2079
 title: Using WinMerge as difftool on cygwin/git
-date: 2011-03-12T10:06:26+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2079
-permalink: /2011/03/12/using-winmerge-as-difftool-on-cygwingit/
 categories:
   - Uncategorized
 tags:

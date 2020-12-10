@@ -1,11 +1,7 @@
 ---
-id: 1978
 title: Update ConfigurationStrings in SSIS package with PowerShell
-date: 2010-11-11T13:50:12+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1978
-permalink: /2010/11/11/update-configurationstrings-in-ssis-package-with-powershell/
 dsq_thread_id:
   - 1925959837
 categories:

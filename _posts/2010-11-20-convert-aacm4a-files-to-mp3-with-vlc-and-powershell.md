@@ -1,11 +1,7 @@
 ---
-id: 1992
 title: Convert AAC/M4A files to MP3 with VLC and PowerShell
-date: 2010-11-20T21:19:27+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1992
-permalink: /2010/11/20/convert-aacm4a-files-to-mp3-with-vlc-and-powershell/
 dsq_thread_id:
   - 1927770392
 categories:

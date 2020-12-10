@@ -1,11 +1,7 @@
 ---
-id: 1255
 title: About under construction pages
-date: 2009-09-11T10:06:20+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1255
-permalink: /2009/09/11/about-under-construction-pages/
 tags:
   - Information Technology
 ---

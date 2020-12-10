@@ -1,11 +1,7 @@
 ---
-id: 1291
 title: Programming WPF, Second Edition
-date: 2009-10-05T12:50:27+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1291
-permalink: /2009/10/05/programming-wpf-second-edition/
 tags:
   - Book reviews
 ---

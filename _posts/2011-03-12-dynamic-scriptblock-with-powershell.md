@@ -1,11 +1,7 @@
 ---
-id: 2090
 title: Dynamic scriptblock with PowerShell
-date: 2011-03-12T14:00:29+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2090
-permalink: /2011/03/12/dynamic-scriptblock-with-powershell/
 dsq_thread_id:
   - 1933156152
 categories:

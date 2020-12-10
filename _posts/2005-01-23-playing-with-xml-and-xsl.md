@@ -1,11 +1,6 @@
 ---
-id: 91
 title: Playing with XML and XSL
-date: 2005-01-23T01:16:39+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/playing-with-xml-and-xsl/
-permalink: /2005/01/23/playing-with-xml-and-xsl/
 tags:
   - PHP
   - XML

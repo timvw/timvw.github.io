@@ -1,11 +1,7 @@
 ---
-id: 1801
 title: 'Debug It!: Find, Repair, and Prevent Bugs in Your Code'
-date: 2010-07-20T13:25:09+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1801
-permalink: /2010/07/20/debug-it-find-repair-and-prevent-bugs-in-your-code/
 tags:
   - Book reviews
 ---

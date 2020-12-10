@@ -1,11 +1,7 @@
 ---
-id: 2157
 title: Using User-Defined Table Type with Identity column in ADO.NET
-date: 2011-07-13T09:33:29+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2157
-permalink: /2011/07/13/using-user-defined-table-type-with-identity-column-in-ado-net/
 dsq_thread_id:
   - 1925841929
 categories:

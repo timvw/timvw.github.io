@@ -1,11 +1,6 @@
 ---
-id: 136
 title: 'An example of why i don&#039;t like the ext/filter API'
-date: 2006-12-27T03:11:30+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/an-example-of-why-i-dont-like-extfilter/
-permalink: /2006/12/27/an-example-of-why-i-dont-like-extfilter/
 tags:
   - PHP
 ---

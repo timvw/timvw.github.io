@@ -1,11 +1,6 @@
 ---
-id: 129
 title: Pondering about the difference between abstract classes and interfaces
-date: 2006-12-16T23:27:14+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/pondering-about-the-difference-between-abstract-classes-and-interfaces/
-permalink: /2006/12/16/pondering-about-the-difference-between-abstract-classes-and-interfaces/
 dsq_thread_id:
   - 1933325424
 tags:

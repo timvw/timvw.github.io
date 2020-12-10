@@ -1,11 +1,6 @@
 ---
-id: 98
 title: Configuring Mutt for GPG
-date: 2005-02-06T01:43:10+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/configuring-mutt-for-gpg/
-permalink: /2005/02/06/configuring-mutt-for-gpg/
 dsq_thread_id:
   - 1926368390
 tags:

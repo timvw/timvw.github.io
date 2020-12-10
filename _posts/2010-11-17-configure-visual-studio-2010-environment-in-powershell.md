@@ -1,11 +1,7 @@
 ---
-id: 1982
 title: Configure Visual Studio 2010 environment in PowerShell
-date: 2010-11-17T21:20:13+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1982
-permalink: /2010/11/17/configure-visual-studio-2010-environment-in-powershell/
 dsq_thread_id:
   - 1923727514
 categories:

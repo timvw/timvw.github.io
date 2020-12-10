@@ -1,11 +1,7 @@
 ---
-id: 2260
 title: 'An example of Common Table Expression and Window function usage...'
-date: 2012-03-27T10:33:37+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2260
-permalink: /2012/03/27/an-example-of-common-table-expression-and-window-function-usage/
 categories:
   - Uncategorized
 tags:

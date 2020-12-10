@@ -1,11 +1,6 @@
 ---
-id: 6
 title: Screenshot of DataGridViews
-date: 2006-10-08T01:42:08+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/screenshot-of-datagridviews/
-permalink: /2006/10/08/screenshot-of-datagridviews/
 tags:
   - 'C#'
   - Windows Forms

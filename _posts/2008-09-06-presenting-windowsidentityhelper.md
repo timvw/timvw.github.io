@@ -1,11 +1,7 @@
 ---
-id: 525
 title: Presenting WindowsIdentityHelper
-date: 2008-09-06T16:56:14+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=525
-permalink: /2008/09/06/presenting-windowsidentityhelper/
 dsq_thread_id:
   - 1933325939
 tags:

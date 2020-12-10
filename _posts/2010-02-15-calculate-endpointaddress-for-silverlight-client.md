@@ -1,11 +1,7 @@
 ---
-id: 1691
 title: Calculate EndpointAddress for Silverlight client
-date: 2010-02-15T21:44:18+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1691
-permalink: /2010/02/15/calculate-endpointaddress-for-silverlight-client/
 dsq_thread_id:
   - 1921749542
 tags:

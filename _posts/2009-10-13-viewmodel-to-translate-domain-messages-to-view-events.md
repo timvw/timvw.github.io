@@ -1,11 +1,7 @@
 ---
-id: 1430
 title: ViewModel to translate domain messages to view events
-date: 2009-10-13T17:18:16+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1430
-permalink: /2009/10/13/viewmodel-to-translate-domain-messages-to-view-events/
 tags:
   - 'C#'
   - Silverlight

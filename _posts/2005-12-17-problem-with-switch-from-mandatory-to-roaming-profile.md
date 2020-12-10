@@ -1,11 +1,6 @@
 ---
-id: 62
 title: Problem with switch from mandatory to roaming profile
-date: 2005-12-17T21:38:25+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/problem-with-switch-from-mandatory-to-roaming-profile/
-permalink: /2005/12/17/problem-with-switch-from-mandatory-to-roaming-profile/
 tags:
   - Information Technology
 ---

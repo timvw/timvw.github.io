@@ -1,11 +1,7 @@
 ---
-id: 2440
 title: Failure to load mono-supplied .dylib (libgdiplus.dylib) when running from console
-date: 2014-09-27T09:16:37+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2440
-permalink: /2014/09/27/failure-to-load-mono-supplied-dylib-libgdiplus-dylib-when-running-from-console/
 categories:
   - Uncategorized
 tags:

@@ -1,11 +1,6 @@
 ---
-id: 35
 title: Adding an action when your plugin is activated
-date: 2006-03-15T02:47:58+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/adding-an-action-when-your-plugin-is-activated/
-permalink: /2006/03/15/adding-an-action-when-your-plugin-is-activated/
 tags:
   - WordPress
 ---

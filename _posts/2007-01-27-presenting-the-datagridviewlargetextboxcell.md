@@ -1,11 +1,6 @@
 ---
-id: 151
 title: Presenting the DataGridViewLargeTextBoxCell
-date: 2007-01-27T01:34:33+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/presenting-the-datagridviewlargetextboxcell/
-permalink: /2007/01/27/presenting-the-datagridviewlargetextboxcell/
 dsq_thread_id:
   - 1933325495
 tags:

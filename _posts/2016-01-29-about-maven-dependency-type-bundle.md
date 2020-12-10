@@ -1,11 +1,7 @@
 ---
-id: 2529
 title: About maven dependency type 'bundle'
-date: 2016-01-29T19:41:51+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2529
-permalink: /2016/01/29/about-maven-dependency-type-bundle/
 categories:
   - Uncategorized
 tags:

@@ -1,11 +1,6 @@
 ---
-id: 111
 title: Restore from a MySQL dumpfile
-date: 2006-01-12T02:16:52+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/restore-from-a-mysql-dumpfile/
-permalink: /2006/01/12/restore-from-a-mysql-dumpfile/
 tags:
   - Bash
 ---

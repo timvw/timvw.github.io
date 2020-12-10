@@ -1,11 +1,7 @@
 ---
-id: 584
 title: Refactoring ApplicationEnvironment
-date: 2008-09-23T16:39:03+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=584
-permalink: /2008/09/23/refactoring-applicationenvironment/
 tags:
   - 'C#'
 ---

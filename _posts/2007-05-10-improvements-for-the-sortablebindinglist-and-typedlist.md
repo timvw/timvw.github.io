@@ -1,11 +1,6 @@
 ---
-id: 171
 title: Improvements for the SortableBindingList (and TypedList)
-date: 2007-05-10T18:01:43+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/improvements-for-the-sortablebindinglist-and-typedlist/
-permalink: /2007/05/10/improvements-for-the-sortablebindinglist-and-typedlist/
 dsq_thread_id:
   - 1923258156
 tags:

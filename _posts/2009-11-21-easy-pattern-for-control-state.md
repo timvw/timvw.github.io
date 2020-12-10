@@ -1,11 +1,7 @@
 ---
-id: 1531
 title: Easy pattern for Control state
-date: 2009-11-21T18:32:03+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1531
-permalink: /2009/11/21/easy-pattern-for-control-state/
 tags:
   - ASP.NET
   - 'C#'

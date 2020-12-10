@@ -1,11 +1,7 @@
 ---
-id: 1902
 title: 'WIF: whr parameter is a hint for user Home Realm'
-date: 2010-09-07T06:39:23+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1902
-permalink: /2010/09/07/wif-whr-parameter-is-a-hint-for-user-home-realm/
 categories:
   - Uncategorized
 tags:

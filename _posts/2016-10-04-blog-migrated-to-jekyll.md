@@ -1,10 +1,6 @@
 ---
-id: 2534
 title: Blog migrated to Jekyll
-date: 2016-10-04T20:19:09+00:00
-author: timvw
 layout: post
-permalink: /2016/10/04/blog-migrated-to-jekyll/
 ---
 As many other people I have decided to leave Wordpress behind and move to Jekyll instead.
 

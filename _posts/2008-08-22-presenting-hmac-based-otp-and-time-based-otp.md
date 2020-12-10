@@ -1,11 +1,7 @@
 ---
-id: 425
 title: Presenting HMAC-Based OTP and Time-Based OTP
-date: 2008-08-22T18:17:32+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=425
-permalink: /2008/08/22/presenting-hmac-based-otp-and-time-based-otp/
 tags:
   - 'C#'
 ---

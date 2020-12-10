@@ -1,11 +1,7 @@
 ---
-id: 662
 title: The Best Damn Windows Server 2003 Book Period
-date: 2008-10-06T08:54:01+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=662
-permalink: /2008/10/06/the-best-damn-windows-server-2003-book-period/
 tags:
   - Book reviews
 ---

@@ -1,11 +1,7 @@
 ---
-id: 1019
 title: 'Beautiful Code: Leading Programmers Explain How They Think'
-date: 2009-04-25T14:12:03+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1019
-permalink: /2009/04/25/beautiful-code-leading-programmers-explain-how-they-think/
 dsq_thread_id:
   - 1933325197
 tags:

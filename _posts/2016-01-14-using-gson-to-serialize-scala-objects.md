@@ -1,11 +1,7 @@
 ---
-id: 2523
 title: Using Gson to serialize Scala objects
-date: 2016-01-14T21:43:09+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2523
-permalink: /2016/01/14/using-gson-to-serialize-scala-objects/
 categories:
   - Uncategorized
 tags:

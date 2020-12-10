@@ -1,11 +1,7 @@
 ---
-id: 445
 title: Presenting OneTimePasswordMembershipProvider
-date: 2008-08-29T17:49:41+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=445
-permalink: /2008/08/29/presenting-onetimepasswordmembershipprovider/
 tags:
   - 'C#'
 ---

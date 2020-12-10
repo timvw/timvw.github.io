@@ -1,11 +1,7 @@
 ---
-id: 753
 title: Programming Microsoft ASP.NET 3.5
-date: 2008-12-14T16:29:31+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=753
-permalink: /2008/12/14/programming-microsoft-aspnet-35/
 tags:
   - Book reviews
 ---

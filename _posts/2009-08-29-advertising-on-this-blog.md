@@ -1,11 +1,7 @@
 ---
-id: 1239
 title: Advertising on this blog
-date: 2009-08-29T09:30:42+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1239
-permalink: /2009/08/29/advertising-on-this-blog/
 dsq_thread_id:
   - 1933324539
 tags:

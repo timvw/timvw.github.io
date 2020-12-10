@@ -1,11 +1,6 @@
 ---
-id: 47
 title: tweaking Oracle SQL Developer
-date: 2006-08-27T20:10:44+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/tweaking-oracle-sql-developer/
-permalink: /2006/08/27/tweaking-oracle-sql-developer/
 tags:
   - SQL
 ---

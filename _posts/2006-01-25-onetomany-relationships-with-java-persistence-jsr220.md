@@ -1,11 +1,6 @@
 ---
-id: 61
 title: OneToMany relationships with Java Persistence (JSR 220)
-date: 2006-01-25T21:36:36+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/onetomany-relationships-with-java-persistence-jsr220/
-permalink: /2006/01/25/onetomany-relationships-with-java-persistence-jsr220/
 dsq_thread_id:
   - 1922442871
 tags:

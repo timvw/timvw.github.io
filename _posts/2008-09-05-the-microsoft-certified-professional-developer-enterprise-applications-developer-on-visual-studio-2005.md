@@ -1,11 +1,7 @@
 ---
-id: 486
 title: 'The Microsoft Certified Professional Developer: Enterprise Applications Developer on Visual Studio 2005'
-date: 2008-09-05T15:08:22+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=486
-permalink: /2008/09/05/the-microsoft-certified-professional-developer-enterprise-applications-developer-on-visual-studio-2005/
 tags:
   - Awards and Certifications
 ---

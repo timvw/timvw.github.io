@@ -1,11 +1,6 @@
 ---
-id: 16
 title: Selecting custom Objects from a DataGridView
-date: 2006-09-03T02:09:56+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/selecting-custom-objects-from-a-datagridview/
-permalink: /2006/09/03/selecting-custom-objects-from-a-datagridview/
 tags:
   - 'C#'
   - Windows Forms
@@ -31,7 +26,6 @@ private void buttonDoSomething_Click( object sender, EventArgs e )
 	{ 
 		int selectedRowIndex = this.dataGridViewPersons.SelectedCells[0].RowIndex; 
 		Person selectedPerson = (Person)this.dataGridViewPersons.Rows[selectedRowIndex].Tag; 
-		MessageBox.Show( String.Format( "You selected the person with id: {0}", selectedPerson.Id ) ); 
-	} 
+		MessageBox.Show( String.Format( "You selected the person with 	} 
 } 
 ```

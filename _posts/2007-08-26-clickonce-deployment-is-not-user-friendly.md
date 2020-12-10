@@ -1,11 +1,6 @@
 ---
-id: 198
 title: ClickOnce Deployment is not user-friendly!
-date: 2007-08-26T15:59:22+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/clickonce-deployment-is-not-user-friendly/
-permalink: /2007/08/26/clickonce-deployment-is-not-user-friendly/
 tags:
   - 'C#'
 ---

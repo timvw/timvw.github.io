@@ -1,11 +1,7 @@
 ---
-id: 1268
 title: 'Tim.TransitionTo(&quot;MCPD: Enterprise Application Developer 3.5&quot;)'
-date: 2009-09-18T10:08:56+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1268
-permalink: /2009/09/18/tim-transitiontomcpd-enterprise-application-developer-3-5/
 tags:
   - Awards and Certifications
 ---

@@ -1,11 +1,7 @@
 ---
-id: 2132
 title: How to handle (short) bursts of work
-date: 2011-05-09T20:30:28+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2132
-permalink: /2011/05/09/how-to-handle-short-bursts-of-work/
 categories:
   - Uncategorized
 ---

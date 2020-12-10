@@ -1,11 +1,7 @@
 ---
-id: 1085
 title: 'VS2010: Unable to insert a breakpoint by clicking next to the line number'
-date: 2009-06-16T15:49:52+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1085
-permalink: /2009/06/16/vs2010-unable-to-insert-a-breakpoint-by-clicking-next-to-the-line-number/
 dsq_thread_id:
   - 1933325300
 tags:

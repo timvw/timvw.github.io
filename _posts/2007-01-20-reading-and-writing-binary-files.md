@@ -1,11 +1,6 @@
 ---
-id: 149
 title: Reading and writing unmanged structs from binary files
-date: 2007-01-20T22:00:12+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/reading-and-writing-binary-files/
-permalink: /2007/01/20/reading-and-writing-binary-files/
 dsq_thread_id:
   - 1926480403
 tags:

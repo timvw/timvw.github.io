@@ -1,11 +1,7 @@
 ---
-id: 500
 title: Experimenting with naming conventions for unit tests
-date: 2008-09-05T15:28:24+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=500
-permalink: /2008/09/05/experimenting-with-naming-conventions-for-unit-tests/
 dsq_thread_id:
   - 1933325955
 tags:

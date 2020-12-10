@@ -1,11 +1,6 @@
 ---
-id: 34
 title: Internationalizing strings with variables
-date: 2006-03-19T02:47:03+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/internationalizing-strings-with-variables/
-permalink: /2006/03/19/internationalizing-strings-with-variables/
 tags:
   - WordPress
 ---

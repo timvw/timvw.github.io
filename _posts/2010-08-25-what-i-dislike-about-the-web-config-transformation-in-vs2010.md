@@ -1,11 +1,7 @@
 ---
-id: 1880
 title: What i dislike about the Web.config Transformation in VS2010
-date: 2010-08-25T20:34:15+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1880
-permalink: /2010/08/25/what-i-dislike-about-the-web-config-transformation-in-vs2010/
 dsq_thread_id:
   - 1922954609
 tags:

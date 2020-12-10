@@ -1,11 +1,7 @@
 ---
-id: 376
 title: Pro ASP.NET 2.0 Website Programming
-date: 2008-08-09T20:51:11+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=376
-permalink: /2008/08/09/pro-aspnet-20-website-programming/
 tags:
   - Book reviews
 ---

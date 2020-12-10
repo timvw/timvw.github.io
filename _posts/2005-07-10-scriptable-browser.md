@@ -1,11 +1,6 @@
 ---
-id: 103
 title: Scriptable browser
-date: 2005-07-10T02:00:05+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/scriptable-browser/
-permalink: /2005/07/10/scriptable-browser/
 tags:
   - PHP
 ---
@@ -18,11 +13,9 @@ Now all i had to do is make sure this script is executed each day, so i edited m
 ```php
 ###############################################################################
 # 
-# Author: Tim Van Wassenhove 
-# 
+# # 
 ###############################################################################
-# $Id: 
-###############################################################################
+# $###############################################################################
 @reboot /usr/bin/fetchmail -d 1800 
 0,10,20,30,40,50 \* \* \* \* /usr/bin/wget -O /dev/null http://timvw/cron/blogmarks.php > /dev/null 2>&1 
 30 02 \* \* * /usr/bin/wget -O /dev/null http://timvw/cron/smscity.php > /dev/null 2>&1

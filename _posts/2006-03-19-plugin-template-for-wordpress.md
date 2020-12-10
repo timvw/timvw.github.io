@@ -1,11 +1,6 @@
 ---
-id: 116
 title: Plugin template for WordPress
-date: 2006-03-19T02:32:19+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/plugin-template-for-wordpress/
-permalink: /2006/03/19/plugin-template-for-wordpress/
 tags:
   - WordPress
 ---
@@ -18,7 +13,6 @@ Plugin Name: %plugin_name%
 Version: %plugin_version%
 Plugin URI: %plugin_uri%
 Description: %plugin_description%
-Author: %plugin_author_name% <%plugin_author_mail%>
 
 
 Author URI: %plugin_author_uri%

@@ -1,11 +1,6 @@
 ---
-id: 65
 title: Parsing http headers
-date: 2005-11-14T21:42:37+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/parsing-http-headers/
-permalink: /2005/11/14/parsing-http-headers/
 tags:
   - Perl
 ---

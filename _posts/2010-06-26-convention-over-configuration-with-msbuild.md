@@ -1,11 +1,7 @@
 ---
-id: 1766
 title: Convention over configuration with MSBuild
-date: 2010-06-26T13:44:52+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1766
-permalink: /2010/06/26/convention-over-configuration-with-msbuild/
 dsq_thread_id:
   - 1922703900
 tags:

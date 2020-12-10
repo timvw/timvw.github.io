@@ -1,11 +1,6 @@
 ---
-id: 101
 title: GNU text utilities
-date: 2005-07-06T01:55:45+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/gnu-text-utilities/
-permalink: /2005/07/06/gnu-text-utilities/
 tags:
   - Free Software
 ---

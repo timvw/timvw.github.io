@@ -1,11 +1,7 @@
 ---
-id: 888
 title: Comparing Moq to Rhino Mocks
-date: 2009-03-23T17:51:31+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=888
-permalink: /2009/03/23/comparing-moq-to-rhino-mocks/
 dsq_thread_id:
   - 1922218487
 tags:

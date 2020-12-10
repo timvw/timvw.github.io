@@ -1,11 +1,7 @@
 ---
-id: 2267
 title: Multiclean solution
-date: 2012-04-26T15:08:07+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2267
-permalink: /2012/04/26/multiclean-solution/
 categories:
   - Uncategorized
 tags:

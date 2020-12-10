@@ -1,11 +1,6 @@
 ---
-id: 30
 title: Using .Net assemblies in your WIN32 application
-date: 2006-04-22T02:42:49+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/using-net-assemblies-in-your-win32-application/
-permalink: /2006/04/22/using-net-assemblies-in-your-win32-application/
 tags:
   - C++
 ---

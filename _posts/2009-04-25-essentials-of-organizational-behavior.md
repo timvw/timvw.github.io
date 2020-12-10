@@ -1,11 +1,7 @@
 ---
-id: 1010
 title: Essentials of Organizational Behavior
-date: 2009-04-25T14:02:49+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1010
-permalink: /2009/04/25/essentials-of-organizational-behavior/
 tags:
   - Book reviews
 ---

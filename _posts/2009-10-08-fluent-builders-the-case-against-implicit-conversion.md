@@ -1,11 +1,7 @@
 ---
-id: 1321
 title: 'Fluent Builders: The case against implicit conversion'
-date: 2009-10-08T08:45:59+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1321
-permalink: /2009/10/08/fluent-builders-the-case-against-implicit-conversion/
 tags:
   - 'C#'
 ---

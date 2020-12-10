@@ -1,11 +1,7 @@
 ---
-id: 728
 title: Query a specific Google Calendar
-date: 2008-10-22T16:50:52+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=728
-permalink: /2008/10/22/query-a-specific-google-calendar/
 tags:
   - 'C#'
 ---

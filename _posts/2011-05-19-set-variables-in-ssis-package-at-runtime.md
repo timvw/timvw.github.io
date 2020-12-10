@@ -1,11 +1,7 @@
 ---
-id: 2147
 title: Set variables in SSIS package at runtime
-date: 2011-05-19T20:23:48+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=2147
-permalink: /2011/05/19/set-variables-in-ssis-package-at-runtime/
 categories:
   - Uncategorized
 tags:

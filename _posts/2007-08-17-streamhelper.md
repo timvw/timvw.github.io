@@ -1,11 +1,6 @@
 ---
-id: 191
 title: StreamHelper
-date: 2007-08-17T16:50:23+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/streamhelper/
-permalink: /2007/08/17/streamhelper/
 tags:
   - 'C#'
 ---

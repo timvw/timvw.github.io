@@ -1,11 +1,6 @@
 ---
-id: 213
 title: 'Exploring alternative input: ActiveHome'
-date: 2008-03-06T17:59:13+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/exploring-alternative-input-activehome/
-permalink: /2008/03/06/exploring-alternative-input-activehome/
 tags:
   - 'C#'
 ---

@@ -1,11 +1,7 @@
 ---
-id: 1482
 title: 'Separation of concerns: Behavior = Trigger + TriggerAction'
-date: 2009-10-19T20:40:43+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1482
-permalink: /2009/10/19/separation-of-concerns-behavior-trigger-triggeraction/
 tags:
   - 'C#'
   - Silverlight

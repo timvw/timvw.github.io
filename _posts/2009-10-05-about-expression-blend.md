@@ -1,11 +1,7 @@
 ---
-id: 1301
 title: About Expression Blend
-date: 2009-10-05T13:08:39+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1301
-permalink: /2009/10/05/about-expression-blend/
 tags:
   - WPF
 ---

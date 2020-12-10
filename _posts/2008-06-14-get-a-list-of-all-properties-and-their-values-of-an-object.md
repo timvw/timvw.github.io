@@ -1,11 +1,7 @@
 ---
-id: 230
 title: Enumerate all properties and their value of an object
-date: 2008-06-14T13:11:17+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=230
-permalink: /2008/06/14/get-a-list-of-all-properties-and-their-values-of-an-object/
 tags:
   - 'C#'
 ---

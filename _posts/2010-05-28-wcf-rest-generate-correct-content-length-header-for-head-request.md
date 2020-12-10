@@ -1,11 +1,7 @@
 ---
-id: 1754
 title: 'WCF REST: generate correct Content-Length header for HEAD request'
-date: 2010-05-28T20:50:54+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1754
-permalink: /2010/05/28/wcf-rest-generate-correct-content-length-header-for-head-request/
 dsq_thread_id:
   - 1926326399
 tags:

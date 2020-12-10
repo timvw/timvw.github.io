@@ -1,11 +1,6 @@
 ---
-id: 84
 title: Backup script
-date: 2004-06-28T00:55:15+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/backup-script/
-permalink: /2004/06/28/backup-script/
 tags:
   - Bash
 ---
@@ -72,9 +67,7 @@ It thought it would be a good idea to have a backup once in a while, but most of
 #!/bin/bash
 ############################################################################### 
 # Generate a backup file of homedirectory and database
-# Author: Tim Van Wassenhove <timvw@users.sourceforge.net>
-# Update: 2005-09-16 01:56:00
-###############################################################################
+# # Up###############################################################################
 # dump database
 mysqldump -u username -ppassword -h invalid.org dbname > ~/mysql.dmp
 

@@ -1,10 +1,6 @@
 ---
-id: 2533
 title: Docker toolbox to the rescue
-date: 2016-10-01T19:25:09+00:00
-author: timvw
 layout: post
-permalink: /2016/10/01/docker-toolbox-to-the-rescue/
 ---
 With the help of [Docker Toolbox](https://www.docker.com/products/docker-toolbox) a lot of apps become easily available...
 

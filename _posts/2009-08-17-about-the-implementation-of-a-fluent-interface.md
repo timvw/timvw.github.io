@@ -1,11 +1,7 @@
 ---
-id: 1218
 title: About the implementation of a fluent interface
-date: 2009-08-17T16:45:47+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1218
-permalink: /2009/08/17/about-the-implementation-of-a-fluent-interface/
 dsq_thread_id:
   - 1925695189
 tags:

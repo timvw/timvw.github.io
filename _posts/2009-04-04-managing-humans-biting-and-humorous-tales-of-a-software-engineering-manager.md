@@ -1,11 +1,7 @@
 ---
-id: 973
 title: 'Managing Humans: Biting and Humorous Tales of a Software Engineering Manager'
-date: 2009-04-04T10:49:05+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=973
-permalink: /2009/04/04/managing-humans-biting-and-humorous-tales-of-a-software-engineering-manager/
 tags:
   - Book reviews
 ---

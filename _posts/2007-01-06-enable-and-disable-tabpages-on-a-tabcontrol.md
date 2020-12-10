@@ -1,11 +1,6 @@
 ---
-id: 141
 title: Enable and disable TabPages on a TabControl
-date: 2007-01-06T15:29:41+00:00
-author: timvw
 layout: post
-guid: http://www.timvw.be/enable-and-disable-tabpages-on-a-tabcontrol/
-permalink: /2007/01/06/enable-and-disable-tabpages-on-a-tabcontrol/
 dsq_thread_id:
   - 1920154547
 tags:

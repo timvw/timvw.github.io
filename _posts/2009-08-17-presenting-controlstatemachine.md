@@ -1,11 +1,7 @@
 ---
-id: 1170
 title: Presenting ControlStateMachine
-date: 2009-08-17T08:10:42+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=1170
-permalink: /2009/08/17/presenting-controlstatemachine/
 dsq_thread_id:
   - 1926050483
 tags:

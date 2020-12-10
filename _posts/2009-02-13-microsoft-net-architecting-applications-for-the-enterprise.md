@@ -1,11 +1,7 @@
 ---
-id: 818
 title: 'Microsoft .NET: Architecting Applications for the Enterprise'
-date: 2009-02-13T08:41:21+00:00
-author: timvw
 layout: post
 guid: http://www.timvw.be/?p=818
-permalink: /2009/02/13/microsoft-net-architecting-applications-for-the-enterprise/
 tags:
   - Book reviews
 ---
