@@ -1,8 +1,6 @@
 ---
 title: Setting up an SSH tunnel
 layout: post
-dsq_thread_id:
-  - 1933324843
 tags:
   - Free Software
 ---

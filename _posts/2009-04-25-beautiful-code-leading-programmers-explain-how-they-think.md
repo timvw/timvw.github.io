@@ -2,8 +2,6 @@
 title: 'Beautiful Code: Leading Programmers Explain How They Think'
 layout: post
 guid: http://www.timvw.be/?p=1019
-dsq_thread_id:
-  - 1933325197
 tags:
   - Book reviews
 ---

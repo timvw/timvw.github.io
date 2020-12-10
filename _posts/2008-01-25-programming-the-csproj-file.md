@@ -1,8 +1,6 @@
 ---
 title: Programming the csproj file
 layout: post
-dsq_thread_id:
-  - 1933325055
 tags:
   - 'C#'
 ---

@@ -1,8 +1,6 @@
 ---
 title: Adding DataGridViewColumns (lots of them)
 layout: post
-dsq_thread_id:
-  - 1920133897
 tags:
   - 'C#'
   - Windows Forms

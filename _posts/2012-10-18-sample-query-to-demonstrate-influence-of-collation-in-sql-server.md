@@ -2,8 +2,6 @@
 title: Sample query to demonstrate influence of collation in Sql Server
 layout: post
 guid: http://www.timvw.be/?p=2301
-dsq_thread_id:
-  - 1922156371
 categories:
   - Uncategorized
 tags:

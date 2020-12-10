@@ -1,8 +1,6 @@
 ---
 title: Format sourcecode with VIM
 layout: post
-dsq_thread_id:
-  - 1933324865
 tags:
   - Free Software
 ---

@@ -2,8 +2,6 @@
 title: Advertising on this blog
 layout: post
 guid: http://www.timvw.be/?p=1239
-dsq_thread_id:
-  - 1933324539
 tags:
   - Events
 ---

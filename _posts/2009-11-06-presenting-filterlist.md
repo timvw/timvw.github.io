@@ -23,8 +23,6 @@ enclosure:
     video/x-ms-wmv
 wp_media_player:
   - 1
-dsq_thread_id:
-  - 1933325256
 tags:
   - 'C#'
   - Windows Forms

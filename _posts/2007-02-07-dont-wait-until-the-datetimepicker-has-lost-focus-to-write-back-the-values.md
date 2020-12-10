@@ -1,8 +1,6 @@
 ---
 title: 'Don&#039;t wait until the DateTimePicker has lost focus to write back the values'
 layout: post
-dsq_thread_id:
-  - 1933325636
 tags:
   - 'C#'
   - Windows Forms

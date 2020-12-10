@@ -1,8 +1,6 @@
 ---
 title: Running .NET applications on Debian GNU/Linux with Mono
 layout: post
-dsq_thread_id:
-  - 1920134121
 tags:
   - Free Software
 ---

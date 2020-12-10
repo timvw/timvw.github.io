@@ -2,8 +2,6 @@
 title: 'Presenting the SortableBindingList&lt;T&gt; (take two)'
 layout: post
 guid: http://www.timvw.be/?p=314
-dsq_thread_id:
-  - 1920126406
 tags:
   - 'C#'
 ---

@@ -1,8 +1,6 @@
 ---
 title: Simple HTTP proxy with Perl
 layout: post
-dsq_thread_id:
-  - 1920121213
 tags:
   - Perl
 ---

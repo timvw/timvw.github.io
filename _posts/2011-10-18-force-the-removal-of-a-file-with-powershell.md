@@ -2,8 +2,6 @@
 title: Force the removal of a file with PowerShell
 layout: post
 guid: http://www.timvw.be/?p=2240
-dsq_thread_id:
-  - 1924296740
 categories:
   - Uncategorized
 tags:

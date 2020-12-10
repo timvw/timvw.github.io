@@ -1,8 +1,6 @@
 ---
 title: Performing long running tasks in a Windows Application
 layout: post
-dsq_thread_id:
-  - 1933325640
 tags:
   - 'C#'
   - Windows Forms

@@ -2,8 +2,6 @@
 title: From UnixTime to DateTime and back
 layout: post
 guid: http://www.timvw.be/?p=4
-dsq_thread_id:
-  - 1921912032
 tags:
   - 'C#'
 ---

@@ -1,8 +1,6 @@
 ---
 title: Dynamic CSS with PHP
 layout: post
-dsq_thread_id:
-  - 1926052835
 tags:
   - PHP
 ---

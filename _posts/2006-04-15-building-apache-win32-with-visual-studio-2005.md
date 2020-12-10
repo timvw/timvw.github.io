@@ -1,8 +1,6 @@
 ---
 title: Building apache-win32 with Visual Studio 2005
 layout: post
-dsq_thread_id:
-  - 1920134122
 tags:
   - Free Software
 ---

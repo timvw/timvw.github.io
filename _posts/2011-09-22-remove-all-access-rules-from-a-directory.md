@@ -2,8 +2,6 @@
 title: Remove all access rules from a directory
 layout: post
 guid: http://www.timvw.be/?p=2226
-dsq_thread_id:
-  - 1923585402
 categories:
   - Uncategorized
 tags:

@@ -1,8 +1,6 @@
 ---
 title: Implementing Master/Detail for Custom Objects with DataGridViewComboBoxColumns
 layout: post
-dsq_thread_id:
-  - 1920133928
 tags:
   - 'C#'
   - Windows Forms

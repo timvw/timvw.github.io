@@ -1,8 +1,6 @@
 ---
 title: Couple of screenshots of my graduation project
 layout: post
-dsq_thread_id:
-  - 1933325361
 tags:
   - Hibernate
 ---

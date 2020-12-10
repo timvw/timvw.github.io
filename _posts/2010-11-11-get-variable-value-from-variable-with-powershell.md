@@ -2,8 +2,6 @@
 title: Get variable value from variable with PowerShell
 layout: post
 guid: http://www.timvw.be/?p=1972
-dsq_thread_id:
-  - 1923497345
 categories:
   - Uncategorized
 tags:

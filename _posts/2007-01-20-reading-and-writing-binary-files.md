@@ -1,8 +1,6 @@
 ---
 title: Reading and writing unmanged structs from binary files
 layout: post
-dsq_thread_id:
-  - 1926480403
 tags:
   - 'C#'
 ---

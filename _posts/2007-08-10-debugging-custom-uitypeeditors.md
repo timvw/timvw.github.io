@@ -1,8 +1,6 @@
 ---
 title: Debugging custom UITypeEditors
 layout: post
-dsq_thread_id:
-  - 1933325813
 tags:
   - 'C#'
   - Visual Studio

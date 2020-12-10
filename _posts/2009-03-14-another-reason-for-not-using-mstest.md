@@ -2,8 +2,6 @@
 title: Another reason for not using mstest
 layout: post
 guid: http://www.timvw.be/?p=857
-dsq_thread_id:
-  - 1926745973
 tags:
   - 'C#'
   - Visual Studio

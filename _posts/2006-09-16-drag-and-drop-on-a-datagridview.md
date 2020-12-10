@@ -1,8 +1,6 @@
 ---
 title: Drag and Drop on a DataGridView
 layout: post
-dsq_thread_id:
-  - 1920133752
 tags:
   - 'C#'
   - Windows Forms

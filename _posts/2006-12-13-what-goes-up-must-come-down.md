@@ -1,8 +1,6 @@
 ---
 title: 'What goes up must come down...'
 layout: post
-dsq_thread_id:
-  - 1933324908
 tags:
   - 'C#'
   - Windows Forms

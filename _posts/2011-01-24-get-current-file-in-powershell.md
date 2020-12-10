@@ -2,8 +2,6 @@
 title: Get current file in PowerShell
 layout: post
 guid: http://www.timvw.be/?p=2044
-dsq_thread_id:
-  - 1924327119
 categories:
   - Uncategorized
 tags:

@@ -2,8 +2,6 @@
 title: SqlConnectionStringBuilder sets the Pooling property to true by default
 layout: post
 guid: http://www.timvw.be/?p=2188
-dsq_thread_id:
-  - 1933325243
 categories:
   - Uncategorized
 tags:

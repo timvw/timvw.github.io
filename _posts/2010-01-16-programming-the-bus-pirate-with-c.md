@@ -2,8 +2,6 @@
 title: 'Programming the Bus Pirate with C#'
 layout: post
 guid: http://www.timvw.be/?p=1614
-dsq_thread_id:
-  - 1923792238
 tags:
   - 'C#'
 ---

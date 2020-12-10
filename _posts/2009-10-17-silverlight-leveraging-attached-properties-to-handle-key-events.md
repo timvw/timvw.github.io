@@ -2,8 +2,6 @@
 title: 'Silverlight: leveraging attached properties to handle key events'
 layout: post
 guid: http://www.timvw.be/?p=1457
-dsq_thread_id:
-  - 1933325201
 tags:
   - 'C#'
   - Silverlight

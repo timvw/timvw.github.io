@@ -2,8 +2,6 @@
 title: About the implementation of a fluent interface
 layout: post
 guid: http://www.timvw.be/?p=1218
-dsq_thread_id:
-  - 1925695189
 tags:
   - 'C#'
 ---

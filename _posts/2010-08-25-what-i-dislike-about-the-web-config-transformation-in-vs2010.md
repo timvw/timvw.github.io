@@ -2,8 +2,6 @@
 title: What i dislike about the Web.config Transformation in VS2010
 layout: post
 guid: http://www.timvw.be/?p=1880
-dsq_thread_id:
-  - 1922954609
 tags:
   - MSBuild
   - Visual Studio

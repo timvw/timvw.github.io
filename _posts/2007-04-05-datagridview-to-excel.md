@@ -1,8 +1,6 @@
 ---
 title: DataGridView to Excel
 layout: post
-dsq_thread_id:
-  - 1922255088
 tags:
   - 'C#'
   - Windows Forms

@@ -2,8 +2,6 @@
 title: Consume custom SSIS tasks without GAC installation
 layout: post
 guid: http://www.timvw.be/?p=2067
-dsq_thread_id:
-  - 1923240007
 categories:
   - Uncategorized
 tags:

@@ -2,8 +2,6 @@
 title: Some tips for .Net developers using git on cygwin
 layout: post
 guid: http://www.timvw.be/?p=2083
-dsq_thread_id:
-  - 1933325226
 categories:
   - Uncategorized
 tags:

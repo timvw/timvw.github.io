@@ -2,8 +2,6 @@
 title: Presenting ApplicationEnvironment
 layout: post
 guid: http://www.timvw.be/?p=571
-dsq_thread_id:
-  - 1933325137
 tags:
   - 'C#'
 ---

@@ -2,8 +2,6 @@
 title: Another method i wrote once too many
 layout: post
 guid: http://www.timvw.be/?p=1496
-dsq_thread_id:
-  - 1933325143
 tags:
   - 'C#'
 ---

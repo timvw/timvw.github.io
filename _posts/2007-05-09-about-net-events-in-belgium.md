@@ -1,8 +1,6 @@
 ---
 title: About .Net events in Belgium
 layout: post
-dsq_thread_id:
-  - 1933324263
 tags:
   - Events
 ---

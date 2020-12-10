@@ -1,8 +1,6 @@
 ---
 title: Updating the Internet Options / Lan Settings
 layout: post
-dsq_thread_id:
-  - 1920134401
 tags:
   - 'C#'
 ---

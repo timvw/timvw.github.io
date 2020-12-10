@@ -2,8 +2,6 @@
 title: About the design of a fluent interface
 layout: post
 guid: http://www.timvw.be/?p=1184
-dsq_thread_id:
-  - 1925698629
 tags:
   - 'C#'
   - Visual Studio

@@ -2,8 +2,6 @@
 title: Brad Abrams and extension methods to the rescue..
 layout: post
 guid: http://www.timvw.be/?p=1273
-dsq_thread_id:
-  - 1933325141
 tags:
   - 'C#'
 ---

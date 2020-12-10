@@ -1,8 +1,6 @@
 ---
 title: TetriNet spectator client
 layout: post
-dsq_thread_id:
-  - 1933325369
 tags:
   - Java
 ---

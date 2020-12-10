@@ -1,8 +1,6 @@
 ---
 title: Bypassing URL file-access is disabled
 layout: post
-dsq_thread_id:
-  - 1923053113
 tags:
   - PHP
 ---

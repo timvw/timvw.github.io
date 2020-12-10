@@ -1,8 +1,6 @@
 ---
 title: Configuring Mutt for GPG
 layout: post
-dsq_thread_id:
-  - 1926368390
 tags:
   - Free Software
 ---

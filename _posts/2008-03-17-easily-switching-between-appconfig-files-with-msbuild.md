@@ -1,8 +1,6 @@
 ---
 title: Easily switching between App.Config files with MSBuild
 layout: post
-dsq_thread_id:
-  - 1920274229
 tags:
   - Visual Studio
 ---

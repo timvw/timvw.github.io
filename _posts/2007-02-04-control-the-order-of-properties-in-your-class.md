@@ -1,8 +1,6 @@
 ---
 title: Control the order of Properties in your Class
 layout: post
-dsq_thread_id:
-  - 1933325617
 tags:
   - 'C#'
   - Windows Forms

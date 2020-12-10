@@ -2,8 +2,6 @@
 title: First thoughts about Windows 7
 layout: post
 guid: http://www.timvw.be/?p=1063
-dsq_thread_id:
-  - 1933325134
 tags:
   - Information Technology
 ---

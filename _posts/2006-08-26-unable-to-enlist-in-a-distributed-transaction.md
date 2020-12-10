@@ -1,8 +1,6 @@
 ---
 title: Unable to enlist in a distributed transaction
 layout: post
-dsq_thread_id:
-  - 1927478948
 tags:
   - 'C#'
 ---

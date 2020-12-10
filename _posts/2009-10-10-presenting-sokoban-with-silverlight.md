@@ -2,8 +2,6 @@
 title: Presenting Sokoban with Silverlight
 layout: post
 guid: http://www.timvw.be/?p=1368
-dsq_thread_id:
-  - 1933325153
 tags:
   - Silverlight
 ---

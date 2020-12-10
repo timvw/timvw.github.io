@@ -2,8 +2,6 @@
 title: Polling the existence of a file with PowerShell
 layout: post
 guid: http://www.timvw.be/?p=2050
-dsq_thread_id:
-  - 1920264831
 categories:
   - Uncategorized
 tags:

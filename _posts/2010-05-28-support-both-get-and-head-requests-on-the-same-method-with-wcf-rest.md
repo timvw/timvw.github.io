@@ -2,8 +2,6 @@
 title: Support both GET and HEAD requests on the same method with WCF REST
 layout: post
 guid: http://www.timvw.be/?p=1737
-dsq_thread_id:
-  - 1924294222
 tags:
   - 'C#'
 ---

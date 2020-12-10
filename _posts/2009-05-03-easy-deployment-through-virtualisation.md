@@ -2,8 +2,6 @@
 title: Easy deployment through virtualisation
 layout: post
 guid: http://www.timvw.be/?p=1034
-dsq_thread_id:
-  - 1933324488
 tags:
   - Information Technology
 ---

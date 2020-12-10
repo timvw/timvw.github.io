@@ -1,8 +1,6 @@
 ---
 title: Enable and disable TabPages on a TabControl
 layout: post
-dsq_thread_id:
-  - 1920154547
 tags:
   - 'C#'
   - Windows Forms

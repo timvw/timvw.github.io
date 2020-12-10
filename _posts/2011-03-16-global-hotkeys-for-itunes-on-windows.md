@@ -2,8 +2,6 @@
 title: Global hotkeys for iTunes on windows
 layout: post
 guid: http://www.timvw.be/?p=2103
-dsq_thread_id:
-  - 1933325240
 categories:
   - Uncategorized
 tags:

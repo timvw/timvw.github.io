@@ -2,8 +2,6 @@
 title: Get entire message body from an Intent
 layout: post
 guid: http://www.timvw.be/?p=2036
-dsq_thread_id:
-  - 1930548491
 categories:
   - Uncategorized
 tags:

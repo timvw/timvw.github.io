@@ -1,8 +1,6 @@
 ---
 title: Exploring DataGridViewComboBoxColumn databinding (part2)
 layout: post
-dsq_thread_id:
-  - 1920394058
 tags:
   - 'C#'
   - Windows Forms

@@ -2,8 +2,6 @@
 title: Convention over configuration with MSBuild
 layout: post
 guid: http://www.timvw.be/?p=1766
-dsq_thread_id:
-  - 1922703900
 tags:
   - MSBuild
 ---

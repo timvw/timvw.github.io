@@ -1,8 +1,6 @@
 ---
 title: Developing a DataSource for your DataGridView
 layout: post
-dsq_thread_id:
-  - 1933324909
 tags:
   - 'C#'
   - Windows Forms

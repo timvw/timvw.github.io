@@ -1,8 +1,6 @@
 ---
 title: eID with .NET
 layout: post
-dsq_thread_id:
-  - 1920134027
 tags:
   - 'C#'
 ---

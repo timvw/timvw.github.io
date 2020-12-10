@@ -2,8 +2,6 @@
 title: Refactoring to Patterns
 layout: post
 guid: http://www.timvw.be/?p=1576
-dsq_thread_id:
-  - 1933324556
 tags:
   - Book reviews
 ---

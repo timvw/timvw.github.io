@@ -2,8 +2,6 @@
 title: Navigation to the webpage was canceled
 layout: post
 guid: http://www.timvw.be/?p=2111
-dsq_thread_id:
-  - 1923940861
 categories:
   - Uncategorized
 tags:

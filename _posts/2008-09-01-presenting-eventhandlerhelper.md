@@ -2,8 +2,6 @@
 title: Presenting EventHandlerHelper
 layout: post
 guid: http://www.timvw.be/?p=467
-dsq_thread_id:
-  - 1933325926
 tags:
   - 'C#'
 ---
