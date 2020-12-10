@@ -2,8 +2,6 @@
 title: Experimenting with naming conventions for unit tests
 layout: post
 guid: http://www.timvw.be/?p=500
-dsq_thread_id:
-  - 1933325955
 tags:
   - Information Technology
 ---

@@ -1,8 +1,6 @@
 ---
 title: Reading unmanaged structs with .NET
 layout: post
-dsq_thread_id:
-  - 1920134231
 tags:
   - C++
 ---

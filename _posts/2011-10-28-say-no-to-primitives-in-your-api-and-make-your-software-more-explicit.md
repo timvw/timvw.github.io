@@ -2,8 +2,6 @@
 title: Say no to primitives in your API.. and make your software more explicit
 layout: post
 guid: http://www.timvw.be/?p=2245
-dsq_thread_id:
-  - 1933324692
 categories:
   - Uncategorized
 ---

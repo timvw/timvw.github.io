@@ -1,8 +1,6 @@
 ---
 title: Presenting a Generic RemotingHelper
 layout: post
-dsq_thread_id:
-  - 1933325455
 tags:
   - 'C#'
 ---

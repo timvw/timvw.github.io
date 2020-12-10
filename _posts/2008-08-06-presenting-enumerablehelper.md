@@ -2,8 +2,6 @@
 title: Presenting EnumerableHelper
 layout: post
 guid: http://www.timvw.be/?p=350
-dsq_thread_id:
-  - 1933324487
 tags:
   - 'C#'
 ---

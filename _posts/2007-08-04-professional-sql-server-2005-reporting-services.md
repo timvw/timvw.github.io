@@ -1,8 +1,6 @@
 ---
 title: Professional SQL Server 2005 Reporting Services
 layout: post
-dsq_thread_id:
-  - 1933324316
 tags:
   - Book reviews
 ---

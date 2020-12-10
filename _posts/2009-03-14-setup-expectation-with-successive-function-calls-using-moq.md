@@ -2,8 +2,6 @@
 title: Setup expectation with successive function calls using Moq
 layout: post
 guid: http://www.timvw.be/?p=864
-dsq_thread_id:
-  - 1922124629
 tags:
   - 'C#'
 ---

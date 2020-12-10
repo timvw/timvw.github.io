@@ -2,8 +2,6 @@
 title: Get root directory for IsolatedStorageFiles
 layout: post
 guid: http://www.timvw.be/?p=1715
-dsq_thread_id:
-  - 1927140626
 tags:
   - 'C#'
 ---

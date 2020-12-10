@@ -1,8 +1,6 @@
 ---
 title: Hide and unhide columns (or rows) in the DataGridView
 layout: post
-dsq_thread_id:
-  - 1921455794
 tags:
   - 'C#'
   - Windows Forms

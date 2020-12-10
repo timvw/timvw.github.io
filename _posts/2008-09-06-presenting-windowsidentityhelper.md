@@ -1,9 +1,6 @@
 ---
 title: Presenting WindowsIdentityHelper
 layout: post
-guid: http://www.timvw.be/?p=525
-dsq_thread_id:
-  - 1933325939
 tags:
   - 'C#'
 ---

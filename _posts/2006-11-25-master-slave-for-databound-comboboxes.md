@@ -1,8 +1,6 @@
 ---
 title: Master-Slave for databound ComboBoxes
 layout: post
-dsq_thread_id:
-  - 1923727470
 tags:
   - 'C#'
   - Windows Forms

@@ -1,8 +1,6 @@
 ---
 title: Installing MSDN Library May 2006
 layout: post
-dsq_thread_id:
-  - 1920133987
 tags:
   - Information Technology
 ---

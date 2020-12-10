@@ -1,8 +1,6 @@
 ---
 title: Generating UTF-8 with System.Xml.XmlWriter
 layout: post
-dsq_thread_id:
-  - 1921251479
 tags:
   - 'C#'
   - XML

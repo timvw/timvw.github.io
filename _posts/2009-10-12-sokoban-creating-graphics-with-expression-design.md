@@ -2,8 +2,6 @@
 title: 'Sokoban: Creating graphics with Expression Design'
 layout: post
 guid: http://www.timvw.be/?p=1393
-dsq_thread_id:
-  - 1933324543
 tags:
   - Silverlight
   - WPF

@@ -1,8 +1,6 @@
 ---
 title: Using DateTimePicker and Custom Format
 layout: post
-dsq_thread_id:
-  - 1920565393
 tags:
   - 'C#'
   - Windows Forms

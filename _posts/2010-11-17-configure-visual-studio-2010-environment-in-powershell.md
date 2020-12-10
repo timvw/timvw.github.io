@@ -2,8 +2,6 @@
 title: Configure Visual Studio 2010 environment in PowerShell
 layout: post
 guid: http://www.timvw.be/?p=1982
-dsq_thread_id:
-  - 1923727514
 categories:
   - Uncategorized
 tags:

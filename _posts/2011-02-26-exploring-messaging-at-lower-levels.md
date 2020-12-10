@@ -2,8 +2,6 @@
 title: 'Exploring messaging at lower levels...'
 layout: post
 guid: http://www.timvw.be/?p=2056
-dsq_thread_id:
-  - 1933325321
 categories:
   - Uncategorized
 tags:

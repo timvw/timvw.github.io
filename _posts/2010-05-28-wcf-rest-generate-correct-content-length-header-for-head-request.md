@@ -2,8 +2,6 @@
 title: 'WCF REST: generate correct Content-Length header for HEAD request'
 layout: post
 guid: http://www.timvw.be/?p=1754
-dsq_thread_id:
-  - 1926326399
 tags:
   - 'C#'
 ---

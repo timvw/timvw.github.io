@@ -2,8 +2,6 @@
 title: NHibernate SessionFactory configuration
 layout: post
 guid: http://www.timvw.be/?p=303
-dsq_thread_id:
-  - 1928261292
 tags:
   - 'C#'
 ---

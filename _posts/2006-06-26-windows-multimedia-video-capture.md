@@ -1,8 +1,6 @@
 ---
 title: Windows Multimedia Video Capture
 layout: post
-dsq_thread_id:
-  - 1920134432
 tags:
   - 'C#'
   - Windows Forms

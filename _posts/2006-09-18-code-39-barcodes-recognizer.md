@@ -1,8 +1,6 @@
 ---
 title: 'Code  39 barcodes recognizer'
 layout: post
-dsq_thread_id:
-  - 1920133759
 tags:
   - 'C#'
 ---

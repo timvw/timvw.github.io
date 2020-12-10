@@ -2,8 +2,6 @@
 title: Calculate EndpointAddress for Silverlight client
 layout: post
 guid: http://www.timvw.be/?p=1691
-dsq_thread_id:
-  - 1921749542
 tags:
   - 'C#'
   - Silverlight

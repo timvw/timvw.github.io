@@ -1,8 +1,6 @@
 ---
 title: Presenting the DataGridViewLargeTextBoxCell
 layout: post
-dsq_thread_id:
-  - 1933325495
 tags:
   - 'C#'
   - Windows Forms

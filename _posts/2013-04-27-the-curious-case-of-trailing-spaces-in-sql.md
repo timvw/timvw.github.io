@@ -2,8 +2,6 @@
 title: The curious case of trailing spaces in SQL
 layout: post
 guid: http://www.timvw.be/?p=2330
-dsq_thread_id:
-  - 1920088178
 categories:
   - Uncategorized
 tags:

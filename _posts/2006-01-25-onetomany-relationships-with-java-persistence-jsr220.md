@@ -1,8 +1,6 @@
 ---
 title: OneToMany relationships with Java Persistence (JSR 220)
 layout: post
-dsq_thread_id:
-  - 1922442871
 tags:
   - Hibernate
 ---

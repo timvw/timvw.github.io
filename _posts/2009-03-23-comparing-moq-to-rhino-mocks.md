@@ -2,8 +2,6 @@
 title: Comparing Moq to Rhino Mocks
 layout: post
 guid: http://www.timvw.be/?p=888
-dsq_thread_id:
-  - 1922218487
 tags:
   - 'C#'
 ---

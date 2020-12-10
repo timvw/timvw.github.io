@@ -1,8 +1,6 @@
 ---
 title: Removing selected items from a ListBox
 layout: post
-dsq_thread_id:
-  - 1920134208
 tags:
   - Visual Basic
   - Windows Forms

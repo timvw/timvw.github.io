@@ -1,8 +1,6 @@
 ---
 title: Using DataGridViewComboBoxColumn with Custom Objects
 layout: post
-dsq_thread_id:
-  - 1932025671
 tags:
   - 'C#'
   - Windows Forms

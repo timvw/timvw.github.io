@@ -1,8 +1,6 @@
 ---
 title: 'Making WebRequests in parallel...'
 layout: post
-dsq_thread_id:
-  - 1929575324
 tags:
   - 'C#'
 ---

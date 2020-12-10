@@ -1,8 +1,6 @@
 ---
 title: Using a collection as parameter for a stored procedure
 layout: post
-dsq_thread_id:
-  - 1920843036
 tags:
   - 'C#'
   - SQL

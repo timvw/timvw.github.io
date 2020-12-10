@@ -2,8 +2,6 @@
 title: Get/SetVariable value from SSIS VariableDispenser
 layout: post
 guid: http://www.timvw.be/?p=2071
-dsq_thread_id:
-  - 1923237271
 categories:
   - Uncategorized
 tags:

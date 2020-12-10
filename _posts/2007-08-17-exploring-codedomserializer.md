@@ -1,8 +1,6 @@
 ---
 title: Exploring CodeDomSerializer
 layout: post
-dsq_thread_id:
-  - 1923606182
 tags:
   - 'C#'
 ---

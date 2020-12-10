@@ -2,8 +2,6 @@
 title: Presenting HtmlClipboard
 layout: post
 guid: http://www.timvw.be/?p=241
-dsq_thread_id:
-  - 1933325909
 tags:
   - 'C#'
 ---

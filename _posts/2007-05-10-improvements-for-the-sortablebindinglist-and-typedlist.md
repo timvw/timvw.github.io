@@ -1,8 +1,6 @@
 ---
 title: Improvements for the SortableBindingList (and TypedList)
 layout: post
-dsq_thread_id:
-  - 1923258156
 tags:
   - 'C#'
   - Windows Forms

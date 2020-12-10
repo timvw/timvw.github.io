@@ -1,8 +1,6 @@
 ---
 title: Pagination for all
 layout: post
-dsq_thread_id:
-  - 1920134368
 tags:
   - PHP
 ---

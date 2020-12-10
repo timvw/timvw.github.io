@@ -1,8 +1,6 @@
 ---
 title: Passing a filehandle as parameter
 layout: post
-dsq_thread_id:
-  - 1926900865
 tags:
   - Perl
 ---

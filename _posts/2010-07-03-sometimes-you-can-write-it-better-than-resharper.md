@@ -2,8 +2,6 @@
 title: Sometimes you can write it better than Resharper
 layout: post
 guid: http://www.timvw.be/?p=1768
-dsq_thread_id:
-  - 1926529087
 tags:
   - 'C#'
 ---

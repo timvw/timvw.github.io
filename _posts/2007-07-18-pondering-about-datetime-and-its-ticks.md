@@ -1,8 +1,6 @@
 ---
 title: 'Pondering about DateTime and it&#039;s Ticks...'
 layout: post
-dsq_thread_id:
-  - 1933325799
 tags:
   - 'C#'
 ---

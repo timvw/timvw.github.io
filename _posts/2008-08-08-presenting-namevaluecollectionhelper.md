@@ -2,8 +2,6 @@
 title: Presenting NameValueCollectionHelper
 layout: post
 guid: http://www.timvw.be/?p=359
-dsq_thread_id:
-  - 1925951007
 tags:
   - 'C#'
 ---

@@ -1,8 +1,6 @@
 ---
 title: 'Presenting the SortableBindingList&lt;T&gt;'
 layout: post
-dsq_thread_id:
-  - 1920113687
 tags:
   - 'C#'
   - Windows Forms

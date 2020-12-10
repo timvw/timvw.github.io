@@ -2,8 +2,6 @@
 title: Silverlight and unit testing..
 layout: post
 guid: http://www.timvw.be/?p=1517
-dsq_thread_id:
-  - 1933325202
 tags:
   - Silverlight
 ---

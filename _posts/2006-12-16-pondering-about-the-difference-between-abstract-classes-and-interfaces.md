@@ -1,8 +1,6 @@
 ---
 title: Pondering about the difference between abstract classes and interfaces
 layout: post
-dsq_thread_id:
-  - 1933325424
 tags:
   - 'C#'
 ---

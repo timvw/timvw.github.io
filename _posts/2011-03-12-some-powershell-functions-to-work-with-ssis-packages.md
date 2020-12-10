@@ -2,8 +2,6 @@
 title: Some PowerShell functions to work with SSIS packages
 layout: post
 guid: http://www.timvw.be/?p=2095
-dsq_thread_id:
-  - 1933325346
 categories:
   - Uncategorized
 tags:

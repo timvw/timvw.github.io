@@ -2,8 +2,6 @@
 title: Exploring graphical programming with Blend, Visual State Manager and Behaviors
 layout: post
 guid: http://www.timvw.be/?p=1437
-dsq_thread_id:
-  - 1929627230
 tags:
   - Silverlight
   - WPF

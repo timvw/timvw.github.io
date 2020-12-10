@@ -2,8 +2,6 @@
 title: Dynamic scriptblock with PowerShell
 layout: post
 guid: http://www.timvw.be/?p=2090
-dsq_thread_id:
-  - 1933156152
 categories:
   - Uncategorized
 tags:

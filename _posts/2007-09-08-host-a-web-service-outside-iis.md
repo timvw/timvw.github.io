@@ -1,8 +1,6 @@
 ---
 title: 'Query a Web Service hosted outside IIS with it&#039;s DNS name'
 layout: post
-dsq_thread_id:
-  - 1925065455
 tags:
   - 'C#'
 ---

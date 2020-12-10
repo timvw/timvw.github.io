@@ -2,8 +2,6 @@
 title: Presenting ControlStateMachine
 layout: post
 guid: http://www.timvw.be/?p=1170
-dsq_thread_id:
-  - 1926050483
 tags:
   - 'C#'
   - Windows Forms

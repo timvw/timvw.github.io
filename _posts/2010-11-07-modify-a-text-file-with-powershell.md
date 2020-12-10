@@ -2,8 +2,6 @@
 title: Modify a text file with PowerShell
 layout: post
 guid: http://www.timvw.be/?p=1962
-dsq_thread_id:
-  - 1920241104
 categories:
   - Uncategorized
 tags:

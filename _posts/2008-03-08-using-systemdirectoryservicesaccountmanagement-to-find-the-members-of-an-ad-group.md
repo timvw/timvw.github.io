@@ -1,8 +1,6 @@
 ---
 title: Using System.DirectoryServices.AccountManagement to find the members of an AD group
 layout: post
-dsq_thread_id:
-  - 1922118654
 tags:
   - 'C#'
 ---

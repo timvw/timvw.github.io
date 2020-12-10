@@ -1,8 +1,6 @@
 ---
 title: Print a Control
 layout: post
-dsq_thread_id:
-  - 1933324936
 tags:
   - 'C#'
   - Windows Forms

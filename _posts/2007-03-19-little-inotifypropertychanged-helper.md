@@ -1,8 +1,6 @@
 ---
 title: Little INotifyPropertyChanged helper
 layout: post
-dsq_thread_id:
-  - 1933325637
 tags:
   - 'C#'
   - Windows Forms

@@ -2,8 +2,6 @@
 title: Launch DtExec from PowerShell
 layout: post
 guid: http://www.timvw.be/?p=2163
-dsq_thread_id:
-  - 1920433465
 categories:
   - Uncategorized
 tags:

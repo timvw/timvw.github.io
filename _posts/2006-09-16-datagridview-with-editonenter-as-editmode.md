@@ -1,8 +1,6 @@
 ---
 title: DataGridView with EditOnEnter as EditMode
 layout: post
-dsq_thread_id:
-  - 1920133873
 tags:
   - 'C#'
   - Windows Forms

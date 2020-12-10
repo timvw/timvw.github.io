@@ -2,8 +2,6 @@
 title: NHibernate in Action
 layout: post
 guid: http://www.timvw.be/?p=840
-dsq_thread_id:
-  - 1933325194
 tags:
   - Book reviews
 ---

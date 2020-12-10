@@ -2,8 +2,6 @@
 title: 'Became Microsoft Certified Technology Specialist...'
 layout: post
 guid: http://www.timvw.be/?p=229
-dsq_thread_id:
-  - 1933325136
 tags:
   - Awards and Certifications
 ---

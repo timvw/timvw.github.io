@@ -2,8 +2,6 @@
 title: Clever TemplateFile hack
 layout: post
 guid: http://www.timvw.be/?p=1679
-dsq_thread_id:
-  - 1922710157
 tags:
   - MSBuild
 ---

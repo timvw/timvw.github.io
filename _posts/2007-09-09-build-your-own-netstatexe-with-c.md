@@ -1,8 +1,6 @@
 ---
 title: 'Build your own netstat.exe with c#'
 layout: post
-dsq_thread_id:
-  - 1921178864
 tags:
   - 'C#'
 ---

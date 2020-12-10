@@ -2,8 +2,6 @@
 title: Invoke parameterized stored procedure with PowerShell
 layout: post
 guid: http://www.timvw.be/?p=2124
-dsq_thread_id:
-  - 1920710468
 categories:
   - Uncategorized
 tags:

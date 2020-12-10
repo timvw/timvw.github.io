@@ -2,8 +2,6 @@
 title: Update ConfigurationStrings in SSIS package with PowerShell
 layout: post
 guid: http://www.timvw.be/?p=1978
-dsq_thread_id:
-  - 1925959837
 categories:
   - Uncategorized
 tags:

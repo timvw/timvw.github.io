@@ -1,8 +1,6 @@
 ---
 title: About the Wow, i removed Vista from my harddisk, experience
 layout: post
-dsq_thread_id:
-  - 1933325601
 tags:
   - Events
 ---

@@ -2,8 +2,6 @@
 title: 'T-SQL: Remove all rows from all tables in your schema'
 layout: post
 guid: http://www.timvw.be/?p=1901
-dsq_thread_id:
-  - 1927051090
 tags:
   - SQL
   - t-sql

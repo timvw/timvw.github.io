@@ -2,8 +2,6 @@
 title: Build OpenSSL with Visual Studio 2008
 layout: post
 guid: http://www.timvw.be/?p=223
-dsq_thread_id:
-  - 1925476951
 tags:
   - Free Software
 ---
