@@ -1,6 +1,5 @@
 ---
-layout: default
-title: Posts
+layout: home
 ---
 
 ## Posts
