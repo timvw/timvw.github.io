@@ -1,0 +1,15 @@
+---
+layout: default
+---
+
+<h1>Tagged {{ page.tag }}</h1>
+
+{% assign posts = site.tags[page.tag] %}
+{% for post in posts %}
+<li class="post">
+    <a href="{{ post.url }}">{{ post.title }}</a>
+    <time class="publish-date" datetime="{{ post.date | date: '%F' }}">
+      {{ post.date | date: "%B %-d, %Y" }}
+    </time>
+  </li>
+{% endfor %}
