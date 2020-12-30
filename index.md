@@ -1,8 +1,8 @@
 ---
-layout: home
+layout: page
 ---
 
-## Posts
+<h2>Posts</h2>
 
 <ul class="posts">
   {% for post in site.posts %}
