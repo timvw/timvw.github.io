@@ -1,0 +1,36 @@
+// +---------------------------------------------------------------------------
+// | Author: Tim Van Wassenhove <timvw@users.sourceforge.net>
+// | Update: 2005-03-19 14:39:00
+// |
+// | Make formatted input easier, example:
+// |
+// |      BufferedReader input = new BufferedReader(new FileReader("file.txt"));
+// |      for (String in = input.readLine()) {
+// |        TokSequence ts = new TokSequence(new StringTokenizer(in));
+// |        int userId = ts.getIn();
+// |        double score = ts.getDouble();
+// |        String name = ts.getString();
+// |        // do stuff with userId, score and name
+// |      }
+// +---------------------------------------------------------------------------
+import java.util.*;
+
+public class TokSequence {
+  private StringTokenizer tk;
+
+  public TokSequence(StringTokenizer tk) {
+    this.tk = tk;
+  }
+
+  public int getInt() {
+    return Integer.valueOf(tk.nextToken()).intValue();
+  }
+
+  public double getDouble() {
+    return Double.valueOf(tk.nextToken()).doubleValue();
+  }
+
+  public String getString() {
+    return tk.nextToken();
+  }
+}

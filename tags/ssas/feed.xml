@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ssas on Tim Van Wassenhove&#39;s blog</title>
+    <link>/tags/ssas/</link>
+    <description>Recent content in ssas on Tim Van Wassenhove&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 07 Nov 2010 00:00:00 +0000</lastBuildDate><atom:link href="/tags/ssas/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Build your solution with Visual Studio from MSBuild</title>
+      <link>/post/2010-11-07-build-your-solution-with-visual-studio-from-msbuild/</link>
+      <pubDate>Sun, 07 Nov 2010 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2010-11-07-build-your-solution-with-visual-studio-from-msbuild/</guid>
+      <description>
+        
+          &lt;p&gt;Unfortunately MSBuild and &lt;a href=&#34;http://bidshelper.codeplex.com/&#34;&gt;BIDS Helper&lt;/a&gt; are not able to build an .asdatabase from our Analysis Services project (.dwproj). Here is a task which invokes Visual Studio to build such a solution:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;Target&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Name=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DevEnvBuild&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;Error&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Condition=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#39;$(SolutionFile)&amp;#39;==&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Text=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Missing SolutionFile&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;PropertyGroup&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;DevEnvTool&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Condition=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#39;$(DevEnvTool)&amp;#39;==&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/DevEnvTool&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;DevEnvSwitch&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Condition=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#39;$(DevEnvSwitch)&amp;#39;==&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;Build&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/DevEnvSwitch&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;DevEnvBuildCommand&amp;gt;&lt;/span&gt;&amp;#34;$(DevEnvTool)&amp;#34; &amp;#34;$(SolutionFile)&amp;#34; /$(DevEnvSwitch)&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/DevEnvBuildCommand&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/PropertyGroup&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;Exec&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Command=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$(DevEnvBuildCommand)&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/Target&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,364 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Be.Timvw.Framework.Domain;
+using System;
+using System.Collections.Generic;
+using System.Collections;
+
+namespace Be.Timvw.Framework.Tests.Domain
+{
+    [TestClass]
+    public class EffectivityManagerTester
+    {
+        #region Add Tests
+
+        [TestMethod]
+        public void TestAddEffectivitySingle()
+        {
+            List<IEffectivity<string>> expectedEffectivities = new List<IEffectivity<string>>();
+            expectedEffectivities.Add(new Effectivity<string>("2000-01", new Range<DateTime>(new DateTime(2000, 1, 1), DateTime.MaxValue)));
+
+            IEffectivityManager<string> effectivityManager = new EffectivityManager<string>();
+            IEffectivity<string> actualEffectivity = effectivityManager.Add("2000-01", new DateTime(2000, 1, 1));
+
+            AssertAreEqualEffectivities(expectedEffectivities[0], actualEffectivity);
+
+            Assert.AreEqual(expectedEffectivities.Count, effectivityManager.Count);
+            for (int i = 0; i < expectedEffectivities.Count; ++i)
+            {
+                AssertAreEqualEffectivities(expectedEffectivities[i], effectivityManager[i]);
+            }
+        }
+
+        [TestMethod]
+        public void TestAddEffectivityAddOneBeforeExisting()
+        {
+            List<IEffectivity<string>> expectedEffectivities = new List<IEffectivity<string>>();
+            expectedEffectivities.Add(new Effectivity<string>("1999-01", new Range<DateTime>(new DateTime(1999, 1, 1), new DateTime(2000, 1, 1).AddTicks(-1))));
+            expectedEffectivities.Add(new Effectivity<string>("2000-01", new Range<DateTime>(new DateTime(2000, 1, 1), DateTime.MaxValue)));
+
+            IEffectivityManager<string> effectivityManager = new EffectivityManager<string>();
+            effectivityManager.Add("2000-01", new DateTime(2000, 1, 1));
+            IEffectivity<string> actualEffectivity = effectivityManager.Add("1999-01", new DateTime(1999, 1, 1));
+
+            AssertAreEqualEffectivities(expectedEffectivities[0], actualEffectivity);
+
+            Assert.AreEqual(expectedEffectivities.Count, effectivityManager.Count);
+            for (int i = 0; i < expectedEffectivities.Count; ++i)
+            {
+                AssertAreEqualEffectivities(expectedEffectivities[i], effectivityManager[i]);
+            }
+        }
+
+        [TestMethod]
+        public void TestAddEffectivityAddOneInExisting()
+        {
+            List<IEffectivity<string>> expectedEffectivities = new List<IEffectivity<string>>();
+            expectedEffectivities.Add(new Effectivity<string>("1999-01", new Range<DateTime>(new DateTime(1999, 1, 1), new DateTime(2000, 1, 1).AddTicks(-1))));
+            expectedEffectivities.Add(new Effectivity<string>("2000-01", new Range<DateTime>(new DateTime(2000, 1, 1), new DateTime(2001, 1, 1).AddTicks(-1))));
+            expectedEffectivities.Add(new Effectivity<string>("2001-01", new Range<DateTime>(new DateTime(2001, 1, 1), DateTime.MaxValue)));
+
+            IEffectivityManager<string> effectivityManager = new EffectivityManager<string>();
+            effectivityManager.Add("2000-01", new DateTime(2000, 1, 1));
+            effectivityManager.Add("1999-01", new DateTime(1999, 1, 1));
+            IEffectivity<string> actualEffectivity = effectivityManager.Add("2001-01", new DateTime(2001, 1, 1));
+
+            AssertAreEqualEffectivities(expectedEffectivities[2], actualEffectivity);
+
+            Assert.AreEqual(expectedEffectivities.Count, effectivityManager.Count);
+            for (int i = 0; i < expectedEffectivities.Count; ++i)
+            {
+                AssertAreEqualEffectivities(expectedEffectivities[i], effectivityManager[i]);
+            }
+        }
+
+        [TestMethod]
+        public void TestAddEffectivityAddAnotherOneInExisting()
+        {
+            List<IEffectivity<string>> expectedEffectivities = new List<IEffectivity<string>>();
+            expectedEffectivities.Add(new Effectivity<string>("1999-01", new Range<DateTime>(new DateTime(1999, 1, 1), new DateTime(2000, 1, 1).AddTicks(-1))));
+            expectedEffectivities.Add(new Effectivity<string>("2000-01", new Range<DateTime>(new DateTime(2000, 1, 1), new DateTime(2000, 4, 1).AddTicks(-1))));
+            expectedEffectivities.Add(new Effectivity<string>("2000-04", new Range<DateTime>(new DateTime(2000, 4, 1), new DateTime(2001, 1, 1).AddTicks(-1))));
+            expectedEffectivities.Add(new Effectivity<string>("2001-01", new Range<DateTime>(new DateTime(2001, 1, 1), DateTime.MaxValue)));
+
+            IEffectivityManager<string> effectivityManager = new EffectivityManager<string>();
+            effectivityManager.Add("2000-01", new DateTime(2000, 1, 1));
+            effectivityManager.Add("1999-01", new DateTime(1999, 1, 1));
+            effectivityManager.Add("2001-01", new DateTime(2001, 1, 1));
+            IEffectivity<string> actualEffectivity = effectivityManager.Add("2000-04", new DateTime(2000, 4, 1));
+
+            AssertAreEqualEffectivities(expectedEffectivities[2], actualEffectivity);
+
+            Assert.AreEqual(expectedEffectivities.Count, effectivityManager.Count);
+            for (int i = 0; i < expectedEffectivities.Count; ++i)
+            {
+                AssertAreEqualEffectivities(expectedEffectivities[i], effectivityManager[i]);
+            }
+        }
+
+        [TestMethod]
+        public void TestAddEffectivityAddAndAnEffectivityIsRemoved()
+        {
+            List<IEffectivity<string>> expectedEffectivities = new List<IEffectivity<string>>();
+            expectedEffectivities.Add(new Effectivity<string>("1999-01", new Range<DateTime>(new DateTime(1999, 1, 1), new DateTime(2000, 1, 1).AddTicks(-1))));
+            expectedEffectivities.Add(new Effectivity<string>("2000-01-x", new Range<DateTime>(new DateTime(2000, 1, 1), new DateTime(2000, 4, 1).AddTicks(-1))));
+            expectedEffectivities.Add(new Effectivity<string>("2000-04", new Range<DateTime>(new DateTime(2000, 4, 1), new DateTime(2001, 1, 1).AddTicks(-1))));
+            expectedEffectivities.Add(new Effectivity<string>("2001-01", new Range<DateTime>(new DateTime(2001, 1, 1), DateTime.MaxValue)));
+
+            IEffectivityManager<string> effectivityManager = new EffectivityManager<string>();
+            effectivityManager.Add("2000-01", new DateTime(2000, 1, 1));
+            effectivityManager.Add("1999-01", new DateTime(1999, 1, 1));
+            effectivityManager.Add("2001-01", new DateTime(2001, 1, 1));
+            effectivityManager.Add("2000-04", new DateTime(2000, 4, 1));
+            IEffectivity<string> actualEffectivity = effectivityManager.Add("2000-01-x", new DateTime(2000, 1, 1));
+
+            AssertAreEqualEffectivities(expectedEffectivities[1], actualEffectivity);
+
+            Assert.AreEqual(expectedEffectivities.Count, effectivityManager.Count);
+            for (int i = 0; i < expectedEffectivities.Count; ++i)
+            {
+                AssertAreEqualEffectivities(expectedEffectivities[i], effectivityManager[i]);
+            }
+        }
+
+        #endregion
+
+        #region Remove Tests
+
+        [TestMethod]
+        public void TestRemoveUnexistingItem()
+        {
+            IEffectivityManager<string> effectivityManager = new EffectivityManager<string>();
+            IEffectivity<string> item = new Effectivity<string>("1999-01", new Range<DateTime>(new DateTime(1999, 1, 1), new DateTime(2000, 1, 1)));
+
+            Assert.IsFalse(effectivityManager.Remove(item));
+        }
+
+        [TestMethod]
+        public void TestRemoveExistingItem()
+        {
+            IEffectivityManager<string> effectivityManager = new EffectivityManager<string>();
+            IEffectivity<string> item = effectivityManager.Add("1999-01", new DateTime(1999, 1, 1));
+
+            Assert.IsTrue(effectivityManager.Remove(item));
+            Assert.AreEqual(0, effectivityManager.Count);
+        }
+
+        [TestMethod]
+        public void TestRemoveFirstItem()
+        {
+            List<IEffectivity<string>> expectedEffectivities = new List<IEffectivity<string>>();
+            expectedEffectivities.Add(new Effectivity<string>("2000-01", new Range<DateTime>(new DateTime(2000, 1, 1), new DateTime(2000, 4, 1).AddTicks(-1))));
+            expectedEffectivities.Add(new Effectivity<string>("2000-04", new Range<DateTime>(new DateTime(2000, 4, 1), new DateTime(2001, 1, 1).AddTicks(-1))));
+            expectedEffectivities.Add(new Effectivity<string>("2001-01", new Range<DateTime>(new DateTime(2001, 1, 1), DateTime.MaxValue)));
+
+            IEffectivityManager<string> effectivityManager = new EffectivityManager<string>();
+            effectivityManager.Add("2000-01", new DateTime(2000, 1, 1));
+            IEffectivity<string> item = effectivityManager.Add("1999-01", new DateTime(1999, 1, 1));
+            effectivityManager.Add("2001-01", new DateTime(2001, 1, 1));
+            effectivityManager.Add("2000-04", new DateTime(2000, 4, 1));
+
+            Assert.IsTrue(effectivityManager.Remove(item));
+            for (int i = 0; i < expectedEffectivities.Count; ++i)
+            {
+                AssertAreEqualEffectivities(expectedEffectivities[i], effectivityManager[i]);
+            }
+        }
+
+        [TestMethod]
+        public void TestRemoveUpdateAndUpdatePreviousItem()
+        {
+            List<IEffectivity<string>> expectedEffectivities = new List<IEffectivity<string>>();
+            expectedEffectivities.Add(new Effectivity<string>("1999-01", new Range<DateTime>(new DateTime(1999, 1, 1), new DateTime(2000, 1, 1).AddTicks(-1))));
+            expectedEffectivities.Add(new Effectivity<string>("2000-01", new Range<DateTime>(new DateTime(2000, 1, 1), new DateTime(2001, 1, 1).AddTicks(-1))));
+            expectedEffectivities.Add(new Effectivity<string>("2001-01", new Range<DateTime>(new DateTime(2001, 1, 1), DateTime.MaxValue)));
+
+            IEffectivityManager<string> effectivityManager = new EffectivityManager<string>();
+            effectivityManager.Add("2000-01", new DateTime(2000, 1, 1));
+            effectivityManager.Add("1999-01", new DateTime(1999, 1, 1));
+            effectivityManager.Add("2001-01", new DateTime(2001, 1, 1));
+            IEffectivity<string> item = effectivityManager.Add("2000-04", new DateTime(2000, 4, 1));
+
+            Assert.IsTrue(effectivityManager.Remove(item));
+            for (int i = 0; i < expectedEffectivities.Count; ++i)
+            {
+                AssertAreEqualEffectivities(expectedEffectivities[i], effectivityManager[i]);
+            }
+        }
+
+        #endregion
+
+        #region TryGetSnapshot Tests
+
+        [TestMethod]
+        public void TestTryGetSnapshotFound()
+        {
+            IEffectivityManager<string> effectivityManager = GetEffectivityManager();
+            DateTime validityDate = new DateTime(2000, 1, 15);
+            IEnumerator<IEffectivity<string>> enumerator = effectivityManager.GetEnumerator();
+            enumerator.MoveNext();
+            IEffectivity<string> expectedEffectivity = enumerator.Current;
+
+            IEffectivity<string> actualEffectivity;
+            bool result = effectivityManager.TryGetSnapshot(validityDate, out actualEffectivity);
+            Assert.IsTrue(result);
+            Assert.AreEqual(expectedEffectivity, actualEffectivity);
+        }
+
+        [TestMethod]
+        public void TestTryGetSnapshotNotFound()
+        {
+            IEffectivityManager<string> effectivityManager = GetEffectivityManager();
+            DateTime validityDate = new DateTime(1999, 1, 15);
+            IEffectivity<string> expectedEffectivity = default(IEffectivity<string>);
+
+            IEffectivity<string> actualEffectivity;
+            bool result = effectivityManager.TryGetSnapshot(validityDate, out actualEffectivity);
+            Assert.IsFalse(result);
+            Assert.AreEqual(expectedEffectivity, actualEffectivity);
+        }
+
+        #endregion
+
+        #region GetSnapshot Tests
+
+        [TestMethod]
+        public void TestGetSnapshotFound()
+        {
+            IEffectivityManager<string> effectivityManager = GetEffectivityManager();
+            DateTime validityDate = new DateTime(2000, 1, 15);
+            IEnumerator<IEffectivity<string>> enumerator = effectivityManager.GetEnumerator();
+            enumerator.MoveNext();
+            IEffectivity<string> expectedEffectivity = enumerator.Current;
+
+            IEffectivity<string> actualEffectivity = effectivityManager.GetSnapshot(validityDate);
+            Assert.AreEqual(expectedEffectivity, actualEffectivity);
+        }
+
+        [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void TestGetSnapshotNotFound()
+        {
+            IEffectivityManager<string> effectivityManager = GetEffectivityManager();
+            DateTime validityDate = new DateTime(1999, 1, 15);
+
+            effectivityManager.GetSnapshot(validityDate);
+        }
+
+        #endregion
+
+        #region IList Tests
+
+        [TestMethod]
+        public void TestIndexOf()
+        {
+            IEffectivityManager<string> effectivityManager = new EffectivityManager<string>();
+            IEffectivity<string> item = new Effectivity<string>("2000-01", new Range<DateTime>(new DateTime(2000, 1, 1), DateTime.MaxValue));
+            Assert.AreEqual(-1, effectivityManager.IndexOf(item));
+        }
+
+        [TestMethod, ExpectedException(typeof(NotSupportedException))]
+        public void TestInsert()
+        {
+            IEffectivityManager<string> effectivityManager = new EffectivityManager<string>();
+            IEffectivity<string> item = new Effectivity<string>("2000-01", new Range<DateTime>(new DateTime(2000, 1, 1), DateTime.MaxValue));
+            effectivityManager.Insert(0, item);
+        }
+
+        [TestMethod]
+        public void TestRemoveAt()
+        {
+            IEffectivityManager<string> effectivityManager = new EffectivityManager<string>();
+            IEffectivity<string> item = effectivityManager.Add("2000-01", new DateTime(2000, 1, 1));
+            effectivityManager.RemoveAt(0);
+
+            Assert.AreEqual(0, effectivityManager.Count);
+        }
+
+        [TestMethod, ExpectedException(typeof(NotSupportedException))]
+        public void TestIndexSetter()
+        {
+            IEffectivityManager<string> effectivityManager = new EffectivityManager<string>();
+            IEffectivity<string> item = new Effectivity<string>("2000-01", new Range<DateTime>(new DateTime(2000, 1, 1), DateTime.MaxValue));
+            effectivityManager[0] = item;
+        }
+
+        #endregion
+
+        #region ICollection Tests
+
+        [TestMethod, ExpectedException(typeof(NotSupportedException))]
+        public void TestAdd()
+        {
+            IEffectivityManager<string> effectivityManager = new EffectivityManager<string>();
+            IEffectivity<string> item = new Effectivity<string>("2000-01", new Range<DateTime>(new DateTime(2000, 1, 1), DateTime.MaxValue));
+            effectivityManager.Add(item);
+        }
+
+        [TestMethod]
+        public void TestClear()
+        {
+            IEffectivityManager<string> effectivityManager = new EffectivityManager<string>();
+            IEffectivity<string> item = effectivityManager.Add("2000-01", new DateTime(2000, 1, 1));
+            effectivityManager.Clear();
+
+            Assert.AreEqual(0, effectivityManager.Count);
+        }
+
+        [TestMethod]
+        public void TestContains()
+        {
+            IEffectivityManager<string> effectivityManager = new EffectivityManager<string>();
+            IEffectivity<string> item = new Effectivity<string>("2000-01", new Range<DateTime>(new DateTime(2000, 1, 1), DateTime.MaxValue));
+
+            Assert.IsFalse(effectivityManager.Contains(item));
+        }
+
+        [TestMethod]
+        public void TestCopyTo()
+        {
+            IEffectivityManager<string> effectivityManager = new EffectivityManager<string>();
+            IEffectivity<string>[] target = new IEffectivity<string>[0];
+            effectivityManager.CopyTo(target, 0);
+            Assert.AreEqual(0, target.Length);
+        }
+
+        [TestMethod]
+        public void TestIsReadOnly()
+        {
+            IEffectivityManager<string> effectivityManager = new EffectivityManager<string>();
+            Assert.IsFalse(effectivityManager.IsReadOnly);
+        }
+
+        #endregion
+
+        #region IEnumerable Tests
+
+        [TestMethod]
+        public void TestGetEnumerator()
+        {
+            IEffectivityManager<string> effectivityManager = new EffectivityManager<string>();
+            IEnumerator enumerator = ((IEnumerable)effectivityManager).GetEnumerator();
+            Assert.IsFalse(enumerator.MoveNext());
+        }
+
+        #endregion
+
+        #region Private Members
+
+        private static void AssertAreEqualEffectivities<T>(IEffectivity<T> expectedEffectivity, IEffectivity<T> actualEffectivity)
+        {
+            Assert.AreEqual(expectedEffectivity.GetType(), actualEffectivity.GetType());
+            Assert.AreEqual(expectedEffectivity.Element, actualEffectivity.Element);
+            Assert.AreEqual(expectedEffectivity.ValidityPeriod, actualEffectivity.ValidityPeriod);
+        }
+
+        private static IEffectivityManager<string> GetEffectivityManager()
+        {
+            IEffectivityManager<string> effectivityManager = new EffectivityManager<string>();
+
+            effectivityManager.Add("2000-01", new DateTime(2000, 1, 1));
+            return effectivityManager;
+        }
+
+        #endregion
+    }
+}

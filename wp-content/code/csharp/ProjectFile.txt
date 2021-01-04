@@ -1,0 +1,102 @@
+﻿using System.Xml;
+using System.IO;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Be.TimVW.Tools
+{
+    /// <summary>
+    /// Represents a C# ProjectFile
+    /// </summary>
+    public class ProjectFile
+    {
+        #region Private Constants
+
+        private const string ProjectFileExtension = "csproj";
+        private const string XmlNameSpace = @"http://schemas.microsoft.com/developer/msbuild/2003";
+        private const string XmlNameSpacePrefix = "p";
+        private const string AssemblyReferencesXPath = "/p:Project/p:ItemGroup/p:Reference[count(p:HintPath)=1]";
+
+        #endregion
+
+        #region Public Static Methods
+
+        /// <summary>
+        /// Returns all the CS Project files that exist under the given path
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static string[] Find( string path )
+        {
+            return Directory.GetFiles( path, "*." + ProjectFileExtension, SearchOption.AllDirectories );
+        }
+
+        #endregion
+
+        #region Private Fields
+
+        private string path;
+        private XmlDocument xmlDocument;
+        private XmlNamespaceManager xmlNamespaceManager;
+        private AssemblyReference[] assemblyReferences;
+
+        #endregion
+
+        #region Constructors
+
+        public ProjectFile( string path )
+        {
+            this.path = path;
+            this.xmlDocument = new XmlDocument();
+            this.xmlDocument.Load( this.path );
+            this.xmlNamespaceManager = new XmlNamespaceManager( this.xmlDocument.NameTable );
+            this.xmlNamespaceManager.AddNamespace( XmlNameSpacePrefix, XmlNameSpace );
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Saves the projectfile
+        /// </summary>
+        public void Save()
+        {
+            using( XmlTextWriter writer = new XmlTextWriter( this.path, Encoding.UTF8 ) )
+            {
+                writer.Formatting = Formatting.Indented;
+                this.xmlDocument.ChildNodes[this.xmlDocument.ChildNodes.Count - 1].WriteTo( writer );
+            }
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the AssemblyReferences
+        /// </summary>
+        public AssemblyReference[] AssemblyReferences
+        {
+            get
+            {
+                if( this.assemblyReferences == null )
+                {
+                    List<AssemblyReference> assemblyReferencesList = new List<AssemblyReference>();
+
+                    XmlNodeList list = xmlDocument.SelectNodes( AssemblyReferencesXPath, xmlNamespaceManager );
+                    foreach( XmlNode node in list )
+                    {
+                        assemblyReferencesList.Add( new AssemblyReference( node ) );
+                    }
+
+                    this.assemblyReferences = assemblyReferencesList.ToArray();
+                }
+
+                return this.assemblyReferences;
+            }
+        }
+
+        #endregion
+    }
+}

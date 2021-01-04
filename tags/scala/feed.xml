@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>scala on Tim Van Wassenhove&#39;s blog</title>
+    <link>/tags/scala/</link>
+    <description>Recent content in scala on Tim Van Wassenhove&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Jan 2016 00:00:00 +0000</lastBuildDate><atom:link href="/tags/scala/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Composing functions and leveraging scala.util.Try</title>
+      <link>/post/2016-01-29-composing-functions-and-leveraging-scala-util-try/</link>
+      <pubDate>Fri, 29 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2016-01-29-composing-functions-and-leveraging-scala-util-try/</guid>
+      <description>
+        
+          &lt;p&gt;Last couple of days I have been hacking around trying to find a cute way to express the intent of my code. Typically it involves parsing some input, validating whatever rules that are in charge and persisting some values. In scala one can compose such a function by using the &lt;a href=&#34;http://www.scala-lang.org/api/2.11.x/index.html#scala.Function1&#34;&gt;andThen&lt;/a&gt; method. Here is a concrete example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; id&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;x&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;String&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; x  
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; parseInput &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;_&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; validate &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;_&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; persist &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;_&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; usecase1 &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; parseInput andThen validate andThen persist
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Inspired by the excellent series on &lt;a href=&#34;http://fsharpforfunandprofit.com/posts/recipe-part2/&#34;&gt;Railway Oriented Programming&lt;/a&gt; series by &lt;a href=&#34;@ScottWlaschin&#34;&gt;Scott Wlaschin&lt;/a&gt; I wanted to take advange of &lt;a href=&#34;http://www.scala-lang.org/files/archive/api/current/index.html#scala.util.Try&#34;&gt;scala.util.Try&lt;/a&gt; to remove try/catch clutter from my code. With a little helper function I can now compose my usecase as following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; makeTry&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;TIn&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;TOut&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;](&lt;/span&gt;fn&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;TIn&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;TOut&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;x&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;TIn&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Try&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;fn&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;x&lt;span style=&#34;color:#f92672&#34;&gt;))&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; usecase &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt;
+	makeTry&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;parseInput andThen validate andThen persist&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; andThen
+	processErrors andThen
+	proceedOrRetry
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Instead of composing functions I could have also written code as a chain of values that are transformed by subsequent functions as following (Very much fsharp like):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Pipe&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;](&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; x&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;U&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;](&lt;/span&gt;f&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; U&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; f&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;x&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;implicit&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; toPipe&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;](&lt;/span&gt;x&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Pipe&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;x&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; usecase&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;x&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;String&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; 
+	&lt;span style=&#34;color:#a6e22e&#34;&gt;Try&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;x &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; parseInput &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; validate &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; persist&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt;
+	processErrors &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt;
+	proceedOrRetry
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As you can see, with scala there is more than one way to express something in an elegant way!&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Using Gson to serialize Scala objects</title>
+      <link>/post/2016-01-14-using-gson-to-serialize-scala-objects/</link>
+      <pubDate>Thu, 14 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2016-01-14-using-gson-to-serialize-scala-objects/</guid>
+      <description>
+        
+          &lt;p&gt;&lt;a href=&#34;https://github.com/google/gson&#34;&gt;gson&lt;/a&gt; is a pretty nice library that converts Java objects into JSON and back. When using this library from Scala things become a bit harder (eg: Plenty of people have difficulties when their scala object has an (im)mutable Map or List).&lt;/p&gt;
+&lt;p&gt;Here is an example to convert a JSON object to a Map[String,String]:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; com.google.gson.Gson
+&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; scala.collection.JavaConversions._
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; mapJson &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;{ &amp;#39;a&amp;#39;: &amp;#39;b&amp;#39;, &amp;#39;c&amp;#39;: &amp;#39;d&amp;#39; }&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; map &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Gson&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;().&lt;/span&gt;fromJson&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;mapJson&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; classOf&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;java.util.Map&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;String&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;String&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]])&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now that we know that this works, we hide the java types in the constructor and expose a nicer scala type via a method:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Dummy&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; settings&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;java.util.Map&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;String&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;String&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;])&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; getSettings &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; settings&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;toMap
+&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; dummyJson &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;{ &amp;#39;settings&amp;#39; : { &amp;#39;a&amp;#39;: &amp;#39;b&amp;#39;, &amp;#39;c&amp;#39;: &amp;#39;d&amp;#39; } }&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; dummy &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Gson&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;().&lt;/span&gt;fromJson&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;dummyJson&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; classOf&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Dummy&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;])&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Dummy2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; options&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;java.util.List&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;String&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;])&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; getOptions &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; options&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;toList
+&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; dummy2Json &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;{ &amp;#39;options&amp;#39; : [ &amp;#39;a&amp;#39;, &amp;#39;b&amp;#39;, &amp;#39;c&amp;#39;, &amp;#39;d&amp;#39; ] }&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; dummy2 &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Gson&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;().&lt;/span&gt;fromJson&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;dummy2Json&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; classOf&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Dummy2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;])&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Edit:&lt;/strong&gt; One could simply use &lt;a href=&#34;https://github.com/lift/lift/tree/master/framework/lift-base/lift-json&#34;&gt;lift-json&lt;/a&gt; instead and get pretty good scala support for free.&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Scaffolding scala projects</title>
+      <link>/post/2015-08-19-scaffolding-scala-projects/</link>
+      <pubDate>Wed, 19 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2015-08-19-scaffolding-scala-projects/</guid>
+      <description>
+        
+          &lt;p&gt;These days the cool kids scaffold their projects with &lt;a href=&#34;http://yeoman.io/&#34;&gt;Yeoman&lt;/a&gt;. Obviously I could not stay behind, so here is my first &lt;a href=&#34;https://github.com/timvw/generator-scala&#34;&gt;generator for scala&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://camo.githubusercontent.com/2d553cce06333627904d8e33b61c91dfa7ae7bc4/687474703a2f2f692e696d6775722e636f6d2f4a4861416c424a2e706e67&#34; alt=&#34;&#34;&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+  </channel>
+</rss>

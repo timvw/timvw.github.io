@@ -1,0 +1,40 @@
+<?php
+
+// +---------------------------------------------------------------------------
+// | Author: Tim Van Wassenhove <timvw@users.sourceforge.net>
+// |
+// | Read from STDIN without echoing characters back  for PHP-CLI
+// +---------------------------------------------------------------------------
+// | $Id:$
+// +---------------------------------------------------------------------------
+
+function ttyecho($on)
+{
+	global $ttyecho;
+
+	if($on)
+	{
+		if(isset($ttyecho))
+		{
+	  		exec("stty $ttyecho");
+		}
+	}
+	else
+	{
+		$ttyecho = exec("stty -g");
+		exec("stty -echo");
+	}
+}
+
+// toggle echoing off
+ttyecho(false);
+
+echo "\nEnter your password: ";
+$password = trim(fgets(STDIN));
+echo "\nYour password: $password";
+echo "\n";
+
+// toggle echoing on
+ttyecho(true);
+
+?>

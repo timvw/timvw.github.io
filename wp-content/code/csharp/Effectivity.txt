@@ -1,0 +1,58 @@
+﻿using System;
+
+namespace Be.Timvw.Framework.Domain
+{
+    public class Effectivity<T> : IEffectivity<T> where T : IComparable<T>
+    {
+        #region Private Fields
+
+        private readonly T element;
+        private readonly IRange<DateTime> validityPeriod;
+
+        #endregion
+
+        #region Public Constructors
+
+        public Effectivity(T element, IRange<DateTime> validityPeriod)
+        {
+            this.element = element;
+            this.validityPeriod = validityPeriod;
+        }
+
+        #endregion
+
+        #region IEffectivity<T> Members
+
+        public T Element
+        {
+            get { return this.element; }
+        }
+
+        public IRange<DateTime> ValidityPeriod
+        {
+            get { return this.validityPeriod; }
+        }
+
+        public bool IsEffectiveOn(DateTime validityDate)
+        {
+            return this.validityPeriod.Includes(validityDate);
+        }
+
+        #endregion
+
+        #region IComparable<IEffectivity<T>> Members
+
+        public int CompareTo(IEffectivity<T> other)
+        {
+            int validityPeriodCompareResult = this.validityPeriod.CompareTo(other.ValidityPeriod);
+            if (validityPeriodCompareResult != 0)
+            {
+                return validityPeriodCompareResult;
+            }
+
+            return this.element.CompareTo(other.Element);
+        }
+
+        #endregion
+    }
+}

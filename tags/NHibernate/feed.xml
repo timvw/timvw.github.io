@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NHibernate on Tim Van Wassenhove&#39;s blog</title>
+    <link>/tags/NHibernate/</link>
+    <description>Recent content in NHibernate on Tim Van Wassenhove&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 27 Jun 2009 00:00:00 +0000</lastBuildDate><atom:link href="/tags/NHibernate/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Beyond the basics: IPropertyAccessor</title>
+      <link>/post/2009-06-27-beyond-the-basics-ipropertyaccessor/</link>
+      <pubDate>Sat, 27 Jun 2009 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2009-06-27-beyond-the-basics-ipropertyaccessor/</guid>
+      <description>
+        
+          &lt;p&gt;Consider the following classes: an abstract Account and a concrete SavingAccount&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Account&lt;/span&gt;
+{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; Id { &lt;span style=&#34;color:#66d9ef&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#66d9ef&#34;&gt;protected&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;set&lt;/span&gt;; }
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; CustomerId { &lt;span style=&#34;color:#66d9ef&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#66d9ef&#34;&gt;protected&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;set&lt;/span&gt;; }
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; AccountType Type { &lt;span style=&#34;color:#66d9ef&#34;&gt;get&lt;/span&gt;; }
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;SavingAccount&lt;/span&gt; : Account, ISavingAccount
+{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; SavingAccount() { }
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; SavingAccount(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; customerId) { CustomerId = customerId; }
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;override&lt;/span&gt; AccountType Type { &lt;span style=&#34;color:#66d9ef&#34;&gt;get&lt;/span&gt; { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; AccountType.SavingAccount; } }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And this is the schema on which we want to map these classes&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.timvw.be/wp-content/images/accounts_schema.png&#34; alt=&#34;screenshot of accounts schema&#34;&gt;&lt;/p&gt;
+&lt;p&gt;We define a &lt;a href=&#34;http://fluentnhibernate.org/&#34;&gt;Fluent&lt;/a&gt; NHibernate mapping as following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;AccountMap&lt;/span&gt; : ClassMap&amp;lt;account&amp;gt;
+{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; AccountMap()
+	{
+		WithTable(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Accounts&amp;#34;&lt;/span&gt;);
+		Id(a =&amp;gt; a.Id).ColumnName(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;account_id&amp;#34;&lt;/span&gt;);
+		Map(a =&amp;gt; a.CustomerId).ColumnName(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;customer_id&amp;#34;&lt;/span&gt;);
+		Map(a =&amp;gt; a.Type).ColumnName(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;account_type&amp;#34;&lt;/span&gt;);
+		SetAttribute(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;lazy&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;false&amp;#34;&lt;/span&gt;);
+
+		JoinedSubClass&amp;lt;savingAccount&amp;gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;saving\_account\_id&amp;#34;&lt;/span&gt;, MapSavingAccount);
+	}
+
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; MapSavingAccount(JoinedSubClassPart&amp;lt;savingAccount&amp;gt; jscp)
+	{
+		jscp.WithTableName(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;SavingAccounts&amp;#34;&lt;/span&gt;);
+		jscp.SetAttribute(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;lazy&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;false&amp;#34;&lt;/span&gt;);
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As soon as we try to use this mapping we run into an &amp;ldquo;Could not find a setter for property &amp;lsquo;Type&amp;rsquo; in class &amp;lsquo;Banking.Domain.CheckingAccount&amp;rdquo; exception. A quick look with reflector teaches us there are a couple of strategies, but none of them suits our needs.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.timvw.be/wp-content/images/accounts_property_accessors.png&#34; alt=&#34;screenshot of available property accessors in NHibernate assembly&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Thus we decide to implement a custom PropertyAccessor as following&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ReadOnlyProperty&lt;/span&gt; : IPropertyAccessor
+{
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; CanAccessTroughReflectionOptimizer
+	{
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;get&lt;/span&gt; { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;; }
+	}
+
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; IGetter GetGetter(Type theClass, &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; propertyName)
+	{
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; basicPropertyAccessor = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; BasicPropertyAccessor();
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; getter = basicPropertyAccessor.GetGetter(theClass, propertyName);
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; getter;
+	}
+
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; ISetter GetSetter(Type theClass, &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; propertyName)
+	{
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; setter = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; NoOpSetter();
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; setter;
+	}
+
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;NoOpSetter&lt;/span&gt; : ISetter
+	{
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; MethodInfo Method { &lt;span style=&#34;color:#66d9ef&#34;&gt;get&lt;/span&gt; { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt;; } }
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; PropertyName { &lt;span style=&#34;color:#66d9ef&#34;&gt;get&lt;/span&gt; { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt;; } }
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; Set(&lt;span style=&#34;color:#66d9ef&#34;&gt;object&lt;/span&gt; target, &lt;span style=&#34;color:#66d9ef&#34;&gt;object&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;value&lt;/span&gt;) { }
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And now we can instruct NHibernate to use our custom PropertyAccessor as following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; AccountMap()
+{
+	...
+	Map(a =&amp;gt; a.Type).Access.Using&amp;lt;readOnlyProperty&amp;gt;().ColumnName(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;account_type&amp;#34;&lt;/span&gt;);
+	...
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A couple of searches later it appears that &lt;a href=&#34;http://blog.schuager.com/2008/12/nhibernate-read-only-property-access.html&#34;&gt;this problem had already been solved&lt;/a&gt;, but is not available in the version of NHibernate that comes with Fluent NHibernate. Oh well, we learned something new.&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+  </channel>
+</rss>
