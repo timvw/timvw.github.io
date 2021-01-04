@@ -2,7 +2,7 @@
 date: "2009-10-29T00:00:00Z"
 guid: http://www.timvw.be/?p=1490
 tags:
-- C#
+- CSharp
 title: Party for one
 aliases:
  - /2009/10/29/party-for-one/

@@ -1,7 +1,7 @@
 ---
 date: "2008-02-26T00:00:00Z"
 tags:
-- C#
+- CSharp
 - XML
 title: Writing Xml without the XmlDeclaration
 aliases:

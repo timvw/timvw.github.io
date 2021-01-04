@@ -1,7 +1,7 @@
 ---
 date: "2008-02-28T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Find WorkItems that have been changed between two dates
 aliases:
  - /2008/02/28/find-workitems-that-have-been-changed-between-two-dates/

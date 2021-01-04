@@ -2,7 +2,7 @@
 date: "2009-08-28T00:00:00Z"
 guid: http://www.timvw.be/?p=1234
 tags:
-- C#
+- CSharp
 - Patterns
 title: Extension methods to improve readability
 aliases:

@@ -1,7 +1,7 @@
 ---
 date: "2006-05-30T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Building a chain of responsibility with delegates
 aliases:
  - /2006/05/30/building-a-chain-of-responsibility-with-delegates/

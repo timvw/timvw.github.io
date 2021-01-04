@@ -2,7 +2,7 @@
 date: "2010-07-21T00:00:00Z"
 guid: http://www.timvw.be/?p=1833
 tags:
-- C#
+- CSharp
 title: Quick reminder about the workings of Type.IsAssignableFrom
 aliases:
  - /2010/07/21/quick-reminder-about-the-workings-of-type-isassignablefrom/

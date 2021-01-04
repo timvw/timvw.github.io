@@ -1,7 +1,7 @@
 ---
 date: "2007-09-09T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Build your own netstat.exe with c#
 aliases:
  - /2007/09/09/build-your-own-netstatexe-with-c/

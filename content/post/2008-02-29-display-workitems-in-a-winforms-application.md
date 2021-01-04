@@ -1,7 +1,7 @@
 ---
 date: "2008-02-29T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Display WorkItems in a WinForms application
 aliases:

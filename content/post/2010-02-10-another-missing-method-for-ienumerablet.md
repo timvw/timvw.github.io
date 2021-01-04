@@ -2,7 +2,7 @@
 date: "2010-02-10T00:00:00Z"
 guid: http://www.timvw.be/?p=1669
 tags:
-- C#
+- CSharp
 title: Another missing method for IEnumerable<T>
 aliases:
  - /2010/02/10/another-missing-method-for-ienumerablet/

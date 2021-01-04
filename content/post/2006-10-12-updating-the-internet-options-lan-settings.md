@@ -1,7 +1,7 @@
 ---
 date: "2006-10-12T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Updating the Internet Options / Lan Settings
 aliases:
  - /2006/10/12/updating-the-internet-options-lan-settings/

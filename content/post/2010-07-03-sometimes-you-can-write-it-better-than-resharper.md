@@ -2,7 +2,7 @@
 date: "2010-07-03T00:00:00Z"
 guid: http://www.timvw.be/?p=1768
 tags:
-- C#
+- CSharp
 title: Sometimes you can write it better than Resharper
 aliases:
  - /2010/07/03/sometimes-you-can-write-it-better-than-resharper/

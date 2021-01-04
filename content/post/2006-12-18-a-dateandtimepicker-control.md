@@ -1,7 +1,7 @@
 ---
 date: "2006-12-18T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: A DateAndTimePicker control
 aliases:

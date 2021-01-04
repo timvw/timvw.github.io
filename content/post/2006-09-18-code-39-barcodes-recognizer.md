@@ -1,7 +1,7 @@
 ---
 date: "2006-09-18T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Code  39 barcodes recognizer
 aliases:
  - /2006/09/18/code-39-barcodes-recognizer/

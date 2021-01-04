@@ -2,7 +2,7 @@
 date: "2009-03-21T00:00:00Z"
 guid: http://www.timvw.be/?p=872
 tags:
-- C#
+- CSharp
 title: Getting started with Moq
 aliases:
  - /2009/03/21/getting-started-with-moq/

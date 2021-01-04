@@ -2,7 +2,7 @@
 date: "2010-02-17T00:00:00Z"
 guid: http://www.timvw.be/?p=1697
 tags:
-- C#
+- CSharp
 title: 'Learned something from Resharper: Enumerable.OfType<TResult>'
 aliases:
  - /2010/02/17/learned-something-from-resharper-enumerable-oftypetresult/

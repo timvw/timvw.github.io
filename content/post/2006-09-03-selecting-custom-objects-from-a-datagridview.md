@@ -1,7 +1,7 @@
 ---
 date: "2006-09-03T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Selecting custom Objects from a DataGridView
 aliases:

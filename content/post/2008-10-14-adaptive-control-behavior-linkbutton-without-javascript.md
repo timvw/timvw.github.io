@@ -3,7 +3,7 @@ date: "2008-10-14T00:00:00Z"
 guid: http://www.timvw.be/?p=688
 tags:
 - ASP.NET
-- C#
+- CSharp
 title: "Adaptive control behavior: LinkButton without javascript"
 aliases:
  - /2008/10/14/adaptive-control-behavior-linkbutton-without-javascript/

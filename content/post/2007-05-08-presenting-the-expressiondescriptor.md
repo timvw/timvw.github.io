@@ -1,7 +1,7 @@
 ---
 date: "2007-05-08T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Presenting the ExpressionDescriptor
 aliases:

@@ -1,7 +1,7 @@
 ---
 date: "2007-07-28T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Exploring formatting...
 aliases:

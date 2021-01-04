@@ -2,7 +2,7 @@
 date: "2010-02-15T00:00:00Z"
 guid: http://www.timvw.be/?p=1691
 tags:
-- C#
+- CSharp
 - Silverlight
 title: Calculate EndpointAddress for Silverlight client
 aliases:

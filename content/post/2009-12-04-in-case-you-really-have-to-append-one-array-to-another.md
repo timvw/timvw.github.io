@@ -2,7 +2,7 @@
 date: "2009-12-04T00:00:00Z"
 guid: http://www.timvw.be/?p=1544
 tags:
-- C#
+- CSharp
 - Patterns
 title: In case you really have to Append one array to another
 aliases:

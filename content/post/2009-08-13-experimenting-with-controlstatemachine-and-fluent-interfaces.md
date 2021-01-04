@@ -2,7 +2,7 @@
 date: "2009-08-13T00:00:00Z"
 guid: http://www.timvw.be/?p=1157
 tags:
-- C#
+- CSharp
 - Patterns
 - Windows Forms
 title: Experimenting with ControlStateMachine and Fluent interfaces

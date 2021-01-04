@@ -2,7 +2,7 @@
 date: "2008-10-17T00:00:00Z"
 guid: http://www.timvw.be/?p=718
 tags:
-- C#
+- CSharp
 title: Refactoring Application Environment (Part 2)
 aliases:
  - /2008/10/17/refactoring-application-environment-part-2/

@@ -2,7 +2,7 @@
 date: "2008-09-26T00:00:00Z"
 guid: http://www.timvw.be/?p=611
 tags:
-- C#
+- CSharp
 - Visual Studio
 title: Presenting templates for int and string ValueObjects
 aliases:

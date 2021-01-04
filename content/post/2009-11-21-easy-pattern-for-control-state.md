@@ -3,7 +3,7 @@ date: "2009-11-21T00:00:00Z"
 guid: http://www.timvw.be/?p=1531
 tags:
 - ASP.NET
-- C#
+- CSharp
 title: Easy pattern for Control state
 aliases:
  - /2009/11/21/easy-pattern-for-control-state/

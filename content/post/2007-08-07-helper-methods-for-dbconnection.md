@@ -1,7 +1,7 @@
 ---
 date: "2007-08-07T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Helper methods for DbProviderFactory
 aliases:
  - /2007/08/07/helper-methods-for-dbconnection/

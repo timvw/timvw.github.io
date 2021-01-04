@@ -2,7 +2,7 @@
 date: "2009-11-01T00:00:00Z"
 guid: http://www.timvw.be/?p=1496
 tags:
-- C#
+- CSharp
 title: Another method i wrote once too many
 aliases:
  - /2009/11/01/another-method-i-wrote-once-too-many/

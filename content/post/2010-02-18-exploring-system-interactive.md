@@ -2,7 +2,7 @@
 date: "2010-02-18T00:00:00Z"
 guid: http://www.timvw.be/?p=1702
 tags:
-- C#
+- CSharp
 title: Exploring System.Interactive
 aliases:
  - /2010/02/18/exploring-system-interactive/

@@ -2,7 +2,7 @@
 date: "2009-08-17T00:00:00Z"
 guid: http://www.timvw.be/?p=1218
 tags:
-- C#
+- CSharp
 title: About the implementation of a fluent interface
 aliases:
  - /2009/08/17/about-the-implementation-of-a-fluent-interface/

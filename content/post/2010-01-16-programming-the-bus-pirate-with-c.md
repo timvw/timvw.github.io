@@ -2,7 +2,7 @@
 date: "2010-01-16T00:00:00Z"
 guid: http://www.timvw.be/?p=1614
 tags:
-- C#
+- CSharp
 title: Programming the Bus Pirate with C#
 aliases:
  - /2010/01/16/programming-the-bus-pirate-with-c/

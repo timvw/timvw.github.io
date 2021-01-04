@@ -1,7 +1,7 @@
 ---
 date: "2008-03-08T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Using System.DirectoryServices.AccountManagement to find the members of an AD group
 aliases:
  - /2008/03/08/using-systemdirectoryservicesaccountmanagement-to-find-the-members-of-an-ad-group/

@@ -1,7 +1,7 @@
 ---
 date: "2008-02-20T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: How the name of an embedded resource is generated in a C# project
 aliases:

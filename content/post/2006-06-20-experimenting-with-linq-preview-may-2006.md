@@ -1,7 +1,7 @@
 ---
 date: "2006-06-20T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Experimenting with LINQ Preview (May 2006)
 aliases:
  - /2006/06/20/experimenting-with-linq-preview-may-2006/

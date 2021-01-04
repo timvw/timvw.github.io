@@ -2,7 +2,7 @@
 date: "2008-08-02T00:00:00Z"
 guid: http://www.timvw.be/?p=314
 tags:
-- C#
+- CSharp
 title: Presenting the SortableBindingList<T> (take two)
 aliases:
  - /2008/08/02/presenting-the-sortablebindinglistt-take-two/

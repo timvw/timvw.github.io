@@ -1,7 +1,7 @@
 ---
 date: "2006-12-14T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Helper methods for DateTime
 aliases:
  - /2006/12/14/helper-methods-for-datetime/

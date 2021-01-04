@@ -1,7 +1,7 @@
 ---
 date: "2007-02-22T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Presenting the SortableBindingList<T>
 aliases:

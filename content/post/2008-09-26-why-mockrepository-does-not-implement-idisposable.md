@@ -2,7 +2,7 @@
 date: "2008-09-26T00:00:00Z"
 guid: http://www.timvw.be/?p=622
 tags:
-- C#
+- CSharp
 title: Why MockRepository does not implement IDisposable
 aliases:
  - /2008/09/26/why-mockrepository-does-not-implement-idisposable/

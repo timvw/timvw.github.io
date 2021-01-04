@@ -1,7 +1,7 @@
 ---
 date: "2007-04-27T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Performing long running tasks in a Windows Application
 aliases:

@@ -1,7 +1,7 @@
 ---
 date: "2006-12-31T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Print a Control
 aliases:

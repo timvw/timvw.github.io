@@ -1,7 +1,7 @@
 ---
 date: "2007-08-21T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Visual Studio
 - Windows Forms
 title: Bending the code generation of IExtenderProvider to your will

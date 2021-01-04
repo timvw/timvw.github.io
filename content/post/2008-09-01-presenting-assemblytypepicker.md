@@ -2,7 +2,7 @@
 date: "2008-09-01T00:00:00Z"
 guid: http://www.timvw.be/?p=476
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Presenting AssemblyTypePicker
 aliases:

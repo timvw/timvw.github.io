@@ -1,7 +1,7 @@
 ---
 date: "2007-08-11T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: List string resources
 aliases:
  - /2007/08/11/list-string-resources/

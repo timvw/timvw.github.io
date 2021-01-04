@@ -1,7 +1,7 @@
 ---
 date: "2008-02-21T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Generating Artifacts By Using Text Templates
 aliases:
  - /2008/02/21/generating-artifacts-by-using-text-templates/

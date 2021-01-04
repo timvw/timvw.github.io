@@ -1,7 +1,7 @@
 ---
 date: "2007-07-26T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Using interfaces with Drag and Drop
 aliases:

@@ -2,7 +2,7 @@
 date: "2009-10-19T00:00:00Z"
 guid: http://www.timvw.be/?p=1482
 tags:
-- C#
+- CSharp
 - Silverlight
 title: 'Separation of concerns: Behavior = Trigger + TriggerAction'
 aliases:

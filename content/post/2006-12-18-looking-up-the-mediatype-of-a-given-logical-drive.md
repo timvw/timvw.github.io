@@ -1,7 +1,7 @@
 ---
 date: "2006-12-18T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Looking up the MediaType of a given Logical Drive
 aliases:
  - /2006/12/18/looking-up-the-mediatype-of-a-given-logical-drive/

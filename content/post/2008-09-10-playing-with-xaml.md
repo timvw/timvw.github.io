@@ -2,7 +2,7 @@
 date: "2008-09-10T00:00:00Z"
 guid: http://www.timvw.be/?p=540
 tags:
-- C#
+- CSharp
 title: Presenting a couple of custom MarkupExtensions
 aliases:
  - /2008/09/10/playing-with-xaml/

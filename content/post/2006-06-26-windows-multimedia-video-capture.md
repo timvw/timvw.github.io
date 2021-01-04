@@ -1,7 +1,7 @@
 ---
 date: "2006-06-26T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Windows Multimedia Video Capture
 aliases:

@@ -1,7 +1,7 @@
 ---
 date: "2008-03-05T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Find the members of an AD group
 aliases:
  - /2008/03/05/find-the-members-of-an-ad-group/

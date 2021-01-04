@@ -1,7 +1,7 @@
 ---
 date: "2006-09-10T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Using DataGridViewComboBoxColumn with Custom Objects
 aliases:

@@ -1,7 +1,7 @@
 ---
 date: "2007-08-17T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: StreamHelper
 aliases:
  - /2007/08/17/streamhelper/

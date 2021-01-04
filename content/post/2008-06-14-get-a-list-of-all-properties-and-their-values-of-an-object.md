@@ -2,7 +2,7 @@
 date: "2008-06-14T00:00:00Z"
 guid: http://www.timvw.be/?p=230
 tags:
-- C#
+- CSharp
 title: Enumerate all properties and their value of an object
 aliases:
  - /2008/06/14/get-a-list-of-all-properties-and-their-values-of-an-object/

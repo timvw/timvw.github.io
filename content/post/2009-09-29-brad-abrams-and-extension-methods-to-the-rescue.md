@@ -2,7 +2,7 @@
 date: "2009-09-29T00:00:00Z"
 guid: http://www.timvw.be/?p=1273
 tags:
-- C#
+- CSharp
 title: Brad Abrams and extension methods to the rescue..
 aliases:
  - /2009/09/29/brad-abrams-and-extension-methods-to-the-rescue/

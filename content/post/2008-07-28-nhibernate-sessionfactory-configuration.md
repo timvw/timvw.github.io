@@ -2,7 +2,7 @@
 date: "2008-07-28T00:00:00Z"
 guid: http://www.timvw.be/?p=303
 tags:
-- C#
+- CSharp
 title: NHibernate SessionFactory configuration
 aliases:
  - /2008/07/28/nhibernate-sessionfactory-configuration/

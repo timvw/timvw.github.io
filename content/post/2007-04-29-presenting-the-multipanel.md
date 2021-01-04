@@ -1,7 +1,7 @@
 ---
 date: "2007-04-29T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Presenting the MultiPanel
 aliases:

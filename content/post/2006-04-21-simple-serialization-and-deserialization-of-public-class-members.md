@@ -1,7 +1,7 @@
 ---
 date: "2006-04-21T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Simple serialization and deserialization of public class members
 aliases:
  - /2006/04/21/simple-serialization-and-deserialization-of-public-class-members/

@@ -2,7 +2,7 @@
 date: "2010-02-02T00:00:00Z"
 guid: http://www.timvw.be/?p=1663
 tags:
-- C#
+- CSharp
 title: Verify that a X509Certificate can be used for key exchange
 aliases:
  - /2010/02/02/verify-that-a-x509certificate-can-be-used-for-key-exchange/

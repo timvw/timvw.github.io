@@ -2,7 +2,7 @@
 date: "2010-01-08T00:00:00Z"
 guid: http://www.timvw.be/?p=1579
 tags:
-- C#
+- CSharp
 - Patterns
 title: Creating series of elements
 aliases:

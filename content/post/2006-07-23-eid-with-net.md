@@ -1,7 +1,7 @@
 ---
 date: "2006-07-23T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: eID with .NET
 aliases:
  - /2006/07/23/eid-with-net/

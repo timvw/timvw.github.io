@@ -1,7 +1,7 @@
 ---
 date: "2007-06-26T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: About additional precision and unpredicted behaviour...
 aliases:
  - /2007/06/26/about-additional-precision-and-unpredicted-behaviour/

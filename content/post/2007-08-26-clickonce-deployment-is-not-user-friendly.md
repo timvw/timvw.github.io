@@ -1,7 +1,7 @@
 ---
 date: "2007-08-26T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: ClickOnce Deployment is not user-friendly!
 aliases:
  - /2007/08/26/clickonce-deployment-is-not-user-friendly/

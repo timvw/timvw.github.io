@@ -1,7 +1,7 @@
 ---
 date: "2006-06-24T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Windows Image Acquisition
 aliases:

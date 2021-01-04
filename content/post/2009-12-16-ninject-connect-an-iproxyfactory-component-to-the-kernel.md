@@ -2,7 +2,7 @@
 date: "2009-12-16T00:00:00Z"
 guid: http://www.timvw.be/?p=1572
 tags:
-- C#
+- CSharp
 - Free Software
 title: 'Ninject: connect an IProxyFactory component to the kernel'
 aliases:

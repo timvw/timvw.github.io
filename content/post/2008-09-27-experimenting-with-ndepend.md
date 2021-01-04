@@ -2,7 +2,7 @@
 date: "2008-09-27T00:00:00Z"
 guid: http://www.timvw.be/?p=631
 tags:
-- C#
+- CSharp
 title: Experimenting with NDepend
 aliases:
  - /2008/09/27/experimenting-with-ndepend/

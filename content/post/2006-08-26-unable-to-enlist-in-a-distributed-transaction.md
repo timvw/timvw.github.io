@@ -1,7 +1,7 @@
 ---
 date: "2006-08-26T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Unable to enlist in a distributed transaction
 aliases:
  - /2006/08/26/unable-to-enlist-in-a-distributed-transaction/

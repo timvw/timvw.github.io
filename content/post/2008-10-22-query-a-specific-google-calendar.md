@@ -2,7 +2,7 @@
 date: "2008-10-22T00:00:00Z"
 guid: http://www.timvw.be/?p=728
 tags:
-- C#
+- CSharp
 title: Query a specific Google Calendar
 aliases:
  - /2008/10/22/query-a-specific-google-calendar/

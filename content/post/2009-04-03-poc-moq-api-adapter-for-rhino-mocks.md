@@ -2,7 +2,7 @@
 date: "2009-04-03T00:00:00Z"
 guid: http://www.timvw.be/?p=960
 tags:
-- C#
+- CSharp
 title: 'POC: Moq API adapter for Rhino Mocks'
 aliases:
  - /2009/04/03/poc-moq-api-adapter-for-rhino-mocks/

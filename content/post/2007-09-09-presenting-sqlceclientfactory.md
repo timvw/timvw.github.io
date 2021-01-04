@@ -1,7 +1,7 @@
 ---
 date: "2007-09-09T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Presenting SqlCeClientFactory
 aliases:
  - /2007/09/09/presenting-sqlceclientfactory/

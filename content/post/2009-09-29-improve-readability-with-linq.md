@@ -2,7 +2,7 @@
 date: "2009-09-29T00:00:00Z"
 guid: http://www.timvw.be/?p=1278
 tags:
-- C#
+- CSharp
 title: Improve readability with LINQ
 aliases:
  - /2009/09/29/improve-readability-with-linq/

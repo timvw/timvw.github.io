@@ -1,7 +1,7 @@
 ---
 date: "2007-01-13T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Hide and unhide columns (or rows) in the DataGridView
 aliases:

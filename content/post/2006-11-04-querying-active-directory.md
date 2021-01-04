@@ -1,7 +1,7 @@
 ---
 date: "2006-11-04T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Querying Active Directory
 aliases:
  - /2006/11/04/querying-active-directory/

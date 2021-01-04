@@ -2,7 +2,7 @@
 date: "2009-05-16T00:00:00Z"
 guid: http://www.timvw.be/?p=1045
 tags:
-- C#
+- CSharp
 title: Measuring elapsed time
 aliases:
  - /2009/05/16/measuring-elapsed-time/

@@ -2,7 +2,7 @@
 date: "2008-09-22T00:00:00Z"
 guid: http://www.timvw.be/?p=565
 tags:
-- C#
+- CSharp
 title: Presenting ConfigurationFileSession
 aliases:
  - /2008/09/22/presenting-configurationfilesession/
