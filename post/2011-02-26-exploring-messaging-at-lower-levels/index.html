@@ -9,7 +9,7 @@ Let me start with setting the scene: The purpose of the code is to provide items
 Here is how my oldskool function signatures would look like:
 class ItemProviderFactory { public ItemProvider Create() { .">
 <meta itemprop="datePublished" content="2011-02-26T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="291">
 
 
@@ -23,7 +23,7 @@ class ItemProviderFactory { public ItemProvider Create() { ." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2011-02-26-exploring-messaging-at-lower-levels/" />
 <meta property="article:published_time" content="2011-02-26T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Exploring messaging at lower levels..."/>
 <meta name="twitter:description" content="Yesterday a colleague of mine, Neil Robbins, asked me how a piece of code would look like if I apply the Hollywood principle on it (Don&rsquo;t call us, we&rsquo;ll cal you).
@@ -88,62 +88,62 @@ class ItemProviderFactory { public ItemProvider Create() { ."/>
 				<p>Yesterday a colleague of mine, <a href="http://neildoesdotnet.blogspot.com/">Neil Robbins</a>, asked me how a piece of code would look like if I apply the Hollywood principle on it (Don&rsquo;t call us, we&rsquo;ll cal you).</p>
 <p>Let me start with setting the scene: The purpose of the code is to provide items via provider and to consume those items via a consumer.</p>
 <p>Here is how my oldskool function signatures would look like:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ItemProviderFactory</span> {
-  <span style="color:#66d9ef">public</span> ItemProvider Create() { .. } 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ItemProviderFactory</span> {
+  <span style="color:#000;font-weight:bold">public</span> ItemProvider Create() { .. } 
 }
 
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ItemProvider</span> {   
-  <span style="color:#66d9ef">public</span> IEnumerable&lt;Item&gt; Provide() { .. } 
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ItemProvider</span> {   
+  <span style="color:#000;font-weight:bold">public</span> IEnumerable&lt;Item&gt; Provide() { .. } 
 }
 
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ItemConsumerFactory</span> { 
-  <span style="color:#66d9ef">public</span> ItemConsumer Create() { .. }
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ItemConsumerFactory</span> { 
+  <span style="color:#000;font-weight:bold">public</span> ItemConsumer Create() { .. }
 }
 
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ItemConsumer</span> { 
-  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> Consume(IEnumerable&lt;Item&gt; items) { .. }
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ItemConsumer</span> { 
+  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Consume(IEnumerable&lt;Item&gt; items) { .. }
 } 
 </code></pre></div><p>My Hollywood style function signatures look like the following:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ItemProviderFactory</span> { 
-  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> WithItemProvider(Action&lt;ItemProvider&gt; action) { .. } 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ItemProviderFactory</span> { 
+  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> WithItemProvider(Action&lt;ItemProvider&gt; action) { .. } 
 }
 
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ItemProvider</span> {
-  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> Provide(Action&lt;IEnumerable&lt;Item&gt;&gt; action) { .. }
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ItemProvider</span> {
+  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Provide(Action&lt;IEnumerable&lt;Item&gt;&gt; action) { .. }
 }
 
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ItemConsumerFactory</span> { 
-  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> WithItemConsumer(Action&lt;ItemConsumer&gt; action) { .. }
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ItemConsumerFactory</span> { 
+  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> WithItemConsumer(Action&lt;ItemConsumer&gt; action) { .. }
 }
 
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ItemConsumer</span> {
-  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> Consume(IEnumerable&lt;Item&gt; items) { .. }
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ItemConsumer</span> {
+  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Consume(IEnumerable&lt;Item&gt; items) { .. }
 }
 </code></pre></div><p>And now I am able compare the code that glues everything together:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">void</span> OldStyle(OldStyle.ItemProviderFactory itemProviderFactory, OldStyle.ItemConsumerFactory itemConsumerFactory) {
-  <span style="color:#66d9ef">var</span> provider = itemProviderFactory.Create();
-  <span style="color:#66d9ef">var</span> items = provider.Provide();
-  <span style="color:#66d9ef">var</span> consumer = itemConsumerFactory.Create(); 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">void</span> OldStyle(OldStyle.ItemProviderFactory itemProviderFactory, OldStyle.ItemConsumerFactory itemConsumerFactory) {
+  <span style="color:#458;font-weight:bold">var</span> provider = itemProviderFactory.Create();
+  <span style="color:#458;font-weight:bold">var</span> items = provider.Provide();
+  <span style="color:#458;font-weight:bold">var</span> consumer = itemConsumerFactory.Create(); 
   consumer.Consume(items); 
 }
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">  
-<span style="color:#66d9ef">void</span> HollywoodStyle(HollywoodStyle.ItemProviderFactory itemProviderFactory, HollywoodStyle.ItemConsumerFactory itemConsumerFactory) {  
+</code></pre></div><div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">  
+<span style="color:#000;font-weight:bold">void</span> HollywoodStyle(HollywoodStyle.ItemProviderFactory itemProviderFactory, HollywoodStyle.ItemConsumerFactory itemConsumerFactory) {  
   itemProviderFactory.With(provider =&gt; 
     provider.Provide(items =&gt; itemConsumerFactory.With(consumer =&gt; 
       consumer.Consume(items))));
 }
 </code></pre></div><p>Let me refactor this Hollywood code a bit:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#75715e">// An itemconsumer consumes items as following:
-</span><span style="color:#75715e"></span>Action&lt;HollywoodStyle.ItemConsumer, IEnumerable&lt;Item&gt;&gt; consumerAction = (consumer, items) =&gt; consumer.Consume(items);
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// An itemconsumer consumes items as following:
+</span><span style="color:#998;font-style:italic"></span>Action&lt;HollywoodStyle.ItemConsumer, IEnumerable&lt;Item&gt;&gt; consumerAction = (consumer, items) =&gt; consumer.Consume(items);
 
-<span style="color:#75715e">// As soon as I have items, I want a consumer to consume them:
-</span><span style="color:#75715e"></span>Action&lt;IEnumerable&lt;Item&gt;&gt; itemsAction = (items) =&gt; itemConsumerFactory.With(consumer =&gt; consumerAction(consumer, items));
+<span style="color:#998;font-style:italic">// As soon as I have items, I want a consumer to consume them:
+</span><span style="color:#998;font-style:italic"></span>Action&lt;IEnumerable&lt;Item&gt;&gt; itemsAction = (items) =&gt; itemConsumerFactory.With(consumer =&gt; consumerAction(consumer, items));
 
-<span style="color:#75715e">// I can get items as following:
-</span><span style="color:#75715e"></span>Action&lt;HollywoodStyle.ItemProvider&gt; providerAction = (provider) =&gt; provider.Provide(itemsAction);
+<span style="color:#998;font-style:italic">// I can get items as following:
+</span><span style="color:#998;font-style:italic"></span>Action&lt;HollywoodStyle.ItemProvider&gt; providerAction = (provider) =&gt; provider.Provide(itemsAction);
 
-<span style="color:#75715e">// I can get an ItemProvider as following:
-</span><span style="color:#75715e"></span>itemProviderFactory.With(providerAction);
+<span style="color:#998;font-style:italic">// I can get an ItemProvider as following:
+</span><span style="color:#998;font-style:italic"></span>itemProviderFactory.With(providerAction);
 </code></pre></div><p>I think that most colleagues are quite thankful that i am not a Hollywood star 😉</p>
 
 			</div>

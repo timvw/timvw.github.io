@@ -8,7 +8,7 @@
 Finally i found that SetAccessRuleProtection was the method that i needed to invoke.
 const string Folder = @&#34;c:\temp\secured&#34;; var directory = new DirectoryInfo(Folder); var directorySecurity = directory.GetAccessControl(); directorySecurity.SetAccessRuleProtection(true,false); directory.SetAccessControl(directorySecurity); There you go 😉">
 <meta itemprop="datePublished" content="2011-09-22T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="68">
 
 
@@ -21,7 +21,7 @@ const string Folder = @&#34;c:\temp\secured&#34;; var directory = new DirectoryI
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2011-09-22-remove-all-access-rules-from-a-directory/" />
 <meta property="article:published_time" content="2011-09-22T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Remove all access rules from a directory"/>
 <meta name="twitter:description" content="A while ago i needed to write some code that removes all (existing/inherited) access rules from a given directory. It was pretty frustrating to notice that all my attempts seemed to fail (RemoveAccessRule, PurgeAccessRule, &hellip;)
@@ -84,10 +84,10 @@ const string Folder = @&#34;c:\temp\secured&#34;; var directory = new DirectoryI
 			<div class="markdown">
 				<p>A while ago i needed to write some code that removes all (existing/inherited) access rules from a given directory. It was pretty frustrating to notice that all my attempts seemed to fail (<a href="http://msdn.microsoft.com/en-us/library/system.security.accesscontrol.commonobjectsecurity.removeaccessrule.aspx">RemoveAccessRule</a>, <a href="http://msdn.microsoft.com/en-us/library/system.security.accesscontrol.objectsecurity.purgeaccessrules.aspx">PurgeAccessRule</a>, &hellip;)</p>
 <p>Finally i found that <a href="">SetAccessRuleProtection</a> was the method that i needed to invoke.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">string</span> Folder = <span style="color:#e6db74">@&#34;c:\temp\secured&#34;</span>;
-<span style="color:#66d9ef">var</span> directory = <span style="color:#66d9ef">new</span> DirectoryInfo(Folder);
-<span style="color:#66d9ef">var</span> directorySecurity = directory.GetAccessControl();
-directorySecurity.SetAccessRuleProtection(<span style="color:#66d9ef">true</span>,<span style="color:#66d9ef">false</span>);
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">const</span> <span style="color:#458;font-weight:bold">string</span> Folder = <span style="color:#d14">@&#34;c:\temp\secured&#34;</span>;
+<span style="color:#458;font-weight:bold">var</span> directory = <span style="color:#000;font-weight:bold">new</span> DirectoryInfo(Folder);
+<span style="color:#458;font-weight:bold">var</span> directorySecurity = directory.GetAccessControl();
+directorySecurity.SetAccessRuleProtection(<span style="color:#000;font-weight:bold">true</span>,<span style="color:#000;font-weight:bold">false</span>);
 directory.SetAccessControl(directorySecurity);
 </code></pre></div><!-- raw HTML omitted -->
 <!-- raw HTML omitted -->

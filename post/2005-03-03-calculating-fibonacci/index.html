@@ -8,7 +8,7 @@
 If we program this our first code would look like:
 function fibonacci($n) { if ($n &lt; = 1) { return $n; } return fibonacci($n-1) &#43; fibonacci($n-2); } It becomes clear that this is really inefficient.">
 <meta itemprop="datePublished" content="2005-03-03T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="225">
 
 
@@ -21,7 +21,7 @@ function fibonacci($n) { if ($n &lt; = 1) { return $n; } return fibonacci($n-1) 
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2005-03-03-calculating-fibonacci/" />
 <meta property="article:published_time" content="2005-03-03T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Calculating Fibonacci"/>
 <meta name="twitter:description" content="What is a recursive function? It is a function where the value for input n is calculated as a linear combination of the previous 1, 2, &hellip;, n-1 function values. An example is the fibonacci function: f(n) = f(n-1) &#43; f(n-2).
@@ -84,9 +84,9 @@ function fibonacci($n) { if ($n &lt; = 1) { return $n; } return fibonacci($n-1) 
 			<div class="markdown">
 				<p>What is a <a href="http://en.wikipedia.org/wiki/Recursion">recursive</a> function? It is a function where the value for input n is calculated as a linear combination of the previous 1, 2, &hellip;, n-1 function values. An example is the fibonacci function: f(n) = f(n-1) + f(n-2).</p>
 <p>If we program this our first code would look like:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">fibonacci</span>($n)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">fibonacci</span>(<span style="color:#008080">$n</span>)
 {
-    <span style="color:#66d9ef">if</span> ($n <span style="color:#f92672">&lt;</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>) { <span style="color:#66d9ef">return</span> $n; } <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fibonacci</span>($n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">fibonacci</span>($n<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>); 
+    <span style="color:#000;font-weight:bold">if</span> (<span style="color:#008080">$n</span> <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>) { <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$n</span>; } <span style="color:#000;font-weight:bold">return</span> fibonacci(<span style="color:#008080">$n</span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">+</span> fibonacci(<span style="color:#008080">$n</span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">2</span>); 
 } 
 </code></pre></div><p>It becomes clear that this is really inefficient. For example if we call fibonacci(3) the following function calls will be made:</p>
 <p>fibonacci(3)</p>
@@ -97,25 +97,25 @@ function fibonacci($n) { if ($n &lt; = 1) { return $n; } return fibonacci($n-1) 
 &ndash;fibonacci(1)</li>
 </ul>
 <p>We can optimize this function by implementing it as an iteration. We still have to calculate all the previous values, thus the time-complexity of this algorithm is O(n). Here is the code:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">fibonacci</span>($n)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">fibonacci</span>(<span style="color:#008080">$n</span>)
 { 
-  <span style="color:#66d9ef">if</span> ($n <span style="color:#f92672">&lt;</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>) { <span style="color:#66d9ef">return</span> $n; } 
-  $nmin2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; 
-  $nmin1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; 
-  $result <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; 
-  <span style="color:#66d9ef">for</span> ($i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; $i <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">n</span>; <span style="color:#f92672">++</span>$i) { 
-    $result <span style="color:#f92672">=</span> $nmin1 <span style="color:#f92672">+</span> $nmin2; 
-    $nmin2 <span style="color:#f92672">=</span> $nmin1; 
-    $nmin1 <span style="color:#f92672">=</span> $result; 
+  <span style="color:#000;font-weight:bold">if</span> (<span style="color:#008080">$n</span> <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>) { <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$n</span>; } 
+  <span style="color:#008080">$nmin2</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; 
+  <span style="color:#008080">$nmin1</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>; 
+  <span style="color:#008080">$result</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; 
+  <span style="color:#000;font-weight:bold">for</span> (<span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>; <span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">&lt;=</span> n; <span style="color:#000;font-weight:bold">++</span><span style="color:#008080">$i</span>) { 
+    <span style="color:#008080">$result</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$nmin1</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#008080">$nmin2</span>; 
+    <span style="color:#008080">$nmin2</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$nmin1</span>; 
+    <span style="color:#008080">$nmin1</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$result</span>; 
   }    
-  <span style="color:#66d9ef">return</span> $result; 
+  <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$result</span>; 
 } 
 </code></pre></div><p>Time to take our math course and lookup a non-recursive function for fibonacci. Eureka, we have found one! The algorithm has constant time complexity. The proof for this function is can be found <a href="http://mathforum.org/library/drmath/view/52686.html">here</a>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">fibonacci</span>($n)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">fibonacci</span>(<span style="color:#008080">$n</span>)
 {   
-  $denominator <span style="color:#f92672">=</span> <span style="color:#a6e22e">pow</span>((<span style="color:#ae81ff">1</span><span style="color:#f92672">+</span><span style="color:#a6e22e">sqrt</span>(<span style="color:#ae81ff">5</span>))<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>, $n) <span style="color:#f92672">--</span> <span style="color:#a6e22e">pow</span>((<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span><span style="color:#a6e22e">sqrt</span>(<span style="color:#ae81ff">5</span>))<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>, $n);  
-  $nominator <span style="color:#f92672">=</span> <span style="color:#a6e22e">sqrt</span>(<span style="color:#ae81ff">5</span>);
-  <span style="color:#66d9ef">return</span> $denominator <span style="color:#f92672">/</span> $nominator;
+  <span style="color:#008080">$denominator</span> <span style="color:#000;font-weight:bold">=</span> pow((<span style="color:#099">1</span><span style="color:#000;font-weight:bold">+</span>sqrt(<span style="color:#099">5</span>))<span style="color:#000;font-weight:bold">/</span><span style="color:#099">2</span>, <span style="color:#008080">$n</span>) <span style="color:#000;font-weight:bold">--</span> pow((<span style="color:#099">1</span><span style="color:#000;font-weight:bold">-</span>sqrt(<span style="color:#099">5</span>))<span style="color:#000;font-weight:bold">/</span><span style="color:#099">2</span>, <span style="color:#008080">$n</span>);  
+  <span style="color:#008080">$nominator</span> <span style="color:#000;font-weight:bold">=</span> sqrt(<span style="color:#099">5</span>);
+  <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$denominator</span> <span style="color:#000;font-weight:bold">/</span> <span style="color:#008080">$nominator</span>;
 }
 </code></pre></div>
 			</div>

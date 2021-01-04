@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Apparently Microsoft choose not to implement support for disabled TabPages. The reason seems to be that it&rsquo;s against their Guidelines for Tabs. Let&rsquo;s ignore the guideline and implement the support anyway. First we set the DrawMode property of the TabControl to OwnerDrawFixed. Next we add an eventhandler for the DrawItem Event
 private void tabControl1_DrawItem(object sender, DrawItemEventArgs e) { TabControl tabControl = sender as TabControl; TabPage tabPage = tabControl.TabPages[e.Index]; Rectangle tabRectangle = tabControl.">
 <meta itemprop="datePublished" content="2007-01-06T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="309">
 
 
@@ -19,7 +19,7 @@ private void tabControl1_DrawItem(object sender, DrawItemEventArgs e) { TabContr
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2007-01-06-enable-and-disable-tabpages-on-a-tabcontrol/" />
 <meta property="article:published_time" content="2007-01-06T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Enable and disable TabPages on a TabControl"/>
 <meta name="twitter:description" content="Apparently Microsoft choose not to implement support for disabled TabPages. The reason seems to be that it&rsquo;s against their Guidelines for Tabs. Let&rsquo;s ignore the guideline and implement the support anyway. First we set the DrawMode property of the TabControl to OwnerDrawFixed. Next we add an eventhandler for the DrawItem Event
@@ -82,38 +82,38 @@ private void tabControl1_DrawItem(object sender, DrawItemEventArgs e) { TabContr
 				<p><img src="http://www.timvw.be/wp-content/images/disabled-tabcontrol-1.gif" alt="screenshot of tabcontrol with disabled tabpages"></p>
 <p><img src="http://www.timvw.be/wp-content/images/disabled-tabcontrol-2.gif" alt="screenshot of tabcontrol with disabled tabpages"></p>
 <p>Apparently <a href="http://www.microsoft.com">Microsoft</a> choose not to implement support for disabled <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.tabpage.aspx">TabPage</a>s. The reason seems to be that it&rsquo;s against their <a href="http://msdn2.microsoft.com/en-us/library/aa511493.aspx">Guidelines for Tabs</a>. Let&rsquo;s ignore the guideline and implement the support anyway. First we set the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.tabcontrol.drawmode.aspx">DrawMode</a> property of the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.tabcontrol.aspx">TabControl</a> to <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.tabdrawmode.aspx">OwnerDrawFixed</a>. Next we add an eventhandler for the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.tabcontrol.drawitem.aspx">DrawItem</a> Event</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> tabControl1_DrawItem(<span style="color:#66d9ef">object</span> sender, DrawItemEventArgs e)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> tabControl1_DrawItem(<span style="color:#458;font-weight:bold">object</span> sender, DrawItemEventArgs e)
 {
-	TabControl tabControl = sender <span style="color:#66d9ef">as</span> TabControl;
+	TabControl tabControl = sender <span style="color:#000;font-weight:bold">as</span> TabControl;
 	TabPage tabPage = tabControl.TabPages[e.Index];
 	Rectangle tabRectangle = tabControl.GetTabRect(e.Index);
 
-	<span style="color:#66d9ef">if</span> (tabControl.Alignment == TabAlignment.Left || tabControl.Alignment == TabAlignment.Right)
+	<span style="color:#000;font-weight:bold">if</span> (tabControl.Alignment == TabAlignment.Left || tabControl.Alignment == TabAlignment.Right)
 	{
-		<span style="color:#66d9ef">float</span> rotateAngle = <span style="color:#ae81ff">90</span>;
-		<span style="color:#66d9ef">if</span> (tabControl.Alignment == TabAlignment.Left)
+		<span style="color:#458;font-weight:bold">float</span> rotateAngle = <span style="color:#099">90</span>;
+		<span style="color:#000;font-weight:bold">if</span> (tabControl.Alignment == TabAlignment.Left)
 		{
-			rotateAngle = <span style="color:#ae81ff">270</span>;
+			rotateAngle = <span style="color:#099">270</span>;
 		}
 
-		PointF cp = <span style="color:#66d9ef">new</span> PointF(tabRectangle.Left + (tabRectangle.Width / <span style="color:#ae81ff">2</span>), tabRectangle.Top + (tabRectangle.Height / <span style="color:#ae81ff">2</span>));
+		PointF cp = <span style="color:#000;font-weight:bold">new</span> PointF(tabRectangle.Left + (tabRectangle.Width / <span style="color:#099">2</span>), tabRectangle.Top + (tabRectangle.Height / <span style="color:#099">2</span>));
 		e.Graphics.TranslateTransform(cp.X, cp.Y);
 		e.Graphics.RotateTransform(rotateAngle);
-		tabRectangle = <span style="color:#66d9ef">new</span> Rectangle(-(tabRectangle.Height / <span style="color:#ae81ff">2</span>), -(tabRectangle.Width / <span style="color:#ae81ff">2</span>), tabRectangle.Height, tabRectangle.Width);
+		tabRectangle = <span style="color:#000;font-weight:bold">new</span> Rectangle(-(tabRectangle.Height / <span style="color:#099">2</span>), -(tabRectangle.Width / <span style="color:#099">2</span>), tabRectangle.Height, tabRectangle.Width);
 	}
 
-	<span style="color:#66d9ef">using</span> (SolidBrush foreBrush = <span style="color:#66d9ef">new</span> SolidBrush(tabPage.ForeColor))
+	<span style="color:#000;font-weight:bold">using</span> (SolidBrush foreBrush = <span style="color:#000;font-weight:bold">new</span> SolidBrush(tabPage.ForeColor))
 	{
-		<span style="color:#66d9ef">using</span> (SolidBrush backBrush = <span style="color:#66d9ef">new</span> SolidBrush(tabPage.BackColor))
+		<span style="color:#000;font-weight:bold">using</span> (SolidBrush backBrush = <span style="color:#000;font-weight:bold">new</span> SolidBrush(tabPage.BackColor))
 		{
-			<span style="color:#66d9ef">if</span> (!tabPage.Enabled)
+			<span style="color:#000;font-weight:bold">if</span> (!tabPage.Enabled)
 			{
 				foreBrush.Color = SystemColors.GrayText;
 			}
 
 			e.Graphics.FillRectangle(backBrush, tabRectangle);
 
-			<span style="color:#66d9ef">using</span> (StringFormat stringFormat = <span style="color:#66d9ef">new</span> StringFormat())
+			<span style="color:#000;font-weight:bold">using</span> (StringFormat stringFormat = <span style="color:#000;font-weight:bold">new</span> StringFormat())
 			{
 				stringFormat.Alignment = StringAlignment.Center;
 				stringFormat.LineAlignment = StringAlignment.Center;
@@ -125,36 +125,36 @@ private void tabControl1_DrawItem(object sender, DrawItemEventArgs e) { TabContr
 	e.Graphics.ResetTransform();
 }
 </code></pre></div><p>And we handle the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.tabcontrol.selecting.aspx">Selecting</a> Event as following</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> tabControl1_Selecting(<span style="color:#66d9ef">object</span> sender, TabControlCancelEventArgs e)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> tabControl1_Selecting(<span style="color:#458;font-weight:bold">object</span> sender, TabControlCancelEventArgs e)
 {
-	<span style="color:#66d9ef">if</span> (!e.TabPage.Enabled)
+	<span style="color:#000;font-weight:bold">if</span> (!e.TabPage.Enabled)
 	{
-		e.Cancel = <span style="color:#66d9ef">true</span>;
+		e.Cancel = <span style="color:#000;font-weight:bold">true</span>;
 	}
 }
 </code></pre></div><p>This works pretty fine, but we still have to make sure that the TabPages are Invalidated when the users changes their <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.control.enabled.aspx">Enabled</a> property. We do this by attaching and detaching an eventhandler for their <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.control.enabledchanged.aspx">EnabledChanged</a> Event when they&rsquo;re <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.control.controladded.aspx">added</a> and <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.control.controlremoved.aspx">removed</a>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> tabControl1_ControlAdded(<span style="color:#66d9ef">object</span> sender, ControlEventArgs e)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> tabControl1_ControlAdded(<span style="color:#458;font-weight:bold">object</span> sender, ControlEventArgs e)
 {
-	TabPage tabPage = sender <span style="color:#66d9ef">as</span> TabPage;
-	<span style="color:#66d9ef">if</span> (tabPage != <span style="color:#66d9ef">null</span>)
+	TabPage tabPage = sender <span style="color:#000;font-weight:bold">as</span> TabPage;
+	<span style="color:#000;font-weight:bold">if</span> (tabPage != <span style="color:#000;font-weight:bold">null</span>)
 	{
-		tabPage.EnabledChanged += <span style="color:#66d9ef">new</span> EventHandler(<span style="color:#66d9ef">this</span>.tabPage_EnabledChanged);
+		tabPage.EnabledChanged += <span style="color:#000;font-weight:bold">new</span> EventHandler(<span style="color:#000;font-weight:bold">this</span>.tabPage_EnabledChanged);
 	}
 }
 
-<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> tabControl1_ControlRemoved(<span style="color:#66d9ef">object</span> sender, ControlEventArgs e)
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> tabControl1_ControlRemoved(<span style="color:#458;font-weight:bold">object</span> sender, ControlEventArgs e)
 {
-	TabPage tabPage = sender <span style="color:#66d9ef">as</span> TabPage;
-	<span style="color:#66d9ef">if</span> (tabPage != <span style="color:#66d9ef">null</span>)
+	TabPage tabPage = sender <span style="color:#000;font-weight:bold">as</span> TabPage;
+	<span style="color:#000;font-weight:bold">if</span> (tabPage != <span style="color:#000;font-weight:bold">null</span>)
 	{
-		tabPage.EnabledChanged -= <span style="color:#66d9ef">new</span> EventHandler(<span style="color:#66d9ef">this</span>.tabPage_EnabledChanged);
+		tabPage.EnabledChanged -= <span style="color:#000;font-weight:bold">new</span> EventHandler(<span style="color:#000;font-weight:bold">this</span>.tabPage_EnabledChanged);
 	}
 }
 
-<span style="color:#66d9ef">void</span> tabPage_EnabledChanged(<span style="color:#66d9ef">object</span> sender, EventArgs e)
+<span style="color:#000;font-weight:bold">void</span> tabPage_EnabledChanged(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
 {
-	TabPage tabPage = sender <span style="color:#66d9ef">as</span> TabPage;
-	TabControl tabControl = tabPage.Parent <span style="color:#66d9ef">as</span> TabControl;
+	TabPage tabPage = sender <span style="color:#000;font-weight:bold">as</span> TabPage;
+	TabControl tabControl = tabPage.Parent <span style="color:#000;font-weight:bold">as</span> TabControl;
 	tabControl.Invalidate(tabPage.ClientRectangle);
 }
 </code></pre></div><p>Feel free to download the demo application: <a href="http://www.timvw.be/wp-content/code/csharp/DisabledTabControl.zip">DisabledTabControl.zip</a>.</p>

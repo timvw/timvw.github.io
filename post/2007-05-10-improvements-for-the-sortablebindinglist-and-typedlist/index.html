@@ -7,7 +7,7 @@
 <meta itemprop="description" content="I found out that the sorting didn&rsquo;t work for &lsquo;Expression&rsquo; properties. My first thought was to add another switch to the logic of the already existing code
 object value1 = t1; object value2 = t2; if (prop.Name.StartsWith(&#34;||&#34;)) { // do something to find the &#39;ExpressionProperty&#39; values } else { foreach (string property in prop.Name.Split(&#39;.&#39;)) { // navigate through the relations 	PropertyInfo propertyInfo = value1.GetType().GetProperty(property); value1 = propertyInfo.GetValue(value1, null); value2 = propertyInfo.">
 <meta itemprop="datePublished" content="2007-05-10T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="189">
 
 
@@ -19,7 +19,7 @@ object value1 = t1; object value2 = t2; if (prop.Name.StartsWith(&#34;||&#34;)) 
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2007-05-10-improvements-for-the-sortablebindinglist-and-typedlist/" />
 <meta property="article:published_time" content="2007-05-10T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Improvements for the SortableBindingList (and TypedList)"/>
 <meta name="twitter:description" content="I found out that the sorting didn&rsquo;t work for &lsquo;Expression&rsquo; properties. My first thought was to add another switch to the logic of the already existing code
@@ -80,47 +80,47 @@ object value1 = t1; object value2 = t2; if (prop.Name.StartsWith(&#34;||&#34;)) 
 					
 			<div class="markdown">
 				<p>I found out that the sorting didn&rsquo;t work for &lsquo;Expression&rsquo; properties. My first thought was to add another switch to the logic of the already existing code</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">object</span> value1 = t1;
-<span style="color:#66d9ef">object</span> value2 = t2;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">object</span> value1 = t1;
+<span style="color:#458;font-weight:bold">object</span> value2 = t2;
 
-<span style="color:#66d9ef">if</span> (prop.Name.StartsWith(<span style="color:#e6db74">&#34;||&#34;</span>))
+<span style="color:#000;font-weight:bold">if</span> (prop.Name.StartsWith(<span style="color:#d14">&#34;||&#34;</span>))
 {
-	<span style="color:#75715e">// do something to find the &#39;ExpressionProperty&#39; values
-</span><span style="color:#75715e"></span>}
-<span style="color:#66d9ef">else</span>
+	<span style="color:#998;font-style:italic">// do something to find the &#39;ExpressionProperty&#39; values
+</span><span style="color:#998;font-style:italic"></span>}
+<span style="color:#000;font-weight:bold">else</span>
 {
-	<span style="color:#66d9ef">foreach</span> (<span style="color:#66d9ef">string</span> property <span style="color:#66d9ef">in</span> prop.Name.Split(<span style="color:#e6db74">&#39;.&#39;</span>))
+	<span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">string</span> property <span style="color:#000;font-weight:bold">in</span> prop.Name.Split(<span style="color:#d14">&#39;.&#39;</span>))
 	{
-		<span style="color:#75715e">// navigate through the relations
-</span><span style="color:#75715e"></span>		PropertyInfo propertyInfo = value1.GetType().GetProperty(property);
-		value1 = propertyInfo.GetValue(value1, <span style="color:#66d9ef">null</span>);
-		value2 = propertyInfo.GetValue(value2, <span style="color:#66d9ef">null</span>);
+		<span style="color:#998;font-style:italic">// navigate through the relations
+</span><span style="color:#998;font-style:italic"></span>		PropertyInfo propertyInfo = value1.GetType().GetProperty(property);
+		value1 = propertyInfo.GetValue(value1, <span style="color:#000;font-weight:bold">null</span>);
+		value2 = propertyInfo.GetValue(value2, <span style="color:#000;font-weight:bold">null</span>);
 	}
 }
 </code></pre></div><p>Since i already have a PropertyDescriptor it seems a lot smarter to use it&rsquo;s GetValue instead</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">object</span> value1 = prop.GetValue(t1);
-<span style="color:#66d9ef">object</span> value2 = prop.GetValue(t2);
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">object</span> value1 = prop.GetValue(t1);
+<span style="color:#458;font-weight:bold">object</span> value2 = prop.GetValue(t2);
 </code></pre></div><p>At <a href="http://blog.developpez.com/index.php?blog=121&amp;title=typedlistalt_tagt&amp;more=1&amp;c=1&amp;tb=1&amp;pb=1">Matthieu MEZIL</a>&rsquo;s blog i found a suggestion to use <a href="http://msdn2.microsoft.com/en-us/library/cfttsh47(VS.80).aspx">Comparer<!-- raw HTML omitted --></a>. This allowed me to reduce</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">IComparable comparable = value1 <span style="color:#66d9ef">as</span> IComparable;
-<span style="color:#66d9ef">if</span> (comparable != <span style="color:#66d9ef">null</span>)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">IComparable comparable = value1 <span style="color:#000;font-weight:bold">as</span> IComparable;
+<span style="color:#000;font-weight:bold">if</span> (comparable != <span style="color:#000;font-weight:bold">null</span>)
 {
-	<span style="color:#66d9ef">return</span> reverse * comparable.CompareTo(value2);
+	<span style="color:#000;font-weight:bold">return</span> reverse * comparable.CompareTo(value2);
 }
-<span style="color:#66d9ef">else</span>
+<span style="color:#000;font-weight:bold">else</span>
 {
-	comparable = value2 <span style="color:#66d9ef">as</span> IComparable;
-	<span style="color:#66d9ef">if</span> (comparable != <span style="color:#66d9ef">null</span>)
+	comparable = value2 <span style="color:#000;font-weight:bold">as</span> IComparable;
+	<span style="color:#000;font-weight:bold">if</span> (comparable != <span style="color:#000;font-weight:bold">null</span>)
 	{
-		<span style="color:#66d9ef">return</span> -<span style="color:#ae81ff">1</span> <span style="color:#960050;background-color:#1e0010">\</span>* reverse <span style="color:#960050;background-color:#1e0010">\</span>* comparable.CompareTo(value1);
+		<span style="color:#000;font-weight:bold">return</span> -<span style="color:#099">1</span> <span style="color:#a61717;background-color:#e3d2d2">\</span>* reverse <span style="color:#a61717;background-color:#e3d2d2">\</span>* comparable.CompareTo(value1);
 	}
-	<span style="color:#66d9ef">else</span>
+	<span style="color:#000;font-weight:bold">else</span>
 	{
-		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
 	}
 }
 </code></pre></div><p>with</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#75715e">// Notice that this requires that atleast value1 or value2 are an instance of a type that implements IComparable
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">return</span> reverse * Comparer.Default.Compare(value1, value2);
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Notice that this requires that atleast value1 or value2 are an instance of a type that implements IComparable
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">return</span> reverse * Comparer.Default.Compare(value1, value2);
 </code></pre></div><p>Feel free to get yet another version of <a href="http://www.timvw.be/wp-content/code/csharp/TypedList.zip">TypedList.zip</a>.</p>
 
 			</div>

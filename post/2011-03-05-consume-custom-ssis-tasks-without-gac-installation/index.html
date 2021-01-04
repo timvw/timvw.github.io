@@ -9,7 +9,7 @@ For the designer (BIDS) you have to copy the files to
  C:\Program Files\Microsoft SQL Server\100\DTS\Tasks C:\Program Files\Microsoft SQL Server\100\DTS\PipelineComponents  For the runtime (BIDS) you have to copy the files to
  C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\PrivateAssemblies  And for dtexec you have to copy the files to">
 <meta itemprop="datePublished" content="2011-03-05T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="133">
 
 
@@ -23,7 +23,7 @@ For the designer (BIDS) you have to copy the files to
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2011-03-05-consume-custom-ssis-tasks-without-gac-installation/" />
 <meta property="article:published_time" content="2011-03-05T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Consume custom SSIS tasks without GAC installation"/>
 <meta name="twitter:description" content="For a while i thought that in order to consume a custom SSIS task you had to install the assembly in the GAC. Now i know better 😉
@@ -100,16 +100,16 @@ For the designer (BIDS) you have to copy the files to
 <li>C:\Program Files\Microsoft SQL Server\100\DTS\Binn</li>
 </ul>
 <p>Here is a small powershell script that gives you the paths where you want to copy your assembly to:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e"># Lookup Tasks, PipelineComponents and DtExec paths  </span>
-$DtsPath = (Get-ItemProperty <span style="color:#e6db74">&#39;HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup&#39;</span>).SQLPath;
-$DtsTasksPath = (Resolve-Path <span style="color:#e6db74">&#34;$DtsPath\Tasks&#34;</span>);
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#998;font-style:italic"># Lookup Tasks, PipelineComponents and DtExec paths  </span>
+<span style="color:#008080">$DtsPath</span> = (<span style="color:#0086b3">Get-ItemProperty</span> <span style="color:#d14">&#39;HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup&#39;</span>).SQLPath;
+<span style="color:#008080">$DtsTasksPath</span> = (<span style="color:#0086b3">Resolve-Path</span> <span style="color:#d14">&#34;$DtsPath\Tasks&#34;</span>);
 
-$DtsPipelineComponentsPath = (Resolve-Path <span style="color:#e6db74">&#34;$DtsPath\Pipelinecomponents&#34;</span>);
-$DtExecPath = (Resolve-Path <span style="color:#e6db74">&#34;$DtsPath\Binn&#34;</span>);
+<span style="color:#008080">$DtsPipelineComponentsPath</span> = (<span style="color:#0086b3">Resolve-Path</span> <span style="color:#d14">&#34;$DtsPath\Pipelinecomponents&#34;</span>);
+<span style="color:#008080">$DtExecPath</span> = (<span style="color:#0086b3">Resolve-Path</span> <span style="color:#d14">&#34;$DtsPath\Binn&#34;</span>);
 
-<span style="color:#75715e"># Lookup VS2008/Bids path</span>
-$Vs2008Path = (Get-ItemProperty <span style="color:#e6db74">&#39;HKLM:\Software\Microsoft\VisualStudio\9.0&#39;</span>).InstallDir;
-$Vs2008PrivateAssembliesPath = (Resolve-Path <span style="color:#e6db74">&#34;$Vs2008Path\PrivateAssemblies&#34;</span>);
+<span style="color:#998;font-style:italic"># Lookup VS2008/Bids path</span>
+<span style="color:#008080">$Vs2008Path</span> = (<span style="color:#0086b3">Get-ItemProperty</span> <span style="color:#d14">&#39;HKLM:\Software\Microsoft\VisualStudio\9.0&#39;</span>).InstallDir;
+<span style="color:#008080">$Vs2008PrivateAssembliesPath</span> = (<span style="color:#0086b3">Resolve-Path</span> <span style="color:#d14">&#34;$Vs2008Path\PrivateAssemblies&#34;</span>);
 </code></pre></div>
 			</div>
 

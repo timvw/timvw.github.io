@@ -7,7 +7,7 @@
 <meta itemprop="description" content="A while ago i presented the ControlStateMachine and in Silverlight this concept is implemented as the Visual State Manager.
 In my sokoban implementation i have a cellview which exists out of 6 canvasses but only two of them (one for the cell type and one for the piece type) are visible at any given point in time. I have implemented this with 6 properties CanvasXVisible (with X being Player, Box, Wall, Goal, Floor and Cell) in my ViewModel but a State Machine / Manager may help clarify how the visibility of the canvasses are related.">
 <meta itemprop="datePublished" content="2009-10-16T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="319">
 
 
@@ -19,7 +19,7 @@ In my sokoban implementation i have a cellview which exists out of 6 canvasses b
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2009-10-16-exploring-graphical-programming-with-blend-visual-state-manager-and-behaviors/" />
 <meta property="article:published_time" content="2009-10-16T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Exploring graphical programming with Blend, Visual State Manager and Behaviors"/>
 <meta name="twitter:description" content="A while ago i presented the ControlStateMachine and in Silverlight this concept is implemented as the Visual State Manager.
@@ -83,42 +83,42 @@ In my sokoban implementation i have a cellview which exists out of 6 canvasses b
 <p>In my sokoban implementation i have a cellview which exists out of 6 canvasses but only two of them (one for the cell type and one for the piece type) are visible at any given point in time. I have implemented this with 6 properties CanvasXVisible (with X being Player, Box, Wall, Goal, Floor and Cell) in my ViewModel but a State Machine / Manager may help clarify how the visibility of the canvasses are related. Here are the 2 visual state groups and their states that i would need for the CellView</p>
 <p><img src="http://www.timvw.be/wp-content/images/cellview-vsm.png" alt="screenshot of visual state manager in expression blend"></p>
 <p>As you can see there is quite a lof of XAML involved to make the correct canvas visible:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;visualState</span> <span style="color:#a6e22e">x:Name=</span><span style="color:#e6db74">&#34;Space1&#34;</span><span style="color:#f92672">&gt;</span>
- <span style="color:#f92672">&lt;storyboard&gt;</span>
-  <span style="color:#f92672">&lt;objectAnimationUsingKeyFrames</span> <span style="color:#a6e22e">BeginTime=</span><span style="color:#e6db74">&#34;00:00:00&#34;</span>  <span style="color:#a6e22e">Duration=</span><span style="color:#e6db74">&#34;00:00:00.0010000&#34;</span>
-   <span style="color:#a6e22e">Storyboard.TargetName=</span><span style="color:#e6db74">&#34;Space&#34;</span>  <span style="color:#a6e22e">Storyboard.TargetProperty=</span><span style="color:#e6db74">&#34;(UIElement.Visibility)&#34;</span><span style="color:#f92672">&gt;</span>
-    <span style="color:#f92672">&lt;discreteObjectKeyFrame</span> <span style="color:#a6e22e">KeyTime=</span><span style="color:#e6db74">&#34;00:00:00&#34;</span><span style="color:#f92672">&gt;</span>
-     <span style="color:#f92672">&lt;discreteObjectKeyFrame.Value&gt;</span>
-      <span style="color:#f92672">&lt;visibility&gt;</span>Visible<span style="color:#f92672">&lt;/visibility&gt;</span>
-     <span style="color:#f92672">&lt;/discreteObjectKeyFrame.Value&gt;</span>
-    <span style="color:#f92672">&lt;/discreteObjectKeyFrame&gt;</span>
-   <span style="color:#f92672">&lt;/objectAnimationUsingKeyFrames&gt;</span>
-  <span style="color:#f92672">&lt;/storyboard&gt;</span>
-<span style="color:#f92672">&lt;/visualState&gt;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;visualState</span> <span style="color:#008080">x:Name=</span><span style="color:#d14">&#34;Space1&#34;</span><span style="color:#000080">&gt;</span>
+ <span style="color:#000080">&lt;storyboard&gt;</span>
+  <span style="color:#000080">&lt;objectAnimationUsingKeyFrames</span> <span style="color:#008080">BeginTime=</span><span style="color:#d14">&#34;00:00:00&#34;</span>  <span style="color:#008080">Duration=</span><span style="color:#d14">&#34;00:00:00.0010000&#34;</span>
+   <span style="color:#008080">Storyboard.TargetName=</span><span style="color:#d14">&#34;Space&#34;</span>  <span style="color:#008080">Storyboard.TargetProperty=</span><span style="color:#d14">&#34;(UIElement.Visibility)&#34;</span><span style="color:#000080">&gt;</span>
+    <span style="color:#000080">&lt;discreteObjectKeyFrame</span> <span style="color:#008080">KeyTime=</span><span style="color:#d14">&#34;00:00:00&#34;</span><span style="color:#000080">&gt;</span>
+     <span style="color:#000080">&lt;discreteObjectKeyFrame.Value&gt;</span>
+      <span style="color:#000080">&lt;visibility&gt;</span>Visible<span style="color:#000080">&lt;/visibility&gt;</span>
+     <span style="color:#000080">&lt;/discreteObjectKeyFrame.Value&gt;</span>
+    <span style="color:#000080">&lt;/discreteObjectKeyFrame&gt;</span>
+   <span style="color:#000080">&lt;/objectAnimationUsingKeyFrames&gt;</span>
+  <span style="color:#000080">&lt;/storyboard&gt;</span>
+<span style="color:#000080">&lt;/visualState&gt;</span>
 </code></pre></div><p>For a simple modification to the Visibility property this seems like overkill but in many situations you will want to change more than this one property.</p>
 <p>With the aid of the behaviors that come with Blend i can quickly add a couple of radio buttons, toss in some gotostate actions and end up with an interactive application:</p>
 <p><!-- raw HTML omitted --></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;radioButton</span> <span style="color:#a6e22e">Width=</span><span style="color:#e6db74">&#34;63&#34;</span> <span style="color:#a6e22e">Canvas.Left=</span><span style="color:#e6db74">&#34;8&#34;</span> <span style="color:#a6e22e">Canvas.Top=</span><span style="color:#e6db74">&#34;172&#34;</span> <span style="color:#a6e22e">Content=</span><span style="color:#e6db74">&#34;Wall&#34;</span> <span style="color:#a6e22e">GroupName=</span><span style="color:#e6db74">&#34;PieceTypes&#34;</span><span style="color:#f92672">&gt;</span>
- <span style="color:#f92672">&lt;i:Interaction.Triggers&gt;</span>
-  <span style="color:#f92672">&lt;i:EventTrigger</span> <span style="color:#a6e22e">EventName=</span><span style="color:#e6db74">&#34;Checked&#34;</span><span style="color:#f92672">&gt;</span>
-   <span style="color:#f92672">&lt;ic:GoToStateAction</span> <span style="color:#a6e22e">StateName=</span><span style="color:#e6db74">&#34;Wall1&#34;</span><span style="color:#f92672">/&gt;</span>
-  <span style="color:#f92672">&lt;/i:EventTrigger&gt;</span>
- <span style="color:#f92672">&lt;/i:Interaction.Triggers&gt;</span>
-<span style="color:#f92672">&lt;/radioButton&gt;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;radioButton</span> <span style="color:#008080">Width=</span><span style="color:#d14">&#34;63&#34;</span> <span style="color:#008080">Canvas.Left=</span><span style="color:#d14">&#34;8&#34;</span> <span style="color:#008080">Canvas.Top=</span><span style="color:#d14">&#34;172&#34;</span> <span style="color:#008080">Content=</span><span style="color:#d14">&#34;Wall&#34;</span> <span style="color:#008080">GroupName=</span><span style="color:#d14">&#34;PieceTypes&#34;</span><span style="color:#000080">&gt;</span>
+ <span style="color:#000080">&lt;i:Interaction.Triggers&gt;</span>
+  <span style="color:#000080">&lt;i:EventTrigger</span> <span style="color:#008080">EventName=</span><span style="color:#d14">&#34;Checked&#34;</span><span style="color:#000080">&gt;</span>
+   <span style="color:#000080">&lt;ic:GoToStateAction</span> <span style="color:#008080">StateName=</span><span style="color:#d14">&#34;Wall1&#34;</span><span style="color:#000080">/&gt;</span>
+  <span style="color:#000080">&lt;/i:EventTrigger&gt;</span>
+ <span style="color:#000080">&lt;/i:Interaction.Triggers&gt;</span>
+<span style="color:#000080">&lt;/radioButton&gt;</span>
 </code></pre></div><p>Feel free to try it yourself by changing the radio buttons</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;div</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;exploringVSM&#34;</span><span style="color:#f92672">&gt;</span>
- <span style="color:#f92672">&lt;object</span> <span style="color:#a6e22e">data=</span><span style="color:#e6db74">&#34;data:application/x-silverlight-2,&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;application/x-silverlight-2&#34;</span>  <span style="color:#a6e22e">width=</span><span style="color:#e6db74">&#34;300&#34;</span> <span style="color:#a6e22e">height=</span><span style="color:#e6db74">&#34;240&#34;</span><span style="color:#f92672">&gt;</span>
-  <span style="color:#f92672">&lt;param</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;source&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;http://www.timvw.be/ClientBin/ExploringVSM.xap&#34;</span><span style="color:#f92672">/&gt;</span>
-  <span style="color:#f92672">&lt;param</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;onError&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;onSilverlightError&#34;</span> <span style="color:#f92672">/&gt;</span>
-  <span style="color:#f92672">&lt;param</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;background&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;white&#34;</span> <span style="color:#f92672">/&gt;</span>
-  <span style="color:#f92672">&lt;param</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;minRuntimeVersion&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;3.0.40624.0&#34;</span> <span style="color:#f92672">/&gt;</span>
-  <span style="color:#f92672">&lt;param</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;autoUpgrade&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;true&#34;</span> <span style="color:#f92672">/&gt;</span>
-  <span style="color:#f92672">&lt;a</span> <span style="color:#a6e22e">href=</span><span style="color:#e6db74">&#34;http://go.microsoft.com/fwlink/?LinkID=149156&amp;#038;v=3.0.40624.0&#34;</span> <span style="color:#a6e22e">style=</span><span style="color:#e6db74">&#34;text-decoration:none&#34;</span><span style="color:#f92672">&gt;</span>
-   <span style="color:#f92672">&lt;img</span> <span style="color:#a6e22e">src=</span><span style="color:#e6db74">&#34;http://go.microsoft.com/fwlink/?LinkId=108181&#34;</span> <span style="color:#a6e22e">alt=</span><span style="color:#e6db74">&#34;Get Microsoft Silverlight&#34;</span> <span style="color:#a6e22e">style=</span><span style="color:#e6db74">&#34;border-style:none&#34;</span><span style="color:#f92672">/&gt;</span>
-  <span style="color:#f92672">&lt;/a&gt;</span>
- <span style="color:#f92672">&lt;/object&gt;</span>
- <span style="color:#f92672">&lt;iframe</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;_sl_historyFrame&#34;</span> <span style="color:#a6e22e">style=</span><span style="color:#e6db74">&#34;visibility:hidden;height:0px;width:0px;border:0px&#34;</span><span style="color:#f92672">&gt;&lt;/iframe&gt;</span>
-<span style="color:#f92672">&lt;/div&gt;&lt;/div&gt;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;div</span> <span style="color:#008080">id=</span><span style="color:#d14">&#34;exploringVSM&#34;</span><span style="color:#000080">&gt;</span>
+ <span style="color:#000080">&lt;object</span> <span style="color:#008080">data=</span><span style="color:#d14">&#34;data:application/x-silverlight-2,&#34;</span> <span style="color:#008080">type=</span><span style="color:#d14">&#34;application/x-silverlight-2&#34;</span>  <span style="color:#008080">width=</span><span style="color:#d14">&#34;300&#34;</span> <span style="color:#008080">height=</span><span style="color:#d14">&#34;240&#34;</span><span style="color:#000080">&gt;</span>
+  <span style="color:#000080">&lt;param</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;source&#34;</span> <span style="color:#008080">value=</span><span style="color:#d14">&#34;http://www.timvw.be/ClientBin/ExploringVSM.xap&#34;</span><span style="color:#000080">/&gt;</span>
+  <span style="color:#000080">&lt;param</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;onError&#34;</span> <span style="color:#008080">value=</span><span style="color:#d14">&#34;onSilverlightError&#34;</span> <span style="color:#000080">/&gt;</span>
+  <span style="color:#000080">&lt;param</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;background&#34;</span> <span style="color:#008080">value=</span><span style="color:#d14">&#34;white&#34;</span> <span style="color:#000080">/&gt;</span>
+  <span style="color:#000080">&lt;param</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;minRuntimeVersion&#34;</span> <span style="color:#008080">value=</span><span style="color:#d14">&#34;3.0.40624.0&#34;</span> <span style="color:#000080">/&gt;</span>
+  <span style="color:#000080">&lt;param</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;autoUpgrade&#34;</span> <span style="color:#008080">value=</span><span style="color:#d14">&#34;true&#34;</span> <span style="color:#000080">/&gt;</span>
+  <span style="color:#000080">&lt;a</span> <span style="color:#008080">href=</span><span style="color:#d14">&#34;http://go.microsoft.com/fwlink/?LinkID=149156&amp;#038;v=3.0.40624.0&#34;</span> <span style="color:#008080">style=</span><span style="color:#d14">&#34;text-decoration:none&#34;</span><span style="color:#000080">&gt;</span>
+   <span style="color:#000080">&lt;img</span> <span style="color:#008080">src=</span><span style="color:#d14">&#34;http://go.microsoft.com/fwlink/?LinkId=108181&#34;</span> <span style="color:#008080">alt=</span><span style="color:#d14">&#34;Get Microsoft Silverlight&#34;</span> <span style="color:#008080">style=</span><span style="color:#d14">&#34;border-style:none&#34;</span><span style="color:#000080">/&gt;</span>
+  <span style="color:#000080">&lt;/a&gt;</span>
+ <span style="color:#000080">&lt;/object&gt;</span>
+ <span style="color:#000080">&lt;iframe</span> <span style="color:#008080">id=</span><span style="color:#d14">&#34;_sl_historyFrame&#34;</span> <span style="color:#008080">style=</span><span style="color:#d14">&#34;visibility:hidden;height:0px;width:0px;border:0px&#34;</span><span style="color:#000080">&gt;&lt;/iframe&gt;</span>
+<span style="color:#000080">&lt;/div&gt;&lt;/div&gt;</span>
 </code></pre></div><p>Conclusion: All in all it is relatively easy to create interactive applications using Blend without writing a single line of code.
 Too bad that the behaviors are in an Expression assembly and don&rsquo;t come with standard Silverlight.
 Another attention point is the maintainability of this new style of programming.</p>

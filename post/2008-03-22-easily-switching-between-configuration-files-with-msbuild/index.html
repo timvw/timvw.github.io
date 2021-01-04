@@ -8,7 +8,7 @@
 Now i have to configure MSBuild so that the right files are copied into the OutDir:
 &lt;!-- Define the CustomerPath depending on the choosen Configuration --&gt; &lt;propertyGroup Condition=&#34; $(Configuration) == &#39;Customer1 Debug&#39; &#34;&gt; &lt;customerPath&gt;Customer1&lt;/customerPath&gt; &lt;/propertyGroup&gt; &lt;propertyGroup Condition=&#34; $(Configuration) == &#39;Customer2 Debug&#39; &#34;&gt; &lt;customerPath&gt;Customer2&lt;/customerPath&gt; &lt;/propertyGroup&gt; &lt;!">
 <meta itemprop="datePublished" content="2008-03-22T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="128">
 
 
@@ -21,7 +21,7 @@ Now i have to configure MSBuild so that the right files are copied into the OutD
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2008-03-22-easily-switching-between-configuration-files-with-msbuild/" />
 <meta property="article:published_time" content="2008-03-22T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Easily switching between configuration files with MSBuild"/>
 <meta name="twitter:description" content="A couple of days ago i wrote about Easily switching between App.Config files with MSBuild. Christophe Gijbels, a fellow compuwarrior, pointed out that developers usually need to copy more than a single App.Config file&hellip; I would propose to add a Folder for each Customer that contains all the specific configuration files. Eg
@@ -85,27 +85,27 @@ Now i have to configure MSBuild so that the right files are copied into the OutD
 				<p>A couple of days ago i wrote about <a href="http://www.timvw.be/easily-switching-between-appconfig-files-with-msbuild/">Easily switching between App.Config files with MSBuild</a>. Christophe Gijbels, a fellow <a href="http://www.compuware.be/root/Careers/index.asp">compuwarrior</a>, pointed out that developers usually need to copy more than a single App.Config file&hellip; I would propose to add a Folder for each Customer that contains all the specific configuration files. Eg</p>
 <p><img src="http://www.timvw.be/wp-content/images/customerconfigurations.gif" alt="screenshot of solution explorer with proposed folder structures"></p>
 <p>Now i have to configure MSBuild so that the right files are copied into the <a href="http://msdn2.microsoft.com/en-us/library/bb629394.aspx">OutDir</a>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!-- Define the CustomerPath depending on the choosen Configuration --&gt;</span>
-<span style="color:#f92672">&lt;propertyGroup</span> <span style="color:#a6e22e">Condition=</span><span style="color:#e6db74">&#34; $(Configuration) == &#39;Customer1 Debug&#39; &#34;</span><span style="color:#f92672">&gt;</span> 
-	<span style="color:#f92672">&lt;customerPath&gt;</span>Customer1<span style="color:#f92672">&lt;/customerPath&gt;</span> 
-<span style="color:#f92672">&lt;/propertyGroup&gt;</span> 
-<span style="color:#f92672">&lt;propertyGroup</span> <span style="color:#a6e22e">Condition=</span><span style="color:#e6db74">&#34; $(Configuration) == &#39;Customer2 Debug&#39; &#34;</span><span style="color:#f92672">&gt;</span> 
-	<span style="color:#f92672">&lt;customerPath&gt;</span>Customer2<span style="color:#f92672">&lt;/customerPath&gt;</span> 
-<span style="color:#f92672">&lt;/propertyGroup&gt;</span> 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#998;font-style:italic">&lt;!-- Define the CustomerPath depending on the choosen Configuration --&gt;</span>
+<span style="color:#000080">&lt;propertyGroup</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34; $(Configuration) == &#39;Customer1 Debug&#39; &#34;</span><span style="color:#000080">&gt;</span> 
+	<span style="color:#000080">&lt;customerPath&gt;</span>Customer1<span style="color:#000080">&lt;/customerPath&gt;</span> 
+<span style="color:#000080">&lt;/propertyGroup&gt;</span> 
+<span style="color:#000080">&lt;propertyGroup</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34; $(Configuration) == &#39;Customer2 Debug&#39; &#34;</span><span style="color:#000080">&gt;</span> 
+	<span style="color:#000080">&lt;customerPath&gt;</span>Customer2<span style="color:#000080">&lt;/customerPath&gt;</span> 
+<span style="color:#000080">&lt;/propertyGroup&gt;</span> 
 
-<span style="color:#75715e">&lt;!-- Define AppConfig in the CustomerPath  --&gt;</span>
-<span style="color:#f92672">&lt;propertyGroup&gt;</span>
-	<span style="color:#f92672">&lt;appConfig&gt;</span>$(CustomerPath)\App.config<span style="color:#f92672">&lt;/appConfig&gt;</span> 
-<span style="color:#f92672">&lt;/propertyGroup&gt;</span> 
+<span style="color:#998;font-style:italic">&lt;!-- Define AppConfig in the CustomerPath  --&gt;</span>
+<span style="color:#000080">&lt;propertyGroup&gt;</span>
+	<span style="color:#000080">&lt;appConfig&gt;</span>$(CustomerPath)\App.config<span style="color:#000080">&lt;/appConfig&gt;</span> 
+<span style="color:#000080">&lt;/propertyGroup&gt;</span> 
 
-<span style="color:#75715e">&lt;!-- Find all files in CustomerPath, excluding AppConfig --&gt;</span>
-<span style="color:#f92672">&lt;itemGroup&gt;</span>
-	<span style="color:#f92672">&lt;customerFiles</span> <span style="color:#a6e22e">Include=</span><span style="color:#e6db74">&#34;$(CustomerPath)\*.*&#34;</span> <span style="color:#a6e22e">Exclude=</span><span style="color:#e6db74">&#34;$(CustomerPath)\App.config&#34;</span> <span style="color:#f92672">/&gt;</span>
-<span style="color:#f92672">&lt;/itemGroup&gt;</span>
+<span style="color:#998;font-style:italic">&lt;!-- Find all files in CustomerPath, excluding AppConfig --&gt;</span>
+<span style="color:#000080">&lt;itemGroup&gt;</span>
+	<span style="color:#000080">&lt;customerFiles</span> <span style="color:#008080">Include=</span><span style="color:#d14">&#34;$(CustomerPath)\*.*&#34;</span> <span style="color:#008080">Exclude=</span><span style="color:#d14">&#34;$(CustomerPath)\App.config&#34;</span> <span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;/itemGroup&gt;</span>
 
-<span style="color:#f92672">&lt;target</span> <span style="color:#a6e22e">Name=</span><span style="color:#e6db74">&#34;AfterBuild&#34;</span><span style="color:#f92672">&gt;</span>
-	<span style="color:#f92672">&lt;copy</span> <span style="color:#a6e22e">SourceFiles=</span><span style="color:#e6db74">&#34;@(CustomerFiles)&#34;</span> <span style="color:#a6e22e">DestinationFolder=</span><span style="color:#e6db74">&#34;$(OutDir)&#34;</span> <span style="color:#a6e22e">SkipUnchangedFiles=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">/&gt;</span>
-<span style="color:#f92672">&lt;/target&gt;</span>
+<span style="color:#000080">&lt;target</span> <span style="color:#008080">Name=</span><span style="color:#d14">&#34;AfterBuild&#34;</span><span style="color:#000080">&gt;</span>
+	<span style="color:#000080">&lt;copy</span> <span style="color:#008080">SourceFiles=</span><span style="color:#d14">&#34;@(CustomerFiles)&#34;</span> <span style="color:#008080">DestinationFolder=</span><span style="color:#d14">&#34;$(OutDir)&#34;</span> <span style="color:#008080">SkipUnchangedFiles=</span><span style="color:#d14">&#34;true&#34;</span><span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;/target&gt;</span>
 </code></pre></div>
 			</div>
 

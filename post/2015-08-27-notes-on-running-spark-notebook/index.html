@@ -6,7 +6,7 @@
 	<meta itemprop="name" content="Notes on running spark-notebook">
 <meta itemprop="description" content="These days Docker makes it extremely easy to get started with virtually any application you like. At first I was a bit skeptical but over the last couple of months I have changed my mind. Now I strongly believe this is a game changer. Even more when it comes to Windows. Anyway, these days kitematic (GUI to manage docker images) allows you to simply pick the spark-notebook by Andy Petrella.">
 <meta itemprop="datePublished" content="2015-08-27T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="329">
 
 
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2015-08-27-notes-on-running-spark-notebook/" />
 <meta property="article:published_time" content="2015-08-27T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Notes on running spark-notebook"/>
 <meta name="twitter:description" content="These days Docker makes it extremely easy to get started with virtually any application you like. At first I was a bit skeptical but over the last couple of months I have changed my mind. Now I strongly believe this is a game changer. Even more when it comes to Windows. Anyway, these days kitematic (GUI to manage docker images) allows you to simply pick the spark-notebook by Andy Petrella."/>
@@ -79,15 +79,15 @@
 				<p>These days <a href="https://www.docker.com/">Docker</a> makes it extremely easy to get started with virtually any application you like. At first I was a bit skeptical but over the last couple of months I have changed my mind. Now I strongly believe this is a game changer. Even more when it comes to Windows. Anyway, these days kitematic (GUI to manage docker images) allows you to simply pick the <a href="https://github.com/andypetrella/spark-notebook">spark-notebook</a> by Andy Petrella.</p>
 <p><a href="http://www.timvw.be/wp-content/uploads/2015/08/docker_pick_image.png"><!-- raw HTML omitted --></a></p>
 <p>When running your docker host in VirtualBox, you still need to set up port forwarding for port 9000 (the notebook) and ports 4040 to 4050 (spark-ui) Assuming your docker host vm is named default:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">VBoxManage modifyvm <span style="color:#e6db74">&#34;default&#34;</span> --natpf1 <span style="color:#e6db74">&#34;tcp-port9000,tcp,,9000,,9000&#34;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">VBoxManage modifyvm <span style="color:#d14">&#34;default&#34;</span> --natpf1 <span style="color:#d14">&#34;tcp-port9000,tcp,,9000,,9000&#34;</span>
 </code></pre></div><p>These days <a href="https://www.docker.com/">Docker</a> makes it extremely easy to get started with virtually any application you like. At first I was a bit skeptical but over the last couple of months I have changed my mind. Now I strongly believe this is a game changer. Even more when it comes to Windows. Anyway, these days kitematic (GUI to manage docker images) allows you to simply pick the <a href="https://github.com/andypetrella/spark-notebook">spark-notebook</a> by Andy Petrella.</p>
 <p><a href="http://www.timvw.be/wp-content/uploads/2015/08/docker_pick_image.png"><!-- raw HTML omitted --></a></p>
 <p>When running your docker host in VirtualBox, you still need to set up port forwarding for port 9000 (the notebook) and ports 4040 to 4050 (spark-ui) Assuming your docker host vm is named default:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">VBoxManage modifyvm <span style="color:#e6db74">&#34;default&#34;</span> --natpf1 <span style="color:#e6db74">&#34;tcp-port9000,tcp,,9000,,9000&#34;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">VBoxManage modifyvm <span style="color:#d14">&#34;default&#34;</span> --natpf1 <span style="color:#d14">&#34;tcp-port9000,tcp,,9000,,9000&#34;</span>
 </code></pre></div><p>Now you can browse to http://localhost:9000 and start using your new notebook:</p>
 <p><a href="http://www.timvw.be/wp-content/uploads/2015/08/spark_notebook_home.png"><!-- raw HTML omitted --></a></p>
 <p>You may want to copy the default set of notebooks to a local directory:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker cp $containerName:/opt/docker/notebooks /Users/timvw/notebooks
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker cp <span style="color:#008080">$containerName</span>:/opt/docker/notebooks /Users/timvw/notebooks
 </code></pre></div><p>Using that local copy is just a few clicks away with Kitematic:</p>
 <p><a href="http://www.timvw.be/wp-content/uploads/2015/08/docker_notebook_settings.png"><!-- raw HTML omitted --></a></p>
 <p>Offcourse you want to use additional packages such as <a href="https://github.com/databricks/spark-csv">spark-csv</a>. This can be achieved by editting the your notebook metadata:</p>
@@ -95,7 +95,7 @@
 <p>You simply need to add an entry to customDeps:</p>
 <p><a href="http://www.timvw.be/wp-content/uploads/2015/08/spark_notebook_customdeps.png"><!-- raw HTML omitted --></a></p>
 <p>When your container did not shutdown correctly, you may end up in the awkward situation that your container believes that it is still running(). The following commands fix that:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker start $containerName <span style="color:#f92672">&amp;&amp;</span> docker exec -t -i $containerName /bin/rm /opt/docker/RUNNING_PID
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker start <span style="color:#008080">$containerName</span> <span style="color:#000;font-weight:bold">&amp;&amp;</span> docker <span style="color:#0086b3">exec</span> -t -i <span style="color:#008080">$containerName</span> /bin/rm /opt/docker/RUNNING_PID
 </code></pre></div>
 			</div>
 

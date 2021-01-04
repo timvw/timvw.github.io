@@ -8,7 +8,7 @@
 RunPackage -File &#39;C:\test.dtsx&#39; -DatabaseHost &#39;.&#39; -DatabaseName &#39;TEST&#39;; Here are the functions that make it this simple:
 function GetDtExecPath { $DtsPath = (Get-ItemProperty &#39;HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup&#39;).SQLPath; $DtExecPath = (Resolve-Path &#34;$DtsPath\Binn\DTExec.exe&#34;); $DtExecPath; } function GetDtExecPropertyPathValue() { param( $PropertyPath = &#39;&#39;, $Value = &#39;&#39;; ); &#34;$PropertyPath;\`&#34;\`&#34;$Value\`&#34;\`&#34;&#34;; } function RunPackage { param( $DtExecPath = (GetDtExecPath), $File = &#39;test.dtsx&#39; ); $Params = &#34;/FILE $File&#34;; for($i = 0; $i -lt $Args.">
 <meta itemprop="datePublished" content="2011-07-15T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="104">
 
 
@@ -21,7 +21,7 @@ function GetDtExecPath { $DtsPath = (Get-ItemProperty &#39;HKLM:\SOFTWARE\Micros
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2011-07-15-launch-dtexec-from-powershell/" />
 <meta property="article:published_time" content="2011-07-15T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Launch DtExec from PowerShell"/>
 <meta name="twitter:description" content="Running an SSIS package from PowerShell (using DTExec) can be as simple as:
@@ -83,40 +83,40 @@ function GetDtExecPath { $DtsPath = (Get-ItemProperty &#39;HKLM:\SOFTWARE\Micros
 					
 			<div class="markdown">
 				<p>Running an SSIS package from PowerShell (using DTExec) can be as simple as:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">RunPackage <span style="color:#f92672">-File</span> <span style="color:#e6db74">&#39;C:\test.dtsx&#39;</span> -DatabaseHost <span style="color:#e6db74">&#39;.&#39;</span> -DatabaseName <span style="color:#e6db74">&#39;TEST&#39;</span>;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">RunPackage <span style="color:#000;font-weight:bold">-File</span> <span style="color:#d14">&#39;C:\test.dtsx&#39;</span> -DatabaseHost <span style="color:#d14">&#39;.&#39;</span> -DatabaseName <span style="color:#d14">&#39;TEST&#39;</span>;
 </code></pre></div><p>Here are the functions that make it this simple:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#66d9ef">function</span> GetDtExecPath {    
-  $DtsPath = (Get-ItemProperty <span style="color:#e6db74">&#39;HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup&#39;</span>).SQLPath;    
-  $DtExecPath = (Resolve-Path <span style="color:#e6db74">&#34;$DtsPath\Binn\DTExec.exe&#34;</span>);    
-  $DtExecPath;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> GetDtExecPath {    
+  <span style="color:#008080">$DtsPath</span> = (<span style="color:#0086b3">Get-ItemProperty</span> <span style="color:#d14">&#39;HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup&#39;</span>).SQLPath;    
+  <span style="color:#008080">$DtExecPath</span> = (<span style="color:#0086b3">Resolve-Path</span> <span style="color:#d14">&#34;$DtsPath\Binn\DTExec.exe&#34;</span>);    
+  <span style="color:#008080">$DtExecPath</span>;
 }
 
-<span style="color:#66d9ef">function</span> GetDtExecPropertyPathValue() {      
-  <span style="color:#66d9ef">param</span>(
-    $PropertyPath = <span style="color:#e6db74">&#39;&#39;</span>,
-    $Value = <span style="color:#e6db74">&#39;&#39;</span>;
+<span style="color:#000;font-weight:bold">function</span> GetDtExecPropertyPathValue() {      
+  <span style="color:#000;font-weight:bold">param</span>(
+    <span style="color:#008080">$PropertyPath</span> = <span style="color:#d14">&#39;&#39;</span>,
+    <span style="color:#008080">$Value</span> = <span style="color:#d14">&#39;&#39;</span>;
   );
 
-  <span style="color:#e6db74">&#34;$PropertyPath;\</span><span style="color:#ae81ff">`&#34;</span><span style="color:#e6db74">\</span><span style="color:#ae81ff">`&#34;</span><span style="color:#e6db74">$Value\</span><span style="color:#ae81ff">`&#34;</span><span style="color:#e6db74">\</span><span style="color:#ae81ff">`&#34;</span><span style="color:#e6db74">&#34;</span>;
+  <span style="color:#d14">&#34;$PropertyPath;\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">$Value\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">&#34;</span>;
 }
 
-<span style="color:#66d9ef">function</span> RunPackage {
+<span style="color:#000;font-weight:bold">function</span> RunPackage {
       
-  <span style="color:#66d9ef">param</span>(        
-  $DtExecPath = (GetDtExecPath),       
-  $File = <span style="color:#e6db74">&#39;test.dtsx&#39;</span>  
+  <span style="color:#000;font-weight:bold">param</span>(        
+  <span style="color:#008080">$DtExecPath</span> = (GetDtExecPath),       
+  <span style="color:#008080">$File</span> = <span style="color:#d14">&#39;test.dtsx&#39;</span>  
   );
 
-  $Params = <span style="color:#e6db74">&#34;/FILE $File&#34;</span>;
+  <span style="color:#008080">$Params</span> = <span style="color:#d14">&#34;/FILE $File&#34;</span>;
    
-  <span style="color:#66d9ef">for</span>($i = 0; $i <span style="color:#f92672">-lt</span> $Args.Length; $i += 2) {       
-    $PropertyPath = $Args[$i].SubString(1);       
-    $Value = $Args[$i+1];       
-    $PropertyPathValue = GetDtExecPropertyPathValue -PropertyPath $PropertyPath -Value $Value;       
-    $Params += <span style="color:#e6db74">&#34; /SET $PropertyPathValue&#34;</span>;    
+  <span style="color:#000;font-weight:bold">for</span>(<span style="color:#008080">$i</span> = 0; <span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">-lt</span> <span style="color:#008080">$Args</span>.Length; <span style="color:#008080">$i</span> += 2) {       
+    <span style="color:#008080">$PropertyPath</span> = <span style="color:#008080">$Args</span>[<span style="color:#008080">$i</span>].SubString(1);       
+    <span style="color:#008080">$Value</span> = <span style="color:#008080">$Args</span>[<span style="color:#008080">$i</span>+1];       
+    <span style="color:#008080">$PropertyPathValue</span> = GetDtExecPropertyPathValue -PropertyPath <span style="color:#008080">$PropertyPath</span> -Value <span style="color:#008080">$Value</span>;       
+    <span style="color:#008080">$Params</span> += <span style="color:#d14">&#34; /SET $PropertyPathValue&#34;</span>;    
   } 
 
-  &amp;<span style="color:#e6db74">&#34;$DtExecPath&#34;</span> $Params;
+  &amp;<span style="color:#d14">&#34;$DtExecPath&#34;</span> <span style="color:#008080">$Params</span>;
 }
 </code></pre></div>
 			</div>

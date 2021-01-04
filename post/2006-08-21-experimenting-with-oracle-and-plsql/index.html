@@ -7,7 +7,7 @@
 <meta itemprop="description" content="As i already wrote, last couple of days i&rsquo;ve been experimenting with PL/SQL. At work we use Toad for Oracle but since TOADSoft only offers a limited freeware version i decided to write my code with GVim and use SQL*Plus at home. Here are a couple of lines i added to my login.sql file
 DEFINE _EDITOR=&#39;gvim -c &#34;set filetype=sql&#34;&#39; SET SERVEROUTPUT ON SET LINESIZE 120 SET AUTOCOMMIT OFF ALTER SESSION SET NLS_DATE_FORMAT=&#39;YYYY-MM-DD&#39;; In a stored procedure i created and filled an instance of NUMBER_TABLE (CREATE TYPE NUMBER_TABLE AS TABLE OF NUMBER) and my stored procedure tried to select all the rows in that table (SELECT * FROM V_NUMBER_TABLE).">
 <meta itemprop="datePublished" content="2006-08-21T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="153">
 
 
@@ -19,7 +19,7 @@ DEFINE _EDITOR=&#39;gvim -c &#34;set filetype=sql&#34;&#39; SET SERVEROUTPUT ON 
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2006-08-21-experimenting-with-oracle-and-plsql/" />
 <meta property="article:published_time" content="2006-08-21T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Experimenting with Oracle and PL/SQL"/>
 <meta name="twitter:description" content="As i already wrote, last couple of days i&rsquo;ve been experimenting with PL/SQL. At work we use Toad for Oracle but since TOADSoft only offers a limited freeware version i decided to write my code with GVim and use SQL*Plus at home. Here are a couple of lines i added to my login.sql file
@@ -80,13 +80,13 @@ DEFINE _EDITOR=&#39;gvim -c &#34;set filetype=sql&#34;&#39; SET SERVEROUTPUT ON 
 					
 			<div class="markdown">
 				<p>As i already wrote, last couple of days i&rsquo;ve been experimenting with PL/SQL. At work we use <a href="http://www.toadsoft.com/toad_oracle.htm">Toad for Oracle</a> but since <a href="http://www.toadsoft.com/">TOADSoft</a> only offers a limited freeware version i decided to write my code with <a href="http://www.vim.org">GVim</a> and use <a href="http://orafaq.com/faqplus.htm#WHAT">SQL*Plus</a> at home. Here are a couple of lines i added to my login.sql file</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">DEFINE _EDITOR<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gvim -c &#34;set filetype=sql&#34;&#39;</span>
-<span style="color:#66d9ef">SET</span> SERVEROUTPUT <span style="color:#66d9ef">ON</span>
-<span style="color:#66d9ef">SET</span> LINESIZE <span style="color:#ae81ff">120</span>
-<span style="color:#66d9ef">SET</span> AUTOCOMMIT <span style="color:#66d9ef">OFF</span>
-<span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">SESSION</span> <span style="color:#66d9ef">SET</span> NLS_DATE_FORMAT<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;YYYY-MM-DD&#39;</span>;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">DEFINE _EDITOR<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;gvim -c &#34;set filetype=sql&#34;&#39;</span>
+<span style="color:#000;font-weight:bold">SET</span> SERVEROUTPUT <span style="color:#000;font-weight:bold">ON</span>
+<span style="color:#000;font-weight:bold">SET</span> LINESIZE <span style="color:#099">120</span>
+<span style="color:#000;font-weight:bold">SET</span> AUTOCOMMIT <span style="color:#000;font-weight:bold">OFF</span>
+<span style="color:#000;font-weight:bold">ALTER</span> <span style="color:#000;font-weight:bold">SESSION</span> <span style="color:#000;font-weight:bold">SET</span> NLS_DATE_FORMAT<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;YYYY-MM-DD&#39;</span>;
 </code></pre></div><p>In a stored procedure i created and filled an instance of NUMBER_TABLE (CREATE TYPE NUMBER_TABLE AS TABLE OF NUMBER) and my stored procedure tried to select all the rows in that table (SELECT * FROM V_NUMBER_TABLE). Apparently the engine didn&rsquo;t know this type @runtime despite the fact that i declared it in my stored procedure (V_NUMBER TABLE NUMBER_TABLE := NUMBER_TABLE();) and the engine compiled the package without errors. I got round that problem as following</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> (<span style="color:#66d9ef">CAST</span>(V_NUMBER_TABLE <span style="color:#66d9ef">AS</span> NUMBER_TABLE));
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> (<span style="color:#000;font-weight:bold">CAST</span>(V_NUMBER_TABLE <span style="color:#000;font-weight:bold">AS</span> NUMBER_TABLE));
 </code></pre></div>
 			</div>
 

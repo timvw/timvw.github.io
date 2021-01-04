@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Last couple of months i&rsquo;ve been experimenting with Remoting. Here is a class that helps a client to acquire proxies to an endpoint served by the requested well-known object
 public static class RemotingHelper { static RemotingHelper() { RemotingConfiguration.Configure(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, false); } private static object GetService(string fullName) { WellKnownClientTypeEntry[] wellKnownClientTypeEntries = RemotingConfiguration.GetRegisteredWellKnownClientTypes(); foreach (WellKnownClientTypeEntry welknownClientTypeEntry in wellKnownClientTypeEntries) { if (welknownClientTypeEntry.ObjectType.FullName == fullName) { return Activator.GetObject(welknownClientTypeEntry.ObjectType, welknownClientTypeEntry.ObjectUrl); } } throw new ArgumentException(fullName &#43; &#34; is not a wellKnownClientType.">
 <meta itemprop="datePublished" content="2007-01-12T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="106">
 
 
@@ -19,7 +19,7 @@ public static class RemotingHelper { static RemotingHelper() { RemotingConfigura
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2007-01-12-presenting-a-generic-remotinghelper/" />
 <meta property="article:published_time" content="2007-01-12T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Presenting a Generic RemotingHelper"/>
 <meta name="twitter:description" content="Last couple of months i&rsquo;ve been experimenting with Remoting. Here is a class that helps a client to acquire proxies to an endpoint served by the requested well-known object
@@ -80,34 +80,34 @@ public static class RemotingHelper { static RemotingHelper() { RemotingConfigura
 					
 			<div class="markdown">
 				<p>Last couple of months i&rsquo;ve been experimenting with <a href="http://msdn2.microsoft.com/en-us/library/kwdt6w2k.aspx">Remoting</a>. Here is a class that helps a client to acquire proxies to an endpoint served by the requested well-known object</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RemotingHelper</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">RemotingHelper</span>
 {
-	<span style="color:#66d9ef">static</span> RemotingHelper()
+	<span style="color:#000;font-weight:bold">static</span> RemotingHelper()
 	{
-		RemotingConfiguration.Configure(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, <span style="color:#66d9ef">false</span>);
+		RemotingConfiguration.Configure(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, <span style="color:#000;font-weight:bold">false</span>);
 	}
 
-	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">object</span> GetService(<span style="color:#66d9ef">string</span> fullName)
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">object</span> GetService(<span style="color:#458;font-weight:bold">string</span> fullName)
 	{
 		WellKnownClientTypeEntry[] wellKnownClientTypeEntries = RemotingConfiguration.GetRegisteredWellKnownClientTypes();
-		<span style="color:#66d9ef">foreach</span> (WellKnownClientTypeEntry welknownClientTypeEntry <span style="color:#66d9ef">in</span> wellKnownClientTypeEntries)
+		<span style="color:#000;font-weight:bold">foreach</span> (WellKnownClientTypeEntry welknownClientTypeEntry <span style="color:#000;font-weight:bold">in</span> wellKnownClientTypeEntries)
 		{
-			<span style="color:#66d9ef">if</span> (welknownClientTypeEntry.ObjectType.FullName == fullName)
+			<span style="color:#000;font-weight:bold">if</span> (welknownClientTypeEntry.ObjectType.FullName == fullName)
 			{
-				<span style="color:#66d9ef">return</span> Activator.GetObject(welknownClientTypeEntry.ObjectType, welknownClientTypeEntry.ObjectUrl);
+				<span style="color:#000;font-weight:bold">return</span> Activator.GetObject(welknownClientTypeEntry.ObjectType, welknownClientTypeEntry.ObjectUrl);
 			}
 		}
 
-		<span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> ArgumentException(fullName + <span style="color:#e6db74">&#34; is not a wellKnownClientType.&#34;</span>);
+		<span style="color:#000;font-weight:bold">throw</span> <span style="color:#000;font-weight:bold">new</span> ArgumentException(fullName + <span style="color:#d14">&#34; is not a wellKnownClientType.&#34;</span>);
 	}
 
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> T GetService&lt;t&gt;()
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> T GetService&lt;t&gt;()
 	{
-		<span style="color:#66d9ef">return</span> (T) RemotingHelper.GetService(<span style="color:#66d9ef">typeof</span>(T).FullName);
+		<span style="color:#000;font-weight:bold">return</span> (T) RemotingHelper.GetService(<span style="color:#000;font-weight:bold">typeof</span>(T).FullName);
 	}
 }
 </code></pre></div><p>Getting a proxy is as easy as (Presuming that you&rsquo;ve configured the system.runtime.remoting in your App.config)</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">IContract contract = RemotingHelper.GetService&lt;icontract&gt;();
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">IContract contract = RemotingHelper.GetService&lt;icontract&gt;();
 </code></pre></div>
 			</div>
 

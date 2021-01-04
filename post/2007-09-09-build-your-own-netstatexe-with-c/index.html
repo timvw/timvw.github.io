@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Earlier today i wrote ManagedIpHelper, a wrapper for IP Helper API it&rsquo;s GetExtendedTcpTable. Using this wrapper i could easily create my own version of netstat.exe. The following code generates the same output (but much faster) than &ldquo;netstat.exe -anvbp tcp&rdquo;
 static void Main(string[] args) { Console.WriteLine(&#34;Active Connections&#34;); Console.WriteLine(); Console.WriteLine(&#34; Proto Local Address Foreign Address State PID&#34;); foreach (TcpRow tcpRow in ManagedIpHelper.GetExtendedTcpTable(true)) { Console.WriteLine(&#34; {0,-7}{1,-23}{2, -23}{3,-14}{4}&#34;, &#34;TCP&#34;, tcpRow.LocalEndPoint, tcpRow.RemoteEndPoint, tcpRow.State, tcpRow.ProcessId); Process process = Process.">
 <meta itemprop="datePublished" content="2007-09-09T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="126">
 
 
@@ -19,7 +19,7 @@ static void Main(string[] args) { Console.WriteLine(&#34;Active Connections&#34;
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2007-09-09-build-your-own-netstatexe-with-c/" />
 <meta property="article:published_time" content="2007-09-09T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Build your own netstat.exe with c#"/>
 <meta name="twitter:description" content="Earlier today i wrote ManagedIpHelper, a wrapper for IP Helper API it&rsquo;s GetExtendedTcpTable. Using this wrapper i could easily create my own version of netstat.exe. The following code generates the same output (but much faster) than &ldquo;netstat.exe -anvbp tcp&rdquo;
@@ -80,36 +80,36 @@ static void Main(string[] args) { Console.WriteLine(&#34;Active Connections&#34;
 					
 			<div class="markdown">
 				<p>Earlier today i wrote ManagedIpHelper, a wrapper for <a href="http://msdn2.microsoft.com/en-us/library/aa366073.aspx">IP Helper API</a> it&rsquo;s <a href="http://msdn2.microsoft.com/en-us/library/aa365928.aspx">GetExtendedTcpTable</a>. Using this wrapper i could easily create my own version of netstat.exe. The following code generates the same output (but much faster) than &ldquo;netstat.exe -anvbp tcp&rdquo;</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> Main(<span style="color:#66d9ef">string</span>[] args)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
 {
-	Console.WriteLine(<span style="color:#e6db74">&#34;Active Connections&#34;</span>);
+	Console.WriteLine(<span style="color:#d14">&#34;Active Connections&#34;</span>);
 	Console.WriteLine();
 
-	Console.WriteLine(<span style="color:#e6db74">&#34; Proto Local Address Foreign Address State PID&#34;</span>);
-	<span style="color:#66d9ef">foreach</span> (TcpRow tcpRow <span style="color:#66d9ef">in</span> ManagedIpHelper.GetExtendedTcpTable(<span style="color:#66d9ef">true</span>))
+	Console.WriteLine(<span style="color:#d14">&#34; Proto Local Address Foreign Address State PID&#34;</span>);
+	<span style="color:#000;font-weight:bold">foreach</span> (TcpRow tcpRow <span style="color:#000;font-weight:bold">in</span> ManagedIpHelper.GetExtendedTcpTable(<span style="color:#000;font-weight:bold">true</span>))
 	{
-		Console.WriteLine(<span style="color:#e6db74">&#34; {0,-7}{1,-23}{2, -23}{3,-14}{4}&#34;</span>, <span style="color:#e6db74">&#34;TCP&#34;</span>, tcpRow.LocalEndPoint, tcpRow.RemoteEndPoint, tcpRow.State, tcpRow.ProcessId);
+		Console.WriteLine(<span style="color:#d14">&#34; {0,-7}{1,-23}{2, -23}{3,-14}{4}&#34;</span>, <span style="color:#d14">&#34;TCP&#34;</span>, tcpRow.LocalEndPoint, tcpRow.RemoteEndPoint, tcpRow.State, tcpRow.ProcessId);
 
 		Process process = Process.GetProcessById(tcpRow.ProcessId);
-		<span style="color:#66d9ef">if</span> (process.ProcessName != <span style="color:#e6db74">&#34;System&#34;</span>)
+		<span style="color:#000;font-weight:bold">if</span> (process.ProcessName != <span style="color:#d14">&#34;System&#34;</span>)
 		{
-			<span style="color:#66d9ef">foreach</span> (ProcessModule processModule <span style="color:#66d9ef">in</span> process.Modules)
+			<span style="color:#000;font-weight:bold">foreach</span> (ProcessModule processModule <span style="color:#000;font-weight:bold">in</span> process.Modules)
 			{
-				Console.WriteLine(<span style="color:#e6db74">&#34; {0}&#34;</span>, processModule.FileName);
+				Console.WriteLine(<span style="color:#d14">&#34; {0}&#34;</span>, processModule.FileName);
 			}
 
-			Console.WriteLine(<span style="color:#e6db74">&#34; [{0}]&#34;</span>, Path.GetFileName(process.MainModule.FileName));
+			Console.WriteLine(<span style="color:#d14">&#34; [{0}]&#34;</span>, Path.GetFileName(process.MainModule.FileName));
 		}
-		<span style="color:#66d9ef">else</span>
+		<span style="color:#000;font-weight:bold">else</span>
 		{
-			Console.WriteLine(<span style="color:#e6db74">&#34; -- unknown component(s) --&#34;</span>);
-			Console.WriteLine(<span style="color:#e6db74">&#34; [{0}]&#34;</span>, <span style="color:#e6db74">&#34;System&#34;</span>);
+			Console.WriteLine(<span style="color:#d14">&#34; -- unknown component(s) --&#34;</span>);
+			Console.WriteLine(<span style="color:#d14">&#34; [{0}]&#34;</span>, <span style="color:#d14">&#34;System&#34;</span>);
 		}
 
 		Console.WriteLine();
 	}
 
-	Console.Write(<span style="color:#e6db74">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
+	Console.Write(<span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
 	Console.ReadKey();
 }
 </code></pre></div><p>As always, feel free to download the code for the <a href="http://www.timvw.be/wp-content/code/csharp/managediphelperanddemo.zip">ManagedIpHelper and demo</a>.</p>

@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Imagine that you have a couple of project files that reference framework libraries that are on a buildserver. Upgrading to a newer version requires that you update all the references&hellip; I wrote some wrapper classes (ProjectFile, AssemblyReference) that make this tedious task a breeze. Here is an example of their usage
 string path = &#34;D:\\Projects\\MyProject&#34;; string[] projectFileNames = ProjectFile.Find(path); foreach (string projectFileName in projectFileNames) { ProjectFile projectFile = new ProjectFile(projectFileName); bool updated = false; foreach (AssemblyReference assemblyReference in projectFile.">
 <meta itemprop="datePublished" content="2008-01-25T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="158">
 
 
@@ -19,7 +19,7 @@ string path = &#34;D:\\Projects\\MyProject&#34;; string[] projectFileNames = Pro
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2008-01-25-programming-the-csproj-file/" />
 <meta property="article:published_time" content="2008-01-25T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Programming the csproj file"/>
 <meta name="twitter:description" content="Imagine that you have a couple of project files that reference framework libraries that are on a buildserver. Upgrading to a newer version requires that you update all the references&hellip; I wrote some wrapper classes (ProjectFile, AssemblyReference) that make this tedious task a breeze. Here is an example of their usage
@@ -80,28 +80,28 @@ string path = &#34;D:\\Projects\\MyProject&#34;; string[] projectFileNames = Pro
 					
 			<div class="markdown">
 				<p>Imagine that you have a couple of project files that reference framework libraries that are on a buildserver. Upgrading to a newer version requires that you update all the references&hellip; I wrote some wrapper classes (<a href="http://www.timvw.be/wp-content/code/csharp/ProjectFile.txt">ProjectFile</a>, <a href="http://www.timvw.be/wp-content/code/csharp/AssemblyReference.txt">AssemblyReference</a>) that make this tedious task a breeze. Here is an example of their usage</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">string</span> path = <span style="color:#e6db74">&#34;D:\\Projects\\MyProject&#34;</span>;
-<span style="color:#66d9ef">string</span>[] projectFileNames = ProjectFile.Find(path);
-<span style="color:#66d9ef">foreach</span> (<span style="color:#66d9ef">string</span> projectFileName <span style="color:#66d9ef">in</span> projectFileNames)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">string</span> path = <span style="color:#d14">&#34;D:\\Projects\\MyProject&#34;</span>;
+<span style="color:#458;font-weight:bold">string</span>[] projectFileNames = ProjectFile.Find(path);
+<span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">string</span> projectFileName <span style="color:#000;font-weight:bold">in</span> projectFileNames)
 {
-	ProjectFile projectFile = <span style="color:#66d9ef">new</span> ProjectFile(projectFileName);
+	ProjectFile projectFile = <span style="color:#000;font-weight:bold">new</span> ProjectFile(projectFileName);
 
-	<span style="color:#66d9ef">bool</span> updated = <span style="color:#66d9ef">false</span>;
-	<span style="color:#66d9ef">foreach</span> (AssemblyReference assemblyReference <span style="color:#66d9ef">in</span> projectFile.AssemblyReferences)
+	<span style="color:#458;font-weight:bold">bool</span> updated = <span style="color:#000;font-weight:bold">false</span>;
+	<span style="color:#000;font-weight:bold">foreach</span> (AssemblyReference assemblyReference <span style="color:#000;font-weight:bold">in</span> projectFile.AssemblyReferences)
 	{
-		<span style="color:#66d9ef">if</span> (assemblyReference.HintPath.ToLower().StartsWith(<span style="color:#e6db74">&#34;\\\\buildserver\\framework\\2.0&#34;</span>))
+		<span style="color:#000;font-weight:bold">if</span> (assemblyReference.HintPath.ToLower().StartsWith(<span style="color:#d14">&#34;\\\\buildserver\\framework\\2.0&#34;</span>))
 		{
-			<span style="color:#66d9ef">string</span> newHintPath = assemblyReference.HintPath.Replace(<span style="color:#e6db74">&#34;\\2.0\\&#34;</span>, <span style="color:#e6db74">&#34;\\2.1\\&#34;</span>);
+			<span style="color:#458;font-weight:bold">string</span> newHintPath = assemblyReference.HintPath.Replace(<span style="color:#d14">&#34;\\2.0\\&#34;</span>, <span style="color:#d14">&#34;\\2.1\\&#34;</span>);
 			assemblyReference.HintPath = newHintPath;
 
 			AssemblyName assemblyName = AssemblyName.GetAssemblyName(assemblyReference.HintPath);
-			assemblyReference.AssemblyName = assemblyName.FullName + <span style="color:#e6db74">&#34;, processorArchitecture=&#34;</span> + assemblyName.ProcessorArchitecture;
+			assemblyReference.AssemblyName = assemblyName.FullName + <span style="color:#d14">&#34;, processorArchitecture=&#34;</span> + assemblyName.ProcessorArchitecture;
 
-			updated = <span style="color:#66d9ef">true</span>;
+			updated = <span style="color:#000;font-weight:bold">true</span>;
 		}
 	}
 
-	<span style="color:#66d9ef">if</span> (updated)
+	<span style="color:#000;font-weight:bold">if</span> (updated)
 	{
 		projectFile.Save();
 	}

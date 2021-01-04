@@ -7,7 +7,7 @@
 <meta itemprop="description" content="If you&rsquo;re writing windows applications you&rsquo;ll most certainly recognize the following piece of code
 private delegate void UpdateIntResultDelegate(int result); private void UpdateIntResult(int result) { if (this.labelIntResult.InvokeRequired) this.labelIntResult.Invoke(new UpdateIntResultDelegate(this.UpdateIntResult), result); else this.myDataSource.IntResult = result; } private delegate void UpdateStringResultDelegate(string result); private void UpdateStringResult(string result) { if (this.labelStringResult.InvokeRequired) this.labelStringResult.Invoke(new UpdateStringResultDelegate(this.UpdateStringResult), result); else this.myDataSource.StringResult = result; } Today i was fed up with defining all these Delegates.. So i decided to define a generic delegate instead">
 <meta itemprop="datePublished" content="2007-01-21T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="210">
 
 
@@ -19,7 +19,7 @@ private delegate void UpdateIntResultDelegate(int result); private void UpdateIn
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2007-01-21-about-thread-safe-gui/" />
 <meta property="article:published_time" content="2007-01-21T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="About Thread-Safe GUI..."/>
 <meta name="twitter:description" content="If you&rsquo;re writing windows applications you&rsquo;ll most certainly recognize the following piece of code
@@ -80,53 +80,53 @@ private delegate void UpdateIntResultDelegate(int result); private void UpdateIn
 					
 			<div class="markdown">
 				<p>If you&rsquo;re writing windows applications you&rsquo;ll most certainly recognize the following piece of code</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">delegate</span> <span style="color:#66d9ef">void</span> UpdateIntResultDelegate(<span style="color:#66d9ef">int</span> result);
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">delegate</span> <span style="color:#000;font-weight:bold">void</span> UpdateIntResultDelegate(<span style="color:#458;font-weight:bold">int</span> result);
 
-<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> UpdateIntResult(<span style="color:#66d9ef">int</span> result)
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> UpdateIntResult(<span style="color:#458;font-weight:bold">int</span> result)
 {
-	<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.labelIntResult.InvokeRequired)
-		<span style="color:#66d9ef">this</span>.labelIntResult.Invoke(<span style="color:#66d9ef">new</span> UpdateIntResultDelegate(<span style="color:#66d9ef">this</span>.UpdateIntResult), result);
-	<span style="color:#66d9ef">else</span>
-		<span style="color:#66d9ef">this</span>.myDataSource.IntResult = result;
+	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.labelIntResult.InvokeRequired)
+		<span style="color:#000;font-weight:bold">this</span>.labelIntResult.Invoke(<span style="color:#000;font-weight:bold">new</span> UpdateIntResultDelegate(<span style="color:#000;font-weight:bold">this</span>.UpdateIntResult), result);
+	<span style="color:#000;font-weight:bold">else</span>
+		<span style="color:#000;font-weight:bold">this</span>.myDataSource.IntResult = result;
 }
 
-<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">delegate</span> <span style="color:#66d9ef">void</span> UpdateStringResultDelegate(<span style="color:#66d9ef">string</span> result);
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">delegate</span> <span style="color:#000;font-weight:bold">void</span> UpdateStringResultDelegate(<span style="color:#458;font-weight:bold">string</span> result);
 
-<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> UpdateStringResult(<span style="color:#66d9ef">string</span> result)
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> UpdateStringResult(<span style="color:#458;font-weight:bold">string</span> result)
 {
-	<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.labelStringResult.InvokeRequired)
-		<span style="color:#66d9ef">this</span>.labelStringResult.Invoke(<span style="color:#66d9ef">new</span> UpdateStringResultDelegate(<span style="color:#66d9ef">this</span>.UpdateStringResult), result);
-	<span style="color:#66d9ef">else</span>
-		<span style="color:#66d9ef">this</span>.myDataSource.StringResult = result;
+	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.labelStringResult.InvokeRequired)
+		<span style="color:#000;font-weight:bold">this</span>.labelStringResult.Invoke(<span style="color:#000;font-weight:bold">new</span> UpdateStringResultDelegate(<span style="color:#000;font-weight:bold">this</span>.UpdateStringResult), result);
+	<span style="color:#000;font-weight:bold">else</span>
+		<span style="color:#000;font-weight:bold">this</span>.myDataSource.StringResult = result;
 }
 </code></pre></div><p>Today i was fed up with defining all these Delegates.. So i decided to define a generic delegate instead</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">delegate</span> <span style="color:#66d9ef">void</span> Delegate&lt;t&gt;(T t);
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">delegate</span> <span style="color:#000;font-weight:bold">void</span> Delegate&lt;t&gt;(T t);
 </code></pre></div><p>And now i can reuse this Delegate for my two update methods</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> UpdateIntResult(<span style="color:#66d9ef">int</span> result)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> UpdateIntResult(<span style="color:#458;font-weight:bold">int</span> result)
 {
-	<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.labelIntResult.InvokeRequired)
-		<span style="color:#66d9ef">this</span>.labelIntResult.Invoke(<span style="color:#66d9ef">new</span> Delegate&lt;<span style="color:#66d9ef">int</span>&gt;(<span style="color:#66d9ef">this</span>.UpdateIntResult), result);
-	<span style="color:#66d9ef">else</span>
-		<span style="color:#66d9ef">this</span>.myDataSource.IntResult = result;
+	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.labelIntResult.InvokeRequired)
+		<span style="color:#000;font-weight:bold">this</span>.labelIntResult.Invoke(<span style="color:#000;font-weight:bold">new</span> Delegate&lt;<span style="color:#458;font-weight:bold">int</span>&gt;(<span style="color:#000;font-weight:bold">this</span>.UpdateIntResult), result);
+	<span style="color:#000;font-weight:bold">else</span>
+		<span style="color:#000;font-weight:bold">this</span>.myDataSource.IntResult = result;
 }
 
-<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> UpdateStringResult(<span style="color:#66d9ef">string</span> result)
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> UpdateStringResult(<span style="color:#458;font-weight:bold">string</span> result)
 {
-	<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.labelStringResult.InvokeRequired)
-		<span style="color:#66d9ef">this</span>.labelStringResult.Invoke(<span style="color:#66d9ef">new</span> Delegate&lt;<span style="color:#66d9ef">string</span>&gt;(<span style="color:#66d9ef">this</span>.UpdateStringResult), result);
-	<span style="color:#66d9ef">else</span>
-		<span style="color:#66d9ef">this</span>.myDataSource.StringResult = result;
+	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.labelStringResult.InvokeRequired)
+		<span style="color:#000;font-weight:bold">this</span>.labelStringResult.Invoke(<span style="color:#000;font-weight:bold">new</span> Delegate&lt;<span style="color:#458;font-weight:bold">string</span>&gt;(<span style="color:#000;font-weight:bold">this</span>.UpdateStringResult), result);
+	<span style="color:#000;font-weight:bold">else</span>
+		<span style="color:#000;font-weight:bold">this</span>.myDataSource.StringResult = result;
 }
 </code></pre></div><p>Apparently (and not surprisingly) i&rsquo;m not the first to come up with this idea, a little websearch for &lsquo;Generic Delegate&rsquo; learned me that <a href="http://weblogs.asp.net/rosherove/default.aspx">Roy Osherove</a> blogged about it in: <a href="http://weblogs.asp.net/rosherove/archive/2006/03/01/439309.aspx">The 3 ways to create a Thread-Safe GUI with .NET 2.0, with one clear winner</a>. After reading the article i decided to take the following approach (The call to UpdateIntResult is type-safe, it only calls Invoke when it&rsquo;s required and no duplication)</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">void</span> UpdateIntResult(<span style="color:#66d9ef">int</span> result)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">void</span> UpdateIntResult(<span style="color:#458;font-weight:bold">int</span> result)
 {
-	<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.labelIntResult.InvokeRequired)
+	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.labelIntResult.InvokeRequired)
 	{
-		<span style="color:#66d9ef">this</span>.labelIntResult.Invoke(<span style="color:#66d9ef">new</span> MethodInvoker(<span style="color:#66d9ef">delegate</span> { <span style="color:#66d9ef">this</span>.UpdateIntResult(result); }));
+		<span style="color:#000;font-weight:bold">this</span>.labelIntResult.Invoke(<span style="color:#000;font-weight:bold">new</span> MethodInvoker(<span style="color:#000;font-weight:bold">delegate</span> { <span style="color:#000;font-weight:bold">this</span>.UpdateIntResult(result); }));
 	}
-	<span style="color:#66d9ef">else</span>
+	<span style="color:#000;font-weight:bold">else</span>
 	{
-		<span style="color:#66d9ef">this</span>.myDataSource.IntResult = result;
+		<span style="color:#000;font-weight:bold">this</span>.myDataSource.IntResult = result;
 	}
 }
 </code></pre></div>

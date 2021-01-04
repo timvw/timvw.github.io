@@ -8,7 +8,7 @@
  OrderBy(this IEnumerablesource, Func&lt;TSource, TKey&gt; keySelector) OrderBy(this IEnumerablesource, Func&lt;TSource, TKey&gt; keySelector, IComparercomparer)  Because i don&rsquo;t want to implement an IComparereach time i have implemented the following class
 class DelegateComparer&lt;T&gt; : IComparer&lt;T&gt; { public Func&lt;t, T, int&gt; CompareFunction { get; set; } public DelegateComparer(Func&lt;t, T, int&gt; compareFunction) { CompareFunction = compareFunction; } public int Compare(T x, T y) { return CompareFunction(x, y); } } And now i can define a nice extension method:">
 <meta itemprop="datePublished" content="2010-02-10T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="104">
 
 
@@ -21,7 +21,7 @@ class DelegateComparer&lt;T&gt; : IComparer&lt;T&gt; { public Func&lt;t, T, int&
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2010-02-10-another-missing-method-for-ienumerablet/" />
 <meta property="article:published_time" content="2010-02-10T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Another missing method for IEnumerable&lt;T&gt;"/>
 <meta name="twitter:description" content="Currently there are two overloads for OrderBy on Enumerable
@@ -88,25 +88,25 @@ class DelegateComparer&lt;T&gt; : IComparer&lt;T&gt; { public Func&lt;t, T, int&
 <li>OrderBy(this IEnumerable<!-- raw HTML omitted --> source, Func&lt;TSource, TKey&gt; keySelector, IComparer<!-- raw HTML omitted --> comparer)</li>
 </ul>
 <p>Because i don&rsquo;t want to implement an IComparer<!-- raw HTML omitted --> each time i have implemented the following class</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DelegateComparer</span>&lt;T&gt; : IComparer&lt;T&gt;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">DelegateComparer</span>&lt;T&gt; : IComparer&lt;T&gt;
 {
-	<span style="color:#66d9ef">public</span> Func&lt;t, T, <span style="color:#66d9ef">int</span>&gt; CompareFunction { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+	<span style="color:#000;font-weight:bold">public</span> Func&lt;t, T, <span style="color:#458;font-weight:bold">int</span>&gt; CompareFunction { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">set</span>; }
 
-	<span style="color:#66d9ef">public</span> DelegateComparer(Func&lt;t, T, <span style="color:#66d9ef">int</span>&gt; compareFunction)
+	<span style="color:#000;font-weight:bold">public</span> DelegateComparer(Func&lt;t, T, <span style="color:#458;font-weight:bold">int</span>&gt; compareFunction)
 	{
 		CompareFunction = compareFunction;
 	}
 
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> Compare(T x, T y)
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> Compare(T x, T y)
 	{
-		<span style="color:#66d9ef">return</span> CompareFunction(x, y);
+		<span style="color:#000;font-weight:bold">return</span> CompareFunction(x, y);
 	}
 }
 </code></pre></div><p>And now i can define a nice extension method:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> IOrderedEnumerable&lt;tsource&gt; OrderBy&lt;tsource, TKey&gt;(<span style="color:#66d9ef">this</span> IEnumerable&lt;tsource&gt; source, Func&lt;tsource, TKey&gt; keySelector, Func&lt;tkey, TKey, <span style="color:#66d9ef">int</span>&gt; compareFunction)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> IOrderedEnumerable&lt;tsource&gt; OrderBy&lt;tsource, TKey&gt;(<span style="color:#000;font-weight:bold">this</span> IEnumerable&lt;tsource&gt; source, Func&lt;tsource, TKey&gt; keySelector, Func&lt;tkey, TKey, <span style="color:#458;font-weight:bold">int</span>&gt; compareFunction)
 {
-	<span style="color:#66d9ef">var</span> comparer = <span style="color:#66d9ef">new</span> DelegateComparer&lt;tkey&gt;(compareFunction);
-	<span style="color:#66d9ef">return</span> source.OrderBy(keySelector, comparer);
+	<span style="color:#458;font-weight:bold">var</span> comparer = <span style="color:#000;font-weight:bold">new</span> DelegateComparer&lt;tkey&gt;(compareFunction);
+	<span style="color:#000;font-weight:bold">return</span> source.OrderBy(keySelector, comparer);
 }
 </code></pre></div>
 			</div>

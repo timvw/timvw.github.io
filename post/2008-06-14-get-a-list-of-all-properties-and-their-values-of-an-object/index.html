@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Earlier today someone asked me how to generate a List with all the properties (and their respective value) that an object has. With C# 2.0 i would have created a class to represent a single element, PropertyRow, with a Name and a Value property and a class that is IEnumerableto hold all PropertyRows.
 With C# 3.0 we can take advantage of anonymous types and the code we have to write is fairly minimal">
 <meta itemprop="datePublished" content="2008-06-14T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="144">
 
 
@@ -19,7 +19,7 @@ With C# 3.0 we can take advantage of anonymous types and the code we have to wri
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2008-06-14-get-a-list-of-all-properties-and-their-values-of-an-object/" />
 <meta property="article:published_time" content="2008-06-14T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Enumerate all properties and their value of an object"/>
 <meta name="twitter:description" content="Earlier today someone asked me how to generate a List with all the properties (and their respective value) that an object has. With C# 2.0 i would have created a class to represent a single element, PropertyRow, with a Name and a Value property and a class that is IEnumerableto hold all PropertyRows.
@@ -81,16 +81,16 @@ With C# 3.0 we can take advantage of anonymous types and the code we have to wri
 			<div class="markdown">
 				<p>Earlier today someone asked me how to generate a List with all the properties (and their respective value) that an object has. With C# 2.0 i would have created a class to represent a single element, PropertyRow, with a Name and a Value property and a class that is IEnumerable<!-- raw HTML omitted --> to hold all PropertyRows.</p>
 <p>With C# 3.0 we can take advantage of <a href="http://msdn.microsoft.com/en-us/library/bb397696.aspx">anonymous types</a> and the code we have to write is fairly minimal</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Person angelina = <span style="color:#66d9ef">new</span> Person(<span style="color:#e6db74">&#34;Angelina&#34;</span>, <span style="color:#e6db74">&#34;Jolie&#34;</span>, <span style="color:#e6db74">&#34;0275198123&#34;</span>, <span style="color:#e6db74">&#34;CloseToMe blv 12&#34;</span>);
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Person angelina = <span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;Angelina&#34;</span>, <span style="color:#d14">&#34;Jolie&#34;</span>, <span style="color:#d14">&#34;0275198123&#34;</span>, <span style="color:#d14">&#34;CloseToMe blv 12&#34;</span>);
 
-<span style="color:#66d9ef">var</span> propertyRows =
-	<span style="color:#66d9ef">from</span> propertyInfo <span style="color:#66d9ef">in</span> angelina.GetType().GetProperties()
-	<span style="color:#66d9ef">select</span> <span style="color:#66d9ef">new</span> { Name = propertyInfo.Name, Value = propertyInfo.GetValue(angelina, <span style="color:#66d9ef">null</span>) };
+<span style="color:#458;font-weight:bold">var</span> propertyRows =
+	<span style="color:#000;font-weight:bold">from</span> propertyInfo <span style="color:#000;font-weight:bold">in</span> angelina.GetType().GetProperties()
+	<span style="color:#000;font-weight:bold">select</span> <span style="color:#000;font-weight:bold">new</span> { Name = propertyInfo.Name, Value = propertyInfo.GetValue(angelina, <span style="color:#000;font-weight:bold">null</span>) };
 
-BindingSource bs = <span style="color:#66d9ef">new</span> BindingSource();
+BindingSource bs = <span style="color:#000;font-weight:bold">new</span> BindingSource();
 bs.DataSource = propertyRows;
 
-<span style="color:#66d9ef">this</span>.dataGridView1.DataSource = bs;
+<span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataSource = bs;
 </code></pre></div><p>Just as with anonymous delegates, as soon as you notice that you define the same anonymous class more than once, you may want to consider to take it out of the anonymousity.</p>
 
 			</div>

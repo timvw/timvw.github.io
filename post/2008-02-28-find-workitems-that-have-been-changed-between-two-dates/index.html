@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Sometimes i want to know which WorkItems i have closed (or completed) between two dates. According to Amit Ghosh it&rsquo;s not possible to write such a query so i wrote some code that uses the TFS SDK to get that list
 static void Main(string[] args) { TeamFoundationServer tfs = TeamFoundationServerFactory.GetServer(&#34;tfsrtm08&#34;); WorkItemStore wis = (WorkItemStore)tfs.GetService(typeof(WorkItemStore)); DateTime begin = new DateTime(2008, 1, 1); DateTime end = new DateTime(2008, 2, 28); string username = &#34;Darren&#34;; foreach (WorkItem workItem in FindChangesByUserInRange(wis, username, begin, end)) { Console.">
 <meta itemprop="datePublished" content="2008-02-28T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="205">
 
 
@@ -19,7 +19,7 @@ static void Main(string[] args) { TeamFoundationServer tfs = TeamFoundationServe
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2008-02-28-find-workitems-that-have-been-changed-between-two-dates/" />
 <meta property="article:published_time" content="2008-02-28T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Find WorkItems that have been changed between two dates"/>
 <meta name="twitter:description" content="Sometimes i want to know which WorkItems i have closed (or completed) between two dates. According to Amit Ghosh it&rsquo;s not possible to write such a query so i wrote some code that uses the TFS SDK to get that list
@@ -80,57 +80,57 @@ static void Main(string[] args) { TeamFoundationServer tfs = TeamFoundationServe
 					
 			<div class="markdown">
 				<p>Sometimes i want to know which WorkItems i have closed (or completed) between two dates. According to <a href="http://forums.microsoft.com/MSDN/ShowPost.aspx?PostID=2528099&amp;SiteID=1">Amit Ghosh</a> it&rsquo;s not possible to write such a query so i wrote some code that uses the <a href="http://msdn2.microsoft.com/en-us/library/bb130146(VS.80).aspx">TFS SDK</a> to get that list</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> Main(<span style="color:#66d9ef">string</span>[] args)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
 {
-	TeamFoundationServer tfs = TeamFoundationServerFactory.GetServer(<span style="color:#e6db74">&#34;tfsrtm08&#34;</span>);
-	WorkItemStore wis = (WorkItemStore)tfs.GetService(<span style="color:#66d9ef">typeof</span>(WorkItemStore));
+	TeamFoundationServer tfs = TeamFoundationServerFactory.GetServer(<span style="color:#d14">&#34;tfsrtm08&#34;</span>);
+	WorkItemStore wis = (WorkItemStore)tfs.GetService(<span style="color:#000;font-weight:bold">typeof</span>(WorkItemStore));
 
-	DateTime begin = <span style="color:#66d9ef">new</span> DateTime(<span style="color:#ae81ff">2008</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>);
-	DateTime end = <span style="color:#66d9ef">new</span> DateTime(<span style="color:#ae81ff">2008</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">28</span>);
-	<span style="color:#66d9ef">string</span> username = <span style="color:#e6db74">&#34;Darren&#34;</span>;
+	DateTime begin = <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2008</span>, <span style="color:#099">1</span>, <span style="color:#099">1</span>);
+	DateTime end = <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2008</span>, <span style="color:#099">2</span>, <span style="color:#099">28</span>);
+	<span style="color:#458;font-weight:bold">string</span> username = <span style="color:#d14">&#34;Darren&#34;</span>;
 
-	<span style="color:#66d9ef">foreach</span> (WorkItem workItem <span style="color:#66d9ef">in</span> FindChangesByUserInRange(wis, username, begin, end))
+	<span style="color:#000;font-weight:bold">foreach</span> (WorkItem workItem <span style="color:#000;font-weight:bold">in</span> FindChangesByUserInRange(wis, username, begin, end))
 	{
-		Console.WriteLine(<span style="color:#e6db74">&#34;[{0:00000}] {1}&#34;</span>, workItem.Id, workItem.Title);
+		Console.WriteLine(<span style="color:#d14">&#34;[{0:00000}] {1}&#34;</span>, workItem.Id, workItem.Title);
 	}
 
-	Console.WriteLine(<span style="color:#e6db74">&#34;Press any key to continue...&#34;</span>);
+	Console.WriteLine(<span style="color:#d14">&#34;Press any key to continue...&#34;</span>);
 	Console.ReadKey();
 }
 
-<span style="color:#66d9ef">static</span> List&lt;workItem&gt; FindChangesByUserInRange(WorkItemStore workItemStore, <span style="color:#66d9ef">string</span> username, DateTime begin, DateTime end)
+<span style="color:#000;font-weight:bold">static</span> List&lt;workItem&gt; FindChangesByUserInRange(WorkItemStore workItemStore, <span style="color:#458;font-weight:bold">string</span> username, DateTime begin, DateTime end)
 {
-	<span style="color:#66d9ef">string</span> query = <span style="color:#e6db74">&#34;SELECT System.ID, System.Title FROM workitems WHERE [Changed By] EVER &#39;{0}&#39; AND [State] IN (&#39;Closed&#39;, &#39;Resolved&#39;) AND [Changed Date] &gt;= &#39;{1}&#39;&#34;</span>;
-	query = <span style="color:#66d9ef">string</span>.Format(query, username, begin.Date.ToShortDateString());
+	<span style="color:#458;font-weight:bold">string</span> query = <span style="color:#d14">&#34;SELECT System.ID, System.Title FROM workitems WHERE [Changed By] EVER &#39;{0}&#39; AND [State] IN (&#39;Closed&#39;, &#39;Resolved&#39;) AND [Changed Date] &gt;= &#39;{1}&#39;&#34;</span>;
+	query = <span style="color:#458;font-weight:bold">string</span>.Format(query, username, begin.Date.ToShortDateString());
 
-	List&lt;workItem&gt; result = <span style="color:#66d9ef">new</span> List&lt;workItem&gt;();
+	List&lt;workItem&gt; result = <span style="color:#000;font-weight:bold">new</span> List&lt;workItem&gt;();
 
-	<span style="color:#66d9ef">foreach</span> (WorkItem workItem <span style="color:#66d9ef">in</span> workItemStore.Query(query))
+	<span style="color:#000;font-weight:bold">foreach</span> (WorkItem workItem <span style="color:#000;font-weight:bold">in</span> workItemStore.Query(query))
 	{
-		<span style="color:#66d9ef">if</span> (IsChangedByUserInRange(workItem, username, begin, end))
+		<span style="color:#000;font-weight:bold">if</span> (IsChangedByUserInRange(workItem, username, begin, end))
 		{
 			result.Add(workItem);
 		}
 	}
 
-	<span style="color:#66d9ef">return</span> result;
+	<span style="color:#000;font-weight:bold">return</span> result;
 }
 
-<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">bool</span> IsChangedByUserInRange(WorkItem workItem, <span style="color:#66d9ef">string</span> username, DateTime begin, DateTime end)
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> IsChangedByUserInRange(WorkItem workItem, <span style="color:#458;font-weight:bold">string</span> username, DateTime begin, DateTime end)
 {
-	<span style="color:#66d9ef">foreach</span> (Revision rev <span style="color:#66d9ef">in</span> workItem.Revisions)
+	<span style="color:#000;font-weight:bold">foreach</span> (Revision rev <span style="color:#000;font-weight:bold">in</span> workItem.Revisions)
 	{
-		<span style="color:#66d9ef">string</span> changedBy = (<span style="color:#66d9ef">string</span>)rev.Fields[<span style="color:#e6db74">&#34;Changed By&#34;</span>].Value;
-		<span style="color:#66d9ef">if</span> (changedBy == username)
+		<span style="color:#458;font-weight:bold">string</span> changedBy = (<span style="color:#458;font-weight:bold">string</span>)rev.Fields[<span style="color:#d14">&#34;Changed By&#34;</span>].Value;
+		<span style="color:#000;font-weight:bold">if</span> (changedBy == username)
 		{
-			DateTime changedDate = (DateTime)rev.Fields[<span style="color:#e6db74">&#34;Changed Date&#34;</span>].Value;
-			<span style="color:#66d9ef">if</span> (begin &lt;= changedDate &amp;&amp; changedDate &lt;= end) 
+			DateTime changedDate = (DateTime)rev.Fields[<span style="color:#d14">&#34;Changed Date&#34;</span>].Value;
+			<span style="color:#000;font-weight:bold">if</span> (begin &lt;= changedDate &amp;&amp; changedDate &lt;= end) 
 			{ 
-				<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>; 
+				<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>; 
 			} 
 		} 
 	} 
-	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>; 
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>; 
 }
 </code></pre></div>
 			</div>

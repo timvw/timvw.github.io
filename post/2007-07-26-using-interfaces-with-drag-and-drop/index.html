@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Earlier today i was refactoring some graphical components. I wanted to use an interface instead of concrete implementations for my drag and drop code&hellip; Although i was using an instance of Foo, and thus IFoo, the following code never allowed me to drop
 interface IFoo { } class Foo : IFoo { } private void label1_MouseDown(object sender, MouseEventArgs e) { this.DoDragDrop(new Foo(), DragDropEffects.All); } private void Form1_DragEnter(object sender, DragEventArgs e) { // for an instance of Foo it returns false, 	// if you use typeof(Foo) it returns true though.">
 <meta itemprop="datePublished" content="2007-07-26T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="122">
 
 
@@ -19,7 +19,7 @@ interface IFoo { } class Foo : IFoo { } private void label1_MouseDown(object sen
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2007-07-26-using-interfaces-with-drag-and-drop/" />
 <meta property="article:published_time" content="2007-07-26T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Using interfaces with Drag and Drop"/>
 <meta name="twitter:description" content="Earlier today i was refactoring some graphical components. I wanted to use an interface instead of concrete implementations for my drag and drop code&hellip; Although i was using an instance of Foo, and thus IFoo, the following code never allowed me to drop
@@ -80,27 +80,27 @@ interface IFoo { } class Foo : IFoo { } private void label1_MouseDown(object sen
 					
 			<div class="markdown">
 				<p>Earlier today i was refactoring some graphical components. I wanted to use an interface instead of concrete implementations for my drag and drop code&hellip; Although i was using an instance of Foo, and thus IFoo, the following code never allowed me to drop</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">interface</span> IFoo { }
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Foo</span> : IFoo { }
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">interface</span> IFoo { }
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Foo</span> : IFoo { }
 
-<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> label1_MouseDown(<span style="color:#66d9ef">object</span> sender, MouseEventArgs e)
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> label1_MouseDown(<span style="color:#458;font-weight:bold">object</span> sender, MouseEventArgs e)
 {
-	<span style="color:#66d9ef">this</span>.DoDragDrop(<span style="color:#66d9ef">new</span> Foo(), DragDropEffects.All);
+	<span style="color:#000;font-weight:bold">this</span>.DoDragDrop(<span style="color:#000;font-weight:bold">new</span> Foo(), DragDropEffects.All);
 }
 
-<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> Form1_DragEnter(<span style="color:#66d9ef">object</span> sender, DragEventArgs e)
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Form1_DragEnter(<span style="color:#458;font-weight:bold">object</span> sender, DragEventArgs e)
 {
-	<span style="color:#75715e">// for an instance of Foo it returns false,
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">// if you use typeof(Foo) it returns true though...
-</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> (e.Data.GetDataPresent(<span style="color:#66d9ef">typeof</span>(IFoo)))
+	<span style="color:#998;font-style:italic">// for an instance of Foo it returns false,
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// if you use typeof(Foo) it returns true though...
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span> (e.Data.GetDataPresent(<span style="color:#000;font-weight:bold">typeof</span>(IFoo)))
 	{
 		e.Effect = DragDropEffects.All;
 	}
 }
 </code></pre></div><p>Simply wrapping the concrete instance in a <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.dataobject(VS.80).aspx">DataObject</a> results in the desired behaviour</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> label1_MouseDown(<span style="color:#66d9ef">object</span> sender, MouseEventArgs e)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> label1_MouseDown(<span style="color:#458;font-weight:bold">object</span> sender, MouseEventArgs e)
 {
-	<span style="color:#66d9ef">this</span>.DoDragDrop(<span style="color:#66d9ef">new</span> DataObject(<span style="color:#66d9ef">typeof</span>(IFoo).FullName,<span style="color:#66d9ef">new</span> Foo()), DragDropEffects.All);
+	<span style="color:#000;font-weight:bold">this</span>.DoDragDrop(<span style="color:#000;font-weight:bold">new</span> DataObject(<span style="color:#000;font-weight:bold">typeof</span>(IFoo).FullName,<span style="color:#000;font-weight:bold">new</span> Foo()), DragDropEffects.All);
 }
 </code></pre></div>
 			</div>

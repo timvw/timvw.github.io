@@ -7,7 +7,7 @@
 <meta itemprop="description" content="This week i have been reading JavaScript: The Good Parts. Although the book is pretty thin, approximitaly. 150 pages, the information that is inside the book is really powerful. The book provides deep insight for people that are considering to implement functionality in JavaScript. I would say that this is a must read.
 Here is an example of something that i learned from the book (A workaround for an error in the ECMAScript Language Specification which causes this to be set incorrectly for inner functions)">
 <meta itemprop="datePublished" content="2009-02-13T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="138">
 
 
@@ -19,7 +19,7 @@ Here is an example of something that i learned from the book (A workaround for a
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2009-02-13-javascript-the-good-parts/" />
 <meta property="article:published_time" content="2009-02-13T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="JavaScript: The Good Parts"/>
 <meta name="twitter:description" content="This week i have been reading JavaScript: The Good Parts. Although the book is pretty thin, approximitaly. 150 pages, the information that is inside the book is really powerful. The book provides deep insight for people that are considering to implement functionality in JavaScript. I would say that this is a must read.
@@ -81,22 +81,22 @@ Here is an example of something that i learned from the book (A workaround for a
 			<div class="markdown">
 				<p>This week i have been reading <a href="http://www.amazon.com/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742">JavaScript: The Good Parts</a>. Although the book is pretty thin, approximitaly. 150 pages, the information that is inside the book is really powerful. The book provides deep insight for people that are considering to implement functionality in JavaScript. I would say that this is a must read.</p>
 <p>Here is an example of something that i learned from the book (A workaround for an error in the ECMAScript Language Specification which causes this to be set incorrectly for inner functions)</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Broken</span>(<span style="color:#a6e22e">name</span>) {
-	<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">name</span>;
-	<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">GetName</span>() { <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">name</span>; }
-	<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">Display</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>() { <span style="color:#a6e22e">alert</span>(<span style="color:#a6e22e">GetName</span>()); }
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#000;font-weight:bold">function</span> Broken(name) {
+	<span style="color:#000;font-weight:bold">this</span>.name <span style="color:#000;font-weight:bold">=</span> name;
+	<span style="color:#000;font-weight:bold">function</span> GetName() { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.name; }
+	<span style="color:#000;font-weight:bold">this</span>.Display <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">function</span>() { alert(GetName()); }
 }
 
-<span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Broken</span>(<span style="color:#e6db74">&#34;broken&#34;</span>).<span style="color:#a6e22e">Display</span>(); <span style="color:#75715e">// displays &#39;undefined&#39;
+<span style="color:#000;font-weight:bold">new</span> Broken(<span style="color:#d14">&#34;broken&#34;</span>).Display(); <span style="color:#998;font-style:italic">// displays &#39;undefined&#39;
 </span></code></pre></div><p>and</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Fixed</span>(<span style="color:#a6e22e">name</span>) {
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">that</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>;
-	<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">name</span>;
-	<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">GetName</span>() { <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">that</span>.<span style="color:#a6e22e">name</span>; }
-	<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">Display</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>() { <span style="color:#a6e22e">alert</span>(<span style="color:#a6e22e">GetName</span>()); }
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#000;font-weight:bold">function</span> Fixed(name) {
+	<span style="color:#000;font-weight:bold">var</span> that <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">this</span>;
+	<span style="color:#000;font-weight:bold">this</span>.name <span style="color:#000;font-weight:bold">=</span> name;
+	<span style="color:#000;font-weight:bold">function</span> GetName() { <span style="color:#000;font-weight:bold">return</span> that.name; }
+	<span style="color:#000;font-weight:bold">this</span>.Display <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">function</span>() { alert(GetName()); }
 }
 
-<span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Fixed</span>(<span style="color:#e6db74">&#34;fixed&#34;</span>).<span style="color:#a6e22e">Display</span>(); <span style="color:#75715e">// displays &#39;fixed&#39;
+<span style="color:#000;font-weight:bold">new</span> Fixed(<span style="color:#d14">&#34;fixed&#34;</span>).Display(); <span style="color:#998;font-style:italic">// displays &#39;fixed&#39;
 </span></code></pre></div>
 			</div>
 

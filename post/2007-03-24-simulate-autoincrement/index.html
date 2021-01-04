@@ -8,7 +8,7 @@
   Here is a possible answer: (Don&rsquo;t forget to wrap these queries in a transaction if your MySQL Engine supports it)
 -- Some demo tables (and data) -- CREATE TABLE table1 (id INT(10), name VARCHAR(20), PRIMARY KEY(id)); -- CREATE TABLE table2 (id INT(10), name VARCHAR(20), PRIMARY KEY(id)); -- INSERT INTO table1 VALUES (1, &#34;tim&#34;), (2, &#34;mike&#34;);  SET @id := (SELECT MAX(id) &#43; 1 FROM table2); INSERT INTO table2 SELECT @id := @id &#43; 1, table1.">
 <meta itemprop="datePublished" content="2007-03-24T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="88">
 
 
@@ -21,7 +21,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2007-03-24-simulate-autoincrement/" />
 <meta property="article:published_time" content="2007-03-24T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Simulate AutoIncrement"/>
 <meta name="twitter:description" content="Earlier today someone asked the following
@@ -87,13 +87,13 @@
 <!-- raw HTML omitted -->
 </blockquote>
 <p>Here is a possible answer: (Don&rsquo;t forget to wrap these queries in a transaction if your MySQL Engine supports it)</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- Some demo tables (and data)
-</span><span style="color:#75715e">-- CREATE TABLE table1 (id INT(10), name VARCHAR(20), PRIMARY KEY(id));
-</span><span style="color:#75715e">-- CREATE TABLE table2 (id INT(10), name VARCHAR(20), PRIMARY KEY(id));
-</span><span style="color:#75715e">-- INSERT INTO table1 VALUES (1, &#34;tim&#34;), (2, &#34;mike&#34;);
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">SET</span> <span style="color:#f92672">@</span>id :<span style="color:#f92672">=</span> (<span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">MAX</span>(id) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">FROM</span> table2);
-<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> table2 <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">@</span>id :<span style="color:#f92672">=</span> <span style="color:#f92672">@</span>id <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, table1.name <span style="color:#66d9ef">FROM</span> (<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">@</span>id) <span style="color:#66d9ef">AS</span> id, table1 <span style="color:#66d9ef">AS</span> table1;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#998;font-style:italic">-- Some demo tables (and data)
+</span><span style="color:#998;font-style:italic">-- CREATE TABLE table1 (id INT(10), name VARCHAR(20), PRIMARY KEY(id));
+</span><span style="color:#998;font-style:italic">-- CREATE TABLE table2 (id INT(10), name VARCHAR(20), PRIMARY KEY(id));
+</span><span style="color:#998;font-style:italic">-- INSERT INTO table1 VALUES (1, &#34;tim&#34;), (2, &#34;mike&#34;);
+</span><span style="color:#998;font-style:italic"></span>
+<span style="color:#000;font-weight:bold">SET</span> <span style="color:#000;font-weight:bold">@</span>id :<span style="color:#000;font-weight:bold">=</span> (<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">MAX</span>(id) <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">1</span> <span style="color:#000;font-weight:bold">FROM</span> table2);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> table2 <span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">@</span>id :<span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">@</span>id <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">1</span>, table1.name <span style="color:#000;font-weight:bold">FROM</span> (<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">@</span>id) <span style="color:#000;font-weight:bold">AS</span> id, table1 <span style="color:#000;font-weight:bold">AS</span> table1;
 </code></pre></div>
 			</div>
 

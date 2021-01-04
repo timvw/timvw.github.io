@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Imagine the following situation: One codebase, two customers with different Application Configuration files. How can we easily switch between the different configurations? By taking advantage of the Build Configurations functionality in Visual Studio we can easily switch between different configurations
 A brute-force solution would be to add a Post-build Event that copies the desired App.Config file to the destination directory. In the Microsoft.Common.targets file (usually at C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727) around line 725 you can read how MSBuild chooses the App.">
 <meta itemprop="datePublished" content="2008-03-17T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="224">
 
 
@@ -19,7 +19,7 @@ A brute-force solution would be to add a Post-build Event that copies the desire
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2008-03-17-easily-switching-between-appconfig-files-with-msbuild/" />
 <meta property="article:published_time" content="2008-03-17T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Easily switching between App.Config files with MSBuild"/>
 <meta name="twitter:description" content="Imagine the following situation: One codebase, two customers with different Application Configuration files. How can we easily switch between the different configurations? By taking advantage of the Build Configurations functionality in Visual Studio we can easily switch between different configurations
@@ -94,25 +94,25 @@ The search order is:</p>
 </ol>
 </blockquote>
 <p>Thus, simply setting $(AppConfig) should be enough to make sure that MSBuild chooses the appropriate App.Config file. Here is an example of a csproj section that defines $(AppConfig) as App.Customer1.Config or App.Customer2.Config depending on the choosen Build configuration</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;propertyGroup</span> <span style="color:#a6e22e">Condition=</span><span style="color:#e6db74">&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug Customer1|AnyCPU&#39; &#34;</span><span style="color:#f92672">&gt;</span> 
-	<span style="color:#f92672">&lt;debugSymbols&gt;</span>true<span style="color:#f92672">&lt;/debugSymbols&gt;</span>
-	<span style="color:#f92672">&lt;debugType&gt;</span>full<span style="color:#f92672">&lt;/debugType&gt;</span>
-	<span style="color:#f92672">&lt;optimize&gt;</span>false<span style="color:#f92672">&lt;/optimize&gt;</span>
-	<span style="color:#f92672">&lt;outputPath&gt;</span>bin\Debug\<span style="color:#f92672">&lt;/outputPath&gt;</span>
-	<span style="color:#f92672">&lt;defineConstants&gt;</span>DEBUG;TRACE<span style="color:#f92672">&lt;/defineConstants&gt;</span>
-	<span style="color:#f92672">&lt;errorReport&gt;</span>prompt<span style="color:#f92672">&lt;/errorReport&gt;</span>
-	<span style="color:#f92672">&lt;warningLevel&gt;</span>4<span style="color:#f92672">&lt;/warningLevel&gt;</span>
-	<span style="color:#f92672">&lt;appConfig&gt;</span>App.Customer1.Config<span style="color:#f92672">&lt;/appConfig&gt;</span> 
-<span style="color:#f92672">&lt;/propertyGroup&gt;</span> 
-<span style="color:#f92672">&lt;propertyGroup</span> <span style="color:#a6e22e">Condition=</span><span style="color:#e6db74">&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug Customer2|AnyCPU&#39; &#34;</span><span style="color:#f92672">&gt;</span> 
-	<span style="color:#f92672">&lt;debugSymbols&gt;</span>true<span style="color:#f92672">&lt;/debugSymbols&gt;</span>
-	<span style="color:#f92672">&lt;outputPath&gt;</span>bin\Debug Customer2\<span style="color:#f92672">&lt;/outputPath&gt;</span>
-	<span style="color:#f92672">&lt;defineConstants&gt;</span>DEBUG;TRACE<span style="color:#f92672">&lt;/defineConstants&gt;</span>
-	<span style="color:#f92672">&lt;debugType&gt;</span>full<span style="color:#f92672">&lt;/debugType&gt;</span> <span style="color:#f92672">&lt;platformTarget&gt;</span>AnyCPU<span style="color:#f92672">&lt;/platformTarget&gt;</span> <span style="color:#f92672">&lt;codeAnalysisUseTypeNameInSuppression&gt;</span>true<span style="color:#f92672">&lt;/codeAnalysisUseTypeNameInSuppression&gt;</span>
-	<span style="color:#f92672">&lt;codeAnalysisModuleSuppressionsFile&gt;</span>GlobalSuppressions.cs<span style="color:#f92672">&lt;/codeAnalysisModuleSuppressionsFile&gt;</span>
-	<span style="color:#f92672">&lt;errorReport&gt;</span>prompt<span style="color:#f92672">&lt;/errorReport&gt;</span>
-	<span style="color:#f92672">&lt;appConfig&gt;</span>App.Customer2.Config<span style="color:#f92672">&lt;/appConfig&gt;</span> 
-<span style="color:#f92672">&lt;/propertyGroup&gt;</span> 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;propertyGroup</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug Customer1|AnyCPU&#39; &#34;</span><span style="color:#000080">&gt;</span> 
+	<span style="color:#000080">&lt;debugSymbols&gt;</span>true<span style="color:#000080">&lt;/debugSymbols&gt;</span>
+	<span style="color:#000080">&lt;debugType&gt;</span>full<span style="color:#000080">&lt;/debugType&gt;</span>
+	<span style="color:#000080">&lt;optimize&gt;</span>false<span style="color:#000080">&lt;/optimize&gt;</span>
+	<span style="color:#000080">&lt;outputPath&gt;</span>bin\Debug\<span style="color:#000080">&lt;/outputPath&gt;</span>
+	<span style="color:#000080">&lt;defineConstants&gt;</span>DEBUG;TRACE<span style="color:#000080">&lt;/defineConstants&gt;</span>
+	<span style="color:#000080">&lt;errorReport&gt;</span>prompt<span style="color:#000080">&lt;/errorReport&gt;</span>
+	<span style="color:#000080">&lt;warningLevel&gt;</span>4<span style="color:#000080">&lt;/warningLevel&gt;</span>
+	<span style="color:#000080">&lt;appConfig&gt;</span>App.Customer1.Config<span style="color:#000080">&lt;/appConfig&gt;</span> 
+<span style="color:#000080">&lt;/propertyGroup&gt;</span> 
+<span style="color:#000080">&lt;propertyGroup</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug Customer2|AnyCPU&#39; &#34;</span><span style="color:#000080">&gt;</span> 
+	<span style="color:#000080">&lt;debugSymbols&gt;</span>true<span style="color:#000080">&lt;/debugSymbols&gt;</span>
+	<span style="color:#000080">&lt;outputPath&gt;</span>bin\Debug Customer2\<span style="color:#000080">&lt;/outputPath&gt;</span>
+	<span style="color:#000080">&lt;defineConstants&gt;</span>DEBUG;TRACE<span style="color:#000080">&lt;/defineConstants&gt;</span>
+	<span style="color:#000080">&lt;debugType&gt;</span>full<span style="color:#000080">&lt;/debugType&gt;</span> <span style="color:#000080">&lt;platformTarget&gt;</span>AnyCPU<span style="color:#000080">&lt;/platformTarget&gt;</span> <span style="color:#000080">&lt;codeAnalysisUseTypeNameInSuppression&gt;</span>true<span style="color:#000080">&lt;/codeAnalysisUseTypeNameInSuppression&gt;</span>
+	<span style="color:#000080">&lt;codeAnalysisModuleSuppressionsFile&gt;</span>GlobalSuppressions.cs<span style="color:#000080">&lt;/codeAnalysisModuleSuppressionsFile&gt;</span>
+	<span style="color:#000080">&lt;errorReport&gt;</span>prompt<span style="color:#000080">&lt;/errorReport&gt;</span>
+	<span style="color:#000080">&lt;appConfig&gt;</span>App.Customer2.Config<span style="color:#000080">&lt;/appConfig&gt;</span> 
+<span style="color:#000080">&lt;/propertyGroup&gt;</span> 
 </code></pre></div>
 			</div>
 

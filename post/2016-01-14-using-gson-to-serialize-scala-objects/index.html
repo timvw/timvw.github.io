@@ -8,7 +8,7 @@
 Here is an example to convert a JSON object to a Map[String,String]:
 import com.google.gson.Gson import scala.collection.JavaConversions._ val mapJson = &#34;{ &#39;a&#39;: &#39;b&#39;, &#39;c&#39;: &#39;d&#39; }&#34; val map = new Gson().">
 <meta itemprop="datePublished" content="2016-01-14T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="175">
 
 
@@ -21,7 +21,7 @@ import com.google.gson.Gson import scala.collection.JavaConversions._ val mapJso
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2016-01-14-using-gson-to-serialize-scala-objects/" />
 <meta property="article:published_time" content="2016-01-14T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Using Gson to serialize Scala objects"/>
 <meta name="twitter:description" content="gson is a pretty nice library that converts Java objects into JSON and back. When using this library from Scala things become a bit harder (eg: Plenty of people have difficulties when their scala object has an (im)mutable Map or List).
@@ -84,25 +84,25 @@ import com.google.gson.Gson import scala.collection.JavaConversions._ val mapJso
 			<div class="markdown">
 				<p><a href="https://github.com/google/gson">gson</a> is a pretty nice library that converts Java objects into JSON and back. When using this library from Scala things become a bit harder (eg: Plenty of people have difficulties when their scala object has an (im)mutable Map or List).</p>
 <p>Here is an example to convert a JSON object to a Map[String,String]:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">import</span> com.google.gson.Gson
-<span style="color:#66d9ef">import</span> scala.collection.JavaConversions._
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">com.google.gson.Gson</span>
+<span style="color:#000;font-weight:bold">import</span> <span style="color:#555">scala.collection.JavaConversions._</span>
 
-<span style="color:#66d9ef">val</span> mapJson <span style="color:#66d9ef">=</span> <span style="color:#e6db74">&#34;{ &#39;a&#39;: &#39;b&#39;, &#39;c&#39;: &#39;d&#39; }&#34;</span>
-<span style="color:#66d9ef">val</span> map <span style="color:#66d9ef">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Gson</span><span style="color:#f92672">().</span>fromJson<span style="color:#f92672">(</span>mapJson<span style="color:#f92672">,</span> classOf<span style="color:#f92672">[</span><span style="color:#66d9ef">java.util.Map</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">String</span><span style="color:#f92672">]])</span>
+<span style="color:#000;font-weight:bold">val</span> mapJson <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;{ &#39;a&#39;: &#39;b&#39;, &#39;c&#39;: &#39;d&#39; }&#34;</span>
+<span style="color:#000;font-weight:bold">val</span> map <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">Gson</span><span style="color:#000;font-weight:bold">().</span>fromJson<span style="color:#000;font-weight:bold">(</span>mapJson<span style="color:#000;font-weight:bold">,</span> classOf<span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">java.util.Map</span><span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">String</span>, <span style="color:#458;font-weight:bold">String</span><span style="color:#000;font-weight:bold">]])</span>
 </code></pre></div><p>Now that we know that this works, we hide the java types in the constructor and expose a nicer scala type via a method:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">case</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Dummy</span><span style="color:#f92672">(</span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> settings<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">java.util.Map</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">String</span><span style="color:#f92672">])</span> <span style="color:#f92672">{</span>
-	<span style="color:#66d9ef">def</span> getSettings <span style="color:#66d9ef">=</span> settings<span style="color:#f92672">.</span>toMap
-<span style="color:#f92672">}</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#000;font-weight:bold">case</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Dummy</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">val</span> settings<span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">java.util.Map</span><span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">String</span>, <span style="color:#458;font-weight:bold">String</span><span style="color:#000;font-weight:bold">])</span> <span style="color:#000;font-weight:bold">{</span>
+	<span style="color:#000;font-weight:bold">def</span> getSettings <span style="color:#000;font-weight:bold">=</span> settings<span style="color:#000;font-weight:bold">.</span>toMap
+<span style="color:#000;font-weight:bold">}</span>
 
-<span style="color:#66d9ef">val</span> dummyJson <span style="color:#66d9ef">=</span> <span style="color:#e6db74">&#34;{ &#39;settings&#39; : { &#39;a&#39;: &#39;b&#39;, &#39;c&#39;: &#39;d&#39; } }&#34;</span>
-<span style="color:#66d9ef">val</span> dummy <span style="color:#66d9ef">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Gson</span><span style="color:#f92672">().</span>fromJson<span style="color:#f92672">(</span>dummyJson<span style="color:#f92672">,</span> classOf<span style="color:#f92672">[</span><span style="color:#66d9ef">Dummy</span><span style="color:#f92672">])</span>
+<span style="color:#000;font-weight:bold">val</span> dummyJson <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;{ &#39;settings&#39; : { &#39;a&#39;: &#39;b&#39;, &#39;c&#39;: &#39;d&#39; } }&#34;</span>
+<span style="color:#000;font-weight:bold">val</span> dummy <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">Gson</span><span style="color:#000;font-weight:bold">().</span>fromJson<span style="color:#000;font-weight:bold">(</span>dummyJson<span style="color:#000;font-weight:bold">,</span> classOf<span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">Dummy</span><span style="color:#000;font-weight:bold">])</span>
 
-<span style="color:#66d9ef">case</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Dummy2</span><span style="color:#f92672">(</span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> options<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">java.util.List</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">])</span> <span style="color:#f92672">{</span>
-	<span style="color:#66d9ef">def</span> getOptions <span style="color:#66d9ef">=</span> options<span style="color:#f92672">.</span>toList
-<span style="color:#f92672">}</span>
+<span style="color:#000;font-weight:bold">case</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Dummy2</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">val</span> options<span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">java.util.List</span><span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">String</span><span style="color:#000;font-weight:bold">])</span> <span style="color:#000;font-weight:bold">{</span>
+	<span style="color:#000;font-weight:bold">def</span> getOptions <span style="color:#000;font-weight:bold">=</span> options<span style="color:#000;font-weight:bold">.</span>toList
+<span style="color:#000;font-weight:bold">}</span>
 
-<span style="color:#66d9ef">val</span> dummy2Json <span style="color:#66d9ef">=</span> <span style="color:#e6db74">&#34;{ &#39;options&#39; : [ &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39; ] }&#34;</span>
-<span style="color:#66d9ef">val</span> dummy2 <span style="color:#66d9ef">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Gson</span><span style="color:#f92672">().</span>fromJson<span style="color:#f92672">(</span>dummy2Json<span style="color:#f92672">,</span> classOf<span style="color:#f92672">[</span><span style="color:#66d9ef">Dummy2</span><span style="color:#f92672">])</span>
+<span style="color:#000;font-weight:bold">val</span> dummy2Json <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;{ &#39;options&#39; : [ &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39; ] }&#34;</span>
+<span style="color:#000;font-weight:bold">val</span> dummy2 <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">Gson</span><span style="color:#000;font-weight:bold">().</span>fromJson<span style="color:#000;font-weight:bold">(</span>dummy2Json<span style="color:#000;font-weight:bold">,</span> classOf<span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">Dummy2</span><span style="color:#000;font-weight:bold">])</span>
 </code></pre></div><p><strong>Edit:</strong> One could simply use <a href="https://github.com/lift/lift/tree/master/framework/lift-base/lift-json">lift-json</a> instead and get pretty good scala support for free.</p>
 
 			</div>

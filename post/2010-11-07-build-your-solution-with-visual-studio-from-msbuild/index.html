@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Unfortunately MSBuild and BIDS Helper are not able to build an .asdatabase from our Analysis Services project (.dwproj). Here is a task which invokes Visual Studio to build such a solution:
 &lt;Target Name=&#34;DevEnvBuild&#34;&gt; &lt;Error Condition=&#34;&#39;$(SolutionFile)&#39;==&#34;&#34; Text=&#34;Missing SolutionFile&#34; /&gt; &lt;PropertyGroup&gt; &lt;DevEnvTool Condition=&#34;&#39;$(DevEnvTool)&#39;==&#34;&#34;&gt;C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe&lt;/DevEnvTool&gt; &lt;DevEnvSwitch Condition=&#34;&#39;$(DevEnvSwitch)&#39;==&#34;&#34;&gt;Build&lt;/DevEnvSwitch&gt; &lt;DevEnvBuildCommand&gt;&#34;$(DevEnvTool)&#34; &#34;$(SolutionFile)&#34; /$(DevEnvSwitch)&lt;/DevEnvBuildCommand&gt; &lt;/PropertyGroup&gt; &lt;Exec Command=&#34;$(DevEnvBuildCommand)&#34; /&gt; &lt;/Target&gt; ">
 <meta itemprop="datePublished" content="2010-11-07T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="55">
 
 
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2010-11-07-build-your-solution-with-visual-studio-from-msbuild/" />
 <meta property="article:published_time" content="2010-11-07T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Build your solution with Visual Studio from MSBuild"/>
 <meta name="twitter:description" content="Unfortunately MSBuild and BIDS Helper are not able to build an .asdatabase from our Analysis Services project (.dwproj). Here is a task which invokes Visual Studio to build such a solution:
@@ -80,15 +80,15 @@
 					
 			<div class="markdown">
 				<p>Unfortunately MSBuild and <a href="http://bidshelper.codeplex.com/">BIDS Helper</a> are not able to build an .asdatabase from our Analysis Services project (.dwproj). Here is a task which invokes Visual Studio to build such a solution:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;Target</span> <span style="color:#a6e22e">Name=</span><span style="color:#e6db74">&#34;DevEnvBuild&#34;</span><span style="color:#f92672">&gt;</span>
-	<span style="color:#f92672">&lt;Error</span> <span style="color:#a6e22e">Condition=</span><span style="color:#e6db74">&#34;&#39;$(SolutionFile)&#39;==&#34;</span><span style="color:#960050;background-color:#1e0010">&#34;</span> <span style="color:#a6e22e">Text=</span><span style="color:#e6db74">&#34;Missing SolutionFile&#34;</span> <span style="color:#f92672">/&gt;</span>
-	<span style="color:#f92672">&lt;PropertyGroup&gt;</span>
-		<span style="color:#f92672">&lt;DevEnvTool</span> <span style="color:#a6e22e">Condition=</span><span style="color:#e6db74">&#34;&#39;$(DevEnvTool)&#39;==&#34;</span><span style="color:#960050;background-color:#1e0010">&#34;</span><span style="color:#f92672">&gt;</span>C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe<span style="color:#f92672">&lt;/DevEnvTool&gt;</span>
-		<span style="color:#f92672">&lt;DevEnvSwitch</span> <span style="color:#a6e22e">Condition=</span><span style="color:#e6db74">&#34;&#39;$(DevEnvSwitch)&#39;==&#34;</span><span style="color:#960050;background-color:#1e0010">&#34;</span><span style="color:#f92672">&gt;</span>Build<span style="color:#f92672">&lt;/DevEnvSwitch&gt;</span>
-		<span style="color:#f92672">&lt;DevEnvBuildCommand&gt;</span>&#34;$(DevEnvTool)&#34; &#34;$(SolutionFile)&#34; /$(DevEnvSwitch)<span style="color:#f92672">&lt;/DevEnvBuildCommand&gt;</span>
-	<span style="color:#f92672">&lt;/PropertyGroup&gt;</span>
-	<span style="color:#f92672">&lt;Exec</span> <span style="color:#a6e22e">Command=</span><span style="color:#e6db74">&#34;$(DevEnvBuildCommand)&#34;</span> <span style="color:#f92672">/&gt;</span>
-<span style="color:#f92672">&lt;/Target&gt;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;Target</span> <span style="color:#008080">Name=</span><span style="color:#d14">&#34;DevEnvBuild&#34;</span><span style="color:#000080">&gt;</span>
+	<span style="color:#000080">&lt;Error</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34;&#39;$(SolutionFile)&#39;==&#34;</span><span style="color:#a61717;background-color:#e3d2d2">&#34;</span> <span style="color:#008080">Text=</span><span style="color:#d14">&#34;Missing SolutionFile&#34;</span> <span style="color:#000080">/&gt;</span>
+	<span style="color:#000080">&lt;PropertyGroup&gt;</span>
+		<span style="color:#000080">&lt;DevEnvTool</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34;&#39;$(DevEnvTool)&#39;==&#34;</span><span style="color:#a61717;background-color:#e3d2d2">&#34;</span><span style="color:#000080">&gt;</span>C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe<span style="color:#000080">&lt;/DevEnvTool&gt;</span>
+		<span style="color:#000080">&lt;DevEnvSwitch</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34;&#39;$(DevEnvSwitch)&#39;==&#34;</span><span style="color:#a61717;background-color:#e3d2d2">&#34;</span><span style="color:#000080">&gt;</span>Build<span style="color:#000080">&lt;/DevEnvSwitch&gt;</span>
+		<span style="color:#000080">&lt;DevEnvBuildCommand&gt;</span>&#34;$(DevEnvTool)&#34; &#34;$(SolutionFile)&#34; /$(DevEnvSwitch)<span style="color:#000080">&lt;/DevEnvBuildCommand&gt;</span>
+	<span style="color:#000080">&lt;/PropertyGroup&gt;</span>
+	<span style="color:#000080">&lt;Exec</span> <span style="color:#008080">Command=</span><span style="color:#d14">&#34;$(DevEnvBuildCommand)&#34;</span> <span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;/Target&gt;</span>
 </code></pre></div>
 			</div>
 

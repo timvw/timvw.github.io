@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Earlier this week i was experimenting with Rhino Mocks and i was wondering why the MockRepository does not implement IDisposable unlike most other mocking frameworks for .NET. After a bit of searching i found out that (here) originally the MockRepository did implement the interface, but that the implementation was removed because it is can be painful (hiding the original exception) when unexpected exceptions are thrown.
 I really like the API. Here is a simple example and notice that i did not have to provide the method name (as in the string &ldquo;GetTime&rdquo;) for the excepted calls.">
 <meta itemprop="datePublished" content="2008-09-26T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="176">
 
 
@@ -19,7 +19,7 @@ I really like the API. Here is a simple example and notice that i did not have t
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2008-09-26-why-mockrepository-does-not-implement-idisposable/" />
 <meta property="article:published_time" content="2008-09-26T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Why MockRepository does not implement IDisposable"/>
 <meta name="twitter:description" content="Earlier this week i was experimenting with Rhino Mocks and i was wondering why the MockRepository does not implement IDisposable unlike most other mocking frameworks for .NET. After a bit of searching i found out that (here) originally the MockRepository did implement the interface, but that the implementation was removed because it is can be painful (hiding the original exception) when unexpected exceptions are thrown.
@@ -81,42 +81,42 @@ I really like the API. Here is a simple example and notice that i did not have t
 			<div class="markdown">
 				<p>Earlier this week i was experimenting with <a href="http://ayende.com/projects/rhino-mocks.aspx">Rhino Mocks</a> and i was wondering why the MockRepository does not implement <a href="http://msdn.microsoft.com/en-us/library/system.idisposable.aspx">IDisposable</a> unlike most other mocking frameworks for .NET<!-- raw HTML omitted -->. After a bit of searching i found out that (<a href="http://groups.google.com/group/RhinoMocks/browse_thread/thread/c1a89f58d512d03e/48ca85746276c97b?lnk=gst&amp;q=idisposable+mockrepository&amp;pli=1">here</a>) originally the MockRepository did implement the interface, but that the implementation was removed because it is can be painful (hiding the original exception) when unexpected exceptions are thrown.</p>
 <p>I really like the API. Here is a simple example and notice that i did not have to provide the method name (as in the string &ldquo;GetTime&rdquo;) for the excepted calls.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#a6e22e">[TestClass]</span>
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WhenTestingApplicabilityOfContract</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestClass]</span>
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">WhenTestingApplicabilityOfContract</span>
 {
-	<span style="color:#66d9ef">private</span> MockRepository repository;
-<span style="color:#a6e22e">
-</span><span style="color:#a6e22e">	[TestInitialize]</span>
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> BeforeEachMethod()
+	<span style="color:#000;font-weight:bold">private</span> MockRepository repository;
+<span style="color:#008080">
+</span><span style="color:#008080">	[TestInitialize]</span>
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> BeforeEachMethod()
 	{
-		<span style="color:#66d9ef">this</span>.repository = <span style="color:#66d9ef">new</span> MockRepository();
+		<span style="color:#000;font-weight:bold">this</span>.repository = <span style="color:#000;font-weight:bold">new</span> MockRepository();
 	}
-<span style="color:#a6e22e">
-</span><span style="color:#a6e22e">	[TestCleanup]</span>
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> AfterEachMethod()
+<span style="color:#008080">
+</span><span style="color:#008080">	[TestCleanup]</span>
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> AfterEachMethod()
 	{
-		<span style="color:#66d9ef">this</span>.repository.VerifyAll();
+		<span style="color:#000;font-weight:bold">this</span>.repository.VerifyAll();
 	}
-<span style="color:#a6e22e">
-</span><span style="color:#a6e22e">	[TestMethod]</span>
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> ShouldReturnTrueWhenTimeInPeriodOfContract()
+<span style="color:#008080">
+</span><span style="color:#008080">	[TestMethod]</span>
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldReturnTrueWhenTimeInPeriodOfContract()
 	{
-		ITimeProvider provider = <span style="color:#66d9ef">this</span>.repository.StrictMock&lt;itimeProvider&gt;();
+		ITimeProvider provider = <span style="color:#000;font-weight:bold">this</span>.repository.StrictMock&lt;itimeProvider&gt;();
 
-		using(<span style="color:#66d9ef">this</span>.repository.Record())
+		using(<span style="color:#000;font-weight:bold">this</span>.repository.Record())
 		{
-			Expect.Call(provider.GetTime()).Return(<span style="color:#66d9ef">new</span> DateTime(<span style="color:#ae81ff">2007</span>, <span style="color:#ae81ff">01</span>, <span style="color:#ae81ff">01</span>));
-			Expect.Call(provider.GetTime()).Return(<span style="color:#66d9ef">new</span> DateTime(<span style="color:#ae81ff">2008</span>, <span style="color:#ae81ff">01</span>, <span style="color:#ae81ff">01</span>));
-			Expect.Call(provider.GetTime()).Return(<span style="color:#66d9ef">new</span> DateTime(<span style="color:#ae81ff">2009</span>, <span style="color:#ae81ff">01</span>, <span style="color:#ae81ff">01</span>));
+			Expect.Call(provider.GetTime()).Return(<span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">01</span>, <span style="color:#099">01</span>));
+			Expect.Call(provider.GetTime()).Return(<span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2008</span>, <span style="color:#099">01</span>, <span style="color:#099">01</span>));
+			Expect.Call(provider.GetTime()).Return(<span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2009</span>, <span style="color:#099">01</span>, <span style="color:#099">01</span>));
 		}
 
-		using(<span style="color:#66d9ef">this</span>.repository.Playback())
+		using(<span style="color:#000;font-weight:bold">this</span>.repository.Playback())
 		{
-			Contract contract = <span style="color:#66d9ef">new</span> Contract(provider, <span style="color:#66d9ef">new</span> DateTime(<span style="color:#ae81ff">2008</span>, <span style="color:#ae81ff">01</span>, <span style="color:#ae81ff">01</span>), <span style="color:#66d9ef">new</span> DateTime(<span style="color:#ae81ff">2008</span>, <span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">31</span>));
+			Contract contract = <span style="color:#000;font-weight:bold">new</span> Contract(provider, <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2008</span>, <span style="color:#099">01</span>, <span style="color:#099">01</span>), <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2008</span>, <span style="color:#099">12</span>, <span style="color:#099">31</span>));
 
-			Assert.IsFalse(contract.IsApplicable(), <span style="color:#e6db74">&#34;not applicablein 2007&#34;</span>);
-			Assert.IsTrue(contract.IsApplicable(), <span style="color:#e6db74">&#34;applicable in 2008&#34;</span>);
-			Assert.IsFalse(contract.IsApplicable(), <span style="color:#e6db74">&#34;not applicable in 2009&#34;</span>);
+			Assert.IsFalse(contract.IsApplicable(), <span style="color:#d14">&#34;not applicablein 2007&#34;</span>);
+			Assert.IsTrue(contract.IsApplicable(), <span style="color:#d14">&#34;applicable in 2008&#34;</span>);
+			Assert.IsFalse(contract.IsApplicable(), <span style="color:#d14">&#34;not applicable in 2009&#34;</span>);
 		}
 	}
 }

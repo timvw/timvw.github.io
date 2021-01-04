@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Here are some powershell functions (using XPath) that come in handy when working with SSIS packages:
 function FindConnectionManagerNames {	param($fileName) $xml = [xml] (Get-Content $fileName);	$ns = New-Object Xml.XmlNamespaceManager $xml.NameTable;	$ns.AddNamespace(&#34;DTS&#34;, &#34;www.microsoft.com/SqlServer/Dts&#34;);	$xml.SelectNodes(&#34;//DTS:ConnectionManager/DTS:Property[@DTS:Name=&#39;ObjectName&#39;]&#34;, $ns) | Foreach { $_.&#34;#text&#34;; } } function GetConnectionManagerConnectionString { param($fileName, $connectionManagerName) $xml = [xml] (Get-Content $fileName); $ns = New-Object Xml.XmlNamespaceManager $xml.NameTable; $ns.AddNamespace(&#34;DTS&#34;, &#34;www.microsoft.com/SqlServer/Dts&#34;); $path = &#34;//DTS:ConnectionManager[DTS:Property=&#39;$connectionManagerName&#39;]/DTS:ObjectData/DTS:ConnectionManager/DTS:Property[@DTS:Name=&#39;ConnectionString&#39;]&#34; $xml.SelectSingleNode($path, $ns).&#34;#text&#34;; } function FindVariables {	param($fileName) $xml = [xml] (Get-Content $fileName); $ns = New-Object Xml.">
 <meta itemprop="datePublished" content="2011-03-12T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="107">
 
 
@@ -19,7 +19,7 @@ function FindConnectionManagerNames {	param($fileName) $xml = [xml] (Get-Content
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2011-03-12-some-powershell-functions-to-work-with-ssis-packages/" />
 <meta property="article:published_time" content="2011-03-12T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Some PowerShell functions to work with SSIS packages"/>
 <meta name="twitter:description" content="Here are some powershell functions (using XPath) that come in handy when working with SSIS packages:
@@ -80,42 +80,42 @@ function FindConnectionManagerNames {	param($fileName) $xml = [xml] (Get-Content
 					
 			<div class="markdown">
 				<p>Here are some powershell functions (using XPath) that come in handy when working with SSIS packages:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#66d9ef">function</span> FindConnectionManagerNames {	  
-	<span style="color:#66d9ef">param</span>($fileName)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> FindConnectionManagerNames {	  
+	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$fileName</span>)
 
-	$xml = <span style="color:#66d9ef">[xml]</span> (Get-Content $fileName);	  
-	$ns = New-Object Xml.XmlNamespaceManager $xml.NameTable;	  
-	$ns.AddNamespace(<span style="color:#e6db74">&#34;DTS&#34;</span>, <span style="color:#e6db74">&#34;www.microsoft.com/SqlServer/Dts&#34;</span>);	  
-	$xml.SelectNodes(<span style="color:#e6db74">&#34;//DTS:ConnectionManager/DTS:Property[@DTS:Name=&#39;ObjectName&#39;]&#34;</span>, $ns) | <span style="color:#66d9ef">Foreach</span> { $_.<span style="color:#e6db74">&#34;#text&#34;</span>; }
+	<span style="color:#008080">$xml</span> = <span style="color:#008080">[xml]</span> (<span style="color:#0086b3">Get-Content</span> <span style="color:#008080">$fileName</span>);	  
+	<span style="color:#008080">$ns</span> = <span style="color:#0086b3">New-Object</span> Xml.XmlNamespaceManager <span style="color:#008080">$xml</span>.NameTable;	  
+	<span style="color:#008080">$ns</span>.AddNamespace(<span style="color:#d14">&#34;DTS&#34;</span>, <span style="color:#d14">&#34;www.microsoft.com/SqlServer/Dts&#34;</span>);	  
+	<span style="color:#008080">$xml</span>.SelectNodes(<span style="color:#d14">&#34;//DTS:ConnectionManager/DTS:Property[@DTS:Name=&#39;ObjectName&#39;]&#34;</span>, <span style="color:#008080">$ns</span>) | <span style="color:#000;font-weight:bold">Foreach</span> { <span style="color:#008080">$_</span>.<span style="color:#d14">&#34;#text&#34;</span>; }
 
 }
 
-<span style="color:#66d9ef">function</span> GetConnectionManagerConnectionString {  
-	<span style="color:#66d9ef">param</span>($fileName, $connectionManagerName)
+<span style="color:#000;font-weight:bold">function</span> GetConnectionManagerConnectionString {  
+	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$fileName</span>, <span style="color:#008080">$connectionManagerName</span>)
 
-	$xml = <span style="color:#66d9ef">[xml]</span> (Get-Content $fileName);
-	$ns = New-Object Xml.XmlNamespaceManager $xml.NameTable;
-	$ns.AddNamespace(<span style="color:#e6db74">&#34;DTS&#34;</span>, <span style="color:#e6db74">&#34;www.microsoft.com/SqlServer/Dts&#34;</span>);
-	$path = <span style="color:#e6db74">&#34;//DTS:ConnectionManager[DTS:Property=&#39;$connectionManagerName&#39;]/DTS:ObjectData/DTS:ConnectionManager/DTS:Property[@DTS:Name=&#39;ConnectionString&#39;]&#34;</span>
-	$xml.SelectSingleNode($path, $ns).<span style="color:#e6db74">&#34;#text&#34;</span>;
+	<span style="color:#008080">$xml</span> = <span style="color:#008080">[xml]</span> (<span style="color:#0086b3">Get-Content</span> <span style="color:#008080">$fileName</span>);
+	<span style="color:#008080">$ns</span> = <span style="color:#0086b3">New-Object</span> Xml.XmlNamespaceManager <span style="color:#008080">$xml</span>.NameTable;
+	<span style="color:#008080">$ns</span>.AddNamespace(<span style="color:#d14">&#34;DTS&#34;</span>, <span style="color:#d14">&#34;www.microsoft.com/SqlServer/Dts&#34;</span>);
+	<span style="color:#008080">$path</span> = <span style="color:#d14">&#34;//DTS:ConnectionManager[DTS:Property=&#39;$connectionManagerName&#39;]/DTS:ObjectData/DTS:ConnectionManager/DTS:Property[@DTS:Name=&#39;ConnectionString&#39;]&#34;</span>
+	<span style="color:#008080">$xml</span>.SelectSingleNode(<span style="color:#008080">$path</span>, <span style="color:#008080">$ns</span>).<span style="color:#d14">&#34;#text&#34;</span>;
 }
 
-<span style="color:#66d9ef">function</span> FindVariables {	  
-	<span style="color:#66d9ef">param</span>($fileName)
+<span style="color:#000;font-weight:bold">function</span> FindVariables {	  
+	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$fileName</span>)
 
-	$xml = <span style="color:#66d9ef">[xml]</span> (Get-Content $fileName);
-	$ns = New-Object Xml.XmlNamespaceManager $xml.NameTable;
-	$ns.AddNamespace(<span style="color:#e6db74">&#34;DTS&#34;</span>, <span style="color:#e6db74">&#34;www.microsoft.com/SqlServer/Dts&#34;</span>);
-	$xml.SelectNodes(<span style="color:#e6db74">&#34;//DTS:Variable/DTS:Property[@DTS:Name=&#39;ObjectName&#39;]&#34;</span>, $ns) | <span style="color:#66d9ef">Foreach</span> { $_.<span style="color:#e6db74">&#34;#text&#34;</span>; }
+	<span style="color:#008080">$xml</span> = <span style="color:#008080">[xml]</span> (<span style="color:#0086b3">Get-Content</span> <span style="color:#008080">$fileName</span>);
+	<span style="color:#008080">$ns</span> = <span style="color:#0086b3">New-Object</span> Xml.XmlNamespaceManager <span style="color:#008080">$xml</span>.NameTable;
+	<span style="color:#008080">$ns</span>.AddNamespace(<span style="color:#d14">&#34;DTS&#34;</span>, <span style="color:#d14">&#34;www.microsoft.com/SqlServer/Dts&#34;</span>);
+	<span style="color:#008080">$xml</span>.SelectNodes(<span style="color:#d14">&#34;//DTS:Variable/DTS:Property[@DTS:Name=&#39;ObjectName&#39;]&#34;</span>, <span style="color:#008080">$ns</span>) | <span style="color:#000;font-weight:bold">Foreach</span> { <span style="color:#008080">$_</span>.<span style="color:#d14">&#34;#text&#34;</span>; }
 }
 
-<span style="color:#66d9ef">function</span> GetVariable {	  
-	<span style="color:#66d9ef">param</span>($fileName, $variableName)
+<span style="color:#000;font-weight:bold">function</span> GetVariable {	  
+	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$fileName</span>, <span style="color:#008080">$variableName</span>)
 
-	$xml = <span style="color:#66d9ef">[xml]</span> (Get-Content $fileName);
-	$ns = New-Object Xml.XmlNamespaceManager $xml.NameTable;
-	$ns.AddNamespace(<span style="color:#e6db74">&#34;DTS&#34;</span>, <span style="color:#e6db74">&#34;www.microsoft.com/SqlServer/Dts&#34;</span>);
-	$xml.SelectSingleNode(<span style="color:#e6db74">&#34;//DTS:Variable[DTS:Property=&#39;$variableName&#39;]/DTS:VariableValue&#34;</span>, $ns).<span style="color:#e6db74">&#34;#text&#34;</span>;
+	<span style="color:#008080">$xml</span> = <span style="color:#008080">[xml]</span> (<span style="color:#0086b3">Get-Content</span> <span style="color:#008080">$fileName</span>);
+	<span style="color:#008080">$ns</span> = <span style="color:#0086b3">New-Object</span> Xml.XmlNamespaceManager <span style="color:#008080">$xml</span>.NameTable;
+	<span style="color:#008080">$ns</span>.AddNamespace(<span style="color:#d14">&#34;DTS&#34;</span>, <span style="color:#d14">&#34;www.microsoft.com/SqlServer/Dts&#34;</span>);
+	<span style="color:#008080">$xml</span>.SelectSingleNode(<span style="color:#d14">&#34;//DTS:Variable[DTS:Property=&#39;$variableName&#39;]/DTS:VariableValue&#34;</span>, <span style="color:#008080">$ns</span>).<span style="color:#d14">&#34;#text&#34;</span>;
 }
 </code></pre></div>
 			</div>

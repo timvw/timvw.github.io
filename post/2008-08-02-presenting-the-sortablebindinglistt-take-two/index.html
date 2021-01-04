@@ -7,7 +7,7 @@
 <meta itemprop="description" content="I&rsquo;m in the progress of adding classes that i find interesting to the BeTimvwFramework project. The original implementation of my SortableBindingList relied on IComparable to implement ApplySortCore(PropertyDescriptor property, ListSortDirection direction). I received some good feedback and blogged about those improvements.
 Because some of my classes only implement IComparable i needed support for this too. My first thought was to use ComparerIComparer comparer = Comparer&lt;t&gt;.Default; itemsList.Sort(delegate(T t1, T t2) { object property1 = prop.">
 <meta itemprop="datePublished" content="2008-08-02T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="286">
 
 
@@ -19,7 +19,7 @@ Because some of my classes only implement IComparable i needed support for this 
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2008-08-02-presenting-the-sortablebindinglistt-take-two/" />
 <meta property="article:published_time" content="2008-08-02T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Presenting the SortableBindingList&lt;T&gt; (take two)"/>
 <meta name="twitter:description" content="I&rsquo;m in the progress of adding classes that i find interesting to the BeTimvwFramework project. The original implementation of my SortableBindingList relied on IComparable to implement ApplySortCore(PropertyDescriptor property, ListSortDirection direction). I received some good feedback and blogged about those improvements.
@@ -81,44 +81,44 @@ Because some of my classes only implement IComparable i needed support for this 
 			<div class="markdown">
 				<p>I&rsquo;m in the progress of adding classes that i find interesting to the <a href="http://www.codeplex.com/BeTimvwFramework">BeTimvwFramework</a> project. The original implementation of my <a href="http://www.timvw.be/presenting-the-sortablebindinglistt/">SortableBindingList<!-- raw HTML omitted --></a> relied on <a href="http://msdn.microsoft.com/en-us/library/system.icomparable.aspx">IComparable</a> to implement ApplySortCore(PropertyDescriptor property, ListSortDirection direction). I received some good feedback and <a href="http://www.timvw.be/improvements-for-the-sortablebindinglist-and-typedlist/">blogged about those improvements</a>.</p>
 <p>Because some of my classes only implement <a href="http://msdn.microsoft.com/en-us/library/4d7sx9hd.aspx">IComparable<!-- raw HTML omitted --></a> i needed support for this too. My first thought was to use Comparer<!-- raw HTML omitted --></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">IComparer comparer = Comparer&lt;t&gt;.Default;
-itemsList.Sort(<span style="color:#66d9ef">delegate</span>(T t1, T t2)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">IComparer comparer = Comparer&lt;t&gt;.Default;
+itemsList.Sort(<span style="color:#000;font-weight:bold">delegate</span>(T t1, T t2)
 {
-	<span style="color:#66d9ef">object</span> property1 = prop.GetValue(t1);
-	<span style="color:#66d9ef">object</span> property2 = prop.GetValue(t2);
-	<span style="color:#66d9ef">return</span> reverse * comparer.Compare(property1, property2);
+	<span style="color:#458;font-weight:bold">object</span> property1 = prop.GetValue(t1);
+	<span style="color:#458;font-weight:bold">object</span> property2 = prop.GetValue(t2);
+	<span style="color:#000;font-weight:bold">return</span> reverse * comparer.Compare(property1, property2);
 });
 </code></pre></div><p>Obviously that didn&rsquo;t work. The problem is that i received the default Comparer for T, instead of the Comparer for the type of the property. Anyway, with a bit of reflection i got access to that Comparer</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Type comparablePropertyType = <span style="color:#66d9ef">typeof</span>(Comparer&lt;&gt;).MakeGenericType(property.PropertyType);
-IComparer comparer = (IComparer)comparablePropertyType.InvokeMember(<span style="color:#e6db74">&#34;Default&#34;</span>, BindingFlags.Static | BindingFlags.GetProperty | BindingFlags.Public, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>);
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Type comparablePropertyType = <span style="color:#000;font-weight:bold">typeof</span>(Comparer&lt;&gt;).MakeGenericType(property.PropertyType);
+IComparer comparer = (IComparer)comparablePropertyType.InvokeMember(<span style="color:#d14">&#34;Default&#34;</span>, BindingFlags.Static | BindingFlags.GetProperty | BindingFlags.Public, <span style="color:#000;font-weight:bold">null</span>, <span style="color:#000;font-weight:bold">null</span>, <span style="color:#000;font-weight:bold">null</span>);
 </code></pre></div><p>After a bit of refactoring i ended up with a PropertyComparer<!-- raw HTML omitted --> which allowed me to implement the sorting as following</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Type propertyType = property.PropertyType;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Type propertyType = property.PropertyType;
 
-<span style="color:#75715e">// this cache minimizes the cost of reflection in the PropertyComparer constructor
-</span><span style="color:#75715e"></span>PropertyComparer&lt;t&gt; comparer;
-<span style="color:#66d9ef">if</span> (!<span style="color:#66d9ef">this</span>.comparers.TryGetValue(propertyType, <span style="color:#66d9ef">out</span> comparer))
+<span style="color:#998;font-style:italic">// this cache minimizes the cost of reflection in the PropertyComparer constructor
+</span><span style="color:#998;font-style:italic"></span>PropertyComparer&lt;t&gt; comparer;
+<span style="color:#000;font-weight:bold">if</span> (!<span style="color:#000;font-weight:bold">this</span>.comparers.TryGetValue(propertyType, <span style="color:#000;font-weight:bold">out</span> comparer))
 {
-	comparer = <span style="color:#66d9ef">new</span> PropertyComparer&lt;t&gt;(property, direction);
-	<span style="color:#66d9ef">this</span>.comparers.Add(propertyType, comparer);
+	comparer = <span style="color:#000;font-weight:bold">new</span> PropertyComparer&lt;t&gt;(property, direction);
+	<span style="color:#000;font-weight:bold">this</span>.comparers.Add(propertyType, comparer);
 }
-<span style="color:#66d9ef">else</span>
+<span style="color:#000;font-weight:bold">else</span>
 {
 	comparer.SetListSortDirection(direction);
 }
 
 itemsList.Sort(comparer);
 </code></pre></div><p>In order to write unittests, i needed a way to get instances of a <a href="http://msdn.microsoft.com/en-us/library/system.componentmodel.propertydescriptor.aspx">PropertyDescriptor</a>. This was achieved by using the <a href="http://msdn.microsoft.com/en-us/library/system.componentmodel.typedescriptor_methods.aspx">TypeDescriptor</a> as following</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">PropertyDescriptor GetPropertyDescriptor(<span style="color:#66d9ef">object</span> component, <span style="color:#66d9ef">string</span> propertyName)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">PropertyDescriptor GetPropertyDescriptor(<span style="color:#458;font-weight:bold">object</span> component, <span style="color:#458;font-weight:bold">string</span> propertyName)
 {
 	PropertyDescriptorCollection propertyDescriptors = TypeDescriptor.GetProperties(component);
-	<span style="color:#66d9ef">foreach</span> (PropertyDescriptor propertyDescriptor <span style="color:#66d9ef">in</span> propertyDescriptors)
+	<span style="color:#000;font-weight:bold">foreach</span> (PropertyDescriptor propertyDescriptor <span style="color:#000;font-weight:bold">in</span> propertyDescriptors)
 	{
-		<span style="color:#66d9ef">if</span> (propertyDescriptor.Name == propertyName)
+		<span style="color:#000;font-weight:bold">if</span> (propertyDescriptor.Name == propertyName)
 		{
-			<span style="color:#66d9ef">return</span> propertyDescriptor;
+			<span style="color:#000;font-weight:bold">return</span> propertyDescriptor;
 		}
 	}
-	<span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> ArgumentException(<span style="color:#66d9ef">string</span>.Format(<span style="color:#e6db74">&#34;The property &#39;{0}&#39; was not found.&#34;</span>, propertyName));
+	<span style="color:#000;font-weight:bold">throw</span> <span style="color:#000;font-weight:bold">new</span> ArgumentException(<span style="color:#458;font-weight:bold">string</span>.Format(<span style="color:#d14">&#34;The property &#39;{0}&#39; was not found.&#34;</span>, propertyName));
 }
 </code></pre></div><p>Feel free to download the updated demo application: <a href="http://www.timvw.be/wp-content/code/csharp/SortableBindingList.zip">sortablebindinglist.zip</a>. There are even real applications that use this class, eg: <a href="http://vstrac.devjavu.com/">VSTrac</a> and <a href="http://monotorrent.com/">MonoTorrent</a>. If you&rsquo;re interested in the unittests you&rsquo;ll have to get the code at <a href="http://www.codeplex.com/BeTimvwFramework">BeTimvwFramework</a>.</p>
 

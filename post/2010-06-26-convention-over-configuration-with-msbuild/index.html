@@ -7,7 +7,7 @@
 <meta itemprop="description" content="A while ago i blogged that i was using the TemplateFile task from the &lt;a hrefhttp://msbuildtasks.tigris.org/&quot;&gt;MSBuild Community Tasks Projectto generate configuration files. Each project that required templating would have modified it&rsquo;s csproj file as following
 &lt;!-- To modify your build process, add your task inside one of the targets below and uncomment it. Other similar extension points exist, see Microsoft.Common.targets. --&gt; &lt;import Project=&#34;$(MSBuildProjectDirectory)\config.msbuild&#34; /&gt; &lt;target Name=&#34;BeforeBuild&#34;&gt; &lt;callTarget Targets=&#34;GenerateConfigurationFiles&#34; /&gt; &lt;/target&gt; And each of these config.">
 <meta itemprop="datePublished" content="2010-06-26T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="262">
 
 
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2010-06-26-convention-over-configuration-with-msbuild/" />
 <meta property="article:published_time" content="2010-06-26T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Convention over configuration with MSBuild"/>
 <meta name="twitter:description" content="A while ago i blogged that i was using the TemplateFile task from the &lt;a hrefhttp://msbuildtasks.tigris.org/&quot;&gt;MSBuild Community Tasks Projectto generate configuration files. Each project that required templating would have modified it&rsquo;s csproj file as following
@@ -80,51 +80,51 @@
 					
 			<div class="markdown">
 				<p>A while ago i blogged that i was using the TemplateFile task from the &lt;a hrefhttp://msbuildtasks.tigris.org/&quot;&gt;MSBuild Community Tasks Project<!-- raw HTML omitted --> to generate configuration files. Each project that required templating would have modified it&rsquo;s csproj file as following</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-</span><span style="color:#75715e">Other similar extension points exist, see Microsoft.Common.targets. --&gt;</span>
-<span style="color:#f92672">&lt;import</span> <span style="color:#a6e22e">Project=</span><span style="color:#e6db74">&#34;$(MSBuildProjectDirectory)\config.msbuild&#34;</span> <span style="color:#f92672">/&gt;</span>
-<span style="color:#f92672">&lt;target</span> <span style="color:#a6e22e">Name=</span><span style="color:#e6db74">&#34;BeforeBuild&#34;</span><span style="color:#f92672">&gt;</span>
-	<span style="color:#f92672">&lt;callTarget</span> <span style="color:#a6e22e">Targets=</span><span style="color:#e6db74">&#34;GenerateConfigurationFiles&#34;</span> <span style="color:#f92672">/&gt;</span>
-<span style="color:#f92672">&lt;/target&gt;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#998;font-style:italic">&lt;!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+</span><span style="color:#998;font-style:italic">Other similar extension points exist, see Microsoft.Common.targets. --&gt;</span>
+<span style="color:#000080">&lt;import</span> <span style="color:#008080">Project=</span><span style="color:#d14">&#34;$(MSBuildProjectDirectory)\config.msbuild&#34;</span> <span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;target</span> <span style="color:#008080">Name=</span><span style="color:#d14">&#34;BeforeBuild&#34;</span><span style="color:#000080">&gt;</span>
+	<span style="color:#000080">&lt;callTarget</span> <span style="color:#008080">Targets=</span><span style="color:#d14">&#34;GenerateConfigurationFiles&#34;</span> <span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;/target&gt;</span>
 </code></pre></div><p>And each of these config.msbuild files looked as following</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;templateFile</span> <span style="color:#a6e22e">Template=</span><span style="color:#e6db74">&#34;web.template.config&#34;</span> <span style="color:#a6e22e">OutputFileName=</span><span style="color:#e6db74">&#34;web.config&#34;</span> <span style="color:#a6e22e">Tokens=</span><span style="color:#e6db74">&#34;@(TemplateTokens)&#34;</span> <span style="color:#f92672">/&gt;</span>
-<span style="color:#f92672">&lt;templateFile</span> <span style="color:#a6e22e">Template=</span><span style="color:#e6db74">&#34;Config\WcfClients.config&#34;</span> <span style="color:#a6e22e">OutputFileName=</span><span style="color:#e6db74">&#34;Config\WcfClients.config&#34;</span> <span style="color:#a6e22e">Tokens=</span><span style="color:#e6db74">&#34;@(TemplateTokens)&#34;</span> <span style="color:#f92672">/&gt;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;templateFile</span> <span style="color:#008080">Template=</span><span style="color:#d14">&#34;web.template.config&#34;</span> <span style="color:#008080">OutputFileName=</span><span style="color:#d14">&#34;web.config&#34;</span> <span style="color:#008080">Tokens=</span><span style="color:#d14">&#34;@(TemplateTokens)&#34;</span> <span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;templateFile</span> <span style="color:#008080">Template=</span><span style="color:#d14">&#34;Config\WcfClients.config&#34;</span> <span style="color:#008080">OutputFileName=</span><span style="color:#d14">&#34;Config\WcfClients.config&#34;</span> <span style="color:#008080">Tokens=</span><span style="color:#d14">&#34;@(TemplateTokens)&#34;</span> <span style="color:#000080">/&gt;</span>
 </code></pre></div><p>As you can notice the convention here is that each template file has &lsquo;.template.&rsquo; in it&rsquo;s name, and the name of an output file is the template file name without &lsquo;.template.&rsquo;.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!-- validate input --&gt;</span>
-<span style="color:#f92672">&lt;error</span> <span style="color:#a6e22e">Condition=</span><span style="color:#e6db74">&#34;&#39;$(SourceFile)&#39;==&#39;&#39;&#34;</span> <span style="color:#a6e22e">Text=</span><span style="color:#e6db74">&#34;Missing SourceFile&#34;</span> <span style="color:#f92672">/&gt;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#998;font-style:italic">&lt;!-- validate input --&gt;</span>
+<span style="color:#000080">&lt;error</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34;&#39;$(SourceFile)&#39;==&#39;&#39;&#34;</span> <span style="color:#008080">Text=</span><span style="color:#d14">&#34;Missing SourceFile&#34;</span> <span style="color:#000080">/&gt;</span>
 
-<span style="color:#75715e">&lt;!-- calculate destination file --&gt;</span>
-<span style="color:#f92672">&lt;regexReplace</span> <span style="color:#a6e22e">Input=</span><span style="color:#e6db74">&#34;$(SourceFile)&#34;</span> <span style="color:#a6e22e">Expression=</span><span style="color:#e6db74">&#34;(\.template)\.&#34;</span> <span style="color:#a6e22e">Replacement=</span><span style="color:#e6db74">&#34;.&#34;</span> <span style="color:#a6e22e">Count=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">&gt;</span>
-	<span style="color:#f92672">&lt;output</span> <span style="color:#a6e22e">TaskParameter=</span><span style="color:#e6db74">&#34;Output&#34;</span> <span style="color:#a6e22e">PropertyName=</span><span style="color:#e6db74">&#34;DestinationFile&#34;</span> <span style="color:#f92672">/&gt;</span>
-<span style="color:#f92672">&lt;/regexReplace&gt;</span>
+<span style="color:#998;font-style:italic">&lt;!-- calculate destination file --&gt;</span>
+<span style="color:#000080">&lt;regexReplace</span> <span style="color:#008080">Input=</span><span style="color:#d14">&#34;$(SourceFile)&#34;</span> <span style="color:#008080">Expression=</span><span style="color:#d14">&#34;(\.template)\.&#34;</span> <span style="color:#008080">Replacement=</span><span style="color:#d14">&#34;.&#34;</span> <span style="color:#008080">Count=</span><span style="color:#d14">&#34;1&#34;</span><span style="color:#000080">&gt;</span>
+	<span style="color:#000080">&lt;output</span> <span style="color:#008080">TaskParameter=</span><span style="color:#d14">&#34;Output&#34;</span> <span style="color:#008080">PropertyName=</span><span style="color:#d14">&#34;DestinationFile&#34;</span> <span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;/regexReplace&gt;</span>
 
-<span style="color:#75715e">&lt;!-- generate file --&gt;</span>
-<span style="color:#f92672">&lt;templateFile</span> <span style="color:#a6e22e">Template=</span><span style="color:#e6db74">&#34;$(SourceFile)&#34;</span> <span style="color:#a6e22e">OutputFileName=</span><span style="color:#e6db74">&#34;$(DestinationFile)&#34;</span> <span style="color:#a6e22e">Tokens=</span><span style="color:#e6db74">&#34;@(TemplateTokens)&#34;</span> <span style="color:#f92672">/&gt;</span>
+<span style="color:#998;font-style:italic">&lt;!-- generate file --&gt;</span>
+<span style="color:#000080">&lt;templateFile</span> <span style="color:#008080">Template=</span><span style="color:#d14">&#34;$(SourceFile)&#34;</span> <span style="color:#008080">OutputFileName=</span><span style="color:#d14">&#34;$(DestinationFile)&#34;</span> <span style="color:#008080">Tokens=</span><span style="color:#d14">&#34;@(TemplateTokens)&#34;</span> <span style="color:#000080">/&gt;</span>
 </code></pre></div><p>Now that we can do it for one file, we can do it for many files too</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!-- valide input --&gt;</span>
-<span style="color:#f92672">&lt;error</span> <span style="color:#a6e22e">Condition=</span><span style="color:#e6db74">&#34;&#39;$(SourceDir)&#39;==&#39;&#39;&#34;</span> <span style="color:#a6e22e">Text=</span><span style="color:#e6db74">&#34;Missing SourceDir&#34;</span> <span style="color:#f92672">/&gt;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#998;font-style:italic">&lt;!-- valide input --&gt;</span>
+<span style="color:#000080">&lt;error</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34;&#39;$(SourceDir)&#39;==&#39;&#39;&#34;</span> <span style="color:#008080">Text=</span><span style="color:#d14">&#34;Missing SourceDir&#34;</span> <span style="color:#000080">/&gt;</span>
 
-<span style="color:#75715e">&lt;!-- find all template files --&gt;</span>
-<span style="color:#f92672">&lt;itemGroup&gt;</span>
-	<span style="color:#f92672">&lt;templateFiles</span> <span style="color:#a6e22e">Include=</span><span style="color:#e6db74">&#34;$(SourceDir)\*\*\\*.template.\*&#34;</span> <span style="color:#a6e22e">Exlude=</span><span style="color:#e6db74">&#34;$(SourceDir)\\*\*\\*.svn*&#34;</span> <span style="color:#f92672">/&gt;</span>
-<span style="color:#f92672">&lt;/itemGroup&gt;</span>
+<span style="color:#998;font-style:italic">&lt;!-- find all template files --&gt;</span>
+<span style="color:#000080">&lt;itemGroup&gt;</span>
+	<span style="color:#000080">&lt;templateFiles</span> <span style="color:#008080">Include=</span><span style="color:#d14">&#34;$(SourceDir)\*\*\\*.template.\*&#34;</span> <span style="color:#008080">Exlude=</span><span style="color:#d14">&#34;$(SourceDir)\\*\*\\*.svn*&#34;</span> <span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;/itemGroup&gt;</span>
 
-<span style="color:#75715e">&lt;!-- process each template file --&gt;</span>
-<span style="color:#f92672">&lt;msbuild</span> <span style="color:#a6e22e">Projects=</span><span style="color:#e6db74">&#34;$(MSBuildProjectFile)&#34;</span> <span style="color:#a6e22e">Targets=</span><span style="color:#e6db74">&#34;ProcessTemplate&#34;</span> <span style="color:#a6e22e">Properties=</span><span style="color:#e6db74">&#34;SourceFile=%(TemplateFiles.FullPath)&#34;</span> <span style="color:#f92672">/&gt;</span>
+<span style="color:#998;font-style:italic">&lt;!-- process each template file --&gt;</span>
+<span style="color:#000080">&lt;msbuild</span> <span style="color:#008080">Projects=</span><span style="color:#d14">&#34;$(MSBuildProjectFile)&#34;</span> <span style="color:#008080">Targets=</span><span style="color:#d14">&#34;ProcessTemplate&#34;</span> <span style="color:#008080">Properties=</span><span style="color:#d14">&#34;SourceFile=%(TemplateFiles.FullPath)&#34;</span> <span style="color:#000080">/&gt;</span>
 </code></pre></div><p>After these core improvements we wrote a common.proj.targets file as following</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!-- import global variables --&gt;</span>
-<span style="color:#f92672">&lt;import</span> <span style="color:#a6e22e">Project=</span><span style="color:#e6db74">&#34;$(MSBuildThisFileDirectory)\configuration.proj&#34;</span> <span style="color:#f92672">/&gt;</span>
-<span style="color:#f92672">&lt;propertyGroup&gt;</span>
-	<span style="color:#f92672">&lt;buildDependsOn&gt;</span>CommonBeforeBuild;$(BuildDependsOn);CommonAfterBuild<span style="color:#f92672">&lt;/buildDependsOn&gt;</span> 
-<span style="color:#f92672">&lt;/propertyGroup&gt;</span> 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#998;font-style:italic">&lt;!-- import global variables --&gt;</span>
+<span style="color:#000080">&lt;import</span> <span style="color:#008080">Project=</span><span style="color:#d14">&#34;$(MSBuildThisFileDirectory)\configuration.proj&#34;</span> <span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;propertyGroup&gt;</span>
+	<span style="color:#000080">&lt;buildDependsOn&gt;</span>CommonBeforeBuild;$(BuildDependsOn);CommonAfterBuild<span style="color:#000080">&lt;/buildDependsOn&gt;</span> 
+<span style="color:#000080">&lt;/propertyGroup&gt;</span> 
 
-<span style="color:#f92672">&lt;target</span> <span style="color:#a6e22e">Name=</span><span style="color:#e6db74">&#34;CommonBeforeBuild&#34;</span><span style="color:#f92672">&gt;</span>
-	<span style="color:#f92672">&lt;msbuild</span> <span style="color:#a6e22e">Projects=</span><span style="color:#e6db74">&#34;$(CommonTargetsPath)&#34;</span> <span style="color:#a6e22e">Targets=</span><span style="color:#e6db74">&#34;ProcessTemplates&#34;</span> <span style="color:#a6e22e">Properties=</span><span style="color:#e6db74">&#34;SourceDir=$(MSBuildProjectDirectory)&#34;</span> <span style="color:#f92672">/&gt;</span>
-<span style="color:#f92672">&lt;/target&gt;</span>
+<span style="color:#000080">&lt;target</span> <span style="color:#008080">Name=</span><span style="color:#d14">&#34;CommonBeforeBuild&#34;</span><span style="color:#000080">&gt;</span>
+	<span style="color:#000080">&lt;msbuild</span> <span style="color:#008080">Projects=</span><span style="color:#d14">&#34;$(CommonTargetsPath)&#34;</span> <span style="color:#008080">Targets=</span><span style="color:#d14">&#34;ProcessTemplates&#34;</span> <span style="color:#008080">Properties=</span><span style="color:#d14">&#34;SourceDir=$(MSBuildProjectDirectory)&#34;</span> <span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;/target&gt;</span>
 
-<span style="color:#f92672">&lt;target</span> <span style="color:#a6e22e">Name=</span><span style="color:#e6db74">&#34;CommonAfterBuild&#34;</span><span style="color:#f92672">&gt;</span>
-	<span style="color:#75715e">&lt;!--&lt;msbuild Projects=&#34;$(CommonBuildTargetsPath)&#34; Targets=&#34;PEVerify&#34; Properties=&#34;SourceFile=$(TargetPath)&#34; /&gt;--&gt;</span>
-<span style="color:#f92672">&lt;/target&gt;</span> 
+<span style="color:#000080">&lt;target</span> <span style="color:#008080">Name=</span><span style="color:#d14">&#34;CommonAfterBuild&#34;</span><span style="color:#000080">&gt;</span>
+	<span style="color:#998;font-style:italic">&lt;!--&lt;msbuild Projects=&#34;$(CommonBuildTargetsPath)&#34; Targets=&#34;PEVerify&#34; Properties=&#34;SourceFile=$(TargetPath)&#34; /&gt;--&gt;</span>
+<span style="color:#000080">&lt;/target&gt;</span> 
 </code></pre></div><p>Now we only need to import our common.proj.targets file in projects that have template files and focus on real business problems ;)</p>
 
 			</div>

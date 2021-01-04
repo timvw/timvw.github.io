@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Here are some functions that allow you to update ConfigurationStrings in a SSIS package (dtsx) using PowerShell:
 function UpdateConfigurationStrings($file) { $xml = [xml] (Get-Content $file); $ns = New-Object Xml.XmlNamespaceManager $xml.NameTable; $ns.AddNamespace(&#34;DTS&#34;, &#34;www.microsoft.com/SqlServer/Dts&#34;); UpdateConfigurationNodes $xml $ns; Set-Content $file $xml.OuterXml; } function UpdateConfigurationNodes($xml, $ns) { $selectConfigurationNodes = &#34;//DTS:Configuration&#34;; $xml.SelectNodes($selectConfigurationNodes, $ns) | foreach { UpdateConfigurationNode $_ $ns; }; } function UpdateConfigurationNode($configurationNode, $ns) { $selectConfigurationString = &#34;./DTS:Property[@DTS:Name=&#39;ConfigurationString&#39;]&#34;; $configurationStringNode = $configurationNode.SelectSingleNode($selectConfigurationString, $ns); $oldConfigurationStringValue = $configurationStringNode.&#39;#text&#39;; $newConfigurationStringValue = GetNewConfigurationStringValue $oldConfigurationStringValue; $configurationStringNode.">
 <meta itemprop="datePublished" content="2010-11-11T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="93">
 
 
@@ -19,7 +19,7 @@ function UpdateConfigurationStrings($file) { $xml = [xml] (Get-Content $file); $
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2010-11-11-update-configurationstrings-in-ssis-package-with-powershell/" />
 <meta property="article:published_time" content="2010-11-11T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Update ConfigurationStrings in SSIS package with PowerShell"/>
 <meta name="twitter:description" content="Here are some functions that allow you to update ConfigurationStrings in a SSIS package (dtsx) using PowerShell:
@@ -80,35 +80,35 @@ function UpdateConfigurationStrings($file) { $xml = [xml] (Get-Content $file); $
 					
 			<div class="markdown">
 				<p>Here are some functions that allow you to update ConfigurationStrings in a SSIS package (dtsx) using PowerShell:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#66d9ef">function</span> UpdateConfigurationStrings($file)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> UpdateConfigurationStrings(<span style="color:#008080">$file</span>)
 {
-	$xml = <span style="color:#66d9ef">[xml]</span> (Get-Content $file);
-	$ns = New-Object Xml.XmlNamespaceManager $xml.NameTable;
-	$ns.AddNamespace(<span style="color:#e6db74">&#34;DTS&#34;</span>, <span style="color:#e6db74">&#34;www.microsoft.com/SqlServer/Dts&#34;</span>);
-	UpdateConfigurationNodes $xml $ns;
-	Set-Content $file $xml.OuterXml;
+	<span style="color:#008080">$xml</span> = <span style="color:#008080">[xml]</span> (<span style="color:#0086b3">Get-Content</span> <span style="color:#008080">$file</span>);
+	<span style="color:#008080">$ns</span> = <span style="color:#0086b3">New-Object</span> Xml.XmlNamespaceManager <span style="color:#008080">$xml</span>.NameTable;
+	<span style="color:#008080">$ns</span>.AddNamespace(<span style="color:#d14">&#34;DTS&#34;</span>, <span style="color:#d14">&#34;www.microsoft.com/SqlServer/Dts&#34;</span>);
+	UpdateConfigurationNodes <span style="color:#008080">$xml</span> <span style="color:#008080">$ns</span>;
+	<span style="color:#0086b3">Set-Content</span> <span style="color:#008080">$file</span> <span style="color:#008080">$xml</span>.OuterXml;
 }
 
-<span style="color:#66d9ef">function</span> UpdateConfigurationNodes($xml, $ns)
+<span style="color:#000;font-weight:bold">function</span> UpdateConfigurationNodes(<span style="color:#008080">$xml</span>, <span style="color:#008080">$ns</span>)
 {
-	$selectConfigurationNodes = <span style="color:#e6db74">&#34;//DTS:Configuration&#34;</span>;
-	$xml.SelectNodes($selectConfigurationNodes, $ns) | <span style="color:#66d9ef">foreach</span> { UpdateConfigurationNode $_ $ns; };
+	<span style="color:#008080">$selectConfigurationNodes</span> = <span style="color:#d14">&#34;//DTS:Configuration&#34;</span>;
+	<span style="color:#008080">$xml</span>.SelectNodes(<span style="color:#008080">$selectConfigurationNodes</span>, <span style="color:#008080">$ns</span>) | <span style="color:#000;font-weight:bold">foreach</span> { UpdateConfigurationNode <span style="color:#008080">$_</span> <span style="color:#008080">$ns</span>; };
 }
 
-<span style="color:#66d9ef">function</span> UpdateConfigurationNode($configurationNode, $ns)
+<span style="color:#000;font-weight:bold">function</span> UpdateConfigurationNode(<span style="color:#008080">$configurationNode</span>, <span style="color:#008080">$ns</span>)
 {
-	$selectConfigurationString = <span style="color:#e6db74">&#34;./DTS:Property[@DTS:Name=&#39;ConfigurationString&#39;]&#34;</span>;
-	$configurationStringNode = $configurationNode.SelectSingleNode($selectConfigurationString, $ns);
+	<span style="color:#008080">$selectConfigurationString</span> = <span style="color:#d14">&#34;./DTS:Property[@DTS:Name=&#39;ConfigurationString&#39;]&#34;</span>;
+	<span style="color:#008080">$configurationStringNode</span> = <span style="color:#008080">$configurationNode</span>.SelectSingleNode(<span style="color:#008080">$selectConfigurationString</span>, <span style="color:#008080">$ns</span>);
 
-	$oldConfigurationStringValue = $configurationStringNode.<span style="color:#e6db74">&#39;#text&#39;</span>;
-	$newConfigurationStringValue = GetNewConfigurationStringValue $oldConfigurationStringValue;
-	$configurationStringNode.<span style="color:#e6db74">&#39;#text&#39;</span> = <span style="color:#e6db74">&#34;$newConfigurationStringValue&#34;</span>;
+	<span style="color:#008080">$oldConfigurationStringValue</span> = <span style="color:#008080">$configurationStringNode</span>.<span style="color:#d14">&#39;#text&#39;</span>;
+	<span style="color:#008080">$newConfigurationStringValue</span> = GetNewConfigurationStringValue <span style="color:#008080">$oldConfigurationStringValue</span>;
+	<span style="color:#008080">$configurationStringNode</span>.<span style="color:#d14">&#39;#text&#39;</span> = <span style="color:#d14">&#34;$newConfigurationStringValue&#34;</span>;
 }
 
-<span style="color:#66d9ef">function</span> GetNewConfigurationStringValue($oldConfigurationStringValue)
+<span style="color:#000;font-weight:bold">function</span> GetNewConfigurationStringValue(<span style="color:#008080">$oldConfigurationStringValue</span>)
 {
-	<span style="color:#75715e"># implement some logic to determine new value</span>
-	<span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;new value&#34;</span>;
+	<span style="color:#998;font-style:italic"># implement some logic to determine new value</span>
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#d14">&#34;new value&#34;</span>;
 }
 </code></pre></div>
 			</div>

@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Today we ran into a nasty problem with DateTimePickerFormat.Custom. We allow the user to input a month/date with a DateTimePicker as following (nothing fancy)
 private void Form1_Load(object sender, EventArgs e) { this.dateTimePicker1.Value = new DateTime(2007, 8, 31); this.dateTimePicker1.Format = DateTimePickerFormat.Custom; this.dateTimePicker1.CustomFormat = &#34;MM/yyyy&#34;; } Now, change to 09/2007 and notice that you get an Exception, because the control tries to create an unrepresentable new DateTime(2007, 8&#43;1, 31). Thus, if you&rsquo;re going to use the DateTimePicker for MM/yyyy input make sure to set it&rsquo;s value to a DateTimeTime with a day component that exists for all months/years (thus a value between 1 and 28).">
 <meta itemprop="datePublished" content="2007-08-29T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="249">
 
 
@@ -19,7 +19,7 @@ private void Form1_Load(object sender, EventArgs e) { this.dateTimePicker1.Value
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2007-08-29-using-datetimepicker-and-custom-format/" />
 <meta property="article:published_time" content="2007-08-29T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Using DateTimePicker and Custom Format"/>
 <meta name="twitter:description" content="Today we ran into a nasty problem with DateTimePickerFormat.Custom. We allow the user to input a month/date with a DateTimePicker as following (nothing fancy)
@@ -80,67 +80,67 @@ private void Form1_Load(object sender, EventArgs e) { this.dateTimePicker1.Value
 					
 			<div class="markdown">
 				<p>Today we ran into a nasty problem with <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.datetimepickerformat.aspx">DateTimePickerFormat</a>.Custom. We allow the user to input a month/date with a DateTimePicker as following (nothing fancy)</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> Form1_Load(<span style="color:#66d9ef">object</span> sender, EventArgs e)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Form1_Load(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
 {
-	<span style="color:#66d9ef">this</span>.dateTimePicker1.Value = <span style="color:#66d9ef">new</span> DateTime(<span style="color:#ae81ff">2007</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">31</span>);
-	<span style="color:#66d9ef">this</span>.dateTimePicker1.Format = DateTimePickerFormat.Custom;
-	<span style="color:#66d9ef">this</span>.dateTimePicker1.CustomFormat = <span style="color:#e6db74">&#34;MM/yyyy&#34;</span>;
+	<span style="color:#000;font-weight:bold">this</span>.dateTimePicker1.Value = <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">8</span>, <span style="color:#099">31</span>);
+	<span style="color:#000;font-weight:bold">this</span>.dateTimePicker1.Format = DateTimePickerFormat.Custom;
+	<span style="color:#000;font-weight:bold">this</span>.dateTimePicker1.CustomFormat = <span style="color:#d14">&#34;MM/yyyy&#34;</span>;
 }
 </code></pre></div><p>Now, change to 09/2007 and notice that you get an Exception, because the control tries to create an unrepresentable new DateTime(2007, 8+1, 31). Thus, if you&rsquo;re going to use the DateTimePicker for MM/yyyy input make sure to set it&rsquo;s value to a DateTimeTime with a day component that exists for all months/years (thus a value between 1 and 28).</p>
 <p><strong>Addendum:</strong> As usual, super moderator and MVP <a href="https://mvp.support.microsoft.com/default.aspx/profile=6c93adc6-026f-42bf-823c-8e65ca732af2">Hans Passant</a> provided a nice workaround for the problem:)</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MonthPicker</span> : DateTimePicker 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MonthPicker</span> : DateTimePicker 
 {
-	<span style="color:#66d9ef">public</span> MonthPicker() 
+	<span style="color:#000;font-weight:bold">public</span> MonthPicker() 
 	{
-		<span style="color:#66d9ef">this</span>.Format = DateTimePickerFormat.Custom;
-		<span style="color:#66d9ef">this</span>.CustomFormat = <span style="color:#e6db74">&#34;MM/yyyy&#34;</span>;
+		<span style="color:#000;font-weight:bold">this</span>.Format = DateTimePickerFormat.Custom;
+		<span style="color:#000;font-weight:bold">this</span>.CustomFormat = <span style="color:#d14">&#34;MM/yyyy&#34;</span>;
 		DateTime now = DateTime.Now;
-		<span style="color:#66d9ef">this</span>.Value = <span style="color:#66d9ef">new</span> DateTime(now.Year, now.Month, <span style="color:#ae81ff">1</span>);
+		<span style="color:#000;font-weight:bold">this</span>.Value = <span style="color:#000;font-weight:bold">new</span> DateTime(now.Year, now.Month, <span style="color:#099">1</span>);
 	}
 	
-	<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">void</span> WndProc(<span style="color:#66d9ef">ref</span> Message m) 
+	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">void</span> WndProc(<span style="color:#000;font-weight:bold">ref</span> Message m) 
 	{
-		<span style="color:#66d9ef">if</span> (m.Msg == <span style="color:#ae81ff">0</span>x204e) 
+		<span style="color:#000;font-weight:bold">if</span> (m.Msg == <span style="color:#099">0</span>x204e) 
 		{
-			NMHDR hdr = (NMHDR)m.GetLParam(<span style="color:#66d9ef">typeof</span>(NMHDR));
-				<span style="color:#66d9ef">if</span> (hdr.code == -<span style="color:#ae81ff">759</span>) 
+			NMHDR hdr = (NMHDR)m.GetLParam(<span style="color:#000;font-weight:bold">typeof</span>(NMHDR));
+				<span style="color:#000;font-weight:bold">if</span> (hdr.code == -<span style="color:#099">759</span>) 
 				{
-					NMDATETIMECHANGE dt = (NMDATETIMECHANGE)m.GetLParam(<span style="color:#66d9ef">typeof</span>(NMDATETIMECHANGE));
-					<span style="color:#66d9ef">this</span>.Value = <span style="color:#66d9ef">new</span> DateTime(dt.st.wYear, dt.st.wMonth, <span style="color:#ae81ff">1</span>);
-					<span style="color:#66d9ef">return</span>;
+					NMDATETIMECHANGE dt = (NMDATETIMECHANGE)m.GetLParam(<span style="color:#000;font-weight:bold">typeof</span>(NMDATETIMECHANGE));
+					<span style="color:#000;font-weight:bold">this</span>.Value = <span style="color:#000;font-weight:bold">new</span> DateTime(dt.st.wYear, dt.st.wMonth, <span style="color:#099">1</span>);
+					<span style="color:#000;font-weight:bold">return</span>;
 				}
 		}
-		<span style="color:#66d9ef">base</span>.WndProc(<span style="color:#66d9ef">ref</span> m);
+		<span style="color:#000;font-weight:bold">base</span>.WndProc(<span style="color:#000;font-weight:bold">ref</span> m);
 	}
 	
-	<span style="color:#75715e">// P/Invoke declarations
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">	[StructLayout(LayoutKind.Sequential)]</span>
-	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">NMHDR</span> 
+	<span style="color:#998;font-style:italic">// P/Invoke declarations
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">	[StructLayout(LayoutKind.Sequential)]</span>
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">NMHDR</span> 
 	{
-		<span style="color:#66d9ef">public</span> IntPtr hWnd;
-		<span style="color:#66d9ef">public</span> IntPtr id;
-		<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> code;
+		<span style="color:#000;font-weight:bold">public</span> IntPtr hWnd;
+		<span style="color:#000;font-weight:bold">public</span> IntPtr id;
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> code;
 	}
-<span style="color:#a6e22e">	
-</span><span style="color:#a6e22e">	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]</span>
-	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NMDATETIMECHANGE</span> 
+<span style="color:#008080">	
+</span><span style="color:#008080">	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]</span>
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">NMDATETIMECHANGE</span> 
 	{
-		<span style="color:#66d9ef">public</span> NMHDR nmhdr;
-		<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> dwFlags;
-		<span style="color:#66d9ef">public</span> SYSTEMTIME st;
+		<span style="color:#000;font-weight:bold">public</span> NMHDR nmhdr;
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> dwFlags;
+		<span style="color:#000;font-weight:bold">public</span> SYSTEMTIME st;
 	}
-<span style="color:#a6e22e">	
-</span><span style="color:#a6e22e">	[StructLayout(LayoutKind.Sequential)]</span>
-	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SYSTEMTIME</span> 
+<span style="color:#008080">	
+</span><span style="color:#008080">	[StructLayout(LayoutKind.Sequential)]</span>
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">SYSTEMTIME</span> 
 	{
-		<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">short</span> wYear;
-		<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">short</span> wMonth;
-		<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">short</span> wDayOfWeek;
-		<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">short</span> wDay;
-		<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">short</span> wHour;
-		<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">short</span> wMinute;
-		<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">short</span> wSecond;
-		<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">short</span> wMilliseconds;
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">short</span> wYear;
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">short</span> wMonth;
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">short</span> wDayOfWeek;
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">short</span> wDay;
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">short</span> wHour;
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">short</span> wMinute;
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">short</span> wSecond;
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">short</span> wMilliseconds;
 	}
 }
 </code></pre></div>

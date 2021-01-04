@@ -14,7 +14,7 @@
       
       <guid>https://timvw.be/post/2020-12-09-terraform-azure-k8s-spot/</guid>
       <description>In a previous post I demonstrated how easy it has become to deploy a webapplications with an HTTPS backend on Kubernetes and Azure. Let&amp;rsquo;s expand this cluster with a node pool that is backed by spot instances:
-resource &amp;#34;azurerm_kubernetes_cluster_node_pool&amp;#34; &amp;#34;spot&amp;#34; { name = &amp;#34;spot&amp;#34; kubernetes_cluster_id = azurerm_kubernetes_cluster.k8s.id vm_size = &amp;#34;standard_D2s_v4&amp;#34; node_count = 0 enable_auto_scaling = true min_count = 0 max_count = 5 priority = &amp;#34;Spot&amp;#34; eviction_policy = &amp;#34;Delete&amp;#34; spot_max_price = 0.</description>
+resource &amp;#34;azurerm_kubernetes_cluster_node_pool&amp;#34; &amp;#34;spot&amp;#34; {name = &amp;#34;spot&amp;#34;kubernetes_cluster_id = azurerm_kubernetes_cluster.k8s.idvm_size = &amp;#34;standard_D2s_v4&amp;#34;node_count = 0enable_auto_scaling = truemin_count = 0max_count = 5priority = &amp;#34;Spot&amp;#34;eviction_policy = &amp;#34;Delete&amp;#34;spot_max_price = 0.02tags = var.tags}The nodes in this pool will be tainted with kubernetes.</description>
     </item>
     
     <item>

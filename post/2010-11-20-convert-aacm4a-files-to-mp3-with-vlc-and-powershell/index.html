@@ -8,7 +8,7 @@
 vlc.exe -I dummy old.m4a :sout=#transcode{acodec=$codec,vcodec=dummy}:standard{access=file,mux=raw,dst=new.mp3} vlc://quit Let&rsquo;s wrap this command in a bit of PowerShell:
 function ConvertToMp3([switch] $inputObject, [string] $vlc = &#39;C:\Program Files\VideoLAN\VLC\vlc.exe&#39;) { PROCESS { $codec = &#39;mp3&#39;; $oldFile = $_; $newFile = $oldFile.FullName.Replace($oldFile.Extension, &#34;.$codec&#34;); &amp;&#34;$vlc&#34; -I dummy &#34;$oldFile&#34; &#34;:sout=#transcode{acodec=$codec,vcodec=dummy}:standard{access=file,mux=raw,dst=\`&#39;$newFile\`&#39;}&#34; vlc://quit | out-null; #Only remove source files when you are sure that the conversion works as you want  #Remove-Item $oldFile; } } And now we can use this function for *all* m4a files in a given folder:">
 <meta itemprop="datePublished" content="2010-11-20T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="114">
 
 
@@ -21,7 +21,7 @@ function ConvertToMp3([switch] $inputObject, [string] $vlc = &#39;C:\Program Fil
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2010-11-20-convert-aacm4a-files-to-mp3-with-vlc-and-powershell/" />
 <meta property="article:published_time" content="2010-11-20T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Convert AAC/M4A files to MP3 with VLC and PowerShell"/>
 <meta name="twitter:description" content="Here is a way to convert your AAC/M4A files to MP3 using VLC media player:
@@ -83,27 +83,27 @@ function ConvertToMp3([switch] $inputObject, [string] $vlc = &#39;C:\Program Fil
 					
 			<div class="markdown">
 				<p>Here is a way to convert your AAC/M4A files to MP3 using <a href="http://www.videolan.org/vlc">VLC</a> media player:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">vlc.exe -I dummy old.m4a :sout=#transcode{acodec=$codec,vcodec=dummy}:standard{access=file,mux=raw,dst=new.mp3} vlc://quit
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">vlc.exe -I dummy old.m4a :sout=#transcode{acodec=$codec,vcodec=dummy}:standard{access=file,mux=raw,dst=new.mp3} vlc://quit
 </code></pre></div><p>Let&rsquo;s wrap this command in a bit of PowerShell:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#66d9ef">function</span> ConvertToMp3(<span style="color:#66d9ef">[switch]</span> $inputObject, <span style="color:#66d9ef">[string]</span> $vlc = <span style="color:#e6db74">&#39;C:\Program Files\VideoLAN\VLC\vlc.exe&#39;</span>) {      
-  <span style="color:#66d9ef">PROCESS</span> {            
-    $codec = <span style="color:#e6db74">&#39;mp3&#39;</span>;        
-    $oldFile = $_;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> ConvertToMp3(<span style="color:#008080">[switch]</span> <span style="color:#008080">$inputObject</span>, <span style="color:#008080">[string]</span> <span style="color:#008080">$vlc</span> = <span style="color:#d14">&#39;C:\Program Files\VideoLAN\VLC\vlc.exe&#39;</span>) {      
+  <span style="color:#000;font-weight:bold">PROCESS</span> {            
+    <span style="color:#008080">$codec</span> = <span style="color:#d14">&#39;mp3&#39;</span>;        
+    <span style="color:#008080">$oldFile</span> = <span style="color:#008080">$_</span>;
 
-    $newFile = $oldFile.FullName.Replace($oldFile.Extension, <span style="color:#e6db74">&#34;.$codec&#34;</span>);
+    <span style="color:#008080">$newFile</span> = <span style="color:#008080">$oldFile</span>.FullName.Replace(<span style="color:#008080">$oldFile</span>.Extension, <span style="color:#d14">&#34;.$codec&#34;</span>);
 
-    &amp;<span style="color:#e6db74">&#34;$vlc&#34;</span> -I dummy <span style="color:#e6db74">&#34;$oldFile&#34;</span> <span style="color:#e6db74">&#34;:sout=#transcode{acodec=$codec,vcodec=dummy}:standard{access=file,mux=raw,dst=\</span><span style="color:#ae81ff">`&#39;</span><span style="color:#e6db74">$newFile\</span><span style="color:#ae81ff">`&#39;</span><span style="color:#e6db74">}&#34;</span> vlc<span style="color:#960050;background-color:#1e0010">:</span>//quit | out-null;
+    &amp;<span style="color:#d14">&#34;$vlc&#34;</span> -I dummy <span style="color:#d14">&#34;$oldFile&#34;</span> <span style="color:#d14">&#34;:sout=#transcode{acodec=$codec,vcodec=dummy}:standard{access=file,mux=raw,dst=\</span><span style="color:#d14">`&#39;</span><span style="color:#d14">$newFile\</span><span style="color:#d14">`&#39;</span><span style="color:#d14">}&#34;</span> vlc<span style="color:#a61717;background-color:#e3d2d2">:</span>//quit | <span style="color:#0086b3">out-null</span>;
 
-    <span style="color:#75715e">#Only remove source files when you are sure that the conversion works as you want          </span>
-    <span style="color:#75715e">#Remove-Item $oldFile;</span>
+    <span style="color:#998;font-style:italic">#Only remove source files when you are sure that the conversion works as you want          </span>
+    <span style="color:#998;font-style:italic">#Remove-Item $oldFile;</span>
   }  
 }
 </code></pre></div><p>And now we can use this function for *all* m4a files in a given folder:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#66d9ef">function</span> ConvertAllToMp3(<span style="color:#66d9ef">[string]</span> $sourcePath) {
-  Get-ChildItem <span style="color:#e6db74">&#34;$sourcePath\*&#34;</span> -recurse -include *.m4a | ConvertToMp3;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> ConvertAllToMp3(<span style="color:#008080">[string]</span> <span style="color:#008080">$sourcePath</span>) {
+  <span style="color:#0086b3">Get-ChildItem</span> <span style="color:#d14">&#34;$sourcePath\*&#34;</span> -recurse -include *.m4a | ConvertToMp3;
 }
 </code></pre></div><p>Using the function is as easy as:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">ConvertAllToMp3 <span style="color:#e6db74">&#39;C:\Users\timvw\Music&#39;</span>;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">ConvertAllToMp3 <span style="color:#d14">&#39;C:\Users\timvw\Music&#39;</span>;
 </code></pre></div>
 			</div>
 

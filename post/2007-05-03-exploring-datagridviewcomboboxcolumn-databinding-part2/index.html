@@ -8,7 +8,7 @@
 I&rsquo;ll start with creating a DataSet, add two DataTables, and create a relation on PersonType.Id (int32). In the designer this looks like
 Next i create a DataSetDac that will return an instance of a Filled PersonDataSet (In real life you would probably use a TableAdapter and get the data from a database) The code is as simple as">
 <meta itemprop="datePublished" content="2007-05-03T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="354">
 
 
@@ -21,7 +21,7 @@ Next i create a DataSetDac that will return an instance of a Filled PersonDataSe
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2007-05-03-exploring-datagridviewcomboboxcolumn-databinding-part2/" />
 <meta property="article:published_time" content="2007-05-03T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Exploring DataGridViewComboBoxColumn databinding (part2)"/>
 <meta name="twitter:description" content="A while ago i wrote about Exploring DataGridViewComboBoxColumn databinding using Business Objects. Some people asked me to give an example using DataSets&hellip;
@@ -86,79 +86,79 @@ Next i create a DataSetDac that will return an instance of a Filled PersonDataSe
 <p>I&rsquo;ll start with creating a DataSet, add two DataTables, and create a relation on PersonType.Id (int32). In the designer this looks like</p>
 <p><img src="http://www.timvw.be/wp-content/images/databind-dataset1.gif" alt="screenshot of dataset designer displaying person and persontype"></p>
 <p>Next i create a DataSetDac that will return an instance of a Filled PersonDataSet (In real life you would probably use a TableAdapter and get the data from a database) The code is as simple as</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> PersonsDataSet Find()
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> PersonsDataSet Find()
 {
-	PersonsDataSet personsDataSet = <span style="color:#66d9ef">new</span> PersonsDataSet();
+	PersonsDataSet personsDataSet = <span style="color:#000;font-weight:bold">new</span> PersonsDataSet();
 
-	personsDataSet.PersonType.Rows.Add(<span style="color:#66d9ef">new</span> <span style="color:#66d9ef">object</span>[] { <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;A geeky person&#34;</span> });
-	personsDataSet.PersonType.Rows.Add(<span style="color:#66d9ef">new</span> <span style="color:#66d9ef">object</span>[] { <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;A coward&#34;</span> });
-	personsDataSet.PersonType.Rows.Add(<span style="color:#66d9ef">new</span> <span style="color:#66d9ef">object</span>[] { <span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#34;Feeling hot hot hot&#34;</span> });
-	personsDataSet.PersonType.Rows.Add(<span style="color:#66d9ef">new</span> <span style="color:#66d9ef">object</span>[] { -<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;(None)&#34;</span> });
+	personsDataSet.PersonType.Rows.Add(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">object</span>[] { <span style="color:#099">0</span>, <span style="color:#d14">&#34;A geeky person&#34;</span> });
+	personsDataSet.PersonType.Rows.Add(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">object</span>[] { <span style="color:#099">1</span>, <span style="color:#d14">&#34;A coward&#34;</span> });
+	personsDataSet.PersonType.Rows.Add(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">object</span>[] { <span style="color:#099">2</span>, <span style="color:#d14">&#34;Feeling hot hot hot&#34;</span> });
+	personsDataSet.PersonType.Rows.Add(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">object</span>[] { -<span style="color:#099">1</span>, <span style="color:#d14">&#34;(None)&#34;</span> });
 
-	personsDataSet.Person.Rows.Add(<span style="color:#66d9ef">new</span> <span style="color:#66d9ef">object</span>[] { <span style="color:#e6db74">&#34;Timvw&#34;</span>, <span style="color:#ae81ff">0</span> });
-	personsDataSet.Person.Rows.Add(<span style="color:#66d9ef">new</span> <span style="color:#66d9ef">object</span>[] { <span style="color:#e6db74">&#34;John Doe&#34;</span>, <span style="color:#ae81ff">1</span> });
-	personsDataSet.Person.Rows.Add(<span style="color:#66d9ef">new</span> <span style="color:#66d9ef">object</span>[] { <span style="color:#e6db74">&#34;An Onymous&#34;</span>, <span style="color:#ae81ff">1</span> });
-	personsDataSet.Person.Rows.Add(<span style="color:#66d9ef">new</span> <span style="color:#66d9ef">object</span>[] { <span style="color:#e6db74">&#34;Jenna Jameson&#34;</span>, <span style="color:#ae81ff">2</span> });
-	personsDataSet.Person.Rows.Add(<span style="color:#66d9ef">new</span> <span style="color:#66d9ef">object</span>[] { <span style="color:#e6db74">&#34;Null Able&#34;</span>, -<span style="color:#ae81ff">1</span> });
+	personsDataSet.Person.Rows.Add(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">object</span>[] { <span style="color:#d14">&#34;Timvw&#34;</span>, <span style="color:#099">0</span> });
+	personsDataSet.Person.Rows.Add(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">object</span>[] { <span style="color:#d14">&#34;John Doe&#34;</span>, <span style="color:#099">1</span> });
+	personsDataSet.Person.Rows.Add(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">object</span>[] { <span style="color:#d14">&#34;An Onymous&#34;</span>, <span style="color:#099">1</span> });
+	personsDataSet.Person.Rows.Add(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">object</span>[] { <span style="color:#d14">&#34;Jenna Jameson&#34;</span>, <span style="color:#099">2</span> });
+	personsDataSet.Person.Rows.Add(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">object</span>[] { <span style="color:#d14">&#34;Null Able&#34;</span>, -<span style="color:#099">1</span> });
 
-	<span style="color:#66d9ef">return</span> personsDataSet;
+	<span style="color:#000;font-weight:bold">return</span> personsDataSet;
 }
 </code></pre></div><p>And now comes the important stuff: Bind the data to the DataGridView and DataGridViewComboBoxColumn</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> Form1()
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> Form1()
 {
 	InitializeComponent();
 
 	PersonsDataSet personsDataSet = DataSetDac.Find();
 
-	<span style="color:#66d9ef">this</span>.dataGridView1.AutoGenerateColumns = <span style="color:#66d9ef">false</span>;
-	<span style="color:#66d9ef">this</span>.ColumnName.DataPropertyName = <span style="color:#e6db74">&#34;Name&#34;</span>;
-	<span style="color:#66d9ef">this</span>.ColumnPersonTypeCode.DataPropertyName = <span style="color:#e6db74">&#34;PersonTypeId&#34;</span>;
+	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.AutoGenerateColumns = <span style="color:#000;font-weight:bold">false</span>;
+	<span style="color:#000;font-weight:bold">this</span>.ColumnName.DataPropertyName = <span style="color:#d14">&#34;Name&#34;</span>;
+	<span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.DataPropertyName = <span style="color:#d14">&#34;PersonTypeId&#34;</span>;
 
-	<span style="color:#66d9ef">this</span>.ColumnPersonTypeCode.DisplayMember = <span style="color:#e6db74">&#34;Label&#34;</span>;
-	<span style="color:#66d9ef">this</span>.ColumnPersonTypeCode.ValueMember = <span style="color:#e6db74">&#34;Id&#34;</span>;
-	<span style="color:#66d9ef">this</span>.ColumnPersonTypeCode.DataSource = personsDataSet.PersonType;
+	<span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.DisplayMember = <span style="color:#d14">&#34;Label&#34;</span>;
+	<span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.ValueMember = <span style="color:#d14">&#34;Id&#34;</span>;
+	<span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.DataSource = personsDataSet.PersonType;
 
-	BindingSource bindingSource = <span style="color:#66d9ef">new</span> BindingSource();
+	BindingSource bindingSource = <span style="color:#000;font-weight:bold">new</span> BindingSource();
 	bindingSource.DataSource = personsDataSet.Person;
-	<span style="color:#66d9ef">this</span>.dataGridView1.DataSource = bindingSource;
+	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataSource = bindingSource;
 }
 </code></pre></div><p>Geeks are doomed to stay Geeks forever. When you try change a Person that is a Geek, the values in ComboBox should be limited to Geek and (None). The following code takes care of that</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">void</span> dataGridView1_EditingControlShowing(<span style="color:#66d9ef">object</span> sender, DataGridViewEditingControlShowingEventArgs e)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing(<span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e)
 {
-	<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.dataGridView1.CurrentCell.ColumnIndex == <span style="color:#66d9ef">this</span>.ColumnPersonTypeCode.Index)
+	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.dataGridView1.CurrentCell.ColumnIndex == <span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.Index)
 	{
-		BindingSource bindingSource = <span style="color:#66d9ef">this</span>.dataGridView1.DataSource <span style="color:#66d9ef">as</span> BindingSource;
-		PersonsDataSet.PersonRow person = (bindingSource.Current <span style="color:#66d9ef">as</span> DataRowView).Row <span style="color:#66d9ef">as</span> PersonsDataSet.PersonRow;
+		BindingSource bindingSource = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataSource <span style="color:#000;font-weight:bold">as</span> BindingSource;
+		PersonsDataSet.PersonRow person = (bindingSource.Current <span style="color:#000;font-weight:bold">as</span> DataRowView).Row <span style="color:#000;font-weight:bold">as</span> PersonsDataSet.PersonRow;
 
-		<span style="color:#75715e">// this method returns the allowed persontypes for the given person
-</span><span style="color:#75715e"></span>		PersonsDataSet.PersonTypeDataTable personTypeDataTable = DataSetDac.FindPersonTypes(person);
+		<span style="color:#998;font-style:italic">// this method returns the allowed persontypes for the given person
+</span><span style="color:#998;font-style:italic"></span>		PersonsDataSet.PersonTypeDataTable personTypeDataTable = DataSetDac.FindPersonTypes(person);
 
-		DataGridViewComboBoxEditingControl comboBox = e.Control <span style="color:#66d9ef">as</span> DataGridViewComboBoxEditingControl;
+		DataGridViewComboBoxEditingControl comboBox = e.Control <span style="color:#000;font-weight:bold">as</span> DataGridViewComboBoxEditingControl;
 		comboBox.DataSource = personTypeDataTable;
 
-		comboBox.SelectionChangeCommitted -= <span style="color:#66d9ef">this</span>.comboBox_SelectionChangeCommitted;
-		comboBox.SelectionChangeCommitted += <span style="color:#66d9ef">this</span>.comboBox_SelectionChangeCommitted;
+		comboBox.SelectionChangeCommitted -= <span style="color:#000;font-weight:bold">this</span>.comboBox_SelectionChangeCommitted;
+		comboBox.SelectionChangeCommitted += <span style="color:#000;font-weight:bold">this</span>.comboBox_SelectionChangeCommitted;
 	}
 }
 
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> PersonsDataSet.PersonTypeDataTable FindPersonTypes(PersonsDataSet.PersonRow person)
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> PersonsDataSet.PersonTypeDataTable FindPersonTypes(PersonsDataSet.PersonRow person)
 {
-	<span style="color:#75715e">// by default, all persons simply have one of the available persontypecodes
-</span><span style="color:#75715e"></span>	PersonsDataSet personsDataSet = Find();
+	<span style="color:#998;font-style:italic">// by default, all persons simply have one of the available persontypecodes
+</span><span style="color:#998;font-style:italic"></span>	PersonsDataSet personsDataSet = Find();
 
-	<span style="color:#66d9ef">if</span> (person.PersonTypeId.Equals(<span style="color:#ae81ff">0</span>))
+	<span style="color:#000;font-weight:bold">if</span> (person.PersonTypeId.Equals(<span style="color:#099">0</span>))
 	{
-		<span style="color:#75715e">// geeks are doomed to stay geeks
-</span><span style="color:#75715e"></span>		personsDataSet.PersonType.Rows.RemoveAt(<span style="color:#ae81ff">2</span>);
-		personsDataSet.PersonType.Rows.RemoveAt(<span style="color:#ae81ff">1</span>);
+		<span style="color:#998;font-style:italic">// geeks are doomed to stay geeks
+</span><span style="color:#998;font-style:italic"></span>		personsDataSet.PersonType.Rows.RemoveAt(<span style="color:#099">2</span>);
+		personsDataSet.PersonType.Rows.RemoveAt(<span style="color:#099">1</span>);
 	}
 
-	<span style="color:#66d9ef">return</span> personsDataSet.PersonType;
+	<span style="color:#000;font-weight:bold">return</span> personsDataSet.PersonType;
 }
 
-<span style="color:#66d9ef">void</span> comboBox_SelectionChangeCommitted(<span style="color:#66d9ef">object</span> sender, EventArgs e)
+<span style="color:#000;font-weight:bold">void</span> comboBox_SelectionChangeCommitted(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
 {
-	<span style="color:#66d9ef">this</span>.dataGridView1.EndEdit();
+	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.EndEdit();
 }
 </code></pre></div><p>As always, feel free to download <a href="http://www.timvw.be/wp-content/code/csharp/DataGridViewComboBoxBinding2.zip">DataGridViewComboBoxBinding2.zip</a>.</p>
 

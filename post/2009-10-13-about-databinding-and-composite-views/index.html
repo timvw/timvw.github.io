@@ -8,7 +8,7 @@
 &lt;grid&gt; &lt;grid.Resources&gt; &lt;dataTemplate x:Key=&#34;CellTemplate&#34;&gt; &lt;views:CellView /&gt; &lt;/dataTemplate&gt; &lt;/grid.Resources&gt; &lt;itemsControl ItemTemplate=&#34;{StaticResource CellTemplate}&#34; ItemsSource=&#34;{Binding Cells}&#34; /&gt; &lt;/grid&gt; Because each CellViewModel needs to know which cell they manage i used the following dirty hack
 public CellView() { Loaded &#43;= CellView_Loaded; } void CellView_Loaded(object sender, RoutedEventArgs e) { DataContext = new CellViewModel(DataContext); } Later on that day i realised there was a much cleaner solution: Let the BoardViewModel expose a collection of ViewModels.">
 <meta itemprop="datePublished" content="2009-10-13T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="106">
 
 
@@ -21,7 +21,7 @@ public CellView() { Loaded &#43;= CellView_Loaded; } void CellView_Loaded(object
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2009-10-13-about-databinding-and-composite-views/" />
 <meta property="article:published_time" content="2009-10-13T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="About databinding and composite views"/>
 <meta name="twitter:description" content="A couple of days ago i had a databound ItemsControl (collection of Model.Cell) which instantiated sub views (with their own viewmodel).
@@ -83,23 +83,23 @@ public CellView() { Loaded &#43;= CellView_Loaded; } void CellView_Loaded(object
 					
 			<div class="markdown">
 				<p>A couple of days ago i had a databound ItemsControl (collection of Model.Cell) which instantiated sub views (with their own viewmodel).</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;grid&gt;</span>
-	<span style="color:#f92672">&lt;grid.Resources&gt;</span>
-		<span style="color:#f92672">&lt;dataTemplate</span> <span style="color:#a6e22e">x:Key=</span><span style="color:#e6db74">&#34;CellTemplate&#34;</span><span style="color:#f92672">&gt;</span>
-			<span style="color:#f92672">&lt;views:CellView</span> <span style="color:#f92672">/&gt;</span>
-		<span style="color:#f92672">&lt;/dataTemplate&gt;</span>
-	<span style="color:#f92672">&lt;/grid.Resources&gt;</span>
-	<span style="color:#f92672">&lt;itemsControl</span> <span style="color:#a6e22e">ItemTemplate=</span><span style="color:#e6db74">&#34;{StaticResource CellTemplate}&#34;</span> <span style="color:#a6e22e">ItemsSource=</span><span style="color:#e6db74">&#34;{Binding Cells}&#34;</span> <span style="color:#f92672">/&gt;</span>
-<span style="color:#f92672">&lt;/grid&gt;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;grid&gt;</span>
+	<span style="color:#000080">&lt;grid.Resources&gt;</span>
+		<span style="color:#000080">&lt;dataTemplate</span> <span style="color:#008080">x:Key=</span><span style="color:#d14">&#34;CellTemplate&#34;</span><span style="color:#000080">&gt;</span>
+			<span style="color:#000080">&lt;views:CellView</span> <span style="color:#000080">/&gt;</span>
+		<span style="color:#000080">&lt;/dataTemplate&gt;</span>
+	<span style="color:#000080">&lt;/grid.Resources&gt;</span>
+	<span style="color:#000080">&lt;itemsControl</span> <span style="color:#008080">ItemTemplate=</span><span style="color:#d14">&#34;{StaticResource CellTemplate}&#34;</span> <span style="color:#008080">ItemsSource=</span><span style="color:#d14">&#34;{Binding Cells}&#34;</span> <span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;/grid&gt;</span>
 </code></pre></div><p>Because each CellViewModel needs to know which cell they manage i used the following dirty hack</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> CellView()
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> CellView()
 {
 	Loaded += CellView_Loaded;
 }
 
-<span style="color:#66d9ef">void</span> CellView_Loaded(<span style="color:#66d9ef">object</span> sender, RoutedEventArgs e)
+<span style="color:#000;font-weight:bold">void</span> CellView_Loaded(<span style="color:#458;font-weight:bold">object</span> sender, RoutedEventArgs e)
 {
-	DataContext = <span style="color:#66d9ef">new</span> CellViewModel(DataContext);
+	DataContext = <span style="color:#000;font-weight:bold">new</span> CellViewModel(DataContext);
 }
 </code></pre></div><p>Later on that day i realised there was a much cleaner solution: Let the BoardViewModel expose a collection of ViewModels.CellViewModel instead of Model.Cell. What a relief that i don&rsquo;t have to use the Loaded event hack.</p>
 

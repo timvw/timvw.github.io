@@ -7,7 +7,7 @@
 <meta itemprop="description" content="The scenario is as following: each table can have many reservations, and each reservation can span many tables. Here is our first trial
 // Table.java @ManyToMany( targetEntity=Reservation.class ) public List getReservations() {..} // Reservation.java @ManyToMany( targetEntity=Table.class ) public List getTables() {..} We end up with linktables tables_reservations and reservations_tables. This is not what we want. It should not be possible to remove a table when there are still reservations related to that table.">
 <meta itemprop="datePublished" content="2006-01-28T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="281">
 
 
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2006-01-28-manytomany-relationships-with-java-persistence-jsr-220/" />
 <meta property="article:published_time" content="2006-01-28T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="ManyToMany relationships with Java Persistence (JSR-220)"/>
 <meta name="twitter:description" content="The scenario is as following: each table can have many reservations, and each reservation can span many tables. Here is our first trial
@@ -80,55 +80,55 @@
 					
 			<div class="markdown">
 				<p>The scenario is as following: each table can have many reservations, and each reservation can span many tables. Here is our first trial</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// Table.java
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">@ManyToMany</span><span style="color:#f92672">(</span> 
-  targetEntity<span style="color:#f92672">=</span>Reservation<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span> 
-<span style="color:#f92672">)</span>
-<span style="color:#66d9ef">public</span> List <span style="color:#a6e22e">getReservations</span><span style="color:#f92672">()</span> <span style="color:#f92672">{..}</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Table.java
+</span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToMany</span><span style="color:#000;font-weight:bold">(</span> 
+  targetEntity<span style="color:#000;font-weight:bold">=</span>Reservation<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span> 
+<span style="color:#000;font-weight:bold">)</span>
+<span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getReservations</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{..}</span>
 
-<span style="color:#75715e">// Reservation.java  
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">@ManyToMany</span><span style="color:#f92672">(</span>   
-  targetEntity<span style="color:#f92672">=</span>Table<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span>
-<span style="color:#f92672">)</span>
-<span style="color:#66d9ef">public</span> List <span style="color:#a6e22e">getTables</span><span style="color:#f92672">()</span> <span style="color:#f92672">{..}</span>
+<span style="color:#998;font-style:italic">// Reservation.java  
+</span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToMany</span><span style="color:#000;font-weight:bold">(</span>   
+  targetEntity<span style="color:#000;font-weight:bold">=</span>Table<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span>
+<span style="color:#000;font-weight:bold">)</span>
+<span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getTables</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{..}</span>
 </code></pre></div><p>We end up with linktables tables_reservations and reservations_tables. This is not what we want. It should not be possible to remove a table when there are still reservations related to that table. We change our code so that table becomes the owner of the relationship.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// Table.java
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">@ManyToMany</span><span style="color:#f92672">(</span> 
-  targetEntity<span style="color:#f92672">=</span>Reservation<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> 
-  mappedBy<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tables&#34;</span>
-<span style="color:#f92672">)</span> 
-<span style="color:#66d9ef">public</span> List <span style="color:#a6e22e">getReservations</span><span style="color:#f92672">()</span> <span style="color:#f92672">{..}</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Table.java
+</span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToMany</span><span style="color:#000;font-weight:bold">(</span> 
+  targetEntity<span style="color:#000;font-weight:bold">=</span>Reservation<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span> 
+  mappedBy<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;tables&#34;</span>
+<span style="color:#000;font-weight:bold">)</span> 
+<span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getReservations</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{..}</span>
 </code></pre></div><p>Allright, now we only have the linktable reservations_tables. Exactly the same as we experienced with <a href="http://www.timvw.be/onetomany-relationships-with-java-persistence-jsr220/">OneToMany</a> relationships the cascading persist works when we persist a child (reservation). If we want the cascading persist to work when we persist a parent (table) we have to make sure that the child (reservation) has the parent set. An important difference is that we can not enforce this thus i advise not to use the cascade attribute on the owner (table).</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// Table.java
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">@ManyToMany</span><span style="color:#f92672">(</span>  
-  targetEntity<span style="color:#f92672">=</span>Reservation<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span>   
-  mappedBy<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tables&#34;</span>
-<span style="color:#f92672">)</span> 
-<span style="color:#66d9ef">public</span> List <span style="color:#a6e22e">getReservations</span><span style="color:#f92672">()</span> <span style="color:#f92672">{..}</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Table.java
+</span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToMany</span><span style="color:#000;font-weight:bold">(</span>  
+  targetEntity<span style="color:#000;font-weight:bold">=</span>Reservation<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span>   
+  mappedBy<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;tables&#34;</span>
+<span style="color:#000;font-weight:bold">)</span> 
+<span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getReservations</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{..}</span>
 
-<span style="color:#75715e">// Reservation.java
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">@ManyToMany</span><span style="color:#f92672">(</span> 
-  targetEntity<span style="color:#f92672">=</span>Table<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span>
-  cascade<span style="color:#f92672">=</span>CascadeType<span style="color:#f92672">.</span><span style="color:#a6e22e">PERSIST</span>
-<span style="color:#f92672">)</span>
-<span style="color:#66d9ef">public</span> List <span style="color:#a6e22e">getTables</span><span style="color:#f92672">()</span> <span style="color:#f92672">{..}</span>
+<span style="color:#998;font-style:italic">// Reservation.java
+</span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToMany</span><span style="color:#000;font-weight:bold">(</span> 
+  targetEntity<span style="color:#000;font-weight:bold">=</span>Table<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span>
+  cascade<span style="color:#000;font-weight:bold">=</span>CascadeType<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">PERSIST</span>
+<span style="color:#000;font-weight:bold">)</span>
+<span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getTables</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{..}</span>
 </code></pre></div><p>We decide to use the <a href="http://www.hibernate.org/hib_docs/annotations/reference/en/html/validator.html">Hibernate Validator</a> classes to enforce that a reservation is associated with at least one table. For some reason the SizeValidator returns true if the value is null thus we also add a NotNullValidator:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// Reservation.java
-</span><span style="color:#75715e"></span><span style="color:#f92672">import</span> org.hibernate.validator.*<span style="color:#f92672">;</span>
-<span style="color:#a6e22e">@ManyToMany</span><span style="color:#f92672">(</span> 
-  targetEntity<span style="color:#f92672">=</span>Table<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span>  
-  cascade<span style="color:#f92672">=</span>CascadeType<span style="color:#f92672">.</span><span style="color:#a6e22e">PERSIST</span> 
-<span style="color:#f92672">)</span> 
-<span style="color:#a6e22e">@NotNull</span>
-<span style="color:#a6e22e">@Size</span><span style="color:#f92672">(</span>min<span style="color:#f92672">=</span>1<span style="color:#f92672">)</span>
-<span style="color:#66d9ef">public</span> List <span style="color:#a6e22e">getTables</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span> <span style="color:#f92672">..</span> <span style="color:#f92672">}</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Reservation.java
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">org.hibernate.validator.*</span><span style="color:#000;font-weight:bold">;</span>
+<span style="color:#3c5d5d;font-weight:bold">@ManyToMany</span><span style="color:#000;font-weight:bold">(</span> 
+  targetEntity<span style="color:#000;font-weight:bold">=</span>Table<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span>  
+  cascade<span style="color:#000;font-weight:bold">=</span>CascadeType<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">PERSIST</span> 
+<span style="color:#000;font-weight:bold">)</span> 
+<span style="color:#3c5d5d;font-weight:bold">@NotNull</span>
+<span style="color:#3c5d5d;font-weight:bold">@Size</span><span style="color:#000;font-weight:bold">(</span>min<span style="color:#000;font-weight:bold">=</span>1<span style="color:#000;font-weight:bold">)</span>
+<span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getTables</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000;font-weight:bold">..</span> <span style="color:#000;font-weight:bold">}</span>
 </code></pre></div><p>Ok, this allows us to enforce that reservations are always associated with at least one table. We decide to allow cascading persist on the parent.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@ManyToMany</span><span style="color:#f92672">(</span>  
-targetEntity<span style="color:#f92672">=</span>Reservation<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span>  
-mappedBy<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tables&#34;</span><span style="color:#f92672">,</span>   
-cascade<span style="color:#f92672">=</span>CascadeType<span style="color:#f92672">.</span><span style="color:#a6e22e">PERSIST</span>
-<span style="color:#f92672">)</span> 
-<span style="color:#66d9ef">public</span> List <span style="color:#a6e22e">getReservations</span><span style="color:#f92672">()</span> <span style="color:#f92672">{..}</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#3c5d5d;font-weight:bold">@ManyToMany</span><span style="color:#000;font-weight:bold">(</span>  
+targetEntity<span style="color:#000;font-weight:bold">=</span>Reservation<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span>  
+mappedBy<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;tables&#34;</span><span style="color:#000;font-weight:bold">,</span>   
+cascade<span style="color:#000;font-weight:bold">=</span>CascadeType<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">PERSIST</span>
+<span style="color:#000;font-weight:bold">)</span> 
+<span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getReservations</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{..}</span>
 </code></pre></div>
 			</div>
 

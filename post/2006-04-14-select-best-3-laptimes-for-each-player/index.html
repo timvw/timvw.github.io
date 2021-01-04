@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Imagine that you have a schema where you store all the times a player needed to complete a parcours. A possible schema could be (postgresql)
 CREATE TABLE laptimes ( lap_id SERIAL NOT NULL, player_id INT NOT NULL, laptime INT NOT NULL, PRIMARY KEY (lap_id) ); INSERT INTO laptimes (player_id, laptime) VALUES (1, 250); INSERT INTO laptimes (player_id, laptime) VALUES (1, 450); INSERT INTO laptimes (player_id, laptime) VALUES (1, 350); INSERT INTO laptimes (player_id, laptime) VALUES (1, 300); INSERT INTO laptimes (player_id, laptime) VALUES (1, 327); INSERT INTO laptimes (player_id, laptime) VALUES (2, 327); INSERT INTO laptimes (player_id, laptime) VALUES (2, 249); INSERT INTO laptimes (player_id, laptime) VALUES (2, 123); INSERT INTO laptimes (player_id, laptime) VALUES (2, 489); INSERT INTO laptimes (player_id, laptime) VALUES (2, 158); INSERT INTO laptimes (player_id, laptime) VALUES (3, 158); INSERT INTO laptimes (player_id, laptime) VALUES (3, 120); INSERT INTO laptimes (player_id, laptime) VALUES (3, 190); INSERT INTO laptimes (player_id, laptime) VALUES (4, 600); Now imagine that you want to display the best 3 results for each player.">
 <meta itemprop="datePublished" content="2006-04-14T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="206">
 
 
@@ -19,7 +19,7 @@ CREATE TABLE laptimes ( lap_id SERIAL NOT NULL, player_id INT NOT NULL, laptime 
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2006-04-14-select-best-3-laptimes-for-each-player/" />
 <meta property="article:published_time" content="2006-04-14T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Select best 3 laptimes for each player"/>
 <meta name="twitter:description" content="Imagine that you have a schema where you store all the times a player needed to complete a parcours. A possible schema could be (postgresql)
@@ -80,41 +80,41 @@ CREATE TABLE laptimes ( lap_id SERIAL NOT NULL, player_id INT NOT NULL, laptime 
 					
 			<div class="markdown">
 				<p>Imagine that you have a schema where you store all the times a player needed to complete a parcours. A possible schema could be (<a href="http://www.postgresql.org">postgresql</a>)</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> laptimes (
-lap_id SERIAL <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
-player_id INT <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
-laptime INT <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
-<span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (lap_id)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">CREATE</span> <span style="color:#000;font-weight:bold">TABLE</span> laptimes (
+lap_id <span style="color:#0086b3">SERIAL</span> <span style="color:#000;font-weight:bold">NOT</span> <span style="color:#000;font-weight:bold">NULL</span>,
+player_id <span style="color:#0086b3">INT</span> <span style="color:#000;font-weight:bold">NOT</span> <span style="color:#000;font-weight:bold">NULL</span>,
+laptime <span style="color:#0086b3">INT</span> <span style="color:#000;font-weight:bold">NOT</span> <span style="color:#000;font-weight:bold">NULL</span>,
+<span style="color:#000;font-weight:bold">PRIMARY</span> <span style="color:#000;font-weight:bold">KEY</span> (lap_id)
 );
 
-<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> laptimes (player_id, laptime) <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">250</span>);
-<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> laptimes (player_id, laptime) <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">450</span>);
-<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> laptimes (player_id, laptime) <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">350</span>);
-<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> laptimes (player_id, laptime) <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">300</span>);
-<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> laptimes (player_id, laptime) <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">327</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">1</span>, <span style="color:#099">250</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">1</span>, <span style="color:#099">450</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">1</span>, <span style="color:#099">350</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">1</span>, <span style="color:#099">300</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">1</span>, <span style="color:#099">327</span>);
 
-<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> laptimes (player_id, laptime) <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">327</span>);
-<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> laptimes (player_id, laptime) <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">249</span>);
-<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> laptimes (player_id, laptime) <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">123</span>);
-<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> laptimes (player_id, laptime) <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">489</span>);
-<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> laptimes (player_id, laptime) <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">158</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">2</span>, <span style="color:#099">327</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">2</span>, <span style="color:#099">249</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">2</span>, <span style="color:#099">123</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">2</span>, <span style="color:#099">489</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">2</span>, <span style="color:#099">158</span>);
 
-<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> laptimes (player_id, laptime) <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">158</span>);
-<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> laptimes (player_id, laptime) <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">120</span>);
-<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> laptimes (player_id, laptime) <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">190</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">3</span>, <span style="color:#099">158</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">3</span>, <span style="color:#099">120</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">3</span>, <span style="color:#099">190</span>);
 
-<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> laptimes (player_id, laptime) <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">600</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">4</span>, <span style="color:#099">600</span>);
 </code></pre></div><p>Now imagine that you want to display the best 3 results for each player. Here&rsquo;s how</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span>
-<span style="color:#66d9ef">FROM</span> laptimes <span style="color:#66d9ef">AS</span> l1
-<span style="color:#66d9ef">WHERE</span> lap_id <span style="color:#66d9ef">IN</span> (
-<span style="color:#66d9ef">SELECT</span> lap_id
-<span style="color:#66d9ef">FROM</span> laptimes <span style="color:#66d9ef">AS</span> l2
-<span style="color:#66d9ef">WHERE</span> l1.player<span style="color:#960050;background-color:#1e0010">\</span>_id <span style="color:#f92672">=</span> l2.player<span style="color:#960050;background-color:#1e0010">\</span>_id
-<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> laptime <span style="color:#66d9ef">ASC</span>
-<span style="color:#66d9ef">LIMIT</span> <span style="color:#ae81ff">3</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">*</span>
+<span style="color:#000;font-weight:bold">FROM</span> laptimes <span style="color:#000;font-weight:bold">AS</span> l1
+<span style="color:#000;font-weight:bold">WHERE</span> lap_id <span style="color:#000;font-weight:bold">IN</span> (
+<span style="color:#000;font-weight:bold">SELECT</span> lap_id
+<span style="color:#000;font-weight:bold">FROM</span> laptimes <span style="color:#000;font-weight:bold">AS</span> l2
+<span style="color:#000;font-weight:bold">WHERE</span> l1.player<span style="color:#a61717;background-color:#e3d2d2">\</span>_id <span style="color:#000;font-weight:bold">=</span> l2.player<span style="color:#a61717;background-color:#e3d2d2">\</span>_id
+<span style="color:#000;font-weight:bold">ORDER</span> <span style="color:#000;font-weight:bold">BY</span> laptime <span style="color:#000;font-weight:bold">ASC</span>
+<span style="color:#000;font-weight:bold">LIMIT</span> <span style="color:#099">3</span>
 )
-<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> player_id <span style="color:#66d9ef">ASC</span>, laptime <span style="color:#66d9ef">ASC</span>;
+<span style="color:#000;font-weight:bold">ORDER</span> <span style="color:#000;font-weight:bold">BY</span> player_id <span style="color:#000;font-weight:bold">ASC</span>, laptime <span style="color:#000;font-weight:bold">ASC</span>;
 </code></pre></div>
 			</div>
 

@@ -7,7 +7,7 @@
 <meta itemprop="description" content="If you read this you&rsquo;re probably gonna think: What a moron! Anyway, i&rsquo;m sharing this in the hope that i&rsquo;ll be the last to undergo the following. In order to test my custom UITypeEditor i did the following
  Create a UserControl Add a property to the control Add an Editor attribute to the property Build Drag a UserControl on the designer form Test via Visual Studio&rsquo;s Property Window if the UITypeEditor works as expected Everytime i changed some code: Restart Visual Studio, load the project and repeat 6.">
 <meta itemprop="datePublished" content="2007-08-10T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="288">
 
 
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2007-08-10-debugging-custom-uitypeeditors/" />
 <meta property="article:published_time" content="2007-08-10T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Debugging custom UITypeEditors"/>
 <meta name="twitter:description" content="If you read this you&rsquo;re probably gonna think: What a moron! Anyway, i&rsquo;m sharing this in the hope that i&rsquo;ll be the last to undergo the following. In order to test my custom UITypeEditor i did the following
@@ -91,50 +91,50 @@
 </ol>
 <p>A tedious task to say the least. Yesterday i figured out that i could <strong>drag a <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.propertygrid.aspx">PropertyGrid</a> on the designer form, and set it&rsquo;s SelectedObject property to a class with a property that uses the custom UITypeEditor; Instead of having to reload visual studio i can simply start a debug session, and click on the property in the PropertyGrid.</strong> Now it&rsquo;s a breeze to develop custom UITypeEditors.</p>
 <p><img src="http://www.timvw.be/wp-content/images/uitypeeditor.gif" alt=""></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> Form1_Load(<span style="color:#66d9ef">object</span> sender, EventArgs e)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Form1_Load(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
 {
-	<span style="color:#75715e">// display an instance of PersonEntry,
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">// a class with a property that should use the custom UITypeEditor i want to test
-</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">this</span>.propertyGrid1.SelectedObject = <span style="color:#66d9ef">new</span> PersonEntry(<span style="color:#66d9ef">new</span> Person(<span style="color:#e6db74">&#34;Tim&#34;</span>, <span style="color:#e6db74">&#34;Van Wassenhove&#34;</span>));
+	<span style="color:#998;font-style:italic">// display an instance of PersonEntry,
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// a class with a property that should use the custom UITypeEditor i want to test
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">this</span>.propertyGrid1.SelectedObject = <span style="color:#000;font-weight:bold">new</span> PersonEntry(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;Tim&#34;</span>, <span style="color:#d14">&#34;Van Wassenhove&#34;</span>));
 }
 
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PersonEntry</span>
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PersonEntry</span>
 {
 	...
 
-	<span style="color:#75715e">// instruct the PropertyGrid to use my custom PersonUITypeEditor
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">	[Editor(typeof(PersonUITypeEditor), typeof(UITypeEditor))]</span>
-	<span style="color:#66d9ef">public</span> Person Person
+	<span style="color:#998;font-style:italic">// instruct the PropertyGrid to use my custom PersonUITypeEditor
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">	[Editor(typeof(PersonUITypeEditor), typeof(UITypeEditor))]</span>
+	<span style="color:#000;font-weight:bold">public</span> Person Person
 	{
-		<span style="color:#66d9ef">get</span> { <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.person; }
-		<span style="color:#66d9ef">set</span> { <span style="color:#66d9ef">this</span>.person = <span style="color:#66d9ef">value</span>; }
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.person; }
+		<span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>.person = <span style="color:#000;font-weight:bold">value</span>; }
 	}
 }
 
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PersonUITypeEditor</span> : UITypeEditor
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PersonUITypeEditor</span> : UITypeEditor
 {
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">override</span> UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
 	{
-		<span style="color:#66d9ef">return</span> UITypeEditorEditStyle.Modal;
+		<span style="color:#000;font-weight:bold">return</span> UITypeEditorEditStyle.Modal;
 	}
 
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">object</span> EditValue(ITypeDescriptorContext context, IServiceProvider provider, <span style="color:#66d9ef">object</span> <span style="color:#66d9ef">value</span>)
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">object</span> EditValue(ITypeDescriptorContext context, IServiceProvider provider, <span style="color:#458;font-weight:bold">object</span> <span style="color:#000;font-weight:bold">value</span>)
 	{
-		Person person = <span style="color:#66d9ef">value</span> <span style="color:#66d9ef">as</span> Person;
+		Person person = <span style="color:#000;font-weight:bold">value</span> <span style="color:#000;font-weight:bold">as</span> Person;
 
-		IWindowsFormsEditorService svc = context.GetService(<span style="color:#66d9ef">typeof</span>(IWindowsFormsEditorService)) <span style="color:#66d9ef">as</span> IWindowsFormsEditorService;
-		<span style="color:#66d9ef">if</span> (svc != <span style="color:#66d9ef">null</span>)
+		IWindowsFormsEditorService svc = context.GetService(<span style="color:#000;font-weight:bold">typeof</span>(IWindowsFormsEditorService)) <span style="color:#000;font-weight:bold">as</span> IWindowsFormsEditorService;
+		<span style="color:#000;font-weight:bold">if</span> (svc != <span style="color:#000;font-weight:bold">null</span>)
 		{
-			<span style="color:#66d9ef">using</span> (PersonEditorForm personEditorForm = <span style="color:#66d9ef">new</span> PersonEditorForm(person))
+			<span style="color:#000;font-weight:bold">using</span> (PersonEditorForm personEditorForm = <span style="color:#000;font-weight:bold">new</span> PersonEditorForm(person))
 			{
-				<span style="color:#66d9ef">if</span> (svc.ShowDialog(personEditorForm) == DialogResult.OK)
+				<span style="color:#000;font-weight:bold">if</span> (svc.ShowDialog(personEditorForm) == DialogResult.OK)
 				{
-					<span style="color:#66d9ef">return</span> personEditorForm.Person;
+					<span style="color:#000;font-weight:bold">return</span> personEditorForm.Person;
 				}
 			}
 		}
 
-		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">value</span>;
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">value</span>;
 	}
 }
 </code></pre></div>

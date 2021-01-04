@@ -7,7 +7,7 @@
 <meta itemprop="description" content="I couple of weeks ago i got a copy of Programming .NET Components&hellip; I can only suggest to read it yourself because i found it really good 😉 Anyway, in one of the chapters Juval Lowy talks about context and interception (msdnmag article). I got inspired and implemented my own log4net LoggingSink
 public class LoggingSink : IMessageSink { ... public IMessage SyncProcessMessage(IMessage msg) { IMethodMessage methodMessage = msg as IMethodMessage; ILog log = LogManager.">
 <meta itemprop="datePublished" content="2007-04-07T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="230">
 
 
@@ -19,7 +19,7 @@ public class LoggingSink : IMessageSink { ... public IMessage SyncProcessMessage
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2007-04-07-programming-net-components/" />
 <meta property="article:published_time" content="2007-04-07T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Programming .NET Components"/>
 <meta name="twitter:description" content="I couple of weeks ago i got a copy of Programming .NET Components&hellip; I can only suggest to read it yourself because i found it really good 😉 Anyway, in one of the chapters Juval Lowy talks about context and interception (msdnmag article). I got inspired and implemented my own log4net LoggingSink
@@ -80,54 +80,54 @@ public class LoggingSink : IMessageSink { ... public IMessage SyncProcessMessage
 					
 			<div class="markdown">
 				<p>I couple of weeks ago i got a copy of <a href="http://www.oreilly.com/catalog/pnetcomp2/">Programming .NET Components</a>&hellip; I can only suggest to read it yourself because i found it really good 😉 Anyway, in one of the chapters <a href="http://www.oreillynet.com/pub/au/741">Juval Lowy</a> talks about context and interception (<a href="http://msdn.microsoft.com/msdnmag/issues/03/03/ContextsinNET/default.aspx">msdnmag article</a>). I got inspired and implemented my own log4net LoggingSink</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LoggingSink</span> : IMessageSink
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">LoggingSink</span> : IMessageSink
 {
 	...
 
-	<span style="color:#66d9ef">public</span> IMessage SyncProcessMessage(IMessage msg)
+	<span style="color:#000;font-weight:bold">public</span> IMessage SyncProcessMessage(IMessage msg)
 	{
-		IMethodMessage methodMessage = msg <span style="color:#66d9ef">as</span> IMethodMessage;
+		IMethodMessage methodMessage = msg <span style="color:#000;font-weight:bold">as</span> IMethodMessage;
 		ILog log = LogManager.GetLogger(methodMessage.TypeName);
 		log.Debug(methodMessage);
 
-		IMessage message = <span style="color:#66d9ef">this</span>.nextSink.SyncProcessMessage(msg);
+		IMessage message = <span style="color:#000;font-weight:bold">this</span>.nextSink.SyncProcessMessage(msg);
 
-		IMethodReturnMessage methodReturnMessage = message <span style="color:#66d9ef">as</span> IMethodReturnMessage;
-		<span style="color:#66d9ef">if</span> (methodReturnMessage != <span style="color:#66d9ef">null</span>)
+		IMethodReturnMessage methodReturnMessage = message <span style="color:#000;font-weight:bold">as</span> IMethodReturnMessage;
+		<span style="color:#000;font-weight:bold">if</span> (methodReturnMessage != <span style="color:#000;font-weight:bold">null</span>)
 		{
 			log.Debug(methodReturnMessage);
 		}
 
-		<span style="color:#66d9ef">return</span> message;
+		<span style="color:#000;font-weight:bold">return</span> message;
 	}
 }
 </code></pre></div><p>I also implemented my own MethodMessageRenderer and MethodReturnMessageRenderer using an ObjectRenderer that was inspired on the ObjectDumper that comes with the <a href="http://blogs.msdn.com/charlie/archive/2007/03/01/february-ctp-now-available.aspx">LINQ CTP samples</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MethodReturnMessageRenderer</span> : IObjectRenderer
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MethodReturnMessageRenderer</span> : IObjectRenderer
 {
-	<span style="color:#66d9ef">public</span> MethodReturnMessageRenderer()
+	<span style="color:#000;font-weight:bold">public</span> MethodReturnMessageRenderer()
 	{
 	}
 
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> RenderObject(RendererMap rendererMap, <span style="color:#66d9ef">object</span> obj, TextWriter writer)
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> RenderObject(RendererMap rendererMap, <span style="color:#458;font-weight:bold">object</span> obj, TextWriter writer)
 	{
-		IMethodReturnMessage methodReturnMessage = obj <span style="color:#66d9ef">as</span> IMethodReturnMessage;
-		writer.WriteLine(<span style="color:#e6db74">&#34;{0}Called: {1}{2}Params:&#34;</span>, Environment.NewLine, methodReturnMessage.MethodName, Environment.NewLine);
+		IMethodReturnMessage methodReturnMessage = obj <span style="color:#000;font-weight:bold">as</span> IMethodReturnMessage;
+		writer.WriteLine(<span style="color:#d14">&#34;{0}Called: {1}{2}Params:&#34;</span>, Environment.NewLine, methodReturnMessage.MethodName, Environment.NewLine);
 		ObjectRenderer.RenderObject(methodReturnMessage.Args, writer);
-		<span style="color:#66d9ef">if</span> (methodReturnMessage.MethodName != <span style="color:#e6db74">&#34;.ctor&#34;</span>)
+		<span style="color:#000;font-weight:bold">if</span> (methodReturnMessage.MethodName != <span style="color:#d14">&#34;.ctor&#34;</span>)
 		{
-			writer.WriteLine(<span style="color:#e6db74">&#34;{0}ReturnValue:&#34;</span>, Environment.NewLine);
+			writer.WriteLine(<span style="color:#d14">&#34;{0}ReturnValue:&#34;</span>, Environment.NewLine);
 			ObjectRenderer.RenderObject(methodReturnMessage.ReturnValue, writer);
 		}
-		<span style="color:#66d9ef">if</span> (methodReturnMessage.Exception != <span style="color:#66d9ef">null</span>)
+		<span style="color:#000;font-weight:bold">if</span> (methodReturnMessage.Exception != <span style="color:#000;font-weight:bold">null</span>)
 		{
-			writer.WriteLine(<span style="color:#e6db74">&#34;{0}Exception:&#34;</span>, Environment.NewLine);
+			writer.WriteLine(<span style="color:#d14">&#34;{0}Exception:&#34;</span>, Environment.NewLine);
 			ObjectRenderer.RenderObject(methodReturnMessage.Exception, writer);
 		}
 		writer.WriteLine();
 	}
 }
 </code></pre></div><p>Adding an [assembly: XmlConfigurator(Watch = true)] attribute to the AssemblyInfo.cs of projects that use log4Net seems the easiest way to get the configuration right. In your configuration you still have to register the IObjectRenderers</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;renderer</span> <span style="color:#a6e22e">renderingClass=</span><span style="color:#e6db74">&#34;EndPointTools.MethodReturnMessageRenderer, EndPointTools&#34;</span> <span style="color:#a6e22e">renderedClass=</span><span style="color:#e6db74">&#34;System.Runtime.Remoting.Messaging.IMethodReturnMessage, mscorlib&#34;</span><span style="color:#f92672">/&gt;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;renderer</span> <span style="color:#008080">renderingClass=</span><span style="color:#d14">&#34;EndPointTools.MethodReturnMessageRenderer, EndPointTools&#34;</span> <span style="color:#008080">renderedClass=</span><span style="color:#d14">&#34;System.Runtime.Remoting.Messaging.IMethodReturnMessage, mscorlib&#34;</span><span style="color:#000080">/&gt;</span>
 </code></pre></div><p>Have a look at the generated <a href="http://www.timvw.be/wp-content/code/csharp/log4net.txt">log</a> and feel free to download the complete solution: <a href="http://www.timvw.be/wp-content/code/csharp/ContextBoundSamples.zip">ContextBoundSamples.zip</a>.</p>
 
 			</div>

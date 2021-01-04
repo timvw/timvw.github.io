@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Earlier today someone asked how he could list the string resources (name, value and comment) in a Resource file. Here is some code that generates a nice list of the information
 static void Main(string[] args) { DislayResourceStrings(GetResourceStrings(@&#34;C:\Resource1.resx&#34;)); Console.Write(&#34;{0}Press any key to continue...&#34;, Environment.NewLine); Console.ReadKey(); } public static List&lt;resourceString&gt; GetResourceStrings(string path) { List&lt;resourceString&gt; resourceStrings = new List&lt;resourceString&gt;(); XPathDocument doc = new XPathDocument(path); foreach (XPathNavigator node in doc.CreateNavigator().Select(&#34;//data&#34;)) { string type = node.">
 <meta itemprop="datePublished" content="2007-08-11T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="186">
 
 
@@ -19,7 +19,7 @@ static void Main(string[] args) { DislayResourceStrings(GetResourceStrings(@&#34
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2007-08-11-list-string-resources/" />
 <meta property="article:published_time" content="2007-08-11T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="List string resources"/>
 <meta name="twitter:description" content="Earlier today someone asked how he could list the string resources (name, value and comment) in a Resource file. Here is some code that generates a nice list of the information
@@ -80,63 +80,63 @@ static void Main(string[] args) { DislayResourceStrings(GetResourceStrings(@&#34
 					
 			<div class="markdown">
 				<p>Earlier today someone asked how he could list the string resources (name, value and comment) in a Resource file. Here is some code that generates a nice list of the information</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> Main(<span style="color:#66d9ef">string</span>[] args)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
 {
-	DislayResourceStrings(GetResourceStrings(<span style="color:#e6db74">@&#34;C:\Resource1.resx&#34;</span>));
+	DislayResourceStrings(GetResourceStrings(<span style="color:#d14">@&#34;C:\Resource1.resx&#34;</span>));
 
-	Console.Write(<span style="color:#e6db74">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
+	Console.Write(<span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
 	Console.ReadKey();
 }
 
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> List&lt;resourceString&gt; GetResourceStrings(<span style="color:#66d9ef">string</span> path)
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> List&lt;resourceString&gt; GetResourceStrings(<span style="color:#458;font-weight:bold">string</span> path)
 {
-	List&lt;resourceString&gt; resourceStrings = <span style="color:#66d9ef">new</span> List&lt;resourceString&gt;();
+	List&lt;resourceString&gt; resourceStrings = <span style="color:#000;font-weight:bold">new</span> List&lt;resourceString&gt;();
 
-	XPathDocument doc = <span style="color:#66d9ef">new</span> XPathDocument(path);
-	<span style="color:#66d9ef">foreach</span> (XPathNavigator node <span style="color:#66d9ef">in</span> doc.CreateNavigator().Select(<span style="color:#e6db74">&#34;//data&#34;</span>))
+	XPathDocument doc = <span style="color:#000;font-weight:bold">new</span> XPathDocument(path);
+	<span style="color:#000;font-weight:bold">foreach</span> (XPathNavigator node <span style="color:#000;font-weight:bold">in</span> doc.CreateNavigator().Select(<span style="color:#d14">&#34;//data&#34;</span>))
 	{
-		<span style="color:#66d9ef">string</span> type = node.GetAttribute(<span style="color:#e6db74">&#34;type&#34;</span>, <span style="color:#66d9ef">string</span>.Empty);
-		<span style="color:#66d9ef">if</span> (type == <span style="color:#66d9ef">string</span>.Empty)
+		<span style="color:#458;font-weight:bold">string</span> type = node.GetAttribute(<span style="color:#d14">&#34;type&#34;</span>, <span style="color:#458;font-weight:bold">string</span>.Empty);
+		<span style="color:#000;font-weight:bold">if</span> (type == <span style="color:#458;font-weight:bold">string</span>.Empty)
 		{
 			XPathNavigator nav;
 
-			<span style="color:#66d9ef">string</span> name = node.GetAttribute(<span style="color:#e6db74">&#34;name&#34;</span>, <span style="color:#66d9ef">string</span>.Empty);
-			nav = node.SelectSingleNode(<span style="color:#e6db74">&#34;./value&#34;</span>);
-			<span style="color:#66d9ef">string</span> <span style="color:#66d9ef">value</span> = nav != <span style="color:#66d9ef">null</span> ? nav.Value : <span style="color:#66d9ef">string</span>.Empty;
+			<span style="color:#458;font-weight:bold">string</span> name = node.GetAttribute(<span style="color:#d14">&#34;name&#34;</span>, <span style="color:#458;font-weight:bold">string</span>.Empty);
+			nav = node.SelectSingleNode(<span style="color:#d14">&#34;./value&#34;</span>);
+			<span style="color:#458;font-weight:bold">string</span> <span style="color:#000;font-weight:bold">value</span> = nav != <span style="color:#000;font-weight:bold">null</span> ? nav.Value : <span style="color:#458;font-weight:bold">string</span>.Empty;
 
-			nav = node.SelectSingleNode(<span style="color:#e6db74">&#34;./comment&#34;</span>);
-			<span style="color:#66d9ef">string</span> comment = nav != <span style="color:#66d9ef">null</span> ? nav.Value : <span style="color:#66d9ef">string</span>.Empty;
+			nav = node.SelectSingleNode(<span style="color:#d14">&#34;./comment&#34;</span>);
+			<span style="color:#458;font-weight:bold">string</span> comment = nav != <span style="color:#000;font-weight:bold">null</span> ? nav.Value : <span style="color:#458;font-weight:bold">string</span>.Empty;
 
-			resourceStrings.Add(<span style="color:#66d9ef">new</span> ResourceString(name, <span style="color:#66d9ef">value</span>, comment));
+			resourceStrings.Add(<span style="color:#000;font-weight:bold">new</span> ResourceString(name, <span style="color:#000;font-weight:bold">value</span>, comment));
 		}
 	}
 
-	<span style="color:#66d9ef">return</span> resourceStrings;
+	<span style="color:#000;font-weight:bold">return</span> resourceStrings;
 }
 
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> DisplayResourceStrings(List&lt;resourceString&gt; resourceStrings)
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> DisplayResourceStrings(List&lt;resourceString&gt; resourceStrings)
 {
-	<span style="color:#66d9ef">string</span> format = <span style="color:#e6db74">&#34;{0, -25} {1, -25} {2, -25}&#34;</span>;
-	Console.WriteLine(format, <span style="color:#e6db74">&#34;Name&#34;</span>, <span style="color:#e6db74">&#34;Value&#34;</span>, <span style="color:#e6db74">&#34;Comment&#34;</span>);
-	Console.WriteLine(format, <span style="color:#e6db74">&#34;---&#34;</span>, <span style="color:#e6db74">&#34;----&#34;</span>, <span style="color:#e6db74">&#34;-----&#34;</span>);
+	<span style="color:#458;font-weight:bold">string</span> format = <span style="color:#d14">&#34;{0, -25} {1, -25} {2, -25}&#34;</span>;
+	Console.WriteLine(format, <span style="color:#d14">&#34;Name&#34;</span>, <span style="color:#d14">&#34;Value&#34;</span>, <span style="color:#d14">&#34;Comment&#34;</span>);
+	Console.WriteLine(format, <span style="color:#d14">&#34;---&#34;</span>, <span style="color:#d14">&#34;----&#34;</span>, <span style="color:#d14">&#34;-----&#34;</span>);
 
-	<span style="color:#66d9ef">foreach</span> (ResourceString resourceString <span style="color:#66d9ef">in</span> resourceStrings)
+	<span style="color:#000;font-weight:bold">foreach</span> (ResourceString resourceString <span style="color:#000;font-weight:bold">in</span> resourceStrings)
 	{
 		Console.WriteLine(format, resourceString.Name, resourceString.Value, resourceString.Comment);
 	}
 }
 
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ResourceString</span>
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">ResourceString</span>
 {
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> Name;
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> Value;
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> Comment;
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Name;
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Value;
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Comment;
 
-	<span style="color:#66d9ef">public</span> ResourceString(<span style="color:#66d9ef">string</span> name, <span style="color:#66d9ef">string</span> <span style="color:#66d9ef">value</span>, <span style="color:#66d9ef">string</span> comment)
+	<span style="color:#000;font-weight:bold">public</span> ResourceString(<span style="color:#458;font-weight:bold">string</span> name, <span style="color:#458;font-weight:bold">string</span> <span style="color:#000;font-weight:bold">value</span>, <span style="color:#458;font-weight:bold">string</span> comment)
 	{
-		<span style="color:#66d9ef">this</span>.Name = name;
-		<span style="color:#66d9ef">this</span>.Value = <span style="color:#66d9ef">value</span>;
-		<span style="color:#66d9ef">this</span>.Comment = comment;
+		<span style="color:#000;font-weight:bold">this</span>.Name = name;
+		<span style="color:#000;font-weight:bold">this</span>.Value = <span style="color:#000;font-weight:bold">value</span>;
+		<span style="color:#000;font-weight:bold">this</span>.Comment = comment;
 	}
 }
 </code></pre></div>

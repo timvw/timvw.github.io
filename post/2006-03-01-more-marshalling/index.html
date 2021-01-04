@@ -7,7 +7,7 @@
 <meta itemprop="description" content="This snippet uses GetPrivateProfileString that is available in kernel32.dll. Apparently microsoft has decided to remove this useful function from the dotnet api.
 [DllImport(&#34;kernel32&#34;, SetLastError=true)] extern int GetPrivateProfileString( String ^pSection, String ^pKey, String ^pDefault, StringBuilder ^pValue, int pBufferLen, String ^pFile ); StringBuilder ^buf = gcnew StringBuilder(256); GetPrivateProfileString( &#34;logsection&#34;, &#34;file&#34;, &#34;default&#34;, buf, buf-&gt;Capacity, &#34;example.ini&#34; ); std::string \_log\_file = new string( (char*) Marshal::StringToHGlobalAnsi(logf).ToPointer() ); ">
 <meta itemprop="datePublished" content="2006-03-01T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="61">
 
 
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2006-03-01-more-marshalling/" />
 <meta property="article:published_time" content="2006-03-01T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="More marshalling..."/>
 <meta name="twitter:description" content="This snippet uses GetPrivateProfileString that is available in kernel32.dll. Apparently microsoft has decided to remove this useful function from the dotnet api.
@@ -80,28 +80,28 @@
 					
 			<div class="markdown">
 				<p>This snippet uses <a href="http://windowssdk.msdn.microsoft.com/library/default.asp?url=/library/en-us/sysinfo/base/getprivateprofilestring.asp">GetPrivateProfileString</a> that is available in kernel32.dll. Apparently microsoft has decided to remove this useful function from the dotnet api.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">[DllImport(<span style="color:#e6db74">&#34;kernel32&#34;</span>, SetLastError<span style="color:#f92672">=</span>true)]
-<span style="color:#66d9ef">extern</span> <span style="color:#66d9ef">int</span> GetPrivateProfileString(
-String <span style="color:#f92672">^</span>pSection,
-String <span style="color:#f92672">^</span>pKey,
-String <span style="color:#f92672">^</span>pDefault,
-StringBuilder <span style="color:#f92672">^</span>pValue,
-<span style="color:#66d9ef">int</span> pBufferLen,
-String <span style="color:#f92672">^</span>pFile
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">[DllImport(<span style="color:#d14">&#34;kernel32&#34;</span>, SetLastError<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">true</span>)]
+<span style="color:#000;font-weight:bold">extern</span> <span style="color:#458;font-weight:bold">int</span> GetPrivateProfileString(
+String <span style="color:#000;font-weight:bold">^</span>pSection,
+String <span style="color:#000;font-weight:bold">^</span>pKey,
+String <span style="color:#000;font-weight:bold">^</span>pDefault,
+StringBuilder <span style="color:#000;font-weight:bold">^</span>pValue,
+<span style="color:#458;font-weight:bold">int</span> pBufferLen,
+String <span style="color:#000;font-weight:bold">^</span>pFile
 );
 
-StringBuilder <span style="color:#f92672">^</span>buf <span style="color:#f92672">=</span> gcnew StringBuilder(<span style="color:#ae81ff">256</span>);
+StringBuilder <span style="color:#000;font-weight:bold">^</span>buf <span style="color:#000;font-weight:bold">=</span> gcnew StringBuilder(<span style="color:#099">256</span>);
 GetPrivateProfileString(
-<span style="color:#e6db74">&#34;logsection&#34;</span>,
-<span style="color:#e6db74">&#34;file&#34;</span>,
-<span style="color:#e6db74">&#34;default&#34;</span>,
+<span style="color:#d14">&#34;logsection&#34;</span>,
+<span style="color:#d14">&#34;file&#34;</span>,
+<span style="color:#d14">&#34;default&#34;</span>,
 buf,
-buf<span style="color:#f92672">-&gt;</span>Capacity,
-<span style="color:#e6db74">&#34;example.ini&#34;</span>
+buf<span style="color:#000;font-weight:bold">-&gt;</span>Capacity,
+<span style="color:#d14">&#34;example.ini&#34;</span>
 );
 
-std<span style="color:#f92672">::</span>string <span style="color:#960050;background-color:#1e0010">\</span>_log<span style="color:#960050;background-color:#1e0010">\</span>_file <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> string(
-(<span style="color:#66d9ef">char</span><span style="color:#f92672">*</span>) Marshal<span style="color:#f92672">::</span>StringToHGlobalAnsi(logf).ToPointer()
+std<span style="color:#000;font-weight:bold">::</span>string <span style="color:#a61717;background-color:#e3d2d2">\</span>_log<span style="color:#a61717;background-color:#e3d2d2">\</span>_file <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> string(
+(<span style="color:#458;font-weight:bold">char</span><span style="color:#000;font-weight:bold">*</span>) Marshal<span style="color:#000;font-weight:bold">::</span>StringToHGlobalAnsi(logf).ToPointer()
 );
 </code></pre></div>
 			</div>

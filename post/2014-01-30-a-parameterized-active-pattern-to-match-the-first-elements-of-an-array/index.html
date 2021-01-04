@@ -8,7 +8,7 @@
 Is it possible to pattern match the first part of an array in #FSharp? Something like | 1::2::3::tail but for arrays? #lazywebI accepted the challenge :)
 let (|Array|_|) pattern toMatch = let patternLength = Array.length pattern let toMatchLength = Array.length toMatch let tailLength = toMatchLength - patternLength if patternLength &gt; toMatchLength then None else let firstElementsAreEqual = [ 0 .">
 <meta itemprop="datePublished" content="2014-01-30T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="131">
 
 
@@ -21,7 +21,7 @@ let (|Array|_|) pattern toMatch = let patternLength = Array.length pattern let t
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2014-01-30-a-parameterized-active-pattern-to-match-the-first-elements-of-an-array/" />
 <meta property="article:published_time" content="2014-01-30T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="A parameterized active pattern to match the first elements of an array"/>
 <meta name="twitter:description" content="Been writing code in F# for almost a year and never blogged about it. Time to change that. Earlier today someone asked the following on twitter:
@@ -85,23 +85,23 @@ let (|Array|_|) pattern toMatch = let patternLength = Array.length pattern let t
 				<p>Been writing code in F# for almost a year and never blogged about it. Time to change that. Earlier today someone asked the following on twitter:</p>
 <p><!-- raw HTML omitted -->Is it possible to pattern match the first part of an array in #FSharp? Something like | 1::2::3::tail but for arrays? #lazyweb<!-- raw HTML omitted --></p>
 <p>I accepted the challenge :)</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">let</span> <span style="color:#f92672">(|</span>Array<span style="color:#f92672">|_|)</span> pattern toMatch <span style="color:#f92672">=</span>      
-	<span style="color:#66d9ef">let</span> patternLength <span style="color:#f92672">=</span> Array.length pattern
-	<span style="color:#66d9ef">let</span> toMatchLength <span style="color:#f92672">=</span> Array.length toMatch
-	<span style="color:#66d9ef">let</span> tailLength <span style="color:#f92672">=</span> toMatchLength <span style="color:#f92672">-</span> patternLength
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#000;font-weight:bold">let</span> <span style="color:#000;font-weight:bold">(|</span>Array<span style="color:#000;font-weight:bold">|_|)</span> pattern toMatch <span style="color:#000;font-weight:bold">=</span>      
+	<span style="color:#000;font-weight:bold">let</span> <span style="color:#008080">patternLength</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#555">Array</span>.length pattern
+	<span style="color:#000;font-weight:bold">let</span> <span style="color:#008080">toMatchLength</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#555">Array</span>.length toMatch
+	<span style="color:#000;font-weight:bold">let</span> <span style="color:#008080">tailLength</span> <span style="color:#000;font-weight:bold">=</span> toMatchLength <span style="color:#000;font-weight:bold">-</span> patternLength
 
-	<span style="color:#66d9ef">if</span> patternLength <span style="color:#f92672">&gt;</span> toMatchLength <span style="color:#66d9ef">then</span>
+	<span style="color:#000;font-weight:bold">if</span> patternLength <span style="color:#000;font-weight:bold">&gt;</span> toMatchLength <span style="color:#000;font-weight:bold">then</span>
 		None
-	<span style="color:#66d9ef">else</span>
-		<span style="color:#66d9ef">let</span> firstElementsAreEqual <span style="color:#f92672">=</span> <span style="color:#f92672">[</span> 0 <span style="color:#f92672">..</span> <span style="color:#f92672">(</span>patternLength <span style="color:#f92672">-</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">]</span> <span style="color:#f92672">|&gt;</span> Seq.forall <span style="color:#f92672">(</span><span style="color:#66d9ef">fun</span> i <span style="color:#f92672">-&gt;</span> pattern<span style="color:#f92672">.[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> toMatch<span style="color:#f92672">.[</span>i<span style="color:#f92672">])</span>
+	<span style="color:#000;font-weight:bold">else</span>
+		<span style="color:#000;font-weight:bold">let</span> <span style="color:#008080">firstElementsAreEqual</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span> 0 <span style="color:#000;font-weight:bold">..</span> <span style="color:#000;font-weight:bold">(</span>patternLength <span style="color:#000;font-weight:bold">-</span> 1<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">|&gt;</span> <span style="color:#555">Seq</span>.forall <span style="color:#000;font-weight:bold">(</span><span style="color:#000;font-weight:bold">fun</span> i <span style="color:#000;font-weight:bold">-&gt;</span> pattern<span style="color:#000;font-weight:bold">.[</span>i<span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">=</span> toMatch<span style="color:#000;font-weight:bold">.[</span>i<span style="color:#000;font-weight:bold">])</span>
           
-		<span style="color:#66d9ef">if</span> firstElementsAreEqual <span style="color:#66d9ef">then</span>
-			Some<span style="color:#f92672">(</span>Array.sub toMatch patternLength tailLength<span style="color:#f92672">)</span>
-		<span style="color:#66d9ef">else</span> 
+		<span style="color:#000;font-weight:bold">if</span> firstElementsAreEqual <span style="color:#000;font-weight:bold">then</span>
+			Some<span style="color:#000;font-weight:bold">(</span><span style="color:#555">Array</span>.sub toMatch patternLength tailLength<span style="color:#000;font-weight:bold">)</span>
+		<span style="color:#000;font-weight:bold">else</span> 
 			None
 		
-<span style="color:#66d9ef">match</span> <span style="color:#f92672">[|</span>1<span style="color:#f92672">;</span>2<span style="color:#f92672">;</span>3<span style="color:#f92672">|]</span> <span style="color:#66d9ef">with</span>
-<span style="color:#f92672">|</span> Array <span style="color:#960050;background-color:#1e0010">\</span><span style="color:#f92672">[|</span>1<span style="color:#f92672">|]</span> tail <span style="color:#f92672">-&gt;</span> sprintf <span style="color:#e6db74">&#34;bingo %i&#34;</span> <span style="color:#f92672">(</span>tail <span style="color:#f92672">|&gt;</span> Array.sum<span style="color:#f92672">)</span> <span style="color:#75715e">// the tail is [|2;3|\]
+<span style="color:#000;font-weight:bold">match</span> <span style="color:#000;font-weight:bold">[|</span>1<span style="color:#000;font-weight:bold">;</span>2<span style="color:#000;font-weight:bold">;</span>3<span style="color:#000;font-weight:bold">|]</span> <span style="color:#000;font-weight:bold">with</span>
+<span style="color:#000;font-weight:bold">|</span> Array <span style="color:#a61717;background-color:#e3d2d2">\</span><span style="color:#000;font-weight:bold">[|</span>1<span style="color:#000;font-weight:bold">|]</span> tail <span style="color:#000;font-weight:bold">-&gt;</span> sprintf <span style="color:#d14">&#34;bingo %i&#34;</span> <span style="color:#000;font-weight:bold">(</span>tail <span style="color:#000;font-weight:bold">|&gt;</span> <span style="color:#555">Array</span>.sum<span style="color:#000;font-weight:bold">)</span> <span style="color:#998;font-style:italic">// the tail is [|2;3|\]
 </span></code></pre></div><p>Or as a gist: <a href="https://gist.github.com/timvw/8717796">https://gist.github.com/timvw/8717796</a>.</p>
 
 			</div>

@@ -7,7 +7,7 @@
 <meta itemprop="description" content="I am still drowning in the work, and exams are coming close too, but i decided to blog something about the FTP functions in PHP. The script will download all the files that are available on the remote server.
 // make sure we have time enough to execute this script set_time_limit(1200); // connect to the ftp server $ftp = ftp_connect(&#39;ftp.scarlet.be&#39;); ftp_login($ftp, &#39;anonymous&#39;, &#39;password&#39;); // get the files that are available here $local = glob(&#39;*.">
 <meta itemprop="datePublished" content="2005-05-04T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="125">
 
 
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2005-05-04-exploring-the-ftp-functions/" />
 <meta property="article:published_time" content="2005-05-04T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Exploring the FTP functions"/>
 <meta name="twitter:description" content="I am still drowning in the work, and exams are coming close too, but i decided to blog something about the FTP functions in PHP. The script will download all the files that are available on the remote server.
@@ -80,31 +80,31 @@
 					
 			<div class="markdown">
 				<p>I am still drowning in the work, and exams are coming close too, but i decided to blog something about the <a href="http://www.php.net/ftp">FTP</a> functions in <a href="http://www.php.net">PHP</a>. The script will download all the files that are available on the remote server.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#75715e">// make sure we have time enough to execute this script
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">set_time_limit</span>(<span style="color:#ae81ff">1200</span>);
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#998;font-style:italic">// make sure we have time enough to execute this script
+</span><span style="color:#998;font-style:italic"></span>set_time_limit(<span style="color:#099">1200</span>);
 
-<span style="color:#75715e">// connect to the ftp server
-</span><span style="color:#75715e"></span>$ftp <span style="color:#f92672">=</span> <span style="color:#a6e22e">ftp_connect</span>(<span style="color:#e6db74">&#39;ftp.scarlet.be&#39;</span>);
-<span style="color:#a6e22e">ftp_login</span>($ftp, <span style="color:#e6db74">&#39;anonymous&#39;</span>, <span style="color:#e6db74">&#39;password&#39;</span>);
+<span style="color:#998;font-style:italic">// connect to the ftp server
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$ftp</span> <span style="color:#000;font-weight:bold">=</span> ftp_connect(<span style="color:#d14">&#39;ftp.scarlet.be&#39;</span>);
+ftp_login(<span style="color:#008080">$ftp</span>, <span style="color:#d14">&#39;anonymous&#39;</span>, <span style="color:#d14">&#39;password&#39;</span>);
 
-<span style="color:#75715e">// get the files that are available here
-</span><span style="color:#75715e"></span>$local <span style="color:#f92672">=</span> <span style="color:#a6e22e">glob</span>(<span style="color:#e6db74">&#39;*.\*&#39;</span>);
+<span style="color:#998;font-style:italic">// get the files that are available here
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$local</span> <span style="color:#000;font-weight:bold">=</span> glob(<span style="color:#d14">&#39;*.\*&#39;</span>);
 
-<span style="color:#75715e">// get the files that are available there
-</span><span style="color:#75715e"></span>$remote <span style="color:#f92672">=</span> <span style="color:#a6e22e">ftp_nlist</span>($ftp, <span style="color:#e6db74">&#39;.&#39;</span>);
+<span style="color:#998;font-style:italic">// get the files that are available there
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$remote</span> <span style="color:#000;font-weight:bold">=</span> ftp_nlist(<span style="color:#008080">$ftp</span>, <span style="color:#d14">&#39;.&#39;</span>);
 
-<span style="color:#75715e">// get the files there that are not availble here
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">foreach</span>($remote <span style="color:#66d9ef">as</span> $file)
+<span style="color:#998;font-style:italic">// get the files there that are not availble here
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">foreach</span>(<span style="color:#008080">$remote</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#008080">$file</span>)
 {  
-  <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">in_array</span>($file, $local))  
+  <span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">!</span>in_array(<span style="color:#008080">$file</span>, <span style="color:#008080">$local</span>))  
   {  
-    <span style="color:#75715e">// we do not have the file, thus download it  
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">ftp_get</span>($ftp, $file, $file, <span style="color:#a6e22e">FTP_BINARY</span>);  
+    <span style="color:#998;font-style:italic">// we do not have the file, thus download it  
+</span><span style="color:#998;font-style:italic"></span>    ftp_get(<span style="color:#008080">$ftp</span>, <span style="color:#008080">$file</span>, <span style="color:#008080">$file</span>, FTP_BINARY);  
   }
 }
 
-<span style="color:#75715e">// close the connection
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">ftp_close</span>($ftp);
+<span style="color:#998;font-style:italic">// close the connection
+</span><span style="color:#998;font-style:italic"></span>ftp_close(<span style="color:#008080">$ftp</span>);
 </code></pre></div>
 			</div>
 

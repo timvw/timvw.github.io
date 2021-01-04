@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Very often i have to write queries that return all the rows where one or more columns match a specific value. If i add for every column the condition &lsquo;P_COLUMN IS NULL OR COLUMN = P_COLUMN&rsquo; to the WHERE clause i only have to write one query. Here&rsquo;s an example of such a query
 PROCEDURE FIND_TESTS ( P_ID IN TEST.ID%Type, P_TITLE IN TEST.TITLE%Type, P_TYPE_CODE IN TEST.TYPE_CODE%Type, P_CURSOR OUT CURSOR REF ) AS BEGIN OPEN P_CURSOR FOR SELECT ID, TITLE, TYPE_CODE FROM TEST WHERE (P_ID IS NULL OR ID = P_ID) AND (P_TITLE IS NULL OR TITLE LIKE P_TITLE) AND (P_TYPE_CODE IS NULL OR TYPE_CODE LIKE P_TYPE_CODE) ORDER BY ID ASC; END; A couple of examples how you can use this query">
 <meta itemprop="datePublished" content="2006-10-22T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="216">
 
 
@@ -19,7 +19,7 @@ PROCEDURE FIND_TESTS ( P_ID IN TEST.ID%Type, P_TITLE IN TEST.TITLE%Type, P_TYPE_
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2006-10-22-searching-made-easy/" />
 <meta property="article:published_time" content="2006-10-22T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Searching made easy"/>
 <meta name="twitter:description" content="Very often i have to write queries that return all the rows where one or more columns match a specific value. If i add for every column the condition &lsquo;P_COLUMN IS NULL OR COLUMN = P_COLUMN&rsquo; to the WHERE clause i only have to write one query. Here&rsquo;s an example of such a query
@@ -80,60 +80,60 @@ PROCEDURE FIND_TESTS ( P_ID IN TEST.ID%Type, P_TITLE IN TEST.TITLE%Type, P_TYPE_
 					
 			<div class="markdown">
 				<p>Very often i have to write queries that return all the rows where one or more columns match a specific value. If i add for every column the condition &lsquo;P_COLUMN IS NULL OR COLUMN = P_COLUMN&rsquo; to the WHERE clause i only have to write one query. Here&rsquo;s an example of such a query</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">PROCEDURE</span> FIND_TESTS
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">PROCEDURE</span> FIND_TESTS
 (
-	P_ID <span style="color:#66d9ef">IN</span> TEST.ID<span style="color:#f92672">%</span><span style="color:#66d9ef">Type</span>,
-	P_TITLE <span style="color:#66d9ef">IN</span> TEST.TITLE<span style="color:#f92672">%</span><span style="color:#66d9ef">Type</span>,
-	P_TYPE_CODE <span style="color:#66d9ef">IN</span> TEST.TYPE_CODE<span style="color:#f92672">%</span><span style="color:#66d9ef">Type</span>,
-	P_CURSOR <span style="color:#66d9ef">OUT</span> <span style="color:#66d9ef">CURSOR</span> <span style="color:#66d9ef">REF</span>
+	P_ID <span style="color:#000;font-weight:bold">IN</span> TEST.ID<span style="color:#000;font-weight:bold">%</span><span style="color:#000;font-weight:bold">Type</span>,
+	P_TITLE <span style="color:#000;font-weight:bold">IN</span> TEST.TITLE<span style="color:#000;font-weight:bold">%</span><span style="color:#000;font-weight:bold">Type</span>,
+	P_TYPE_CODE <span style="color:#000;font-weight:bold">IN</span> TEST.TYPE_CODE<span style="color:#000;font-weight:bold">%</span><span style="color:#000;font-weight:bold">Type</span>,
+	P_CURSOR <span style="color:#000;font-weight:bold">OUT</span> <span style="color:#000;font-weight:bold">CURSOR</span> <span style="color:#000;font-weight:bold">REF</span>
 )
 
-<span style="color:#66d9ef">AS</span>
+<span style="color:#000;font-weight:bold">AS</span>
 
-<span style="color:#66d9ef">BEGIN</span>
+<span style="color:#000;font-weight:bold">BEGIN</span>
 
-<span style="color:#66d9ef">OPEN</span>
-P_CURSOR <span style="color:#66d9ef">FOR</span>
-<span style="color:#66d9ef">SELECT</span>
+<span style="color:#000;font-weight:bold">OPEN</span>
+P_CURSOR <span style="color:#000;font-weight:bold">FOR</span>
+<span style="color:#000;font-weight:bold">SELECT</span>
 ID,
 TITLE,
 TYPE_CODE
-<span style="color:#66d9ef">FROM</span>
+<span style="color:#000;font-weight:bold">FROM</span>
 TEST
-<span style="color:#66d9ef">WHERE</span>
-(P_ID <span style="color:#66d9ef">IS</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">OR</span> ID <span style="color:#f92672">=</span> P_ID)
-<span style="color:#66d9ef">AND</span> (P_TITLE <span style="color:#66d9ef">IS</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">OR</span> TITLE <span style="color:#66d9ef">LIKE</span> P_TITLE)
-<span style="color:#66d9ef">AND</span> (P_TYPE_CODE <span style="color:#66d9ef">IS</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">OR</span> TYPE_CODE <span style="color:#66d9ef">LIKE</span> P_TYPE_CODE)
-<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span>
-ID <span style="color:#66d9ef">ASC</span>;
-<span style="color:#66d9ef">END</span>;
+<span style="color:#000;font-weight:bold">WHERE</span>
+(P_ID <span style="color:#000;font-weight:bold">IS</span> <span style="color:#000;font-weight:bold">NULL</span> <span style="color:#000;font-weight:bold">OR</span> ID <span style="color:#000;font-weight:bold">=</span> P_ID)
+<span style="color:#000;font-weight:bold">AND</span> (P_TITLE <span style="color:#000;font-weight:bold">IS</span> <span style="color:#000;font-weight:bold">NULL</span> <span style="color:#000;font-weight:bold">OR</span> TITLE <span style="color:#000;font-weight:bold">LIKE</span> P_TITLE)
+<span style="color:#000;font-weight:bold">AND</span> (P_TYPE_CODE <span style="color:#000;font-weight:bold">IS</span> <span style="color:#000;font-weight:bold">NULL</span> <span style="color:#000;font-weight:bold">OR</span> TYPE_CODE <span style="color:#000;font-weight:bold">LIKE</span> P_TYPE_CODE)
+<span style="color:#000;font-weight:bold">ORDER</span> <span style="color:#000;font-weight:bold">BY</span>
+ID <span style="color:#000;font-weight:bold">ASC</span>;
+<span style="color:#000;font-weight:bold">END</span>;
 </code></pre></div><p>A couple of examples how you can use this query</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">using</span> (OracleConnection conn = <span style="color:#66d9ef">new</span> OracleConnection(<span style="color:#e6db74">&#34;User Id=u;password=p;Data Source=ORCL&#34;</span>))
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">using</span> (OracleConnection conn = <span style="color:#000;font-weight:bold">new</span> OracleConnection(<span style="color:#d14">&#34;User Id=u;password=p;Data Source=ORCL&#34;</span>))
 {
 	conn.Open();
 
 	OracleCommand command = conn.CreateCommand();
-	command.CommandText = <span style="color:#e6db74">&#34;TIMVW.MYPACKAGE.FIND_TESTS&#34;</span>;
+	command.CommandText = <span style="color:#d14">&#34;TIMVW.MYPACKAGE.FIND_TESTS&#34;</span>;
 	command.CommandType = CommandType.StoredProcedure;
 
-	<span style="color:#75715e">// select all tests of type_code &#34;book&#34; that have a title that starts with &#34;Myst&#34;
-</span><span style="color:#75715e"></span>	command.Parameters.Add(<span style="color:#e6db74">&#34;P_ID&#34;</span>, OracleDbType.Int32, <span style="color:#ae81ff">10</span>, DBNull.Value, ParameterDirection.Input);
-	command.Parameters.Add(<span style="color:#e6db74">&#34;P_TITLE&#34;</span>, OracleDbType.Varchar2, <span style="color:#ae81ff">20</span>, <span style="color:#e6db74">&#34;Myst%&#34;</span>, ParameterDirection.Input);
-	command.Parameters.Add(<span style="color:#e6db74">&#34;P\_TYPE\_CODE&#34;</span>, OracleDbType.Varchar2, <span style="color:#ae81ff">20</span>, <span style="color:#e6db74">&#34;book&#34;</span>, ParameterDirection.Input);
-	command.Parameters.Add(<span style="color:#e6db74">&#34;P_CURSOR&#34;</span>, OracleDbType.RefCursor, ParameterDirection.Output);
+	<span style="color:#998;font-style:italic">// select all tests of type_code &#34;book&#34; that have a title that starts with &#34;Myst&#34;
+</span><span style="color:#998;font-style:italic"></span>	command.Parameters.Add(<span style="color:#d14">&#34;P_ID&#34;</span>, OracleDbType.Int32, <span style="color:#099">10</span>, DBNull.Value, ParameterDirection.Input);
+	command.Parameters.Add(<span style="color:#d14">&#34;P_TITLE&#34;</span>, OracleDbType.Varchar2, <span style="color:#099">20</span>, <span style="color:#d14">&#34;Myst%&#34;</span>, ParameterDirection.Input);
+	command.Parameters.Add(<span style="color:#d14">&#34;P\_TYPE\_CODE&#34;</span>, OracleDbType.Varchar2, <span style="color:#099">20</span>, <span style="color:#d14">&#34;book&#34;</span>, ParameterDirection.Input);
+	command.Parameters.Add(<span style="color:#d14">&#34;P_CURSOR&#34;</span>, OracleDbType.RefCursor, ParameterDirection.Output);
 
-	<span style="color:#75715e">// select the test with id 1
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">//command.Parameters.Add(&#34;P_ID&#34;, OracleDbType.Int32, 10, 1, ParameterDirection.Input);
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">//command.Parameters.Add(&#34;P_TITLE&#34;, OracleDbType.Varchar2, 20, DBNull.Value, ParameterDirection.Input);
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">//command.Parameters.Add(&#34;P\_TYPE\_CODE&#34;, OracleDbType.Varchar2, 20, DBNull.Value, ParameterDirection.Input);
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">//command.Parameters.Add(&#34;P_CURSOR&#34;, OracleDbType.RefCursor, ParameterDirection.Output);
-</span><span style="color:#75715e"></span>
+	<span style="color:#998;font-style:italic">// select the test with id 1
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">//command.Parameters.Add(&#34;P_ID&#34;, OracleDbType.Int32, 10, 1, ParameterDirection.Input);
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">//command.Parameters.Add(&#34;P_TITLE&#34;, OracleDbType.Varchar2, 20, DBNull.Value, ParameterDirection.Input);
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">//command.Parameters.Add(&#34;P\_TYPE\_CODE&#34;, OracleDbType.Varchar2, 20, DBNull.Value, ParameterDirection.Input);
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">//command.Parameters.Add(&#34;P_CURSOR&#34;, OracleDbType.RefCursor, ParameterDirection.Output);
+</span><span style="color:#998;font-style:italic"></span>
 	OracleDataReader reader = command.ExecuteReader();
-	<span style="color:#66d9ef">while</span> (reader.Read())
+	<span style="color:#000;font-weight:bold">while</span> (reader.Read())
 	{
-		Console.WriteLine(<span style="color:#e6db74">&#34;test 	}
-</span><span style="color:#e6db74"></span>
-	Console.Write(<span style="color:#e6db74">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
+		Console.WriteLine(<span style="color:#d14">&#34;test 	}
+</span><span style="color:#d14"></span>
+	Console.Write(<span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
 	Console.ReadKey();
 }
 </code></pre></div>

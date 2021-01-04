@@ -6,7 +6,7 @@
 	<meta itemprop="name" content="Exploring the Microsoft Sync Framework">
 <meta itemprop="description" content="Earlier this week i&rsquo;ve been experimenting with the Microsoft Sync Framework. In a typical n-tier architecture the client can&rsquo;t access the remote database directly but uses a proxy instead. The available [Earlier this week i&rsquo;ve been experimenting with the Microsoft Sync Framework. In a typical n-tier architecture the client can&rsquo;t access the remote database directly but uses a proxy instead. The available](http://msdn.microsoft.com/en-us/library/microsoft.synchronization.data.serversyncproviderproxy(SQL.100).aspx) has only one constructor which accepts an object. With reflector i found out that the proxy simply uses reflection to call some methods.">
 <meta itemprop="datePublished" content="2008-05-24T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="188">
 
 
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2008-05-24-exploring-the-microsoft-sync-framework/" />
 <meta property="article:published_time" content="2008-05-24T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Exploring the Microsoft Sync Framework"/>
 <meta name="twitter:description" content="Earlier this week i&rsquo;ve been experimenting with the Microsoft Sync Framework. In a typical n-tier architecture the client can&rsquo;t access the remote database directly but uses a proxy instead. The available [Earlier this week i&rsquo;ve been experimenting with the Microsoft Sync Framework. In a typical n-tier architecture the client can&rsquo;t access the remote database directly but uses a proxy instead. The available](http://msdn.microsoft.com/en-us/library/microsoft.synchronization.data.serversyncproviderproxy(SQL.100).aspx) has only one constructor which accepts an object. With reflector i found out that the proxy simply uses reflection to call some methods."/>
@@ -77,37 +77,37 @@
 					
 			<div class="markdown">
 				<p>Earlier this week i&rsquo;ve been experimenting with the <a href="http://msdn.microsoft.com/en-us/sync/default.aspx">Microsoft Sync Framework</a>. In a typical n-tier architecture the client can&rsquo;t access the remote database directly but uses a proxy instead. The available [Earlier this week i&rsquo;ve been experimenting with the <a href="http://msdn.microsoft.com/en-us/sync/default.aspx">Microsoft Sync Framework</a>. In a typical n-tier architecture the client can&rsquo;t access the remote database directly but uses a proxy instead. The available](<a href="http://msdn.microsoft.com/en-us/library/microsoft.synchronization.data.serversyncproviderproxy(SQL.100).aspx">http://msdn.microsoft.com/en-us/library/microsoft.synchronization.data.serversyncproviderproxy(SQL.100).aspx</a>) has only one constructor which accepts an object. With reflector i found out that the proxy simply uses reflection to call some methods. Here are a couple of helper classes that help you prevent runtime errors due to this approach</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#a6e22e">[ServiceContract(Namespace = &#34;http://www.timvw.be/Synchronization&#34;)]</span>
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> IServerSyncProvider
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[ServiceContract(Namespace = &#34;http://www.timvw.be/Synchronization&#34;)]</span>
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> IServerSyncProvider
 {
-<span style="color:#a6e22e">	[OperationContract]</span>
+<span style="color:#008080">	[OperationContract]</span>
 	SyncServerInfo GetServerInfo(SyncSession syncSession);
-<span style="color:#a6e22e">
-</span><span style="color:#a6e22e">	[OperationContract]</span>
-	SyncSchema GetSchema(Collection&lt;<span style="color:#66d9ef">string</span>&gt; tableNames, SyncSession syncSession);
-<span style="color:#a6e22e">
-</span><span style="color:#a6e22e">	[OperationContract]</span>
+<span style="color:#008080">
+</span><span style="color:#008080">	[OperationContract]</span>
+	SyncSchema GetSchema(Collection&lt;<span style="color:#458;font-weight:bold">string</span>&gt; tableNames, SyncSession syncSession);
+<span style="color:#008080">
+</span><span style="color:#008080">	[OperationContract]</span>
 	SyncContext GetChanges(SyncGroupMetadata groupMetadata, SyncSession syncSession);
-<span style="color:#a6e22e">
-</span><span style="color:#a6e22e">	[OperationContract]</span>
+<span style="color:#008080">
+</span><span style="color:#008080">	[OperationContract]</span>
 	SyncContext ApplyChanges(SyncGroupMetadata groupMetadata, DataSet dataSet, SyncSession syncSession);
 	}
 }
 
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyServerSyncProviderProxy</span> : ServerSyncProviderProxy
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MyServerSyncProviderProxy</span> : ServerSyncProviderProxy
 {
-		<span style="color:#66d9ef">public</span> MyServerSyncProviderProxy(IServerSyncProvider serverSyncProvider)
-		: <span style="color:#66d9ef">base</span>(serverSyncProvider)
+		<span style="color:#000;font-weight:bold">public</span> MyServerSyncProviderProxy(IServerSyncProvider serverSyncProvider)
+		: <span style="color:#000;font-weight:bold">base</span>(serverSyncProvider)
 		{
 		}
 }
 </code></pre></div><p>And now you can easily consume a ServerSyncProviderProxy as following</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">SyncAgent syncAgent = <span style="color:#66d9ef">new</span> SyncAgent();
-EndpointAddress address = <span style="color:#66d9ef">new</span> EndpointAddress(<span style="color:#e6db74">&#34;http://somewhere/Be.Timvw.Demo.Host/ServerSyncProvider.svc&#34;</span>);
-BasicHttpBinding binding = <span style="color:#66d9ef">new</span> BasicHttpBinding();
-ChannelFactory&lt;iserverSyncProvider&gt; factory = <span style="color:#66d9ef">new</span> ChannelFactory&lt;iserverSyncProvider&gt;(binding, address);
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">SyncAgent syncAgent = <span style="color:#000;font-weight:bold">new</span> SyncAgent();
+EndpointAddress address = <span style="color:#000;font-weight:bold">new</span> EndpointAddress(<span style="color:#d14">&#34;http://somewhere/Be.Timvw.Demo.Host/ServerSyncProvider.svc&#34;</span>);
+BasicHttpBinding binding = <span style="color:#000;font-weight:bold">new</span> BasicHttpBinding();
+ChannelFactory&lt;iserverSyncProvider&gt; factory = <span style="color:#000;font-weight:bold">new</span> ChannelFactory&lt;iserverSyncProvider&gt;(binding, address);
 IServerSyncProvider serverSyncProvider = factory.CreateChannel();
-syncAgent.RemoteProvider = <span style="color:#66d9ef">new</span> SafeServerSyncProviderProxy(serverSyncProvider);
+syncAgent.RemoteProvider = <span style="color:#000;font-weight:bold">new</span> SafeServerSyncProviderProxy(serverSyncProvider);
 </code></pre></div>
 			</div>
 

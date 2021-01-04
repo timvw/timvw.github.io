@@ -6,7 +6,7 @@
 	<meta itemprop="name" content="Setting up a self-contained build">
 <meta itemprop="description" content="Here is something you may have experienced already: As a newcomer on an existing project, you check out the code from source-control and discover that the build is broken. When you ask around no-one else seems to have that problem but a helpful collegue is kind enough to tell you that you can find the installers for the missing dependencies at location X (Let&rsquo;s not even mention the places where those installers are not available *sigh*).">
 <meta itemprop="datePublished" content="2010-06-26T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="265">
 
 
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2010-06-26-setting-up-a-self-contained-build/" />
 <meta property="article:published_time" content="2010-06-26T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Setting up a self-contained build"/>
 <meta name="twitter:description" content="Here is something you may have experienced already: As a newcomer on an existing project, you check out the code from source-control and discover that the build is broken. When you ask around no-one else seems to have that problem but a helpful collegue is kind enough to tell you that you can find the installers for the missing dependencies at location X (Let&rsquo;s not even mention the places where those installers are not available *sigh*)."/>
@@ -81,34 +81,34 @@
 <p><img src="http://www.timvw.be/wp-content/images/solution_tools.png" alt="screenshot of typical solution folder organization"></p>
 <p>In order to get those files out of the installer and in your solution (instead of installed under %Program Files%) you could do an administrative install of the msi (eg: msiexec /a Blah.msi) but i find it easier to use <a href="http://www.qwerty-msi.com/">Qwerty.Msi</a>.</p>
 <p>Here are a couple of settings you may want to add to your build configuration in order to make your self-contained build work</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!-- Configure solution directories --&gt;</span>
-<span style="color:#f92672">&lt;basePath</span> <span style="color:#a6e22e">Condition=</span><span style="color:#e6db74">&#34;&#39;$(BasePath)&#39;==&#39;&#39;&#34;</span><span style="color:#f92672">&gt;</span>$(MSBuildThisFileDirectory)..<span style="color:#f92672">&lt;/basePath&gt;</span>
-<span style="color:#f92672">&lt;buildPath&gt;</span>$(BasePath)\build<span style="color:#f92672">&lt;/buildPath&gt;&lt;sourcePath&gt;</span>$(BasePath)\src<span style="color:#f92672">&lt;/sourcePath&gt;</span>
-<span style="color:#f92672">&lt;toolsPath&gt;</span>$(BasePath)\tools<span style="color:#f92672">&lt;/toolsPath&gt;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#998;font-style:italic">&lt;!-- Configure solution directories --&gt;</span>
+<span style="color:#000080">&lt;basePath</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34;&#39;$(BasePath)&#39;==&#39;&#39;&#34;</span><span style="color:#000080">&gt;</span>$(MSBuildThisFileDirectory)..<span style="color:#000080">&lt;/basePath&gt;</span>
+<span style="color:#000080">&lt;buildPath&gt;</span>$(BasePath)\build<span style="color:#000080">&lt;/buildPath&gt;&lt;sourcePath&gt;</span>$(BasePath)\src<span style="color:#000080">&lt;/sourcePath&gt;</span>
+<span style="color:#000080">&lt;toolsPath&gt;</span>$(BasePath)\tools<span style="color:#000080">&lt;/toolsPath&gt;</span>
 
-<span style="color:#75715e">&lt;!-- Configure tool directories --&gt;</span>
-<span style="color:#75715e">&lt;!-- the ending \ is required for the extension pack --&gt;</span>
-<span style="color:#f92672">&lt;extensionTasksPath&gt;</span>$(ToolsPath)\MSBuild.ExtensionPack\<span style="color:#f92672">&lt;/extensionTasksPath&gt;</span>
-<span style="color:#f92672">&lt;msbuildCommunityTasksPath&gt;</span>$(ToolsPath)\MSBuildCommunityTasks<span style="color:#f92672">&lt;/msbuildCommunityTasksPath&gt;</span>
-<span style="color:#f92672">&lt;ilmergeToolPath&gt;</span>$(ToolsPath)\ILMerge<span style="color:#f92672">&lt;/ilmergeToolPath&gt;</span>
-<span style="color:#f92672">&lt;svnToolPath&gt;</span>$(ToolsPath)\Subversion\bin<span style="color:#f92672">&lt;/svnToolPath&gt;</span>
-<span style="color:#75715e">&lt;!-- wix will use this property to determine the location of other files --&gt;</span>
-<span style="color:#f92672">&lt;wixToolPath&gt;</span>$(ToolsPath)\Wix<span style="color:#f92672">&lt;/wixToolPath&gt;</span>
+<span style="color:#998;font-style:italic">&lt;!-- Configure tool directories --&gt;</span>
+<span style="color:#998;font-style:italic">&lt;!-- the ending \ is required for the extension pack --&gt;</span>
+<span style="color:#000080">&lt;extensionTasksPath&gt;</span>$(ToolsPath)\MSBuild.ExtensionPack\<span style="color:#000080">&lt;/extensionTasksPath&gt;</span>
+<span style="color:#000080">&lt;msbuildCommunityTasksPath&gt;</span>$(ToolsPath)\MSBuildCommunityTasks<span style="color:#000080">&lt;/msbuildCommunityTasksPath&gt;</span>
+<span style="color:#000080">&lt;ilmergeToolPath&gt;</span>$(ToolsPath)\ILMerge<span style="color:#000080">&lt;/ilmergeToolPath&gt;</span>
+<span style="color:#000080">&lt;svnToolPath&gt;</span>$(ToolsPath)\Subversion\bin<span style="color:#000080">&lt;/svnToolPath&gt;</span>
+<span style="color:#998;font-style:italic">&lt;!-- wix will use this property to determine the location of other files --&gt;</span>
+<span style="color:#000080">&lt;wixToolPath&gt;</span>$(ToolsPath)\Wix<span style="color:#000080">&lt;/wixToolPath&gt;</span>
 
-<span style="color:#75715e">&lt;!-- Configure target file paths --&gt;</span>
-<span style="color:#f92672">&lt;commonTargetsPath&gt;</span>$(BuildPath)\common.targets<span style="color:#f92672">&lt;/commonTargetsPath&gt;</span>
-<span style="color:#f92672">&lt;msbuildCommunityTasksTargetsPath&gt;</span>$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets<span style="color:#f92672">&lt;/msbuildCommunityTasksTargetsPath&gt;</span>
-<span style="color:#f92672">&lt;extensionPackTargetsPath&gt;</span>$(ExtensionTasksPath)MSBuild.ExtensionPack.tasks<span style="color:#f92672">&lt;/extensionPackTargetsPath&gt;</span>
+<span style="color:#998;font-style:italic">&lt;!-- Configure target file paths --&gt;</span>
+<span style="color:#000080">&lt;commonTargetsPath&gt;</span>$(BuildPath)\common.targets<span style="color:#000080">&lt;/commonTargetsPath&gt;</span>
+<span style="color:#000080">&lt;msbuildCommunityTasksTargetsPath&gt;</span>$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets<span style="color:#000080">&lt;/msbuildCommunityTasksTargetsPath&gt;</span>
+<span style="color:#000080">&lt;extensionPackTargetsPath&gt;</span>$(ExtensionTasksPath)MSBuild.ExtensionPack.tasks<span style="color:#000080">&lt;/extensionPackTargetsPath&gt;</span>
 
-<span style="color:#75715e">&lt;!-- Configure WIX --&gt;</span>
-<span style="color:#f92672">&lt;wixTargetsPath&gt;</span>$(WixToolPath)\Wix.targets<span style="color:#f92672">&lt;/wixTargetsPath&gt;</span>
-<span style="color:#f92672">&lt;wixTasksPath&gt;</span>$(WixToolPath)\WixTasks.dll<span style="color:#f92672">&lt;/wixTasksPath&gt;</span>
-<span style="color:#f92672">&lt;wixTargetsPath&gt;</span>$(WixToolPath)\Wix.targets<span style="color:#f92672">&lt;/wixTargetsPath&gt;</span>
-<span style="color:#f92672">&lt;wixTasksPath&gt;</span>$(WixToolPath)\WixTasks.dll<span style="color:#f92672">&lt;/wixTasksPath&gt;</span>
-<span style="color:#f92672">&lt;luxTargetsPath&gt;</span>$(WixToolPath)\Lux.targets<span style="color:#f92672">&lt;/luxTargetsPath&gt;</span>
-<span style="color:#f92672">&lt;luxTasksPath&gt;</span>$(WixToolPath)\LuxTasks.dll<span style="color:#f92672">&lt;/luxTasksPath&gt;</span>
-<span style="color:#f92672">&lt;luxTargetsPath&gt;</span>$(WixToolPath)\Lux.targets<span style="color:#f92672">&lt;/luxTargetsPath&gt;</span>
-<span style="color:#f92672">&lt;luxTasksPath&gt;</span>$(WixToolPath)\LuxTasks.dll<span style="color:#f92672">&lt;/luxTasksPath&gt;</span>
+<span style="color:#998;font-style:italic">&lt;!-- Configure WIX --&gt;</span>
+<span style="color:#000080">&lt;wixTargetsPath&gt;</span>$(WixToolPath)\Wix.targets<span style="color:#000080">&lt;/wixTargetsPath&gt;</span>
+<span style="color:#000080">&lt;wixTasksPath&gt;</span>$(WixToolPath)\WixTasks.dll<span style="color:#000080">&lt;/wixTasksPath&gt;</span>
+<span style="color:#000080">&lt;wixTargetsPath&gt;</span>$(WixToolPath)\Wix.targets<span style="color:#000080">&lt;/wixTargetsPath&gt;</span>
+<span style="color:#000080">&lt;wixTasksPath&gt;</span>$(WixToolPath)\WixTasks.dll<span style="color:#000080">&lt;/wixTasksPath&gt;</span>
+<span style="color:#000080">&lt;luxTargetsPath&gt;</span>$(WixToolPath)\Lux.targets<span style="color:#000080">&lt;/luxTargetsPath&gt;</span>
+<span style="color:#000080">&lt;luxTasksPath&gt;</span>$(WixToolPath)\LuxTasks.dll<span style="color:#000080">&lt;/luxTasksPath&gt;</span>
+<span style="color:#000080">&lt;luxTargetsPath&gt;</span>$(WixToolPath)\Lux.targets<span style="color:#000080">&lt;/luxTargetsPath&gt;</span>
+<span style="color:#000080">&lt;luxTasksPath&gt;</span>$(WixToolPath)\LuxTasks.dll<span style="color:#000080">&lt;/luxTasksPath&gt;</span>
 </code></pre></div><p>With this solution in place the next &lsquo;new guy&rsquo; does not have to waste time trying to figure out where those dependencies are ;)</p>
 
 			</div>

@@ -8,7 +8,7 @@
 The following attempts did not work
 // A method can not have both WebGet and WebInvoke attributes [OperationContract] [WebGet] [WebInvoke(Method=&#34;HEAD&#34;)] public Stream Download(string token) { } and">
 <meta itemprop="datePublished" content="2010-05-28T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="137">
 
 
@@ -21,7 +21,7 @@ The following attempts did not work
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2010-05-28-support-both-get-and-head-requests-on-the-same-method-with-wcf-rest/" />
 <meta property="article:published_time" content="2010-05-28T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Support both GET and HEAD requests on the same method with WCF REST"/>
 <meta name="twitter:description" content="A while ago i had to modify an existing WCF REST service which was being consumed by BITS. Apparently the implementation has changed in Windows7 in such a way that the BITS client first makes a HEAD request to discover the file size.
@@ -84,26 +84,26 @@ The following attempts did not work
 			<div class="markdown">
 				<p>A while ago i had to modify an existing <a href="http://msdn.microsoft.com/en-us/netframework/cc950529.aspx">WCF REST</a> service which was being consumed by <a href="http://en.wikipedia.org/wiki/Background_Intelligent_Transfer_Service">BITS</a>. Apparently the implementation has changed in Windows7 in such a way that the BITS client first makes a HEAD request to discover the file size.</p>
 <p>The following attempts did not work</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#75715e">// A method can not have both WebGet and WebInvoke attributes
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">[OperationContract]</span>
-<span style="color:#a6e22e">[WebGet]</span>
-<span style="color:#a6e22e">[WebInvoke(Method=&#34;HEAD&#34;)]</span>
-<span style="color:#66d9ef">public</span> Stream Download(<span style="color:#66d9ef">string</span> token) { }
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// A method can not have both WebGet and WebInvoke attributes
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">[OperationContract]</span>
+<span style="color:#008080">[WebGet]</span>
+<span style="color:#008080">[WebInvoke(Method=&#34;HEAD&#34;)]</span>
+<span style="color:#000;font-weight:bold">public</span> Stream Download(<span style="color:#458;font-weight:bold">string</span> token) { }
 </code></pre></div><p>and</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#75715e">// A method can not have multiple WebInvoke attributes
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">[OperationContract]</span>
-<span style="color:#a6e22e">[WebInvoke(Method=&#34;GET&#34;)]</span>
-<span style="color:#a6e22e">[WebInvoke(&#34;HEAD&#34;)]</span>
-<span style="color:#66d9ef">public</span> Stream Download(<span style="color:#66d9ef">string</span> token) { }
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// A method can not have multiple WebInvoke attributes
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">[OperationContract]</span>
+<span style="color:#008080">[WebInvoke(Method=&#34;GET&#34;)]</span>
+<span style="color:#008080">[WebInvoke(&#34;HEAD&#34;)]</span>
+<span style="color:#000;font-weight:bold">public</span> Stream Download(<span style="color:#458;font-weight:bold">string</span> token) { }
 </code></pre></div><p>The trick is to use * as Method and handle the method related logic in your code</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#a6e22e">[OperationContract]</span>
-<span style="color:#a6e22e">[WebInvoke(Method=&#34;*&#34;)]</span>
-<span style="color:#66d9ef">public</span> Stream Download(<span style="color:#66d9ef">string</span> token)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[OperationContract]</span>
+<span style="color:#008080">[WebInvoke(Method=&#34;*&#34;)]</span>
+<span style="color:#000;font-weight:bold">public</span> Stream Download(<span style="color:#458;font-weight:bold">string</span> token)
 {
-	<span style="color:#66d9ef">var</span> method = WebOperationContext.Current.IncomingRequest.Method;
-	<span style="color:#66d9ef">if</span> (method == <span style="color:#e6db74">&#34;HEAD&#34;</span>) <span style="color:#66d9ef">return</span> ProcessHead();
-	<span style="color:#66d9ef">if</span> (method == <span style="color:#e6db74">&#34;GET&#34;</span>) <span style="color:#66d9ef">return</span> ProcessGet();
-	<span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> ArgumentException(method + <span style="color:#e6db74">&#34; is not supported.&#34;</span>);
+	<span style="color:#458;font-weight:bold">var</span> method = WebOperationContext.Current.IncomingRequest.Method;
+	<span style="color:#000;font-weight:bold">if</span> (method == <span style="color:#d14">&#34;HEAD&#34;</span>) <span style="color:#000;font-weight:bold">return</span> ProcessHead();
+	<span style="color:#000;font-weight:bold">if</span> (method == <span style="color:#d14">&#34;GET&#34;</span>) <span style="color:#000;font-weight:bold">return</span> ProcessGet();
+	<span style="color:#000;font-weight:bold">throw</span> <span style="color:#000;font-weight:bold">new</span> ArgumentException(method + <span style="color:#d14">&#34; is not supported.&#34;</span>);
 }
 </code></pre></div>
 			</div>

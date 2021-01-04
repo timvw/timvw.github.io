@@ -6,7 +6,7 @@
 	<meta itemprop="name" content="Presenting a generic DiscreteValuesRange">
 <meta itemprop="description" content="Let me start with a real world example demonstrating the usefulness of a generic DiscreteValuesRange. Imagine that i run a grid computing business and my clients want to book capacity on the grid for a given period. Before their booking is approved, i have to verify that the client has contracts that allow him to use the system for each day of the booking period. Usually, such a check is implemented as following">
 <meta itemprop="datePublished" content="2008-07-16T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="301">
 
 
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2008-07-16-presenting-a-generic-discreterange/" />
 <meta property="article:published_time" content="2008-07-16T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Presenting a generic DiscreteValuesRange"/>
 <meta name="twitter:description" content="Let me start with a real world example demonstrating the usefulness of a generic DiscreteValuesRange. Imagine that i run a grid computing business and my clients want to book capacity on the grid for a given period. Before their booking is approved, i have to verify that the client has contracts that allow him to use the system for each day of the booking period. Usually, such a check is implemented as following"/>
@@ -77,62 +77,62 @@
 					
 			<div class="markdown">
 				<p>Let me start with a real world example demonstrating the usefulness of a generic DiscreteValuesRange. Imagine that i run a grid computing business and my clients want to book capacity on the grid for a given period. Before their booking is approved, i have to verify that the client has contracts that allow him to use the system for each day of the booking period. Usually, such a check is implemented as following</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">bool</span> CheckEachDayIsCovered(Booking booking, Client client)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">bool</span> CheckEachDayIsCovered(Booking booking, Client client)
 {
 	DateRange periodToCheck = booking.Period;
-	DateTime endOfTime = <span style="color:#66d9ef">new</span> DateTime(<span style="color:#ae81ff">9999</span>, <span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">31</span>);
+	DateTime endOfTime = <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">9999</span>, <span style="color:#099">12</span>, <span style="color:#099">31</span>);
 
 	DateTime dayToCheck = periodToCheck.Begin;
-	<span style="color:#66d9ef">while</span> (dayToCheck &lt;= periodToCheck.End) 
+	<span style="color:#000;font-weight:bold">while</span> (dayToCheck &lt;= periodToCheck.End) 
 	{ 
-		<span style="color:#66d9ef">bool</span> dayIsCovered = <span style="color:#66d9ef">false</span>; 
-		<span style="color:#66d9ef">foreach</span> (Contract contract <span style="color:#66d9ef">in</span> client.Contracts) 
+		<span style="color:#458;font-weight:bold">bool</span> dayIsCovered = <span style="color:#000;font-weight:bold">false</span>; 
+		<span style="color:#000;font-weight:bold">foreach</span> (Contract contract <span style="color:#000;font-weight:bold">in</span> client.Contracts) 
 		{ 
-			<span style="color:#66d9ef">if</span> (contract.Period.Includes(dayToCheck)) 
+			<span style="color:#000;font-weight:bold">if</span> (contract.Period.Includes(dayToCheck)) 
 			{ 
-				dayIsCovered = <span style="color:#66d9ef">true</span>; 
-				<span style="color:#66d9ef">if</span> (contract.Period.End &lt; endOfTime) 
+				dayIsCovered = <span style="color:#000;font-weight:bold">true</span>; 
+				<span style="color:#000;font-weight:bold">if</span> (contract.Period.End &lt; endOfTime) 
 				{ 
-					dayToCheck = contract.Period.End.AddDays(<span style="color:#ae81ff">1</span>); 
+					dayToCheck = contract.Period.End.AddDays(<span style="color:#099">1</span>); 
 				} 
-				<span style="color:#66d9ef">else</span> 
+				<span style="color:#000;font-weight:bold">else</span> 
 				{ 
-					<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>; 
+					<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>; 
 				} 
 			} 
 		} 
-		<span style="color:#66d9ef">if</span> (!dayIsCovered) 
+		<span style="color:#000;font-weight:bold">if</span> (!dayIsCovered) 
 		{ 
-			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>; 
+			<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>; 
 		} 
 	} 
-	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>; 
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>; 
 }
 </code></pre></div><p>After a while clients want to buy licenses for only a couple of hours instead of a full day. I realise that my check can remain the same, but that the concept &ldquo;EndOfTime&rdquo; has become DateTime(9999, 12, 31, 23, 59, 59) and that i can advance only an hour instead of a day. Since i want to reuse my code i define the IDiscreteValueProvider<!-- raw HTML omitted --> interface (See <a href="http://en.wikipedia.org/wiki/Discrete_space">Discrete Space</a>)</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">interface</span> IDiscreteValuesProvider&lt;T&gt;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">interface</span> IDiscreteValuesProvider&lt;T&gt;
 {
-	T GetNextValue(T <span style="color:#66d9ef">value</span>);
-	T MaxValue { <span style="color:#66d9ef">get</span>; }
+	T GetNextValue(T <span style="color:#000;font-weight:bold">value</span>);
+	T MaxValue { <span style="color:#000;font-weight:bold">get</span>; }
 }
 </code></pre></div><p>After this i&rsquo;m able to implement a DiscreteValuesRange<!-- raw HTML omitted --> that implements the following interface (See: <a href="http://www.timvw.be/presenting-a-generic-range/">Generic Range</a>)</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">interface</span> IDiscreteValuesRange&lt;T&gt; : IRange&lt;T&gt;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">interface</span> IDiscreteValuesRange&lt;T&gt; : IRange&lt;T&gt;
 {
-	<span style="color:#66d9ef">bool</span> IsCoveredByRanges(IEnumerable&lt;idiscreteValuesRange&lt;T&gt;&gt; ranges);
+	<span style="color:#458;font-weight:bold">bool</span> IsCoveredByRanges(IEnumerable&lt;idiscreteValuesRange&lt;T&gt;&gt; ranges);
 }
 </code></pre></div><p>Now, with all this infrastructure i can rewrite my original method as following:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">bool</span> CheckEachDayIsCovered(Booking booking, Client client)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">bool</span> CheckEachDayIsCovered(Booking booking, Client client)
 {
-	<span style="color:#66d9ef">return</span> booking.Period.IsCoveredByRanges(client.GetContractPeriods());
+	<span style="color:#000;font-weight:bold">return</span> booking.Period.IsCoveredByRanges(client.GetContractPeriods());
 }
 
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Client</span>
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Client</span>
 {
 	...
 	IEnumerable&lt;range&lt;dateTime&gt;&gt; GetContractPeriods()
 	{
-		<span style="color:#66d9ef">foreach</span> (Contract contract <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">this</span>.Contracts)
+		<span style="color:#000;font-weight:bold">foreach</span> (Contract contract <span style="color:#000;font-weight:bold">in</span> <span style="color:#000;font-weight:bold">this</span>.Contracts)
 		{
-			<span style="color:#66d9ef">yield</span> <span style="color:#66d9ef">return</span> contract.Period;
+			<span style="color:#000;font-weight:bold">yield</span> <span style="color:#000;font-weight:bold">return</span> contract.Period;
 		}
 	}
 }

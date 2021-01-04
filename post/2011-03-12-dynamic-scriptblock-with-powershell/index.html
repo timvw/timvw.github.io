@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Earlier this week i tried to run a command on a remote computer but it did not seem to work:
 $name = &#39;tim&#39; $computer = &#39;localhost&#39; Invoke-Command -ComputerName $computer -ScriptBlock { Write-Host &#34;Hello $name&#34; } Because powershell serialises the { Write-Host &ldquo;Hello $name&rdquo; } as a string this ends up at the remote computer as { Write-Host &ldquo;Hello $null&rdquo; }. In order to send our &ldquo;dynamic&quot;command string over the wire we have to make sure it is serialised correctly:">
 <meta itemprop="datePublished" content="2011-03-12T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="89">
 
 
@@ -19,7 +19,7 @@ $name = &#39;tim&#39; $computer = &#39;localhost&#39; Invoke-Command -ComputerNa
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2011-03-12-dynamic-scriptblock-with-powershell/" />
 <meta property="article:published_time" content="2011-03-12T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Dynamic scriptblock with PowerShell"/>
 <meta name="twitter:description" content="Earlier this week i tried to run a command on a remote computer but it did not seem to work:
@@ -80,12 +80,12 @@ $name = &#39;tim&#39; $computer = &#39;localhost&#39; Invoke-Command -ComputerNa
 					
 			<div class="markdown">
 				<p>Earlier this week i tried to run a command on a remote computer but it did not seem to work:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">$name = <span style="color:#e6db74">&#39;tim&#39;</span>
-$computer = <span style="color:#e6db74">&#39;localhost&#39;</span>
-Invoke-Command -ComputerName $computer -ScriptBlock { Write-Host <span style="color:#e6db74">&#34;Hello $name&#34;</span> }
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$name</span> = <span style="color:#d14">&#39;tim&#39;</span>
+<span style="color:#008080">$computer</span> = <span style="color:#d14">&#39;localhost&#39;</span>
+<span style="color:#0086b3">Invoke-Command</span> -ComputerName <span style="color:#008080">$computer</span> -ScriptBlock { <span style="color:#0086b3">Write-Host</span> <span style="color:#d14">&#34;Hello $name&#34;</span> }
 </code></pre></div><p>Because powershell serialises the { Write-Host &ldquo;Hello $name&rdquo; } as a string this ends up at the remote computer as { Write-Host &ldquo;Hello $null&rdquo; }. In order to send our &ldquo;dynamic&quot;command string over the wire we have to make sure it is serialised correctly:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">$scriptBlock = $executioncontext.InvokeCommand.NewScriptBlock(<span style="color:#e6db74">&#34;Write-Host \</span><span style="color:#ae81ff">`&#34;</span><span style="color:#e6db74">Hello $name\</span><span style="color:#ae81ff">`&#34;</span><span style="color:#e6db74">&#34;</span>);
-Invoke-Command -ComputerName $computer -ScriptBlock $scriptBlock;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$scriptBlock</span> = <span style="color:#008080">$executioncontext</span>.InvokeCommand.NewScriptBlock(<span style="color:#d14">&#34;Write-Host \</span><span style="color:#d14">`&#34;</span><span style="color:#d14">Hello $name\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">&#34;</span>);
+<span style="color:#0086b3">Invoke-Command</span> -ComputerName <span style="color:#008080">$computer</span> -ScriptBlock <span style="color:#008080">$scriptBlock</span>;
 </code></pre></div>
 			</div>
 

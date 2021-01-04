@@ -6,7 +6,7 @@
 	<meta itemprop="name" content="Presenting OneTimePasswordMembershipProvider">
 <meta itemprop="description" content="What good is a TimeOTP client if you don&rsquo;t have anything to use it with? Last week i have implemented a MembershipProvider that uses Time-based One-Time Password to validate the user credentials. Basically, it is a wrapper around an existing MembershipProvider, you get to choose which one via the providerType attribute in the configuration, and requires that it can access the password of users. Here is an example configuration that relies on the SqlMembershipProvider">
 <meta itemprop="datePublished" content="2008-08-29T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="187">
 
 
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2008-08-29-presenting-onetimepasswordmembershipprovider/" />
 <meta property="article:published_time" content="2008-08-29T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Presenting OneTimePasswordMembershipProvider"/>
 <meta name="twitter:description" content="What good is a TimeOTP client if you don&rsquo;t have anything to use it with? Last week i have implemented a MembershipProvider that uses Time-based One-Time Password to validate the user credentials. Basically, it is a wrapper around an existing MembershipProvider, you get to choose which one via the providerType attribute in the configuration, and requires that it can access the password of users. Here is an example configuration that relies on the SqlMembershipProvider"/>
@@ -77,21 +77,21 @@
 					
 			<div class="markdown">
 				<p>What good is a <a href="http://www.timvw.be/presenting-timeotpclient/">TimeOTP</a> client if you don&rsquo;t have anything to use it with? Last week i have implemented a <a href="http://msdn.microsoft.com/en-us/library/system.web.security.membershipprovider.aspx">MembershipProvider</a> that uses <a href="http://www.timvw.be/presenting-hmac-based-otp-and-time-based-otp/">Time-based One-Time Password</a> to validate the user credentials. Basically, it is a wrapper around an existing MembershipProvider, you get to choose which one via the providerType attribute in the configuration, and requires that it can access the password of users. Here is an example configuration that relies on the SqlMembershipProvider</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34;?&gt;</span>
-<span style="color:#f92672">&lt;configuration&gt;</span>
-	<span style="color:#f92672">&lt;connectionStrings&gt;</span>
-		<span style="color:#f92672">&lt;add</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;MyDatabase&#34;</span> <span style="color:#a6e22e">connectionString=</span><span style="color:#e6db74">&#34;xxxxx&#34;</span> <span style="color:#a6e22e">providerName=</span><span style="color:#e6db74">&#34;System.Data.SqlClient&#34;</span><span style="color:#f92672">/&gt;</span>
-	<span style="color:#f92672">&lt;/connectionStrings&gt;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34;?&gt;</span>
+<span style="color:#000080">&lt;configuration&gt;</span>
+	<span style="color:#000080">&lt;connectionStrings&gt;</span>
+		<span style="color:#000080">&lt;add</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;MyDatabase&#34;</span> <span style="color:#008080">connectionString=</span><span style="color:#d14">&#34;xxxxx&#34;</span> <span style="color:#008080">providerName=</span><span style="color:#d14">&#34;System.Data.SqlClient&#34;</span><span style="color:#000080">/&gt;</span>
+	<span style="color:#000080">&lt;/connectionStrings&gt;</span>
 	
-	<span style="color:#f92672">&lt;system.web&gt;</span>
-		<span style="color:#f92672">&lt;membership</span> <span style="color:#a6e22e">defaultProvider=</span><span style="color:#e6db74">&#34;OTPMembershipProvider&#34;</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&lt;providers&gt;</span> <span style="color:#f92672">&lt;add</span> <span style="color:#a6e22e">connectionStringName=</span><span style="color:#e6db74">&#34;MyDatabase&#34;</span> <span style="color:#a6e22e">enablePasswordRetrieval=</span><span style="color:#e6db74">&#34;true&#34;</span> <span style="color:#a6e22e">enablePasswordReset=</span><span style="color:#e6db74">&#34;true&#34;</span> <span style="color:#a6e22e">requiresQuestionAndAnswer=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#a6e22e">applicationName=</span><span style="color:#e6db74">&#34;/DemoOTP&#34;</span> <span style="color:#a6e22e">requiresUniqueEmail=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#a6e22e">passwordFormat=</span><span style="color:#e6db74">&#34;Clear&#34;</span> <span style="color:#a6e22e">maxInvalidPasswordAttempts=</span><span style="color:#e6db74">&#34;5&#34;</span> <span style="color:#a6e22e">minRequiredPasswordLength=</span><span style="color:#e6db74">&#34;7&#34;</span> <span style="color:#a6e22e">minRequiredNonalphanumericCharacters=</span><span style="color:#e6db74">&#34;1&#34;</span> <span style="color:#a6e22e">passwordAttemptWindow=</span><span style="color:#e6db74">&#34;10&#34;</span> <span style="color:#a6e22e">passwordStrengthRegularExpression=</span><span style="color:#e6db74">&#34;&#34;</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;OTPMembershipProvider&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;Be.Timvw.Framework.Web.Security.OneTimePasswordMembershipProvider, Be.Timvw.Framework.Web&#34;</span> <span style="color:#a6e22e">providerType=</span><span style="color:#e6db74">&#34;System.Web.Security.SqlMembershipProvider, System.Web&#34;</span> <span style="color:#f92672">/&gt;</span> <span style="color:#f92672">&lt;/providers&gt;</span> <span style="color:#f92672">&lt;/membership&gt;</span>
-		<span style="color:#f92672">&lt;authentication</span> <span style="color:#a6e22e">mode=</span><span style="color:#e6db74">&#34;Forms&#34;</span> <span style="color:#f92672">/&gt;</span>
-		<span style="color:#f92672">&lt;authorization&gt;</span>
-			<span style="color:#f92672">&lt;allow</span> <span style="color:#a6e22e">users=</span><span style="color:#e6db74">&#34;timvw&#34;</span><span style="color:#f92672">/&gt;</span>
-			<span style="color:#f92672">&lt;deny</span> <span style="color:#a6e22e">users=</span><span style="color:#e6db74">&#34;*&#34;</span><span style="color:#f92672">/&gt;</span>
-		<span style="color:#f92672">&lt;/authorization&gt;</span>
-	<span style="color:#f92672">&lt;/system.web&gt;</span>
-<span style="color:#f92672">&lt;/configuration&gt;</span>
+	<span style="color:#000080">&lt;system.web&gt;</span>
+		<span style="color:#000080">&lt;membership</span> <span style="color:#008080">defaultProvider=</span><span style="color:#d14">&#34;OTPMembershipProvider&#34;</span><span style="color:#000080">&gt;</span> <span style="color:#000080">&lt;providers&gt;</span> <span style="color:#000080">&lt;add</span> <span style="color:#008080">connectionStringName=</span><span style="color:#d14">&#34;MyDatabase&#34;</span> <span style="color:#008080">enablePasswordRetrieval=</span><span style="color:#d14">&#34;true&#34;</span> <span style="color:#008080">enablePasswordReset=</span><span style="color:#d14">&#34;true&#34;</span> <span style="color:#008080">requiresQuestionAndAnswer=</span><span style="color:#d14">&#34;false&#34;</span> <span style="color:#008080">applicationName=</span><span style="color:#d14">&#34;/DemoOTP&#34;</span> <span style="color:#008080">requiresUniqueEmail=</span><span style="color:#d14">&#34;false&#34;</span> <span style="color:#008080">passwordFormat=</span><span style="color:#d14">&#34;Clear&#34;</span> <span style="color:#008080">maxInvalidPasswordAttempts=</span><span style="color:#d14">&#34;5&#34;</span> <span style="color:#008080">minRequiredPasswordLength=</span><span style="color:#d14">&#34;7&#34;</span> <span style="color:#008080">minRequiredNonalphanumericCharacters=</span><span style="color:#d14">&#34;1&#34;</span> <span style="color:#008080">passwordAttemptWindow=</span><span style="color:#d14">&#34;10&#34;</span> <span style="color:#008080">passwordStrengthRegularExpression=</span><span style="color:#d14">&#34;&#34;</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;OTPMembershipProvider&#34;</span> <span style="color:#008080">type=</span><span style="color:#d14">&#34;Be.Timvw.Framework.Web.Security.OneTimePasswordMembershipProvider, Be.Timvw.Framework.Web&#34;</span> <span style="color:#008080">providerType=</span><span style="color:#d14">&#34;System.Web.Security.SqlMembershipProvider, System.Web&#34;</span> <span style="color:#000080">/&gt;</span> <span style="color:#000080">&lt;/providers&gt;</span> <span style="color:#000080">&lt;/membership&gt;</span>
+		<span style="color:#000080">&lt;authentication</span> <span style="color:#008080">mode=</span><span style="color:#d14">&#34;Forms&#34;</span> <span style="color:#000080">/&gt;</span>
+		<span style="color:#000080">&lt;authorization&gt;</span>
+			<span style="color:#000080">&lt;allow</span> <span style="color:#008080">users=</span><span style="color:#d14">&#34;timvw&#34;</span><span style="color:#000080">/&gt;</span>
+			<span style="color:#000080">&lt;deny</span> <span style="color:#008080">users=</span><span style="color:#d14">&#34;*&#34;</span><span style="color:#000080">/&gt;</span>
+		<span style="color:#000080">&lt;/authorization&gt;</span>
+	<span style="color:#000080">&lt;/system.web&gt;</span>
+<span style="color:#000080">&lt;/configuration&gt;</span>
 </code></pre></div><p>While i was writing unittests i ran into a couple of issues</p>
 <ul>
 <li><a href="http://www.nmock.org/">NMock</a> seemingly only works with interfaces so i had to rip out an interface out of the abstract base class and wrap that in a MockMembershipProvider.</li>

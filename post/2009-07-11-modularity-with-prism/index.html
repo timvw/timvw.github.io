@@ -7,7 +7,7 @@
 <meta itemprop="description" content="I have been experimenting with WPF and Prism (Composite Application Guidance for WPF and Silverlight) and ran into a major issue: modularity. Here is an excerpt from the documentation
  Modules have explicit boundaries, typically by subsystem or feature. Having these boundaries makes it easier for separate teams to develop modules. On large applications, teams may be organized by cross-cutting capabilities in addition to being organized by a specific subsystem or feature.">
 <meta itemprop="datePublished" content="2009-07-11T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="256">
 
 
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2009-07-11-modularity-with-prism/" />
 <meta property="article:published_time" content="2009-07-11T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Small modification to achieve better modularity with Prism"/>
 <meta name="twitter:description" content="I have been experimenting with WPF and Prism (Composite Application Guidance for WPF and Silverlight) and ran into a major issue: modularity. Here is an excerpt from the documentation
@@ -84,32 +84,32 @@
 <p>Modules have explicit boundaries, typically by subsystem or feature. Having these boundaries makes it easier for separate teams to develop modules. On large applications, teams may be organized by cross-cutting capabilities in addition to being organized by a specific subsystem or feature. For example, there may be a team assigned to shared components of the application, such as the shell or the common infrastructure module.</p>
 </blockquote>
 <p>The Modularity quick start solution uses the DirectoryModuleCatalog to discover modules. The module projects have a build event that copy their output to a single Modules folder</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">xcopy &#34;$(TargetDir)*.*&#34; &#34;$(SolutionDir)DirectoryLookupModularity\$(OutDir)Modules\&#34; /Y
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">xcopy &#34;$(TargetDir)*.*&#34; &#34;$(SolutionDir)DirectoryLookupModularity\$(OutDir)Modules\&#34; /Y
 </code></pre></div><p>This means that if two modules output a file with the same name, one of the two will get lost :(. In order to avoid this we create a directory per module</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">xcopy &#34;$(TargetDir)*.*&#34; &#34;$(SolutionDir)DirectoryLookupModularity\$(OutDir)Modules\$(TargetName)\&#34; /Y
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">xcopy &#34;$(TargetDir)*.*&#34; &#34;$(SolutionDir)DirectoryLookupModularity\$(OutDir)Modules\$(TargetName)\&#34; /Y
 </code></pre></div><p>To make this work we have to modify the catalog a little</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">void</span> InnerLoad()
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">void</span> InnerLoad()
 {
-	<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">string</span>.IsNullOrEmpty(<span style="color:#66d9ef">this</span>.ModulePath))
-		<span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> InvalidOperationException(Resources.ModulePathCannotBeNullOrEmpty);
+	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#458;font-weight:bold">string</span>.IsNullOrEmpty(<span style="color:#000;font-weight:bold">this</span>.ModulePath))
+		<span style="color:#000;font-weight:bold">throw</span> <span style="color:#000;font-weight:bold">new</span> InvalidOperationException(Resources.ModulePathCannotBeNullOrEmpty);
 
-	<span style="color:#66d9ef">if</span> (!Directory.Exists(<span style="color:#66d9ef">this</span>.ModulePath))
-		<span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> InvalidOperationException(<span style="color:#66d9ef">string</span>.Format(CultureInfo.CurrentCulture, Resources.DirectoryNotFound, <span style="color:#66d9ef">this</span>.ModulePath));
+	<span style="color:#000;font-weight:bold">if</span> (!Directory.Exists(<span style="color:#000;font-weight:bold">this</span>.ModulePath))
+		<span style="color:#000;font-weight:bold">throw</span> <span style="color:#000;font-weight:bold">new</span> InvalidOperationException(<span style="color:#458;font-weight:bold">string</span>.Format(CultureInfo.CurrentCulture, Resources.DirectoryNotFound, <span style="color:#000;font-weight:bold">this</span>.ModulePath));
 
-	<span style="color:#66d9ef">foreach</span> (<span style="color:#66d9ef">var</span> assemblyFile <span style="color:#66d9ef">in</span> Directory.GetFiles(<span style="color:#66d9ef">this</span>.ModulePath, <span style="color:#e6db74">&#34;*.dll&#34;</span>, SearchOption.AllDirectories))
+	<span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">var</span> assemblyFile <span style="color:#000;font-weight:bold">in</span> Directory.GetFiles(<span style="color:#000;font-weight:bold">this</span>.ModulePath, <span style="color:#d14">&#34;*.dll&#34;</span>, SearchOption.AllDirectories))
 	{
-		<span style="color:#66d9ef">var</span> privateBinPath = Path.GetFullPath(Path.GetDirectoryName(assemblyFile));
-		<span style="color:#66d9ef">var</span> childDomain = <span style="color:#66d9ef">this</span>.BuildChildDomain(AppDomain.CurrentDomain, privateBinPath);
+		<span style="color:#458;font-weight:bold">var</span> privateBinPath = Path.GetFullPath(Path.GetDirectoryName(assemblyFile));
+		<span style="color:#458;font-weight:bold">var</span> childDomain = <span style="color:#000;font-weight:bold">this</span>.BuildChildDomain(AppDomain.CurrentDomain, privateBinPath);
 
-		<span style="color:#66d9ef">try</span>
+		<span style="color:#000;font-weight:bold">try</span>
 		{
-			<span style="color:#66d9ef">var</span> loaderType = <span style="color:#66d9ef">typeof</span>(InnerModuleInfoLoader);
-			<span style="color:#66d9ef">if</span> (loaderType.Assembly == <span style="color:#66d9ef">null</span>) <span style="color:#66d9ef">continue</span>;
-			<span style="color:#66d9ef">var</span> loader = (InnerModuleInfoLoader)childDomain.CreateInstanceFromAndUnwrap(loaderType.Assembly.Location, loaderType.FullName);
+			<span style="color:#458;font-weight:bold">var</span> loaderType = <span style="color:#000;font-weight:bold">typeof</span>(InnerModuleInfoLoader);
+			<span style="color:#000;font-weight:bold">if</span> (loaderType.Assembly == <span style="color:#000;font-weight:bold">null</span>) <span style="color:#000;font-weight:bold">continue</span>;
+			<span style="color:#458;font-weight:bold">var</span> loader = (InnerModuleInfoLoader)childDomain.CreateInstanceFromAndUnwrap(loaderType.Assembly.Location, loaderType.FullName);
 			loader.LoadAssembly(assemblyFile);
-			<span style="color:#66d9ef">this</span>.Items.AddRange(loader.GetModuleInfos());
+			<span style="color:#000;font-weight:bold">this</span>.Items.AddRange(loader.GetModuleInfos());
 		}		
-		<span style="color:#66d9ef">finally</span>
+		<span style="color:#000;font-weight:bold">finally</span>
 		{
 			AppDomain.Unload(childDomain);
 		}

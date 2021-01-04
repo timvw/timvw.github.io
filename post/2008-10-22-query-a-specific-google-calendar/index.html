@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Despite the multiple copies of the API Developer&rsquo;s Guide: .NET i found i was unable to find how i should query a specific calendar (not the default). Anyway, it can be done by using the CalendarEntry.Content.BaseUri as the query uri. Here is an example
 public class CalendarHelper { public const string OwnedCalendarsUrl = &#34;http://www.google.com/calendar/feeds/default/owncalendars/full&#34;; private readonly CalendarService svc; public CalendarHelper(string username, string password) { this.svc = new CalendarService(&#34;demo&#34;); this.svc.setUserCredentials(username, password); } public IEnumerable&lt;calendarEntry&gt; FindOwnedCalendars() { CalendarQuery query = new CalendarQuery(OwnedCalendarsUrl); CalendarFeed result = this.">
 <meta itemprop="datePublished" content="2008-10-22T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="210">
 
 
@@ -19,7 +19,7 @@ public class CalendarHelper { public const string OwnedCalendarsUrl = &#34;http:
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2008-10-22-query-a-specific-google-calendar/" />
 <meta property="article:published_time" content="2008-10-22T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Query a specific Google Calendar"/>
 <meta name="twitter:description" content="Despite the multiple copies of the API Developer&rsquo;s Guide: .NET i found i was unable to find how i should query a specific calendar (not the default). Anyway, it can be done by using the CalendarEntry.Content.BaseUri as the query uri. Here is an example
@@ -80,64 +80,64 @@ public class CalendarHelper { public const string OwnedCalendarsUrl = &#34;http:
 					
 			<div class="markdown">
 				<p>Despite the multiple copies of the <a href="http://code.google.com/apis/calendar/developers_guide_dotnet.html">API Developer&rsquo;s Guide: .NET</a> i found i was unable to find how i should query a specific calendar (not the default). Anyway, it can be done by using the CalendarEntry.Content.BaseUri as the query uri. Here is an example</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CalendarHelper</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">CalendarHelper</span>
 {
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">string</span> OwnedCalendarsUrl = <span style="color:#e6db74">&#34;http://www.google.com/calendar/feeds/default/owncalendars/full&#34;</span>;
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">const</span> <span style="color:#458;font-weight:bold">string</span> OwnedCalendarsUrl = <span style="color:#d14">&#34;http://www.google.com/calendar/feeds/default/owncalendars/full&#34;</span>;
 
-	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">readonly</span> CalendarService svc;
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">readonly</span> CalendarService svc;
 
-	<span style="color:#66d9ef">public</span> CalendarHelper(<span style="color:#66d9ef">string</span> username, <span style="color:#66d9ef">string</span> password)
+	<span style="color:#000;font-weight:bold">public</span> CalendarHelper(<span style="color:#458;font-weight:bold">string</span> username, <span style="color:#458;font-weight:bold">string</span> password)
 	{
-		<span style="color:#66d9ef">this</span>.svc = <span style="color:#66d9ef">new</span> CalendarService(<span style="color:#e6db74">&#34;demo&#34;</span>);
-		<span style="color:#66d9ef">this</span>.svc.setUserCredentials(username, password);
+		<span style="color:#000;font-weight:bold">this</span>.svc = <span style="color:#000;font-weight:bold">new</span> CalendarService(<span style="color:#d14">&#34;demo&#34;</span>);
+		<span style="color:#000;font-weight:bold">this</span>.svc.setUserCredentials(username, password);
 	}
 
-	<span style="color:#66d9ef">public</span> IEnumerable&lt;calendarEntry&gt; FindOwnedCalendars()
+	<span style="color:#000;font-weight:bold">public</span> IEnumerable&lt;calendarEntry&gt; FindOwnedCalendars()
 	{
-		CalendarQuery query = <span style="color:#66d9ef">new</span> CalendarQuery(OwnedCalendarsUrl);
-		CalendarFeed result = <span style="color:#66d9ef">this</span>.svc.Query(query);
-		<span style="color:#66d9ef">foreach</span> (CalendarEntry entry <span style="color:#66d9ef">in</span> result.Entries) <span style="color:#66d9ef">yield</span> <span style="color:#66d9ef">return</span> entry;
+		CalendarQuery query = <span style="color:#000;font-weight:bold">new</span> CalendarQuery(OwnedCalendarsUrl);
+		CalendarFeed result = <span style="color:#000;font-weight:bold">this</span>.svc.Query(query);
+		<span style="color:#000;font-weight:bold">foreach</span> (CalendarEntry entry <span style="color:#000;font-weight:bold">in</span> result.Entries) <span style="color:#000;font-weight:bold">yield</span> <span style="color:#000;font-weight:bold">return</span> entry;
 	}
 
-	<span style="color:#66d9ef">public</span> CalendarEntry GetCalendar(<span style="color:#66d9ef">string</span> name)
+	<span style="color:#000;font-weight:bold">public</span> CalendarEntry GetCalendar(<span style="color:#458;font-weight:bold">string</span> name)
 	{
-		<span style="color:#66d9ef">return</span> (
-			<span style="color:#66d9ef">from</span> calendar <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">this</span>.FindOwnedCalendars()
-			<span style="color:#66d9ef">where</span> calendar.Title.Text == name
-			<span style="color:#66d9ef">select</span> calendar).SingleOrDefault();
+		<span style="color:#000;font-weight:bold">return</span> (
+			<span style="color:#000;font-weight:bold">from</span> calendar <span style="color:#000;font-weight:bold">in</span> <span style="color:#000;font-weight:bold">this</span>.FindOwnedCalendars()
+			<span style="color:#000;font-weight:bold">where</span> calendar.Title.Text == name
+			<span style="color:#000;font-weight:bold">select</span> calendar).SingleOrDefault();
 	}
 
-	<span style="color:#66d9ef">public</span> IEnumerable&lt;atomEntry&gt; FindEvents(CalendarEntry calendar, DateTime begin, DateTime end)
+	<span style="color:#000;font-weight:bold">public</span> IEnumerable&lt;atomEntry&gt; FindEvents(CalendarEntry calendar, DateTime begin, DateTime end)
 	{
-		EventQuery myQuery = <span style="color:#66d9ef">new</span> EventQuery(calendar.Content.AbsoluteUri);
+		EventQuery myQuery = <span style="color:#000;font-weight:bold">new</span> EventQuery(calendar.Content.AbsoluteUri);
 		myQuery.StartTime = begin;
 		myQuery.EndTime = end;
-		EventFeed result = <span style="color:#66d9ef">this</span>.svc.Query(myQuery);
-		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i = <span style="color:#ae81ff">0</span>; i &lt; result.Entries.Count; ++i) <span style="color:#66d9ef">yield</span> <span style="color:#66d9ef">return</span> result.Entries[i]; 
+		EventFeed result = <span style="color:#000;font-weight:bold">this</span>.svc.Query(myQuery);
+		<span style="color:#000;font-weight:bold">for</span> (<span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">0</span>; i &lt; result.Entries.Count; ++i) <span style="color:#000;font-weight:bold">yield</span> <span style="color:#000;font-weight:bold">return</span> result.Entries[i]; 
 	} 
 } 
 
-<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> Main() 
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main() 
 { 
-	CalendarHelper helper = <span style="color:#66d9ef">new</span> CalendarHelper(<span style="color:#e6db74">&#34;user@gmail.com&#34;</span>, <span style="color:#e6db74">&#34;xxx&#34;</span>); 
-	DateTime begin = <span style="color:#66d9ef">new</span> DateTime(<span style="color:#ae81ff">2008</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>); 
-	DateTime end= <span style="color:#66d9ef">new</span> DateTime(<span style="color:#ae81ff">2009</span>, <span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">31</span>); 
+	CalendarHelper helper = <span style="color:#000;font-weight:bold">new</span> CalendarHelper(<span style="color:#d14">&#34;user@gmail.com&#34;</span>, <span style="color:#d14">&#34;xxx&#34;</span>); 
+	DateTime begin = <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2008</span>, <span style="color:#099">1</span>, <span style="color:#099">1</span>); 
+	DateTime end= <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2009</span>, <span style="color:#099">12</span>, <span style="color:#099">31</span>); 
 	IEnumerable&lt;calendarEntry&gt; calendars = helper.FindOwnedCalendars();
 	
-	<span style="color:#66d9ef">foreach</span> (CalendarEntry calendar <span style="color:#66d9ef">in</span> calendars)
+	<span style="color:#000;font-weight:bold">foreach</span> (CalendarEntry calendar <span style="color:#000;font-weight:bold">in</span> calendars)
 	{
 		Console.WriteLine(calendar.Title.Text);
 
 		IEnumerable&lt;atomEntry&gt; calendarEvents = helper.FindEvents(calendar, begin, end);
-		<span style="color:#66d9ef">foreach</span>(AtomEntry calendarEvent <span style="color:#66d9ef">in</span> calendarEvents)
+		<span style="color:#000;font-weight:bold">foreach</span>(AtomEntry calendarEvent <span style="color:#000;font-weight:bold">in</span> calendarEvents)
 		{
-			Console.WriteLine(<span style="color:#e6db74">&#34;{0}: {1}&#34;</span>, calendarEvent.Updated, calendarEvent.Title.Text);
+			Console.WriteLine(<span style="color:#d14">&#34;{0}: {1}&#34;</span>, calendarEvent.Updated, calendarEvent.Title.Text);
 		}
 
 		Console.WriteLine();
 	}
 
-	Console.Write(<span style="color:#e6db74">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
+	Console.Write(<span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
 	Console.ReadKey();
 }
 </code></pre></div>

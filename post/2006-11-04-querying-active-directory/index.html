@@ -7,7 +7,7 @@
 <meta itemprop="description" content="A while ago i wanted to figure out which demo accounts i had already created in my Active Directory. Since i was smart enough to give them all a description &lsquo;Demo User&rsquo; this was easily done as following
 using( DirectoryEntry directoryEntry = new DirectoryEntry() ) { using( DirectorySearcher directorySearcher = new DirectorySearcher() ) { directorySearcher.Filter = &#34;(&amp;(objectClass=user)(description=Demo User))&#34;; directorySearcher.SearchScope = SearchScope.Subtree; directorySearcher.Sort = new SortOption(&#34;displayname&#34;, SortDirection.Ascending ); SearchResultCollection results = directorySearcher.">
 <meta itemprop="datePublished" content="2006-11-04T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="91">
 
 
@@ -19,7 +19,7 @@ using( DirectoryEntry directoryEntry = new DirectoryEntry() ) { using( Directory
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2006-11-04-querying-active-directory/" />
 <meta property="article:published_time" content="2006-11-04T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Querying Active Directory"/>
 <meta name="twitter:description" content="A while ago i wanted to figure out which demo accounts i had already created in my Active Directory. Since i was smart enough to give them all a description &lsquo;Demo User&rsquo; this was easily done as following
@@ -80,19 +80,19 @@ using( DirectoryEntry directoryEntry = new DirectoryEntry() ) { using( Directory
 					
 			<div class="markdown">
 				<p>A while ago i wanted to figure out which demo accounts i had already created in my <a href="http://www.microsoft.com/windowsserver2003/technologies/directory/activedirectory/default.mspx">Active Directory</a>. Since i was smart enough to give them all a description &lsquo;Demo User&rsquo; this was easily done as following</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">using( DirectoryEntry directoryEntry = <span style="color:#66d9ef">new</span> DirectoryEntry() )
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">using( DirectoryEntry directoryEntry = <span style="color:#000;font-weight:bold">new</span> DirectoryEntry() )
 {
-	using( DirectorySearcher directorySearcher = <span style="color:#66d9ef">new</span> DirectorySearcher() )
+	using( DirectorySearcher directorySearcher = <span style="color:#000;font-weight:bold">new</span> DirectorySearcher() )
 	{
-		directorySearcher.Filter = <span style="color:#e6db74">&#34;(&amp;(objectClass=user)(description=Demo User))&#34;</span>;
+		directorySearcher.Filter = <span style="color:#d14">&#34;(&amp;(objectClass=user)(description=Demo User))&#34;</span>;
 		directorySearcher.SearchScope = SearchScope.Subtree;
-		directorySearcher.Sort = <span style="color:#66d9ef">new</span> SortOption(<span style="color:#e6db74">&#34;displayname&#34;</span>, SortDirection.Ascending );
+		directorySearcher.Sort = <span style="color:#000;font-weight:bold">new</span> SortOption(<span style="color:#d14">&#34;displayname&#34;</span>, SortDirection.Ascending );
 
 		SearchResultCollection results = directorySearcher.FindAll();
-		<span style="color:#66d9ef">foreach</span>( SearchResult result <span style="color:#66d9ef">in</span> results )
+		<span style="color:#000;font-weight:bold">foreach</span>( SearchResult result <span style="color:#000;font-weight:bold">in</span> results )
 		{
 			ResultPropertyCollection propertyCollection = result.Properties;
-			Console.WriteLine( <span style="color:#e6db74">&#34;{0}: {1}&#34;</span>, propertyCollection<span style="color:#960050;background-color:#1e0010">\</span>[<span style="color:#e6db74">&#34;displayname&#34;</span><span style="color:#960050;background-color:#1e0010">\</span>]<span style="color:#960050;background-color:#1e0010">\</span>[<span style="color:#ae81ff">0</span><span style="color:#960050;background-color:#1e0010">\</span>].ToString(), propertyCollection<span style="color:#960050;background-color:#1e0010">\</span>[<span style="color:#e6db74">&#34;description&#34;</span><span style="color:#960050;background-color:#1e0010">\</span>]<span style="color:#960050;background-color:#1e0010">\</span>[<span style="color:#ae81ff">0</span><span style="color:#960050;background-color:#1e0010">\</span>].ToString() );
+			Console.WriteLine( <span style="color:#d14">&#34;{0}: {1}&#34;</span>, propertyCollection<span style="color:#a61717;background-color:#e3d2d2">\</span>[<span style="color:#d14">&#34;displayname&#34;</span><span style="color:#a61717;background-color:#e3d2d2">\</span>]<span style="color:#a61717;background-color:#e3d2d2">\</span>[<span style="color:#099">0</span><span style="color:#a61717;background-color:#e3d2d2">\</span>].ToString(), propertyCollection<span style="color:#a61717;background-color:#e3d2d2">\</span>[<span style="color:#d14">&#34;description&#34;</span><span style="color:#a61717;background-color:#e3d2d2">\</span>]<span style="color:#a61717;background-color:#e3d2d2">\</span>[<span style="color:#099">0</span><span style="color:#a61717;background-color:#e3d2d2">\</span>].ToString() );
 		}
 	}
 }

@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Yesterday i demonstrated how attached properties can be used to invoke commands on specific key presses (and releases). With the aid of System.Windows.Interactivity.Behavior we can implement a true behavior and we get an extension point to do the required cleanup.
 &lt;grid&gt; &lt;interactivity:Interaction.Behaviors&gt; &lt;inf:KeyBehavior&gt; &lt;inf:KeyBehavior.DownKeyCommands&gt; &lt;inf:KeyCommandName Key=&#34;Right&#34; CommandName=&#34;PlayerRight&#34; /&gt; &lt;inf:KeyCommandName Key=&#34;Left&#34; CommandName=&#34;PlayerLeft&#34; /&gt; &lt;inf:KeyCommandName Key=&#34;Up&#34; CommandName=&#34;PlayerUp&#34; /&gt; &lt;inf:KeyCommandName Key=&#34;Down&#34; CommandName=&#34;PlayerDown&#34; /&gt; &lt;/inf:KeyBehavior.DownKeyCommands&gt; &lt;/inf:KeyBehavior&gt; &lt;/interactivity:Interaction.Behaviors&gt; ... &lt;/grid&gt; The behavior implementation is the same as yesterday, only this time we thankfully override the OnAttached and OnDetaching methods">
 <meta itemprop="datePublished" content="2009-10-19T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="155">
 
 
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2009-10-19-true-keybehavior-with-system-windows-interactivity-behavior/" />
 <meta property="article:published_time" content="2009-10-19T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="True KeyBehavior with System.Windows.Interactivity.Behavior"/>
 <meta name="twitter:description" content="Yesterday i demonstrated how attached properties can be used to invoke commands on specific key presses (and releases). With the aid of System.Windows.Interactivity.Behavior we can implement a true behavior and we get an extension point to do the required cleanup.
@@ -81,51 +81,51 @@
 			<div class="markdown">
 				<p>Yesterday i demonstrated how attached properties can be used to invoke commands on specific key presses (and releases). With the aid of System.Windows.Interactivity.Behavior we can implement a true behavior and we get an extension point to do the required cleanup.</p>
 <p><img src="http://www.timvw.be/wp-content/images/BlendKeyBehavior.png" alt="screenshot of Blend managing a KeyBehavior"></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;grid&gt;</span>
-	<span style="color:#f92672">&lt;interactivity:Interaction.Behaviors&gt;</span>
-		<span style="color:#f92672">&lt;inf:KeyBehavior&gt;</span>
-			<span style="color:#f92672">&lt;inf:KeyBehavior.DownKeyCommands&gt;</span>
-				<span style="color:#f92672">&lt;inf:KeyCommandName</span> <span style="color:#a6e22e">Key=</span><span style="color:#e6db74">&#34;Right&#34;</span> <span style="color:#a6e22e">CommandName=</span><span style="color:#e6db74">&#34;PlayerRight&#34;</span> <span style="color:#f92672">/&gt;</span>
-				<span style="color:#f92672">&lt;inf:KeyCommandName</span> <span style="color:#a6e22e">Key=</span><span style="color:#e6db74">&#34;Left&#34;</span> <span style="color:#a6e22e">CommandName=</span><span style="color:#e6db74">&#34;PlayerLeft&#34;</span> <span style="color:#f92672">/&gt;</span>
-				<span style="color:#f92672">&lt;inf:KeyCommandName</span> <span style="color:#a6e22e">Key=</span><span style="color:#e6db74">&#34;Up&#34;</span> <span style="color:#a6e22e">CommandName=</span><span style="color:#e6db74">&#34;PlayerUp&#34;</span> <span style="color:#f92672">/&gt;</span>
-				<span style="color:#f92672">&lt;inf:KeyCommandName</span> <span style="color:#a6e22e">Key=</span><span style="color:#e6db74">&#34;Down&#34;</span> <span style="color:#a6e22e">CommandName=</span><span style="color:#e6db74">&#34;PlayerDown&#34;</span> <span style="color:#f92672">/&gt;</span>
-			<span style="color:#f92672">&lt;/inf:KeyBehavior.DownKeyCommands&gt;</span>
-		<span style="color:#f92672">&lt;/inf:KeyBehavior&gt;</span>
-	<span style="color:#f92672">&lt;/interactivity:Interaction.Behaviors&gt;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;grid&gt;</span>
+	<span style="color:#000080">&lt;interactivity:Interaction.Behaviors&gt;</span>
+		<span style="color:#000080">&lt;inf:KeyBehavior&gt;</span>
+			<span style="color:#000080">&lt;inf:KeyBehavior.DownKeyCommands&gt;</span>
+				<span style="color:#000080">&lt;inf:KeyCommandName</span> <span style="color:#008080">Key=</span><span style="color:#d14">&#34;Right&#34;</span> <span style="color:#008080">CommandName=</span><span style="color:#d14">&#34;PlayerRight&#34;</span> <span style="color:#000080">/&gt;</span>
+				<span style="color:#000080">&lt;inf:KeyCommandName</span> <span style="color:#008080">Key=</span><span style="color:#d14">&#34;Left&#34;</span> <span style="color:#008080">CommandName=</span><span style="color:#d14">&#34;PlayerLeft&#34;</span> <span style="color:#000080">/&gt;</span>
+				<span style="color:#000080">&lt;inf:KeyCommandName</span> <span style="color:#008080">Key=</span><span style="color:#d14">&#34;Up&#34;</span> <span style="color:#008080">CommandName=</span><span style="color:#d14">&#34;PlayerUp&#34;</span> <span style="color:#000080">/&gt;</span>
+				<span style="color:#000080">&lt;inf:KeyCommandName</span> <span style="color:#008080">Key=</span><span style="color:#d14">&#34;Down&#34;</span> <span style="color:#008080">CommandName=</span><span style="color:#d14">&#34;PlayerDown&#34;</span> <span style="color:#000080">/&gt;</span>
+			<span style="color:#000080">&lt;/inf:KeyBehavior.DownKeyCommands&gt;</span>
+		<span style="color:#000080">&lt;/inf:KeyBehavior&gt;</span>
+	<span style="color:#000080">&lt;/interactivity:Interaction.Behaviors&gt;</span>
 ...
-<span style="color:#f92672">&lt;/grid&gt;</span>
+<span style="color:#000080">&lt;/grid&gt;</span>
 </code></pre></div><p>The behavior implementation is the same as yesterday, only this time we thankfully override the OnAttached and OnDetaching methods</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">KeyBehavior</span> : Behavior&lt;frameworkElement&gt;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">KeyBehavior</span> : Behavior&lt;frameworkElement&gt;
 {
-	<span style="color:#66d9ef">public</span> List&lt;keyCommandName&gt; DownKeyCommands { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
-	<span style="color:#66d9ef">public</span> List&lt;keyCommandName&gt; UpKeyCommands { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+	<span style="color:#000;font-weight:bold">public</span> List&lt;keyCommandName&gt; DownKeyCommands { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">set</span>; }
+	<span style="color:#000;font-weight:bold">public</span> List&lt;keyCommandName&gt; UpKeyCommands { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">set</span>; }
 
-	<span style="color:#66d9ef">public</span> KeyBehavior()
-	: <span style="color:#66d9ef">base</span>()
+	<span style="color:#000;font-weight:bold">public</span> KeyBehavior()
+	: <span style="color:#000;font-weight:bold">base</span>()
 	{
-		DownKeyCommands = <span style="color:#66d9ef">new</span> List&lt;keyCommandName&gt;();
-		UpKeyCommands = <span style="color:#66d9ef">new</span> List&lt;keyCommandName&gt;();
+		DownKeyCommands = <span style="color:#000;font-weight:bold">new</span> List&lt;keyCommandName&gt;();
+		UpKeyCommands = <span style="color:#000;font-weight:bold">new</span> List&lt;keyCommandName&gt;();
 	}
 
-	<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">void</span> OnAttached()
+	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">void</span> OnAttached()
 	{
-		<span style="color:#66d9ef">base</span>.OnAttached();
+		<span style="color:#000;font-weight:bold">base</span>.OnAttached();
 		SubscribeToKeyEvents();
 	}
 
-	<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">void</span> OnDetaching()
+	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">void</span> OnDetaching()
 	{
 		UnsubscribeFromKeyEvents();
-		<span style="color:#66d9ef">base</span>.OnDetaching();
+		<span style="color:#000;font-weight:bold">base</span>.OnDetaching();
 	}
 
-	<span style="color:#66d9ef">void</span> SubscribeToKeyEvents()
+	<span style="color:#000;font-weight:bold">void</span> SubscribeToKeyEvents()
 	{
 		AssociatedObject.KeyDown += AssociatedObject_KeyDown;
 		AssociatedObject.KeyUp += AssociatedObject_KeyUp;
 	}
 
-	<span style="color:#66d9ef">void</span> UnsubscribeFromKeyEvents()
+	<span style="color:#000;font-weight:bold">void</span> UnsubscribeFromKeyEvents()
 	{
 		AssociatedObject.KeyDown -= AssociatedObject_KeyDown;
 		AssociatedObject.KeyUp -= AssociatedObject_KeyUp;

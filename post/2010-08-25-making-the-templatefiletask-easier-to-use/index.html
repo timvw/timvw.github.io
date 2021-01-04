@@ -9,7 +9,7 @@
 &lt;configuration&gt; &lt;variables env=&#34;build&#34;&gt; &lt;x name=&#34;a&#34;&gt;localhost&lt;/x&gt; &lt;x name=&#34;b&gt;&lt;mynode/&gt;&lt;/x&gt; &lt;/variables&gt; &lt;/configuration&gt; Here is the msbuild script we need to achieve that
 &lt;PropertyGroup&gt; &lt;ConfigurationFile&gt;configuration.">
 <meta itemprop="datePublished" content="2010-08-25T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="122">
 
 
@@ -23,7 +23,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2010-08-25-making-the-templatefiletask-easier-to-use/" />
 <meta property="article:published_time" content="2010-08-25T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Making the TemplateFileTask easier to use..."/>
 <meta name="twitter:description" content="One of the disadvantages of the TemplateFile task (msbuildtasks) is the fact that it requires a lot of typing to define template values
@@ -86,43 +86,43 @@
 					
 			<div class="markdown">
 				<p>One of the disadvantages of the TemplateFile task (<a href="http://msbuildtasks.tigris.org/">msbuildtasks</a>) is the fact that it requires a lot of typing to define template values</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;ItemGroup</span> <span style="color:#a6e22e">Condition=</span> <span style="color:#e6db74">&#34; &#39;$(ConfigurationEnvironment)&#39;==&#39;build&#39; &#34;</span><span style="color:#f92672">&gt;</span>
-	<span style="color:#f92672">&lt;Tokens</span> <span style="color:#a6e22e">Include=</span><span style="color:#e6db74">&#34;a&#34;</span><span style="color:#f92672">&gt;</span>
-		<span style="color:#f92672">&lt;ReplacementValue&gt;</span>localhost<span style="color:#f92672">&lt;/ReplacementValue&gt;</span>
-	<span style="color:#f92672">&lt;/Tokens&gt;</span>
-	<span style="color:#f92672">&lt;Tokens</span> <span style="color:#a6e22e">Include=</span><span style="color:#e6db74">&#34;b&#34;</span><span style="color:#f92672">&gt;</span>
-		<span style="color:#f92672">&lt;ReplacementValue&gt;&lt;mynode/&gt;&lt;/ReplacementValue&gt;</span>
-	<span style="color:#f92672">&lt;/Tokens&gt;</span>
-<span style="color:#f92672">&lt;/ItemGroup&gt;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;ItemGroup</span> <span style="color:#008080">Condition=</span> <span style="color:#d14">&#34; &#39;$(ConfigurationEnvironment)&#39;==&#39;build&#39; &#34;</span><span style="color:#000080">&gt;</span>
+	<span style="color:#000080">&lt;Tokens</span> <span style="color:#008080">Include=</span><span style="color:#d14">&#34;a&#34;</span><span style="color:#000080">&gt;</span>
+		<span style="color:#000080">&lt;ReplacementValue&gt;</span>localhost<span style="color:#000080">&lt;/ReplacementValue&gt;</span>
+	<span style="color:#000080">&lt;/Tokens&gt;</span>
+	<span style="color:#000080">&lt;Tokens</span> <span style="color:#008080">Include=</span><span style="color:#d14">&#34;b&#34;</span><span style="color:#000080">&gt;</span>
+		<span style="color:#000080">&lt;ReplacementValue&gt;&lt;mynode/&gt;&lt;/ReplacementValue&gt;</span>
+	<span style="color:#000080">&lt;/Tokens&gt;</span>
+<span style="color:#000080">&lt;/ItemGroup&gt;</span>
 </code></pre></div><p>Here is a format proposition to make this a lot more finger friendly</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;configuration&gt;</span>
-	<span style="color:#f92672">&lt;variables</span> <span style="color:#a6e22e">env=</span><span style="color:#e6db74">&#34;build&#34;</span><span style="color:#f92672">&gt;</span>
-		<span style="color:#f92672">&lt;x</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;a&#34;</span><span style="color:#f92672">&gt;</span>localhost<span style="color:#f92672">&lt;/x&gt;</span>
-		<span style="color:#f92672">&lt;x</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;b</span><span style="color:#f92672">&gt;&lt;mynode/&gt;&lt;/x&gt;</span>
-	<span style="color:#f92672">&lt;/variables&gt;</span>
-<span style="color:#f92672">&lt;/configuration&gt;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;configuration&gt;</span>
+	<span style="color:#000080">&lt;variables</span> <span style="color:#008080">env=</span><span style="color:#d14">&#34;build&#34;</span><span style="color:#000080">&gt;</span>
+		<span style="color:#000080">&lt;x</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;a&#34;</span><span style="color:#000080">&gt;</span>localhost<span style="color:#000080">&lt;/x&gt;</span>
+		<span style="color:#000080">&lt;x</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;b</span><span style="color:#000080">&gt;&lt;mynode/&gt;&lt;/x&gt;</span>
+	<span style="color:#000080">&lt;/variables&gt;</span>
+<span style="color:#000080">&lt;/configuration&gt;</span>
 </code></pre></div><p>Here is the msbuild script we need to achieve that</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;PropertyGroup&gt;</span>
-	<span style="color:#f92672">&lt;ConfigurationFile&gt;</span>configuration.xml<span style="color:#f92672">&lt;/ConfigurationFile&gt;</span>
-	<span style="color:#f92672">&lt;ConfigurationEnvironment&gt;</span>build<span style="color:#f92672">&lt;/ConfigurationEnvironment&gt;</span>
-<span style="color:#f92672">&lt;/PropertyGroup&gt;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;PropertyGroup&gt;</span>
+	<span style="color:#000080">&lt;ConfigurationFile&gt;</span>configuration.xml<span style="color:#000080">&lt;/ConfigurationFile&gt;</span>
+	<span style="color:#000080">&lt;ConfigurationEnvironment&gt;</span>build<span style="color:#000080">&lt;/ConfigurationEnvironment&gt;</span>
+<span style="color:#000080">&lt;/PropertyGroup&gt;</span>
 
-<span style="color:#75715e">&lt;!-- Retreive all template values for the specific environment --&gt;</span>
-<span style="color:#f92672">&lt;XmlQuery</span> <span style="color:#a6e22e">XmlFileName=</span><span style="color:#e6db74">&#34;$(ConfigurationFile)&#34;</span> <span style="color:#a6e22e">XPath =</span> <span style="color:#e6db74">&#34;//variables[@env=&#39;$(ConfigurationEnvironment)&#39;]/*&#34;</span><span style="color:#f92672">&gt;</span>
-	<span style="color:#f92672">&lt;Output</span> <span style="color:#a6e22e">TaskParameter=</span><span style="color:#e6db74">&#34;Values&#34;</span> <span style="color:#a6e22e">ItemName=</span><span style="color:#e6db74">&#34;Values&#34;</span> <span style="color:#f92672">/&gt;</span>
-<span style="color:#f92672">&lt;/XmlQuery&gt;</span>
+<span style="color:#998;font-style:italic">&lt;!-- Retreive all template values for the specific environment --&gt;</span>
+<span style="color:#000080">&lt;XmlQuery</span> <span style="color:#008080">XmlFileName=</span><span style="color:#d14">&#34;$(ConfigurationFile)&#34;</span> <span style="color:#008080">XPath =</span> <span style="color:#d14">&#34;//variables[@env=&#39;$(ConfigurationEnvironment)&#39;]/*&#34;</span><span style="color:#000080">&gt;</span>
+	<span style="color:#000080">&lt;Output</span> <span style="color:#008080">TaskParameter=</span><span style="color:#d14">&#34;Values&#34;</span> <span style="color:#008080">ItemName=</span><span style="color:#d14">&#34;Values&#34;</span> <span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;/XmlQuery&gt;</span>
 
-<span style="color:#f92672">&lt;--</span> <span style="color:#960050;background-color:#1e0010">Construct</span> <span style="color:#960050;background-color:#1e0010">@Tokens</span> <span style="color:#960050;background-color:#1e0010">--</span><span style="color:#f92672">&gt;</span>
-<span style="color:#f92672">&lt;ItemGroup&gt;</span>
-	<span style="color:#f92672">&lt;Tokens</span> <span style="color:#a6e22e">Include=</span><span style="color:#e6db74">&#34;%(Values.name)&#34;</span><span style="color:#f92672">&gt;</span>
-		<span style="color:#f92672">&lt;ReplacementValue&gt;</span>%(Values._innerxml)<span style="color:#f92672">&lt;/ReplacementValue&gt;</span>
-	<span style="color:#f92672">&lt;/Tokens&gt;</span>
-<span style="color:#f92672">&lt;/ItemGroup&gt;</span>
+<span style="color:#000080">&lt;--</span> <span style="color:#a61717;background-color:#e3d2d2">Construct</span> <span style="color:#a61717;background-color:#e3d2d2">@Tokens</span> <span style="color:#a61717;background-color:#e3d2d2">--</span><span style="color:#000080">&gt;</span>
+<span style="color:#000080">&lt;ItemGroup&gt;</span>
+	<span style="color:#000080">&lt;Tokens</span> <span style="color:#008080">Include=</span><span style="color:#d14">&#34;%(Values.name)&#34;</span><span style="color:#000080">&gt;</span>
+		<span style="color:#000080">&lt;ReplacementValue&gt;</span>%(Values._innerxml)<span style="color:#000080">&lt;/ReplacementValue&gt;</span>
+	<span style="color:#000080">&lt;/Tokens&gt;</span>
+<span style="color:#000080">&lt;/ItemGroup&gt;</span>
 
-<span style="color:#75715e">&lt;!-- Generate the configuration files --&gt;</span>
-<span style="color:#f92672">&lt;Message</span> <span style="color:#a6e22e">Text=</span><span style="color:#e6db74">&#34;Available variables:&#34;</span> <span style="color:#f92672">/&gt;</span>
-<span style="color:#f92672">&lt;Message</span> <span style="color:#a6e22e">Text=</span><span style="color:#e6db74">&#34;====================&#34;</span> <span style="color:#f92672">/&gt;</span>
-<span style="color:#f92672">&lt;Message</span> <span style="color:#a6e22e">Text=</span><span style="color:#e6db74">&#34;%(Tokens.Identity): %(Tokens.ReplacementValue)&#34;</span> <span style="color:#f92672">/&gt;</span>
+<span style="color:#998;font-style:italic">&lt;!-- Generate the configuration files --&gt;</span>
+<span style="color:#000080">&lt;Message</span> <span style="color:#008080">Text=</span><span style="color:#d14">&#34;Available variables:&#34;</span> <span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;Message</span> <span style="color:#008080">Text=</span><span style="color:#d14">&#34;====================&#34;</span> <span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;Message</span> <span style="color:#008080">Text=</span><span style="color:#d14">&#34;%(Tokens.Identity): %(Tokens.ReplacementValue)&#34;</span> <span style="color:#000080">/&gt;</span>
 </code></pre></div><p>Happy coding!</p>
 
 			</div>

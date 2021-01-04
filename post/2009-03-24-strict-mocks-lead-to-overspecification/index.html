@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Here is an example that demonstrates how strick mocks lead to overspecification. Imagine that we are creating a simple screen in a Passive View architecture. The first feature that we implement is displaying the message &ldquo;edit&rdquo; when the user clicks the edit button
 [Fact] public void ShouldDisplayEditClickMessage() { // Establish context 	MockRepository mockRepository = new MockRepository(); IView view = mockRepository.StrictMock&lt;iview&gt;(); Expect.Call(delegate { view.EditClick &#43;= null; }).IgnoreArguments(); mockRepository.Replay(view); // Create sut 	Presenter sut = new Presenter(view); // Setup expectations 	mockRepository.">
 <meta itemprop="datePublished" content="2009-03-24T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="229">
 
 
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2009-03-24-strict-mocks-lead-to-overspecification/" />
 <meta property="article:published_time" content="2009-03-24T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Strict mocks lead to overspecification"/>
 <meta name="twitter:description" content="Here is an example that demonstrates how strick mocks lead to overspecification. Imagine that we are creating a simple screen in a Passive View architecture. The first feature that we implement is displaying the message &ldquo;edit&rdquo; when the user clicks the edit button
@@ -80,56 +80,56 @@
 					
 			<div class="markdown">
 				<p>Here is an example that demonstrates how strick mocks lead to overspecification. Imagine that we are creating a simple screen in a <a href="http://martinfowler.com/eaaDev/PassiveScreen.html">Passive View</a> architecture. The first feature that we implement is displaying the message &ldquo;edit&rdquo; when the user clicks the edit button</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#a6e22e">[Fact]</span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> ShouldDisplayEditClickMessage()
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[Fact]</span> <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldDisplayEditClickMessage()
 {
-	<span style="color:#75715e">// Establish context
-</span><span style="color:#75715e"></span>	MockRepository mockRepository = <span style="color:#66d9ef">new</span> MockRepository();
+	<span style="color:#998;font-style:italic">// Establish context
+</span><span style="color:#998;font-style:italic"></span>	MockRepository mockRepository = <span style="color:#000;font-weight:bold">new</span> MockRepository();
 	IView view = mockRepository.StrictMock&lt;iview&gt;();
-	Expect.Call(<span style="color:#66d9ef">delegate</span> { view.EditClick += <span style="color:#66d9ef">null</span>; }).IgnoreArguments();
+	Expect.Call(<span style="color:#000;font-weight:bold">delegate</span> { view.EditClick += <span style="color:#000;font-weight:bold">null</span>; }).IgnoreArguments();
 	mockRepository.Replay(view);
 
-	<span style="color:#75715e">// Create sut
-</span><span style="color:#75715e"></span>	Presenter sut = <span style="color:#66d9ef">new</span> Presenter(view);
+	<span style="color:#998;font-style:italic">// Create sut
+</span><span style="color:#998;font-style:italic"></span>	Presenter sut = <span style="color:#000;font-weight:bold">new</span> Presenter(view);
 
-	<span style="color:#75715e">// Setup expectations
-</span><span style="color:#75715e"></span>	mockRepository.BackToRecord(view, BackToRecordOptions.Expectations);
-	Expect.Call(<span style="color:#66d9ef">delegate</span> { view.DisplayClickMessage(<span style="color:#e6db74">&#34;edit&#34;</span>); });
+	<span style="color:#998;font-style:italic">// Setup expectations
+</span><span style="color:#998;font-style:italic"></span>	mockRepository.BackToRecord(view, BackToRecordOptions.Expectations);
+	Expect.Call(<span style="color:#000;font-weight:bold">delegate</span> { view.DisplayClickMessage(<span style="color:#d14">&#34;edit&#34;</span>); });
 	mockRepository.ReplayAll();
 
-	<span style="color:#75715e">// Exercise
-</span><span style="color:#75715e"></span>	RhinoMocksExtensions
-	.GetEventRaiser(view, <span style="color:#66d9ef">delegate</span>(IView v) { v.EditClick += <span style="color:#66d9ef">null</span>; })
+	<span style="color:#998;font-style:italic">// Exercise
+</span><span style="color:#998;font-style:italic"></span>	RhinoMocksExtensions
+	.GetEventRaiser(view, <span style="color:#000;font-weight:bold">delegate</span>(IView v) { v.EditClick += <span style="color:#000;font-weight:bold">null</span>; })
 	.Raise(view, EventArgs.Empty);
 
-	<span style="color:#75715e">// Verify
-</span><span style="color:#75715e"></span>	mockRepository.VerifyAll();
+	<span style="color:#998;font-style:italic">// Verify
+</span><span style="color:#998;font-style:italic"></span>	mockRepository.VerifyAll();
 }
 </code></pre></div><p><img src="http://www.timvw.be/wp-content/images/overspecification-01.PNG" alt="screenshot of test runner with all tests passing"></p>
 <p>And now we add the feature that displays the message &ldquo;save&rdquo; whenever the user clicks on the save button</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#a6e22e">[Fact]</span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> ShouldDisplaySaveClickMessage()
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[Fact]</span> <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldDisplaySaveClickMessage()
 {
-	<span style="color:#75715e">// Establish context
-</span><span style="color:#75715e"></span>	MockRepository mockRepository = <span style="color:#66d9ef">new</span> MockRepository();
+	<span style="color:#998;font-style:italic">// Establish context
+</span><span style="color:#998;font-style:italic"></span>	MockRepository mockRepository = <span style="color:#000;font-weight:bold">new</span> MockRepository();
 	IView view = mockRepository.StrictMock&lt;iview&gt;();
-	Expect.Call(<span style="color:#66d9ef">delegate</span> { view.EditClick += <span style="color:#66d9ef">null</span>; }).IgnoreArguments();
-	Expect.Call(<span style="color:#66d9ef">delegate</span> { view.SaveClick += <span style="color:#66d9ef">null</span>; }).IgnoreArguments();
+	Expect.Call(<span style="color:#000;font-weight:bold">delegate</span> { view.EditClick += <span style="color:#000;font-weight:bold">null</span>; }).IgnoreArguments();
+	Expect.Call(<span style="color:#000;font-weight:bold">delegate</span> { view.SaveClick += <span style="color:#000;font-weight:bold">null</span>; }).IgnoreArguments();
 	mockRepository.Replay(view);
 
-	<span style="color:#75715e">// Create sut
-</span><span style="color:#75715e"></span>	Presenter sut = <span style="color:#66d9ef">new</span> Presenter(view);
+	<span style="color:#998;font-style:italic">// Create sut
+</span><span style="color:#998;font-style:italic"></span>	Presenter sut = <span style="color:#000;font-weight:bold">new</span> Presenter(view);
 
-	<span style="color:#75715e">// Setup expectations
-</span><span style="color:#75715e"></span>	mockRepository.BackToRecord(view, BackToRecordOptions.Expectations);
-	Expect.Call(<span style="color:#66d9ef">delegate</span> { view.DisplayClickMessage(<span style="color:#e6db74">&#34;save&#34;</span>); });
+	<span style="color:#998;font-style:italic">// Setup expectations
+</span><span style="color:#998;font-style:italic"></span>	mockRepository.BackToRecord(view, BackToRecordOptions.Expectations);
+	Expect.Call(<span style="color:#000;font-weight:bold">delegate</span> { view.DisplayClickMessage(<span style="color:#d14">&#34;save&#34;</span>); });
 	mockRepository.ReplayAll();
 
-	<span style="color:#75715e">// Exercise
-</span><span style="color:#75715e"></span>	RhinoMocksExtensions
-	.GetEventRaiser(view, <span style="color:#66d9ef">delegate</span>(IView v) { v.SaveClick += <span style="color:#66d9ef">null</span>; })
+	<span style="color:#998;font-style:italic">// Exercise
+</span><span style="color:#998;font-style:italic"></span>	RhinoMocksExtensions
+	.GetEventRaiser(view, <span style="color:#000;font-weight:bold">delegate</span>(IView v) { v.SaveClick += <span style="color:#000;font-weight:bold">null</span>; })
 	.Raise(view, EventArgs.Empty);
 
-	<span style="color:#75715e">// Verify
-</span><span style="color:#75715e"></span>	mockRepository.VerifyAll();
+	<span style="color:#998;font-style:italic">// Verify
+</span><span style="color:#998;font-style:italic"></span>	mockRepository.VerifyAll();
 	}
 }
 </code></pre></div><p><img src="http://www.timvw.be/wp-content/images/overspecification-02.PNG" alt="screenshot of test runner with a failing test."></p>

@@ -8,7 +8,7 @@
 public DbConnection GetDbConnection(string connectionStringName) { return GetDbConnection(ConfigurationManager.ConnectionStrings[connectionStringName]); } public DbConnection GetDbConnection(ConnectionStringSettings connectionStringSettings) { return GetDbConnection(connectionStringSettings.ProviderName, connectionStringSettings.ConnectionString); } public DbConnection GetDbConnection(string providerInvariantName, string connectionString) { DbConnection connection = DbProviderFactories.GetFactory(providerInvariantName).CreateConnection(); connection.ConnectionString = connectionString; return connection; } Using these functions, the pattern for querying a database could be something as following:
 using (DbConnection conn = GetDbConnection(&#34;Local_Northwind&#34;)) { conn.">
 <meta itemprop="datePublished" content="2007-08-07T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="101">
 
 
@@ -21,7 +21,7 @@ using (DbConnection conn = GetDbConnection(&#34;Local_Northwind&#34;)) { conn." 
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2007-08-07-helper-methods-for-dbconnection/" />
 <meta property="article:published_time" content="2007-08-07T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Helper methods for DbProviderFactory"/>
 <meta name="twitter:description" content="Here are a couple of functions that make it easier to take advantage of the DbProviderFactory to create DbConnections
@@ -83,34 +83,34 @@ using (DbConnection conn = GetDbConnection(&#34;Local_Northwind&#34;)) { conn."/
 					
 			<div class="markdown">
 				<p>Here are a couple of functions that make it easier to take advantage of the DbProviderFactory to create DbConnections</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> DbConnection GetDbConnection(<span style="color:#66d9ef">string</span> connectionStringName)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> DbConnection GetDbConnection(<span style="color:#458;font-weight:bold">string</span> connectionStringName)
 {
-	<span style="color:#66d9ef">return</span> GetDbConnection(ConfigurationManager.ConnectionStrings[connectionStringName]);
+	<span style="color:#000;font-weight:bold">return</span> GetDbConnection(ConfigurationManager.ConnectionStrings[connectionStringName]);
 }
 
-<span style="color:#66d9ef">public</span> DbConnection GetDbConnection(ConnectionStringSettings connectionStringSettings)
+<span style="color:#000;font-weight:bold">public</span> DbConnection GetDbConnection(ConnectionStringSettings connectionStringSettings)
 {
-	<span style="color:#66d9ef">return</span> GetDbConnection(connectionStringSettings.ProviderName, connectionStringSettings.ConnectionString);
+	<span style="color:#000;font-weight:bold">return</span> GetDbConnection(connectionStringSettings.ProviderName, connectionStringSettings.ConnectionString);
 }
 
-<span style="color:#66d9ef">public</span> DbConnection GetDbConnection(<span style="color:#66d9ef">string</span> providerInvariantName, <span style="color:#66d9ef">string</span> connectionString)
+<span style="color:#000;font-weight:bold">public</span> DbConnection GetDbConnection(<span style="color:#458;font-weight:bold">string</span> providerInvariantName, <span style="color:#458;font-weight:bold">string</span> connectionString)
 {
 	DbConnection connection = DbProviderFactories.GetFactory(providerInvariantName).CreateConnection();
 	connection.ConnectionString = connectionString;
-	<span style="color:#66d9ef">return</span> connection;
+	<span style="color:#000;font-weight:bold">return</span> connection;
 }
 </code></pre></div><p>Using these functions, the pattern for querying a database could be something as following:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">using</span> (DbConnection conn = GetDbConnection(<span style="color:#e6db74">&#34;Local_Northwind&#34;</span>))
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">using</span> (DbConnection conn = GetDbConnection(<span style="color:#d14">&#34;Local_Northwind&#34;</span>))
 {
 	conn.Open();
 
-	<span style="color:#66d9ef">using</span> (DbCommand cmd = conn.CreateCommand())
+	<span style="color:#000;font-weight:bold">using</span> (DbCommand cmd = conn.CreateCommand())
 	{
-		cmd.CommandText = <span style="color:#e6db74">&#34;SELECT EmployeeID, FirstName, LastName FROM Employees&#34;</span>;
-		<span style="color:#66d9ef">using</span> (DbDataReader reader = cmd.ExecuteReader())
+		cmd.CommandText = <span style="color:#d14">&#34;SELECT EmployeeID, FirstName, LastName FROM Employees&#34;</span>;
+		<span style="color:#000;font-weight:bold">using</span> (DbDataReader reader = cmd.ExecuteReader())
 		{
-			<span style="color:#75715e">// process the result
-</span><span style="color:#75715e"></span>		}
+			<span style="color:#998;font-style:italic">// process the result
+</span><span style="color:#998;font-style:italic"></span>		}
 	}
 }
 </code></pre></div>

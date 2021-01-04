@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Last couple of weeks I have been generating a lot of files (and restricting their ACLs) and today I decided to remove all those files. The problem is that my user account did not have permissions on those files. Here is a small script that will first take ownership of the file, then grants FullControl permissions, and finally removes the file 🙂
 function RemoveFile {	param($FileName) &amp;takeown /F $FileName $User = [System.">
 <meta itemprop="datePublished" content="2011-10-18T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="133">
 
 
@@ -19,7 +19,7 @@ function RemoveFile {	param($FileName) &amp;takeown /F $FileName $User = [System
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2011-10-18-force-the-removal-of-a-file-with-powershell/" />
 <meta property="article:published_time" content="2011-10-18T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Force the removal of a file with PowerShell"/>
 <meta name="twitter:description" content="Last couple of weeks I have been generating a lot of files (and restricting their ACLs) and today I decided to remove all those files. The problem is that my user account did not have permissions on those files. Here is a small script that will first take ownership of the file, then grants FullControl permissions, and finally removes the file 🙂
@@ -80,29 +80,29 @@ function RemoveFile {	param($FileName) &amp;takeown /F $FileName $User = [System
 					
 			<div class="markdown">
 				<p>Last couple of weeks I have been generating a lot of files (and restricting their ACLs) and today I decided to remove all those files. The problem is that my user account did not have permissions on those files. Here is a small script that will first take ownership of the file, then grants FullControl permissions, and finally removes the file 🙂</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#66d9ef">function</span> RemoveFile 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> RemoveFile 
 {	  
-	<span style="color:#66d9ef">param</span>($FileName)
+	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$FileName</span>)
 	
-	&amp;takeown /F $FileName
-	$User = <span style="color:#66d9ef">[System.Security.Principal.WindowsIdentity]</span>::GetCurrent().User
-	$Acl = Get-Acl $FileName	  
-	$Acl.SetOwner($User)	  
-	$AccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($User, <span style="color:#e6db74">&#34;FullControl&#34;</span>, <span style="color:#e6db74">&#34;Allow&#34;</span>)	  
-	$Acl.SetAccessRule($AccessRule)	  
-	Set-Acl $FileName $Acl
-	Remove-Item $FileName 
+	&amp;takeown /F <span style="color:#008080">$FileName</span>
+	<span style="color:#008080">$User</span> = <span style="color:#008080">[System.Security.Principal.WindowsIdentity]</span>::GetCurrent().User
+	<span style="color:#008080">$Acl</span> = <span style="color:#0086b3">Get-Acl</span> <span style="color:#008080">$FileName</span>	  
+	<span style="color:#008080">$Acl</span>.SetOwner(<span style="color:#008080">$User</span>)	  
+	<span style="color:#008080">$AccessRule</span> = <span style="color:#0086b3">New-Object</span> System.Security.AccessControl.FileSystemAccessRule(<span style="color:#008080">$User</span>, <span style="color:#d14">&#34;FullControl&#34;</span>, <span style="color:#d14">&#34;Allow&#34;</span>)	  
+	<span style="color:#008080">$Acl</span>.SetAccessRule(<span style="color:#008080">$AccessRule</span>)	  
+	<span style="color:#0086b3">Set-Acl</span> <span style="color:#008080">$FileName</span> <span style="color:#008080">$Acl</span>
+	<span style="color:#0086b3">Remove-Item</span> <span style="color:#008080">$FileName</span> 
 }
 
-Get-ChildItem *.txt -R | % { RemoveFile $_.FullName; }
+<span style="color:#0086b3">Get-ChildItem</span> *.txt -R | % { RemoveFile <span style="color:#008080">$_</span>.FullName; }
 </code></pre></div><p><strong>Edit on 2011-10-19</strong></p>
 <p>Resetting the permissions with icacls c:\output /reset /t and then calling Remove-Item c:\output -R does the trick.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#66d9ef">function</span> RemoveFiles 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> RemoveFiles 
 {  
-	<span style="color:#66d9ef">param</span>($Directory)
+	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$Directory</span>)
 
-	icacls $Directory /reset /t 
-	Remove-Item $Directory -R 
+	icacls <span style="color:#008080">$Directory</span> /reset /t 
+	<span style="color:#0086b3">Remove-Item</span> <span style="color:#008080">$Directory</span> -R 
 }
 
 RemoveFiles c:\output;

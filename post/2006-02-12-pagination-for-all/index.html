@@ -6,7 +6,7 @@
 	<meta itemprop="name" content="Pagination for all">
 <meta itemprop="description" content="Suppose you have a a large collection of items and you want to display them. Users don&rsquo;t want to see 5000 items at once. They only want to see a couple of items and have the possibility to look at the next (or previous) couple of items. The solution for this problem is usually named pagination. You can compare this technique with paging. Most people seem to come up with their own (My)SQL specific implementation.">
 <meta itemprop="datePublished" content="2006-02-12T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="598">
 
 
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2006-02-12-pagination-for-all/" />
 <meta property="article:published_time" content="2006-02-12T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Pagination for all"/>
 <meta name="twitter:description" content="Suppose you have a a large collection of items and you want to display them. Users don&rsquo;t want to see 5000 items at once. They only want to see a couple of items and have the possibility to look at the next (or previous) couple of items. The solution for this problem is usually named pagination. You can compare this technique with paging. Most people seem to come up with their own (My)SQL specific implementation."/>
@@ -77,140 +77,140 @@
 					
 			<div class="markdown">
 				<p>Suppose you have a a large collection of items and you want to display them. Users don&rsquo;t want to see 5000 items at once. They only want to see a couple of items and have the possibility to look at the next (or previous) couple of items. The solution for this problem is usually named pagination. You can compare this technique with <a href="http://en.wikipedia.org/paging">paging</a>. Most people seem to come up with their own (My)SQL specific implementation. Here are a couple of examples how you can use <a href="http://www.timvw.be/wp-content/code/php/pagination.txt">mine</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-<span style="color:#66d9ef">require</span>(<span style="color:#e6db74">&#39;http://www.timvw.be/wp-content/code/php/pagination.txt&#39;</span>);
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#000;font-weight:bold">require</span>(<span style="color:#d14">&#39;http://www.timvw.be/wp-content/code/php/pagination.txt&#39;</span>);
 
-<span style="color:#75715e">// step 1 - create pageable data: array example
-</span><span style="color:#75715e"></span>$data <span style="color:#f92672">=</span> <span style="color:#66d9ef">array</span>(
-	<span style="color:#66d9ef">array</span>(<span style="color:#e6db74">&#39;name&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;Jameson&#39;</span>, <span style="color:#e6db74">&#39;surname&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;Jenna&#39;</span>),
+<span style="color:#998;font-style:italic">// step 1 - create pageable data: array example
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$data</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>(
+	<span style="color:#000;font-weight:bold">array</span>(<span style="color:#d14">&#39;name&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;Jameson&#39;</span>, <span style="color:#d14">&#39;surname&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;Jenna&#39;</span>),
 
 
-<span style="color:#66d9ef">array</span>(<span style="color:#e6db74">&#39;name&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;Banks&#39;</span>, <span style="color:#e6db74">&#39;surname&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;Briana&#39;</span>),
-<span style="color:#66d9ef">array</span>(<span style="color:#e6db74">&#39;name&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;Giovanni&#39;</span>, <span style="color:#e6db74">&#39;surname&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;Aria&#39;</span>),
-<span style="color:#66d9ef">array</span>(<span style="color:#e6db74">&#39;name&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;Rush&#39;</span>, <span style="color:#e6db74">&#39;surname&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;Daniella&#39;</span>),
-<span style="color:#66d9ef">array</span>(<span style="color:#e6db74">&#39;name&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;Flowers&#39;</span>, <span style="color:#e6db74">&#39;surname&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;April&#39;</span>)
+<span style="color:#000;font-weight:bold">array</span>(<span style="color:#d14">&#39;name&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;Banks&#39;</span>, <span style="color:#d14">&#39;surname&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;Briana&#39;</span>),
+<span style="color:#000;font-weight:bold">array</span>(<span style="color:#d14">&#39;name&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;Giovanni&#39;</span>, <span style="color:#d14">&#39;surname&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;Aria&#39;</span>),
+<span style="color:#000;font-weight:bold">array</span>(<span style="color:#d14">&#39;name&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;Rush&#39;</span>, <span style="color:#d14">&#39;surname&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;Daniella&#39;</span>),
+<span style="color:#000;font-weight:bold">array</span>(<span style="color:#d14">&#39;name&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;Flowers&#39;</span>, <span style="color:#d14">&#39;surname&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;April&#39;</span>)
 );
-$pageabledata <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">PageableArray</span>($data);
+<span style="color:#008080">$pageabledata</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageableArray(<span style="color:#008080">$data</span>);
 
-<span style="color:#75715e">// step 2 -- create the pager
-</span><span style="color:#75715e"></span>$pager <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Pager</span>($pageabledata);
+<span style="color:#998;font-style:italic">// step 2 -- create the pager
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$pager</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Pager(<span style="color:#008080">$pageabledata</span>);
 
-<span style="color:#75715e">// step 3 -- create the pagewriter
-</span><span style="color:#75715e"></span>$pagewriter <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">PageWriter</span>($pager);
+<span style="color:#998;font-style:italic">// step 3 -- create the pagewriter
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$pagewriter</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageWriter(<span style="color:#008080">$pager</span>);
 
-<span style="color:#75715e">// step 4 -- create the paginator
-</span><span style="color:#75715e"></span>$paginator <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Paginator</span>($pagewriter);
+<span style="color:#998;font-style:italic">// step 4 -- create the paginator
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$paginator</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Paginator(<span style="color:#008080">$pagewriter</span>);
 
-<span style="color:#75715e">// step 5 -- run the paginators
-</span><span style="color:#75715e"></span>$paginator<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">run</span>();
+<span style="color:#998;font-style:italic">// step 5 -- run the paginators
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$paginator</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">run</span>();
 
-<span style="color:#75715e">// setp 6 -- output
-</span><span style="color:#75715e"></span>$paginator<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">output</span>();
-<span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+<span style="color:#998;font-style:italic">// setp 6 -- output
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$paginator</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">output</span>();
+<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
 </span></code></pre></div><p>I have also provided code for situations where you want to paginate File contents, MySQL or ADODB resultsets. In that case the code for step 1 would look like</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-<span style="color:#75715e">// file example
-</span><span style="color:#75715e"></span>$pageabledata <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">PageableFile</span>(<span style="color:#e6db74">&#34;/home/users/timvw/.bash_history&#34;</span>);
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#998;font-style:italic">// file example
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$pageabledata</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageableFile(<span style="color:#d14">&#34;/home/users/timvw/.bash_history&#34;</span>);
 
-<span style="color:#75715e">// mysql example
-</span><span style="color:#75715e"></span>$dblink <span style="color:#f92672">=</span> <span style="color:#a6e22e">mysql_connect</span>(<span style="color:#e6db74">&#39;localhost&#39;</span>, <span style="color:#e6db74">&#39;username&#39;</span>, <span style="color:#e6db74">&#39;password&#39;</span>);
-<span style="color:#a6e22e">mysql_select_db</span>(<span style="color:#e6db74">&#39;dbname&#39;</span>, $dblink);
-$pageabledata <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">PageableMySQL</span>(<span style="color:#e6db74">&#39;SELECT * FROM wp_posts ORDER BY 1&#39;</span>, $dblink);
+<span style="color:#998;font-style:italic">// mysql example
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$dblink</span> <span style="color:#000;font-weight:bold">=</span> mysql_connect(<span style="color:#d14">&#39;localhost&#39;</span>, <span style="color:#d14">&#39;username&#39;</span>, <span style="color:#d14">&#39;password&#39;</span>);
+mysql_select_db(<span style="color:#d14">&#39;dbname&#39;</span>, <span style="color:#008080">$dblink</span>);
+<span style="color:#008080">$pageabledata</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageableMySQL(<span style="color:#d14">&#39;SELECT * FROM wp_posts ORDER BY 1&#39;</span>, <span style="color:#008080">$dblink</span>);
 
-<span style="color:#75715e">// adodb example
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">require</span>(<span style="color:#e6db74">&#39;adodb/adodb.inc.php&#39;</span>);
-$db <span style="color:#f92672">=</span> <span style="color:#a6e22e">NewADOConnection</span>(<span style="color:#e6db74">&#39;mysql://username:password@localhost/dbname&#39;</span>);
-$pageabledata <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">PageableADODB</span>(<span style="color:#e6db74">&#39;SELECT * FROM wp_posts ORDER BY 1&#39;</span>, $db);
-<span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+<span style="color:#998;font-style:italic">// adodb example
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">require</span>(<span style="color:#d14">&#39;adodb/adodb.inc.php&#39;</span>);
+<span style="color:#008080">$db</span> <span style="color:#000;font-weight:bold">=</span> NewADOConnection(<span style="color:#d14">&#39;mysql://username:password@localhost/dbname&#39;</span>);
+<span style="color:#008080">$pageabledata</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageableADODB(<span style="color:#d14">&#39;SELECT * FROM wp_posts ORDER BY 1&#39;</span>, <span style="color:#008080">$db</span>);
+<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
 </span></code></pre></div><p>You will probably want to modify the code so that it generates the html you want. Here is how an example of such a change</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-<span style="color:#e6db74">/**
-</span><span style="color:#e6db74"> * This class represents a PageJumpWriter
-</span><span style="color:#e6db74"> */</span>
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PageJumpWriter</span> <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">PageWriter</span> {
-        <span style="color:#e6db74">/**
-</span><span style="color:#e6db74">         * Default constructor
-</span><span style="color:#e6db74">         * @param $pager the pager
-</span><span style="color:#e6db74">         * @param $base_url the baseurl for the pager
-</span><span style="color:#e6db74">         * @param $page_param the name of the page parameter
-</span><span style="color:#e6db74">	 * @param $items_per_page_param the name of the items per page parameter
-</span><span style="color:#e6db74">	 * @param $params additional url parameters in the form of a name=&gt;value array
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">*/</span>
-<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">PageJumpWriter</span>(<span style="color:#f92672">&amp;</span>$pager, $base\_url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;, </span><span style="color:#e6db74">$page\_param</span><span style="color:#e6db74"> = &#39;page&#39;, </span><span style="color:#e6db74">$items\_per\_page\_param</span><span style="color:#e6db74"> = &#39;items\_per_page&#39;, </span><span style="color:#e6db74">$params</span><span style="color:#e6db74"> = null) {
-</span><span style="color:#e6db74">parent::PageWriter(</span><span style="color:#e6db74">$pager</span><span style="color:#e6db74">, </span><span style="color:#e6db74">$base\_url</span><span style="color:#e6db74">, </span><span style="color:#e6db74">$page\_param</span><span style="color:#e6db74">, </span><span style="color:#e6db74">$items\_per\_page_param</span><span style="color:#e6db74">, </span><span style="color:#e6db74">$params</span><span style="color:#e6db74">);
-</span><span style="color:#e6db74">}
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">/**
-</span><span style="color:#e6db74">* Generate html for the items pager
-</span><span style="color:#e6db74">* @see PageWriter#makeItemsPager
-</span><span style="color:#e6db74">*/
-</span><span style="color:#e6db74">function makeItemsPager() {
-</span><span style="color:#e6db74"></span><span style="color:#e6db74">$current_page</span><span style="color:#e6db74"> = </span><span style="color:#e6db74">$this-&gt;pager</span><span style="color:#e6db74">-&gt;getCurrentPage();
-</span><span style="color:#e6db74"></span><span style="color:#e6db74">$last_page</span><span style="color:#e6db74"> = </span><span style="color:#e6db74">$this-&gt;pager</span><span style="color:#e6db74">-&gt;getLastPage();
-</span><span style="color:#e6db74"></span><span style="color:#e6db74">$prev\_page</span><span style="color:#e6db74"> = </span><span style="color:#e6db74">$current\_page</span><span style="color:#e6db74"> -- 1;
-</span><span style="color:#e6db74"></span><span style="color:#e6db74">$next\_page</span><span style="color:#e6db74"> = </span><span style="color:#e6db74">$current\_page</span><span style="color:#e6db74"> + 1;
-</span><span style="color:#e6db74"></span><span style="color:#e6db74">$items\_per\_page</span><span style="color:#e6db74"> = </span><span style="color:#e6db74">$this-&gt;pager</span><span style="color:#e6db74">-&gt;getItemsPerPage();
-</span><span style="color:#e6db74"></span><span style="color:#e6db74">$html</span><span style="color:#e6db74"> = &#34;</span> 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#d14">/**
+</span><span style="color:#d14"> * This class represents a PageJumpWriter
+</span><span style="color:#d14"> */</span>
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PageJumpWriter</span> <span style="color:#000;font-weight:bold">extends</span> PageWriter {
+        <span style="color:#d14">/**
+</span><span style="color:#d14">         * Default constructor
+</span><span style="color:#d14">         * @param $pager the pager
+</span><span style="color:#d14">         * @param $base_url the baseurl for the pager
+</span><span style="color:#d14">         * @param $page_param the name of the page parameter
+</span><span style="color:#d14">	 * @param $items_per_page_param the name of the items per page parameter
+</span><span style="color:#d14">	 * @param $params additional url parameters in the form of a name=&gt;value array
+</span><span style="color:#d14">
+</span><span style="color:#d14">
+</span><span style="color:#d14">*/</span>
+<span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">PageJumpWriter</span>(<span style="color:#000;font-weight:bold">&amp;</span><span style="color:#008080">$pager</span>, <span style="color:#008080">$base\_url</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;, </span><span style="color:#d14">$page\_param</span><span style="color:#d14"> = &#39;page&#39;, </span><span style="color:#d14">$items\_per\_page\_param</span><span style="color:#d14"> = &#39;items\_per_page&#39;, </span><span style="color:#d14">$params</span><span style="color:#d14"> = null) {
+</span><span style="color:#d14">parent::PageWriter(</span><span style="color:#d14">$pager</span><span style="color:#d14">, </span><span style="color:#d14">$base\_url</span><span style="color:#d14">, </span><span style="color:#d14">$page\_param</span><span style="color:#d14">, </span><span style="color:#d14">$items\_per\_page_param</span><span style="color:#d14">, </span><span style="color:#d14">$params</span><span style="color:#d14">);
+</span><span style="color:#d14">}
+</span><span style="color:#d14">
+</span><span style="color:#d14">/**
+</span><span style="color:#d14">* Generate html for the items pager
+</span><span style="color:#d14">* @see PageWriter#makeItemsPager
+</span><span style="color:#d14">*/
+</span><span style="color:#d14">function makeItemsPager() {
+</span><span style="color:#d14"></span><span style="color:#d14">$current_page</span><span style="color:#d14"> = </span><span style="color:#d14">$this-&gt;pager</span><span style="color:#d14">-&gt;getCurrentPage();
+</span><span style="color:#d14"></span><span style="color:#d14">$last_page</span><span style="color:#d14"> = </span><span style="color:#d14">$this-&gt;pager</span><span style="color:#d14">-&gt;getLastPage();
+</span><span style="color:#d14"></span><span style="color:#d14">$prev\_page</span><span style="color:#d14"> = </span><span style="color:#d14">$current\_page</span><span style="color:#d14"> -- 1;
+</span><span style="color:#d14"></span><span style="color:#d14">$next\_page</span><span style="color:#d14"> = </span><span style="color:#d14">$current\_page</span><span style="color:#d14"> + 1;
+</span><span style="color:#d14"></span><span style="color:#d14">$items\_per\_page</span><span style="color:#d14"> = </span><span style="color:#d14">$this-&gt;pager</span><span style="color:#d14">-&gt;getItemsPerPage();
+</span><span style="color:#d14"></span><span style="color:#d14">$html</span><span style="color:#d14"> = &#34;</span> 
 
-<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;itemspager&#39;</span><span style="color:#f92672">&gt;</span>
-  <span style="color:#e6db74">&#34;;&lt;br /&gt; </span><span style="color:#e6db74">$html</span><span style="color:#e6db74"> .= &#34;</span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">br</span> <span style="color:#f92672">/&gt;</span> 
-  <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">p</span><span style="color:#f92672">&gt;</span>
-    <span style="color:#e6db74">&#34;;&lt;br /&gt; </span><span style="color:#e6db74">$html</span><span style="color:#e6db74"> .= &#34;</span>
-  <span style="color:#f92672">&lt;/</span><span style="color:#a6e22e">p</span><span style="color:#f92672">&gt;</span>
-<span style="color:#f92672">&lt;/</span><span style="color:#a6e22e">div</span><span style="color:#f92672">&gt;</span>
+<span style="color:#000;font-weight:bold">&lt;</span>div class<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;itemspager&#39;</span><span style="color:#000;font-weight:bold">&gt;</span>
+  <span style="color:#d14">&#34;;&lt;br /&gt; </span><span style="color:#d14">$html</span><span style="color:#d14"> .= &#34;</span><span style="color:#000;font-weight:bold">&lt;</span>br <span style="color:#000;font-weight:bold">/&gt;</span> 
+  <span style="color:#000;font-weight:bold">&lt;</span>p<span style="color:#000;font-weight:bold">&gt;</span>
+    <span style="color:#d14">&#34;;&lt;br /&gt; </span><span style="color:#d14">$html</span><span style="color:#d14"> .= &#34;</span>
+  <span style="color:#000;font-weight:bold">&lt;/</span>p<span style="color:#000;font-weight:bold">&gt;</span>
+<span style="color:#000;font-weight:bold">&lt;/</span>div<span style="color:#000;font-weight:bold">&gt;</span>
 
-<span style="color:#e6db74">&#34;;
-</span><span style="color:#e6db74">return </span><span style="color:#e6db74">$html</span><span style="color:#e6db74">;
-</span><span style="color:#e6db74">}
-</span><span style="color:#e6db74">}
-</span><span style="color:#e6db74">?&gt;
+<span style="color:#d14">&#34;;
+</span><span style="color:#d14">return </span><span style="color:#d14">$html</span><span style="color:#d14">;
+</span><span style="color:#d14">}
+</span><span style="color:#d14">}
+</span><span style="color:#d14">?&gt;
 </span></code></pre></div><p>If you want to use this customized html generator you simple change the code in step 3 as following</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-$pagewriter2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">PageJumpWriter</span>($pager2);
-<span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#008080">$pagewriter2</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageJumpWriter(<span style="color:#008080">$pager2</span>);
+<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
 </span></code></pre></div><p>The problem with most of these paginators is that you can only use one per page. This is a serious <a href="http://en.wiktionary.org/wiki/PITA">PITA</a>. It&rsquo;s your lucky day, here is an example of two paginators that can run separately in the same page</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-<span style="color:#75715e">// step 1 - create the pageable data
-</span><span style="color:#75715e"></span>$dblink <span style="color:#f92672">=</span> <span style="color:#a6e22e">mysql_connect</span>(<span style="color:#e6db74">&#39;localhost&#39;</span>, <span style="color:#e6db74">&#39;username&#39;</span>, <span style="color:#e6db74">&#39;password&#39;</span>);
-<span style="color:#a6e22e">mysql_select_db</span>(<span style="color:#e6db74">&#39;dbname&#39;</span>, $dblink);
-$pageabledata <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">PageableMySQL</span>(<span style="color:#e6db74">&#39;SELECT * FROM wp_posts ORDER BY 1&#39;</span>, $dblink);
-$pageabledata2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">PageableFile</span>(<span style="color:#e6db74">&#39;/var/www/somefile.txt&#39;</span>);
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#998;font-style:italic">// step 1 - create the pageable data
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$dblink</span> <span style="color:#000;font-weight:bold">=</span> mysql_connect(<span style="color:#d14">&#39;localhost&#39;</span>, <span style="color:#d14">&#39;username&#39;</span>, <span style="color:#d14">&#39;password&#39;</span>);
+mysql_select_db(<span style="color:#d14">&#39;dbname&#39;</span>, <span style="color:#008080">$dblink</span>);
+<span style="color:#008080">$pageabledata</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageableMySQL(<span style="color:#d14">&#39;SELECT * FROM wp_posts ORDER BY 1&#39;</span>, <span style="color:#008080">$dblink</span>);
+<span style="color:#008080">$pageabledata2</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageableFile(<span style="color:#d14">&#39;/var/www/somefile.txt&#39;</span>);
 
-<span style="color:#75715e">// step 2 - create the pagers
-</span><span style="color:#75715e"></span>$pager <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Pager</span>($pageabledata);
-$pager2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Pager</span>($pageabledata2);
+<span style="color:#998;font-style:italic">// step 2 - create the pagers
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$pager</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Pager(<span style="color:#008080">$pageabledata</span>);
+<span style="color:#008080">$pager2</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Pager(<span style="color:#008080">$pageabledata2</span>);
 
-<span style="color:#75715e">// step 3 - create the pagewriters
-</span><span style="color:#75715e"></span>$pagewriter <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">PageWriter</span>($pager);
-$pagewriter2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">PageJumpWriter</span>($pager2, <span style="color:#e6db74">&#39;&#39;</span>, <span style="color:#e6db74">&#39;page2&#39;</span>, <span style="color:#e6db74">&#39;items_per_page2&#39;</span>);
+<span style="color:#998;font-style:italic">// step 3 - create the pagewriters
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$pagewriter</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageWriter(<span style="color:#008080">$pager</span>);
+<span style="color:#008080">$pagewriter2</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageJumpWriter(<span style="color:#008080">$pager2</span>, <span style="color:#d14">&#39;&#39;</span>, <span style="color:#d14">&#39;page2&#39;</span>, <span style="color:#d14">&#39;items_per_page2&#39;</span>);
 
-<span style="color:#75715e">// step 4 - create the paginators
-</span><span style="color:#75715e"></span>$paginator <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Paginator</span>($pagewriter);
-$paginator2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Paginator</span>($pagewriter2);
+<span style="color:#998;font-style:italic">// step 4 - create the paginators
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$paginator</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Paginator(<span style="color:#008080">$pagewriter</span>);
+<span style="color:#008080">$paginator2</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Paginator(<span style="color:#008080">$pagewriter2</span>);
 
-<span style="color:#75715e">// step 5 - run the paginators
-</span><span style="color:#75715e"></span>$paginator<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">run</span>();
+<span style="color:#998;font-style:italic">// step 5 - run the paginators
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$paginator</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">run</span>();
 
 
-$paginator2<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">run</span>();
+<span style="color:#008080">$paginator2</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">run</span>();
 
-<span style="color:#75715e">// add extra url parameters for pagewriters
-</span><span style="color:#75715e"></span>$pagewriter<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">setParameters</span>(<span style="color:#66d9ef">array</span>(
-$pagewriter2<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getPageParam</span>() <span style="color:#f92672">=&gt;</span> $pagewriter2<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">pager</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getCurrentPage</span>(),
-$pagewriter2<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getItemsPerPageParam</span>() <span style="color:#f92672">=&gt;</span> $pagewriter2<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">pager</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getItemsPerPage</span>()
+<span style="color:#998;font-style:italic">// add extra url parameters for pagewriters
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$pagewriter</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">setParameters</span>(<span style="color:#000;font-weight:bold">array</span>(
+<span style="color:#008080">$pagewriter2</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getPageParam</span>() <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#008080">$pagewriter2</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">pager</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getCurrentPage</span>(),
+<span style="color:#008080">$pagewriter2</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getItemsPerPageParam</span>() <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#008080">$pagewriter2</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">pager</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getItemsPerPage</span>()
 ));
 
-$pagewriter2<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">setParameters</span>(<span style="color:#66d9ef">array</span>(
-$pagewriter<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getPageParam</span>() <span style="color:#f92672">=&gt;</span> $pagewriter<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">pager</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getCurrentPage</span>(),
-$pagewriter<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getItemsPerPageParam</span>() <span style="color:#f92672">=&gt;</span> $pagewriter<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">pager</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getItemsPerPage</span>()
+<span style="color:#008080">$pagewriter2</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">setParameters</span>(<span style="color:#000;font-weight:bold">array</span>(
+<span style="color:#008080">$pagewriter</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getPageParam</span>() <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#008080">$pagewriter</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">pager</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getCurrentPage</span>(),
+<span style="color:#008080">$pagewriter</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getItemsPerPageParam</span>() <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#008080">$pagewriter</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">pager</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getItemsPerPage</span>()
 ));
 
-<span style="color:#75715e">// step 6 -- output
-</span><span style="color:#75715e"></span>$paginator<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">output</span>();
-$paginator2<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">output</span>();
-<span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+<span style="color:#998;font-style:italic">// step 6 -- output
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$paginator</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">output</span>();
+<span style="color:#008080">$paginator2</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">output</span>();
+<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
 </span></code></pre></div>
 			</div>
 

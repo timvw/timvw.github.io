@@ -9,7 +9,7 @@ In order to follow along you should clone the sample code from this repository:
 git clone https://github.com/timvw/sample-terraform-azure-k8s-acr-kaniko Create an Azure Container Registry with Terraform
 terraform init terraform apply -auto-approve We will use the admin credentials to create a docker registry secret:
 kubectl create secret docker-registry acr-secret \  --namespace default \  --docker-server=https://$(terraform output cr_server) \  --docker-username=$(terraform output cr_admin_username) \  --docker-password=$(terraform output cr_admin_password) Now we can build an image on our cluster and push it to our container registry:">
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="127">
 
 
@@ -23,7 +23,7 @@ terraform init terraform apply -auto-approve We will use the admin credentials t
 kubectl create secret docker-registry acr-secret \  --namespace default \  --docker-server=https://$(terraform output cr_server) \  --docker-username=$(terraform output cr_admin_username) \  --docker-password=$(terraform output cr_admin_password) Now we can build an image on our cluster and push it to our container registry:" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/draft/building/" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Leverage Terraform, Azure Container Service and kaniko to create and use container images on Kubernetes."/>
 <meta name="twitter:description" content="In this post I demonstrate how easy it has become to build and use container images on Kubernetes (without docker) leveraging kaniko.
@@ -81,21 +81,21 @@ kubectl create secret docker-registry acr-secret \  --namespace default \  --doc
 			<div class="markdown">
 				<p>In this post I demonstrate how easy it has become to build and use container images on Kubernetes (without docker) leveraging <a href="https://github.com/GoogleContainerTools/kaniko">kaniko</a>.</p>
 <p>In order to follow along you should clone the sample code from this <a href="https://github.com/timvw/sample-terraform-azure-k8s-acr-kaniko">repository</a>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/timvw/sample-terraform-azure-k8s-acr-kaniko
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/timvw/sample-terraform-azure-k8s-acr-kaniko
 </code></pre></div><p>Create an <a href="https://azure.microsoft.com/en-us/services/container-registry/">Azure Container Registry</a> with <a href="https://www.terraform.io/docs/providers/azurerm/r/container_registry.html">Terraform</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">terraform init
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">terraform init
 terraform apply -auto-approve
 </code></pre></div><p>We will use the admin credentials to create a docker registry secret:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create secret docker-registry acr-secret <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  --namespace default <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  --docker-server<span style="color:#f92672">=</span>https://<span style="color:#66d9ef">$(</span>terraform output cr_server<span style="color:#66d9ef">)</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  --docker-username<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>terraform output cr_admin_username<span style="color:#66d9ef">)</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  --docker-password<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>terraform output cr_admin_password<span style="color:#66d9ef">)</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create secret docker-registry acr-secret <span style="color:#d14">\
+</span><span style="color:#d14"></span>  --namespace default <span style="color:#d14">\
+</span><span style="color:#d14"></span>  --docker-server<span style="color:#000;font-weight:bold">=</span>https://<span style="color:#000;font-weight:bold">$(</span>terraform output cr_server<span style="color:#000;font-weight:bold">)</span> <span style="color:#d14">\
+</span><span style="color:#d14"></span>  --docker-username<span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">$(</span>terraform output cr_admin_username<span style="color:#000;font-weight:bold">)</span> <span style="color:#d14">\
+</span><span style="color:#d14"></span>  --docker-password<span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">$(</span>terraform output cr_admin_password<span style="color:#000;font-weight:bold">)</span>
 </code></pre></div><p>Now we can build an image on our cluster and push it to our container registry:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f build-helloworld-job.yaml
-kubectl wait --for<span style="color:#f92672">=</span>condition<span style="color:#f92672">=</span>complete job/build-helloworld --timeout<span style="color:#f92672">=</span>300s
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f build-helloworld-job.yaml
+kubectl <span style="color:#0086b3">wait</span> --for<span style="color:#000;font-weight:bold">=</span><span style="color:#008080">condition</span><span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">complete</span> job/build-helloworld --timeout<span style="color:#000;font-weight:bold">=</span>300s
 </code></pre></div><p>Now deploy the application we just built and verify that it&rsquo;s working:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f helloworld-deploy.yaml
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f helloworld-deploy.yaml
 curl -v https://helloworld.apps.icteam.be
 </code></pre></div>
 			</div>

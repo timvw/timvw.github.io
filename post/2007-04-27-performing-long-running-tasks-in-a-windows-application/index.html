@@ -8,7 +8,7 @@
   The first thing i do is define a delegate (void Performer()) that will do the work of a long running operation. The reason i do this is because the compiler generates a class Performer that inherits from System.MulticastDelegate and exposes Begin- and EndInvoke methods.
 Since i want to disable my form before each run of a Performer and enable it after each run i implement a method Perform as following">
 <meta itemprop="datePublished" content="2007-04-27T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="249">
 
 
@@ -21,7 +21,7 @@ Since i want to disable my form before each run of a Performer and enable it aft
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2007-04-27-performing-long-running-tasks-in-a-windows-application/" />
 <meta property="article:published_time" content="2007-04-27T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Performing long running tasks in a Windows Application"/>
 <meta name="twitter:description" content="A while ago i blogged about Thread Safe UI. Today someone asked the following
@@ -89,56 +89,56 @@ Since i want to disable my form before each run of a Performer and enable it aft
 <p>The first thing i do is define a delegate (void Performer()) that will do the work of a long running operation. The reason i do this is because the compiler generates a class Performer that inherits from System.MulticastDelegate and exposes Begin- and EndInvoke methods.</p>
 <p><img src="http://www.timvw.be/wp-content/images/performerdelegate.gif" alt="screenshot of ildasm displaying generated performer class"></p>
 <p>Since i want to disable my form before each run of a Performer and enable it after each run i implement a method Perform as following</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> Perform(Performer performer, <span style="color:#66d9ef">string</span> message)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Perform(Performer performer, <span style="color:#458;font-weight:bold">string</span> message)
 {
-	<span style="color:#66d9ef">this</span>.PrePerform(message);
-	performer.BeginInvoke(<span style="color:#66d9ef">this</span>.PostPerform, <span style="color:#66d9ef">null</span>);
+	<span style="color:#000;font-weight:bold">this</span>.PrePerform(message);
+	performer.BeginInvoke(<span style="color:#000;font-weight:bold">this</span>.PostPerform, <span style="color:#000;font-weight:bold">null</span>);
 }
 </code></pre></div><p>Now it&rsquo;s simply a matter of implemeting Pre- and PostPerform</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> PrePerform(<span style="color:#66d9ef">string</span> message)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> PrePerform(<span style="color:#458;font-weight:bold">string</span> message)
 {
-	<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.InvokeRequired)
+	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.InvokeRequired)
 	{
-		<span style="color:#66d9ef">this</span>.EndInvoke(<span style="color:#66d9ef">this</span>.BeginInvoke(<span style="color:#66d9ef">new</span> MethodInvoker(<span style="color:#66d9ef">delegate</span> { <span style="color:#66d9ef">this</span>.PrePerform(message); })));
+		<span style="color:#000;font-weight:bold">this</span>.EndInvoke(<span style="color:#000;font-weight:bold">this</span>.BeginInvoke(<span style="color:#000;font-weight:bold">new</span> MethodInvoker(<span style="color:#000;font-weight:bold">delegate</span> { <span style="color:#000;font-weight:bold">this</span>.PrePerform(message); })));
 	}
-	<span style="color:#66d9ef">else</span>
+	<span style="color:#000;font-weight:bold">else</span>
 	{
-		<span style="color:#66d9ef">this</span>.Enabled = <span style="color:#66d9ef">false</span>;
-		<span style="color:#66d9ef">this</span>.toolStripStatusLabel1.Text = message;
-		<span style="color:#66d9ef">this</span>.toolStripStatusLabel1.Visible = <span style="color:#66d9ef">true</span>;
-		<span style="color:#66d9ef">this</span>.toolStripProgressBar1.Visible = <span style="color:#66d9ef">true</span>;
+		<span style="color:#000;font-weight:bold">this</span>.Enabled = <span style="color:#000;font-weight:bold">false</span>;
+		<span style="color:#000;font-weight:bold">this</span>.toolStripStatusLabel1.Text = message;
+		<span style="color:#000;font-weight:bold">this</span>.toolStripStatusLabel1.Visible = <span style="color:#000;font-weight:bold">true</span>;
+		<span style="color:#000;font-weight:bold">this</span>.toolStripProgressBar1.Visible = <span style="color:#000;font-weight:bold">true</span>;
 	}
 }
 
-<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> PostPerform(<span style="color:#66d9ef">object</span> state)
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> PostPerform(<span style="color:#458;font-weight:bold">object</span> state)
 {
-	<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.InvokeRequired)
+	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.InvokeRequired)
 	{
-		<span style="color:#66d9ef">this</span>.EndInvoke(<span style="color:#66d9ef">this</span>.BeginInvoke(<span style="color:#66d9ef">new</span> MethodInvoker(<span style="color:#66d9ef">delegate</span> { <span style="color:#66d9ef">this</span>.PostPerform(state); })));
+		<span style="color:#000;font-weight:bold">this</span>.EndInvoke(<span style="color:#000;font-weight:bold">this</span>.BeginInvoke(<span style="color:#000;font-weight:bold">new</span> MethodInvoker(<span style="color:#000;font-weight:bold">delegate</span> { <span style="color:#000;font-weight:bold">this</span>.PostPerform(state); })));
 	}
-	<span style="color:#66d9ef">else</span>
+	<span style="color:#000;font-weight:bold">else</span>
 	{
-		<span style="color:#66d9ef">this</span>.toolStripProgressBar1.Visible = <span style="color:#66d9ef">false</span>;
-		<span style="color:#66d9ef">this</span>.toolStripStatusLabel1.Visible = <span style="color:#66d9ef">false</span>;
-		<span style="color:#66d9ef">this</span>.toolStripStatusLabel1.Text = <span style="color:#66d9ef">string</span>.Empty;
-		<span style="color:#66d9ef">this</span>.Enabled = <span style="color:#66d9ef">true</span>;
+		<span style="color:#000;font-weight:bold">this</span>.toolStripProgressBar1.Visible = <span style="color:#000;font-weight:bold">false</span>;
+		<span style="color:#000;font-weight:bold">this</span>.toolStripStatusLabel1.Visible = <span style="color:#000;font-weight:bold">false</span>;
+		<span style="color:#000;font-weight:bold">this</span>.toolStripStatusLabel1.Text = <span style="color:#458;font-weight:bold">string</span>.Empty;
+		<span style="color:#000;font-weight:bold">this</span>.Enabled = <span style="color:#000;font-weight:bold">true</span>;
 	}
 }
 </code></pre></div><p>Now that we have all the infrastructure i implement an eventhandler for a button click</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> button1_Click(<span style="color:#66d9ef">object</span> sender, EventArgs e)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> button1_Click(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
 {
-	<span style="color:#75715e">// remove previously retrieved results
-</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">this</span>.UpdateResultLabel(<span style="color:#66d9ef">string</span>.Empty);
+	<span style="color:#998;font-style:italic">// remove previously retrieved results
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">this</span>.UpdateResultLabel(<span style="color:#458;font-weight:bold">string</span>.Empty);
 
-	<span style="color:#66d9ef">this</span>.Perform(<span style="color:#66d9ef">delegate</span>
+	<span style="color:#000;font-weight:bold">this</span>.Perform(<span style="color:#000;font-weight:bold">delegate</span>
 	{
-		<span style="color:#75715e">// simulate the effect of a blocking operation that takes a while to complete
-</span><span style="color:#75715e"></span>		<span style="color:#75715e">// eg: remoting, webrequests, database queries, ...
-</span><span style="color:#75715e"></span>		Thread.Sleep(<span style="color:#ae81ff">5000</span>);
+		<span style="color:#998;font-style:italic">// simulate the effect of a blocking operation that takes a while to complete
+</span><span style="color:#998;font-style:italic"></span>		<span style="color:#998;font-style:italic">// eg: remoting, webrequests, database queries, ...
+</span><span style="color:#998;font-style:italic"></span>		Thread.Sleep(<span style="color:#099">5000</span>);
 
-		<span style="color:#75715e">// display the result of the long running operation
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">this</span>.UpdateResultLabel(<span style="color:#e6db74">&#34;Value was retrieved...&#34;</span>);
-	}, <span style="color:#e6db74">&#34;Retrieving value...&#34;</span>);
+		<span style="color:#998;font-style:italic">// display the result of the long running operation
+</span><span style="color:#998;font-style:italic"></span>		<span style="color:#000;font-weight:bold">this</span>.UpdateResultLabel(<span style="color:#d14">&#34;Value was retrieved...&#34;</span>);
+	}, <span style="color:#d14">&#34;Retrieving value...&#34;</span>);
 }
 </code></pre></div><p>Here are a couple of screenshots of the running program</p>
 <p><img src="http://www.timvw.be/wp-content/images/performerdelegate2.gif" alt="screenshot of application not doing anything"></p>

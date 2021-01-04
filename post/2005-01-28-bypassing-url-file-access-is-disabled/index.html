@@ -8,7 +8,7 @@
 So i needed something simple to bypass this problem:
 function fetch_url($url) { if (preg_match(&#34;#^http://(.\*?)/(.\*)$#&#34;, $url, $matches)) { $host = $matches[1]; $uri = $matches[2]; $msg = &#34;GET /$uriHTTP/1.0\r\nHost: $host\r\n\r\n&#34;; $fp = fsockopen($host, 80, $errno, $errstr, 10); fwrite($fp, $msg); $ignore = true; while (!feof($fp)) { $read = fgets($fp, 1024); if (!$ignore) { $contents .= $read; } if (preg_match(&#34;^Content-Type: .*?\r\n&#34;, $read)) { $ignore = false; } } fclose($fp); return $contents; } } ">
 <meta itemprop="datePublished" content="2005-01-28T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="79">
 
 
@@ -21,7 +21,7 @@ function fetch_url($url) { if (preg_match(&#34;#^http://(.\*?)/(.\*)$#&#34;, $ur
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2005-01-28-bypassing-url-file-access-is-disabled/" />
 <meta property="article:published_time" content="2005-01-28T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Bypassing URL file-access is disabled"/>
 <meta name="twitter:description" content="For some odd reason this host has disabled URL file-access.
@@ -84,30 +84,30 @@ function fetch_url($url) { if (preg_match(&#34;#^http://(.\*?)/(.\*)$#&#34;, $ur
 			<div class="markdown">
 				<p>For some odd reason this host has disabled URL file-access.</p>
 <p>So i needed something simple to bypass this problem:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">fetch_url</span>($url)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">fetch_url</span>(<span style="color:#008080">$url</span>)
 {     
-  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">preg_match</span>(<span style="color:#e6db74">&#34;#^http://(.\*?)/(.\*)$#&#34;</span>, $url, $matches))    
+  <span style="color:#000;font-weight:bold">if</span> (preg_match(<span style="color:#d14">&#34;#^http://(.\*?)/(.\*)$#&#34;</span>, <span style="color:#008080">$url</span>, <span style="color:#008080">$matches</span>))    
   {
-    $host <span style="color:#f92672">=</span> $matches[<span style="color:#ae81ff">1</span>];       
-    $uri <span style="color:#f92672">=</span> $matches[<span style="color:#ae81ff">2</span>];       
-    $msg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;GET /</span><span style="color:#e6db74">$uri</span><span style="color:#e6db74"> HTTP/1.0</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">Host: </span><span style="color:#e6db74">$host\r\n\r\n</span><span style="color:#e6db74">&#34;</span>;
-    $fp <span style="color:#f92672">=</span> <span style="color:#a6e22e">fsockopen</span>($host, <span style="color:#ae81ff">80</span>, $errno, $errstr, <span style="color:#ae81ff">10</span>);
-    <span style="color:#a6e22e">fwrite</span>($fp, $msg);         
-    $ignore <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;        
-    <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">feof</span>($fp))        
+    <span style="color:#008080">$host</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$matches</span>[<span style="color:#099">1</span>];       
+    <span style="color:#008080">$uri</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$matches</span>[<span style="color:#099">2</span>];       
+    <span style="color:#008080">$msg</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;GET /</span><span style="color:#d14">$uri</span><span style="color:#d14"> HTTP/1.0</span><span style="color:#d14">\r\n</span><span style="color:#d14">Host: </span><span style="color:#d14">$host\r\n\r\n</span><span style="color:#d14">&#34;</span>;
+    <span style="color:#008080">$fp</span> <span style="color:#000;font-weight:bold">=</span> fsockopen(<span style="color:#008080">$host</span>, <span style="color:#099">80</span>, <span style="color:#008080">$errno</span>, <span style="color:#008080">$errstr</span>, <span style="color:#099">10</span>);
+    fwrite(<span style="color:#008080">$fp</span>, <span style="color:#008080">$msg</span>);         
+    <span style="color:#008080">$ignore</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">true</span>;        
+    <span style="color:#000;font-weight:bold">while</span> (<span style="color:#000;font-weight:bold">!</span>feof(<span style="color:#008080">$fp</span>))        
     {            
-      $read <span style="color:#f92672">=</span> <span style="color:#a6e22e">fgets</span>($fp, <span style="color:#ae81ff">1024</span>);
-      <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>$ignore)            
+      <span style="color:#008080">$read</span> <span style="color:#000;font-weight:bold">=</span> fgets(<span style="color:#008080">$fp</span>, <span style="color:#099">1024</span>);
+      <span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">!</span><span style="color:#008080">$ignore</span>)            
       {     
-        $contents <span style="color:#f92672">.=</span> $read;            
+        <span style="color:#008080">$contents</span> <span style="color:#000;font-weight:bold">.=</span> <span style="color:#008080">$read</span>;            
       }
-      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">preg_match</span>(<span style="color:#e6db74">&#34;^Content-Type: .*?</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>, $read))          
+      <span style="color:#000;font-weight:bold">if</span> (preg_match(<span style="color:#d14">&#34;^Content-Type: .*?</span><span style="color:#d14">\r\n</span><span style="color:#d14">&#34;</span>, <span style="color:#008080">$read</span>))          
       {                
-        $ignore <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;          
+        <span style="color:#008080">$ignore</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">false</span>;          
       }        
     }
-    <span style="color:#a6e22e">fclose</span>($fp);
-    <span style="color:#66d9ef">return</span> $contents;    
+    fclose(<span style="color:#008080">$fp</span>);
+    <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$contents</span>;    
   }
 }
 </code></pre></div>

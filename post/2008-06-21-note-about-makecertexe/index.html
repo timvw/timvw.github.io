@@ -7,7 +7,7 @@
 <meta itemprop="description" content="A couple of days ago i didn&rsquo;t have a binary version of OpenSSL around so i decided to use Makecert.exe. I generated a couple of test certificates and started playing around with them.
 Whenever i tried to decrypt an instance of EncryptedXml a CryptographicException (&ldquo;Bad Key.&quot;) was thrown and when i tried to use a mutualCertificate11Security assertion (WSE 3.0) the same CryptographicException (&ldquo;WSE600: Unable to unwrap a symmetric key using the private key of an X.">
 <meta itemprop="datePublished" content="2008-06-21T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="166">
 
 
@@ -19,7 +19,7 @@ Whenever i tried to decrypt an instance of EncryptedXml a CryptographicException
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2008-06-21-note-about-makecertexe/" />
 <meta property="article:published_time" content="2008-06-21T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Note about makecert.exe"/>
 <meta name="twitter:description" content="A couple of days ago i didn&rsquo;t have a binary version of OpenSSL around so i decided to use Makecert.exe. I generated a couple of test certificates and started playing around with them.
@@ -82,8 +82,8 @@ Whenever i tried to decrypt an instance of EncryptedXml a CryptographicException
 				<p>A couple of days ago i didn&rsquo;t have a binary version of <a href="http://www.openssl.org">OpenSSL</a> around so i decided to use <a href="http://msdn.microsoft.com/en-us/library/bfsktky3(VS.80).aspx">Makecert.exe</a>. I generated a couple of test certificates and started playing around with them.</p>
 <p>Whenever i tried to decrypt an instance of <a href="http://msdn.microsoft.com/en-us/library/system.security.cryptography.xml.encryptedxml(VS.80).aspx">EncryptedXml</a> a <a href="http://msdn.microsoft.com/en-us/library/system.security.cryptography.cryptographicexception.aspx">CryptographicException</a> (&ldquo;Bad Key.&quot;) was thrown and when i tried to use a <a href="http://msdn.microsoft.com/en-us/library/aa529579.aspx">mutualCertificate11Security</a> assertion (<a href="http://msdn.microsoft.com/en-us/library/aa139619.aspx">WSE 3.0</a>) the same CryptographicException (&ldquo;WSE600: Unable to unwrap a symmetric key using the private key of an X.509 certificate. Please check if the account &lsquo;ASPNET&rsquo; has permissions to read the private key of certificate with subject name&hellip; &ldquo;) was thrown.</p>
 <p>The problem is that by default, makecert.exe generates a key type that is suited for signature. If you want to use the key for other purposes than signing (eg: SSL authentication) you have to use the -sky exchange option. The following commands made my problems disappear:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">makecert -n <span style="color:#e6db74">&#34;CN=Client&#34;</span> -pe -ss My -sr CurrentUser -sky exchange client.cer
-makecert -n <span style="color:#e6db74">&#34;CN=Host&#34;</span> -pe -ss My -sr LocalMachine -sky exchange host.cer
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">makecert -n <span style="color:#d14">&#34;CN=Client&#34;</span> -pe -ss My -sr CurrentUser -sky exchange client.cer
+makecert -n <span style="color:#d14">&#34;CN=Host&#34;</span> -pe -ss My -sr LocalMachine -sky exchange host.cer
 </code></pre></div>
 			</div>
 

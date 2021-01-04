@@ -8,7 +8,7 @@
 on Daniel Cazzulino&rsquo;s Blog. In essence, a simplified version of the code looks like
 public static class Reflector { public static PropertyInfo GetProperty&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as PropertyInfo; } public static FieldInfo GetField&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as FieldInfo; } public static MethodInfo GetMethod&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as MethodInfo; } public static MemberInfo GetMemberInfo(Expression memberInfoExpression) { Expression lambdaBodyExpression = ((LambdaExpression)memberInfoExpression).">
 <meta itemprop="datePublished" content="2008-03-14T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="147">
 
 
@@ -21,7 +21,7 @@ public static class Reflector { public static PropertyInfo GetProperty&lt;t, TRe
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2008-03-14-using-linq-for-statically-typed-reflection/" />
 <meta property="article:published_time" content="2008-03-14T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Using Linq for statically-typed reflection"/>
 <meta name="twitter:description" content="I discovered the TypedReflector
@@ -84,45 +84,45 @@ public static class Reflector { public static PropertyInfo GetProperty&lt;t, TRe
 			<div class="markdown">
 				<p>I discovered the <a href="http://www.codeplex.com/Release/ProjectReleases.aspx?ProjectName=clarius&amp;ReleaseId=9495">TypedReflector</a></p>
 <p>on <a href="http://www.clariusconsulting.net/blogs/kzu/archive/2007/12/30/49063.aspx">Daniel Cazzulino&rsquo;s Blog</a>. In essence, a simplified version of the code looks like</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Reflector</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Reflector</span>
 {
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> PropertyInfo GetProperty&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression)
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> PropertyInfo GetProperty&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression)
 	{
-		<span style="color:#66d9ef">return</span> GetMemberInfo(expression) <span style="color:#66d9ef">as</span> PropertyInfo;
+		<span style="color:#000;font-weight:bold">return</span> GetMemberInfo(expression) <span style="color:#000;font-weight:bold">as</span> PropertyInfo;
 	}
 
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> FieldInfo GetField&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression)
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> FieldInfo GetField&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression)
 	{
-		<span style="color:#66d9ef">return</span> GetMemberInfo(expression) <span style="color:#66d9ef">as</span> FieldInfo;
+		<span style="color:#000;font-weight:bold">return</span> GetMemberInfo(expression) <span style="color:#000;font-weight:bold">as</span> FieldInfo;
 	}
 
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> MethodInfo GetMethod&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression)
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> MethodInfo GetMethod&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression)
 	{
-		<span style="color:#66d9ef">return</span> GetMemberInfo(expression) <span style="color:#66d9ef">as</span> MethodInfo;
+		<span style="color:#000;font-weight:bold">return</span> GetMemberInfo(expression) <span style="color:#000;font-weight:bold">as</span> MethodInfo;
 	}
 
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> MemberInfo GetMemberInfo(Expression memberInfoExpression)
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> MemberInfo GetMemberInfo(Expression memberInfoExpression)
 	{
 		Expression lambdaBodyExpression = ((LambdaExpression)memberInfoExpression).Body;
-		<span style="color:#66d9ef">switch</span> (lambdaBodyExpression.NodeType)
+		<span style="color:#000;font-weight:bold">switch</span> (lambdaBodyExpression.NodeType)
 		{
-			<span style="color:#66d9ef">case</span> ExpressionType.MemberAccess:
-			<span style="color:#66d9ef">return</span> ((MemberExpression)lambdaBodyExpression).Member;
+			<span style="color:#000;font-weight:bold">case</span> ExpressionType.MemberAccess:
+			<span style="color:#000;font-weight:bold">return</span> ((MemberExpression)lambdaBodyExpression).Member;
 			
-			<span style="color:#66d9ef">case</span> ExpressionType.Call:
-			<span style="color:#66d9ef">return</span> ((MethodCallExpression)lambdaBodyExpression).Method;
+			<span style="color:#000;font-weight:bold">case</span> ExpressionType.Call:
+			<span style="color:#000;font-weight:bold">return</span> ((MethodCallExpression)lambdaBodyExpression).Method;
 			
-			<span style="color:#66d9ef">default</span>:
-			<span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> ArgumentException(<span style="color:#e6db74">&#34;Unsupported NodeType&#34;</span>);
+			<span style="color:#000;font-weight:bold">default</span>:
+			<span style="color:#000;font-weight:bold">throw</span> <span style="color:#000;font-weight:bold">new</span> ArgumentException(<span style="color:#d14">&#34;Unsupported NodeType&#34;</span>);
 		}
 	}
 }
 </code></pre></div><p>This class allows me to write the following</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">PropertyInfo namePropertyInfo = Reflector.GetProperty&lt;person, <span style="color:#66d9ef">string</span>&gt;(p =&gt; p.Surname);
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">PropertyInfo namePropertyInfo = Reflector.GetProperty&lt;person, <span style="color:#458;font-weight:bold">string</span>&gt;(p =&gt; p.Surname);
 </code></pre></div><p>Not only can i be sure that the lambda (and thus the namePropertyInfo.Invoke) will always return a string, i can also use it to avoid &lsquo;hardcoded&rsquo; propertynames</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#75715e">//const string SurnameProperty = &#34;Surname&#34;;
-</span><span style="color:#75715e">//comboBox1.DisplayMember = SurnameProperty;
-</span><span style="color:#75715e"></span>comboBox1.DisplayMember = Reflector.GetProperty&lt;person, <span style="color:#66d9ef">string</span>&gt;(p =&gt; p.Surname).Name;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">//const string SurnameProperty = &#34;Surname&#34;;
+</span><span style="color:#998;font-style:italic">//comboBox1.DisplayMember = SurnameProperty;
+</span><span style="color:#998;font-style:italic"></span>comboBox1.DisplayMember = Reflector.GetProperty&lt;person, <span style="color:#458;font-weight:bold">string</span>&gt;(p =&gt; p.Surname).Name;
 </code></pre></div>
 			</div>
 

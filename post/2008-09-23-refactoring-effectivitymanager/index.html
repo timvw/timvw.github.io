@@ -7,7 +7,7 @@
 <meta itemprop="description" content="A while ago i presented the EffectivityManager. Having used this class for a while i have decided to rename it to Temporal. The implementation of IListis not required anymore because a user is typically only interested in a specific effectivity, not the evolution of the effectivities.
 public interface ITemporal&lt;T&gt; { void Modify(T element, DateTime from); IEffectivity&lt;T&gt; GetSnapshot(DateTime validityDate); bool TryGetSnapshot(DateTime validityDate, out IEffectivity&lt;T&gt; effectivity); } In the implementation i have added a constructor that accepts a DiscreteValuesGenerator which makes it possible to create Periods with a resolution of a day instead of seconds.">
 <meta itemprop="datePublished" content="2008-09-23T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="93">
 
 
@@ -19,7 +19,7 @@ public interface ITemporal&lt;T&gt; { void Modify(T element, DateTime from); IEf
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2008-09-23-refactoring-effectivitymanager/" />
 <meta property="article:published_time" content="2008-09-23T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Refactoring EffectivityManager"/>
 <meta name="twitter:description" content="A while ago i presented the EffectivityManager. Having used this class for a while i have decided to rename it to Temporal. The implementation of IListis not required anymore because a user is typically only interested in a specific effectivity, not the evolution of the effectivities.
@@ -80,11 +80,11 @@ public interface ITemporal&lt;T&gt; { void Modify(T element, DateTime from); IEf
 					
 			<div class="markdown">
 				<p>A while ago i presented the <a href="http://www.timvw.be/presenting-a-generic-effectivitymanager/">EffectivityManager</a>. Having used this class for a while i have decided to rename it to Temporal<!-- raw HTML omitted -->. The implementation of IList<!-- raw HTML omitted --> is not required anymore because a user is typically only interested in a specific effectivity, not the evolution of the effectivities.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> ITemporal&lt;T&gt;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> ITemporal&lt;T&gt;
 {
-	<span style="color:#66d9ef">void</span> Modify(T element, DateTime <span style="color:#66d9ef">from</span>);
+	<span style="color:#000;font-weight:bold">void</span> Modify(T element, DateTime <span style="color:#000;font-weight:bold">from</span>);
 	IEffectivity&lt;T&gt; GetSnapshot(DateTime validityDate);
-	<span style="color:#66d9ef">bool</span> TryGetSnapshot(DateTime validityDate, <span style="color:#66d9ef">out</span> IEffectivity&lt;T&gt; effectivity);
+	<span style="color:#458;font-weight:bold">bool</span> TryGetSnapshot(DateTime validityDate, <span style="color:#000;font-weight:bold">out</span> IEffectivity&lt;T&gt; effectivity);
 }
 </code></pre></div><p>In the implementation i have added a constructor that accepts a <a href="http://www.timvw.be/presenting-a-generic-discreterange/">DiscreteValuesGenerator<!-- raw HTML omitted --></a> which makes it possible to create Periods with a resolution of a day instead of seconds.</p>
 

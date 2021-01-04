@@ -7,7 +7,7 @@
 <meta itemprop="description" content="In most examples on the Internet you&rsquo;ll find that the Master has a property that returns the allowed Slaves. Here&rsquo;s an example that does not require such a property. Let&rsquo;s start with a simple class that represents a Person.
 public class Person { private string name; public Person(string name) { this.name = name; } public string Name { get { return this.name; } set { this.name = value; } } } And now we define a class to hold the choosen Master and Slave persons.">
 <meta itemprop="datePublished" content="2006-11-25T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="298">
 
 
@@ -19,7 +19,7 @@ public class Person { private string name; public Person(string name) { this.nam
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2006-11-25-master-slave-for-databound-comboboxes/" />
 <meta property="article:published_time" content="2006-11-25T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Master-Slave for databound ComboBoxes"/>
 <meta name="twitter:description" content="In most examples on the Internet you&rsquo;ll find that the Master has a property that returns the allowed Slaves. Here&rsquo;s an example that does not require such a property. Let&rsquo;s start with a simple class that represents a Person.
@@ -80,107 +80,107 @@ public class Person { private string name; public Person(string name) { this.nam
 					
 			<div class="markdown">
 				<p>In most examples on the Internet you&rsquo;ll find that the Master has a property that returns the allowed Slaves. Here&rsquo;s an example that does not require such a property. Let&rsquo;s start with a simple class that represents a Person.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Person</span>
 {
-	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">string</span> name;
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">string</span> name;
 
-	<span style="color:#66d9ef">public</span> Person(<span style="color:#66d9ef">string</span> name)
+	<span style="color:#000;font-weight:bold">public</span> Person(<span style="color:#458;font-weight:bold">string</span> name)
 	{
-		<span style="color:#66d9ef">this</span>.name = name;
+		<span style="color:#000;font-weight:bold">this</span>.name = name;
 	}
 
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> Name
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Name
 	{
-		<span style="color:#66d9ef">get</span> { <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.name; }
-		<span style="color:#66d9ef">set</span> { <span style="color:#66d9ef">this</span>.name = <span style="color:#66d9ef">value</span>; }
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.name; }
+		<span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>.name = <span style="color:#000;font-weight:bold">value</span>; }
 	}
 }
 </code></pre></div><p>And now we define a class to hold the choosen Master and Slave persons.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MasterSlave</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MasterSlave</span>
 {
-	<span style="color:#66d9ef">private</span> Person master;
-	<span style="color:#66d9ef">private</span> Person slave;
+	<span style="color:#000;font-weight:bold">private</span> Person master;
+	<span style="color:#000;font-weight:bold">private</span> Person slave;
 
-	<span style="color:#66d9ef">public</span> MasterSlave()
+	<span style="color:#000;font-weight:bold">public</span> MasterSlave()
 	{
-		Person[] masters = <span style="color:#66d9ef">this</span>.GetMasters();
-		<span style="color:#66d9ef">this</span>.master = masters[<span style="color:#ae81ff">0</span>];
+		Person[] masters = <span style="color:#000;font-weight:bold">this</span>.GetMasters();
+		<span style="color:#000;font-weight:bold">this</span>.master = masters[<span style="color:#099">0</span>];
 
-		Person[] slaves = <span style="color:#66d9ef">this</span>.GetSlaves(<span style="color:#66d9ef">this</span>.master);
-		<span style="color:#66d9ef">this</span>.slave = slaves[<span style="color:#ae81ff">0</span>];
+		Person[] slaves = <span style="color:#000;font-weight:bold">this</span>.GetSlaves(<span style="color:#000;font-weight:bold">this</span>.master);
+		<span style="color:#000;font-weight:bold">this</span>.slave = slaves[<span style="color:#099">0</span>];
 	}
 
-	<span style="color:#66d9ef">public</span> Person Master
+	<span style="color:#000;font-weight:bold">public</span> Person Master
 	{
-		<span style="color:#66d9ef">get</span> { <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.master; }
-		<span style="color:#66d9ef">set</span> { <span style="color:#66d9ef">this</span>.master = <span style="color:#66d9ef">value</span>; }
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.master; }
+		<span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>.master = <span style="color:#000;font-weight:bold">value</span>; }
 	}
 
-	<span style="color:#66d9ef">public</span> Person Slave
+	<span style="color:#000;font-weight:bold">public</span> Person Slave
 	{
-		<span style="color:#66d9ef">get</span> { <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.slave; }
-		<span style="color:#66d9ef">set</span> { <span style="color:#66d9ef">this</span>.slave = <span style="color:#66d9ef">value</span>; }
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.slave; }
+		<span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>.slave = <span style="color:#000;font-weight:bold">value</span>; }
 	}
 
-	<span style="color:#66d9ef">public</span> Person[] GetMasters()
+	<span style="color:#000;font-weight:bold">public</span> Person[] GetMasters()
 	{
-		List&lt;person&gt; masters = <span style="color:#66d9ef">new</span> List&lt;person&gt;();
-		masters.Add(<span style="color:#66d9ef">new</span> Person(<span style="color:#e6db74">&#34;master1&#34;</span>));
-		masters.Add(<span style="color:#66d9ef">new</span> Person(<span style="color:#e6db74">&#34;master2&#34;</span>));
-		<span style="color:#66d9ef">return</span> masters.ToArray();
+		List&lt;person&gt; masters = <span style="color:#000;font-weight:bold">new</span> List&lt;person&gt;();
+		masters.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master1&#34;</span>));
+		masters.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master2&#34;</span>));
+		<span style="color:#000;font-weight:bold">return</span> masters.ToArray();
 	}
 
-	<span style="color:#66d9ef">public</span> Person[] GetSlaves(Person person)
+	<span style="color:#000;font-weight:bold">public</span> Person[] GetSlaves(Person person)
 	{
-		List&lt;person&gt; slaves = <span style="color:#66d9ef">new</span> List&lt;person&gt;();
+		List&lt;person&gt; slaves = <span style="color:#000;font-weight:bold">new</span> List&lt;person&gt;();
 
-		<span style="color:#66d9ef">switch</span> (person.Name)
+		<span style="color:#000;font-weight:bold">switch</span> (person.Name)
 		{
-		<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;master1&#34;</span>:
-		slaves.Add(<span style="color:#66d9ef">new</span> Person(<span style="color:#e6db74">&#34;master1-slave1&#34;</span>));
-		slaves.Add(<span style="color:#66d9ef">new</span> Person(<span style="color:#e6db74">&#34;master1-slave2&#34;</span>));
-		<span style="color:#66d9ef">break</span>;
-		<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;master2&#34;</span>:
-		slaves.Add(<span style="color:#66d9ef">new</span> Person(<span style="color:#e6db74">&#34;master2-slave1&#34;</span>));
-		slaves.Add(<span style="color:#66d9ef">new</span> Person(<span style="color:#e6db74">&#34;master2-slave2&#34;</span>));
-		slaves.Add(<span style="color:#66d9ef">new</span> Person(<span style="color:#e6db74">&#34;master2-slave3&#34;</span>));
-		<span style="color:#66d9ef">break</span>;
+		<span style="color:#000;font-weight:bold">case</span> <span style="color:#d14">&#34;master1&#34;</span>:
+		slaves.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master1-slave1&#34;</span>));
+		slaves.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master1-slave2&#34;</span>));
+		<span style="color:#000;font-weight:bold">break</span>;
+		<span style="color:#000;font-weight:bold">case</span> <span style="color:#d14">&#34;master2&#34;</span>:
+		slaves.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master2-slave1&#34;</span>));
+		slaves.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master2-slave2&#34;</span>));
+		slaves.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master2-slave3&#34;</span>));
+		<span style="color:#000;font-weight:bold">break</span>;
 		}
-		<span style="color:#66d9ef">return</span> slaves.ToArray();
+		<span style="color:#000;font-weight:bold">return</span> slaves.ToArray();
 	}
 }
 </code></pre></div><p>And now we can hook these objects to your Form.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">partial</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Form1</span> : Form
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form
 {
-	<span style="color:#66d9ef">public</span> Form1()
+	<span style="color:#000;font-weight:bold">public</span> Form1()
 	{
 		InitializeComponent();
 
-		MasterSlave masterSlave = <span style="color:#66d9ef">new</span> MasterSlave();
+		MasterSlave masterSlave = <span style="color:#000;font-weight:bold">new</span> MasterSlave();
 
-		BindingSource masterBindingSource = <span style="color:#66d9ef">new</span> BindingSource();
+		BindingSource masterBindingSource = <span style="color:#000;font-weight:bold">new</span> BindingSource();
 		masterBindingSource.DataSource = masterSlave.GetMasters();
-		masterBindingSource.CurrentChanged += <span style="color:#66d9ef">new</span> EventHandler(masterBindingSource_CurrentChanged);
+		masterBindingSource.CurrentChanged += <span style="color:#000;font-weight:bold">new</span> EventHandler(masterBindingSource_CurrentChanged);
 
-		<span style="color:#66d9ef">this</span>.comboBoxMaster.DataSource = masterBindingSource;
-		<span style="color:#66d9ef">this</span>.comboBoxMaster.DisplayMember = <span style="color:#e6db74">&#34;Name&#34;</span>;
-		<span style="color:#66d9ef">this</span>.comboBoxMaster.DataBindings.Add(<span style="color:#e6db74">&#34;SelectedItem&#34;</span>, masterSlave, <span style="color:#e6db74">&#34;Master&#34;</span>);
+		<span style="color:#000;font-weight:bold">this</span>.comboBoxMaster.DataSource = masterBindingSource;
+		<span style="color:#000;font-weight:bold">this</span>.comboBoxMaster.DisplayMember = <span style="color:#d14">&#34;Name&#34;</span>;
+		<span style="color:#000;font-weight:bold">this</span>.comboBoxMaster.DataBindings.Add(<span style="color:#d14">&#34;SelectedItem&#34;</span>, masterSlave, <span style="color:#d14">&#34;Master&#34;</span>);
 
-		BindingSource slaveBindingSource = <span style="color:#66d9ef">new</span> BindingSource();
-		slaveBindingSource.DataSource = masterSlave.GetSlaves(masterBindingSource.Current <span style="color:#66d9ef">as</span> Person);
+		BindingSource slaveBindingSource = <span style="color:#000;font-weight:bold">new</span> BindingSource();
+		slaveBindingSource.DataSource = masterSlave.GetSlaves(masterBindingSource.Current <span style="color:#000;font-weight:bold">as</span> Person);
 
-		<span style="color:#66d9ef">this</span>.comboBoxSlave.DataSource = slaveBindingSource;
-		<span style="color:#66d9ef">this</span>.comboBoxSlave.DisplayMember = <span style="color:#e6db74">&#34;Name&#34;</span>;
-		<span style="color:#66d9ef">this</span>.comboBoxSlave.DataBindings.Add(<span style="color:#e6db74">&#34;SelectedItem&#34;</span>, masterSlave, <span style="color:#e6db74">&#34;Slave&#34;</span>);
+		<span style="color:#000;font-weight:bold">this</span>.comboBoxSlave.DataSource = slaveBindingSource;
+		<span style="color:#000;font-weight:bold">this</span>.comboBoxSlave.DisplayMember = <span style="color:#d14">&#34;Name&#34;</span>;
+		<span style="color:#000;font-weight:bold">this</span>.comboBoxSlave.DataBindings.Add(<span style="color:#d14">&#34;SelectedItem&#34;</span>, masterSlave, <span style="color:#d14">&#34;Slave&#34;</span>);
 	}
 
-	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> masterBindingSource_CurrentChanged(<span style="color:#66d9ef">object</span> sender, EventArgs e)
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> masterBindingSource_CurrentChanged(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
 	{
-		BindingSource masterBindingSource = <span style="color:#66d9ef">this</span>.comboBoxMaster.DataSource <span style="color:#66d9ef">as</span> BindingSource;
-		Person master = masterBindingSource.Current <span style="color:#66d9ef">as</span> Person;
+		BindingSource masterBindingSource = <span style="color:#000;font-weight:bold">this</span>.comboBoxMaster.DataSource <span style="color:#000;font-weight:bold">as</span> BindingSource;
+		Person master = masterBindingSource.Current <span style="color:#000;font-weight:bold">as</span> Person;
 
-		BindingSource slaveBindingSource = <span style="color:#66d9ef">this</span>.comboBoxSlave.DataSource <span style="color:#66d9ef">as</span> BindingSource;
-		MasterSlave masterSlave = <span style="color:#66d9ef">this</span>.comboBoxSlave.DataBindings[<span style="color:#e6db74">&#34;SelectedItem&#34;</span>].DataSource <span style="color:#66d9ef">as</span> MasterSlave;
+		BindingSource slaveBindingSource = <span style="color:#000;font-weight:bold">this</span>.comboBoxSlave.DataSource <span style="color:#000;font-weight:bold">as</span> BindingSource;
+		MasterSlave masterSlave = <span style="color:#000;font-weight:bold">this</span>.comboBoxSlave.DataBindings[<span style="color:#d14">&#34;SelectedItem&#34;</span>].DataSource <span style="color:#000;font-weight:bold">as</span> MasterSlave;
 		slaveBindingSource.DataSource = masterSlave.GetSlaves(master);
 	}
 }

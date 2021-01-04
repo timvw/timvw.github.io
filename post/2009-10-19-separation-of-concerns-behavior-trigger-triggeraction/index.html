@@ -7,7 +7,7 @@
 <meta itemprop="description" content="If you look at my KeyBehavior you notice that it is doing two things: register for events so that the behavior can be triggered and handle the actual command invocation. In order to enhance reuse we can refactor this KeyBehavior in a KeyTrigger and an InvokeCommandAction. Well, we&rsquo;re not going to do that, because they exist already in the silverlight sdk.
 A shortcoming of the InvokeCommandAction is that it can only invoke commands on the FrameworkElement itself, thus we write a custom implementation that finds commands on the DataContext instead">
 <meta itemprop="datePublished" content="2009-10-19T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="203">
 
 
@@ -19,7 +19,7 @@ A shortcoming of the InvokeCommandAction is that it can only invoke commands on 
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2009-10-19-separation-of-concerns-behavior-trigger-triggeraction/" />
 <meta property="article:published_time" content="2009-10-19T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Separation of concerns: Behavior = Trigger &#43; TriggerAction"/>
 <meta name="twitter:description" content="If you look at my KeyBehavior you notice that it is doing two things: register for events so that the behavior can be triggered and handle the actual command invocation. In order to enhance reuse we can refactor this KeyBehavior in a KeyTrigger and an InvokeCommandAction. Well, we&rsquo;re not going to do that, because they exist already in the silverlight sdk.
@@ -81,20 +81,20 @@ A shortcoming of the InvokeCommandAction is that it can only invoke commands on 
 			<div class="markdown">
 				<p>If you look at my <a href="http://www.timvw.be/true-keybehavior-with-system-windows-interactivity-behavior/">KeyBehavior</a> you notice that it is doing two things: register for events so that the behavior can be triggered and handle the actual command invocation. In order to enhance reuse we can refactor this KeyBehavior in a KeyTrigger and an InvokeCommandAction. Well, we&rsquo;re not going to do that, because they exist already in the silverlight sdk.</p>
 <p>A shortcoming of the InvokeCommandAction is that it can only invoke commands on the FrameworkElement itself, thus we write a custom implementation that finds commands on the DataContext instead</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">InvokeCommandAction</span> : TriggerAction&lt;frameworkElement&gt;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">InvokeCommandAction</span> : TriggerAction&lt;frameworkElement&gt;
 {
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> CommandName { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> CommandName { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">set</span>; }
 
-	<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">void</span> Invoke(<span style="color:#66d9ef">object</span> parameter)
+	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">void</span> Invoke(<span style="color:#458;font-weight:bold">object</span> parameter)
 	{
-		<span style="color:#66d9ef">var</span> viewModel = AssociatedObject.DataContext;
+		<span style="color:#458;font-weight:bold">var</span> viewModel = AssociatedObject.DataContext;
 		GetCommandAndExecuteIt(viewModel, CommandName);
 	}
 
-	<span style="color:#66d9ef">void</span> GetCommandAndExecuteIt(<span style="color:#66d9ef">object</span> viewModel, <span style="color:#66d9ef">string</span> commandName)
+	<span style="color:#000;font-weight:bold">void</span> GetCommandAndExecuteIt(<span style="color:#458;font-weight:bold">object</span> viewModel, <span style="color:#458;font-weight:bold">string</span> commandName)
 	{
-		<span style="color:#66d9ef">var</span> command = viewModel.GetPropertyValue&lt;icommand&gt;(commandName);
-		<span style="color:#66d9ef">if</span>(command.CanExecute(<span style="color:#66d9ef">null</span>)) command.Execute(<span style="color:#66d9ef">null</span>);
+		<span style="color:#458;font-weight:bold">var</span> command = viewModel.GetPropertyValue&lt;icommand&gt;(commandName);
+		<span style="color:#000;font-weight:bold">if</span>(command.CanExecute(<span style="color:#000;font-weight:bold">null</span>)) command.Execute(<span style="color:#000;font-weight:bold">null</span>);
 	}
 }
 </code></pre></div><p>And now we can drag this action on our design surface in Blend and select a trigger that goes with it</p>
@@ -102,20 +102,20 @@ A shortcoming of the InvokeCommandAction is that it can only invoke commands on 
 <p>All we have to do is choose the Key and Command to invoke</p>
 <p><img src="http://www.timvw.be/wp-content/images/InvokeCommandAction_SetProperties.png" alt="setting properties for action in blend"></p>
 <p>In XAML this looks like</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;interactivity:Interaction.Triggers&gt;</span>
-	<span style="color:#f92672">&lt;ii:KeyTrigger</span> <span style="color:#a6e22e">Key=</span><span style="color:#e6db74">&#34;Right&#34;</span><span style="color:#f92672">&gt;</span>
-		<span style="color:#f92672">&lt;inf:InvokeCommandAction</span> <span style="color:#a6e22e">CommandName=</span><span style="color:#e6db74">&#34;PlayerRight&#34;</span><span style="color:#f92672">/&gt;</span>
-	<span style="color:#f92672">&lt;/ii:KeyTrigger&gt;</span>
-	<span style="color:#f92672">&lt;ii:KeyTrigger</span> <span style="color:#a6e22e">Key=</span><span style="color:#e6db74">&#34;Left&#34;</span><span style="color:#f92672">&gt;</span>
-		<span style="color:#f92672">&lt;inf:InvokeCommandAction</span> <span style="color:#a6e22e">CommandName=</span><span style="color:#e6db74">&#34;PlayerLeft&#34;</span><span style="color:#f92672">/&gt;</span>
-	<span style="color:#f92672">&lt;/ii:KeyTrigger&gt;</span>
-	<span style="color:#f92672">&lt;ii:KeyTrigger</span> <span style="color:#a6e22e">Key=</span><span style="color:#e6db74">&#34;Up&#34;</span><span style="color:#f92672">&gt;</span>
-		<span style="color:#f92672">&lt;inf:InvokeCommandAction</span> <span style="color:#a6e22e">CommandName=</span><span style="color:#e6db74">&#34;PlayerUp&#34;</span><span style="color:#f92672">/&gt;</span>
-	<span style="color:#f92672">&lt;/ii:KeyTrigger&gt;</span>
-	<span style="color:#f92672">&lt;ii:KeyTrigger</span> <span style="color:#a6e22e">Key=</span><span style="color:#e6db74">&#34;Down&#34;</span><span style="color:#f92672">&gt;</span>
-		<span style="color:#f92672">&lt;inf:InvokeCommandAction</span> <span style="color:#a6e22e">CommandName=</span><span style="color:#e6db74">&#34;PlayerDown&#34;</span><span style="color:#f92672">/&gt;</span>
-	<span style="color:#f92672">&lt;/ii:KeyTrigger&gt;</span>
-<span style="color:#f92672">&lt;/interactivity:Interaction.Triggers&gt;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;interactivity:Interaction.Triggers&gt;</span>
+	<span style="color:#000080">&lt;ii:KeyTrigger</span> <span style="color:#008080">Key=</span><span style="color:#d14">&#34;Right&#34;</span><span style="color:#000080">&gt;</span>
+		<span style="color:#000080">&lt;inf:InvokeCommandAction</span> <span style="color:#008080">CommandName=</span><span style="color:#d14">&#34;PlayerRight&#34;</span><span style="color:#000080">/&gt;</span>
+	<span style="color:#000080">&lt;/ii:KeyTrigger&gt;</span>
+	<span style="color:#000080">&lt;ii:KeyTrigger</span> <span style="color:#008080">Key=</span><span style="color:#d14">&#34;Left&#34;</span><span style="color:#000080">&gt;</span>
+		<span style="color:#000080">&lt;inf:InvokeCommandAction</span> <span style="color:#008080">CommandName=</span><span style="color:#d14">&#34;PlayerLeft&#34;</span><span style="color:#000080">/&gt;</span>
+	<span style="color:#000080">&lt;/ii:KeyTrigger&gt;</span>
+	<span style="color:#000080">&lt;ii:KeyTrigger</span> <span style="color:#008080">Key=</span><span style="color:#d14">&#34;Up&#34;</span><span style="color:#000080">&gt;</span>
+		<span style="color:#000080">&lt;inf:InvokeCommandAction</span> <span style="color:#008080">CommandName=</span><span style="color:#d14">&#34;PlayerUp&#34;</span><span style="color:#000080">/&gt;</span>
+	<span style="color:#000080">&lt;/ii:KeyTrigger&gt;</span>
+	<span style="color:#000080">&lt;ii:KeyTrigger</span> <span style="color:#008080">Key=</span><span style="color:#d14">&#34;Down&#34;</span><span style="color:#000080">&gt;</span>
+		<span style="color:#000080">&lt;inf:InvokeCommandAction</span> <span style="color:#008080">CommandName=</span><span style="color:#d14">&#34;PlayerDown&#34;</span><span style="color:#000080">/&gt;</span>
+	<span style="color:#000080">&lt;/ii:KeyTrigger&gt;</span>
+<span style="color:#000080">&lt;/interactivity:Interaction.Triggers&gt;</span>
 </code></pre></div><p>I guess this ends our exploration of the behavior features in Silverlight.</p>
 
 			</div>

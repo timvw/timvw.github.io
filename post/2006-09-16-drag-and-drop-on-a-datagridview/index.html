@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Here is a bit of sample code that allows you to drag and drop a cellvalue in a DataGridView (don&rsquo;t forget to set the AllowDrop property of the DataGridView to true). Notice that you need to translate the X and Y properties of the DragEventArgs first (unlike the X and Y properties of the MouseEventArgs)
 private void dataGridView1_MouseDown( object sender, MouseEventArgs e ) { DataGridView.HitTestInfo info = this.dataGridView1.HitTest( e.X, e.Y ); if ( info.">
 <meta itemprop="datePublished" content="2006-09-16T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="166">
 
 
@@ -19,7 +19,7 @@ private void dataGridView1_MouseDown( object sender, MouseEventArgs e ) { DataGr
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2006-09-16-drag-and-drop-on-a-datagridview/" />
 <meta property="article:published_time" content="2006-09-16T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Drag and Drop on a DataGridView"/>
 <meta name="twitter:description" content="Here is a bit of sample code that allows you to drag and drop a cellvalue in a DataGridView (don&rsquo;t forget to set the AllowDrop property of the DataGridView to true). Notice that you need to translate the X and Y properties of the DragEventArgs first (unlike the X and Y properties of the MouseEventArgs)
@@ -80,32 +80,32 @@ private void dataGridView1_MouseDown( object sender, MouseEventArgs e ) { DataGr
 					
 			<div class="markdown">
 				<p>Here is a bit of sample code that allows you to drag and drop a cellvalue in a DataGridView (don&rsquo;t forget to set the AllowDrop property of the DataGridView to true). Notice that you need to translate the X and Y properties of the DragEventArgs first (unlike the X and Y properties of the MouseEventArgs)</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> dataGridView1_MouseDown( <span style="color:#66d9ef">object</span> sender, MouseEventArgs e )
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_MouseDown( <span style="color:#458;font-weight:bold">object</span> sender, MouseEventArgs e )
 {
-	DataGridView.HitTestInfo info = <span style="color:#66d9ef">this</span>.dataGridView1.HitTest( e.X, e.Y );
-	<span style="color:#66d9ef">if</span> ( info.RowIndex != -<span style="color:#ae81ff">1</span> &amp;&amp; info.ColumnIndex != -<span style="color:#ae81ff">1</span> )
+	DataGridView.HitTestInfo info = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.HitTest( e.X, e.Y );
+	<span style="color:#000;font-weight:bold">if</span> ( info.RowIndex != -<span style="color:#099">1</span> &amp;&amp; info.ColumnIndex != -<span style="color:#099">1</span> )
 	{
-		Object <span style="color:#66d9ef">value</span> = <span style="color:#66d9ef">this</span>.dataGridView1.Rows[info.RowIndex].Cells[info.ColumnIndex].Value;
-		<span style="color:#66d9ef">if</span> ( <span style="color:#66d9ef">value</span> != <span style="color:#66d9ef">null</span> )
+		Object <span style="color:#000;font-weight:bold">value</span> = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.Rows[info.RowIndex].Cells[info.ColumnIndex].Value;
+		<span style="color:#000;font-weight:bold">if</span> ( <span style="color:#000;font-weight:bold">value</span> != <span style="color:#000;font-weight:bold">null</span> )
 		{
-			<span style="color:#66d9ef">this</span>.dataGridView1.Rows[info.RowIndex].Cells[info.ColumnIndex].Value = <span style="color:#66d9ef">null</span>;
-			<span style="color:#66d9ef">this</span>.DoDragDrop( <span style="color:#66d9ef">value</span>, DragDropEffects.Move );
+			<span style="color:#000;font-weight:bold">this</span>.dataGridView1.Rows[info.RowIndex].Cells[info.ColumnIndex].Value = <span style="color:#000;font-weight:bold">null</span>;
+			<span style="color:#000;font-weight:bold">this</span>.DoDragDrop( <span style="color:#000;font-weight:bold">value</span>, DragDropEffects.Move );
 		}
 	}
 }
 
-<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> dataGridView1_DragDrop( <span style="color:#66d9ef">object</span> sender, DragEventArgs e )
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_DragDrop( <span style="color:#458;font-weight:bold">object</span> sender, DragEventArgs e )
 {
-	Point p = <span style="color:#66d9ef">this</span>.dataGridView1.PointToClient( <span style="color:#66d9ef">new</span> Point( e.X, e.Y ) );
-	DataGridView.HitTestInfo info = <span style="color:#66d9ef">this</span>.dataGridView1.HitTest( p.X, p.Y );
-	<span style="color:#66d9ef">if</span> ( info.RowIndex != -<span style="color:#ae81ff">1</span> &amp;&amp; info.ColumnIndex != -<span style="color:#ae81ff">1</span> )
+	Point p = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.PointToClient( <span style="color:#000;font-weight:bold">new</span> Point( e.X, e.Y ) );
+	DataGridView.HitTestInfo info = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.HitTest( p.X, p.Y );
+	<span style="color:#000;font-weight:bold">if</span> ( info.RowIndex != -<span style="color:#099">1</span> &amp;&amp; info.ColumnIndex != -<span style="color:#099">1</span> )
 	{
-		Object <span style="color:#66d9ef">value</span> = (Object)e.Data.GetData( <span style="color:#66d9ef">typeof</span>( <span style="color:#66d9ef">string</span> ) );
-		<span style="color:#66d9ef">this</span>.dataGridView1.Rows[info.RowIndex].Cells[info.ColumnIndex].Value = <span style="color:#66d9ef">value</span>;
+		Object <span style="color:#000;font-weight:bold">value</span> = (Object)e.Data.GetData( <span style="color:#000;font-weight:bold">typeof</span>( <span style="color:#458;font-weight:bold">string</span> ) );
+		<span style="color:#000;font-weight:bold">this</span>.dataGridView1.Rows[info.RowIndex].Cells[info.ColumnIndex].Value = <span style="color:#000;font-weight:bold">value</span>;
 	}
 }
 
-<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> dataGridView1_DragEnter( <span style="color:#66d9ef">object</span> sender, DragEventArgs e )
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_DragEnter( <span style="color:#458;font-weight:bold">object</span> sender, DragEventArgs e )
 {
 	e.Effect = DragDropEffects.Move;
 }

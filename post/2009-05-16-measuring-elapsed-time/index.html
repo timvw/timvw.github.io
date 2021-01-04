@@ -9,7 +9,7 @@
  I find it a shame that they didn&rsquo;t provide a method that covers this particular scenario so i did it myself
 public static class Stopwatch { public static TimeSpan Measure(this Action action) { var stopwatch = new System.">
 <meta itemprop="datePublished" content="2009-05-16T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="95">
 
 
@@ -23,7 +23,7 @@ public static class Stopwatch { public static TimeSpan Measure(this Action actio
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2009-05-16-measuring-elapsed-time/" />
 <meta property="article:published_time" content="2009-05-16T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Measuring elapsed time"/>
 <meta name="twitter:description" content="As the documentation for System.Diagnostics.Stopwatch says
@@ -90,20 +90,20 @@ public static class Stopwatch { public static TimeSpan Measure(this Action actio
 <p>In a typical Stopwatch scenario, you call the Start method, then eventually call the Stop method, and then you check elapsed time using the Elapsed property.</p>
 </blockquote>
 <p>I find it a shame that they didn&rsquo;t provide a method that covers this particular scenario so i did it myself</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Stopwatch</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Stopwatch</span>
 {
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> TimeSpan Measure(<span style="color:#66d9ef">this</span> Action action)
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> TimeSpan Measure(<span style="color:#000;font-weight:bold">this</span> Action action)
 	{
-		<span style="color:#66d9ef">var</span> stopwatch = <span style="color:#66d9ef">new</span> System.Diagnostics.Stopwatch();
+		<span style="color:#458;font-weight:bold">var</span> stopwatch = <span style="color:#000;font-weight:bold">new</span> System.Diagnostics.Stopwatch();
 		stopwatch.Start();
 		action.Invoke();
 		stopwatch.Stop();
-		<span style="color:#66d9ef">return</span> stopwatch.Elapsed;
+		<span style="color:#000;font-weight:bold">return</span> stopwatch.Elapsed;
 	}
 }
 </code></pre></div><p>Consuming this method is as simple as</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> duration = Stopwatch.Measure(() =&gt; FindElement(<span style="color:#ae81ff">10000</span>));
-Console.WriteLine(<span style="color:#e6db74">&#34;It took {0:0} seconds.&#34;</span>, duration.TotalSeconds);
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">var</span> duration = Stopwatch.Measure(() =&gt; FindElement(<span style="color:#099">10000</span>));
+Console.WriteLine(<span style="color:#d14">&#34;It took {0:0} seconds.&#34;</span>, duration.TotalSeconds);
 </code></pre></div>
 			</div>
 

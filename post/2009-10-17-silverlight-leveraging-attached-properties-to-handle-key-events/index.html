@@ -8,7 +8,7 @@
 protected override void OnKeyDown(KeyEventArgs e) { base.OnKeyDown(e); if (e.Key == Key.Left) Model.MovePlayerLeft(); ... } But i wanted to play with the cool kids so i exposed ICommand properties on my ViewModel instead and rewrote the code like this
 protected override void OnKeyDown(KeyEventArgs e) { base.">
 <meta itemprop="datePublished" content="2009-10-17T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="417">
 
 
@@ -21,7 +21,7 @@ protected override void OnKeyDown(KeyEventArgs e) { base." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2009-10-17-silverlight-leveraging-attached-properties-to-handle-key-events/" />
 <meta property="article:published_time" content="2009-10-17T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Silverlight: leveraging attached properties to handle key events"/>
 <meta name="twitter:description" content="I strongly believe that input handling is a responsability that belongs to the View. At first i simply added the following in the code-behind of my GameView
@@ -83,81 +83,81 @@ protected override void OnKeyDown(KeyEventArgs e) { base."/>
 					
 			<div class="markdown">
 				<p>I strongly believe that input handling is a responsability that belongs to the View. At first i simply added the following in the code-behind of my GameView</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">void</span> OnKeyDown(KeyEventArgs e)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">void</span> OnKeyDown(KeyEventArgs e)
 {
-	<span style="color:#66d9ef">base</span>.OnKeyDown(e);
+	<span style="color:#000;font-weight:bold">base</span>.OnKeyDown(e);
 
-	<span style="color:#66d9ef">if</span> (e.Key == Key.Left) Model.MovePlayerLeft();
+	<span style="color:#000;font-weight:bold">if</span> (e.Key == Key.Left) Model.MovePlayerLeft();
 	...
 }
 </code></pre></div><p>But i wanted to play with the cool kids so i exposed ICommand properties on my ViewModel instead and rewrote the code like this</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">void</span> OnKeyDown(KeyEventArgs e)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">void</span> OnKeyDown(KeyEventArgs e)
 {
-	<span style="color:#66d9ef">base</span>.OnKeyDown(e);
+	<span style="color:#000;font-weight:bold">base</span>.OnKeyDown(e);
 
-	<span style="color:#66d9ef">if</span> (e.Key == Key.Left) Model.PlayerLeft.Execute(<span style="color:#66d9ef">null</span>);
+	<span style="color:#000;font-weight:bold">if</span> (e.Key == Key.Left) Model.PlayerLeft.Execute(<span style="color:#000;font-weight:bold">null</span>);
 	...
 </code></pre></div><p>Offcourse, designers should not have to write code at all, thus i searched for a different solution. Because there isn&rsquo;t a behavior that allows me to differentiate the command based on the actual key being pressed i wrote my own KeyEvents class which allows the designer to map a key to a command. Here is an example</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;grid&gt;</span>
-	<span style="color:#f92672">&lt;inf:KeyEvents.Down&gt;</span>
-		<span style="color:#f92672">&lt;inf:KeyCommand</span> <span style="color:#a6e22e">Key=</span><span style="color:#e6db74">&#34;Right&#34;</span> <span style="color:#a6e22e">CommandName=</span><span style="color:#e6db74">&#34;PlayerRight&#34;</span> <span style="color:#f92672">/&gt;</span>
-		<span style="color:#f92672">&lt;inf:KeyCommand</span> <span style="color:#a6e22e">Key=</span><span style="color:#e6db74">&#34;Left&#34;</span> <span style="color:#a6e22e">CommandName=</span><span style="color:#e6db74">&#34;PlayerLeft&#34;</span> <span style="color:#f92672">/&gt;</span>
-		<span style="color:#f92672">&lt;inf:KeyCommand</span> <span style="color:#a6e22e">Key=</span><span style="color:#e6db74">&#34;Up&#34;</span> <span style="color:#a6e22e">CommandName=</span><span style="color:#e6db74">&#34;PlayerUp&#34;</span> <span style="color:#f92672">/&gt;</span>
-		<span style="color:#f92672">&lt;inf:KeyCommand</span> <span style="color:#a6e22e">Key=</span><span style="color:#e6db74">&#34;Down&#34;</span> <span style="color:#a6e22e">CommandName=</span><span style="color:#e6db74">&#34;PlayerDown&#34;</span> <span style="color:#f92672">/&gt;</span>
-	<span style="color:#f92672">&lt;/inf:KeyEvents.Down&gt;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;grid&gt;</span>
+	<span style="color:#000080">&lt;inf:KeyEvents.Down&gt;</span>
+		<span style="color:#000080">&lt;inf:KeyCommand</span> <span style="color:#008080">Key=</span><span style="color:#d14">&#34;Right&#34;</span> <span style="color:#008080">CommandName=</span><span style="color:#d14">&#34;PlayerRight&#34;</span> <span style="color:#000080">/&gt;</span>
+		<span style="color:#000080">&lt;inf:KeyCommand</span> <span style="color:#008080">Key=</span><span style="color:#d14">&#34;Left&#34;</span> <span style="color:#008080">CommandName=</span><span style="color:#d14">&#34;PlayerLeft&#34;</span> <span style="color:#000080">/&gt;</span>
+		<span style="color:#000080">&lt;inf:KeyCommand</span> <span style="color:#008080">Key=</span><span style="color:#d14">&#34;Up&#34;</span> <span style="color:#008080">CommandName=</span><span style="color:#d14">&#34;PlayerUp&#34;</span> <span style="color:#000080">/&gt;</span>
+		<span style="color:#000080">&lt;inf:KeyCommand</span> <span style="color:#008080">Key=</span><span style="color:#d14">&#34;Down&#34;</span> <span style="color:#008080">CommandName=</span><span style="color:#d14">&#34;PlayerDown&#34;</span> <span style="color:#000080">/&gt;</span>
+	<span style="color:#000080">&lt;/inf:KeyEvents.Down&gt;</span>
 	...
-<span style="color:#f92672">&lt;/grid&gt;</span>
+<span style="color:#000080">&lt;/grid&gt;</span>
 </code></pre></div><p>The down property is nothing more than an attached property:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">readonly</span> DependencyProperty DownProperty = DependencyProperty.RegisterAttached(<span style="color:#e6db74">&#34;Down&#34;</span>, <span style="color:#66d9ef">typeof</span>(List&lt;keyCommand&gt;), <span style="color:#66d9ef">typeof</span>(KeyEvents), <span style="color:#66d9ef">new</span> PropertyMetadata(<span style="color:#66d9ef">null</span>, OnSetDownCallback));
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">readonly</span> DependencyProperty DownProperty = DependencyProperty.RegisterAttached(<span style="color:#d14">&#34;Down&#34;</span>, <span style="color:#000;font-weight:bold">typeof</span>(List&lt;keyCommand&gt;), <span style="color:#000;font-weight:bold">typeof</span>(KeyEvents), <span style="color:#000;font-weight:bold">new</span> PropertyMetadata(<span style="color:#000;font-weight:bold">null</span>, OnSetDownCallback));
 </code></pre></div><p>A KeyCommand is a simple pair of a Key and a Command name:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">KeyCommand</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">KeyCommand</span>
 {
-	<span style="color:#66d9ef">public</span> Key Key { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> CommandName { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+	<span style="color:#000;font-weight:bold">public</span> Key Key { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">set</span>; }
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> CommandName { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">set</span>; }
 }
 </code></pre></div><p>The GetDown method (for the attached Down property) will instantiate a KeyBehavior class which hooks up to the element&rsquo;s KeyDown and KeyUp events and uses a bit of reflection to find the commands&hellip;</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">KeyBehavior</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">KeyBehavior</span>
 {
-	<span style="color:#66d9ef">public</span> KeyBehavior(FrameworkElement frameworkElement)
+	<span style="color:#000;font-weight:bold">public</span> KeyBehavior(FrameworkElement frameworkElement)
 	{
 		FrameworkElement = frameworkElement;
-		DownKeyCommands = <span style="color:#66d9ef">new</span> List&lt;keyCommand&gt;();
-		UpKeyCommands = <span style="color:#66d9ef">new</span> List&lt;keyCommand&gt;();
+		DownKeyCommands = <span style="color:#000;font-weight:bold">new</span> List&lt;keyCommand&gt;();
+		UpKeyCommands = <span style="color:#000;font-weight:bold">new</span> List&lt;keyCommand&gt;();
 
 		frameworkElement.KeyDown += frameworkElement_KeyDown;
 		frameworkElement.KeyUp += frameworkElement_KeyUp;
 	}
 
-	<span style="color:#66d9ef">public</span> FrameworkElement FrameworkElement { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
-	<span style="color:#66d9ef">public</span> IList&lt;keyCommand&gt; DownKeyCommands { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
-	<span style="color:#66d9ef">public</span> IList&lt;keyCommand&gt; UpKeyCommands { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+	<span style="color:#000;font-weight:bold">public</span> FrameworkElement FrameworkElement { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">set</span>; }
+	<span style="color:#000;font-weight:bold">public</span> IList&lt;keyCommand&gt; DownKeyCommands { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">set</span>; }
+	<span style="color:#000;font-weight:bold">public</span> IList&lt;keyCommand&gt; UpKeyCommands { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">set</span>; }
 
-	<span style="color:#66d9ef">void</span> frameworkElement_KeyUp(<span style="color:#66d9ef">object</span> sender, KeyEventArgs e)
+	<span style="color:#000;font-weight:bold">void</span> frameworkElement_KeyUp(<span style="color:#458;font-weight:bold">object</span> sender, KeyEventArgs e)
 	{
 		ExecuteCommandsForKey(e.Key, UpKeyCommands);
 	}
 
-	<span style="color:#66d9ef">void</span> frameworkElement_KeyDown(<span style="color:#66d9ef">object</span> sender, KeyEventArgs e)
+	<span style="color:#000;font-weight:bold">void</span> frameworkElement_KeyDown(<span style="color:#458;font-weight:bold">object</span> sender, KeyEventArgs e)
 	{
 		ExecuteCommandsForKey(e.Key, DownKeyCommands);
 	}
 
-	<span style="color:#66d9ef">void</span> ExecuteCommandsForKey(Key key, IEnumerable&lt;keyCommand&gt; commands)
+	<span style="color:#000;font-weight:bold">void</span> ExecuteCommandsForKey(Key key, IEnumerable&lt;keyCommand&gt; commands)
 	{
-		<span style="color:#66d9ef">var</span> commandNamesForKey = commands.Where(p =&gt; p.Key == key).Select(p =&gt; p.CommandName);
-		<span style="color:#66d9ef">var</span> viewModel = FrameworkElement.DataContext;
-		<span style="color:#66d9ef">foreach</span> (<span style="color:#66d9ef">var</span> command <span style="color:#66d9ef">in</span> commandNamesForKey) GetCommandAndExecuteIt(viewModel, command);
+		<span style="color:#458;font-weight:bold">var</span> commandNamesForKey = commands.Where(p =&gt; p.Key == key).Select(p =&gt; p.CommandName);
+		<span style="color:#458;font-weight:bold">var</span> viewModel = FrameworkElement.DataContext;
+		<span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">var</span> command <span style="color:#000;font-weight:bold">in</span> commandNamesForKey) GetCommandAndExecuteIt(viewModel, command);
 	}
 
-	<span style="color:#66d9ef">void</span> GetCommandAndExecuteIt(<span style="color:#66d9ef">object</span> model, <span style="color:#66d9ef">string</span> name)
+	<span style="color:#000;font-weight:bold">void</span> GetCommandAndExecuteIt(<span style="color:#458;font-weight:bold">object</span> model, <span style="color:#458;font-weight:bold">string</span> name)
 	{
-		<span style="color:#66d9ef">var</span> command = GetCommand(model, name);
-		command.Execute(<span style="color:#66d9ef">null</span>);
+		<span style="color:#458;font-weight:bold">var</span> command = GetCommand(model, name);
+		command.Execute(<span style="color:#000;font-weight:bold">null</span>);
 	}
 
-	ICommand GetCommand(<span style="color:#66d9ef">object</span> model, <span style="color:#66d9ef">string</span> name)
+	ICommand GetCommand(<span style="color:#458;font-weight:bold">object</span> model, <span style="color:#458;font-weight:bold">string</span> name)
 	{
-		<span style="color:#66d9ef">return</span> (ICommand)model.GetType().GetProperty(name).GetValue(model, <span style="color:#66d9ef">null</span>);
+		<span style="color:#000;font-weight:bold">return</span> (ICommand)model.GetType().GetProperty(name).GetValue(model, <span style="color:#000;font-weight:bold">null</span>);
 	}
 }
 </code></pre></div><p>The only thing that is missing is a way to unsubscribe from the events (and so you will end up with memory leaks). WeakReferences may come of use but i&rsquo;ll leave that as an exercise for the reader. Many thanks go to the <a href="http://wpfdisciples.wordpress.com/">WPF Disciples</a> because they inspired me to come up with this attached properties magic.</p>

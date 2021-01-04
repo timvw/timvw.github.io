@@ -7,7 +7,7 @@
 <meta itemprop="description" content="I recently started programming the Android and noticed that most examples for processing an incoming SMS are not entirely correct.
 An SMS message is limited to 160 characters. Current mobile phones break up a larger message in multiple messages transparently for the user. When Android notifies you about an incoming SMS it has all parts (of that large message) available. So here is how you reconstruct the entire message body from an Intent">
 <meta itemprop="datePublished" content="2011-01-06T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="128">
 
 
@@ -19,7 +19,7 @@ An SMS message is limited to 160 characters. Current mobile phones break up a la
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2011-01-06-get-entire-message-body-from-an-intent/" />
 <meta property="article:published_time" content="2011-01-06T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Get entire message body from an Intent"/>
 <meta name="twitter:description" content="I recently started programming the Android and noticed that most examples for processing an incoming SMS are not entirely correct.
@@ -81,19 +81,19 @@ An SMS message is limited to 160 characters. Current mobile phones break up a la
 			<div class="markdown">
 				<p>I recently started programming the <a href="http://www.android.com/">Android</a> and noticed that most examples for processing an incoming SMS are not entirely correct.</p>
 <p>An SMS message is <a href="http://en.wikipedia.org/wiki/SMS#Message_size">limited</a> to 160 characters. Current mobile phones break up a larger message in multiple messages transparently for the user. When Android notifies you about an incoming SMS it has all parts (of that large message) available. So here is how you reconstruct the entire message body from an Intent</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Bundle bundle <span style="color:#f92672">=</span> intent<span style="color:#f92672">.</span><span style="color:#a6e22e">getExtras</span><span style="color:#f92672">();</span>
-<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>bundle <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Bundle bundle <span style="color:#000;font-weight:bold">=</span> intent<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getExtras</span><span style="color:#000;font-weight:bold">();</span>
+<span style="color:#000;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span>bundle <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">null</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">return</span><span style="color:#000;font-weight:bold">;</span>
 
-StringBuilder message <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> StringBuilder<span style="color:#f92672">();</span>  
-Object<span style="color:#f92672">[]</span> pdus <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Object<span style="color:#f92672">[])</span> bundle<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;pdus&#34;</span><span style="color:#f92672">);</span>
+StringBuilder message <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> StringBuilder<span style="color:#000;font-weight:bold">();</span>  
+Object<span style="color:#000;font-weight:bold">[]</span> pdus <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">(</span>Object<span style="color:#000;font-weight:bold">[])</span> bundle<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">get</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;pdus&#34;</span><span style="color:#000;font-weight:bold">);</span>
 
-<span style="color:#75715e">// Rebuild this entire message from the multi part smses/pdus  
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>Object pdu <span style="color:#f92672">:</span> pdus<span style="color:#f92672">){</span>
-  <span style="color:#75715e">// Notice that i use the deprecated android.telephony.gsm.SmsMessage
-</span><span style="color:#75715e"></span>  <span style="color:#75715e">// android.telephony.SmsMessage throws when i call createFromPdu
-</span><span style="color:#75715e"></span>  SmsMessage msg <span style="color:#f92672">=</span> SmsMessage<span style="color:#f92672">.</span><span style="color:#a6e22e">createFromPdu</span><span style="color:#f92672">((</span><span style="color:#66d9ef">byte</span><span style="color:#f92672">[])</span>pdu<span style="color:#f92672">);</span>
-  message<span style="color:#f92672">.</span><span style="color:#a6e22e">append</span><span style="color:#f92672">(</span>msg<span style="color:#f92672">.</span><span style="color:#a6e22e">getMessageBody</span><span style="color:#f92672">().</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">());</span>  
-<span style="color:#f92672">}</span>  
+<span style="color:#998;font-style:italic">// Rebuild this entire message from the multi part smses/pdus  
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">(</span>Object pdu <span style="color:#000;font-weight:bold">:</span> pdus<span style="color:#000;font-weight:bold">){</span>
+  <span style="color:#998;font-style:italic">// Notice that i use the deprecated android.telephony.gsm.SmsMessage
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// android.telephony.SmsMessage throws when i call createFromPdu
+</span><span style="color:#998;font-style:italic"></span>  SmsMessage msg <span style="color:#000;font-weight:bold">=</span> SmsMessage<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">createFromPdu</span><span style="color:#000;font-weight:bold">((</span><span style="color:#458;font-weight:bold">byte</span><span style="color:#000;font-weight:bold">[])</span>pdu<span style="color:#000;font-weight:bold">);</span>
+  message<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">append</span><span style="color:#000;font-weight:bold">(</span>msg<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getMessageBody</span><span style="color:#000;font-weight:bold">().</span><span style="color:#008080">toString</span><span style="color:#000;font-weight:bold">());</span>  
+<span style="color:#000;font-weight:bold">}</span>  
 </code></pre></div>
 			</div>
 

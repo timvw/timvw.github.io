@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Currently Octopus has limited support to deploy a Cloud Service on Azure. A typical use-case is that you need a different Web.Config file per environment. Simply add the Web.Environment.Config files to your NuGet package and use the following PreDeploy.ps1 script:
 # Load unzip support [Reflection.Assembly]::LoadWithPartialName(&#34;System.IO.Compression.FileSystem&#34;) | Out-Null function Unzip($zipFile, $destination) { If (Test-Path $destination){	Remove-Item $destination -Recurse | Out-Null } New-Item -ItemType directory -Force -Path $destination | Out-Null [System.IO.Compression.ZipFile]::ExtractToDirectory($zipFile, $destination) | Out-Null } # Unzip deployment package  $CsPkg = &#34;Customer.">
 <meta itemprop="datePublished" content="2014-08-15T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="138">
 
 
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2014-08-15-deploying-a-cloud-service-to-azure-with-octopus/" />
 <meta property="article:published_time" content="2014-08-15T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Deploying a Cloud Service to Azure with Octopus"/>
 <meta name="twitter:description" content="Currently Octopus has limited support to deploy a Cloud Service on Azure. A typical use-case is that you need a different Web.Config file per environment. Simply add the Web.Environment.Config files to your NuGet package and use the following PreDeploy.ps1 script:
@@ -80,34 +80,34 @@
 					
 			<div class="markdown">
 				<p>Currently Octopus has limited support to deploy a Cloud Service on Azure. A typical use-case is that you need a different Web.Config file per environment. Simply add the Web.Environment.Config files to your NuGet package and use the following <a href="https://gist.github.com/timvw/4e32226dd1ff149b5eab.js">PreDeploy.ps1</a> script:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e"># Load unzip support</span>
-<span style="color:#66d9ef">[Reflection.Assembly]</span>::LoadWithPartialName(<span style="color:#e6db74">&#34;System.IO.Compression.FileSystem&#34;</span>) | Out-Null
-<span style="color:#66d9ef">function</span> Unzip($zipFile, $destination)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#998;font-style:italic"># Load unzip support</span>
+<span style="color:#008080">[Reflection.Assembly]</span>::LoadWithPartialName(<span style="color:#d14">&#34;System.IO.Compression.FileSystem&#34;</span>) | <span style="color:#0086b3">Out-Null</span>
+<span style="color:#000;font-weight:bold">function</span> Unzip(<span style="color:#008080">$zipFile</span>, <span style="color:#008080">$destination</span>)
 {
-	<span style="color:#66d9ef">If</span> (Test-Path $destination){	  
-		Remove-Item $destination -Recurse | Out-Null
+	<span style="color:#000;font-weight:bold">If</span> (<span style="color:#0086b3">Test-Path</span> <span style="color:#008080">$destination</span>){	  
+		<span style="color:#0086b3">Remove-Item</span> <span style="color:#008080">$destination</span> -Recurse | <span style="color:#0086b3">Out-Null</span>
 	}
 	  
-	New-Item -ItemType directory -Force -Path $destination | Out-Null  
-	<span style="color:#66d9ef">[System.IO.Compression.ZipFile]</span>::ExtractToDirectory($zipFile, $destination) | Out-Null
+	<span style="color:#0086b3">New-Item</span> -ItemType directory -Force -Path <span style="color:#008080">$destination</span> | <span style="color:#0086b3">Out-Null</span>  
+	<span style="color:#008080">[System.IO.Compression.ZipFile]</span>::ExtractToDirectory(<span style="color:#008080">$zipFile</span>, <span style="color:#008080">$destination</span>) | <span style="color:#0086b3">Out-Null</span>
 }
 
-<span style="color:#75715e"># Unzip deployment package  </span>
-$CsPkg = <span style="color:#e6db74">&#34;Customer.Project.Api.Azure.cspkg&#34;</span>
-Unzip $CsPkg <span style="color:#e6db74">&#34;azurePackage&#34;</span>
-Unzip (Get-Item (join-path -path <span style="color:#e6db74">&#34;azurePackage&#34;</span> -childPath <span style="color:#e6db74">&#34;*.cssx&#34;</span>)) <span style="color:#e6db74">&#34;website&#34;</span>
+<span style="color:#998;font-style:italic"># Unzip deployment package  </span>
+<span style="color:#008080">$CsPkg</span> = <span style="color:#d14">&#34;Customer.Project.Api.Azure.cspkg&#34;</span>
+Unzip <span style="color:#008080">$CsPkg</span> <span style="color:#d14">&#34;azurePackage&#34;</span>
+Unzip (<span style="color:#0086b3">Get-Item</span> (<span style="color:#0086b3">join-path</span> -path <span style="color:#d14">&#34;azurePackage&#34;</span> -childPath <span style="color:#d14">&#34;*.cssx&#34;</span>)) <span style="color:#d14">&#34;website&#34;</span>
 
-<span style="color:#75715e"># Perform replacements, eg: replace Web.Config  </span>
-$ConfigFileToUse = <span style="color:#e6db74">&#34;Web.&#34;</span> + $OctopusParameters[<span style="color:#e6db74">&#34;Octopus.Environment.Name&#34;</span>] + <span style="color:#e6db74">&#34;.config&#34;</span>
-Copy-Item -Path $ConfigFileToUse -Destination <span style="color:#e6db74">&#34;website/sitesroot/0/Web.Config&#34;</span> -Force
+<span style="color:#998;font-style:italic"># Perform replacements, eg: replace Web.Config  </span>
+<span style="color:#008080">$ConfigFileToUse</span> = <span style="color:#d14">&#34;Web.&#34;</span> + <span style="color:#008080">$OctopusParameters</span>[<span style="color:#d14">&#34;Octopus.Environment.Name&#34;</span>] + <span style="color:#d14">&#34;.config&#34;</span>
+<span style="color:#0086b3">Copy-Item</span> -Path <span style="color:#008080">$ConfigFileToUse</span> -Destination <span style="color:#d14">&#34;website/sitesroot/0/Web.Config&#34;</span> -Force
 
-<span style="color:#75715e"># Repackage  </span>
-$role = <span style="color:#e6db74">&#34;Customer.Project.Api&#34;</span>
-$contentPath = <span style="color:#e6db74">&#34;website\approot&#34;</span>
-$rolePath = <span style="color:#e6db74">&#34;website/approot&#34;</span>
-$webPath = <span style="color:#e6db74">&#34;website/sitesroot/0&#34;</span>
-$cspackPath = <span style="color:#e6db74">&#34;C:\Program Files\Microsoft SDKs\Windows Azure\.NET SDK\v2.2\bin\cspack.exe&#34;</span>
-&amp; $cspackPath <span style="color:#e6db74">&#34;ServiceDefinition.csdef&#34;</span> <span style="color:#e6db74">&#34;/out:$CsPkg&#34;</span> <span style="color:#e6db74">&#34;/role:$role;$rolePath;Customer.Project.Api.dll&#34;</span> <span style="color:#e6db74">&#34;/sites:$role;Web;$webPath&#34;</span> <span style="color:#e6db74">&#34;/sitePhysicalDirectories:$role;Web;$webPath&#34;</span>  
+<span style="color:#998;font-style:italic"># Repackage  </span>
+<span style="color:#008080">$role</span> = <span style="color:#d14">&#34;Customer.Project.Api&#34;</span>
+<span style="color:#008080">$contentPath</span> = <span style="color:#d14">&#34;website\approot&#34;</span>
+<span style="color:#008080">$rolePath</span> = <span style="color:#d14">&#34;website/approot&#34;</span>
+<span style="color:#008080">$webPath</span> = <span style="color:#d14">&#34;website/sitesroot/0&#34;</span>
+<span style="color:#008080">$cspackPath</span> = <span style="color:#d14">&#34;C:\Program Files\Microsoft SDKs\Windows Azure\.NET SDK\v2.2\bin\cspack.exe&#34;</span>
+&amp; <span style="color:#008080">$cspackPath</span> <span style="color:#d14">&#34;ServiceDefinition.csdef&#34;</span> <span style="color:#d14">&#34;/out:$CsPkg&#34;</span> <span style="color:#d14">&#34;/role:$role;$rolePath;Customer.Project.Api.dll&#34;</span> <span style="color:#d14">&#34;/sites:$role;Web;$webPath&#34;</span> <span style="color:#d14">&#34;/sitePhysicalDirectories:$role;Web;$webPath&#34;</span>  
 </code></pre></div>
 			</div>
 

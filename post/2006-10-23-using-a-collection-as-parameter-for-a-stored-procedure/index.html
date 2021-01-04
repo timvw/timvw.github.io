@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Sometimes you want to select rows where a value is in a specific collection. Here&rsquo;s an example that show how you can select all the rows in the TEST table with an id of 1, 2 or 3. First we create an SQL type to contain a list of numbers
 CREATE TYPE LIST_NUMBER AS TABLE OF NUMBER(10); / Next thing to do is add a custom type and function header to the package specification">
 <meta itemprop="datePublished" content="2006-10-23T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="232">
 
 
@@ -19,7 +19,7 @@ CREATE TYPE LIST_NUMBER AS TABLE OF NUMBER(10); / Next thing to do is add a cust
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2006-10-23-using-a-collection-as-parameter-for-a-stored-procedure/" />
 <meta property="article:published_time" content="2006-10-23T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Using a collection as parameter for a stored procedure"/>
 <meta name="twitter:description" content="Sometimes you want to select rows where a value is in a specific collection. Here&rsquo;s an example that show how you can select all the rows in the TEST table with an id of 1, 2 or 3. First we create an SQL type to contain a list of numbers
@@ -80,69 +80,69 @@ CREATE TYPE LIST_NUMBER AS TABLE OF NUMBER(10); / Next thing to do is add a cust
 					
 			<div class="markdown">
 				<p>Sometimes you want to select rows where a value is in a specific collection. Here&rsquo;s an example that show how you can select all the rows in the TEST table with an id of 1, 2 or 3. First we create an SQL type to contain a list of numbers</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TYPE</span> LIST_NUMBER <span style="color:#66d9ef">AS</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">OF</span> NUMBER(<span style="color:#ae81ff">10</span>);
-<span style="color:#f92672">/</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">CREATE</span> <span style="color:#000;font-weight:bold">TYPE</span> LIST_NUMBER <span style="color:#000;font-weight:bold">AS</span> <span style="color:#000;font-weight:bold">TABLE</span> <span style="color:#000;font-weight:bold">OF</span> <span style="color:#0086b3">NUMBER</span>(<span style="color:#099">10</span>);
+<span style="color:#000;font-weight:bold">/</span>
 </code></pre></div><p>Next thing to do is add a custom type and function header to the package specification</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">PACKAGE TIMVW.TESTPACKAGE <span style="color:#66d9ef">AS</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">PACKAGE TIMVW.TESTPACKAGE <span style="color:#000;font-weight:bold">AS</span>
 
-<span style="color:#66d9ef">TYPE</span> CRSR_REF <span style="color:#66d9ef">IS</span> <span style="color:#66d9ef">REF</span> <span style="color:#66d9ef">CURSOR</span>;
-<span style="color:#66d9ef">TYPE</span> ARR<span style="color:#960050;background-color:#1e0010">\</span>_IDS <span style="color:#66d9ef">IS</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">OF</span> TEST.TEST<span style="color:#960050;background-color:#1e0010">\</span>_ID<span style="color:#f92672">%</span><span style="color:#66d9ef">Type</span> <span style="color:#66d9ef">INDEX</span> <span style="color:#66d9ef">BY</span> BINARY_INTEGER;
+<span style="color:#000;font-weight:bold">TYPE</span> CRSR_REF <span style="color:#000;font-weight:bold">IS</span> <span style="color:#000;font-weight:bold">REF</span> <span style="color:#000;font-weight:bold">CURSOR</span>;
+<span style="color:#000;font-weight:bold">TYPE</span> ARR<span style="color:#a61717;background-color:#e3d2d2">\</span>_IDS <span style="color:#000;font-weight:bold">IS</span> <span style="color:#000;font-weight:bold">TABLE</span> <span style="color:#000;font-weight:bold">OF</span> TEST.TEST<span style="color:#a61717;background-color:#e3d2d2">\</span>_ID<span style="color:#000;font-weight:bold">%</span><span style="color:#000;font-weight:bold">Type</span> <span style="color:#000;font-weight:bold">INDEX</span> <span style="color:#000;font-weight:bold">BY</span> BINARY_INTEGER;
 
-<span style="color:#66d9ef">PROCEDURE</span> GET_TESTS
+<span style="color:#000;font-weight:bold">PROCEDURE</span> GET_TESTS
 (
-P_IDS <span style="color:#66d9ef">IN</span> ARR_IDS,
-P_CURSOR <span style="color:#66d9ef">OUT</span> CRSR_REF
+P_IDS <span style="color:#000;font-weight:bold">IN</span> ARR_IDS,
+P_CURSOR <span style="color:#000;font-weight:bold">OUT</span> CRSR_REF
 );
-<span style="color:#66d9ef">END</span>;
+<span style="color:#000;font-weight:bold">END</span>;
 </code></pre></div><p>And offcourse we have to implement the function in the body</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">PROCEDURE</span> GET_TESTS
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">PROCEDURE</span> GET_TESTS
 (
-P_IDS <span style="color:#66d9ef">IN</span> ARR_IDS,
-P_CURSOR <span style="color:#66d9ef">OUT</span> CRSR_REF
+P_IDS <span style="color:#000;font-weight:bold">IN</span> ARR_IDS,
+P_CURSOR <span style="color:#000;font-weight:bold">OUT</span> CRSR_REF
 )
 
-<span style="color:#66d9ef">AS</span>
+<span style="color:#000;font-weight:bold">AS</span>
 
-V_IDS LIST_NUMBER :<span style="color:#f92672">=</span> LIST_NUMBER();
+V_IDS LIST_NUMBER :<span style="color:#000;font-weight:bold">=</span> LIST_NUMBER();
 
-<span style="color:#66d9ef">BEGIN</span>
+<span style="color:#000;font-weight:bold">BEGIN</span>
 
-V_IDS.EXTEND(P_IDS.<span style="color:#66d9ef">COUNT</span>);
-<span style="color:#66d9ef">FOR</span> i <span style="color:#66d9ef">IN</span> P_IDS.<span style="color:#66d9ef">FIRST</span> .. P_IDS.<span style="color:#66d9ef">LAST</span> LOOP
-	V_IDS(i) :<span style="color:#f92672">=</span> P_IDS(i);
-<span style="color:#66d9ef">END</span> LOOP;
+V_IDS.EXTEND(P_IDS.<span style="color:#000;font-weight:bold">COUNT</span>);
+<span style="color:#000;font-weight:bold">FOR</span> i <span style="color:#000;font-weight:bold">IN</span> P_IDS.<span style="color:#000;font-weight:bold">FIRST</span> .. P_IDS.<span style="color:#000;font-weight:bold">LAST</span> LOOP
+	V_IDS(i) :<span style="color:#000;font-weight:bold">=</span> P_IDS(i);
+<span style="color:#000;font-weight:bold">END</span> LOOP;
 
-<span style="color:#66d9ef">OPEN</span> P_CURSOR <span style="color:#66d9ef">FOR</span>
-<span style="color:#66d9ef">SELECT</span>
+<span style="color:#000;font-weight:bold">OPEN</span> P_CURSOR <span style="color:#000;font-weight:bold">FOR</span>
+<span style="color:#000;font-weight:bold">SELECT</span>
 TEST.TEST_ID,
 TEST.NAME,
 TEST.TYPE_CODE
-<span style="color:#66d9ef">FROM</span>
+<span style="color:#000;font-weight:bold">FROM</span>
 TEST
-<span style="color:#66d9ef">WHERE</span>
-TEST_ID <span style="color:#66d9ef">IN</span> (<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">TABLE</span>(V_IDS))
-<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span>
-TEST.TEST_ID <span style="color:#66d9ef">ASC</span>;
-<span style="color:#66d9ef">END</span>;
+<span style="color:#000;font-weight:bold">WHERE</span>
+TEST_ID <span style="color:#000;font-weight:bold">IN</span> (<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> <span style="color:#000;font-weight:bold">TABLE</span>(V_IDS))
+<span style="color:#000;font-weight:bold">ORDER</span> <span style="color:#000;font-weight:bold">BY</span>
+TEST.TEST_ID <span style="color:#000;font-weight:bold">ASC</span>;
+<span style="color:#000;font-weight:bold">END</span>;
 </code></pre></div><p>Now that we have done all this we can consume the function from our client code</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">using</span> (OracleConnection conn = <span style="color:#66d9ef">new</span> OracleConnection(<span style="color:#e6db74">&#34;User Id=u;password=p;Data Source=ORCL&#34;</span>))
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">using</span> (OracleConnection conn = <span style="color:#000;font-weight:bold">new</span> OracleConnection(<span style="color:#d14">&#34;User Id=u;password=p;Data Source=ORCL&#34;</span>))
 {
 	conn.Open();
 
 	OracleCommand command = conn.CreateCommand();
 	command.CommandType = CommandType.StoredProcedure;
 
-	command.CommandText = <span style="color:#e6db74">&#34;TIMVW.TESTPACKAGE.GET_TESTS&#34;</span>;
-	command.Parameters.Add(<span style="color:#e6db74">&#34;P_IDS&#34;</span>, OracleDbType.Int32, <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span>[] { <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span> }, ParameterDirection.Input);
-	command.Parameters[<span style="color:#e6db74">&#34;P_IDS&#34;</span>].CollectionType = OracleCollectionType.PLSQLAssociativeArray;
-	command.Parameters.Add(<span style="color:#e6db74">&#34;P_CURSOR&#34;</span>, OracleDbType.RefCursor, ParameterDirection.Output);
+	command.CommandText = <span style="color:#d14">&#34;TIMVW.TESTPACKAGE.GET_TESTS&#34;</span>;
+	command.Parameters.Add(<span style="color:#d14">&#34;P_IDS&#34;</span>, OracleDbType.Int32, <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">int</span>[] { <span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">3</span> }, ParameterDirection.Input);
+	command.Parameters[<span style="color:#d14">&#34;P_IDS&#34;</span>].CollectionType = OracleCollectionType.PLSQLAssociativeArray;
+	command.Parameters.Add(<span style="color:#d14">&#34;P_CURSOR&#34;</span>, OracleDbType.RefCursor, ParameterDirection.Output);
 
 	OracleDataReader reader = command.ExecuteReader();
-	<span style="color:#66d9ef">while</span> (reader.Read())
+	<span style="color:#000;font-weight:bold">while</span> (reader.Read())
 	{
-		Console.WriteLine(<span style="color:#e6db74">&#34;test 	}
-</span><span style="color:#e6db74"></span>
-	Console.Write(<span style="color:#e6db74">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
+		Console.WriteLine(<span style="color:#d14">&#34;test 	}
+</span><span style="color:#d14"></span>
+	Console.Write(<span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
 	Console.ReadKey();
 }
 </code></pre></div>

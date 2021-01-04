@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Sometimes you want to know the absolute path of a file that is persisted with IsolatedStorageFile. Apparently there is an internal property RootDirectory which contains this information
 public static class IsolatedStorageFileExtensions { public static string GetRootDirectory(this IsolatedStorageFile isf) { var property = isf.GetType().GetProperty(&#34;RootDirectory&#34;, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetProperty); return (string)property.GetValue(isf, null); } } Here is a real world example of using SharpBITS.NET to download a file to IsolatedStorage:">
 <meta itemprop="datePublished" content="2010-05-01T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="149">
 
 
@@ -19,7 +19,7 @@ public static class IsolatedStorageFileExtensions { public static string GetRoot
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2010-05-01-get-root-directory-for-isolatedstoragefiles/" />
 <meta property="article:published_time" content="2010-05-01T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Get root directory for IsolatedStorageFiles"/>
 <meta name="twitter:description" content="Sometimes you want to know the absolute path of a file that is persisted with IsolatedStorageFile. Apparently there is an internal property RootDirectory which contains this information
@@ -80,49 +80,49 @@ public static class IsolatedStorageFileExtensions { public static string GetRoot
 					
 			<div class="markdown">
 				<p>Sometimes you want to know the absolute path of a file that is persisted with <a href="http://msdn.microsoft.com/en-us/library/system.io.isolatedstorage.isolatedstoragefile(VS.95).aspx">IsolatedStorageFile</a>. Apparently there is an internal property RootDirectory which contains this information</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">IsolatedStorageFileExtensions</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">IsolatedStorageFileExtensions</span>
 {
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">string</span> GetRootDirectory(<span style="color:#66d9ef">this</span> IsolatedStorageFile isf)
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> GetRootDirectory(<span style="color:#000;font-weight:bold">this</span> IsolatedStorageFile isf)
 	{
-		<span style="color:#66d9ef">var</span> property = isf.GetType().GetProperty(<span style="color:#e6db74">&#34;RootDirectory&#34;</span>, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetProperty);
-		<span style="color:#66d9ef">return</span> (<span style="color:#66d9ef">string</span>)property.GetValue(isf, <span style="color:#66d9ef">null</span>);
+		<span style="color:#458;font-weight:bold">var</span> property = isf.GetType().GetProperty(<span style="color:#d14">&#34;RootDirectory&#34;</span>, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetProperty);
+		<span style="color:#000;font-weight:bold">return</span> (<span style="color:#458;font-weight:bold">string</span>)property.GetValue(isf, <span style="color:#000;font-weight:bold">null</span>);
 	}
 }
 </code></pre></div><p>Here is a real world example of using <a href="http://sharpbits.codeplex.com/">SharpBITS.NET</a> to download a file to IsolatedStorage:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Program</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Program</span>
 {
-	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> Main()
+	<span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main()
 	{
-		<span style="color:#66d9ef">var</span> mgr = <span style="color:#66d9ef">new</span> BitsManager();
+		<span style="color:#458;font-weight:bold">var</span> mgr = <span style="color:#000;font-weight:bold">new</span> BitsManager();
 		mgr.OnJobError += mgr_OnJobError;
 		mgr.OnJobTransferred += mgr_OnJobTransferred;
 
-		<span style="color:#66d9ef">var</span> job = mgr.CreateJob(<span style="color:#e6db74">&#34;job@&#34;</span> + DateTime.Now, JobType.Download);
-		<span style="color:#66d9ef">var</span> src = <span style="color:#e6db74">@&#34;http://localhost/&#34;</span>;
-		<span style="color:#66d9ef">var</span> dst = Path.Combine(GetIsfRoot(), <span style="color:#e6db74">&#34;test.html&#34;</span>);
+		<span style="color:#458;font-weight:bold">var</span> job = mgr.CreateJob(<span style="color:#d14">&#34;job@&#34;</span> + DateTime.Now, JobType.Download);
+		<span style="color:#458;font-weight:bold">var</span> src = <span style="color:#d14">@&#34;http://localhost/&#34;</span>;
+		<span style="color:#458;font-weight:bold">var</span> dst = Path.Combine(GetIsfRoot(), <span style="color:#d14">&#34;test.html&#34;</span>);
 		job.AddFile(src,dst);
 		job.Resume();
 
-		Console.WriteLine(<span style="color:#e6db74">&#34;running...&#34;</span>);
+		Console.WriteLine(<span style="color:#d14">&#34;running...&#34;</span>);
 		Console.ReadKey();
 	}
 
-	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> mgr_OnJobTransferred(<span style="color:#66d9ef">object</span> sender, NotificationEventArgs e)
+	<span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> mgr_OnJobTransferred(<span style="color:#458;font-weight:bold">object</span> sender, NotificationEventArgs e)
 	{
 		e.Job.Complete();
-		Console.WriteLine(<span style="color:#e6db74">&#34;completed: &#34;</span> + e.Job.DisplayName);
+		Console.WriteLine(<span style="color:#d14">&#34;completed: &#34;</span> + e.Job.DisplayName);
 	}
 
-	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> mgr_OnJobError(<span style="color:#66d9ef">object</span> sender, ErrorNotificationEventArgs e)
+	<span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> mgr_OnJobError(<span style="color:#458;font-weight:bold">object</span> sender, ErrorNotificationEventArgs e)
 	{
-		Console.WriteLine(<span style="color:#e6db74">&#34;error: &#34;</span> + e.Error.Description);
+		Console.WriteLine(<span style="color:#d14">&#34;error: &#34;</span> + e.Error.Description);
 	}
 
-	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">string</span> GetIsfRoot()
+	<span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> GetIsfRoot()
 	{
-		<span style="color:#66d9ef">using</span> (<span style="color:#66d9ef">var</span> f = IsolatedStorageFile.GetUserStoreForAssembly())
+		<span style="color:#000;font-weight:bold">using</span> (<span style="color:#458;font-weight:bold">var</span> f = IsolatedStorageFile.GetUserStoreForAssembly())
 		{
-			<span style="color:#66d9ef">return</span> f.GetRootDirectory();
+			<span style="color:#000;font-weight:bold">return</span> f.GetRootDirectory();
 		}
 	}
 }

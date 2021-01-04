@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Here is a simple generic class that allows you to serialize classes (well, their public members) into XML and deserialize the XML to objects again. Make sure the class (or struct) has a parameterless constructor and that all the members that you want to serialize are public. Here is the code
 public class SimpleSerializer&lt;t&gt; { public String Serialize(T o) { using(MemoryStream m = new MemoryStream()) { XmlSerializer s = new XmlSerializer(o.">
 <meta itemprop="datePublished" content="2006-04-21T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="190">
 
 
@@ -19,7 +19,7 @@ public class SimpleSerializer&lt;t&gt; { public String Serialize(T o) { using(Me
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2006-04-21-simple-serialization-and-deserialization-of-public-class-members/" />
 <meta property="article:published_time" content="2006-04-21T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Simple serialization and deserialization of public class members"/>
 <meta name="twitter:description" content="Here is a simple generic class that allows you to serialize classes (well, their public members) into XML and deserialize the XML to objects again. Make sure the class (or struct) has a parameterless constructor and that all the members that you want to serialize are public. Here is the code
@@ -80,54 +80,54 @@ public class SimpleSerializer&lt;t&gt; { public String Serialize(T o) { using(Me
 					
 			<div class="markdown">
 				<p>Here is a simple generic class that allows you to serialize classes (well, their public members) into XML and deserialize the XML to objects again. Make sure the class (or struct) has a parameterless constructor and that all the members that you want to serialize are public. Here is the code</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SimpleSerializer</span>&lt;t&gt;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">SimpleSerializer</span>&lt;t&gt;
 {
-	<span style="color:#66d9ef">public</span> String Serialize(T o)
+	<span style="color:#000;font-weight:bold">public</span> String Serialize(T o)
 	{
-		using(MemoryStream m = <span style="color:#66d9ef">new</span> MemoryStream())
+		using(MemoryStream m = <span style="color:#000;font-weight:bold">new</span> MemoryStream())
 		{
-			XmlSerializer s = <span style="color:#66d9ef">new</span> XmlSerializer(o.GetType());
+			XmlSerializer s = <span style="color:#000;font-weight:bold">new</span> XmlSerializer(o.GetType());
 			s.Serialize(m, o);
-			<span style="color:#66d9ef">return</span> Encoding.UTF8.GetString(m.ToArray());
+			<span style="color:#000;font-weight:bold">return</span> Encoding.UTF8.GetString(m.ToArray());
 		}
 	}
 
-	<span style="color:#66d9ef">public</span> T Deserialize(String xml)
+	<span style="color:#000;font-weight:bold">public</span> T Deserialize(String xml)
 	{
-		<span style="color:#66d9ef">using</span> (MemoryStream m = <span style="color:#66d9ef">new</span> MemoryStream(Encoding.UTF8.GetBytes(xml)))
+		<span style="color:#000;font-weight:bold">using</span> (MemoryStream m = <span style="color:#000;font-weight:bold">new</span> MemoryStream(Encoding.UTF8.GetBytes(xml)))
 		{
-			XmlSerializer s = <span style="color:#66d9ef">new</span> XmlSerializer(<span style="color:#66d9ef">typeof</span>(T));
-			<span style="color:#66d9ef">return</span> (T)s.Deserialize(m);
+			XmlSerializer s = <span style="color:#000;font-weight:bold">new</span> XmlSerializer(<span style="color:#000;font-weight:bold">typeof</span>(T));
+			<span style="color:#000;font-weight:bold">return</span> (T)s.Deserialize(m);
 		}
 	}
 }
 </code></pre></div><p>Here is a simple example of a class that will be serialized</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Person</span> 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">Person</span> 
 {
-	<span style="color:#66d9ef">public</span> String firstname;
-	<span style="color:#66d9ef">public</span> String lastname;
+	<span style="color:#000;font-weight:bold">public</span> String firstname;
+	<span style="color:#000;font-weight:bold">public</span> String lastname;
 
-	<span style="color:#66d9ef">public</span> Person(String firstname, String lastname) 
+	<span style="color:#000;font-weight:bold">public</span> Person(String firstname, String lastname) 
 	{
-		<span style="color:#66d9ef">this</span>.firstname = firstname;
-		<span style="color:#66d9ef">this</span>.lastname = lastname;
+		<span style="color:#000;font-weight:bold">this</span>.firstname = firstname;
+		<span style="color:#000;font-weight:bold">this</span>.lastname = lastname;
 	}
 }
 </code></pre></div><p>And finally, a simple console application that demonstrates how it works:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Program</span> 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Program</span> 
 {
-	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> Main(<span style="color:#66d9ef">string</span>[] args)
+	<span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
 	{
-		Person p1 = <span style="color:#66d9ef">new</span> Person(<span style="color:#e6db74">&#34;Tim&#34;</span>, <span style="color:#e6db74">&#34;Van Wassenhove&#34;</span>);
-		SimpleSerializer&lt;person&gt; ss = <span style="color:#66d9ef">new</span> SimpleSerializer&lt;person&gt;();
+		Person p1 = <span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;Tim&#34;</span>, <span style="color:#d14">&#34;Van Wassenhove&#34;</span>);
+		SimpleSerializer&lt;person&gt; ss = <span style="color:#000;font-weight:bold">new</span> SimpleSerializer&lt;person&gt;();
 
 		String xml = ss.Serialize(p1);
-		Console.WriteLine(<span style="color:#e6db74">&#34;serialized:\n&#34;</span> + xml);
+		Console.WriteLine(<span style="color:#d14">&#34;serialized:\n&#34;</span> + xml);
 
 		Person p2 = ss.Deserialize(xml);
-		Console.WriteLine(<span style="color:#e6db74">&#34;unserialized name: &#34;</span> + p2.firstname);
+		Console.WriteLine(<span style="color:#d14">&#34;unserialized name: &#34;</span> + p2.firstname);
 
-		Console.WriteLine(<span style="color:#e6db74">&#34;Press any key to continue...&#34;</span>);
+		Console.WriteLine(<span style="color:#d14">&#34;Press any key to continue...&#34;</span>);
 		Console.ReadKey();
 	}
 }

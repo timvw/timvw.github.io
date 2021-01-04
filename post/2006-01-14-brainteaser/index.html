@@ -8,7 +8,7 @@
  The two functions in the example below behave differently. The difference is easy to spot, of ocurse. The challenge is correctly explaining why this is so. Why does the second function seemingly corrupt the cloned copy of an object?
  function BritneySpear(&amp;$obj) { $attr =&amp; $obj-&gt;attributes; $clone = /* clone */ $obj; $obj-&gt;attributes[‘Length’] = 0; $obj-&gt;data = “”; return $clone; } $data = “This is a test”; $obj1-&gt;attributes = array(‘Length’ =&gt; strlen($data)); $obj1-&gt;data = $data; $clone1 = Bobcat($obj1); print_r($clone1); $obj2-&gt;attributes = array(‘Length’ =&gt; strlen($data)); $obj2-&gt;data = $data; $clone2 = BritneySpear($obj2); print_r($clone2); ?">
 <meta itemprop="datePublished" content="2006-01-14T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T14:42:30+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T14:49:35+01:00" />
 <meta itemprop="wordCount" content="227">
 
 
@@ -21,7 +21,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2006-01-14-brainteaser/" />
 <meta property="article:published_time" content="2006-01-14T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T14:42:30+01:00" />
+<meta property="article:modified_time" content="2021-01-04T14:49:35+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Brainteaser"/>
 <meta name="twitter:description" content="Earlier today Chung Leong, an intelligent regular at comp.lang.php, posted a little brainteaser:
@@ -86,45 +86,45 @@
 <blockquote>
 <p>The two functions in the example below behave differently. The difference is easy to spot, of ocurse. The challenge is correctly explaining why this is so. Why does the second function seemingly corrupt the cloned copy of an object?</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">BritneySpear</span>(<span style="color:#f92672">&amp;</span>$obj) {
-$attr <span style="color:#f92672">=&amp;</span> $obj<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">attributes</span>;
-$clone <span style="color:#f92672">=</span> <span style="color:#75715e">/* clone */</span> $obj;
-$obj<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">attributes</span>[<span style="color:#a6e22e">‘Length’</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-$obj<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">“”</span>;
-<span style="color:#66d9ef">return</span> $clone;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">BritneySpear</span>(<span style="color:#000;font-weight:bold">&amp;</span><span style="color:#008080">$obj</span>) {
+<span style="color:#008080">$attr</span> <span style="color:#000;font-weight:bold">=&amp;</span> <span style="color:#008080">$obj</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">attributes</span>;
+<span style="color:#008080">$clone</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#998;font-style:italic">/* clone */</span> <span style="color:#008080">$obj</span>;
+<span style="color:#008080">$obj</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">attributes</span>[‘Length’] <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>;
+<span style="color:#008080">$obj</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">data</span> <span style="color:#000;font-weight:bold">=</span> “”;
+<span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$clone</span>;
 }
 
-$data <span style="color:#f92672">=</span> <span style="color:#a6e22e">“This</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">a</span> <span style="color:#a6e22e">test”</span>;
-$obj1<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">attributes</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">array</span>(<span style="color:#a6e22e">‘Length’</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">strlen</span>($data));
-$obj1<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> $data;
-$clone1 <span style="color:#f92672">=</span> <span style="color:#a6e22e">Bobcat</span>($obj1);
-<span style="color:#a6e22e">print_r</span>($clone1);
+<span style="color:#008080">$data</span> <span style="color:#000;font-weight:bold">=</span> “This is a test”;
+<span style="color:#008080">$obj1</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">attributes</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>(‘Length’ <span style="color:#000;font-weight:bold">=&gt;</span> strlen(<span style="color:#008080">$data</span>));
+<span style="color:#008080">$obj1</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">data</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$data</span>;
+<span style="color:#008080">$clone1</span> <span style="color:#000;font-weight:bold">=</span> Bobcat(<span style="color:#008080">$obj1</span>);
+print_r(<span style="color:#008080">$clone1</span>);
 
-$obj2<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">attributes</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">array</span>(<span style="color:#a6e22e">‘Length’</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">strlen</span>($data));
-$obj2<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> $data;
-$clone2 <span style="color:#f92672">=</span> <span style="color:#a6e22e">BritneySpear</span>($obj2);
-<span style="color:#a6e22e">print_r</span>($clone2);
-<span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+<span style="color:#008080">$obj2</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">attributes</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>(‘Length’ <span style="color:#000;font-weight:bold">=&gt;</span> strlen(<span style="color:#008080">$data</span>));
+<span style="color:#008080">$obj2</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">data</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$data</span>;
+<span style="color:#008080">$clone2</span> <span style="color:#000;font-weight:bold">=</span> BritneySpear(<span style="color:#008080">$obj2</span>);
+print_r(<span style="color:#008080">$clone2</span>);
+<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
 </span></code></pre></div><blockquote>
 <p>Result:</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#66d9ef">stdClass</span> <span style="color:#a6e22e">Object</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">stdClass</span> Object
 (
-    [<span style="color:#a6e22e">attributes</span>] <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">Array</span>
+    [attributes] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">Array</span>
         (
-            [<span style="color:#a6e22e">Length</span>] <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">14</span>
+            [Length] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#099">14</span>
         )
 
-    [<span style="color:#a6e22e">data</span>] <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">This</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">a</span> <span style="color:#a6e22e">test</span>
+    [data] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">This</span> is a test
 )
-<span style="color:#66d9ef">stdClass</span> <span style="color:#a6e22e">Object</span>
+<span style="color:#000;font-weight:bold">stdClass</span> Object
 (
-    [<span style="color:#a6e22e">attributes</span>] <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">Array</span>
+    [attributes] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">Array</span>
         (
-            [<span style="color:#a6e22e">Length</span>] <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">0</span>
+            [Length] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#099">0</span>
         )
 
-    [<span style="color:#a6e22e">data</span>] <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">This</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">a</span> <span style="color:#a6e22e">test</span>
+    [data] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">This</span> is a test
 )
 </code></pre></div><p>It took me fifteen minutes to figure out the source of this mysterious behaviour, but it took me a couple of hours to come up with the following explanation: After $attr =&amp; $obj-&gt;attributes in the BritneySpear function the container that holds this variables has is_ref=1. Any properties that are references to other variables, will remain references when $obj is copied into $clone as explained in <a href="http://php.belnet.be/manual/en/language.oop5.cloning.php">Object cloning</a>.</p>
 <p>If you want to know more about references i can advise you to read <a href="http://derickrethans.nl/files/phparch-php-variables-article.pdf">PHP References</a> by <a href="http://derickrethans.nl">Derick Rethans</a>.</p>
