@@ -2,7 +2,9 @@
 date: "2016-01-29T00:00:00Z"
 guid: http://www.timvw.be/?p=2529
 tags:
-- maven scala osgi
+- maven
+- scala
+- osgi
 title: About maven dependency type 'bundle'
 aliases:
  - /2016/01/29/about-maven-dependency-type-bundle/
