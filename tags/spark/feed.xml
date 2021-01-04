@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>spark on Tim Van Wassenhove&#39;s blog</title>
+    <title>spark on Tim Van Wassenhove</title>
     <link>/tags/spark/</link>
-    <description>Recent content in spark on Tim Van Wassenhove&#39;s blog</description>
+    <description>Recent content in spark on Tim Van Wassenhove</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 27 Aug 2015 00:00:00 +0000</lastBuildDate><atom:link href="/tags/spark/feed.xml" rel="self" type="application/rss+xml" />
@@ -13,31 +13,7 @@
       <pubDate>Thu, 27 Aug 2015 00:00:00 +0000</pubDate>
       
       <guid>/post/2015-08-27-notes-on-running-spark-notebook/</guid>
-      <description>
-        
-          &lt;p&gt;These days &lt;a href=&#34;https://www.docker.com/&#34;&gt;Docker&lt;/a&gt; makes it extremely easy to get started with virtually any application you like. At first I was a bit skeptical but over the last couple of months I have changed my mind. Now I strongly believe this is a game changer. Even more when it comes to Windows. Anyway, these days kitematic (GUI to manage docker images) allows you to simply pick the &lt;a href=&#34;https://github.com/andypetrella/spark-notebook&#34;&gt;spark-notebook&lt;/a&gt; by Andy Petrella.&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://www.timvw.be/wp-content/uploads/2015/08/docker_pick_image.png&#34;&gt;&lt;!-- raw HTML omitted --&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;When running your docker host in VirtualBox, you still need to set up port forwarding for port 9000 (the notebook) and ports 4040 to 4050 (spark-ui) Assuming your docker host vm is named default:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;VBoxManage modifyvm &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;default&amp;#34;&lt;/span&gt; --natpf1 &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tcp-port9000,tcp,,9000,,9000&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;These days &lt;a href=&#34;https://www.docker.com/&#34;&gt;Docker&lt;/a&gt; makes it extremely easy to get started with virtually any application you like. At first I was a bit skeptical but over the last couple of months I have changed my mind. Now I strongly believe this is a game changer. Even more when it comes to Windows. Anyway, these days kitematic (GUI to manage docker images) allows you to simply pick the &lt;a href=&#34;https://github.com/andypetrella/spark-notebook&#34;&gt;spark-notebook&lt;/a&gt; by Andy Petrella.&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://www.timvw.be/wp-content/uploads/2015/08/docker_pick_image.png&#34;&gt;&lt;!-- raw HTML omitted --&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;When running your docker host in VirtualBox, you still need to set up port forwarding for port 9000 (the notebook) and ports 4040 to 4050 (spark-ui) Assuming your docker host vm is named default:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;VBoxManage modifyvm &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;default&amp;#34;&lt;/span&gt; --natpf1 &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tcp-port9000,tcp,,9000,,9000&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now you can browse to http://localhost:9000 and start using your new notebook:&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://www.timvw.be/wp-content/uploads/2015/08/spark_notebook_home.png&#34;&gt;&lt;!-- raw HTML omitted --&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;You may want to copy the default set of notebooks to a local directory:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;docker cp $containerName:/opt/docker/notebooks /Users/timvw/notebooks
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Using that local copy is just a few clicks away with Kitematic:&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://www.timvw.be/wp-content/uploads/2015/08/docker_notebook_settings.png&#34;&gt;&lt;!-- raw HTML omitted --&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Offcourse you want to use additional packages such as &lt;a href=&#34;https://github.com/databricks/spark-csv&#34;&gt;spark-csv&lt;/a&gt;. This can be achieved by editting the your notebook metadata:&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://www.timvw.be/wp-content/uploads/2015/08/spark_notebook_metadata.png&#34;&gt;&lt;!-- raw HTML omitted --&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;You simply need to add an entry to customDeps:&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://www.timvw.be/wp-content/uploads/2015/08/spark_notebook_customdeps.png&#34;&gt;&lt;!-- raw HTML omitted --&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;When your container did not shutdown correctly, you may end up in the awkward situation that your container believes that it is still running(). The following commands fix that:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;docker start $containerName &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; docker exec -t -i $containerName /bin/rm /opt/docker/RUNNING_PID
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>These days Docker makes it extremely easy to get started with virtually any application you like. At first I was a bit skeptical but over the last couple of months I have changed my mind. Now I strongly believe this is a game changer. Even more when it comes to Windows. Anyway, these days kitematic (GUI to manage docker images) allows you to simply pick the spark-notebook by Andy Petrella.</description>
     </item>
     
   </channel>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>sts on Tim Van Wassenhove&#39;s blog</title>
+    <title>sts on Tim Van Wassenhove</title>
     <link>/tags/sts/</link>
-    <description>Recent content in sts on Tim Van Wassenhove&#39;s blog</description>
+    <description>Recent content in sts on Tim Van Wassenhove</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 07 Sep 2010 00:00:00 +0000</lastBuildDate><atom:link href="/tags/sts/feed.xml" rel="self" type="application/rss+xml" />
@@ -13,22 +13,8 @@
       <pubDate>Tue, 07 Sep 2010 00:00:00 +0000</pubDate>
       
       <guid>/post/2010-09-07-wif-whr-parameter-is-a-hint-for-user-home-realm/</guid>
-      <description>
-        
-          &lt;p&gt;Yesterday i was reading the &lt;a href=&#34;http://claimsid.codeplex.com/&#34;&gt;Claims Based Identity &amp;amp; Access Control Guide&lt;/a&gt; and learned that the whr parameter is a hint from the application to the STS about the user&amp;rsquo;s STS. So if i look back at the code in &lt;a href=&#34;http://www.timvw.be/wif-change-sts-per-request/&#34;&gt;WIF: Change STS per request&lt;/a&gt; i should not hardcode the HomeRealm parameter to timvw but use the company name instead.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; GetRedirectUrl(&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; company, &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; companySts, &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; realm, &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; returnUrl)
-{
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; signInRequestMessage = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; SignInRequestMessage(&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Uri(companySts), realm)
-	{
-	Context = returnUrl,
-	HomeRealm = company
-	};
-
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; signInRequestMessage.WriteQueryString();
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Yesterday i was reading the Claims Based Identity &amp;amp; Access Control Guide and learned that the whr parameter is a hint from the application to the STS about the user&amp;rsquo;s STS. So if i look back at the code in WIF: Change STS per request i should not hardcode the HomeRealm parameter to timvw but use the company name instead.
+string GetRedirectUrl(string company, string companySts, string realm, string returnUrl) { var signInRequestMessage = new SignInRequestMessage(new Uri(companySts), realm) { Context = returnUrl, HomeRealm = company }; return signInRequestMessage.</description>
     </item>
     
     <item>
@@ -37,68 +23,9 @@
       <pubDate>Sun, 05 Sep 2010 00:00:00 +0000</pubDate>
       
       <guid>/post/2010-09-05-wif-change-sts-per-request/</guid>
-      <description>
-        
-          &lt;p&gt;Here is some code that will redirect unauthenticated users to their respective STS (Eg: A user visiting ~/CompanyA/Default.aspx will be asked to authenticate at the STS linked to CompanyA.&lt;/p&gt;
-&lt;p&gt;Notice that in the enterprise you typically have multiple applications that require this kind of behavior, so you would solve this by establishing trust between your app(s) and your STS + establish trust between your STS and the client STSes.)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Global&lt;/span&gt; : HttpApplication
-{
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;protected&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; wSFederationAuthenticationModule_RedirectingToIdentityProvider(&lt;span style=&#34;color:#66d9ef&#34;&gt;object&lt;/span&gt; sender, RedirectingToIdentityProviderEventArgs e)
-	{
-		e.Cancel = &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;;
-		RedirectToCompanySts();
-	}
-
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; RedirectToCompanySts()
-	{
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; httpContext = HttpContext.Current;
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; rawUrl = httpContext.Request.RawUrl;
-
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; returnUrl = rawUrl;
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; companyName = ExtractCompanyName(rawUrl);
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; companySts = GetCompanySts(companyName);
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; realm = GetRealm(companyName);
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; redirectUrl = GetRedirectUrl(companySts, realm, returnUrl);
-
-		httpContext.Response.Redirect(redirectUrl, &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;);
-		httpContext.ApplicationInstance.CompleteRequest();
-	}
-
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; ExtractCompanyName(&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; rawUrl)
-	{
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; regex = &lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;~/(.\*?)/.\*&amp;#34;&lt;/span&gt;;
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; relativeUrl = VirtualPathUtility.ToAppRelative(rawUrl);
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; match = Regex.Match(relativeUrl, regex);
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; match.Success ? match.Groups[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;].Value : &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;;
-	}
-
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; GetCompanySts(&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; companyName)
-	{
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (companyName == &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;CompanyA&amp;#34;&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;http://localhost/STS2Site&amp;#34;&lt;/span&gt;;
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;http://localhost/STSSite&amp;#34;&lt;/span&gt;;
-	}
-
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; GetRealm(&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; companyName)
-	{
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; realm = &lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;http://localhost/RPSite/&amp;#34;&lt;/span&gt;;
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (!&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;.IsNullOrEmpty(companyName)) realm += companyName +&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/&amp;#34;&lt;/span&gt;;
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; realm;
-	}
-
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; GetRedirectUrl(&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; companySts, &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; realm, &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; returnUrl)
-	{
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; signInRequestMessage = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; SignInRequestMessage(&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Uri(companySts), realm)
-		{
-			Context = returnUrl,
-			HomeRealm = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;timvw&amp;#34;&lt;/span&gt;
-		};
-
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; signInRequestMessage.WriteQueryString();
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Here is some code that will redirect unauthenticated users to their respective STS (Eg: A user visiting ~/CompanyA/Default.aspx will be asked to authenticate at the STS linked to CompanyA.
+Notice that in the enterprise you typically have multiple applications that require this kind of behavior, so you would solve this by establishing trust between your app(s) and your STS + establish trust between your STS and the client STSes.)
+public class Global : HttpApplication { protected void wSFederationAuthenticationModule_RedirectingToIdentityProvider(object sender, RedirectingToIdentityProviderEventArgs e) { e.</description>
     </item>
     
   </channel>

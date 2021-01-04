@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Hibernate on Tim Van Wassenhove&#39;s blog</title>
+    <title>Hibernate on Tim Van Wassenhove</title>
     <link>/tags/Hibernate/</link>
-    <description>Recent content in Hibernate on Tim Van Wassenhove&#39;s blog</description>
+    <description>Recent content in Hibernate on Tim Van Wassenhove</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 18 Jun 2006 00:00:00 +0000</lastBuildDate><atom:link href="/tags/Hibernate/feed.xml" rel="self" type="application/rss+xml" />
@@ -13,32 +13,7 @@
       <pubDate>Sun, 18 Jun 2006 00:00:00 +0000</pubDate>
       
       <guid>/post/2006-06-18-a-tablemodel-for-entity-beans/</guid>
-      <description>
-        
-          &lt;p&gt;For my graduation project i needed a component that could display a list of &lt;a href=&#34;http://java.sun.com/j2ee/tutorial/1_3-fcs/doc/EJBConcepts4.html&#34;&gt;Entity Beans&lt;/a&gt;. I found that &lt;a href=&#34;http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/JTable.html&#34;&gt;JTable&lt;/a&gt; is such a component and with the help of custom &lt;a href=&#34;http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/table/TableCellRenderer.html&#34;&gt;TableCellRenderer&lt;/a&gt; and &lt;a href=&#34;http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/table/TableCellEditor.html&#34;&gt;TableCellEditor&lt;/a&gt; components i was able to customize the rendering to my needs. In order to get the data into the JTable i implemented a custom &lt;a href=&#34;http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/table/TableModel.html&#34;&gt;TableModel&lt;/a&gt;, namely &lt;a href=&#34;http://www.timvw.be/wp-content/code/java/EntityTableModel.java.txt&#34;&gt;EntityTableModel&lt;/a&gt;. Now i can easily generate a JTable that displays Entity Beans&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// fetch the elements we want to display
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Object&lt;span style=&#34;color:#f92672&#34;&gt;[]&lt;/span&gt; elements &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; employeeController
-	&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getEntityManager&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;createNamedQuery&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;findEmployees&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getResultList&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;toArray&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;// build map with column name, entity attribute pairs
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;HashMap&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;string&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; String&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; colAttrs &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; LinkedHashMap&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;string&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; String&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;();&lt;/span&gt;
-colAttrs&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;put&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;First Name&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;firstName&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
-colAttrs&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;put&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Last Name&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;lastName&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;// build collection with editable attributes
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Collection&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;string&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; editables &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; ArrayList&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;string&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;();&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;// initialise the tablemodel
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;TableModel tableModel &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; EntityTableModel&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;elements&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; colAttrs&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; editables&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;// initialise the table
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;JTable table &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; JTable&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;tableModel&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>For my graduation project i needed a component that could display a list of Entity Beans. I found that JTable is such a component and with the help of custom TableCellRenderer and TableCellEditor components i was able to customize the rendering to my needs. In order to get the data into the JTable i implemented a custom TableModel, namely EntityTableModel. Now i can easily generate a JTable that displays Entity Beans</description>
     </item>
     
     <item>
@@ -47,24 +22,9 @@ colAttrs&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&
       <pubDate>Mon, 12 Jun 2006 00:00:00 +0000</pubDate>
       
       <guid>/post/2006-06-12-couple-of-screenshots-of-my-graduation-project/</guid>
-      <description>
-        
-          &lt;p&gt;Here are a couple of screenshots of my graduation project i&amp;rsquo;ve been working on last couple of weeks. The GUI is built with Swing, the bussiness rules make extensive use of the Apache BeanUtils and Hibernate Validators packages and with PostgreSQL we have a solid database. Since it takes a while to load the EntityManagerFactory we&amp;rsquo;ve added a simple splashscreen:&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://www.timvw.be/wp-content/images/grad01.png&#34;&gt;&lt;img src=&#34;http://www.timvw.be/wp-content/images/gradtn01.png&#34; alt=&#34;splashscreen&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;The base screen displays a map with the tables in the restaurant. The color of the tables depends on the state of the visit (eg: just arrived, ordered some items, eating soup, eating dessert, paid the bill). There is also the possiblity to group tables. Offcourse you have the possibility to rearrange the tables and add/remove the maps:&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://www.timvw.be/wp-content/images/grad02.png&#34;&gt;&lt;img src=&#34;http://www.timvw.be/wp-content/images/gradtn02.png&#34; alt=&#34;groundplan restaurant&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://www.timvw.be/wp-content/images/grad03.png&#34;&gt;&lt;img src=&#34;http://www.timvw.be/wp-content/images/gradtn03.png&#34; alt=&#34;groundplan terrace&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;As soon as the waiter has choosen a visit he can add orders via an easy to use screen. He also has the possibility to add (pre-configured and/or custom) remarks to a given order. Each order is printed on the printer of the division that is responsible for the handling for the given type of menuitems:&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://www.timvw.be/wp-content/images/grad04.png&#34;&gt;&lt;img src=&#34;http://www.timvw.be/wp-content/images/gradtn04.png&#34; alt=&#34;order panel&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://www.timvw.be/wp-content/images/grad05.png&#34;&gt;&lt;img src=&#34;http://www.timvw.be/wp-content/images/gradtn05.png&#34; alt=&#34;remarks dialog&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;And least but not least, there is a screen that allows the waiter to generate, print and save one or more bills for each visit. If all ordered items have been paid, the visit goes into the PAID state:&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://www.timvw.be/wp-content/images/grad06.png&#34;&gt;&lt;img src=&#34;http://www.timvw.be/wp-content/images/gradtn06.png&#34; alt=&#34;billing panel&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Offcourse we&amp;rsquo;ve also written list/detail panels for all the tables this restaurant uses. Here are screenshots of the list and detail panel for the menuitems:&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://www.timvw.be/wp-content/images/grad07.png&#34;&gt;&lt;img src=&#34;http://www.timvw.be/wp-content/images/gradtn07.png&#34; alt=&#34;menuitem list&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://www.timvw.be/wp-content/images/grad08.png&#34;&gt;&lt;img src=&#34;http://www.timvw.be/wp-content/images/gradtn08.png&#34; alt=&#34;menuitem detail&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+      <description>Here are a couple of screenshots of my graduation project i&amp;rsquo;ve been working on last couple of weeks. The GUI is built with Swing, the bussiness rules make extensive use of the Apache BeanUtils and Hibernate Validators packages and with PostgreSQL we have a solid database. Since it takes a while to load the EntityManagerFactory we&amp;rsquo;ve added a simple splashscreen:
 
-        
-      </description>
+The base screen displays a map with the tables in the restaurant.</description>
     </item>
     
     <item>
@@ -73,61 +33,8 @@ colAttrs&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&
       <pubDate>Sat, 28 Jan 2006 00:00:00 +0000</pubDate>
       
       <guid>/post/2006-01-28-manytomany-relationships-with-java-persistence-jsr-220/</guid>
-      <description>
-        
-          &lt;p&gt;The scenario is as following: each table can have many reservations, and each reservation can span many tables. Here is our first trial&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Table.java
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@ManyToMany&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt; 
-  targetEntity&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Reservation&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt; 
-&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; List &lt;span style=&#34;color:#a6e22e&#34;&gt;getReservations&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{..}&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;// Reservation.java  
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@ManyToMany&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;   
-  targetEntity&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Table&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; List &lt;span style=&#34;color:#a6e22e&#34;&gt;getTables&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{..}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We end up with linktables tables_reservations and reservations_tables. This is not what we want. It should not be possible to remove a table when there are still reservations related to that table. We change our code so that table becomes the owner of the relationship.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Table.java
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@ManyToMany&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt; 
-  targetEntity&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Reservation&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; 
-  mappedBy&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tables&amp;#34;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; List &lt;span style=&#34;color:#a6e22e&#34;&gt;getReservations&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{..}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Allright, now we only have the linktable reservations_tables. Exactly the same as we experienced with &lt;a href=&#34;http://www.timvw.be/onetomany-relationships-with-java-persistence-jsr220/&#34;&gt;OneToMany&lt;/a&gt; relationships the cascading persist works when we persist a child (reservation). If we want the cascading persist to work when we persist a parent (table) we have to make sure that the child (reservation) has the parent set. An important difference is that we can not enforce this thus i advise not to use the cascade attribute on the owner (table).&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Table.java
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@ManyToMany&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;  
-  targetEntity&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Reservation&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;   
-  mappedBy&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tables&amp;#34;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; List &lt;span style=&#34;color:#a6e22e&#34;&gt;getReservations&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{..}&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;// Reservation.java
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@ManyToMany&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt; 
-  targetEntity&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Table&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;
-  cascade&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;CascadeType&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;PERSIST&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; List &lt;span style=&#34;color:#a6e22e&#34;&gt;getTables&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{..}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We decide to use the &lt;a href=&#34;http://www.hibernate.org/hib_docs/annotations/reference/en/html/validator.html&#34;&gt;Hibernate Validator&lt;/a&gt; classes to enforce that a reservation is associated with at least one table. For some reason the SizeValidator returns true if the value is null thus we also add a NotNullValidator:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Reservation.java
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; org.hibernate.validator.*&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
-&lt;span style=&#34;color:#a6e22e&#34;&gt;@ManyToMany&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt; 
-  targetEntity&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Table&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;  
-  cascade&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;CascadeType&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;PERSIST&lt;/span&gt; 
-&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; 
-&lt;span style=&#34;color:#a6e22e&#34;&gt;@NotNull&lt;/span&gt;
-&lt;span style=&#34;color:#a6e22e&#34;&gt;@Size&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;min&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; List &lt;span style=&#34;color:#a6e22e&#34;&gt;getTables&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;..&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Ok, this allows us to enforce that reservations are always associated with at least one table. We decide to allow cascading persist on the parent.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@ManyToMany&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;  
-targetEntity&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Reservation&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;  
-mappedBy&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tables&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;   
-cascade&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;CascadeType&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;PERSIST&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; List &lt;span style=&#34;color:#a6e22e&#34;&gt;getReservations&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{..}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>The scenario is as following: each table can have many reservations, and each reservation can span many tables. Here is our first trial
+// Table.java @ManyToMany( targetEntity=Reservation.class ) public List getReservations() {..} // Reservation.java @ManyToMany( targetEntity=Table.class ) public List getTables() {..} We end up with linktables tables_reservations and reservations_tables. This is not what we want. It should not be possible to remove a table when there are still reservations related to that table.</description>
     </item>
     
     <item>
@@ -136,70 +43,8 @@ cascade&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;CascadeType&lt;sp
       <pubDate>Wed, 25 Jan 2006 00:00:00 +0000</pubDate>
       
       <guid>/post/2006-01-25-onetomany-relationships-with-java-persistence-jsr220/</guid>
-      <description>
-        
-          &lt;p&gt;Let&amp;rsquo;s experiment a bit with &lt;a href=&#34;http://www.hibernate.org&#34;&gt;Hibernate&lt;/a&gt;. We want to model the tables employee and shift. Each employee has multiple shifts (and each shift belongs to an employee). We want an employee table and a shift table (which has the employee_id as a foreign key).&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Employee.java
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@OneToMany&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;targetEntity&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Shift&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; List &lt;span style=&#34;color:#a6e22e&#34;&gt;getShifts&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{...}&lt;/span&gt;
-&lt;span style=&#34;color:#75715e&#34;&gt;// Shift.java
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@ManyToOne&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; Employee &lt;span style=&#34;color:#a6e22e&#34;&gt;getEmployee&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{...}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The code above generates the following tables: employee, employee_shift and shift. Time to read the documentation and discover the mappedBy attribute.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Employee.java
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@OneToMany&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;targetEntity&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Shift&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; mappedBy&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;employee&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; List &lt;span style=&#34;color:#a6e22e&#34;&gt;getShifts&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{...}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Ok, now we get the tables we want. Let&amp;rsquo;s remove an employee that has shifts referencing him. An exception is thrown because of a foreign key constraint.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Employee.java
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@OneToMany&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;targetEntity&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Shift&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; mappedBy&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;employee&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; cascade&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;CascadeType&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;REMOVE&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; List &lt;span style=&#34;color:#a6e22e&#34;&gt;getShifts&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{...}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Ok, now we have cascading deletes working. Let&amp;rsquo;s try cascading inserts:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Employee.java
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@OneToMany&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;targetEntity&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Shift&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; mappedBy&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;employee&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; cascade&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;CascadeType&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ALL&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; List &lt;span style=&#34;color:#a6e22e&#34;&gt;getShifts&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{...}&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;// Main.java
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Employee employee &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Employee&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
-Shift shift &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Shift&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
-Vector shifts &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Vector&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
-shifts&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;add&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;shift&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
-employee&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;setShifts&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;shifts&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
-em&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;persist&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;employee&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;With the code above the foreign key of shift will NULL instead of the employee_id. According to the documentation it is expected behaviour that cascading inserts only work when the children are saved.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Employee.java
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@OneToMany&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;targetEntity&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Shift&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; mappedBy&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;employee&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; cascade&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;CascadeType&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ALL&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; List &lt;span style=&#34;color:#a6e22e&#34;&gt;getShifts&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{...}&lt;/span&gt;
-&lt;span style=&#34;color:#75715e&#34;&gt;// Main.java
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Employee employee &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Employee&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
-Shift shift &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Shift&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt; 
-shift&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;setEmployee&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;employee&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
-Vector shifts &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Vector&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
-shifts&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;add&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;shift&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
-employee&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;setShifts&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;shifts&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
-em&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;persist&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;employee&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It appears we can get cascading inserts to work as long as we do not forget to set the employee. We add a constraint so employee can not be null.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Shift.java
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@ManyToOne&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;@Column&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;nullable&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; Employee &lt;span style=&#34;color:#a6e22e&#34;&gt;getEmployee&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{...}&lt;/span&gt;
-&lt;span style=&#34;color:#75715e&#34;&gt;// Main.java
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Shift shift &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Shift&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
-em&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;persist&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;shift&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;WTF? I can persist a NULL reference anyway? The value for employee_id is allowed to be NULL? Have we found a bug? Let&amp;rsquo;s check the documentation:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Shift.java
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@ManyToOne&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;@JoinColumn&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;nullable&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; Employee &lt;span style=&#34;color:#a6e22e&#34;&gt;getEmployee&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{...}&lt;/span&gt;
-&lt;span style=&#34;color:#75715e&#34;&gt;// Main.java
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;Shift shift &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Shift&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt; 
-em&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;persist&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;shift&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Ok, now are getting somewhere. And exception is thrown if we try to persist a shift that references to an employee that does not exist in the database yet.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Shift.java
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@ManyToOne&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;cascade&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;CascadeType&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;PERSIST&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;@JoinColumn&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;nullable&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; Employee &lt;span style=&#34;color:#a6e22e&#34;&gt;getEmployee&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{...}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;CascadeType.ALL means that i want to cascade events on ALL events. My only requirements where that i cascade on PERSIST (insert) and on REMOVE (delete). So i need to change my annotation as following:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Employee.java
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@OneToMany&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;  
-  targetEntity&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Shift&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;  
-  mappedBy&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;employee&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;  
-  cascade&lt;span style=&#34;color:#f92672&#34;&gt;={&lt;/span&gt;     
-    CascadeType&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;PERSIST&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;    
-    CascadeType&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;REMOVE&lt;/span&gt;  
-  &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt; 
-&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; List &lt;span style=&#34;color:#a6e22e&#34;&gt;getShifts&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; shifts&lt;span style=&#34;color:#f92672&#34;&gt;;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Let&amp;rsquo;s experiment a bit with Hibernate. We want to model the tables employee and shift. Each employee has multiple shifts (and each shift belongs to an employee). We want an employee table and a shift table (which has the employee_id as a foreign key).
+// Employee.java @OneToMany(targetEntity=Shift.class) public List getShifts() {...} // Shift.java @ManyToOne public Employee getEmployee() {...} The code above generates the following tables: employee, employee_shift and shift. Time to read the documentation and discover the mappedBy attribute.</description>
     </item>
     
   </channel>

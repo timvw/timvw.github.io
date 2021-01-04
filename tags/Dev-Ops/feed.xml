@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Dev-Ops on Tim Van Wassenhove&#39;s blog</title>
+    <title>Dev-Ops on Tim Van Wassenhove</title>
     <link>/tags/Dev-Ops/</link>
-    <description>Recent content in Dev-Ops on Tim Van Wassenhove&#39;s blog</description>
+    <description>Recent content in Dev-Ops on Tim Van Wassenhove</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 15 Aug 2014 00:00:00 +0000</lastBuildDate><atom:link href="/tags/Dev-Ops/feed.xml" rel="self" type="application/rss+xml" />
@@ -13,40 +13,8 @@
       <pubDate>Fri, 15 Aug 2014 00:00:00 +0000</pubDate>
       
       <guid>/post/2014-08-15-deploying-a-cloud-service-to-azure-with-octopus/</guid>
-      <description>
-        
-          &lt;p&gt;Currently Octopus has limited support to deploy a Cloud Service on Azure. A typical use-case is that you need a different Web.Config file per environment. Simply add the Web.Environment.Config files to your NuGet package and use the following &lt;a href=&#34;https://gist.github.com/timvw/4e32226dd1ff149b5eab.js&#34;&gt;PreDeploy.ps1&lt;/a&gt; script:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Load unzip support&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;[Reflection.Assembly]&lt;/span&gt;::LoadWithPartialName(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;System.IO.Compression.FileSystem&amp;#34;&lt;/span&gt;) | Out-Null
-&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; Unzip($zipFile, $destination)
-{
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;If&lt;/span&gt; (Test-Path $destination){	  
-		Remove-Item $destination -Recurse | Out-Null
-	}
-	  
-	New-Item -ItemType directory -Force -Path $destination | Out-Null  
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;[System.IO.Compression.ZipFile]&lt;/span&gt;::ExtractToDirectory($zipFile, $destination) | Out-Null
-}
-
-&lt;span style=&#34;color:#75715e&#34;&gt;# Unzip deployment package  &lt;/span&gt;
-$CsPkg = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Customer.Project.Api.Azure.cspkg&amp;#34;&lt;/span&gt;
-Unzip $CsPkg &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;azurePackage&amp;#34;&lt;/span&gt;
-Unzip (Get-Item (join-path -path &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;azurePackage&amp;#34;&lt;/span&gt; -childPath &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;*.cssx&amp;#34;&lt;/span&gt;)) &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;website&amp;#34;&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;# Perform replacements, eg: replace Web.Config  &lt;/span&gt;
-$ConfigFileToUse = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Web.&amp;#34;&lt;/span&gt; + $OctopusParameters[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Octopus.Environment.Name&amp;#34;&lt;/span&gt;] + &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;.config&amp;#34;&lt;/span&gt;
-Copy-Item -Path $ConfigFileToUse -Destination &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;website/sitesroot/0/Web.Config&amp;#34;&lt;/span&gt; -Force
-
-&lt;span style=&#34;color:#75715e&#34;&gt;# Repackage  &lt;/span&gt;
-$role = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Customer.Project.Api&amp;#34;&lt;/span&gt;
-$contentPath = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;website\approot&amp;#34;&lt;/span&gt;
-$rolePath = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;website/approot&amp;#34;&lt;/span&gt;
-$webPath = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;website/sitesroot/0&amp;#34;&lt;/span&gt;
-$cspackPath = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;C:\Program Files\Microsoft SDKs\Windows Azure\.NET SDK\v2.2\bin\cspack.exe&amp;#34;&lt;/span&gt;
-&amp;amp; $cspackPath &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ServiceDefinition.csdef&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/out:$CsPkg&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/role:$role;$rolePath;Customer.Project.Api.dll&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/sites:$role;Web;$webPath&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/sitePhysicalDirectories:$role;Web;$webPath&amp;#34;&lt;/span&gt;  
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Currently Octopus has limited support to deploy a Cloud Service on Azure. A typical use-case is that you need a different Web.Config file per environment. Simply add the Web.Environment.Config files to your NuGet package and use the following PreDeploy.ps1 script:
+# Load unzip support [Reflection.Assembly]::LoadWithPartialName(&amp;#34;System.IO.Compression.FileSystem&amp;#34;) | Out-Null function Unzip($zipFile, $destination) { If (Test-Path $destination){	Remove-Item $destination -Recurse | Out-Null } New-Item -ItemType directory -Force -Path $destination | Out-Null [System.IO.Compression.ZipFile]::ExtractToDirectory($zipFile, $destination) | Out-Null } # Unzip deployment package  $CsPkg = &amp;#34;Customer.</description>
     </item>
     
   </channel>

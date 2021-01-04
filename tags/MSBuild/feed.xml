@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>MSBuild on Tim Van Wassenhove&#39;s blog</title>
+    <title>MSBuild on Tim Van Wassenhove</title>
     <link>/tags/MSBuild/</link>
-    <description>Recent content in MSBuild on Tim Van Wassenhove&#39;s blog</description>
+    <description>Recent content in MSBuild on Tim Van Wassenhove</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 12 Mar 2011 00:00:00 +0000</lastBuildDate><atom:link href="/tags/MSBuild/feed.xml" rel="self" type="application/rss+xml" />
@@ -13,60 +13,9 @@
       <pubDate>Sat, 12 Mar 2011 00:00:00 +0000</pubDate>
       
       <guid>/post/2011-03-12-some-tips-for-net-developers-using-git-on-cygwin/</guid>
-      <description>
-        
-          &lt;p&gt;Here are some tips that i want to share with fellow .Net developers that use git on cygwin.&lt;/p&gt;
-&lt;p&gt;First of all i defined some aliases in my ~/.bashrc:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# open explorer in the current working directory &lt;/span&gt;
-alias explorer&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;explorer.exe &amp;#34;\`cygpath -aw \&amp;#34;$PWD\&amp;#34;\`&amp;#34;&amp;#39;&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;# invoke MSBuild&lt;/span&gt;
-alias msbuild&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/cygdrive/c/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe&amp;amp;&amp;#39;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Because i do not like the TFS source control story i use &lt;a href=&#34;https://github.com/spraints/git-tfs&#34;&gt;git-tfs&lt;/a&gt;. As a .Net developer you want to add the following to your .git/info/exclude file:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#OS junk files&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Tt&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;humbs.db
-*.DS_Store
-&lt;span style=&#34;color:#75715e&#34;&gt;#Visual Studio files  &lt;/span&gt;
-*.&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Oo&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;bj 
-*.exe 
-*.pdb
-*.user
-*.aps 
-*.pch 
-*.vspscc 
-*.vssscc 
-*_i.c 
-*_p.c 
-*.ncb 
-*.suo 
-*.tlb
-*.tlh
-*.bak
-*.&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Cc&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;ache
-*.ilk 
-*.log 
-*.lib 
-*.sbr 
-*.sdf 
-ipch/ 
-obj/ 
-&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Bb&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;in
-&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Dd&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;ebug*/
-&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Rr&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;elease*/
-Ankh.NoLoad
-&lt;span style=&#34;color:#75715e&#34;&gt;#Tooling &lt;/span&gt;
-_ReSharper*/ 
-*.resharper
-&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Tt&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;est&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Rr&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;esult*
-&lt;span style=&#34;color:#75715e&#34;&gt;#Subversion files &lt;/span&gt;
-.svn
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Whenever i work online i usually run these two commands consecutively: git -a -m &amp;lsquo;commit message&amp;rsquo; and git-tfs checkin -m &amp;lsquo;commit message&amp;rsquo;. Here is a small ~/bin/commit script that combines these:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#!/bin/bash
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;git commit -a -m &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;$1&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;;
-git-tfs checkin -m &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;$1&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Here are some tips that i want to share with fellow .Net developers that use git on cygwin.
+First of all i defined some aliases in my ~/.bashrc:
+# open explorer in the current working directory  alias explorer=&amp;#39;explorer.exe &amp;#34;\`cygpath -aw \&amp;#34;$PWD\&amp;#34;\`&amp;#34;&amp;#39; # invoke MSBuild alias msbuild=&amp;#39;/cygdrive/c/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe&amp;amp;&amp;#39; Because i do not like the TFS source control story i use git-tfs. As a .Net developer you want to add the following to your .</description>
     </item>
     
     <item>
@@ -75,21 +24,8 @@ git-tfs checkin -m &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&
       <pubDate>Sun, 07 Nov 2010 00:00:00 +0000</pubDate>
       
       <guid>/post/2010-11-07-build-your-solution-with-visual-studio-from-msbuild/</guid>
-      <description>
-        
-          &lt;p&gt;Unfortunately MSBuild and &lt;a href=&#34;http://bidshelper.codeplex.com/&#34;&gt;BIDS Helper&lt;/a&gt; are not able to build an .asdatabase from our Analysis Services project (.dwproj). Here is a task which invokes Visual Studio to build such a solution:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;Target&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Name=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DevEnvBuild&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;Error&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Condition=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#39;$(SolutionFile)&amp;#39;==&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Text=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Missing SolutionFile&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;PropertyGroup&amp;gt;&lt;/span&gt;
-		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;DevEnvTool&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Condition=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#39;$(DevEnvTool)&amp;#39;==&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/DevEnvTool&amp;gt;&lt;/span&gt;
-		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;DevEnvSwitch&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Condition=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#39;$(DevEnvSwitch)&amp;#39;==&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;Build&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/DevEnvSwitch&amp;gt;&lt;/span&gt;
-		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;DevEnvBuildCommand&amp;gt;&lt;/span&gt;&amp;#34;$(DevEnvTool)&amp;#34; &amp;#34;$(SolutionFile)&amp;#34; /$(DevEnvSwitch)&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/DevEnvBuildCommand&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/PropertyGroup&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;Exec&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Command=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$(DevEnvBuildCommand)&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/Target&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Unfortunately MSBuild and BIDS Helper are not able to build an .asdatabase from our Analysis Services project (.dwproj). Here is a task which invokes Visual Studio to build such a solution:
+&amp;lt;Target Name=&amp;#34;DevEnvBuild&amp;#34;&amp;gt; &amp;lt;Error Condition=&amp;#34;&amp;#39;$(SolutionFile)&amp;#39;==&amp;#34;&amp;#34; Text=&amp;#34;Missing SolutionFile&amp;#34; /&amp;gt; &amp;lt;PropertyGroup&amp;gt; &amp;lt;DevEnvTool Condition=&amp;#34;&amp;#39;$(DevEnvTool)&amp;#39;==&amp;#34;&amp;#34;&amp;gt;C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe&amp;lt;/DevEnvTool&amp;gt; &amp;lt;DevEnvSwitch Condition=&amp;#34;&amp;#39;$(DevEnvSwitch)&amp;#39;==&amp;#34;&amp;#34;&amp;gt;Build&amp;lt;/DevEnvSwitch&amp;gt; &amp;lt;DevEnvBuildCommand&amp;gt;&amp;#34;$(DevEnvTool)&amp;#34; &amp;#34;$(SolutionFile)&amp;#34; /$(DevEnvSwitch)&amp;lt;/DevEnvBuildCommand&amp;gt; &amp;lt;/PropertyGroup&amp;gt; &amp;lt;Exec Command=&amp;#34;$(DevEnvBuildCommand)&amp;#34; /&amp;gt; &amp;lt;/Target&amp;gt; </description>
     </item>
     
     <item>
@@ -98,18 +34,8 @@ git-tfs checkin -m &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&
       <pubDate>Sun, 07 Nov 2010 00:00:00 +0000</pubDate>
       
       <guid>/post/2010-11-07-invoke-powershell-script-from-msbuild/</guid>
-      <description>
-        
-          &lt;p&gt;Here is a small MSBuild target that allows you to invoke a PowerShell script, eg: powershell.exe &amp;amp; &amp;lsquo;script.ps1&amp;rsquo; -SomeParam &amp;lsquo;x&amp;rsquo;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;Target&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Name=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;InvokePowerShell&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;PropertyGroup&amp;gt;&lt;/span&gt;
-		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;PowerShellCommand&amp;gt;&lt;/span&gt;&amp;#34;$(PowerShellTool)&amp;#34; &amp;#34;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;amp;&lt;/span&gt; &amp;#39;$(ScriptFile)&amp;#39; -SomeParam &amp;#39;$(SomeParam)&amp;#39; &amp;#34;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/PowerShellCommand&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/PropertyGroup&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;Exec&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Command=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$(PowerShellCommand)&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/Target&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Here is a small MSBuild target that allows you to invoke a PowerShell script, eg: powershell.exe &amp;amp; &amp;lsquo;script.ps1&amp;rsquo; -SomeParam &amp;lsquo;x&amp;rsquo;
+&amp;lt;Target Name=&amp;#34;InvokePowerShell&amp;#34;&amp;gt; &amp;lt;PropertyGroup&amp;gt; &amp;lt;PowerShellCommand&amp;gt;&amp;#34;$(PowerShellTool)&amp;#34; &amp;#34;&amp;amp; &amp;#39;$(ScriptFile)&amp;#39; -SomeParam &amp;#39;$(SomeParam)&amp;#39; &amp;#34;&amp;lt;/PowerShellCommand&amp;gt; &amp;lt;/PropertyGroup&amp;gt; &amp;lt;Exec Command=&amp;#34;$(PowerShellCommand)&amp;#34; /&amp;gt; &amp;lt;/Target&amp;gt; </description>
     </item>
     
     <item>
@@ -118,50 +44,10 @@ git-tfs checkin -m &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&
       <pubDate>Wed, 25 Aug 2010 00:00:00 +0000</pubDate>
       
       <guid>/post/2010-08-25-making-the-templatefiletask-easier-to-use/</guid>
-      <description>
-        
-          &lt;p&gt;One of the disadvantages of the TemplateFile task (&lt;a href=&#34;http://msbuildtasks.tigris.org/&#34;&gt;msbuildtasks&lt;/a&gt;) is the fact that it requires a lot of typing to define template values&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;ItemGroup&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Condition=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; &amp;#39;$(ConfigurationEnvironment)&amp;#39;==&amp;#39;build&amp;#39; &amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;Tokens&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Include=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;a&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;ReplacementValue&amp;gt;&lt;/span&gt;localhost&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/ReplacementValue&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/Tokens&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;Tokens&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Include=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;b&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;ReplacementValue&amp;gt;&amp;lt;mynode/&amp;gt;&amp;lt;/ReplacementValue&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/Tokens&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/ItemGroup&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here is a format proposition to make this a lot more finger friendly&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;configuration&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;variables&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;env=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;build&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;x&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;name=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;a&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;localhost&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/x&amp;gt;&lt;/span&gt;
-		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;x&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;name=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;b&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;lt;mynode/&amp;gt;&amp;lt;/x&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/variables&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/configuration&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here is the msbuild script we need to achieve that&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;PropertyGroup&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;ConfigurationFile&amp;gt;&lt;/span&gt;configuration.xml&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/ConfigurationFile&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;ConfigurationEnvironment&amp;gt;&lt;/span&gt;build&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/ConfigurationEnvironment&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/PropertyGroup&amp;gt;&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- Retreive all template values for the specific environment --&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;XmlQuery&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;XmlFileName=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$(ConfigurationFile)&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;XPath =&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;//variables[@env=&amp;#39;$(ConfigurationEnvironment)&amp;#39;]/*&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;Output&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;TaskParameter=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Values&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ItemName=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Values&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/XmlQuery&amp;gt;&lt;/span&gt;
-
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;--&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;Construct&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;@Tokens&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;--&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;ItemGroup&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;Tokens&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Include=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;%(Values.name)&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;ReplacementValue&amp;gt;&lt;/span&gt;%(Values._innerxml)&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/ReplacementValue&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/Tokens&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/ItemGroup&amp;gt;&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- Generate the configuration files --&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;Message&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Text=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Available variables:&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;Message&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Text=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;====================&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;Message&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Text=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;%(Tokens.Identity): %(Tokens.ReplacementValue)&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Happy coding!&lt;/p&gt;
-
-        
-      </description>
+      <description>One of the disadvantages of the TemplateFile task (msbuildtasks) is the fact that it requires a lot of typing to define template values
+&amp;lt;ItemGroup Condition= &amp;#34; &amp;#39;$(ConfigurationEnvironment)&amp;#39;==&amp;#39;build&amp;#39; &amp;#34;&amp;gt; &amp;lt;Tokens Include=&amp;#34;a&amp;#34;&amp;gt; &amp;lt;ReplacementValue&amp;gt;localhost&amp;lt;/ReplacementValue&amp;gt; &amp;lt;/Tokens&amp;gt; &amp;lt;Tokens Include=&amp;#34;b&amp;#34;&amp;gt; &amp;lt;ReplacementValue&amp;gt;&amp;lt;mynode/&amp;gt;&amp;lt;/ReplacementValue&amp;gt; &amp;lt;/Tokens&amp;gt; &amp;lt;/ItemGroup&amp;gt; Here is a format proposition to make this a lot more finger friendly
+&amp;lt;configuration&amp;gt; &amp;lt;variables env=&amp;#34;build&amp;#34;&amp;gt; &amp;lt;x name=&amp;#34;a&amp;#34;&amp;gt;localhost&amp;lt;/x&amp;gt; &amp;lt;x name=&amp;#34;b&amp;gt;&amp;lt;mynode/&amp;gt;&amp;lt;/x&amp;gt; &amp;lt;/variables&amp;gt; &amp;lt;/configuration&amp;gt; Here is the msbuild script we need to achieve that
+&amp;lt;PropertyGroup&amp;gt; &amp;lt;ConfigurationFile&amp;gt;configuration.</description>
     </item>
     
     <item>
@@ -170,31 +56,8 @@ git-tfs checkin -m &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&
       <pubDate>Wed, 25 Aug 2010 00:00:00 +0000</pubDate>
       
       <guid>/post/2010-08-25-what-i-dislike-about-the-web-config-transformation-in-vs2010/</guid>
-      <description>
-        
-          &lt;p&gt;There are a couple of things that i strongly dislike about the &lt;a href=&#34;http://blogs.msdn.com/b/webdevtools/archive/2009/05/04/web-deployment-web-config-transformation.aspx&#34;&gt;Web.config transformation in VS2010&lt;/a&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Only works with XML files (eg: Can&amp;rsquo;t be used to generate a release notes.txt file)&lt;/li&gt;
-&lt;li&gt;&lt;!-- raw HTML omitted --&gt;Does not seem to support externalized sections, eg: log4net.config in a separate file&lt;!-- raw HTML omitted --&gt;&lt;/li&gt;
-&lt;li&gt;&lt;!-- raw HTML omitted --&gt;No support to copy/paste transform files&lt;!-- raw HTML omitted --&gt;&lt;/li&gt;
-&lt;li&gt;Only works when Visual Studio 2010 is installed (And i am still not convinced a build server should have this).&lt;/li&gt;
-&lt;li&gt;Ties environment to build configuration&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;Lesson learned: Don&amp;rsquo;t trust your co-workers, always double-check!&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Having multiple transformations is easy-peasy, just invoke the TransformXml task for all your config files and make sure your transformation files are correct. For log4net this would look like&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;log4net&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;xmlns:xdt=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://schemas.microsoft.com/XML-Document-Transform&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;root&amp;gt;&lt;/span&gt;
-		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;level&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;value=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ERROR&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;xdt:Transform=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Replace&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/root&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/log4net&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
-&lt;li&gt;The support for copy/paste can be achieved by removing the DependentUpon tag in your proj file (At the cost that you do not have the + sign in solution explorer which &amp;lsquo;hides&amp;rsquo; the transforms files)&lt;/li&gt;
-&lt;/ul&gt;
-
-        
-      </description>
+      <description>There are a couple of things that i strongly dislike about the Web.config transformation in VS2010
+ Only works with XML files (eg: Can&amp;rsquo;t be used to generate a release notes.txt file) Does not seem to support externalized sections, eg: log4net.config in a separate file No support to copy/paste transform files Only works when Visual Studio 2010 is installed (And i am still not convinced a build server should have this).</description>
     </item>
     
     <item>
@@ -203,17 +66,8 @@ git-tfs checkin -m &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&
       <pubDate>Tue, 17 Aug 2010 00:00:00 +0000</pubDate>
       
       <guid>/post/2010-08-17-clean-templatefile-hack/</guid>
-      <description>
-        
-          &lt;p&gt;A while ago i wrote about a &lt;a href=&#34;http://www.timvw.be/clever-templatefile-hack/&#34;&gt;Clever TemplateFile hack&lt;/a&gt; to use some xml block as ReplacementValue. Today i realized there is a clean way to achieve this by defining the value as &lt;a href=&#34;http://www.w3schools.com/xml/xml_cdata.asp&#34;&gt;CDATA&lt;/a&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;TemplateTokens&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Include=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;mex&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;ReplacementValue&amp;gt;&lt;/span&gt;
-		&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;![CDATA[&amp;lt;endpoint address=&amp;#34;mex&amp;#34; binding=&amp;#34;mexHttpBinding&amp;#34; contract=&amp;#34;IMetadataExchange&amp;#34; /&amp;gt;]]&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/ReplacementValue&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/TemplateTokens&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>A while ago i wrote about a Clever TemplateFile hack to use some xml block as ReplacementValue. Today i realized there is a clean way to achieve this by defining the value as CDATA
+&amp;lt;TemplateTokens Include=&amp;#34;mex&amp;#34;&amp;gt; &amp;lt;ReplacementValue&amp;gt; &amp;lt;![CDATA[&amp;lt;endpoint address=&amp;#34;mex&amp;#34; binding=&amp;#34;mexHttpBinding&amp;#34; contract=&amp;#34;IMetadataExchange&amp;#34; /&amp;gt;]]&amp;gt; &amp;lt;/ReplacementValue&amp;gt; &amp;lt;/TemplateTokens&amp;gt; </description>
     </item>
     
     <item>
@@ -222,58 +76,8 @@ git-tfs checkin -m &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&
       <pubDate>Sat, 26 Jun 2010 00:00:00 +0000</pubDate>
       
       <guid>/post/2010-06-26-convention-over-configuration-with-msbuild/</guid>
-      <description>
-        
-          &lt;p&gt;A while ago i blogged that i was using the TemplateFile task from the &amp;lt;a hrefhttp://msbuildtasks.tigris.org/&amp;quot;&amp;gt;MSBuild Community Tasks Project&lt;!-- raw HTML omitted --&gt; to generate configuration files. Each project that required templating would have modified it&amp;rsquo;s csproj file as following&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;Other similar extension points exist, see Microsoft.Common.targets. --&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;import&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Project=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$(MSBuildProjectDirectory)\config.msbuild&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;target&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Name=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;BeforeBuild&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;callTarget&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Targets=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;GenerateConfigurationFiles&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/target&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And each of these config.msbuild files looked as following&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;templateFile&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Template=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;web.template.config&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;OutputFileName=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;web.config&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Tokens=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;@(TemplateTokens)&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;templateFile&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Template=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Config\WcfClients.config&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;OutputFileName=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Config\WcfClients.config&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Tokens=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;@(TemplateTokens)&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As you can notice the convention here is that each template file has &amp;lsquo;.template.&amp;rsquo; in it&amp;rsquo;s name, and the name of an output file is the template file name without &amp;lsquo;.template.&amp;rsquo;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- validate input --&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;error&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Condition=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#39;$(SourceFile)&amp;#39;==&amp;#39;&amp;#39;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Text=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Missing SourceFile&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- calculate destination file --&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;regexReplace&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Input=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$(SourceFile)&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Expression=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;(\.template)\.&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Replacement=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;.&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Count=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;output&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;TaskParameter=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Output&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PropertyName=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DestinationFile&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/regexReplace&amp;gt;&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- generate file --&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;templateFile&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Template=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$(SourceFile)&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;OutputFileName=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$(DestinationFile)&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Tokens=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;@(TemplateTokens)&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now that we can do it for one file, we can do it for many files too&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- valide input --&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;error&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Condition=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#39;$(SourceDir)&amp;#39;==&amp;#39;&amp;#39;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Text=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Missing SourceDir&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- find all template files --&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;itemGroup&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;templateFiles&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Include=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$(SourceDir)\*\*\\*.template.\*&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Exlude=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$(SourceDir)\\*\*\\*.svn*&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/itemGroup&amp;gt;&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- process each template file --&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;msbuild&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Projects=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$(MSBuildProjectFile)&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Targets=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ProcessTemplate&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Properties=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;SourceFile=%(TemplateFiles.FullPath)&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After these core improvements we wrote a common.proj.targets file as following&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- import global variables --&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;import&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Project=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$(MSBuildThisFileDirectory)\configuration.proj&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;propertyGroup&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;buildDependsOn&amp;gt;&lt;/span&gt;CommonBeforeBuild;$(BuildDependsOn);CommonAfterBuild&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/buildDependsOn&amp;gt;&lt;/span&gt; 
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/propertyGroup&amp;gt;&lt;/span&gt; 
-
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;target&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Name=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;CommonBeforeBuild&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;msbuild&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Projects=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$(CommonTargetsPath)&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Targets=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ProcessTemplates&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Properties=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;SourceDir=$(MSBuildProjectDirectory)&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/target&amp;gt;&lt;/span&gt;
-
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;target&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Name=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;CommonAfterBuild&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!--&amp;lt;msbuild Projects=&amp;#34;$(CommonBuildTargetsPath)&amp;#34; Targets=&amp;#34;PEVerify&amp;#34; Properties=&amp;#34;SourceFile=$(TargetPath)&amp;#34; /&amp;gt;--&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/target&amp;gt;&lt;/span&gt; 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now we only need to import our common.proj.targets file in projects that have template files and focus on real business problems ;)&lt;/p&gt;
-
-        
-      </description>
+      <description>A while ago i blogged that i was using the TemplateFile task from the &amp;lt;a hrefhttp://msbuildtasks.tigris.org/&amp;quot;&amp;gt;MSBuild Community Tasks Projectto generate configuration files. Each project that required templating would have modified it&amp;rsquo;s csproj file as following
+&amp;lt;!-- To modify your build process, add your task inside one of the targets below and uncomment it. Other similar extension points exist, see Microsoft.Common.targets. --&amp;gt; &amp;lt;import Project=&amp;#34;$(MSBuildProjectDirectory)\config.msbuild&amp;#34; /&amp;gt; &amp;lt;target Name=&amp;#34;BeforeBuild&amp;#34;&amp;gt; &amp;lt;callTarget Targets=&amp;#34;GenerateConfigurationFiles&amp;#34; /&amp;gt; &amp;lt;/target&amp;gt; And each of these config.</description>
     </item>
     
     <item>
@@ -282,45 +86,7 @@ git-tfs checkin -m &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&
       <pubDate>Sat, 26 Jun 2010 00:00:00 +0000</pubDate>
       
       <guid>/post/2010-06-26-setting-up-a-self-contained-build/</guid>
-      <description>
-        
-          &lt;p&gt;Here is something you may have experienced already: As a newcomer on an existing project, you check out the code from source-control and discover that the build is broken. When you ask around no-one else seems to have that problem but a helpful collegue is kind enough to tell you that you can find the installers for the missing dependencies at location X (Let&amp;rsquo;s not even mention the places where those installers are not available *sigh*).&lt;/p&gt;
-&lt;p&gt;Anway, in order to avoid such a situation you could organize your solution in such a way that all the dependencies (libraries and tools) are part of it. A typical folder structure would look like this:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://www.timvw.be/wp-content/images/solution_tools.png&#34; alt=&#34;screenshot of typical solution folder organization&#34;&gt;&lt;/p&gt;
-&lt;p&gt;In order to get those files out of the installer and in your solution (instead of installed under %Program Files%) you could do an administrative install of the msi (eg: msiexec /a Blah.msi) but i find it easier to use &lt;a href=&#34;http://www.qwerty-msi.com/&#34;&gt;Qwerty.Msi&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Here are a couple of settings you may want to add to your build configuration in order to make your self-contained build work&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- Configure solution directories --&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;basePath&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Condition=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#39;$(BasePath)&amp;#39;==&amp;#39;&amp;#39;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;$(MSBuildThisFileDirectory)..&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/basePath&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;buildPath&amp;gt;&lt;/span&gt;$(BasePath)\build&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/buildPath&amp;gt;&amp;lt;sourcePath&amp;gt;&lt;/span&gt;$(BasePath)\src&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/sourcePath&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;toolsPath&amp;gt;&lt;/span&gt;$(BasePath)\tools&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/toolsPath&amp;gt;&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- Configure tool directories --&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- the ending \ is required for the extension pack --&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;extensionTasksPath&amp;gt;&lt;/span&gt;$(ToolsPath)\MSBuild.ExtensionPack\&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/extensionTasksPath&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;msbuildCommunityTasksPath&amp;gt;&lt;/span&gt;$(ToolsPath)\MSBuildCommunityTasks&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/msbuildCommunityTasksPath&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;ilmergeToolPath&amp;gt;&lt;/span&gt;$(ToolsPath)\ILMerge&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/ilmergeToolPath&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;svnToolPath&amp;gt;&lt;/span&gt;$(ToolsPath)\Subversion\bin&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/svnToolPath&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- wix will use this property to determine the location of other files --&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;wixToolPath&amp;gt;&lt;/span&gt;$(ToolsPath)\Wix&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/wixToolPath&amp;gt;&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- Configure target file paths --&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;commonTargetsPath&amp;gt;&lt;/span&gt;$(BuildPath)\common.targets&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/commonTargetsPath&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;msbuildCommunityTasksTargetsPath&amp;gt;&lt;/span&gt;$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/msbuildCommunityTasksTargetsPath&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;extensionPackTargetsPath&amp;gt;&lt;/span&gt;$(ExtensionTasksPath)MSBuild.ExtensionPack.tasks&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/extensionPackTargetsPath&amp;gt;&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- Configure WIX --&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;wixTargetsPath&amp;gt;&lt;/span&gt;$(WixToolPath)\Wix.targets&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/wixTargetsPath&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;wixTasksPath&amp;gt;&lt;/span&gt;$(WixToolPath)\WixTasks.dll&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/wixTasksPath&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;wixTargetsPath&amp;gt;&lt;/span&gt;$(WixToolPath)\Wix.targets&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/wixTargetsPath&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;wixTasksPath&amp;gt;&lt;/span&gt;$(WixToolPath)\WixTasks.dll&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/wixTasksPath&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;luxTargetsPath&amp;gt;&lt;/span&gt;$(WixToolPath)\Lux.targets&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/luxTargetsPath&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;luxTasksPath&amp;gt;&lt;/span&gt;$(WixToolPath)\LuxTasks.dll&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/luxTasksPath&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;luxTargetsPath&amp;gt;&lt;/span&gt;$(WixToolPath)\Lux.targets&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/luxTargetsPath&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;luxTasksPath&amp;gt;&lt;/span&gt;$(WixToolPath)\LuxTasks.dll&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/luxTasksPath&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;With this solution in place the next &amp;lsquo;new guy&amp;rsquo; does not have to waste time trying to figure out where those dependencies are ;)&lt;/p&gt;
-
-        
-      </description>
+      <description>Here is something you may have experienced already: As a newcomer on an existing project, you check out the code from source-control and discover that the build is broken. When you ask around no-one else seems to have that problem but a helpful collegue is kind enough to tell you that you can find the installers for the missing dependencies at location X (Let&amp;rsquo;s not even mention the places where those installers are not available *sigh*).</description>
     </item>
     
     <item>
@@ -329,62 +95,9 @@ git-tfs checkin -m &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&
       <pubDate>Fri, 12 Feb 2010 00:00:00 +0000</pubDate>
       
       <guid>/post/2010-02-12-clever-templatefile-hack/</guid>
-      <description>
-        
-          &lt;p&gt;In my current project i use TemplateFileTask (&lt;a href=&#34;http://msbuildtasks.tigris.org/&#34;&gt;MSBuild Community Tasks Project&lt;/a&gt;) to generate configuration files. I ran into the problem that i don&amp;rsquo;t want to expose a MEX endpoint in production. This is my initial template file&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;service&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;behaviorconfiguration=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DemoBehavior&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;name=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DemoService.FileService&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;endpoint&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;address=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;binding=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ws2007HttpBinding&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;contract=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DemoService.IFileService&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-	${MexEndpoint}
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/service&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And here is my initial msbuild task&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;Project&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ToolsVersion=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;3.5&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;dDfaultTargets=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;GenerateConfigFiles&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;xmlns=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://schemas.microsoft.com/developer/msbuild/2003&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;Import&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Project=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;Target&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Name=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;GenerateConfigFiles&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;PropertyGroup&amp;gt;&lt;/span&gt;
-			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;MexEndpoint&amp;gt;&lt;/span&gt;
-				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;endpoint&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;address=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;mex&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;binding=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;mexHttpBinding&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;contract=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;IMetadataExchange&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/MexEndpoint&amp;gt;&lt;/span&gt;
-		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/PropertyGroup&amp;gt;&lt;/span&gt;
-
-		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;PropertyGroup&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Condition=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; &amp;#39;$(Env)&amp;#39;==&amp;#39;Production&amp;#39; &amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;MexEndpoint&amp;gt;&amp;lt;/MexEndpoint&amp;gt;&lt;/span&gt;
-		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/PropertyGroup&amp;gt;&lt;/span&gt;
-
-		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;ItemGroup&amp;gt;&lt;/span&gt;
-			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;Tokens&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Include=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;MexEndpoint&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;ReplacementValue&amp;gt;&lt;/span&gt;$(MexEndpoint)&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/ReplacementValue&amp;gt;&lt;/span&gt;
-			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/Tokens&amp;gt;&lt;/span&gt;
-		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/ItemGroup&amp;gt;&lt;/span&gt;
-
-		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;TemplateFile&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Template=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Web.template.config&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;OutputFileName=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Web.config&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Tokens=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;@(Tokens)&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/Target&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/Project&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This results in the following configuration file: (WCF does not like the xml namespace declaration):&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;service&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;behaviorconfiguration=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DemoBehavior&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;name=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DemoService.FileService&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;endpoint&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;address=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;binding=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ws2007HttpBinding&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;contract=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DemoService.IFileService&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;endpoint&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;address=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;mex&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;binding=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;mexHttpBinding&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;contract=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;IMetadataExchange&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;xmlns=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://schemas.microsoft.com/developer/msbuild/2003&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/service&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;I noticed that a smart collegue of mine came up with the following template file:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;service&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;behaviorconfiguration=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DemoBehavior&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;name=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DemoService.FileService&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;endpoint&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;address=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;binding=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ws2007HttpBinding&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;contract=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DemoService.IFileService&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;lt;&lt;/span&gt;${MexBegin}endpoint address=&amp;#34;mex&amp;#34; binding=&amp;#34;mexHttpBinding&amp;#34; contract=&amp;#34;IMetadataExchange&amp;#34; /${MexEnd}&amp;gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/service&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And this is how he defines the MexBegin and MexEnd properties in msbuild:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;PropertyGroup&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;MexBegin&amp;gt;&amp;lt;/MexBegin&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;MexEnd&amp;gt;&amp;lt;/MexEnd&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/PropertyGroup&amp;gt;&lt;/span&gt;
-
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;PropertyGroup&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Condition=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; &amp;#39;$(Env)&amp;#39;==&amp;#39;Production&amp;#39; &amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;MexBegin&amp;gt;&lt;/span&gt;!--&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/MexBegin&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;MexEnd&amp;gt;&lt;/span&gt;--&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/MexEnd&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/PropertyGroup&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This leads to a nice MEX endpoint for all environments and in Production we get the following:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!--endpoint address=&amp;#34;mex&amp;#34; binding=&amp;#34;mexHttpBinding&amp;#34; contract=&amp;#34;IMetadataExchange&amp;#34; /--&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Perhaps it is cleaner to implement my own TemplateFileTask but untill then this clever hack does the job.&lt;/p&gt;
-
-        
-      </description>
+      <description>In my current project i use TemplateFileTask (MSBuild Community Tasks Project) to generate configuration files. I ran into the problem that i don&amp;rsquo;t want to expose a MEX endpoint in production. This is my initial template file
+&amp;lt;service behaviorconfiguration=&amp;#34;DemoBehavior&amp;#34; name=&amp;#34;DemoService.FileService&amp;#34;&amp;gt; &amp;lt;endpoint address=&amp;#34;&amp;#34; binding=&amp;#34;ws2007HttpBinding&amp;#34; contract=&amp;#34;DemoService.IFileService&amp;#34; /&amp;gt; ${MexEndpoint} &amp;lt;/service&amp;gt; And here is my initial msbuild task
+&amp;lt;Project ToolsVersion=&amp;#34;3.5&amp;#34; dDfaultTargets=&amp;#34;GenerateConfigFiles&amp;#34; xmlns=&amp;#34;http://schemas.microsoft.com/developer/msbuild/2003&amp;#34;&amp;gt; &amp;lt;Import Project=&amp;#34;$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets&amp;#34;/&amp;gt; &amp;lt;Target Name=&amp;#34;GenerateConfigFiles&amp;#34;&amp;gt; &amp;lt;PropertyGroup&amp;gt; &amp;lt;MexEndpoint&amp;gt; &amp;lt;endpoint address=&amp;#34;mex&amp;#34; binding=&amp;#34;mexHttpBinding&amp;#34; contract=&amp;#34;IMetadataExchange&amp;#34; /&amp;gt; &amp;lt;/MexEndpoint&amp;gt; &amp;lt;/PropertyGroup&amp;gt; &amp;lt;PropertyGroup Condition=&amp;#34; &amp;#39;$(Env)&amp;#39;==&amp;#39;Production&amp;#39; &amp;#34;&amp;gt; &amp;lt;MexEndpoint&amp;gt;&amp;lt;/MexEndpoint&amp;gt; &amp;lt;/PropertyGroup&amp;gt; &amp;lt;ItemGroup&amp;gt; &amp;lt;Tokens Include=&amp;#34;MexEndpoint&amp;#34;&amp;gt; &amp;lt;ReplacementValue&amp;gt;$(MexEndpoint)&amp;lt;/ReplacementValue&amp;gt; &amp;lt;/Tokens&amp;gt; &amp;lt;/ItemGroup&amp;gt; &amp;lt;TemplateFile Template=&amp;#34;Web.</description>
     </item>
     
   </channel>

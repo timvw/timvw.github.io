@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>SQL on Tim Van Wassenhove&#39;s blog</title>
+    <title>SQL on Tim Van Wassenhove</title>
     <link>/tags/SQL/</link>
-    <description>Recent content in SQL on Tim Van Wassenhove&#39;s blog</description>
+    <description>Recent content in SQL on Tim Van Wassenhove</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 27 Apr 2013 00:00:00 +0000</lastBuildDate><atom:link href="/tags/SQL/feed.xml" rel="self" type="application/rss+xml" />
@@ -13,18 +13,8 @@
       <pubDate>Sat, 27 Apr 2013 00:00:00 +0000</pubDate>
       
       <guid>/post/2013-04-27-the-curious-case-of-trailing-spaces-in-sql/</guid>
-      <description>
-        
-          &lt;p&gt;A while ago I was quite surprised to see that the following query returns 1 instead of 0:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;COUNT&lt;/span&gt;(&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; N&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Tim&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; N&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Tim &amp;#39;&lt;/span&gt;; &lt;span style=&#34;color:#75715e&#34;&gt;-- notice the trailing space
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Apparently this is just standard behaviour. Here is an extract from &lt;a href=&#34;http://www.andrew.cmu.edu/user/shadow/sql/sql1992.txt&#34;&gt;sql1992.txt&lt;/a&gt; (Section 8.2 Paragraph 3):&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
-&lt;!-- raw HTML omitted --&gt;
-&lt;!-- raw HTML omitted --&gt;
-&lt;!-- raw HTML omitted --&gt;
-
-        
-      </description>
+      <description>A while ago I was quite surprised to see that the following query returns 1 instead of 0:
+SELECT COUNT(*) WHERE N&amp;#39;Tim&amp;#39; = N&amp;#39;Tim &amp;#39;; -- notice the trailing space Apparently this is just standard behaviour. Here is an extract from sql1992.txt (Section 8.2 Paragraph 3):</description>
     </item>
     
     <item>
@@ -33,27 +23,8 @@
       <pubDate>Thu, 18 Oct 2012 00:00:00 +0000</pubDate>
       
       <guid>/post/2012-10-18-sample-query-to-demonstrate-influence-of-collation-in-sql-server/</guid>
-      <description>
-        
-          &lt;p&gt;Lately I had the pleasure to investigate &lt;a href=&#34;http://technet.microsoft.com/en-us/library/aa174903(v=sql.80).aspx&#34;&gt;collations&lt;/a&gt; and here is a sample query that demonstrates how a collation impacts the behaviour of a query:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WITH&lt;/span&gt; [Words] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; (
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; N&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Een&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [word]  
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;UNION&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ALL&lt;/span&gt;  
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; N&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Eèn&amp;#39;&lt;/span&gt;	  
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;UNION&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ALL&lt;/span&gt;
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; N&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;EEN&amp;#39;&lt;/span&gt;
-)
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [word]	  
-&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Words]  
-&lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [word]	  
-&lt;span style=&#34;color:#75715e&#34;&gt;--COLLATE Latin1_General_CS_AS -- returns Een
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;--COLLATE Latin1_General_CI_AI -- returns Een, Eèn and EEN
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;--COLLATE LAtin1_General_CI_AS -- returns Een and EEN
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;COLLATE&lt;/span&gt; Latin1_General_CS_AI &lt;span style=&#34;color:#75715e&#34;&gt;-- returns Een and Eèn
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; N&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Een&amp;#39;&lt;/span&gt;;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Lately I had the pleasure to investigate collations and here is a sample query that demonstrates how a collation impacts the behaviour of a query:
+WITH [Words] AS ( SELECT N&amp;#39;Een&amp;#39; AS [word] UNION ALL SELECT N&amp;#39;Eèn&amp;#39;	UNION ALL SELECT N&amp;#39;EEN&amp;#39; ) SELECT [word]	FROM [Words] WHERE [word]	--COLLATE Latin1_General_CS_AS -- returns Een --COLLATE Latin1_General_CI_AI -- returns Een, Eèn and EEN --COLLATE LAtin1_General_CI_AS -- returns Een and EEN COLLATE Latin1_General_CS_AI -- returns Een and Eèn = N&amp;#39;Een&amp;#39;; </description>
     </item>
     
     <item>
@@ -62,57 +33,9 @@
       <pubDate>Tue, 27 Mar 2012 00:00:00 +0000</pubDate>
       
       <guid>/post/2012-03-27-an-example-of-common-table-expression-and-window-function-usage/</guid>
-      <description>
-        
-          &lt;p&gt;Earlier this week some colleague had been assigned a maintenance task and asked me how I would solve it. Every customer is permitted to have an amount of publications. All excess publications should be removed from the system (only the n most recent ones are permitted to remain on the system).&lt;/p&gt;
-&lt;p&gt;Here is an example of the Customer table:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;CREATE&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;TABLE&lt;/span&gt; [dbo].[Customer](  
-	[CustomerId] [int] &lt;span style=&#34;color:#66d9ef&#34;&gt;IDENTITY&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;, 
-	[CustomerName] [nvarchar](&lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;,  
-	[PermittedPublications] [int] &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;
-);
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; [dbo].[Customer]		  
-	([CustomerName], [PermittedPublications])
-&lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt;
-	(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;timvw&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;),		  
-	(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mike&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;);
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;An example of the customer publications table:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;CREATE&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;TABLE&lt;/span&gt; [dbo].[Publication](	  
-	[PublicationId] [int] &lt;span style=&#34;color:#66d9ef&#34;&gt;IDENTITY&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;,	  
-	[CustomerId] [int] &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;,	  
-	[PublicationName] [nvarchar](&lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;,	  
-	[PublicationTime] [datetime2] &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;
-);
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; [dbo].[Publication]
-  	([CustomerId], [PublicationName],[PublicationTime])
-&lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt;
-	((&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [CustomerId] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [dbo].[Customer] &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [CustomerName] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;timvw&amp;#39;&lt;/span&gt;), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;tim pub1&amp;#39;&lt;/span&gt;, SYSUTCDATETIME()),		  
-	((&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [CustomerId] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [dbo].[Customer] &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [CustomerName] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;timvw&amp;#39;&lt;/span&gt;), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;tim pub2&amp;#39;&lt;/span&gt;, SYSUTCDATETIME()),		  
-	((&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [CustomerId] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [dbo].[Customer] &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [CustomerName] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;timvw&amp;#39;&lt;/span&gt;), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;tim pub&amp;#39;&lt;/span&gt;, SYSUTCDATETIME()),
-	((&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [CustomerId] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [dbo].[Customer] &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [CustomerName] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;timvw&amp;#39;&lt;/span&gt;), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;tim pub4&amp;#39;&lt;/span&gt;, SYSUTCDATETIME()),
-	((&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [CustomerId] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [dbo].[Customer] &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [CustomerName] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mike&amp;#39;&lt;/span&gt;), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mike pub1&amp;#39;&lt;/span&gt;, SYSUTCDATETIME()),
-	((&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [CustomerId] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [dbo].[Customer] &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [CustomerName] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mike&amp;#39;&lt;/span&gt;), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mike pub2&amp;#39;&lt;/span&gt;, SYSUTCDATETIME()); 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;My colleague was keen on using some cursor logic, but I demonstrated him how a set-based alternative:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WITH&lt;/span&gt; [RankedPublication] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; (	  
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [CustomerId]
-		,[PublicationId]
-		,[PublicationName]
-		,[PublicationTime]
-		,ROW_NUMBER() OVER(PARTITION &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; [CustomerId] &lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; [PublicationTime]) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [PublicationRank]
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [dbo].[Publication]
-), [ExcessPublication] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; (	  
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [PublicationId]	  
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [RankedPublication]	  
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;INNER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;JOIN&lt;/span&gt; [dbo].[Customer] &lt;span style=&#34;color:#66d9ef&#34;&gt;ON&lt;/span&gt; [Customer].[CustomerId] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [RankedPublication].[CustomerId]	  
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [PublicationRank] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; [Customer].[PermittedPublications]
-)
-&lt;span style=&#34;color:#66d9ef&#34;&gt;DELETE&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [dbo].[Publication]	  
-&lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [PublicationId] &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [PublicationId] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [ExcessPublication]);
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Earlier this week some colleague had been assigned a maintenance task and asked me how I would solve it. Every customer is permitted to have an amount of publications. All excess publications should be removed from the system (only the n most recent ones are permitted to remain on the system).
+Here is an example of the Customer table:
+CREATE TABLE [dbo].[Customer]( [CustomerId] [int] IDENTITY(1,1) NOT NULL, [CustomerName] [nvarchar](50) NOT NULL, [PermittedPublications] [int] NOT NULL ); INSERT INTO [dbo].</description>
     </item>
     
     <item>
@@ -121,15 +44,9 @@
       <pubDate>Fri, 19 Aug 2011 00:00:00 +0000</pubDate>
       
       <guid>/post/2011-08-19-use-sql-server-profiler-to-see-if-a-connection-is-pooled/</guid>
-      <description>
-        
-          &lt;p&gt;It took me a couple of websearches to discover how i can see in SQL Server Profiler whether or not a connection is pooled. Apparently you have to check &amp;lsquo;Show all columns&amp;rsquo; and then you can check the &amp;lsquo;EventSubClass&amp;rsquo; column:&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://www.timvw.be/wp-content/uploads/2011/08/sql_server_profiler_eventsubclass.png&#34;&gt;&lt;!-- raw HTML omitted --&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;This is how it looks like in your trace window:&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://www.timvw.be/wp-content/uploads/2011/08/sql_server_profiler_eventsubclass_trace.png&#34;&gt;&lt;!-- raw HTML omitted --&gt;&lt;/a&gt;&lt;/p&gt;
+      <description>It took me a couple of websearches to discover how i can see in SQL Server Profiler whether or not a connection is pooled. Apparently you have to check &amp;lsquo;Show all columns&amp;rsquo; and then you can check the &amp;lsquo;EventSubClass&amp;rsquo; column:
 
-        
-      </description>
+This is how it looks like in your trace window:</description>
     </item>
     
     <item>
@@ -138,33 +55,8 @@
       <pubDate>Wed, 13 Jul 2011 00:00:00 +0000</pubDate>
       
       <guid>/post/2011-07-13-building-a-nums-table-quickly/</guid>
-      <description>
-        
-          &lt;p&gt;A while ago i presented my approach to generate a nums table &lt;a href=&#34;http://www.timvw.be/2010/12/11/techniques-learned-in-sqltopia-look-ma-no-loops/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;DECLARE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;count&lt;/span&gt; INT &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1000&lt;/span&gt;;
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;WITH&lt;/span&gt;    
-  [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] &lt;span style=&#34;color:#66d9ef&#34;&gt;UNION&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] ) 
-, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B, [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;C&lt;/span&gt;)  
-, [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;C&lt;/span&gt;)
-, [Nums4] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B )
-, [Numbers] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; TOP(&lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;count&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; ROW_NUMBER() OVER(&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; [Value]) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;[Nums4] )
-  
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Numbers];
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Because we only use this code once to fill the table we don&amp;rsquo;t really care that it is not very fast. Today i discovered there is a way to speed it up in this wonderful book: &lt;a href=&#34;http://oreilly.com/catalog/9780735626034/&#34;&gt;Inside Microsoft® SQL Server® 2008: T-SQL Querying&lt;/a&gt;:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WITH&lt;/span&gt;
-      
-  [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] &lt;span style=&#34;color:#66d9ef&#34;&gt;UNION&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] )  
-, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B, [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;C&lt;/span&gt;)
-, [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;C&lt;/span&gt;)
-, [Nums4] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B )
-, [Numbers] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; TOP(&lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;count&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; ROW_NUMBER() OVER(&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;[Nums4] )
-  
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Numbers];
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Yay for features like ORDER BY (SELECT &lt;!-- raw HTML omitted --&gt;).&lt;/p&gt;
-
-        
-      </description>
+      <description>A while ago i presented my approach to generate a nums table here.
+DECLARE @count INT = 1000; WITH [Nums1] AS ( SELECT 1 AS [Value] UNION SELECT 2 AS [Value] ) , [Nums2] AS ( SELECT A.* FROM [Nums1] AS A, [Nums1] AS B, [Nums1] AS C) , [Nums3] AS ( SELECT A.* FROM [Nums2] AS A, [Nums2] AS B, [Nums2] AS C) , [Nums4] AS ( SELECT A.* FROM [Nums3] AS A, [Nums3] AS B ) , [Numbers] AS ( SELECT TOP(@count) -1 + ROW_NUMBER() OVER(ORDER BY [Value]) AS [Value] FROM[Nums4] ) SELECT * FROM [Numbers]; Because we only use this code once to fill the table we don&amp;rsquo;t really care that it is not very fast.</description>
     </item>
     
     <item>
@@ -173,26 +65,8 @@
       <pubDate>Mon, 21 Mar 2011 00:00:00 +0000</pubDate>
       
       <guid>/post/2011-03-21-invoke-parameterized-stored-procedure-with-powershell/</guid>
-      <description>
-        
-          &lt;p&gt;Here is a quick snippet that demonstrates how you can invoke a parametrized stored procedure with PowerShell:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;$CreateTraceCommand = $SqlConnection.CreateCommand();
-$CreateTraceCommand.CommandType = &lt;span style=&#34;color:#66d9ef&#34;&gt;[System.Data.CommandType]&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;StoredProcedure&amp;#34;&lt;/span&gt;;
-$CreateTraceCommand.CommandText = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;sp_trace_create&amp;#34;&lt;/span&gt;;
-$TraceIdParameter = $CreateTraceCommand.Parameters.Add(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;@traceid&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;[System.Data.SqlDbType]&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Int&amp;#34;&lt;/span&gt;);
-$TraceIdParameter.Direction = &lt;span style=&#34;color:#66d9ef&#34;&gt;[System.Data.ParameterDirection]&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Output&amp;#34;&lt;/span&gt;;
-$OptionParameter = $CreateTraceCommand.Parameters.Add(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;@options&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;[System.Data.SqlDbType]&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Int&amp;#34;&lt;/span&gt;);
-$OptionParameter.Value = &lt;span style=&#34;color:#66d9ef&#34;&gt;[int]&lt;/span&gt; 2;
-$TraceFileParameter = $CreateTraceCommand.Parameters.Add(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;@tracefile&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;[System.Data.SqlDbType]&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;NVarChar&amp;#34;&lt;/span&gt;);
-$TraceFileParameter.Value = &lt;span style=&#34;color:#66d9ef&#34;&gt;[string]&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;c:\temp\test&amp;#34;&lt;/span&gt;;
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;[void]&lt;/span&gt; $CreateTraceCommand.ExecuteNonQuery();
-
-$TraceId = $TraceIdParameter.Value;
-Write-Host &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;You created a trace with &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;``&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;`
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Here is a quick snippet that demonstrates how you can invoke a parametrized stored procedure with PowerShell:
+$CreateTraceCommand = $SqlConnection.CreateCommand(); $CreateTraceCommand.CommandType = [System.Data.CommandType] &amp;#34;StoredProcedure&amp;#34;; $CreateTraceCommand.CommandText = &amp;#34;sp_trace_create&amp;#34;; $TraceIdParameter = $CreateTraceCommand.Parameters.Add(&amp;#34;@traceid&amp;#34;, [System.Data.SqlDbType] &amp;#34;Int&amp;#34;); $TraceIdParameter.Direction = [System.Data.ParameterDirection] &amp;#34;Output&amp;#34;; $OptionParameter = $CreateTraceCommand.Parameters.Add(&amp;#34;@options&amp;#34;, [System.Data.SqlDbType] &amp;#34;Int&amp;#34;); $OptionParameter.Value = [int] 2; $TraceFileParameter = $CreateTraceCommand.Parameters.Add(&amp;#34;@tracefile&amp;#34;, [System.Data.SqlDbType] &amp;#34;NVarChar&amp;#34;); $TraceFileParameter.Value = [string] &amp;#34;c:\temp\test&amp;#34;; [void] $CreateTraceCommand.ExecuteNonQuery(); $TraceId = $TraceIdParameter.Value; Write-Host &amp;#34;You created a trace with ``` </description>
     </item>
     
     <item>
@@ -201,100 +75,8 @@ Write-Host &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;You created a trac
       <pubDate>Sat, 11 Dec 2010 00:00:00 +0000</pubDate>
       
       <guid>/post/2010-12-11-techniques-learned-in-sqltopia-look-ma-no-loops/</guid>
-      <description>
-        
-          &lt;p&gt;I have been programming in c-based languages for more than 10 years now. Lately i have spent quite a bit of time in SQLtopia and learned a couple of techniques that are quite different from what i was used to.&lt;/p&gt;
-&lt;p&gt;Let me explain with an example: The boss comes in and asks for a report that contains all the days on which i have worked this year. As a typical c# programmer i come up with the following solution: Iterate over all the days in the year and skip the days i was out on holidays:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;IEnumerable&amp;lt;DateTime&amp;gt; FindWorkingDays()
-{
-  &lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; begin = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; DateTime(&lt;span style=&#34;color:#ae81ff&#34;&gt;2010&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;01&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;01&lt;/span&gt;);
-  &lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; end = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; DateTime(&lt;span style=&#34;color:#ae81ff&#34;&gt;2010&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;31&lt;/span&gt;);
-
-  &lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; holidays = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt;[]   
-  {    
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Holiday { Begin = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; DateTime(&lt;span style=&#34;color:#ae81ff&#34;&gt;2010&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;07&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;01&lt;/span&gt;), End = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; DateTime(&lt;span style=&#34;color:#ae81ff&#34;&gt;2010&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;07&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;31&lt;/span&gt;) },    
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Holiday { Begin = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; DateTime(&lt;span style=&#34;color:#ae81ff&#34;&gt;2010&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;09&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;01&lt;/span&gt;), End = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; DateTime(&lt;span style=&#34;color:#ae81ff&#34;&gt;2010&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;09&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;) }   
-  };
-
-  &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; date = begin; date &amp;lt;= end; date = date.AddDays(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;))   
-  {    
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;(holidays.Any(holiday =&amp;gt; holiday.Begin &amp;lt;= date &amp;amp;&amp;amp; date &amp;lt;= holiday.End)) &lt;span style=&#34;color:#66d9ef&#34;&gt;continue&lt;/span&gt;;    
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; date;   
-  }  
-}  
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In SQLtopia it is recommended to use set-based solutions instead of loops so we need a radically different solution.&lt;/p&gt;
-&lt;p&gt;Here is how we generate rows:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WITH&lt;/span&gt;    
-  [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] &lt;span style=&#34;color:#66d9ef&#34;&gt;UNION&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] )  
-, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B, [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;C&lt;/span&gt;)  
-, [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;C&lt;/span&gt;)  
-, [Nums4] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B )
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums4];
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;With rows we can generate numbers:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;DECLARE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;count&lt;/span&gt; INT &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1000&lt;/span&gt;;
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;WITH&lt;/span&gt;    
-  [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] &lt;span style=&#34;color:#66d9ef&#34;&gt;UNION&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] )  
-, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B, [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;C&lt;/span&gt;)
-, [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;C&lt;/span&gt;)
-, [Nums4] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B )
-, [Numbers] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; TOP(&lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;count&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; ROW_NUMBER() OVER(&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; [Value]) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;[Nums4] )
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Numbers];
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And with numbers we can generate dates:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;DECLARE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;begin&lt;/span&gt; DATETIME &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2010-01-01&amp;#39;&lt;/span&gt;;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;DECLARE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt; DATETIME &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2010-12-31&amp;#39;&lt;/span&gt;;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;DECLARE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;count&lt;/span&gt; INT &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; DATEDIFF(&lt;span style=&#34;color:#66d9ef&#34;&gt;DAY&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;begin&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;WITH&lt;/span&gt;    
-  [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] &lt;span style=&#34;color:#66d9ef&#34;&gt;UNION&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] )
-, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B, [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;C&lt;/span&gt;)  
-, [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;C&lt;/span&gt;)  
-, [Nums4] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B )  
-, [Numbers] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; TOP(&lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;count&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; ROW_NUMBER() OVER(&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; [Value]) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;[Nums4] )  
-, [Dates] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; DATEADD(&lt;span style=&#34;color:#66d9ef&#34;&gt;DAY&lt;/span&gt;, [Value], &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;begin&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Date] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Numbers] )
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Dates];
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;With dates we can build the dates on which we were out on holidays:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;DECLARE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;begin&lt;/span&gt; DATETIME &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2010-01-01&amp;#39;&lt;/span&gt;;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;DECLARE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt; DATETIME &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2010-12-31&amp;#39;&lt;/span&gt;;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;DECLARE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;count&lt;/span&gt; INT &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; DATEDIFF(&lt;span style=&#34;color:#66d9ef&#34;&gt;DAY&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;begin&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;WITH&lt;/span&gt;    
-  [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] &lt;span style=&#34;color:#66d9ef&#34;&gt;UNION&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] )  
-, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B, [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;C&lt;/span&gt;)
-, [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;C&lt;/span&gt;)    
-, [Nums4] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B )    
-, [Numbers] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; TOP(&lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;count&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; ROW_NUMBER() OVER(&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; [Value]) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;[Nums4] )    
-, [Dates] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; DATEADD(&lt;span style=&#34;color:#66d9ef&#34;&gt;DAY&lt;/span&gt;, [Value], &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;begin&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Date] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Numbers] )    
-, [Holidays] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2010-07-01&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [&lt;span style=&#34;color:#66d9ef&#34;&gt;Begin&lt;/span&gt;], &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2010-07-31&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [&lt;span style=&#34;color:#66d9ef&#34;&gt;End&lt;/span&gt;]                      
-&lt;span style=&#34;color:#66d9ef&#34;&gt;UNION&lt;/span&gt;                    
-  &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2010-09-01&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [&lt;span style=&#34;color:#66d9ef&#34;&gt;Begin&lt;/span&gt;], &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2010-09-15&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [&lt;span style=&#34;color:#66d9ef&#34;&gt;End&lt;/span&gt;]                  
-)
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [Date] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Holidays],[Dates] &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [Date] &lt;span style=&#34;color:#66d9ef&#34;&gt;BETWEEN&lt;/span&gt; [&lt;span style=&#34;color:#66d9ef&#34;&gt;Begin&lt;/span&gt;] &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; [&lt;span style=&#34;color:#66d9ef&#34;&gt;End&lt;/span&gt;] &lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; [Date];  
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And now we can easily select the dates that are not holiday dates:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;DECLARE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;begin&lt;/span&gt; DATETIME &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2010-01-01&amp;#39;&lt;/span&gt;;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;DECLARE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt; DATETIME &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2010-12-31&amp;#39;&lt;/span&gt;;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;DECLARE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;count&lt;/span&gt; INT &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; DATEDIFF(&lt;span style=&#34;color:#66d9ef&#34;&gt;DAY&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;begin&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;WITH&lt;/span&gt;  
-  [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] &lt;span style=&#34;color:#66d9ef&#34;&gt;UNION&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] )    
-, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B, [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;C&lt;/span&gt;)  
-, [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;C&lt;/span&gt;)    
-, [Nums4] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B )    
-, [Numbers] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; TOP(&lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;count&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; ROW_NUMBER() OVER(&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; [Value]) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;[Nums4] )    
-, [Dates] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; DATEADD(&lt;span style=&#34;color:#66d9ef&#34;&gt;DAY&lt;/span&gt;, [Value], &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;begin&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Date] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Numbers] &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [Value] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; DATEDIFF(&lt;span style=&#34;color:#66d9ef&#34;&gt;DAY&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;begin&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;))    
-, [Holidays] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2010-07-01&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [&lt;span style=&#34;color:#66d9ef&#34;&gt;Begin&lt;/span&gt;], &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2010-07-31&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [&lt;span style=&#34;color:#66d9ef&#34;&gt;End&lt;/span&gt;]                      
-&lt;span style=&#34;color:#66d9ef&#34;&gt;UNION&lt;/span&gt;                      
-  &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2010-09-01&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [&lt;span style=&#34;color:#66d9ef&#34;&gt;Begin&lt;/span&gt;], &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2010-09-15&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [&lt;span style=&#34;color:#66d9ef&#34;&gt;End&lt;/span&gt;]                  
-)
-, [HolidayDates] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [Date] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Holidays],[Dates] &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [Date] &lt;span style=&#34;color:#66d9ef&#34;&gt;BETWEEN&lt;/span&gt; [&lt;span style=&#34;color:#66d9ef&#34;&gt;Begin&lt;/span&gt;] &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; [&lt;span style=&#34;color:#66d9ef&#34;&gt;End&lt;/span&gt;] )
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [Dates].[Date] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Dates]					  
-&lt;span style=&#34;color:#66d9ef&#34;&gt;LEFT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;OUTER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;JOIN&lt;/span&gt; [HolidayDates] &lt;span style=&#34;color:#66d9ef&#34;&gt;ON&lt;/span&gt; [Dates].[Date] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [HolidayDates].[Date]				    
-&lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [HolidayDates].[Date] &lt;span style=&#34;color:#66d9ef&#34;&gt;IS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Look Ma, no loops!&lt;/p&gt;
-
-        
-      </description>
+      <description>I have been programming in c-based languages for more than 10 years now. Lately i have spent quite a bit of time in SQLtopia and learned a couple of techniques that are quite different from what i was used to.
+Let me explain with an example: The boss comes in and asks for a report that contains all the days on which i have worked this year. As a typical c# programmer i come up with the following solution: Iterate over all the days in the year and skip the days i was out on holidays:</description>
     </item>
     
     <item>
@@ -303,30 +85,8 @@ Write-Host &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;You created a trac
       <pubDate>Fri, 10 Dec 2010 00:00:00 +0000</pubDate>
       
       <guid>/post/2010-12-10-exploring-window-functions/</guid>
-      <description>
-        
-          &lt;p&gt;Here is a sample query that allows you to explore the behavior of various &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/ms189461.aspx&#34;&gt;aggregate window functions&lt;/a&gt;:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WITH&lt;/span&gt;    
-  [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] &lt;span style=&#34;color:#66d9ef&#34;&gt;UNION&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] )  
-, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B, [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;C&lt;/span&gt;)  
-, [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;C&lt;/span&gt;)
-, [Nums4] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B )
-&lt;span style=&#34;color:#75715e&#34;&gt;-- Build numbers from 1 to 1000
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;, [Numbers] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; TOP(&lt;span style=&#34;color:#ae81ff&#34;&gt;1000&lt;/span&gt;) ROW_NUMBER() OVER(&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; [Value]) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;[Nums4] )
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt;    
-  [Value]  
-, ROW_NUMBER() OVER(PARTITION &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; [Value] &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; [Value] &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [RowNumber]
-, RANK() OVER(PARTITION &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; [Value] &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; [Value] &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Rank]
-, DENSE_RANK() OVER (PARTITION &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; [Value] &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; [Value] &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [DenseRank]    
-, NTILE(&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;) OVER (PARTITION &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; [Value] &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; [Value] &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Tile100]  
-&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;    
-  [Numbers]
-&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt;    
-  [Value];
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Here is a sample query that allows you to explore the behavior of various aggregate window functions:
+WITH [Nums1] AS ( SELECT 1 AS [Value] UNION SELECT 2 AS [Value] ) , [Nums2] AS ( SELECT A.* FROM [Nums1] AS A, [Nums1] AS B, [Nums1] AS C) , [Nums3] AS ( SELECT A.* FROM [Nums2] AS A, [Nums2] AS B, [Nums2] AS C) , [Nums4] AS ( SELECT A.* FROM [Nums3] AS A, [Nums3] AS B ) -- Build numbers from 1 to 1000 , [Numbers] AS ( SELECT TOP(1000) ROW_NUMBER() OVER(ORDER BY [Value]) AS [Value] FROM[Nums4] ) SELECT [Value] , ROW_NUMBER() OVER(PARTITION BY [Value] / 100 ORDER BY [Value] % 10) AS [RowNumber] , RANK() OVER(PARTITION BY [Value] / 100 ORDER BY [Value] % 10) AS [Rank] , DENSE_RANK() OVER (PARTITION BY [Value] / 100 ORDER BY [Value] % 10) AS [DenseRank] , NTILE(4) OVER (PARTITION BY [Value] / 100 ORDER BY [Value] % 10) AS [Tile100] FROM [Numbers] ORDER BY [Value]; </description>
     </item>
     
     <item>
@@ -335,12 +95,7 @@ Write-Host &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;You created a trac
       <pubDate>Mon, 01 Nov 2010 00:00:00 +0000</pubDate>
       
       <guid>/post/2010-11-01-deploying-a-database-project-does-not-create-artefacts-for-custom-schemas/</guid>
-      <description>
-        
-          &lt;p&gt;Last week we noticed that the artefacts for a custom schema in our Database Project were not created (or updated). It took us a while to figure out what was wrong. When you add a script via the &amp;lsquo;Add Existing item&amp;rsquo; menu in VS2010 the file&amp;rsquo;s &lt;strong&gt;Build Action&lt;/strong&gt; is set to &lt;strong&gt;Not in Build&lt;/strong&gt; for some unknown reason. As soon as we changed the value to &lt;strong&gt;Build&lt;/strong&gt; and Deployed again our artefacts were created.&lt;/p&gt;
-
-        
-      </description>
+      <description>Last week we noticed that the artefacts for a custom schema in our Database Project were not created (or updated). It took us a while to figure out what was wrong. When you add a script via the &amp;lsquo;Add Existing item&amp;rsquo; menu in VS2010 the file&amp;rsquo;s Build Action is set to Not in Build for some unknown reason. As soon as we changed the value to Build and Deployed again our artefacts were created.</description>
     </item>
     
     <item>
@@ -349,25 +104,8 @@ Write-Host &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;You created a trac
       <pubDate>Tue, 07 Sep 2010 00:00:00 +0000</pubDate>
       
       <guid>/post/2010-09-07-t-sql-remove-all-rows-from-all-tables-in-your-schema/</guid>
-      <description>
-        
-          &lt;p&gt;Sometimes i want to quickly clean up a database and start from fresh. Here is a small script that does exactly that.. (I just run the script a couple of times, untill no affected rows remain&amp;hellip; Far more efficient than figuring out which constraints exist, building up a dependency tree, and cleanly deleting all rows):&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- Remove all rows from all tables
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;DECLARE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tableName VARCHAR(&lt;span style=&#34;color:#ae81ff&#34;&gt;255&lt;/span&gt;)
-&lt;span style=&#34;color:#66d9ef&#34;&gt;DECLARE&lt;/span&gt; tableNames &lt;span style=&#34;color:#66d9ef&#34;&gt;CURSOR&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FOR&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; name &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; sys.Tables;
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;OPEN&lt;/span&gt; tableNames
-&lt;span style=&#34;color:#66d9ef&#34;&gt;FETCH&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NEXT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; tableNames &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tableName
-WHILE &lt;span style=&#34;color:#f92672&#34;&gt;@@&lt;/span&gt;FETCH_STATUS &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;BEGIN&lt;/span&gt;
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;EXEC&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;DELETE FROM [&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tableName &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;]&amp;#39;&lt;/span&gt;)
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;FETCH&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NEXT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; tableNames &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tableName
-&lt;span style=&#34;color:#66d9ef&#34;&gt;END&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;CLOSE&lt;/span&gt; tableNames
-&lt;span style=&#34;color:#66d9ef&#34;&gt;DEALLOCATE&lt;/span&gt; tableNames
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Sometimes i want to quickly clean up a database and start from fresh. Here is a small script that does exactly that.. (I just run the script a couple of times, untill no affected rows remain&amp;hellip; Far more efficient than figuring out which constraints exist, building up a dependency tree, and cleanly deleting all rows):
+-- Remove all rows from all tables DECLARE @tableName VARCHAR(255) DECLARE tableNames CURSOR FOR SELECT name FROM sys.</description>
     </item>
     
     <item>
@@ -376,15 +114,9 @@ WHILE &lt;span style=&#34;color:#f92672&#34;&gt;@@&lt;/span&gt;FETCH_STATUS &lt;
       <pubDate>Tue, 17 Jul 2007 00:00:00 +0000</pubDate>
       
       <guid>/post/2007-07-17-update-from-localtime-to-utc-with-oracle/</guid>
-      <description>
-        
-          &lt;p&gt;Imagine that you have a table with a column of the type DATETIME. You&amp;rsquo;ve been storing data as localtime and after a while you need to convert these datetimes to UTC. Here&amp;rsquo;s a possible approach&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;UPDATE&lt;/span&gt; events &lt;span style=&#34;color:#66d9ef&#34;&gt;SET&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;start&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; SYS_EXTRACT_UTC(FROM_TZ(&lt;span style=&#34;color:#66d9ef&#34;&gt;start&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Europe/Brussels&amp;#39;&lt;/span&gt;));
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;You get a more generic variant using the AT TIME ZONE clause&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;UPDATE&lt;/span&gt; events &lt;span style=&#34;color:#66d9ef&#34;&gt;SET&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;start&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; FROM_TZ(&lt;span style=&#34;color:#66d9ef&#34;&gt;start&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Europe/Brussels&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;AT&lt;/span&gt; TIME &lt;span style=&#34;color:#66d9ef&#34;&gt;ZONE&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;America/Denver&amp;#39;&lt;/span&gt;;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Imagine that you have a table with a column of the type DATETIME. You&amp;rsquo;ve been storing data as localtime and after a while you need to convert these datetimes to UTC. Here&amp;rsquo;s a possible approach
+UPDATE events SET start = SYS_EXTRACT_UTC(FROM_TZ(start, &amp;#39;Europe/Brussels&amp;#39;)); You get a more generic variant using the AT TIME ZONE clause
+UPDATE events SET start = FROM_TZ(start, &amp;#39;Europe/Brussels&amp;#39;) AT TIME ZONE &amp;#39;America/Denver&amp;#39;; </description>
     </item>
     
     <item>
@@ -393,23 +125,9 @@ WHILE &lt;span style=&#34;color:#f92672&#34;&gt;@@&lt;/span&gt;FETCH_STATUS &lt;
       <pubDate>Sat, 24 Mar 2007 00:00:00 +0000</pubDate>
       
       <guid>/post/2007-03-24-simulate-autoincrement/</guid>
-      <description>
-        
-          &lt;p&gt;Earlier today someone asked the following&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;!-- raw HTML omitted --&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Here is a possible answer: (Don&amp;rsquo;t forget to wrap these queries in a transaction if your MySQL Engine supports it)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- Some demo tables (and data)
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- CREATE TABLE table1 (id INT(10), name VARCHAR(20), PRIMARY KEY(id));
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- CREATE TABLE table2 (id INT(10), name VARCHAR(20), PRIMARY KEY(id));
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- INSERT INTO table1 VALUES (1, &amp;#34;tim&amp;#34;), (2, &amp;#34;mike&amp;#34;);
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SET&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;id :&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;MAX&lt;/span&gt;(id) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; table2);
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; table2 &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;id :&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;id &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, table1.name &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;id) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; id, table1 &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; table1;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Earlier today someone asked the following
+  Here is a possible answer: (Don&amp;rsquo;t forget to wrap these queries in a transaction if your MySQL Engine supports it)
+-- Some demo tables (and data) -- CREATE TABLE table1 (id INT(10), name VARCHAR(20), PRIMARY KEY(id)); -- CREATE TABLE table2 (id INT(10), name VARCHAR(20), PRIMARY KEY(id)); -- INSERT INTO table1 VALUES (1, &amp;#34;tim&amp;#34;), (2, &amp;#34;mike&amp;#34;);  SET @id := (SELECT MAX(id) + 1 FROM table2); INSERT INTO table2 SELECT @id := @id + 1, table1.</description>
     </item>
     
     <item>
@@ -418,77 +136,8 @@ WHILE &lt;span style=&#34;color:#f92672&#34;&gt;@@&lt;/span&gt;FETCH_STATUS &lt;
       <pubDate>Mon, 23 Oct 2006 00:00:00 +0000</pubDate>
       
       <guid>/post/2006-10-23-using-a-collection-as-parameter-for-a-stored-procedure/</guid>
-      <description>
-        
-          &lt;p&gt;Sometimes you want to select rows where a value is in a specific collection. Here&amp;rsquo;s an example that show how you can select all the rows in the TEST table with an id of 1, 2 or 3. First we create an SQL type to contain a list of numbers&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;CREATE&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;TYPE&lt;/span&gt; LIST_NUMBER &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;TABLE&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;OF&lt;/span&gt; NUMBER(&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;);
-&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Next thing to do is add a custom type and function header to the package specification&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;PACKAGE TIMVW.TESTPACKAGE &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt;
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;TYPE&lt;/span&gt; CRSR_REF &lt;span style=&#34;color:#66d9ef&#34;&gt;IS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;REF&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;CURSOR&lt;/span&gt;;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;TYPE&lt;/span&gt; ARR&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;\&lt;/span&gt;_IDS &lt;span style=&#34;color:#66d9ef&#34;&gt;IS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;TABLE&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;OF&lt;/span&gt; TEST.TEST&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;\&lt;/span&gt;_ID&lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INDEX&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; BINARY_INTEGER;
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;PROCEDURE&lt;/span&gt; GET_TESTS
-(
-P_IDS &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; ARR_IDS,
-P_CURSOR &lt;span style=&#34;color:#66d9ef&#34;&gt;OUT&lt;/span&gt; CRSR_REF
-);
-&lt;span style=&#34;color:#66d9ef&#34;&gt;END&lt;/span&gt;;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And offcourse we have to implement the function in the body&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;PROCEDURE&lt;/span&gt; GET_TESTS
-(
-P_IDS &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; ARR_IDS,
-P_CURSOR &lt;span style=&#34;color:#66d9ef&#34;&gt;OUT&lt;/span&gt; CRSR_REF
-)
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt;
-
-V_IDS LIST_NUMBER :&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LIST_NUMBER();
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;BEGIN&lt;/span&gt;
-
-V_IDS.EXTEND(P_IDS.&lt;span style=&#34;color:#66d9ef&#34;&gt;COUNT&lt;/span&gt;);
-&lt;span style=&#34;color:#66d9ef&#34;&gt;FOR&lt;/span&gt; i &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; P_IDS.&lt;span style=&#34;color:#66d9ef&#34;&gt;FIRST&lt;/span&gt; .. P_IDS.&lt;span style=&#34;color:#66d9ef&#34;&gt;LAST&lt;/span&gt; LOOP
-	V_IDS(i) :&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; P_IDS(i);
-&lt;span style=&#34;color:#66d9ef&#34;&gt;END&lt;/span&gt; LOOP;
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;OPEN&lt;/span&gt; P_CURSOR &lt;span style=&#34;color:#66d9ef&#34;&gt;FOR&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt;
-TEST.TEST_ID,
-TEST.NAME,
-TEST.TYPE_CODE
-&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;
-TEST
-&lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt;
-TEST_ID &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;TABLE&lt;/span&gt;(V_IDS))
-&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt;
-TEST.TEST_ID &lt;span style=&#34;color:#66d9ef&#34;&gt;ASC&lt;/span&gt;;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;END&lt;/span&gt;;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now that we have done all this we can consume the function from our client code&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; (OracleConnection conn = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; OracleConnection(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;User Id=u;password=p;Data Source=ORCL&amp;#34;&lt;/span&gt;))
-{
-	conn.Open();
-
-	OracleCommand command = conn.CreateCommand();
-	command.CommandType = CommandType.StoredProcedure;
-
-	command.CommandText = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;TIMVW.TESTPACKAGE.GET_TESTS&amp;#34;&lt;/span&gt;;
-	command.Parameters.Add(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;P_IDS&amp;#34;&lt;/span&gt;, OracleDbType.Int32, &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;[] { &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; }, ParameterDirection.Input);
-	command.Parameters[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;P_IDS&amp;#34;&lt;/span&gt;].CollectionType = OracleCollectionType.PLSQLAssociativeArray;
-	command.Parameters.Add(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;P_CURSOR&amp;#34;&lt;/span&gt;, OracleDbType.RefCursor, ParameterDirection.Output);
-
-	OracleDataReader reader = command.ExecuteReader();
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (reader.Read())
-	{
-		Console.WriteLine(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;test 	}
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&lt;/span&gt;
-	Console.Write(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;{0}Press any key to continue...&amp;#34;&lt;/span&gt;, Environment.NewLine);
-	Console.ReadKey();
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Sometimes you want to select rows where a value is in a specific collection. Here&amp;rsquo;s an example that show how you can select all the rows in the TEST table with an id of 1, 2 or 3. First we create an SQL type to contain a list of numbers
+CREATE TYPE LIST_NUMBER AS TABLE OF NUMBER(10); / Next thing to do is add a custom type and function header to the package specification</description>
     </item>
     
     <item>
@@ -497,68 +146,8 @@ TEST.TEST_ID &lt;span style=&#34;color:#66d9ef&#34;&gt;ASC&lt;/span&gt;;
       <pubDate>Sun, 22 Oct 2006 00:00:00 +0000</pubDate>
       
       <guid>/post/2006-10-22-searching-made-easy/</guid>
-      <description>
-        
-          &lt;p&gt;Very often i have to write queries that return all the rows where one or more columns match a specific value. If i add for every column the condition &amp;lsquo;P_COLUMN IS NULL OR COLUMN = P_COLUMN&amp;rsquo; to the WHERE clause i only have to write one query. Here&amp;rsquo;s an example of such a query&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;PROCEDURE&lt;/span&gt; FIND_TESTS
-(
-	P_ID &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; TEST.ID&lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;,
-	P_TITLE &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; TEST.TITLE&lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;,
-	P_TYPE_CODE &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; TEST.TYPE_CODE&lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;,
-	P_CURSOR &lt;span style=&#34;color:#66d9ef&#34;&gt;OUT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;CURSOR&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;REF&lt;/span&gt;
-)
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt;
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;BEGIN&lt;/span&gt;
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;OPEN&lt;/span&gt;
-P_CURSOR &lt;span style=&#34;color:#66d9ef&#34;&gt;FOR&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt;
-ID,
-TITLE,
-TYPE_CODE
-&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;
-TEST
-&lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt;
-(P_ID &lt;span style=&#34;color:#66d9ef&#34;&gt;IS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;OR&lt;/span&gt; ID &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; P_ID)
-&lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; (P_TITLE &lt;span style=&#34;color:#66d9ef&#34;&gt;IS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;OR&lt;/span&gt; TITLE &lt;span style=&#34;color:#66d9ef&#34;&gt;LIKE&lt;/span&gt; P_TITLE)
-&lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; (P_TYPE_CODE &lt;span style=&#34;color:#66d9ef&#34;&gt;IS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;OR&lt;/span&gt; TYPE_CODE &lt;span style=&#34;color:#66d9ef&#34;&gt;LIKE&lt;/span&gt; P_TYPE_CODE)
-&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt;
-ID &lt;span style=&#34;color:#66d9ef&#34;&gt;ASC&lt;/span&gt;;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;END&lt;/span&gt;;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A couple of examples how you can use this query&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; (OracleConnection conn = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; OracleConnection(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;User Id=u;password=p;Data Source=ORCL&amp;#34;&lt;/span&gt;))
-{
-	conn.Open();
-
-	OracleCommand command = conn.CreateCommand();
-	command.CommandText = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;TIMVW.MYPACKAGE.FIND_TESTS&amp;#34;&lt;/span&gt;;
-	command.CommandType = CommandType.StoredProcedure;
-
-	&lt;span style=&#34;color:#75715e&#34;&gt;// select all tests of type_code &amp;#34;book&amp;#34; that have a title that starts with &amp;#34;Myst&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	command.Parameters.Add(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;P_ID&amp;#34;&lt;/span&gt;, OracleDbType.Int32, &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;, DBNull.Value, ParameterDirection.Input);
-	command.Parameters.Add(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;P_TITLE&amp;#34;&lt;/span&gt;, OracleDbType.Varchar2, &lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Myst%&amp;#34;&lt;/span&gt;, ParameterDirection.Input);
-	command.Parameters.Add(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;P\_TYPE\_CODE&amp;#34;&lt;/span&gt;, OracleDbType.Varchar2, &lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;book&amp;#34;&lt;/span&gt;, ParameterDirection.Input);
-	command.Parameters.Add(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;P_CURSOR&amp;#34;&lt;/span&gt;, OracleDbType.RefCursor, ParameterDirection.Output);
-
-	&lt;span style=&#34;color:#75715e&#34;&gt;// select the test with id 1
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;//command.Parameters.Add(&amp;#34;P_ID&amp;#34;, OracleDbType.Int32, 10, 1, ParameterDirection.Input);
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;//command.Parameters.Add(&amp;#34;P_TITLE&amp;#34;, OracleDbType.Varchar2, 20, DBNull.Value, ParameterDirection.Input);
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;//command.Parameters.Add(&amp;#34;P\_TYPE\_CODE&amp;#34;, OracleDbType.Varchar2, 20, DBNull.Value, ParameterDirection.Input);
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;//command.Parameters.Add(&amp;#34;P_CURSOR&amp;#34;, OracleDbType.RefCursor, ParameterDirection.Output);
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
-	OracleDataReader reader = command.ExecuteReader();
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (reader.Read())
-	{
-		Console.WriteLine(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;test 	}
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&lt;/span&gt;
-	Console.Write(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;{0}Press any key to continue...&amp;#34;&lt;/span&gt;, Environment.NewLine);
-	Console.ReadKey();
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Very often i have to write queries that return all the rows where one or more columns match a specific value. If i add for every column the condition &amp;lsquo;P_COLUMN IS NULL OR COLUMN = P_COLUMN&amp;rsquo; to the WHERE clause i only have to write one query. Here&amp;rsquo;s an example of such a query
+PROCEDURE FIND_TESTS ( P_ID IN TEST.ID%Type, P_TITLE IN TEST.TITLE%Type, P_TYPE_CODE IN TEST.TYPE_CODE%Type, P_CURSOR OUT CURSOR REF ) AS BEGIN OPEN P_CURSOR FOR SELECT ID, TITLE, TYPE_CODE FROM TEST WHERE (P_ID IS NULL OR ID = P_ID) AND (P_TITLE IS NULL OR TITLE LIKE P_TITLE) AND (P_TYPE_CODE IS NULL OR TYPE_CODE LIKE P_TYPE_CODE) ORDER BY ID ASC; END; A couple of examples how you can use this query</description>
     </item>
     
     <item>
@@ -567,13 +156,7 @@ ID &lt;span style=&#34;color:#66d9ef&#34;&gt;ASC&lt;/span&gt;;
       <pubDate>Sun, 27 Aug 2006 00:00:00 +0000</pubDate>
       
       <guid>/post/2006-08-27-tweaking-oracle-sql-developer/</guid>
-      <description>
-        
-          &lt;p&gt;A couple of days ago i discovered &lt;a href=&#34;http://www.oracle.com/technology/products/database/sql_developer/index.html&#34;&gt;Oracle SQL Developer&lt;/a&gt;, a new and free graphical tool for database development. At first i was impressed by all it&amp;rsquo;s features but when i tried to modify a couple of existing stored procedures the application freezed. &lt;a href=&#34;http://forums.oracle.com/forums/profile.jspa?userID=481264&#34;&gt;EricH&lt;/a&gt; directed me to the &lt;a href=&#34;http://www.oracle.com/technology/products/database/sql_developer/files/faqs.html#q3&#34;&gt;FAQ: Can I suppress Code Insight (and why would I want to)?&lt;/a&gt;. Now that i have added the &amp;lsquo;AddVMOption -J-Dsdev.insight=false&amp;rsquo; to my sqldeveloper.conf the application runs smooth&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://www.timvw.be/wp-content/images/oraclesqldeveloper-large.jpg&#34;&gt;&lt;img src=&#34;http://www.timvw.be/wp-content/images/oraclesqldeveloper-small.jpg&#34; alt=&#34;screenshot of oracle sqldeveloper&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-        
-      </description>
+      <description>A couple of days ago i discovered Oracle SQL Developer, a new and free graphical tool for database development. At first i was impressed by all it&amp;rsquo;s features but when i tried to modify a couple of existing stored procedures the application freezed. EricH directed me to the FAQ: Can I suppress Code Insight (and why would I want to)?. Now that i have added the &amp;lsquo;AddVMOption -J-Dsdev.insight=false&amp;rsquo; to my sqldeveloper.</description>
     </item>
     
     <item>
@@ -582,19 +165,8 @@ ID &lt;span style=&#34;color:#66d9ef&#34;&gt;ASC&lt;/span&gt;;
       <pubDate>Mon, 21 Aug 2006 00:00:00 +0000</pubDate>
       
       <guid>/post/2006-08-21-experimenting-with-oracle-and-plsql/</guid>
-      <description>
-        
-          &lt;p&gt;As i already wrote, last couple of days i&amp;rsquo;ve been experimenting with PL/SQL. At work we use &lt;a href=&#34;http://www.toadsoft.com/toad_oracle.htm&#34;&gt;Toad for Oracle&lt;/a&gt; but since &lt;a href=&#34;http://www.toadsoft.com/&#34;&gt;TOADSoft&lt;/a&gt; only offers a limited freeware version i decided to write my code with &lt;a href=&#34;http://www.vim.org&#34;&gt;GVim&lt;/a&gt; and use &lt;a href=&#34;http://orafaq.com/faqplus.htm#WHAT&#34;&gt;SQL*Plus&lt;/a&gt; at home. Here are a couple of lines i added to my login.sql file&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;DEFINE _EDITOR&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;gvim -c &amp;#34;set filetype=sql&amp;#34;&amp;#39;&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SET&lt;/span&gt; SERVEROUTPUT &lt;span style=&#34;color:#66d9ef&#34;&gt;ON&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SET&lt;/span&gt; LINESIZE &lt;span style=&#34;color:#ae81ff&#34;&gt;120&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SET&lt;/span&gt; AUTOCOMMIT &lt;span style=&#34;color:#66d9ef&#34;&gt;OFF&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;ALTER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SESSION&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SET&lt;/span&gt; NLS_DATE_FORMAT&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;YYYY-MM-DD&amp;#39;&lt;/span&gt;;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In a stored procedure i created and filled an instance of NUMBER_TABLE (CREATE TYPE NUMBER_TABLE AS TABLE OF NUMBER) and my stored procedure tried to select all the rows in that table (SELECT * FROM V_NUMBER_TABLE). Apparently the engine didn&amp;rsquo;t know this type @runtime despite the fact that i declared it in my stored procedure (V_NUMBER TABLE NUMBER_TABLE := NUMBER_TABLE();) and the engine compiled the package without errors. I got round that problem as following&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;CAST&lt;/span&gt;(V_NUMBER_TABLE &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; NUMBER_TABLE));
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>As i already wrote, last couple of days i&amp;rsquo;ve been experimenting with PL/SQL. At work we use Toad for Oracle but since TOADSoft only offers a limited freeware version i decided to write my code with GVim and use SQL*Plus at home. Here are a couple of lines i added to my login.sql file
+DEFINE _EDITOR=&amp;#39;gvim -c &amp;#34;set filetype=sql&amp;#34;&amp;#39; SET SERVEROUTPUT ON SET LINESIZE 120 SET AUTOCOMMIT OFF ALTER SESSION SET NLS_DATE_FORMAT=&amp;#39;YYYY-MM-DD&amp;#39;; In a stored procedure i created and filled an instance of NUMBER_TABLE (CREATE TYPE NUMBER_TABLE AS TABLE OF NUMBER) and my stored procedure tried to select all the rows in that table (SELECT * FROM V_NUMBER_TABLE).</description>
     </item>
     
     <item>
@@ -603,47 +175,8 @@ ID &lt;span style=&#34;color:#66d9ef&#34;&gt;ASC&lt;/span&gt;;
       <pubDate>Fri, 14 Apr 2006 00:00:00 +0000</pubDate>
       
       <guid>/post/2006-04-14-select-best-3-laptimes-for-each-player/</guid>
-      <description>
-        
-          &lt;p&gt;Imagine that you have a schema where you store all the times a player needed to complete a parcours. A possible schema could be (&lt;a href=&#34;http://www.postgresql.org&#34;&gt;postgresql&lt;/a&gt;)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;CREATE&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;TABLE&lt;/span&gt; laptimes (
-lap_id SERIAL &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;,
-player_id INT &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;,
-laptime INT &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;,
-&lt;span style=&#34;color:#66d9ef&#34;&gt;PRIMARY&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;KEY&lt;/span&gt; (lap_id)
-);
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; laptimes (player_id, laptime) &lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;250&lt;/span&gt;);
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; laptimes (player_id, laptime) &lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;450&lt;/span&gt;);
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; laptimes (player_id, laptime) &lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;350&lt;/span&gt;);
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; laptimes (player_id, laptime) &lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;300&lt;/span&gt;);
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; laptimes (player_id, laptime) &lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;327&lt;/span&gt;);
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; laptimes (player_id, laptime) &lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;327&lt;/span&gt;);
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; laptimes (player_id, laptime) &lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;249&lt;/span&gt;);
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; laptimes (player_id, laptime) &lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;123&lt;/span&gt;);
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; laptimes (player_id, laptime) &lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;489&lt;/span&gt;);
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; laptimes (player_id, laptime) &lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;158&lt;/span&gt;);
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; laptimes (player_id, laptime) &lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;158&lt;/span&gt;);
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; laptimes (player_id, laptime) &lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;120&lt;/span&gt;);
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; laptimes (player_id, laptime) &lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;190&lt;/span&gt;);
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; laptimes (player_id, laptime) &lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;600&lt;/span&gt;);
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now imagine that you want to display the best 3 results for each player. Here&amp;rsquo;s how&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; laptimes &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; l1
-&lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; lap_id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; lap_id
-&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; laptimes &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; l2
-&lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; l1.player&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;\&lt;/span&gt;_id &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; l2.player&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;\&lt;/span&gt;_id
-&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; laptime &lt;span style=&#34;color:#66d9ef&#34;&gt;ASC&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;LIMIT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;
-)
-&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; player_id &lt;span style=&#34;color:#66d9ef&#34;&gt;ASC&lt;/span&gt;, laptime &lt;span style=&#34;color:#66d9ef&#34;&gt;ASC&lt;/span&gt;;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Imagine that you have a schema where you store all the times a player needed to complete a parcours. A possible schema could be (postgresql)
+CREATE TABLE laptimes ( lap_id SERIAL NOT NULL, player_id INT NOT NULL, laptime INT NOT NULL, PRIMARY KEY (lap_id) ); INSERT INTO laptimes (player_id, laptime) VALUES (1, 250); INSERT INTO laptimes (player_id, laptime) VALUES (1, 450); INSERT INTO laptimes (player_id, laptime) VALUES (1, 350); INSERT INTO laptimes (player_id, laptime) VALUES (1, 300); INSERT INTO laptimes (player_id, laptime) VALUES (1, 327); INSERT INTO laptimes (player_id, laptime) VALUES (2, 327); INSERT INTO laptimes (player_id, laptime) VALUES (2, 249); INSERT INTO laptimes (player_id, laptime) VALUES (2, 123); INSERT INTO laptimes (player_id, laptime) VALUES (2, 489); INSERT INTO laptimes (player_id, laptime) VALUES (2, 158); INSERT INTO laptimes (player_id, laptime) VALUES (3, 158); INSERT INTO laptimes (player_id, laptime) VALUES (3, 120); INSERT INTO laptimes (player_id, laptime) VALUES (3, 190); INSERT INTO laptimes (player_id, laptime) VALUES (4, 600); Now imagine that you want to display the best 3 results for each player.</description>
     </item>
     
     <item>
@@ -652,33 +185,10 @@ laptime INT &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span 
       <pubDate>Fri, 03 Feb 2006 00:00:00 +0000</pubDate>
       
       <guid>/post/2006-02-03-multiple-joins-explained/</guid>
-      <description>
-        
-          &lt;p&gt;I&amp;rsquo;ll try to explain how a join on more than one table works. I&amp;rsquo;ve noticed people get confused by it. Assume we have the following tables&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;newsitems(news_id,post_id)&lt;/li&gt;
-&lt;li&gt;postitems(post_id,user_id,content)&lt;/li&gt;
-&lt;li&gt;users(user_id,name,password)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;We want to display for each newsitem the content and the author.&lt;/p&gt;
-&lt;p&gt;Our base table would be the newsitems, and then we join using the item_id. Thus the query would be&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; newsitems
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INNER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;JOIN&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ON&lt;/span&gt; postitems &lt;span style=&#34;color:#66d9ef&#34;&gt;USING&lt;/span&gt; (post_id)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This returns a &amp;ldquo;virtual table&amp;rdquo; that has looks like this result(news_id,post_id,user_id,content).&lt;/p&gt;
-&lt;p&gt;Now we still need to get the username, so we use our result table and perform a join on the users table. Thus the query would be&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;result&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INNER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;JOIN&lt;/span&gt; users &lt;span style=&#34;color:#66d9ef&#34;&gt;USING&lt;/span&gt; (user_id)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If we combine our first two queries, we end up with this&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; newsitems
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INNER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;JOIN&lt;/span&gt; postitems &lt;span style=&#34;color:#66d9ef&#34;&gt;USING&lt;/span&gt; (post_id)
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INNER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;JOIN&lt;/span&gt; users &lt;span style=&#34;color:#66d9ef&#34;&gt;USING&lt;/span&gt; (user_id)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Conclusion: Look at A&lt;em&gt;B&lt;/em&gt;C as (A*B)*C to easily understand multiple joins&lt;/p&gt;
-
-        
-      </description>
+      <description>I&amp;rsquo;ll try to explain how a join on more than one table works. I&amp;rsquo;ve noticed people get confused by it. Assume we have the following tables
+ newsitems(news_id,post_id) postitems(post_id,user_id,content) users(user_id,name,password)  We want to display for each newsitem the content and the author.
+Our base table would be the newsitems, and then we join using the item_id. Thus the query would be
+SELECT * FROM newsitems INNER JOIN ON postitems USING (post_id) This returns a &amp;ldquo;virtual table&amp;rdquo; that has looks like this result(news_id,post_id,user_id,content).</description>
     </item>
     
     <item>
@@ -687,13 +197,8 @@ laptime INT &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span 
       <pubDate>Wed, 18 Jan 2006 00:00:00 +0000</pubDate>
       
       <guid>/post/2006-01-18-select-the-first-50-words-of-an-article/</guid>
-      <description>
-        
-          &lt;p&gt;I am cleaning up my code snippets and i found the following little trick in one of them that i have removed. Assuming that different words are separated by spaces we can use &lt;a href=&#34;http://dev.mysql.com/doc/refman/5.0/en/string-functions.html&#34;&gt;SUBSTRING_INDEX&lt;/a&gt; as following&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; SUBSTRING_INDEX(body,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; dn &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; mytable
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>I am cleaning up my code snippets and i found the following little trick in one of them that i have removed. Assuming that different words are separated by spaces we can use SUBSTRING_INDEX as following
+SELECT SUBSTRING_INDEX(body,&amp;#39; &amp;#39;,50) AS dn FROM mytable </description>
     </item>
     
     <item>
@@ -702,15 +207,8 @@ laptime INT &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span 
       <pubDate>Thu, 09 Dec 2004 00:00:00 +0000</pubDate>
       
       <guid>/post/2004-12-09-custom-ordering-with-mysql/</guid>
-      <description>
-        
-          &lt;p&gt;As a follow up to &lt;a href=&#34;http://www.timvw.be/custom-ordering&#34;&gt;Custom Ordering&lt;/a&gt; I discovered the nice &lt;a href=&#34;http://dev.mysql.com/doc/mysql/en/String_functions.html&#34;&gt;Field&lt;/a&gt; function in &lt;a href=&#34;http://www.mysql.com&#34;&gt;MySQL.&lt;/a&gt; after it was mentionned on my favorite &lt;a href=&#34;http://forums.devnetwork.net&#34;&gt;PHP Forum&lt;/a&gt; by &lt;a href=&#34;http://forums.devnetwork.net/profile.php?mode=viewprofile&amp;amp;u=7815&#34;&gt;Weirdan&lt;/a&gt;. It allows one to order a column on a custom order relation.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; foo
-&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; FIELD(&lt;span style=&#34;color:#66d9ef&#34;&gt;column&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Z&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;B&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;C&amp;#39;&lt;/span&gt;) 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>As a follow up to Custom Ordering I discovered the nice Field function in MySQL. after it was mentionned on my favorite PHP Forum by Weirdan. It allows one to order a column on a custom order relation.
+SELECT * FROM foo ORDER BY FIELD(column, &amp;#39;Z&amp;#39;, &amp;#39;B&amp;#39;, &amp;#39;C&amp;#39;) </description>
     </item>
     
     <item>
@@ -719,20 +217,8 @@ laptime INT &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span 
       <pubDate>Sun, 18 Jul 2004 00:00:00 +0000</pubDate>
       
       <guid>/post/2004-07-18-custom-ordering/</guid>
-      <description>
-        
-          &lt;p&gt;Assume we have a fruits table. And we want to select all the fruits that have a red or orange or blue color. But we want the resultset to have first all the fruits with color=red, then the fruits with color=blue and then the fruits with color=orange. It is obvious we can not use an alphabetical order. Thus we have to introduce our own order relation.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;select&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;from&lt;/span&gt; fruits
-&lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt; color &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;red&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;or&lt;/span&gt; color &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;blue&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;or&lt;/span&gt; color &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;orange&amp;#39;&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;order&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;by&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;when&lt;/span&gt; color &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;red&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;then&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;when&lt;/span&gt; color &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;blue&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;then&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;when&lt;/span&gt; color &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;orange&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;then&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Assume we have a fruits table. And we want to select all the fruits that have a red or orange or blue color. But we want the resultset to have first all the fruits with color=red, then the fruits with color=blue and then the fruits with color=orange. It is obvious we can not use an alphabetical order. Thus we have to introduce our own order relation.
+select * from fruits where color = &amp;#39;red&amp;#39; or color = &amp;#39;blue&amp;#39; or color = &amp;#39;orange&amp;#39; order by case when color = &amp;#39;red&amp;#39; then 0 when color = &amp;#39;blue&amp;#39; then 1 when color = &amp;#39;orange&amp;#39; then 2 end </description>
     </item>
     
   </channel>

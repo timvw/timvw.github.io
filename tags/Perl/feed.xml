@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Perl on Tim Van Wassenhove&#39;s blog</title>
+    <title>Perl on Tim Van Wassenhove</title>
     <link>/tags/Perl/</link>
-    <description>Recent content in Perl on Tim Van Wassenhove&#39;s blog</description>
+    <description>Recent content in Perl on Tim Van Wassenhove</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 20 Dec 2005 00:00:00 +0000</lastBuildDate><atom:link href="/tags/Perl/feed.xml" rel="self" type="application/rss+xml" />
@@ -13,12 +13,7 @@
       <pubDate>Tue, 20 Dec 2005 00:00:00 +0000</pubDate>
       
       <guid>/post/2005-12-20-simple-http-proxy-with-perl/</guid>
-      <description>
-        
-          &lt;p&gt;Today i had to demonstrate my version of a HTTP proxy and hand in the code. There are already various programs that do this, but here is my version: &lt;a href=&#34;http://www.timvw.be/wp-content/code/perl/httpproxy.txt&#34;&gt;httpproxy.txt&lt;/a&gt;&lt;/p&gt;
-
-        
-      </description>
+      <description>Today i had to demonstrate my version of a HTTP proxy and hand in the code. There are already various programs that do this, but here is my version: httpproxy.txt</description>
     </item>
     
     <item>
@@ -27,30 +22,8 @@
       <pubDate>Mon, 14 Nov 2005 00:00:00 +0000</pubDate>
       
       <guid>/post/2005-11-14-parsing-http-headers/</guid>
-      <description>
-        
-          &lt;p&gt;Today i updated my HTTP proxy a little. &lt;a href=&#34;http://www.w3.org/Protocols/rfc2616/rfc2616.html&#34;&gt;RFC 2616&lt;/a&gt; describes &lt;a href=&#34;http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2&#34;&gt;Message Headers&lt;/a&gt; as following:&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;!-- raw HTML omitted --&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;message-header = field-name &amp;ldquo;:&amp;rdquo; [ field-value ]
-field-name     = token
-field-value    = *( field-content | LWS )
-field-content  = &amp;lt;the OCTETs making up the field-value and consisting of
-either *TEXT or combinations of token, separators,
-and quoted-string&amp;gt;
-&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;!-- raw HTML omitted --&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Here is the code i used to get the field-name and field-value. Do you see the bug?&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-perl&#34; data-lang=&#34;perl&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;my&lt;/span&gt; ($name, $value) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; split &lt;span style=&#34;color:#e6db74&#34;&gt;/:/&lt;/span&gt;, $in;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Location headers look like &amp;lsquo;header: &lt;a href=&#34;http://www.example.com&#34;&gt;http://www.example.com&lt;/a&gt;&amp;rsquo;. Now, the problem is that &lt;a href=&#34;http://perldoc.perl.org/functions/split.html&#34;&gt;split&lt;/a&gt; returns a list with &amp;lsquo;location&amp;rsquo;, &amp;lsquo;http&amp;rsquo; and &amp;lsquo;&lt;a href=&#34;http://www.example.com&#34;&gt;www.example.com&lt;/a&gt;&amp;rsquo;. Here is the solution:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-perl&#34; data-lang=&#34;perl&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;my&lt;/span&gt; $in &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;location: http://www.example.com&amp;#39;&lt;/span&gt;;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;my&lt;/span&gt; ($name, $value) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; split &lt;span style=&#34;color:#e6db74&#34;&gt;/:/&lt;/span&gt;, $in, &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Today i updated my HTTP proxy a little. RFC 2616 describes Message Headers as following:
+  message-header = field-name &amp;ldquo;:&amp;rdquo; [ field-value ] field-name = token field-value = *( field-content | LWS ) field-content = &amp;lt;the OCTETs making up the field-value and consisting of either *TEXT or combinations of token, separators, and quoted-string&amp;gt;   Here is the code i used to get the field-name and field-value. Do you see the bug?</description>
     </item>
     
     <item>
@@ -59,21 +32,8 @@ and quoted-string&amp;gt;
       <pubDate>Thu, 20 Oct 2005 00:00:00 +0000</pubDate>
       
       <guid>/post/2005-10-20-passing-a-filehandle-as-parameter/</guid>
-      <description>
-        
-          &lt;p&gt;To keep things maintainable we split our program in modules, classes, functions&amp;hellip; In &lt;a href=&#34;http://perldoc.perl.org/perlsub.html&#34;&gt;perlsub&lt;/a&gt; from the execellent perl documentation you can lookup the syntax of how to use functions. Offcourse, you have to digg pretty deep to find out how you can pass a filehandle&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-perl&#34; data-lang=&#34;perl&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# clientproc(*STDOUT);&lt;/span&gt;
-&lt;span style=&#34;color:#75715e&#34;&gt;# pass the socket&lt;/span&gt;
-clientproc(&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;CH);
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;sub&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;clientproc&lt;/span&gt;  
-{
-  $fh &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; shift;  
-  &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt; $fh &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;hello world&amp;#39;&lt;/span&gt;;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>To keep things maintainable we split our program in modules, classes, functions&amp;hellip; In perlsub from the execellent perl documentation you can lookup the syntax of how to use functions. Offcourse, you have to digg pretty deep to find out how you can pass a filehandle
+# clientproc(*STDOUT); # pass the socket clientproc(*CH); sub clientproc { $fh = shift; print $fh &amp;#39;hello world&amp;#39;; } </description>
     </item>
     
   </channel>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>F# on Tim Van Wassenhove&#39;s blog</title>
+    <title>F# on Tim Van Wassenhove</title>
     <link>/tags/F#/</link>
-    <description>Recent content in F# on Tim Van Wassenhove&#39;s blog</description>
+    <description>Recent content in F# on Tim Van Wassenhove</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 30 Jan 2014 00:00:00 +0000</lastBuildDate><atom:link href="/tags/F#/feed.xml" rel="self" type="application/rss+xml" />
@@ -13,32 +13,9 @@
       <pubDate>Thu, 30 Jan 2014 00:00:00 +0000</pubDate>
       
       <guid>/post/2014-01-30-a-parameterized-active-pattern-to-match-the-first-elements-of-an-array/</guid>
-      <description>
-        
-          &lt;p&gt;Been writing code in F# for almost a year and never blogged about it. Time to change that. Earlier today someone asked the following on twitter:&lt;/p&gt;
-&lt;p&gt;&lt;!-- raw HTML omitted --&gt;Is it possible to pattern match the first part of an array in #FSharp? Something like | 1::2::3::tail but for arrays? #lazyweb&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
-&lt;p&gt;I accepted the challenge :)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fsharp&#34; data-lang=&#34;fsharp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(|&lt;/span&gt;Array&lt;span style=&#34;color:#f92672&#34;&gt;|_|)&lt;/span&gt; pattern toMatch &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;      
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; patternLength &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Array.length pattern
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; toMatchLength &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Array.length toMatch
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; tailLength &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; toMatchLength &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; patternLength
-
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; patternLength &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; toMatchLength &lt;span style=&#34;color:#66d9ef&#34;&gt;then&lt;/span&gt;
-		None
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; firstElementsAreEqual &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt; 0 &lt;span style=&#34;color:#f92672&#34;&gt;..&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;patternLength &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; 1&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; Seq.forall &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;fun&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; pattern&lt;span style=&#34;color:#f92672&#34;&gt;.[&lt;/span&gt;i&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; toMatch&lt;span style=&#34;color:#f92672&#34;&gt;.[&lt;/span&gt;i&lt;span style=&#34;color:#f92672&#34;&gt;])&lt;/span&gt;
-          
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; firstElementsAreEqual &lt;span style=&#34;color:#66d9ef&#34;&gt;then&lt;/span&gt;
-			Some&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Array.sub toMatch patternLength tailLength&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; 
-			None
-		
-&lt;span style=&#34;color:#66d9ef&#34;&gt;match&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[|&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;2&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;3&lt;span style=&#34;color:#f92672&#34;&gt;|]&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;with&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; Array &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;\&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[|&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;|]&lt;/span&gt; tail &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; sprintf &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;bingo %i&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;tail &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; Array.sum&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;// the tail is [|2;3|\]
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Or as a gist: &lt;a href=&#34;https://gist.github.com/timvw/8717796&#34;&gt;https://gist.github.com/timvw/8717796&lt;/a&gt;.&lt;/p&gt;
-
-        
-      </description>
+      <description>Been writing code in F# for almost a year and never blogged about it. Time to change that. Earlier today someone asked the following on twitter:
+Is it possible to pattern match the first part of an array in #FSharp? Something like | 1::2::3::tail but for arrays? #lazywebI accepted the challenge :)
+let (|Array|_|) pattern toMatch = let patternLength = Array.length pattern let toMatchLength = Array.length toMatch let tailLength = toMatchLength - patternLength if patternLength &amp;gt; toMatchLength then None else let firstElementsAreEqual = [ 0 .</description>
     </item>
     
   </channel>

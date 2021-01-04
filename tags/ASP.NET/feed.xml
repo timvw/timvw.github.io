@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ASP.NET on Tim Van Wassenhove&#39;s blog</title>
+    <title>ASP.NET on Tim Van Wassenhove</title>
     <link>/tags/ASP.NET/</link>
-    <description>Recent content in ASP.NET on Tim Van Wassenhove&#39;s blog</description>
+    <description>Recent content in ASP.NET on Tim Van Wassenhove</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 21 Nov 2009 00:00:00 +0000</lastBuildDate><atom:link href="/tags/ASP.NET/feed.xml" rel="self" type="application/rss+xml" />
@@ -13,50 +13,8 @@
       <pubDate>Sat, 21 Nov 2009 00:00:00 +0000</pubDate>
       
       <guid>/post/2009-11-21-easy-pattern-for-control-state/</guid>
-      <description>
-        
-          &lt;p&gt;If you have decided that your WebControl requires to maintain it&amp;rsquo;s state you will want to figure out how to implement Control state. Most examples on the web will then create an array of objects and then hardcode the indices to find stuff back&amp;hellip; Simply define a serializable inner class and use that instead of the &amp;lsquo;magic array object&amp;rsquo;. Eg&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;SilverlightHost&lt;/span&gt; : WebControl
-{
-&lt;span style=&#34;color:#a6e22e&#34;&gt;	[Serializable]&lt;/span&gt;
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;State&lt;/span&gt;
-	{
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;object&lt;/span&gt; BaseState { &lt;span style=&#34;color:#66d9ef&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#66d9ef&#34;&gt;set&lt;/span&gt;; }
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; SilverlightUrl { &lt;span style=&#34;color:#66d9ef&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#66d9ef&#34;&gt;set&lt;/span&gt;; }
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; SilverlightErrorHandlerUrl { &lt;span style=&#34;color:#66d9ef&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#66d9ef&#34;&gt;set&lt;/span&gt;; }
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; Dictionary&amp;lt;&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;&amp;gt; Parameters { &lt;span style=&#34;color:#66d9ef&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#66d9ef&#34;&gt;set&lt;/span&gt;; }
-	}
-
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;protected&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;override&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; OnInit(EventArgs e)
-	{
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;base&lt;/span&gt;.OnInit(e);
-		Page.RegisterRequiresControlState(&lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;);
-	}
-
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;protected&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;override&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;object&lt;/span&gt; SaveControlState()
-	{
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; state = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; State
-		{
-			BaseState = &lt;span style=&#34;color:#66d9ef&#34;&gt;base&lt;/span&gt;.SaveControlState(),
-			SilverlightUrl = SilverlightUrl,
-			SilverlightErrorHandlerUrl = SilverlightErrorHandlerUrl,
-			Parameters = parameters
-		};
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; state;
-	}
-
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;protected&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;override&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; LoadControlState(&lt;span style=&#34;color:#66d9ef&#34;&gt;object&lt;/span&gt; savedState)
-	{
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; state = (State)savedState;
-		SilverlightUrl = state.SilverlightUrl;
-		SilverlightErrorHandlerUrl = state.SilverlightErrorHandlerUrl;
-		parameters = state.Parameters;
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;base&lt;/span&gt;.LoadControlState(state.BaseState);
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>If you have decided that your WebControl requires to maintain it&amp;rsquo;s state you will want to figure out how to implement Control state. Most examples on the web will then create an array of objects and then hardcode the indices to find stuff back&amp;hellip; Simply define a serializable inner class and use that instead of the &amp;lsquo;magic array object&amp;rsquo;. Eg
+class SilverlightHost : WebControl { [Serializable] class State { public object BaseState { get; set; } public string SilverlightUrl { get; set; } public string SilverlightErrorHandlerUrl { get; set; } public Dictionary&amp;lt;string, string&amp;gt; Parameters { get; set; } } protected override void OnInit(EventArgs e) { base.</description>
     </item>
     
     <item>
@@ -65,32 +23,8 @@
       <pubDate>Sun, 14 Dec 2008 00:00:00 +0000</pubDate>
       
       <guid>/post/2008-12-14-exploring-ajax-on-the-aspnet-platform/</guid>
-      <description>
-        
-          &lt;p&gt;I finally found some time to experiment with AJAX on the ASP.NET platform. The first technique i looked into was &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/bb386573.aspx&#34;&gt;Partial-Page Rendering&lt;/a&gt; with controls like &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/bb386454.aspx&#34;&gt;UpdatePanel&lt;/a&gt;. It gave me an awkward feeling but even Dino Esposito, who spent a whole chapter on this technique in his &lt;a href=&#34;http://www.amazon.com/Programming-Microsoft-ASP-NET-Dino-Esposito/dp/0735625271&#34;&gt;book&lt;/a&gt;, seems to &lt;a href=&#34;http://weblogs.asp.net/despos/archive/2007/09/19/partial-rendering-misses-ajax-architectural-points.aspx&#34;&gt;share&lt;/a&gt; that feeling.&lt;/p&gt;
-&lt;p&gt;Page methods, public static methods that are decorated with the &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/system.web.services.webmethodattribute.aspx&#34;&gt;WebMethodAttribute&lt;/a&gt; declared on a &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/system.web.ui.page.aspx&#34;&gt;Page&lt;/a&gt; are exposed as a WebService method and return the result as &lt;a href=&#34;http://www.json.org/&#34;&gt;JSON&lt;/a&gt;. An easy solution but it comes with the cost that it does not offer much flexibility.&lt;/p&gt;
-&lt;p&gt;Thanks to the &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/system.servicemodel.webhttpbinding.aspx&#34;&gt;WebHttpBinding&lt;/a&gt; and &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/system.servicemodel.web.webinvokeattribute.aspx&#34;&gt;WebInvokeAttribute&lt;/a&gt; the &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/ms735119.aspx&#34;&gt;Windows Communication Foundation&lt;/a&gt; now supports services that return JSON in a &lt;a href=&#34;http://en.wikipedia.org/wiki/Representational_State_Transfer&#34;&gt;REST&lt;/a&gt;full call style. This is the technique that i prefer.&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://jquery.com/&#34;&gt;jQuery&lt;/a&gt; is a very sweet library that simplifies JavaScript development seriously and provides an easy way to consume WCF/JSON services easily. Here is an example of a page with a button that by default triggers a postback (supporting all users, even those without JavaScript) but that behavior is overriden with a XMLHTTP request instead once the document is loaded (an enhancement for users with JavaScript)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;$&lt;/span&gt;(document).&lt;span style=&#34;color:#a6e22e&#34;&gt;ready&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt;() {
-	&lt;span style=&#34;color:#a6e22e&#34;&gt;$&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;#RequestEchoButton&amp;#39;&lt;/span&gt;).&lt;span style=&#34;color:#a6e22e&#34;&gt;click&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt;() {
-		&lt;span style=&#34;color:#a6e22e&#34;&gt;$&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ajax&lt;/span&gt;({
-			&lt;span style=&#34;color:#a6e22e&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;POST&amp;#39;&lt;/span&gt;,
-			&lt;span style=&#34;color:#a6e22e&#34;&gt;url&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Default.svc/Echo&amp;#39;&lt;/span&gt;,
-			&lt;span style=&#34;color:#a6e22e&#34;&gt;data&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;{}&amp;#39;&lt;/span&gt;,
-			&lt;span style=&#34;color:#a6e22e&#34;&gt;contentType&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;application/json; charset=utf-8&amp;#39;&lt;/span&gt;,
-			&lt;span style=&#34;color:#a6e22e&#34;&gt;dataType&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;json&amp;#39;&lt;/span&gt;,
-			&lt;span style=&#34;color:#a6e22e&#34;&gt;success&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;data&lt;/span&gt;) { &lt;span style=&#34;color:#a6e22e&#34;&gt;$&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;#EchoResultDiv&amp;#39;&lt;/span&gt;).&lt;span style=&#34;color:#a6e22e&#34;&gt;html&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;data&lt;/span&gt;); },
-			&lt;span style=&#34;color:#a6e22e&#34;&gt;error&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;data&lt;/span&gt;) { &lt;span style=&#34;color:#a6e22e&#34;&gt;$&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;#EchoResultDiv&amp;#39;&lt;/span&gt;).&lt;span style=&#34;color:#a6e22e&#34;&gt;html&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Failed to request Echo.&amp;#39;&lt;/span&gt;); }
-		});
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;;
-	});
-});
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Notice that my Default.svc page uses the &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/system.servicemodel.activation.webservicehostfactory.aspx&#34;&gt;WebServiceHostFactory&lt;/a&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;lt;&lt;/span&gt;%@ ServiceHost Language=&amp;#34;C#&amp;#34; Debug=&amp;#34;true&amp;#34; Service=&amp;#34;PageServices.Default&amp;#34; Factory=&amp;#34;System.ServiceModel.Activation.WebServiceHostFactory&amp;#34; %&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Conclusion: Unlike jQuery and WCF, I am not convinced that controls like UpdatePanel and ScriptManager add any value to my toolkit.&lt;/p&gt;
-
-        
-      </description>
+      <description>I finally found some time to experiment with AJAX on the ASP.NET platform. The first technique i looked into was Partial-Page Rendering with controls like UpdatePanel. It gave me an awkward feeling but even Dino Esposito, who spent a whole chapter on this technique in his book, seems to share that feeling.
+Page methods, public static methods that are decorated with the WebMethodAttribute declared on a Page are exposed as a WebService method and return the result as JSON.</description>
     </item>
     
     <item>
@@ -99,47 +33,8 @@
       <pubDate>Wed, 15 Oct 2008 00:00:00 +0000</pubDate>
       
       <guid>/post/2008-10-15-how-does-the-controller-know-which-action-method-to-invoke/</guid>
-      <description>
-        
-          &lt;p&gt;Yesterday i attended another great &lt;a href=&#34;http://www.visug.be&#34;&gt;VISUG&lt;/a&gt; event on ASP.NET presented by &lt;a href=&#34;http://blog.maartenballiauw.be/&#34;&gt;Maarten Balliauw&lt;/a&gt;. He demonstrated a custom filter but did not dig into the mechanics of action method resolving. With the aid of of the ActionName attribute we can map different methods to the same action. The following methods will all map to the same &amp;ldquo;Detail&amp;rdquo; action&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; ActionResult Detail(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; productId) { ... }
-&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; ActionResult Detail(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; productId, &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; name) { ... }
-&lt;span style=&#34;color:#a6e22e&#34;&gt;[ActionName(&amp;#34;Detail&amp;#34;)]&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; ActionResult DisplayDetail(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; productId) { ... }
-&lt;span style=&#34;color:#a6e22e&#34;&gt;[ActionName(&amp;#34;Detail&amp;#34;)]&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; ActionResult ModifyDetail(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; productId, &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; name) { ... }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So how does the Controller know which method to invoke? The answer can be found in the ActionMethodSelector which tries to find the method as following&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; MethodInfo FindActionMethod(ControllerContext controllerContext, &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; action)
-{
-	List&amp;lt;methodInfo&amp;gt; methodsMatchingName = GetMatchingAliasedMethods(controllerContext, action);
-	methodsMatchingName.AddRange(NonAliasedMethods[action]);
-	List&amp;lt;methodInfo&amp;gt; finalMethods = RunSelectionFilters(controllerContext, methodsMatchingName);
-
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;switch&lt;/span&gt; (finalMethods.Count)
-	{
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt;;
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; finalMethods[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;];
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;default&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;throw&lt;/span&gt; CreateAmbiguousMatchException(finalMethods, action);
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In the RunSelectionFilters method all the found ActionSelection Attributes have their IsValidForRequest method called in the hope that only one potential method remains.&lt;/p&gt;
-&lt;p&gt;The most common scenario is that we want our controller to behave depending upon the request method (POST vs GET). For this scenario there is the AcceptVerbsAttribute. eg&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;[ActionName(&amp;#34;Detail&amp;#34;)]&lt;/span&gt;
-&lt;span style=&#34;color:#a6e22e&#34;&gt;[AcceptVerbs(&amp;#34;GET&amp;#34;)]&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; ActionResult DisplayDetail(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; productId) { ... }
-&lt;span style=&#34;color:#a6e22e&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;[ActionName(&amp;#34;Detail&amp;#34;)]&lt;/span&gt;
-&lt;span style=&#34;color:#a6e22e&#34;&gt;[AcceptVerbs(&amp;#34;POST&amp;#34;)]&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; ActionResult ModifyDetail(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; productId, &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; name) { ... }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The implementation of the IsValidForRequest method in the AcceptVerbsAttribute is pretty simple&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;override&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; IsValidForRequest(ControllerContext controllerContext, MethodInfo methodInfo)
-{
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (controllerContext == &lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;throw&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; ArgumentNullException(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;controllerContext&amp;#34;&lt;/span&gt;);
-
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; incomingVerb = controllerContext.HttpContext.Request.HttpMethod;
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; Verbs.Contains(incomingVerb, StringComparer.OrdinalIgnoreCase);
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Yesterday i attended another great VISUG event on ASP.NET presented by Maarten Balliauw. He demonstrated a custom filter but did not dig into the mechanics of action method resolving. With the aid of of the ActionName attribute we can map different methods to the same action. The following methods will all map to the same &amp;ldquo;Detail&amp;rdquo; action
+public ActionResult Detail(int productId) { ... } public ActionResult Detail(int productId, string name) { .</description>
     </item>
     
     <item>
@@ -148,12 +43,7 @@
       <pubDate>Tue, 14 Oct 2008 00:00:00 +0000</pubDate>
       
       <guid>/post/2008-10-14-adaptive-control-behavior-linkbutton-without-javascript/</guid>
-      <description>
-        
-          &lt;p&gt;&amp;lsquo;Experiment with &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/67276kc5.aspx&#34;&gt;Adaptive Control Behavior&lt;/a&gt;&amp;rsquo; has been an item on my TO-DO list for a very long time and this weekend i finally found some time to do exactly that. Because i hate it that a &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/system.web.ui.webcontrols.linkbutton.aspx&#34;&gt;LinkButton&lt;/a&gt; renders as &lt;!-- raw HTML omitted --&gt; i decided to develop a &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/system.web.ui.adapters.controladapter.aspx&#34;&gt;ControlAdapter&lt;/a&gt; that makes the LinkButton work without JavaScript. While i was at it i also wrote adapters for the &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/system.web.ui.webcontrols.loginstatus(VS.80).aspx&#34;&gt;LoginStatus&lt;/a&gt; and &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/system.web.ui.webcontrols.login.aspx&#34;&gt;Login&lt;/a&gt; controls. Feel free to play with the &lt;a href=&#34;http://www.timvw.be/wp-content/code/csharp/AdaptiveRenderingDemo.zip&#34;&gt;Adaptive Rendering Demo&lt;/a&gt;.&lt;/p&gt;
-
-        
-      </description>
+      <description>&amp;lsquo;Experiment with Adaptive Control Behavior&amp;rsquo; has been an item on my TO-DO list for a very long time and this weekend i finally found some time to do exactly that. Because i hate it that a LinkButton renders as i decided to develop a ControlAdapter that makes the LinkButton work without JavaScript. While i was at it i also wrote adapters for the LoginStatus and Login controls. Feel free to play with the Adaptive Rendering Demo.</description>
     </item>
     
   </channel>

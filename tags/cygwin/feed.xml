@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>cygwin on Tim Van Wassenhove&#39;s blog</title>
+    <title>cygwin on Tim Van Wassenhove</title>
     <link>/tags/cygwin/</link>
-    <description>Recent content in cygwin on Tim Van Wassenhove&#39;s blog</description>
+    <description>Recent content in cygwin on Tim Van Wassenhove</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 12 Mar 2011 00:00:00 +0000</lastBuildDate><atom:link href="/tags/cygwin/feed.xml" rel="self" type="application/rss+xml" />
@@ -13,60 +13,9 @@
       <pubDate>Sat, 12 Mar 2011 00:00:00 +0000</pubDate>
       
       <guid>/post/2011-03-12-some-tips-for-net-developers-using-git-on-cygwin/</guid>
-      <description>
-        
-          &lt;p&gt;Here are some tips that i want to share with fellow .Net developers that use git on cygwin.&lt;/p&gt;
-&lt;p&gt;First of all i defined some aliases in my ~/.bashrc:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# open explorer in the current working directory &lt;/span&gt;
-alias explorer&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;explorer.exe &amp;#34;\`cygpath -aw \&amp;#34;$PWD\&amp;#34;\`&amp;#34;&amp;#39;&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;# invoke MSBuild&lt;/span&gt;
-alias msbuild&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/cygdrive/c/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe&amp;amp;&amp;#39;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Because i do not like the TFS source control story i use &lt;a href=&#34;https://github.com/spraints/git-tfs&#34;&gt;git-tfs&lt;/a&gt;. As a .Net developer you want to add the following to your .git/info/exclude file:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#OS junk files&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Tt&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;humbs.db
-*.DS_Store
-&lt;span style=&#34;color:#75715e&#34;&gt;#Visual Studio files  &lt;/span&gt;
-*.&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Oo&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;bj 
-*.exe 
-*.pdb
-*.user
-*.aps 
-*.pch 
-*.vspscc 
-*.vssscc 
-*_i.c 
-*_p.c 
-*.ncb 
-*.suo 
-*.tlb
-*.tlh
-*.bak
-*.&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Cc&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;ache
-*.ilk 
-*.log 
-*.lib 
-*.sbr 
-*.sdf 
-ipch/ 
-obj/ 
-&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Bb&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;in
-&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Dd&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;ebug*/
-&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Rr&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;elease*/
-Ankh.NoLoad
-&lt;span style=&#34;color:#75715e&#34;&gt;#Tooling &lt;/span&gt;
-_ReSharper*/ 
-*.resharper
-&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Tt&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;est&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Rr&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;esult*
-&lt;span style=&#34;color:#75715e&#34;&gt;#Subversion files &lt;/span&gt;
-.svn
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Whenever i work online i usually run these two commands consecutively: git -a -m &amp;lsquo;commit message&amp;rsquo; and git-tfs checkin -m &amp;lsquo;commit message&amp;rsquo;. Here is a small ~/bin/commit script that combines these:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#!/bin/bash
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;git commit -a -m &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;$1&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;;
-git-tfs checkin -m &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;$1&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Here are some tips that i want to share with fellow .Net developers that use git on cygwin.
+First of all i defined some aliases in my ~/.bashrc:
+# open explorer in the current working directory  alias explorer=&amp;#39;explorer.exe &amp;#34;\`cygpath -aw \&amp;#34;$PWD\&amp;#34;\`&amp;#34;&amp;#39; # invoke MSBuild alias msbuild=&amp;#39;/cygdrive/c/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe&amp;amp;&amp;#39; Because i do not like the TFS source control story i use git-tfs. As a .Net developer you want to add the following to your .</description>
     </item>
     
     <item>
@@ -75,22 +24,9 @@ git-tfs checkin -m &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&
       <pubDate>Sat, 12 Mar 2011 00:00:00 +0000</pubDate>
       
       <guid>/post/2011-03-12-using-winmerge-as-difftool-on-cygwingit/</guid>
-      <description>
-        
-          &lt;p&gt;Last couple of weeks i have been using &lt;a href=&#34;http://git-scm.com/&#34;&gt;Git&lt;/a&gt; on &lt;a href=&#34;http://www.cygwin.com&#34;&gt;cygwin&lt;/a&gt; and i got very satisfying results out of it. One thing that i wanted to tweak was the ability to use &lt;a href=&#34;http://winmerge.org/&#34;&gt;WinMerge&lt;/a&gt; to compare files. Here is how i do it:&lt;/p&gt;
-&lt;p&gt;Here is my ~/.gitconfig:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;user&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;	  
-name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Tim Van Wassenhove	  
-email &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; git@timvw.be
-&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;diff&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
-external &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;~/bin/git-diff-wrapper.sh&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here is my ~/bin/git-diff-wrapper.sh (it uses &lt;a href=&#34;http://www.cygwin.com/cygwin-ug-net/using-utils.html&#34;&gt;cygpath&lt;/a&gt; to translate the paths):&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#!/bin/sh
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/cygdrive/c/Program Files/WinMerge/WinMergeU.EXE&amp;#34;&lt;/span&gt; /e /ub /dl other /dr local &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;\`cygpath -aw &lt;/span&gt;$1&lt;span style=&#34;color:#e6db74&#34;&gt;\`&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;\`cygpath -aw &lt;/span&gt;$2&lt;span style=&#34;color:#e6db74&#34;&gt;\`&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;\`cygpath -aw &lt;/span&gt;$5&lt;span style=&#34;color:#e6db74&#34;&gt;\`&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And now we are good to go 😉&lt;/p&gt;
-
-        
-      </description>
+      <description>Last couple of weeks i have been using Git on cygwin and i got very satisfying results out of it. One thing that i wanted to tweak was the ability to use WinMerge to compare files. Here is how i do it:
+Here is my ~/.gitconfig:
+[user]	name = Tim Van Wassenhove	email = git@timvw.be [diff] external = &amp;#34;~/bin/git-diff-wrapper.sh&amp;#34; Here is my ~/bin/git-diff-wrapper.sh (it uses cygpath to translate the paths):</description>
     </item>
     
   </channel>

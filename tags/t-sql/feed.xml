@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>t-sql on Tim Van Wassenhove&#39;s blog</title>
+    <title>t-sql on Tim Van Wassenhove</title>
     <link>/tags/t-sql/</link>
-    <description>Recent content in t-sql on Tim Van Wassenhove&#39;s blog</description>
+    <description>Recent content in t-sql on Tim Van Wassenhove</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 27 Apr 2013 00:00:00 +0000</lastBuildDate><atom:link href="/tags/t-sql/feed.xml" rel="self" type="application/rss+xml" />
@@ -13,18 +13,8 @@
       <pubDate>Sat, 27 Apr 2013 00:00:00 +0000</pubDate>
       
       <guid>/post/2013-04-27-the-curious-case-of-trailing-spaces-in-sql/</guid>
-      <description>
-        
-          &lt;p&gt;A while ago I was quite surprised to see that the following query returns 1 instead of 0:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;COUNT&lt;/span&gt;(&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; N&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Tim&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; N&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Tim &amp;#39;&lt;/span&gt;; &lt;span style=&#34;color:#75715e&#34;&gt;-- notice the trailing space
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Apparently this is just standard behaviour. Here is an extract from &lt;a href=&#34;http://www.andrew.cmu.edu/user/shadow/sql/sql1992.txt&#34;&gt;sql1992.txt&lt;/a&gt; (Section 8.2 Paragraph 3):&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
-&lt;!-- raw HTML omitted --&gt;
-&lt;!-- raw HTML omitted --&gt;
-&lt;!-- raw HTML omitted --&gt;
-
-        
-      </description>
+      <description>A while ago I was quite surprised to see that the following query returns 1 instead of 0:
+SELECT COUNT(*) WHERE N&amp;#39;Tim&amp;#39; = N&amp;#39;Tim &amp;#39;; -- notice the trailing space Apparently this is just standard behaviour. Here is an extract from sql1992.txt (Section 8.2 Paragraph 3):</description>
     </item>
     
     <item>
@@ -33,57 +23,9 @@
       <pubDate>Tue, 27 Mar 2012 00:00:00 +0000</pubDate>
       
       <guid>/post/2012-03-27-an-example-of-common-table-expression-and-window-function-usage/</guid>
-      <description>
-        
-          &lt;p&gt;Earlier this week some colleague had been assigned a maintenance task and asked me how I would solve it. Every customer is permitted to have an amount of publications. All excess publications should be removed from the system (only the n most recent ones are permitted to remain on the system).&lt;/p&gt;
-&lt;p&gt;Here is an example of the Customer table:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;CREATE&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;TABLE&lt;/span&gt; [dbo].[Customer](  
-	[CustomerId] [int] &lt;span style=&#34;color:#66d9ef&#34;&gt;IDENTITY&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;, 
-	[CustomerName] [nvarchar](&lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;,  
-	[PermittedPublications] [int] &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;
-);
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; [dbo].[Customer]		  
-	([CustomerName], [PermittedPublications])
-&lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt;
-	(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;timvw&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;),		  
-	(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mike&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;);
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;An example of the customer publications table:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;CREATE&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;TABLE&lt;/span&gt; [dbo].[Publication](	  
-	[PublicationId] [int] &lt;span style=&#34;color:#66d9ef&#34;&gt;IDENTITY&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;,	  
-	[CustomerId] [int] &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;,	  
-	[PublicationName] [nvarchar](&lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;,	  
-	[PublicationTime] [datetime2] &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;
-);
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; [dbo].[Publication]
-  	([CustomerId], [PublicationName],[PublicationTime])
-&lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt;
-	((&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [CustomerId] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [dbo].[Customer] &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [CustomerName] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;timvw&amp;#39;&lt;/span&gt;), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;tim pub1&amp;#39;&lt;/span&gt;, SYSUTCDATETIME()),		  
-	((&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [CustomerId] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [dbo].[Customer] &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [CustomerName] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;timvw&amp;#39;&lt;/span&gt;), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;tim pub2&amp;#39;&lt;/span&gt;, SYSUTCDATETIME()),		  
-	((&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [CustomerId] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [dbo].[Customer] &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [CustomerName] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;timvw&amp;#39;&lt;/span&gt;), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;tim pub&amp;#39;&lt;/span&gt;, SYSUTCDATETIME()),
-	((&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [CustomerId] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [dbo].[Customer] &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [CustomerName] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;timvw&amp;#39;&lt;/span&gt;), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;tim pub4&amp;#39;&lt;/span&gt;, SYSUTCDATETIME()),
-	((&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [CustomerId] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [dbo].[Customer] &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [CustomerName] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mike&amp;#39;&lt;/span&gt;), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mike pub1&amp;#39;&lt;/span&gt;, SYSUTCDATETIME()),
-	((&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [CustomerId] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [dbo].[Customer] &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [CustomerName] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mike&amp;#39;&lt;/span&gt;), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mike pub2&amp;#39;&lt;/span&gt;, SYSUTCDATETIME()); 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;My colleague was keen on using some cursor logic, but I demonstrated him how a set-based alternative:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WITH&lt;/span&gt; [RankedPublication] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; (	  
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [CustomerId]
-		,[PublicationId]
-		,[PublicationName]
-		,[PublicationTime]
-		,ROW_NUMBER() OVER(PARTITION &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; [CustomerId] &lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; [PublicationTime]) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [PublicationRank]
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [dbo].[Publication]
-), [ExcessPublication] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; (	  
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [PublicationId]	  
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [RankedPublication]	  
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;INNER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;JOIN&lt;/span&gt; [dbo].[Customer] &lt;span style=&#34;color:#66d9ef&#34;&gt;ON&lt;/span&gt; [Customer].[CustomerId] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [RankedPublication].[CustomerId]	  
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [PublicationRank] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; [Customer].[PermittedPublications]
-)
-&lt;span style=&#34;color:#66d9ef&#34;&gt;DELETE&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [dbo].[Publication]	  
-&lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; [PublicationId] &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; [PublicationId] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [ExcessPublication]);
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Earlier this week some colleague had been assigned a maintenance task and asked me how I would solve it. Every customer is permitted to have an amount of publications. All excess publications should be removed from the system (only the n most recent ones are permitted to remain on the system).
+Here is an example of the Customer table:
+CREATE TABLE [dbo].[Customer]( [CustomerId] [int] IDENTITY(1,1) NOT NULL, [CustomerName] [nvarchar](50) NOT NULL, [PermittedPublications] [int] NOT NULL ); INSERT INTO [dbo].</description>
     </item>
     
     <item>
@@ -92,12 +34,7 @@
       <pubDate>Thu, 18 Aug 2011 00:00:00 +0000</pubDate>
       
       <guid>/post/2011-08-18-sqlconnectionstringbuilder-sets-the-pooling-property-to-true-by-default/</guid>
-      <description>
-        
-          &lt;p&gt;Here is something that surprised me: SqlConnectionStringBuilder sets the &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnectionstringbuilder.pooling.aspx&#34;&gt;Pooling&lt;/a&gt; property to true by default.&lt;/p&gt;
-
-        
-      </description>
+      <description>Here is something that surprised me: SqlConnectionStringBuilder sets the Pooling property to true by default.</description>
     </item>
     
     <item>
@@ -106,46 +43,8 @@
       <pubDate>Mon, 01 Aug 2011 00:00:00 +0000</pubDate>
       
       <guid>/post/2011-08-01-specialized-solution-for-aggregate-string-concatenation/</guid>
-      <description>
-        
-          &lt;p&gt;I have noticed that most people come up with the following solution to build a string in T-SQL:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WITH&lt;/span&gt; [Numbers] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; (	  
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; TOP(&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;) [n]	  
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums] 
-)	  
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;message &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; COALESCE(&lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;message, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;CAST&lt;/span&gt;([n] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; nvarchar(&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;))	  
-&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Numbers];
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;message &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; STUFF(&lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;message, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;);
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;message;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
-&lt;p&gt;Important! Microsoft has no official documentation describing this aggregate concatenation
-technique that is based on the assignment SELECT syntax. The behavior described here is
-based on observation alone. The current implementation of the ConcatOrders function doesn’t
-incorporate
-an ORDER BY clause and does not guarantee the order of concatenation. According
-to a blog entry by Microsoft’s Conor Cunningham, it seems that SQL Server will respect an
-ORDER BY clause if specified (&lt;a href=&#34;http://blogs.msdn.com/sqltips/archive/2005/07/20/441053.aspx)&#34;&gt;http://blogs.msdn.com/sqltips/archive/2005/07/20/441053.aspx)&lt;/a&gt;.
-Conor is a very credible source, but I should stress that besides
-this blog entry I haven’t found
-any official documentation describing how a multi-row assignment
-SELECT should behave—with
-or without an ORDER BY clause.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;With the aid of FOR XML PATH (as mentionned in &lt;a href=&#34;http://www.sql.co.il/books/insidetsql2008/&#34;&gt;Inside Microsoft SQL Server 2008: T-SQL Programming&lt;/a&gt; we can solve this problem using a documented approach:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WITH&lt;/span&gt; [Numbers] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; (	  
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; TOP(&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;) [n]	  
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums] 
-)	  
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;message &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;CAST&lt;/span&gt;([n] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; nvarchar(&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;)) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [text()]  
-&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Numbers]	  
-&lt;span style=&#34;color:#66d9ef&#34;&gt;FOR&lt;/span&gt; XML PATH(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;));
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;message &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; STUFF(&lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;message, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;);
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;message;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>I have noticed that most people come up with the following solution to build a string in T-SQL:
+WITH [Numbers] AS (	SELECT TOP(10) [n]	FROM [Nums] )	SELECT @message = COALESCE(@message, &amp;#39;&amp;#39;) + &amp;#39;&amp;#39; + CAST([n] AS nvarchar(2))	FROM [Numbers]; SELECT @message = STUFF(@message, 1, 2, &amp;#39;&amp;#39;); SELECT @message;  Important! Microsoft has no official documentation describing this aggregate concatenation technique that is based on the assignment SELECT syntax. The behavior described here is based on observation alone.</description>
     </item>
     
     <item>
@@ -154,33 +53,8 @@ or without an ORDER BY clause.&lt;/p&gt;
       <pubDate>Wed, 13 Jul 2011 00:00:00 +0000</pubDate>
       
       <guid>/post/2011-07-13-building-a-nums-table-quickly/</guid>
-      <description>
-        
-          &lt;p&gt;A while ago i presented my approach to generate a nums table &lt;a href=&#34;http://www.timvw.be/2010/12/11/techniques-learned-in-sqltopia-look-ma-no-loops/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;DECLARE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;count&lt;/span&gt; INT &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1000&lt;/span&gt;;
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;WITH&lt;/span&gt;    
-  [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] &lt;span style=&#34;color:#66d9ef&#34;&gt;UNION&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] ) 
-, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B, [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;C&lt;/span&gt;)  
-, [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;C&lt;/span&gt;)
-, [Nums4] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B )
-, [Numbers] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; TOP(&lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;count&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; ROW_NUMBER() OVER(&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; [Value]) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;[Nums4] )
-  
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Numbers];
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Because we only use this code once to fill the table we don&amp;rsquo;t really care that it is not very fast. Today i discovered there is a way to speed it up in this wonderful book: &lt;a href=&#34;http://oreilly.com/catalog/9780735626034/&#34;&gt;Inside Microsoft® SQL Server® 2008: T-SQL Querying&lt;/a&gt;:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WITH&lt;/span&gt;
-      
-  [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] &lt;span style=&#34;color:#66d9ef&#34;&gt;UNION&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] )  
-, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B, [Nums1] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;C&lt;/span&gt;)
-, [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B, [Nums2] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;C&lt;/span&gt;)
-, [Nums4] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; A.&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; A, [Nums3] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; B )
-, [Numbers] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; ( &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; TOP(&lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;count&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; ROW_NUMBER() OVER(&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)) &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; [Value] &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;[Nums4] )
-  
-&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; [Numbers];
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Yay for features like ORDER BY (SELECT &lt;!-- raw HTML omitted --&gt;).&lt;/p&gt;
-
-        
-      </description>
+      <description>A while ago i presented my approach to generate a nums table here.
+DECLARE @count INT = 1000; WITH [Nums1] AS ( SELECT 1 AS [Value] UNION SELECT 2 AS [Value] ) , [Nums2] AS ( SELECT A.* FROM [Nums1] AS A, [Nums1] AS B, [Nums1] AS C) , [Nums3] AS ( SELECT A.* FROM [Nums2] AS A, [Nums2] AS B, [Nums2] AS C) , [Nums4] AS ( SELECT A.* FROM [Nums3] AS A, [Nums3] AS B ) , [Numbers] AS ( SELECT TOP(@count) -1 + ROW_NUMBER() OVER(ORDER BY [Value]) AS [Value] FROM[Nums4] ) SELECT * FROM [Numbers]; Because we only use this code once to fill the table we don&amp;rsquo;t really care that it is not very fast.</description>
     </item>
     
     <item>
@@ -189,29 +63,8 @@ or without an ORDER BY clause.&lt;/p&gt;
       <pubDate>Wed, 13 Jul 2011 00:00:00 +0000</pubDate>
       
       <guid>/post/2011-07-13-using-user-defined-table-type-with-identity-column-in-ado-net/</guid>
-      <description>
-        
-          &lt;p&gt;A while ago i wanted to use a &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/bb522526.aspx&#34;&gt;User-Defined Table Type&lt;/a&gt; to pass in a set of records. Nothing special about this except that the first column of the UDTT was an Identity column:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;CREATE&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;TYPE&lt;/span&gt; [Star].[example] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;TABLE&lt;/span&gt;(  
-  [Ordinal] [int] &lt;span style=&#34;color:#66d9ef&#34;&gt;IDENTITY&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;,  
-  [Name] [nvarchar](&lt;span style=&#34;color:#ae81ff&#34;&gt;200&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;,
-)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After finding a lot of posts saying that this is not supported a colleague of mine, &lt;a href=&#34;http://stevehorsfield.wordpress.com/&#34;&gt;Stephen Horsfield&lt;/a&gt;, found a way to do it as following:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; sqlMetaData = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt;[] 
-{  
-  &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; SqlMetaData(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Ordinal&amp;#34;&lt;/span&gt;, SqlDbType.Int, &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;, SortOrder.Unspecified, -&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;),   
-  &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; SqlMetaData(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Name&amp;#34;&lt;/span&gt;, SqlDbType.NVarChar, &lt;span style=&#34;color:#ae81ff&#34;&gt;200&lt;/span&gt;)
-};
-
-sqlRecords = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; HashSet&amp;lt;SqlDataRecord&amp;gt;(usersToInclude.Select(user =&amp;gt;
-{   
-  &lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; record = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; SqlDataRecord(sqlMetaData);   
-  record.SetString(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, user.Name);   
-  &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; record; 
-}));
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>A while ago i wanted to use a User-Defined Table Type to pass in a set of records. Nothing special about this except that the first column of the UDTT was an Identity column:
+CREATE TYPE [Star].[example] AS TABLE( [Ordinal] [int] IDENTITY(1,1) NOT NULL, [Name] [nvarchar](200) NOT NULL, ) After finding a lot of posts saying that this is not supported a colleague of mine, Stephen Horsfield, found a way to do it as following:</description>
     </item>
     
     <item>
@@ -220,25 +73,8 @@ sqlRecords = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; HashSet&
       <pubDate>Tue, 07 Sep 2010 00:00:00 +0000</pubDate>
       
       <guid>/post/2010-09-07-t-sql-remove-all-rows-from-all-tables-in-your-schema/</guid>
-      <description>
-        
-          &lt;p&gt;Sometimes i want to quickly clean up a database and start from fresh. Here is a small script that does exactly that.. (I just run the script a couple of times, untill no affected rows remain&amp;hellip; Far more efficient than figuring out which constraints exist, building up a dependency tree, and cleanly deleting all rows):&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- Remove all rows from all tables
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;DECLARE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tableName VARCHAR(&lt;span style=&#34;color:#ae81ff&#34;&gt;255&lt;/span&gt;)
-&lt;span style=&#34;color:#66d9ef&#34;&gt;DECLARE&lt;/span&gt; tableNames &lt;span style=&#34;color:#66d9ef&#34;&gt;CURSOR&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FOR&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; name &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; sys.Tables;
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;OPEN&lt;/span&gt; tableNames
-&lt;span style=&#34;color:#66d9ef&#34;&gt;FETCH&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NEXT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; tableNames &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tableName
-WHILE &lt;span style=&#34;color:#f92672&#34;&gt;@@&lt;/span&gt;FETCH_STATUS &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;BEGIN&lt;/span&gt;
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;EXEC&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;DELETE FROM [&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tableName &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;]&amp;#39;&lt;/span&gt;)
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;FETCH&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NEXT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; tableNames &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tableName
-&lt;span style=&#34;color:#66d9ef&#34;&gt;END&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;CLOSE&lt;/span&gt; tableNames
-&lt;span style=&#34;color:#66d9ef&#34;&gt;DEALLOCATE&lt;/span&gt; tableNames
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-        
-      </description>
+      <description>Sometimes i want to quickly clean up a database and start from fresh. Here is a small script that does exactly that.. (I just run the script a couple of times, untill no affected rows remain&amp;hellip; Far more efficient than figuring out which constraints exist, building up a dependency tree, and cleanly deleting all rows):
+-- Remove all rows from all tables DECLARE @tableName VARCHAR(255) DECLARE tableNames CURSOR FOR SELECT name FROM sys.</description>
     </item>
     
   </channel>
