@@ -8,7 +8,7 @@
 &lt;service behaviorconfiguration=&#34;DemoBehavior&#34; name=&#34;DemoService.FileService&#34;&gt; &lt;endpoint address=&#34;&#34; binding=&#34;ws2007HttpBinding&#34; contract=&#34;DemoService.IFileService&#34; /&gt; ${MexEndpoint} &lt;/service&gt; And here is my initial msbuild task
 &lt;Project ToolsVersion=&#34;3.5&#34; dDfaultTargets=&#34;GenerateConfigFiles&#34; xmlns=&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;&gt; &lt;Import Project=&#34;$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets&#34;/&gt; &lt;Target Name=&#34;GenerateConfigFiles&#34;&gt; &lt;PropertyGroup&gt; &lt;MexEndpoint&gt; &lt;endpoint address=&#34;mex&#34; binding=&#34;mexHttpBinding&#34; contract=&#34;IMetadataExchange&#34; /&gt; &lt;/MexEndpoint&gt; &lt;/PropertyGroup&gt; &lt;PropertyGroup Condition=&#34; &#39;$(Env)&#39;==&#39;Production&#39; &#34;&gt; &lt;MexEndpoint&gt;&lt;/MexEndpoint&gt; &lt;/PropertyGroup&gt; &lt;ItemGroup&gt; &lt;Tokens Include=&#34;MexEndpoint&#34;&gt; &lt;ReplacementValue&gt;$(MexEndpoint)&lt;/ReplacementValue&gt; &lt;/Tokens&gt; &lt;/ItemGroup&gt; &lt;TemplateFile Template=&#34;Web.">
 <meta itemprop="datePublished" content="2010-02-12T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T15:20:27+01:00" />
+<meta itemprop="dateModified" content="2021-01-04T15:21:23+01:00" />
 <meta itemprop="wordCount" content="213">
 
 
@@ -21,7 +21,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/post/2010-02-12-clever-templatefile-hack/" />
 <meta property="article:published_time" content="2010-02-12T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T15:20:27+01:00" />
+<meta property="article:modified_time" content="2021-01-04T15:21:23+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Clever TemplateFile hack"/>
 <meta name="twitter:description" content="In my current project i use TemplateFileTask (MSBuild Community Tasks Project) to generate configuration files. I ran into the problem that i don&rsquo;t want to expose a MEX endpoint in production. This is my initial template file
