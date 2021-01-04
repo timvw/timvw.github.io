@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>XML on Tim Van Wassenhove&#39;s blog</title>
+    <link>/tags/XML/</link>
+    <description>Recent content in XML on Tim Van Wassenhove&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 26 Feb 2008 00:00:00 +0000</lastBuildDate><atom:link href="/tags/XML/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Writing Xml without the XmlDeclaration</title>
+      <link>/post/2008-02-26-writing-xml-without-the-xmldeclaration/</link>
+      <pubDate>Tue, 26 Feb 2008 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2008-02-26-writing-xml-without-the-xmldeclaration/</guid>
+      <description>
+        
+          &lt;p&gt;Consider the following xml file:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;utf-8&amp;#34; ?&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- some comment --&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;root&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/root&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- another comment --&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If you look at the &lt;a href=&#34;http://www.w3.org/TR/REC-xml/#sec-well-formed&#34;&gt;Well-Formed XML Documents&lt;/a&gt; section in the &lt;a href=&#34;http://www.w3.org/TR/REC-xml/&#34;&gt;XML specification&lt;/a&gt; you see that a well-formed document is defined as:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[1] document ::= &lt;a href=&#34;http://www.w3.org/TR/REC-xml/#NT-prolog&#34;&gt;prolog&lt;/a&gt; &lt;a href=&#34;http://www.w3.org/TR/REC-xml/#NT-element&#34;&gt;element&lt;/a&gt; &lt;a href=&#34;http://www.w3.org/TR/REC-xml/#NT-Misc&#34;&gt;Misc*&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Since there is only 1 root element (ever), i assumed that if you &lt;a href=&#34;http://msdn2.microsoft.com/en-us/library/system.xml.xmldocument.load.aspx&#34;&gt;Load&lt;/a&gt; this file with &lt;a href=&#34;http://msdn2.microsoft.com/en-us/library/system.xml.xmldocument.aspx&#34;&gt;XmlDocument&lt;/a&gt; their would be only one &lt;a href=&#34;http://msdn2.microsoft.com/en-us/library/system.xml.xmlnode.aspx&#34;&gt;XmlNode&lt;/a&gt; in the document &lt;a href=&#34;http://msdn2.microsoft.com/en-us/library/system.xml.xmlnode.childnodes.aspx&#34;&gt;ChildNodes&lt;/a&gt;. In reality there ChildNodes.Count returns 4.&lt;/p&gt;
+&lt;p&gt;The simplest way to write this XmlDocument without the declaration would be as following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;XmlWriterSettings xmlWriterSettings = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; XmlWriterSettings();
+xmlWriterSettings.OmitXmlDeclaration = &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;;
+xmlWriterSettings.Encoding = Encoding.UTF8;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; (XmlWriter writer = XmlWriter.Create(&lt;span style=&#34;color:#e6db74&#34;&gt;@&amp;#34;result.xml&amp;#34;&lt;/span&gt;, xmlWriterSettings))
+{
+	xmlDoc.WriteTo(writer);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Generating UTF-8 with System.Xml.XmlWriter</title>
+      <link>/post/2007-01-08-generating-utf-8-with-systemxmlxmlwriter/</link>
+      <pubDate>Mon, 08 Jan 2007 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2007-01-08-generating-utf-8-with-systemxmlxmlwriter/</guid>
+      <description>
+        
+          &lt;p&gt;Today i decided to experiment with &lt;a href=&#34;http://msdn2.microsoft.com/en-us/library/system.xml.xmlwriter.aspx&#34;&gt;XmlWriter&lt;/a&gt;. The first i wanted to do was set the Encoding to UTF-8.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;StringBuilder stringBuilder = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; StringBuilder();
+XmlWriter xmlWriter = XmlWriter.Create(stringBuilder);
+xmlWriter.Settings.Encoding = Encoding.UTF8;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;When i ran this code i recieved the following exception: XmlException was unhandled: The &amp;lsquo;XmlWriterSettings.Encoding&amp;rsquo; property is read only and cannot be set. The documentation for the &lt;a href=&#34;http://msdn2.microsoft.com/en-us/library/system.xml.xmlwriter.settings.aspx&#34;&gt;Settings&lt;/a&gt; property clearly says&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;So i wrote the following&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;StringBuilder stringBuilder = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; StringBuilder();
+XmlWriterSettings xmlWriterSettings = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; XmlWriterSettings();
+xmlWriterSettings.Encoding = Encoding.UTF8;
+
+XmlWriter xmlWriter = XmlWriter.Create(stringBuilder, xmlWriterSettings);
+xmlWriter.WriteStartDocument();
+xmlWriter.WriteStartElement(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;root&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://www.timvw.be/ns&amp;#34;&lt;/span&gt;);
+xmlWriter.WriteEndElement();
+xmlWriter.WriteEndDocument();
+xmlWriter.Flush();
+xmlWriter.Close();
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; xmlString = stringBuilder.ToString();
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As you can see: &lt;strong&gt;&lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;&lt;/strong&gt; is still not what i want. Apparently is the Encoding property ignored if the XmlWriter is not using a Stream. So here is my next attempt&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;MemoryStream memoryStream = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; MemoryStream();
+&lt;span style=&#34;color:#75715e&#34;&gt;// initialize xmlWriterSettings as above...
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+XmlWriter xmlWriter = XmlWriter.Create(memoryStream, xmlWriterSettings);
+&lt;span style=&#34;color:#75715e&#34;&gt;// call the same operations on the xmlWriter as above...
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; xmlString = Encoding.UTF8.GetString(memoryStream.ToArray());
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Ok, i&amp;rsquo;m getting close: &lt;strong&gt;?&lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;&lt;/strong&gt;. Luckily enough i knew that the ? (byte with value 239) at the beginning is the &lt;a href=&#34;http://en.wikipedia.org/wiki/Byte_Order_Mark&#34;&gt;BOM&lt;/a&gt;. In order to get rid of that byte i had to create my own instance of &lt;a href=&#34;http://msdn2.microsoft.com/en-us/library/system.text.utf8encoding.aspx&#34;&gt;UTF8Encoding&lt;/a&gt;. Finally, i can present some working code&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;MemoryStream memoryStream = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; MemoryStream();
+XmlWriterSettings xmlWriterSettings = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; XmlWriterSettings();
+xmlWriterSettings.Encoding = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; UTF8Encoding(&lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;);
+xmlWriterSettings.ConformanceLevel = ConformanceLevel.Document;
+xmlWriterSettings.Indent = &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;;
+
+XmlWriter xmlWriter = XmlWriter.Create(memoryStream, xmlWriterSettings);
+xmlWriter.WriteStartDocument();
+xmlWriter.WriteStartElement(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;root&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://www.timvw.be/ns&amp;#34;&lt;/span&gt;);
+xmlWriter.WriteEndElement();
+xmlWriter.WriteEndDocument();
+xmlWriter.Flush();
+xmlWriter.Close();
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; xmlString = Encoding.UTF8.GetString(memoryStream.ToArray());
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Accept posted XML data</title>
+      <link>/post/2006-01-18-accept-posted-xml-data/</link>
+      <pubDate>Wed, 18 Jan 2006 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2006-01-18-accept-posted-xml-data/</guid>
+      <description>
+        
+          &lt;p&gt;I remember that i have spent a lot of time finding something that allowed me to accept the posted XML data. The solution was very simple&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;$data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;file_get_contents&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;php://input&amp;#34;&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>value-of in an attribute</title>
+      <link>/post/2005-07-25-value-of-in-an-attribute/</link>
+      <pubDate>Mon, 25 Jul 2005 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2005-07-25-value-of-in-an-attribute/</guid>
+      <description>
+        
+          &lt;p&gt;There were days that i did not like XSL because it seemed to be impossible to insert a value inside an attribute. For example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;form&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;action=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;lt;xsl:value-of select=&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;/page/action&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;&amp;#34; method=&amp;#34;post&amp;#34;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Today i&amp;rsquo;ve seen that other people also struggle with this issue. So here is the solution:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;form&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;action=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;{/page/action}&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;method=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;post&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Playing with XML and XSL</title>
+      <link>/post/2005-01-23-playing-with-xml-and-xsl/</link>
+      <pubDate>Sun, 23 Jan 2005 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2005-01-23-playing-with-xml-and-xsl/</guid>
+      <description>
+        
+          &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// add stuff to an xml document in php4
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$doc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;domxml_open_mem&lt;/span&gt;($xml);
+$root &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; $doc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;document_element&lt;/span&gt;();
+$inner &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; $doc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;create_element&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;inner&amp;#39;&lt;/span&gt;);
+$root &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; $root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;append_child&lt;/span&gt;($inner);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// add stuff to an xml document in php5
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$doc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;DomDocument&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;1.0&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;UTF-8&amp;#39;&lt;/span&gt;);
+$doc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;loadXML&lt;/span&gt;($xml);
+$root &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; $doc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getelementsByTagName&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;resultset&amp;#39;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;item&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
+$inner &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; $doc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;createElement&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;inner&amp;#39;&lt;/span&gt;);
+$root &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; $root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;appendChild&lt;/span&gt;($inner); 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;a href=&#34;http://www.w3.org/TR/xhtml1/&#34;&gt;XHTML&lt;/a&gt; does not allow to have an empty list, &lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;. Therefore we need to test first if there are any nodes we want to put in that list. The code to do this looks like:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;xsl:for-each&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;select=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;//resultset/entity&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+
+  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;div&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;class=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;mainitem&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;div&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;class=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;maintitle&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+      &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;xsl:value-of&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;select=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;div&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;class=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;maincontent&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+      &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;xsl:if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;test=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;count(items/item) &amp;gt; 0&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;ul&amp;gt;&lt;/span&gt;
+          &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;xsl:for-each&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;select=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;items/item&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; 
+            &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;
+              &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;a&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;href=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;{link}&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;lt;xsl:value-of&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;select=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
+            &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+          &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/xsl:for-each&amp;gt;&lt;/span&gt; 
+        &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/ul&amp;gt;&lt;/span&gt; 
+      &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/xsl:if&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt; 
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/xsl:for-each&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>XSLT annoyances</title>
+      <link>/post/2005-01-20-xslt-annoyances/</link>
+      <pubDate>Thu, 20 Jan 2005 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2005-01-20-xslt-annoyances/</guid>
+      <description>
+        
+          &lt;p&gt;Today i&amp;rsquo;ve finally made the switch. My code generates &lt;a href=&#34;http://www.w3.org/XML/&#34;&gt;XML&lt;/a&gt; and then i translate it to &lt;a href=&#34;http://www.w3.org/TR/xhtml1/&#34;&gt;XHTML&lt;/a&gt; with &lt;a href=&#34;http://www.w3.org/TR/xslt&#34;&gt;XSLT&lt;/a&gt;. However, if i write&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;textarea&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;name=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;foo&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;lt;/textarea&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;it will be translated to:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;textarea&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;name=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;foo&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A not so good workaround is to write: (Notice the space in the xsl:text)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;textarea&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;name=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;foo&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;lt;xsl:text&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/xsl:text&amp;gt;&amp;lt;/textarea&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;UPDATE on 2005-01-20 05:42&lt;/p&gt;
+&lt;p&gt;The solution is to use html as output method instead of xml.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;xsl:output&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;method=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;html&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;UPDATE on 2005-01-21 02:15&lt;/p&gt;
+&lt;p&gt;You may also want to make sure HTML tags do not get transformed:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;xsl:value-of&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;select=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;attribute[@name=&amp;#39;content&amp;#39;]&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;disable-output-escaping=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;yes&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Parsing XML</title>
+      <link>/post/2004-04-06-parsing-xml/</link>
+      <pubDate>Tue, 06 Apr 2004 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2004-04-06-parsing-xml/</guid>
+      <description>
+        
+          &lt;p&gt;Today i wrote a little program, &lt;a href=&#34;http://www.timvw.be/wp-content/code/csharp/VolumeMeter.txt&#34;&gt;VolumeMeter&lt;/a&gt; which is usefull for &lt;a href=&#34;http://www.scarlet.be&#34;&gt;Scarlet&lt;/a&gt; customers. It queries &lt;a href=&#34;http://mijn.scarlet.be&#34;&gt;mijn.scarlet.be&lt;/a&gt; and returns how many megabytes they have used this month.&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+  </channel>
+</rss>

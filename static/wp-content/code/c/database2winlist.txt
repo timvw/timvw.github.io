@@ -1,0 +1,97 @@
+/*
+ * database2winlist.c
+ *
+ * Author		: Tim Van Wassenhove <timvw@users.sourceforge.net>
+ * Update		: July 29, 2002 12:53:24 AM
+ *
+ * Compile	: gcc database2winlist.c -o update.exe -L/usr/local/lib/mysql -lmysqlclient
+ * Platform : cygwin NT 5.0
+ *
+ * Compile	: gcc database2winlist.c -o update -lmysqlclient
+ * Platform	: Debian 3.0 Linux2.2.17 libmysqlclient10-dev
+ *
+ * This program reads all the entries from the TABLE winlist_server
+ * and writes them back to a tetrix winlist file.
+ *
+ * The TABLE should contain COLUMNS:
+ *  -name VARCHAR(30),
+ *  -type VARCHAR(1),
+ *  -points INT
+ *
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <mysql/mysql.h>
+
+/* constants for database */
+#define HOST "localhost"
+#define USER "tetrisite"
+#define PASS "tetrisite"
+#define DB   "tetrisite"
+
+/* constants for winlist file */
+#define NICKLEN 30
+#define MAXWINLIST 5120
+#define FILE_WINLIST "game.winlist"
+
+/* structur winlist */
+struct winlist_t {
+  char status;
+  char name[NICKLEN+1];
+  unsigned long int score;
+  char inuse;
+};
+
+/* main method */
+int main() {
+	MYSQL mysql;
+	MYSQL_RES *result;
+	MYSQL_ROW row;
+
+	struct winlist_t w;
+	FILE *file_out;
+	int i,valid;
+
+	/* initialise mysql */
+	if (!mysql_init(&mysql)) {
+		printf ("failed initialising\n");
+		return 1;
+	}
+
+	/* connect to mysql */
+	if (!mysql_real_connect(&mysql,HOST,USER,PASS,DB,3306,NULL,NULL)) {
+		printf ("failed connecting: %s\n",mysql_error(&mysql));
+		return 2;
+	}
+
+	/* open winlist file */
+	file_out = fopen(FILE_WINLIST,"w");
+	if (file_out == NULL) {
+		printf ("winlistfile does not exist\n");
+		return 4;
+	}
+
+	/* write all entries into the file */
+	mysql_query(&mysql,"SELECT * FROM winlist_server ORDER BY POINTS DESC");
+	result = mysql_use_result(&mysql);
+	while ((row = mysql_fetch_row(result)))
+	{
+
+		////w.status = (char) lengths[1];
+		//w.name = (char) lengths[0];
+		//w.score = (int) lengths[2];
+		//w.inuse = '1';
+ 		//fwrite(w, sizeof(struct winlist_t), 1, file_out);
+ 		printf("%s %s %\n",row[0],row[1],row[2]);
+	}
+
+  	/* close winlist file */
+  	fclose(file_out);
+
+  	/* disconnect from mysql */
+	mysql_close(&mysql);
+
+	return 0;
+}

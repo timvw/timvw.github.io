@@ -1,0 +1,126 @@
+// +-------------------------------------------------------------------
+// | Author: Tim Van Wassenhove <timvw@users.sourceforge.net>
+// | Update: 2006-06-01 11:00
+// +-------------------------------------------------------------------
+package be.timvw.util;
+
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.print.PageFormat;
+import java.awt.print.Pageable;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+
+/**
+ * This class represents a printer of lines
+ */
+public class LinesPrinter implements Pageable, Printable {
+	private String[] lines;
+	private PageFormat pf;
+	private Font f;
+	private FontMetrics fm;
+		
+	/**
+	 * Prints the given lines on the default printer
+	 * @param lines - the lines involved
+	 */
+	public static void print(String[] lines) {
+		PrinterJob pj = PrinterJob.getPrinterJob();
+		pj.setPageable(new LinesPrinter(lines));
+		
+		try {
+			pj.print();		
+		} catch (PrinterException pe) { 
+			//
+		}
+	}
+	
+	/**
+	 * Constructor
+	 * @param lines - the lines to print
+	 */
+	public LinesPrinter(String[] lines) {
+		this.lines = lines;
+		pf = new PageFormat();
+		f = new Font(null, Font.PLAIN, 12);
+		fm = new Container().getFontMetrics(f);
+	}
+
+	/**
+	 * Returns the number of lines that can be printed per page
+	 * @return <b>int</b> a number
+	 */
+	private int getLinesPerPage() {
+		return (int) pf.getImageableHeight() / fm.getHeight();
+	}
+
+	/**
+	 * Returns the number of pages in the set
+	 * @return <b>int</b> the number of pages in this Pageable
+	 */
+	public int getNumberOfPages() {
+		return (int) ((lines.length * fm.getHeight()) / pf.getImageableHeight()) + 1;
+	}
+
+	/**
+	 * Returns the PageFormat of the page specified by pageIndex
+	 * @return <b>PageFormat</b> a the PageFormat describing the size and orientation
+	 */
+	public PageFormat getPageFormat(int pageIndex) {
+		return pf; 
+	}
+
+	/**
+	 * Returns the Printable instance responsible for rendering the page specified by pageIndex
+	 * @param pageIndex - the page involved
+	 * @return <b>Pritnable</b> a printable object
+	 */
+	public Printable getPrintable(int pageIndex) {
+		return this;
+	}
+
+	/**
+	 * Prints the page at the specified index into the specified Graphics context in the specified format
+	 * @param g - the context into which the page is drawn
+	 * @param pf - the size and orientation of the page being drawn
+	 * @param pi - the zero based index of the page to be drawn
+	 * @return <b>int</b> PAGE_EXISTS if the page is rendered successfully or NO_SUCH_PAGE if pageIndex specifies a non-existent page
+	 */
+	public int print(Graphics g, PageFormat pf, int pi) throws PrinterException {
+		if (pi < 0 || pi >= getNumberOfPages()) { return Printable.NO_SUCH_PAGE; }
+
+		Graphics2D g2 = (Graphics2D) g;
+		g2.translate(pf.getImageableX(), pf.getImageableY());
+		g2.setFont(f);
+		g2.setColor(Color.BLACK);
+
+		int height = fm.getHeight();	
+		int posx = 0;	
+		int posy = height; 
+
+		int begin = pi * getLinesPerPage();
+		int end = begin + getLinesPerPage();
+		if (pi == getNumberOfPages() - 1) {
+			end = lines.length;
+		}
+
+		for (int i = begin; i < end; ++i, posy += height) {
+			int j = lines[i].indexOf("\t");
+			if (j != -1) {
+				g2.drawString(lines[i].substring(0, j), posx, posy);
+				String part2 = lines[i].substring(j + 1);
+				int posx2 = (int) pf.getImageableWidth() - fm.stringWidth(part2);
+				g2.drawString(part2, posx2, posy);
+			} else {
+				g2.drawString(lines[i], posx, posy);
+			}
+		}
+
+		return Printable.PAGE_EXISTS;
+	}
+}

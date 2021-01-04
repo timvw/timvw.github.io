@@ -1,0 +1,69 @@
+#!/bin/bash
+###############################################################################
+# Author: Tim Van Wassenhove <timvw@users.sourceforge.net>
+# Update: 2006-01-12 16:48
+#
+# Restore a MySQL dumpfile
+###############################################################################
+# {{{ output usage options
+###############################################################################
+function usage {
+	cat <<EOF
+usage: $0 -f file [-u user] [-p] [-s server] [-d database] [-h]
+
+-f file		: the mysql dumpfile
+-u user		: the mysql user
+-p 		: the mysql password prompt
+-s server	: the mysql server
+-d database	: the mysql database
+-h		: this (help) message
+
+Report bugs and suggestions at <timvw@users.sourceforge.net>"
+EOF
+}
+# }}}
+###############################################################################
+# {{{ restore data into mysql
+###############################################################################
+function restore {
+	query="SET AUTOCOMMIT = 0;"
+	query="$query SET UNIQUE_CHECKS = 0;"
+	query="$query SET FOREIGN_KEY_CHECKS = 0;"
+	query="$query SOURCE $2;"
+	query="$query SET FOREIGN_KEY_CHECKS = 1;"
+	query="$query SET UNIQUE_CHECKS = 1;"
+	query="$query COMMIT;"
+	query="$query SET AUTOCOMMIT = 1;"
+	echo $query | $1	
+} 
+# }}}
+###############################################################################
+# {{{ main entry point
+###############################################################################
+# get program arguments
+mycommand="mysql"
+while getopts "u:pf:s:d:h" options; do
+	case $options in
+		u ) mycommand="$mycommand -u $OPTARG";;
+		p ) mycommand="$mycommand -p";;
+		s ) mycommand="$mycommand -h $OPTARG";;
+		d ) mydata=$OPTARG;;
+		f ) myfile=$OPTARG;;
+		h ) usage;;
+		\? ) usage;;
+		* ) usage;;
+	esac
+done
+
+# append databasename if we know it 
+if [ -n "$mydata" ]; then
+	mycommand="$mycommand $mydata"
+fi
+
+# restore if the file exists 
+if [ -f "$myfile" ]; then	
+	restore "$mycommand" "$myfile"
+else
+	usage
+fi
+# }}}

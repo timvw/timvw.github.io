@@ -1,0 +1,20 @@
+---
+date: "2009-10-12T00:00:00Z"
+guid: http://www.timvw.be/?p=1393
+tags:
+- Silverlight
+- WPF
+title: 'Sokoban: Creating graphics with Expression Design'
+aliases:
+ - /2009/10/12/sokoban-creating-graphics-with-expression-design/
+ - /2009/10/12/sokoban-creating-graphics-with-expression-design.html
+---
+Earlier this morning i decided to improve the graphics the little. I launched Expression Design, created a new image, and drew each possible cell and piece in a seperate layer. With this technique i can easily preview how a "Box" on "Goal" looks like.
+
+For each layer i simply copied the XAML from Expression Design into my Cell.xaml file. Apparently all the layers are interpreted as a Canvas and the layer name determines their x:Name which makes it pretty easy to make the correct canvasses visible. With a simple ScaleTransform i can ensure that the canvasses are sized correctly.
+
+Here is the updated version of Sokoban:
+
+<div id="silverlightControlHost2">
+  <br />
+</div>

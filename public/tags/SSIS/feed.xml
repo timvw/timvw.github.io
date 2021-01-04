@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SSIS on Tim Van Wassenhove&#39;s blog</title>
+    <link>/tags/SSIS/</link>
+    <description>Recent content in SSIS on Tim Van Wassenhove&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 15 Jul 2011 00:00:00 +0000</lastBuildDate><atom:link href="/tags/SSIS/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Launch DtExec from PowerShell</title>
+      <link>/post/2011-07-15-launch-dtexec-from-powershell/</link>
+      <pubDate>Fri, 15 Jul 2011 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2011-07-15-launch-dtexec-from-powershell/</guid>
+      <description>
+        
+          &lt;p&gt;Running an SSIS package from PowerShell (using DTExec) can be as simple as:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;RunPackage &lt;span style=&#34;color:#f92672&#34;&gt;-File&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;C:\test.dtsx&amp;#39;&lt;/span&gt; -DatabaseHost &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;.&amp;#39;&lt;/span&gt; -DatabaseName &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;TEST&amp;#39;&lt;/span&gt;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here are the functions that make it this simple:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; GetDtExecPath {    
+  $DtsPath = (Get-ItemProperty &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup&amp;#39;&lt;/span&gt;).SQLPath;    
+  $DtExecPath = (Resolve-Path &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$DtsPath\Binn\DTExec.exe&amp;#34;&lt;/span&gt;);    
+  $DtExecPath;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; GetDtExecPropertyPathValue() {      
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;param&lt;/span&gt;(
+    $PropertyPath = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;,
+    $Value = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;;
+  );
+
+  &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$PropertyPath;\&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;`&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;\&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;`&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$Value\&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;`&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;\&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;`&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; RunPackage {
+      
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;param&lt;/span&gt;(        
+  $DtExecPath = (GetDtExecPath),       
+  $File = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;test.dtsx&amp;#39;&lt;/span&gt;  
+  );
+
+  $Params = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/FILE $File&amp;#34;&lt;/span&gt;;
+   
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt;($i = 0; $i &lt;span style=&#34;color:#f92672&#34;&gt;-lt&lt;/span&gt; $Args.Length; $i += 2) {       
+    $PropertyPath = $Args[$i].SubString(1);       
+    $Value = $Args[$i+1];       
+    $PropertyPathValue = GetDtExecPropertyPathValue -PropertyPath $PropertyPath -Value $Value;       
+    $Params += &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; /SET $PropertyPathValue&amp;#34;&lt;/span&gt;;    
+  } 
+
+  &amp;amp;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$DtExecPath&amp;#34;&lt;/span&gt; $Params;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Set variables in SSIS package at runtime</title>
+      <link>/post/2011-05-19-set-variables-in-ssis-package-at-runtime/</link>
+      <pubDate>Thu, 19 May 2011 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2011-05-19-set-variables-in-ssis-package-at-runtime/</guid>
+      <description>
+        
+          &lt;p&gt;The documentation on &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/ms162810.aspx&#34;&gt;dtexec Utility (SSIS Tool)&lt;/a&gt; says the following:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;/Set propertyPath;value&lt;/p&gt;
+&lt;p&gt;(Optional). Overrides the configuration of a variable, property, container, log provider, Foreach enumerator, or connection within a package. When this option is used, /Set changes the propertyPath argument to the value specified. Multiple /Set options can be specified.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;At first sight this works like a charm but as soon as your value has a space dtexec seems to get confused 🙁 It took me a couple of websearches to find a &lt;a href=&#34;http://www.sqldev.org/sql-server-integration-services/escape-character-for-set-option-of-dtexec-34546.shtml&#34;&gt;post that suggests the following&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;dtexec /SET \Package.Variables[User::TheVariable].Properties[Value];&#39;&#39;; space&#39;&#39;;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;It seems that this works like a charm 🙂 Because i am lazy i wrapped this in a powershell function:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; PackageOption()
+{	  
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;param&lt;/span&gt;($name, $value);
+	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$name;\&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;`&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;\&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;`&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$value\&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;`&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;\&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;`&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;;
+}  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And now you can use it as following in your deployment script:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;$TheVariableOption = PackageOption -Name &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;\Package.Variables[User::TheVariable].Properties[Value]&amp;#34;&lt;/span&gt; -Value &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;some thing&amp;#34;&lt;/span&gt;;
+&amp;amp;dtexec /File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$package&amp;#34;&lt;/span&gt; /Set $TheVariableOption;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Some PowerShell functions to work with SSIS packages</title>
+      <link>/post/2011-03-12-some-powershell-functions-to-work-with-ssis-packages/</link>
+      <pubDate>Sat, 12 Mar 2011 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2011-03-12-some-powershell-functions-to-work-with-ssis-packages/</guid>
+      <description>
+        
+          &lt;p&gt;Here are some powershell functions (using XPath) that come in handy when working with SSIS packages:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; FindConnectionManagerNames {	  
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;param&lt;/span&gt;($fileName)
+
+	$xml = &lt;span style=&#34;color:#66d9ef&#34;&gt;[xml]&lt;/span&gt; (Get-Content $fileName);	  
+	$ns = New-Object Xml.XmlNamespaceManager $xml.NameTable;	  
+	$ns.AddNamespace(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DTS&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;www.microsoft.com/SqlServer/Dts&amp;#34;&lt;/span&gt;);	  
+	$xml.SelectNodes(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;//DTS:ConnectionManager/DTS:Property[@DTS:Name=&amp;#39;ObjectName&amp;#39;]&amp;#34;&lt;/span&gt;, $ns) | &lt;span style=&#34;color:#66d9ef&#34;&gt;Foreach&lt;/span&gt; { $_.&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;#text&amp;#34;&lt;/span&gt;; }
+
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; GetConnectionManagerConnectionString {  
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;param&lt;/span&gt;($fileName, $connectionManagerName)
+
+	$xml = &lt;span style=&#34;color:#66d9ef&#34;&gt;[xml]&lt;/span&gt; (Get-Content $fileName);
+	$ns = New-Object Xml.XmlNamespaceManager $xml.NameTable;
+	$ns.AddNamespace(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DTS&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;www.microsoft.com/SqlServer/Dts&amp;#34;&lt;/span&gt;);
+	$path = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;//DTS:ConnectionManager[DTS:Property=&amp;#39;$connectionManagerName&amp;#39;]/DTS:ObjectData/DTS:ConnectionManager/DTS:Property[@DTS:Name=&amp;#39;ConnectionString&amp;#39;]&amp;#34;&lt;/span&gt;
+	$xml.SelectSingleNode($path, $ns).&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;#text&amp;#34;&lt;/span&gt;;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; FindVariables {	  
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;param&lt;/span&gt;($fileName)
+
+	$xml = &lt;span style=&#34;color:#66d9ef&#34;&gt;[xml]&lt;/span&gt; (Get-Content $fileName);
+	$ns = New-Object Xml.XmlNamespaceManager $xml.NameTable;
+	$ns.AddNamespace(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DTS&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;www.microsoft.com/SqlServer/Dts&amp;#34;&lt;/span&gt;);
+	$xml.SelectNodes(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;//DTS:Variable/DTS:Property[@DTS:Name=&amp;#39;ObjectName&amp;#39;]&amp;#34;&lt;/span&gt;, $ns) | &lt;span style=&#34;color:#66d9ef&#34;&gt;Foreach&lt;/span&gt; { $_.&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;#text&amp;#34;&lt;/span&gt;; }
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; GetVariable {	  
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;param&lt;/span&gt;($fileName, $variableName)
+
+	$xml = &lt;span style=&#34;color:#66d9ef&#34;&gt;[xml]&lt;/span&gt; (Get-Content $fileName);
+	$ns = New-Object Xml.XmlNamespaceManager $xml.NameTable;
+	$ns.AddNamespace(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DTS&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;www.microsoft.com/SqlServer/Dts&amp;#34;&lt;/span&gt;);
+	$xml.SelectSingleNode(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;//DTS:Variable[DTS:Property=&amp;#39;$variableName&amp;#39;]/DTS:VariableValue&amp;#34;&lt;/span&gt;, $ns).&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;#text&amp;#34;&lt;/span&gt;;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Get/SetVariable value from SSIS VariableDispenser</title>
+      <link>/post/2011-03-08-getsetvariable-value-from-ssis-variabledispenser/</link>
+      <pubDate>Tue, 08 Mar 2011 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2011-03-08-getsetvariable-value-from-ssis-variabledispenser/</guid>
+      <description>
+        
+          &lt;p&gt;Here is some code that allows you to Get/Set a variable (object) value from/on the &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/microsoft.sqlserver.dts.runtime.variabledispenser.aspx&#34;&gt;VariableDispenser&lt;/a&gt; in an SSIS package:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; T GetVariable&amp;lt;T&amp;gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt; VariableDispenser variableDispenser, &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; scopedVariableName)
+{
+  Variables variables = &lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt;;
+
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt;
+  {
+    variableDispenser.LockForRead(scopedVariableName);
+    variableDispenser.GetVariables(&lt;span style=&#34;color:#66d9ef&#34;&gt;ref&lt;/span&gt; variables);
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (T)variables[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;].Value;
+  }
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;finally&lt;/span&gt;
+  {
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (variables != &lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt;) variables.Unlock();
+  }
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; SetVariable&amp;lt;T&amp;gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt; VariableDispenser variableDispenser, &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; scopedVariableName, T &lt;span style=&#34;color:#66d9ef&#34;&gt;value&lt;/span&gt;)
+{
+  Variables variables = &lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt;;
+
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt;   
+  {  
+    variableDispenser.LockForWrite(scopedVariableName);  
+    variableDispenser.GetVariables(&lt;span style=&#34;color:#66d9ef&#34;&gt;ref&lt;/span&gt; variables);  
+    variables[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;].Value = &lt;span style=&#34;color:#66d9ef&#34;&gt;value&lt;/span&gt;;  
+  }  
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;finally&lt;/span&gt;  
+  {   
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (variables != &lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt;) variables.Unlock();  
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Consume custom SSIS tasks without GAC installation</title>
+      <link>/post/2011-03-05-consume-custom-ssis-tasks-without-gac-installation/</link>
+      <pubDate>Sat, 05 Mar 2011 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2011-03-05-consume-custom-ssis-tasks-without-gac-installation/</guid>
+      <description>
+        
+          &lt;p&gt;For a while i thought that in order to consume a custom SSIS task you had to install the assembly in the GAC. Now i know better 😉&lt;/p&gt;
+&lt;p&gt;For the designer (BIDS) you have to copy the files to&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;C:\Program Files\Microsoft SQL Server\100\DTS\Tasks&lt;/li&gt;
+&lt;li&gt;C:\Program Files\Microsoft SQL Server\100\DTS\PipelineComponents&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For the runtime (BIDS) you have to copy the files to&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\PrivateAssemblies&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;And for dtexec you have to copy the files to&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;C:\Program Files\Microsoft SQL Server\100\DTS\Binn&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Here is a small powershell script that gives you the paths where you want to copy your assembly to:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Lookup Tasks, PipelineComponents and DtExec paths  &lt;/span&gt;
+$DtsPath = (Get-ItemProperty &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup&amp;#39;&lt;/span&gt;).SQLPath;
+$DtsTasksPath = (Resolve-Path &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$DtsPath\Tasks&amp;#34;&lt;/span&gt;);
+
+$DtsPipelineComponentsPath = (Resolve-Path &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$DtsPath\Pipelinecomponents&amp;#34;&lt;/span&gt;);
+$DtExecPath = (Resolve-Path &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$DtsPath\Binn&amp;#34;&lt;/span&gt;);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# Lookup VS2008/Bids path&lt;/span&gt;
+$Vs2008Path = (Get-ItemProperty &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;HKLM:\Software\Microsoft\VisualStudio\9.0&amp;#39;&lt;/span&gt;).InstallDir;
+$Vs2008PrivateAssembliesPath = (Resolve-Path &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$Vs2008Path\PrivateAssemblies&amp;#34;&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Update ConfigurationStrings in SSIS package with PowerShell</title>
+      <link>/post/2010-11-11-update-configurationstrings-in-ssis-package-with-powershell/</link>
+      <pubDate>Thu, 11 Nov 2010 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2010-11-11-update-configurationstrings-in-ssis-package-with-powershell/</guid>
+      <description>
+        
+          &lt;p&gt;Here are some functions that allow you to update ConfigurationStrings in a SSIS package (dtsx) using PowerShell:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; UpdateConfigurationStrings($file)
+{
+	$xml = &lt;span style=&#34;color:#66d9ef&#34;&gt;[xml]&lt;/span&gt; (Get-Content $file);
+	$ns = New-Object Xml.XmlNamespaceManager $xml.NameTable;
+	$ns.AddNamespace(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DTS&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;www.microsoft.com/SqlServer/Dts&amp;#34;&lt;/span&gt;);
+	UpdateConfigurationNodes $xml $ns;
+	Set-Content $file $xml.OuterXml;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; UpdateConfigurationNodes($xml, $ns)
+{
+	$selectConfigurationNodes = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;//DTS:Configuration&amp;#34;&lt;/span&gt;;
+	$xml.SelectNodes($selectConfigurationNodes, $ns) | &lt;span style=&#34;color:#66d9ef&#34;&gt;foreach&lt;/span&gt; { UpdateConfigurationNode $_ $ns; };
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; UpdateConfigurationNode($configurationNode, $ns)
+{
+	$selectConfigurationString = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;./DTS:Property[@DTS:Name=&amp;#39;ConfigurationString&amp;#39;]&amp;#34;&lt;/span&gt;;
+	$configurationStringNode = $configurationNode.SelectSingleNode($selectConfigurationString, $ns);
+
+	$oldConfigurationStringValue = $configurationStringNode.&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;#text&amp;#39;&lt;/span&gt;;
+	$newConfigurationStringValue = GetNewConfigurationStringValue $oldConfigurationStringValue;
+	$configurationStringNode.&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;#text&amp;#39;&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;$newConfigurationStringValue&amp;#34;&lt;/span&gt;;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; GetNewConfigurationStringValue($oldConfigurationStringValue)
+{
+	&lt;span style=&#34;color:#75715e&#34;&gt;# implement some logic to determine new value&lt;/span&gt;
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;new value&amp;#34;&lt;/span&gt;;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+  </channel>
+</rss>

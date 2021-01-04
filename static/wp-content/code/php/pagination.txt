@@ -1,0 +1,613 @@
+<?php
+// +---------------------------------------------------------------------------
+// | Author: Tim Van Wassenhove <timvw@users.sourceforge.net>
+// | Update: 2006-03-12 00:29
+// |
+// | This file contains a flexible solution for the pagination problem
+// | Documentation is available at: http://timvw.madoka.be/?p=525
+// |
+// | Changelog:
+// |
+// | 2006-03-12 00:29
+// | In order to support more MySQL versions i changed LIMIT x OFFSET y to LIMIT y, x 
+// +--------------------------------------------------------------------------- 
+//ini_set('error_reporting', E_ALL);
+//ini_set('display_errors', TRUE);
+
+/**
+ * This represents an ordered collection that is accessible in chunks
+ */
+class Pageable {
+	var $numitems;
+	var $begin;
+	var $end;
+	var $items;
+
+	/**
+	 * Default constructor
+	 */
+	function Pageable() {
+		$this->numitems = null;
+		$this->begin = null;
+		$this->end = null;
+		$this->items = null;
+	}
+	
+	/**
+	 * Returns the number of available items in the ordered collection
+	 * @return <b>int</b> the number of available items
+	 */
+	function getNumItems() { 
+		if (is_null($this->numitems)) {
+			$this->numitems = $this->getNumItemsExtended();
+		}
+		return $this->numitems;
+	}
+
+	/**
+	 * Extension point for counting the number of availabe items in the ordered collection
+	 * @return <b>int</b> the number of available items
+	 */
+	function getNumItemsExtended() {
+		return 0;
+	}
+	
+	/**
+	 * Returns the items between $begin and $end in the ordered collection
+	 * @param $begin the order position of the first item in the collection
+	 * @param $end the order position of the last item in the collection
+	 * @return <b>resource</b> the items in the ordered collection between $begin and $end
+	 */
+	function getItems($begin, $end) { 
+		if ($this->begin != $begin || $this->end != $end || !$this->items) {
+			$this->begin = $begin;
+			$this->end = $end;
+			$this->items = $this->getItemsExtended($begin, $end);
+		}
+		return $this->items;
+	}
+
+	/**
+	 * Extension point for retrieving the items between $begin and $end in the ordered collection
+	 * @param $begin the order position of the first item in the collection
+	 * @param $end the order position of the last item in the collection
+	 * @return <b>resoruce</b> the items in the ordered collection between $begin and $end
+	 */
+	function &getItemsExtended($begin, $end) {
+		return array();
+	}
+}
+
+/**
+ * This class represents a pageable array 
+ * @see Pageable
+ */
+class PageableArray extends Pageable {
+	var $array;
+
+	/**
+	 * Default constructor
+	 * @param $array the array
+	 */
+	function PageableArray(&$array) {
+		$this->array =& $array;
+	}
+
+	/**
+	 * @see Pageable#getNumItemsExtended
+	 */
+	function getNumItemsExtended() { 
+		return count($this->array);
+	}
+
+	/**
+	 * @see Pageable#getItems
+	 */	
+	function &getItemsExtended($begin, $end) {
+		$items = array_slice($this->array, $begin, $end - $begin);
+		return $items;
+       	}
+}
+
+/**
+ * This class represents a pageable file
+ * @see Pageable
+ */
+class PageableFile extends Pageable {
+	var $filename;
+
+	/**
+	 * Default constructor
+	 * @param $filename the name of the file
+	 */
+	function PageableFile($filename) {
+		$this->filename = $filename;
+	}
+
+	/**
+	 * @see Pageable#getNumItemsExtended
+	 */
+	function getNumItemsExtended() {
+		$counter = 0;
+		$fp = fopen($this->filename, 'r');
+		if ($fp) {
+			while (!feof($fp)) {
+				fgets($fp, 4096);
+				++$counter;
+			}
+			fclose($fp);
+		}
+		return $counter;
+	}
+
+	/**
+	 * @see Pageable#getItemsExtended
+	 */
+	function &getItemsExtended($begin, $end) {
+		$counter = 0;
+		$items = array();
+		$fp = fopen($this->filename, 'r');
+		if ($fp) {
+			while (!feof($fp) && $counter < $begin) {
+				fgets($fp, 4096);
+				++$counter;
+			}
+			while (!feof($fp) && $counter < $end) {
+				$items[] = array('line' => fgets($fp, 4096));
+				++$counter;
+			}
+			fclose($fp);
+		}
+		return $items;
+	}
+}
+
+/**
+ * This class represents a pageable mysql resultset 
+ * @see Pageable
+ */
+class PageableMySQL extends Pageable {
+	var $query;
+	var $dblink;
+
+	/**
+	 * Default constructor
+	 * @param $query the query
+	 * @param $dblink the database resource
+	 */
+	function PageableMySQL($query, $dblink = null) {
+		$this->query = $query;
+		$this->dblink = $dblink;
+	}
+
+	/**
+	 * @see Pageable#getNumItemsExtended
+	 */
+	function getNumItemsExtended() {
+		$query = preg_replace('#SELECT\s+(.*?)\s+FROM#i', 'SELECT COUNT(*) AS count FROM', $this->query);
+		$rs = mysql_query($query, $this->dblink);
+
+		if ($rs && $row = mysql_fetch_assoc($rs)) {
+			return $row['count'];
+		} else {
+			return 0;
+		}	
+	}
+
+	/**
+	 * @see Pageable#getItemsExtended
+	 */
+	function &getItemsExtended($begin, $end) {
+		$rowcount = $end - $begin;
+		$query = $this->query . " LIMIT {$rowcount} OFFSET {$begin}";
+		$rs = mysql_query($query, $this->dblink);
+
+		$items = array();
+		while ($row = mysql_fetch_assoc($rs)) {
+			$items[] = $row;
+		}
+		return $items;
+	}
+}
+
+/**
+ * This class represents a pageable adodb resultset
+ * @see Pageable
+ */
+class PageableADODB extends Pageable {
+	var $query;
+	var $db;
+
+	/**
+	 * Default constructor
+	 * @param $query the sql query
+	 * @param $db the database instance
+	 */
+	function PageableADODB($query, &$db) {
+		$this->query = $query;
+		$this->db =& $db;
+	}
+
+	/**
+	 * @see Pageable#getNumItemsExtended
+	 */
+	function getNumItemsExtended() {
+		$query = preg_replace('#SELECT\s+(.*?)\s+FROM#i', 'SELECT COUNT(*) AS count FROM', $this->query);
+		$count = $this->db->GetOne($query);
+
+		if ($count) {
+			return $count;
+		} else {
+			return 0;
+		}
+	}
+
+	/**
+	 * @see Pageable#getItemsExtended
+	 */
+	function &getItemsExtended($begin, $end) {
+		$rowcount = $end - $begin;
+		$rs =& $this->db->SelectLimit($this->query, $rowcount, $begin);
+
+		$items = array();
+		while (!$rs->EOF) {
+			$items[] = $rs->fields;
+			$rs->MoveNext();
+		}
+		return $items;
+	}
+}
+
+/**
+ * This class represents a Pager for Pageable collections. 
+ * It is a solution for the pagination problem where you don't want to show all
+ * items at once, but only chunks of the collection.
+ */
+class Pager {
+	var $pageabledata;
+	var $current_page;
+	var $items_per_page;
+
+	/**
+	 * Default constructor
+	 * @param $pageabledata the pageable collection
+	 */
+	function Pager(&$pageabledata) {
+		$this->current_page = 1;
+		$this->items_per_page = 10;
+		$this->pageabledata =& $pageabledata;
+	}
+
+	/**
+	 * Set the current page number
+	 * @param $current_page the number of the current page
+	 */
+	function setCurrentPage($current_page) {
+		if ($current_page > 0 && $current_page <= $this->getLastPage()) {
+			$this->current_page = $current_page;
+		} else {
+			$this->current_page = 1;
+		}
+	}
+
+	/**
+	 * Return the current page number
+	 * @return <b>int</b> the current page number
+	 */
+	function getCurrentPage() {
+		return $this->current_page;
+	}
+
+	/**
+	 * Set the items per page
+	 * @param $items_per_page the number of items per page
+	 */
+	function setItemsPerPage($items_per_page) {
+		if ($items_per_page > 0) {
+			$this->items_per_page = $items_per_page;
+			$this->setCurrentPage($this->getCurrentPage());
+		}
+	}
+
+	/**
+	 * Return the number of items per page
+	 * @return <b>int</b> the number of items per page
+	 */
+	function getItemsPerPage() {
+		return $this->items_per_page;
+	}
+
+	/**
+	 * Return the number of the last page
+	 * @return <b>int</b> the number of the last page
+	 */
+	function getLastPage() {
+		$total = $this->pageabledata->getNumItems();
+		$last = ceil($total / $this->items_per_page);
+		return $last;
+	}
+
+	/**
+	 * Return the items in the current page
+	 * @return <b>resource</b> the items in the current page
+	 */
+	function &getItems() {
+		$begin = ($this->current_page - 1) * $this->items_per_page;
+		$end = $begin + $this->items_per_page;
+		$items = $this->pageabledata->getItems($begin, $end);
+		return $items;
+	}
+}
+
+/**
+ * This class represents a writer of paged collections
+ */
+class PageWriter {
+	var $pager;
+	var $base_url;
+	var $page_param;
+	var $items_per_page_param;
+	var $params;
+
+	/**
+	 * Default constructor
+	 * @param $pager the pager
+	 * @param $base_url the baseurl for the pager
+	 * @param $page_param the name of the page parameter
+	 * @param $items_per_page_param the name of the items per page parameter
+	 * @param $params additional url parameters in the form of a name=>value array
+	 */
+	function PageWriter(&$pager, $base_url = '', $page_param = 'page', $items_per_page_param = 'items_per_page', $params = null) {
+		$this->pager =& $pager;
+		$this->base_url = $base_url;
+		$this->page_param = $page_param;
+		$this->items_per_page_param = $items_per_page_param;
+		if (is_null($params)) {
+			$this->params = array();
+		} else {
+			$this->params = $params;
+		}
+	}
+
+	/**
+	 * Return the pager
+	 * @return <b>Pager</b> the pager
+	 */
+	function &getPager() {
+		return $this->pager;
+	}
+
+	/**
+	 * Set the additional url parameters
+	 * @param $params the parameters
+	 */
+	function setParameters($params) {
+		$this->params = $params;
+	}
+	
+	/**
+	 * Set the base url
+	 * @param $base_url the url
+	 */
+	function setBaseURL($base_url) {
+		$this->base_url = $base_url;
+	}
+	
+	/**
+	 * Return the name of the page parameter
+	 * @return <b>string</b> the name of the paramter
+	 */
+	function getPageParam() {
+		return $this->page_param;
+	}
+
+	/**
+	 * Return the name of the items per page parameter
+	 * @return <b>string</b> the name of the parameter
+	 */
+	function getItemsPerPageParam() {
+		return $this->items_per_page_param;
+	}
+	
+	/**
+	 * Return an URL
+	 * @param $params an array with key->value options that need to be appended to the url
+	 * @return <b>string</b> the URL
+	 */
+	function makeURL($params) {
+		$url = $this->base_url;
+
+		if (strpos($url, '?') === FALSE) {
+			$url .= '?';
+		} else {
+			$url .= '&';
+		}
+
+		foreach($this->params as $name => $value) {
+			$url .= $name. '=' . urlencode($value) . '&';
+		}
+		
+		foreach($params as $name => $value) {
+			$url .= $name . '=' . urlencode($value) . '&';
+		}
+
+		$url = substr($url, 0, -1);
+		
+		return $url;
+	}
+
+	/**
+	 * Generate html for the items per page links
+	 * @return <b>string</b> the html
+	 */
+	function makeItemsPerPageLinks() {
+		$current_page = $this->pager->getCurrentPage();
+		$html = "<div class='itemsperpage'>";
+                $url = $this->makeURL(array($this->page_param => $current_page, $this->items_per_page_param => 10));
+                $html .= "<a href='{$url}'>show 10</a> |";
+                $url = $this->makeURL(array($this->page_param => $current_page, $this->items_per_page_param => 25));
+                $html .= "<a href='{$url}'>show 25</a> |";
+                $url = $this->makeURL(array($this->page_param => $current_page, $this->items_per_page_param => 50));
+                $html .= "<a href='{$url}'>show 50</a> |";
+                $url = $this->makeURL(array($this->page_param => $current_page, $this->items_per_page_param => 100));
+                $html .= "<a href='{$url}'>show 100</a>";
+                $html .= "</div>";
+		return $html;
+	}
+
+	/**
+	 * Generate html for the subcollection of items
+	 * @return <b>string</b> the html
+	 */
+	function makeItemsTable() {
+		$items = $this->pager->getItems();
+		$html = "<div class='itemstable'>";
+		$html .= "<table>";
+                foreach($items as $item) {
+                        $html .= "<tr>";
+
+                        foreach($item as $name => $val) {
+                                $html .= "<td>" . htmlentities($val, ENT_QUOTES, 'UTF-8') . "</td>";
+                        }
+
+                        $html .= "</tr>";
+                }
+                $html .= "</table>";
+		$html .= "</div>";
+		return $html;
+	}
+
+	/**
+	 * Generate html for the pager
+	 * @return <b>string</b> the html
+	 */
+	function makeItemsPager() {
+                $current_page = $this->pager->getCurrentPage();
+                $last_page = $this->pager->getLastPage();
+                $prev_page = $current_page - 1;
+                $next_page = $current_page + 1;
+                $items_per_page = $this->pager->getItemsPerPage();
+		$html = "<div class='itemspager'>";
+
+                if ($current_page != 1) {
+                        $url = $this->makeURL(array($this->page_param => 1, $this->items_per_page_param => $items_per_page));
+                        $html .= "<a href='{$url}'> &lt;&lt;FIRST </a>";
+                        $url = $this->makeURL(array($this->page_param => $prev_page, $this->items_per_page_param => $items_per_page));
+                        $html .= "<a href='{$url}'> &lt;PREV </a>";
+                }
+
+                $html .= " (Page {$current_page} of {$last_page}) ";
+
+                if ($current_page != $last_page) {
+                        $url = $this->makeURL(array($this->page_param => $next_page, $this->items_per_page_param => $items_per_page));
+                        $html .= "<a href='{$url}'> NEXT&gt; </a>";
+                        $url = $this->makeURL(array($this->page_param => $last_page, $this->items_per_page_param => $items_per_page));
+                        $html .= "<a href='{$url}'> LAST&gt;&gt; </a>";
+                }
+
+		$html .= "</div>";
+		return $html;
+	}
+		
+	/**
+	 * Generate html for the paged collection
+	 * @return <b>string</b> the html
+	 */	
+	function render() {
+		$html = "<div class='paginator'>";
+		$html .= $this->makeItemsPerPageLinks();
+		$html .= $this->makeItemsTable();
+		$html .= $this->makeItemsPager();
+		$html .= "</div>";
+		
+		return $html;
+	}
+}
+
+/**
+ * This class represents a PageJumpWriter
+ */
+class PageJumpWriter extends PageWriter {
+        /**
+         * Default constructor
+         * @param $pager the pager
+         * @param $base_url the baseurl for the pager
+         * @param $page_param the name of the page parameter
+	 * @param $items_per_page_param the name of the items per page parameter
+	 * @param $params additional url parameters in the form of a name=>value array
+         */
+	function PageJumpWriter(&$pager, $base_url = '', $page_param = 'page', $items_per_page_param = 'items_per_page', $params = null) {
+		parent::PageWriter($pager, $base_url, $page_param, $items_per_page_param, $params);
+	}
+
+	/**
+	 * Generate html for the items pager 
+	 * @see PageWriter#makeItemsPager
+	 */
+	function makeItemsPager() {
+                $current_page = $this->pager->getCurrentPage();
+                $last_page = $this->pager->getLastPage();
+                $prev_page = $current_page - 1;
+                $next_page = $current_page + 1;
+		$items_per_page = $this->pager->getItemsPerPage();
+                $html = "<div class='itemspager'>";
+		$html .= "<form method='GET' action='{$this->base_url}' onChange='this.submit()'>";
+		$html .= "<select name='{$this->page_param}'>";
+		for ($i = 1; $i <= $last_page; ++$i) {
+			if ($i != $current_page) {
+				$html .= "<option value='{$i}'>Page {$i} of {$last_page}</option>";
+			} else {
+				$html .= "<option value='{$i}' selected>Page {$i} of {$last_page}</option>";
+			}
+		}
+		$html .= "</select>";
+		$html .= "<input type='hidden' name='{$this->items_per_page_param}' value='{$items_per_page}'/>";
+		foreach($this->params as $name => $value) {
+			$html .= "<input type='hidden' name='{$name}' value='{$value}'/>";
+		}
+		$html .= "<input type='submit' value='Go'/>";
+		$html .= "</form>";
+                $html .= "</div>";
+                return $html;
+	}
+}
+
+/**
+ * This class represents a Paginator
+ */
+class Paginator {
+	var $pagewriter;
+
+	/**
+	 * Default constructor
+	 * @param $pagewriter the pagewriter
+	 */
+	function Paginator(&$pagewriter) {
+		$this->pagewriter =& $pagewriter;
+	}
+
+	/**
+	 * Run the paginator code
+	 */
+	function run() {
+		$pager =& $this->pagewriter->getPager();
+		$page_param = $this->pagewriter->getPageParam();
+		$items_per_page_param = $this->pagewriter->getItemsPerPageParam();
+		
+		if (isset($_GET[$page_param]) && is_numeric($_GET[$page_param])) {
+			$pager->setCurrentPage($_GET[$page_param]);
+		}
+
+		if (isset($_GET[$items_per_page_param]) && is_numeric($_GET[$items_per_page_param])) {
+			$pager->setItemsPerPage($_GET[$items_per_page_param]);
+		}
+	}
+
+	/**
+	 * Output the generated paginator
+	 */
+	function output() {
+		echo $this->pagewriter->render();
+	}
+}
+?>

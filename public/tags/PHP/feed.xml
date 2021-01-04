@@ -1,0 +1,979 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PHP on Tim Van Wassenhove&#39;s blog</title>
+    <link>/tags/PHP/</link>
+    <description>Recent content in PHP on Tim Van Wassenhove&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 27 Dec 2006 00:00:00 +0000</lastBuildDate><atom:link href="/tags/PHP/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>An example of why i don&#39;t like the ext/filter API</title>
+      <link>/post/2006-12-27-an-example-of-why-i-dont-like-extfilter/</link>
+      <pubDate>Wed, 27 Dec 2006 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2006-12-27-an-example-of-why-i-dont-like-extfilter/</guid>
+      <description>
+        
+          &lt;p&gt;Earlier this week i decided to experiment with the &lt;a href=&#34;http://be2.php.net/manual/en/function.filter-input.php&#34;&gt;Filter&lt;/a&gt; functions. Here&amp;rsquo;s an example that illustrates why i think the API needs to be improved&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt;
+$isgoodapi &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;filter_input&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;INPUT_GET&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;isgoodapi&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;FILTER_VALIDATE_BOOLEAN&lt;/span&gt;);
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;is_null&lt;/span&gt;($isgoodapi)) {
+ &lt;span style=&#34;color:#66d9ef&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;the &amp;#39;isgoodapi&amp;#39; argument is missing.&amp;#34;&lt;/span&gt;;
+} &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; ($isgoodapi &lt;span style=&#34;color:#f92672&#34;&gt;===&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FALSE&lt;/span&gt;) {
+ &lt;span style=&#34;color:#66d9ef&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;The &amp;#39;isgoodapi&amp;#39; argument must be a valid boolean.&amp;#34;&lt;/span&gt;;
+} &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+ &lt;span style=&#34;color:#66d9ef&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;isgoodapi is: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$isgoodapi&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;.&amp;#34;&lt;/span&gt;;
+}
+&lt;span style=&#34;color:#75715e&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And now you request the page with ?isgoodapi=false. The obvious problem is the fact that the function returns multiple &amp;lsquo;sorts&amp;rsquo; of return values: Value of the requested variable on success, FALSE if the filter fails, or NULL if the variable_name variable is not set. If the flag FILTER_NULL_ON_FAILURE is used, it returns FALSE if the variable is not set and NULL if the filter fails.&lt;/p&gt;
+&lt;p&gt;The documentation for &lt;a href=&#34;http://be2.php.net/manual/en/ref.filter.php&#34;&gt;Filter Functions&lt;/a&gt; says for FILTER_VALIDATE_BOOLEAN: Returns TRUE for &amp;ldquo;1&amp;rdquo;, &amp;ldquo;true&amp;rdquo;, &amp;ldquo;on&amp;rdquo; and &amp;ldquo;yes&amp;rdquo;, FALSE for &amp;ldquo;0&amp;rdquo;, &amp;ldquo;false&amp;rdquo;, &amp;ldquo;off&amp;rdquo;, &amp;ldquo;no&amp;rdquo;, and &amp;ldquo;&amp;rdquo;, NULL otherwise. So if you try with ?isgoodapi=konijn you would expect NULL but that isn&amp;rsquo;t the case either.&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Generate a menu with month names</title>
+      <link>/post/2006-09-03-generate-a-menu-with-month-names/</link>
+      <pubDate>Sun, 03 Sep 2006 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2006-09-03-generate-a-menu-with-month-names/</guid>
+      <description>
+        
+          &lt;p&gt;I still see people building their calendar control or month (or day) picker with a hardcoded array of month (or day) names. With the use of &lt;a href=&#34;http://www.php.net/strftime&#34;&gt;strftime&lt;/a&gt; you can easily build a &lt;a href=&#34;http://www.php.net/setlocale&#34;&gt;locale aware&lt;/a&gt; version. Here is an example&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;SelectMonths&lt;/span&gt;($name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;selectMonths&amp;#39;&lt;/span&gt;, $id &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;selectMonths&amp;#39;&lt;/span&gt;) {
+ $current_month &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;date&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;n&amp;#39;&lt;/span&gt;);
+
+ &lt;span style=&#34;color:#66d9ef&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;lt;select name=&amp;#34;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; $name &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#34; id=&amp;#34;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; $id &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#34;&amp;gt;&amp;#39;&lt;/span&gt;;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; ($i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; $i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;13&lt;/span&gt;; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;$i) { &lt;span style=&#34;color:#66d9ef&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;lt;option value=&amp;#34;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; $i &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#34;&amp;#39;&lt;/span&gt;; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; ($i &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; $current\_month) { &lt;span style=&#34;color:#66d9ef&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39; selected&amp;#39;&lt;/span&gt;; } $month\_name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;strftime&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;%B&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;mktime&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, $i, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;2006&lt;/span&gt;)); &lt;span style=&#34;color:#66d9ef&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;gt;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; $month_name &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;lt;/option&amp;gt;&amp;#39;&lt;/span&gt;;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;lt;/select&amp;gt;&amp;#39;&lt;/span&gt;;
+}
+&lt;span style=&#34;color:#75715e&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And now you can easily generate a localized menu&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;include&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SelectMonths.php&amp;#39;&lt;/span&gt;);
+
+&lt;span style=&#34;color:#a6e22e&#34;&gt;SelectMonths&lt;/span&gt;();
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// Tested on a Windows host - Read the http://be.php.net/setlocale
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;setlocale&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;LC_TIME&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;dutch&amp;#39;&lt;/span&gt;);
+&lt;span style=&#34;color:#a6e22e&#34;&gt;SelectMonths&lt;/span&gt;();
+&lt;span style=&#34;color:#75715e&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Dynamic CSS with PHP</title>
+      <link>/post/2006-08-27-dynamic-css-with-php/</link>
+      <pubDate>Sun, 27 Aug 2006 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2006-08-27-dynamic-css-with-php/</guid>
+      <description>
+        
+          &lt;p&gt;Both html and css are simply text. Thus you should be able to generate css as easily as html with php. Now if you add a reference to the css.php file in your html (eg: &lt;!-- raw HTML omitted --&gt;) you&amp;rsquo;ll probably experience that your browser ignores the file. How is this possible? Here is an example of a simple css.php file&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;body&lt;/span&gt; {
+&lt;span style=&#34;color:#a6e22e&#34;&gt;background&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;color&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;yellow&amp;#39;&lt;/span&gt;; &lt;span style=&#34;color:#75715e&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;}
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here is a simulation of what your browser recieves when it requests the file:&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;Where did that content-type header come from? Well, php outputs a default content-type header (text/html) when you don&amp;rsquo;t set value explicitely. This means that your browser will try to interpret the file as html instead of css. Although it may seem weird, this behaviour is explicitely defined in &lt;a href=&#34;http://www.w3.org/Protocols/rfc2616/rfc2616-sec7.html#sec7.2.1&#34;&gt;RFC 2616&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;So the solution is pretty simple: explicitely generate content-type header. Here is an example for css: (You&amp;rsquo;re smart enough to figure it out for csv, m3u, &amp;hellip;)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;header&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Content-type: text/css&amp;#39;&lt;/span&gt;);&lt;span style=&#34;color:#75715e&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;body {
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;background-color: &amp;lt;?php echo &amp;#39;white&amp;#39;; ?&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;}
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Allow a form to be posted only once</title>
+      <link>/post/2006-04-02-allow-a-form-to-be-posted-only-once/</link>
+      <pubDate>Sun, 02 Apr 2006 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2006-04-02-allow-a-form-to-be-posted-only-once/</guid>
+      <description>
+        
+          &lt;p&gt;People can fill in a form and submit it. Then they can hit their back button, and choose to submit it again. Usually the second time this form is being posted, the values in that form aren&amp;rsquo;t valid anymore and thus corrupt the database.&lt;/p&gt;
+&lt;p&gt;Most developpers i know try to work around this problem by using the header function or the html meta tags to set the expiration date. However, this solution does not only limit the usability of a site, it simply does not work for visitors that have a browser that ignores the expiration date.&lt;/p&gt;
+&lt;p&gt;My solution for this problem is quite easy. For each entity in the database that can be updated by a form, we should add an attribute lastupdate. Now every time we build a form that contains data of that entity, we should also add an input of type hidden with the value of that lastupdate attribute. If the value of the lastupdate attribute in the database is more recent than the value of the posted lastupdate in the recieving script, then the posted values are invalid and this script should tell the user about this error. Offcourse, every time such an entity is updated, the lastupdate attribute of this entity should be updated too.&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Using cmd.exe</title>
+      <link>/post/2006-04-01-using-cmdexe/</link>
+      <pubDate>Sat, 01 Apr 2006 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2006-04-01-using-cmdexe/</guid>
+      <description>
+        
+          &lt;p&gt;Earlier someone asked me how he could use &lt;a href=&#34;http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/cmd.mspx?mfr=true&#34;&gt;windows cmd.exe&lt;/a&gt; with PHP. People run into trouble as soon as there are quotes needed because there are special characters (&amp;gt;/&amp;amp;()[]{}^=;!&#39;+,`~ and &lt;!-- raw HTML omitted --&gt;) in the command. I do it like this&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt;
+$result &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`&amp;#34;&amp;#34;c:\\my path\\prog.exe&amp;#34; &amp;#34;filename&amp;#34;&amp;#34;`&lt;/span&gt;;
+&lt;span style=&#34;color:#75715e&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In case you have to do it often you might want to wrap it into a little function like this&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;cmd&lt;/span&gt;($command, $arguments &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt;)
+{
+        $commandline &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;foreach&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;func_get_args&lt;/span&gt;() &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; $word) {
+                $commandline &lt;span style=&#34;color:#f92672&#34;&gt;.=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#34;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; $word &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#34; &amp;#39;&lt;/span&gt;;
+        }
+        $commandline &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;rtrim&lt;/span&gt;($commandline, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt;);
+        $commandline &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#34;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; $commandline &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#34;&amp;#39;&lt;/span&gt;;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`$commandline`&lt;/span&gt;;
+}
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// run blah.exe
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;cmd&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;blah.exe&amp;#39;&lt;/span&gt;);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// run c:\my path\blah.exe with the arguments &amp;#34;foo&amp;#34; and &amp;#34;bar bar&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;cmd&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;c:\\my path\\blah.exe&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;foo&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;bar bar&amp;#39;&lt;/span&gt;);
+&lt;span style=&#34;color:#75715e&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Pagination for all</title>
+      <link>/post/2006-02-12-pagination-for-all/</link>
+      <pubDate>Sun, 12 Feb 2006 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2006-02-12-pagination-for-all/</guid>
+      <description>
+        
+          &lt;p&gt;Suppose you have a a large collection of items and you want to display them. Users don&amp;rsquo;t want to see 5000 items at once. They only want to see a couple of items and have the possibility to look at the next (or previous) couple of items. The solution for this problem is usually named pagination. You can compare this technique with &lt;a href=&#34;http://en.wikipedia.org/paging&#34;&gt;paging&lt;/a&gt;. Most people seem to come up with their own (My)SQL specific implementation. Here are a couple of examples how you can use &lt;a href=&#34;http://www.timvw.be/wp-content/code/php/pagination.txt&#34;&gt;mine&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;require&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.timvw.be/wp-content/code/php/pagination.txt&amp;#39;&lt;/span&gt;);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// step 1 - create pageable data: array example
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;(
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;name&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Jameson&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;surname&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Jenna&amp;#39;&lt;/span&gt;),
+
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;name&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Banks&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;surname&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Briana&amp;#39;&lt;/span&gt;),
+&lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;name&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Giovanni&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;surname&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Aria&amp;#39;&lt;/span&gt;),
+&lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;name&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Rush&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;surname&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Daniella&amp;#39;&lt;/span&gt;),
+&lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;name&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Flowers&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;surname&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;April&amp;#39;&lt;/span&gt;)
+);
+$pageabledata &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PageableArray&lt;/span&gt;($data);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// step 2 -- create the pager
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$pager &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Pager&lt;/span&gt;($pageabledata);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// step 3 -- create the pagewriter
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$pagewriter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PageWriter&lt;/span&gt;($pager);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// step 4 -- create the paginator
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$paginator &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Paginator&lt;/span&gt;($pagewriter);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// step 5 -- run the paginators
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$paginator&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;run&lt;/span&gt;();
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// setp 6 -- output
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$paginator&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;output&lt;/span&gt;();
+&lt;span style=&#34;color:#75715e&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;I have also provided code for situations where you want to paginate File contents, MySQL or ADODB resultsets. In that case the code for step 1 would look like&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;// file example
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$pageabledata &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PageableFile&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/users/timvw/.bash_history&amp;#34;&lt;/span&gt;);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// mysql example
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$dblink &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;mysql_connect&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;localhost&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;username&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;password&amp;#39;&lt;/span&gt;);
+&lt;span style=&#34;color:#a6e22e&#34;&gt;mysql_select_db&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;dbname&amp;#39;&lt;/span&gt;, $dblink);
+$pageabledata &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PageableMySQL&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SELECT * FROM wp_posts ORDER BY 1&amp;#39;&lt;/span&gt;, $dblink);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// adodb example
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;require&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;adodb/adodb.inc.php&amp;#39;&lt;/span&gt;);
+$db &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;NewADOConnection&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mysql://username:password@localhost/dbname&amp;#39;&lt;/span&gt;);
+$pageabledata &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PageableADODB&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SELECT * FROM wp_posts ORDER BY 1&amp;#39;&lt;/span&gt;, $db);
+&lt;span style=&#34;color:#75715e&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;You will probably want to modify the code so that it generates the html you want. Here is how an example of such a change&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt;
+&lt;span style=&#34;color:#e6db74&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; * This class represents a PageJumpWriter
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; */&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PageJumpWriter&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;extends&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PageWriter&lt;/span&gt; {
+        &lt;span style=&#34;color:#e6db74&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;         * Default constructor
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;         * @param $pager the pager
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;         * @param $base_url the baseurl for the pager
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;         * @param $page_param the name of the page parameter
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;	 * @param $items_per_page_param the name of the items per page parameter
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;	 * @param $params additional url parameters in the form of a name=&amp;gt;value array
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;*/&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PageJumpWriter&lt;/span&gt;(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;$pager, $base\_url &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;, &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$page\_param&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; = &amp;#39;page&amp;#39;, &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$items\_per\_page\_param&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; = &amp;#39;items\_per_page&amp;#39;, &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$params&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; = null) {
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;parent::PageWriter(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$pager&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;, &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$base\_url&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;, &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$page\_param&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;, &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$items\_per\_page_param&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;, &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$params&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;);
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;* Generate html for the items pager
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;* @see PageWriter#makeItemsPager
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;*/
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;function makeItemsPager() {
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$current_page&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; = &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$this-&amp;gt;pager&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;-&amp;gt;getCurrentPage();
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$last_page&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; = &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$this-&amp;gt;pager&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;-&amp;gt;getLastPage();
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$prev\_page&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; = &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$current\_page&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; -- 1;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$next\_page&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; = &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$current\_page&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; + 1;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$items\_per\_page&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; = &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$this-&amp;gt;pager&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;-&amp;gt;getItemsPerPage();
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$html&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; = &amp;#34;&lt;/span&gt; 
+
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;div&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;itemspager&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;;&amp;lt;br /&amp;gt; &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$html&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; .= &amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;br&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt; 
+  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;;&amp;lt;br /&amp;gt; &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$html&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; .= &amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;div&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+
+&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;return &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$html&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;?&amp;gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If you want to use this customized html generator you simple change the code in step 3 as following&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt;
+$pagewriter2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PageJumpWriter&lt;/span&gt;($pager2);
+&lt;span style=&#34;color:#75715e&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The problem with most of these paginators is that you can only use one per page. This is a serious &lt;a href=&#34;http://en.wiktionary.org/wiki/PITA&#34;&gt;PITA&lt;/a&gt;. It&amp;rsquo;s your lucky day, here is an example of two paginators that can run separately in the same page&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;// step 1 - create the pageable data
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$dblink &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;mysql_connect&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;localhost&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;username&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;password&amp;#39;&lt;/span&gt;);
+&lt;span style=&#34;color:#a6e22e&#34;&gt;mysql_select_db&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;dbname&amp;#39;&lt;/span&gt;, $dblink);
+$pageabledata &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PageableMySQL&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SELECT * FROM wp_posts ORDER BY 1&amp;#39;&lt;/span&gt;, $dblink);
+$pageabledata2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PageableFile&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/var/www/somefile.txt&amp;#39;&lt;/span&gt;);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// step 2 - create the pagers
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$pager &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Pager&lt;/span&gt;($pageabledata);
+$pager2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Pager&lt;/span&gt;($pageabledata2);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// step 3 - create the pagewriters
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$pagewriter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PageWriter&lt;/span&gt;($pager);
+$pagewriter2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PageJumpWriter&lt;/span&gt;($pager2, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;page2&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;items_per_page2&amp;#39;&lt;/span&gt;);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// step 4 - create the paginators
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$paginator &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Paginator&lt;/span&gt;($pagewriter);
+$paginator2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Paginator&lt;/span&gt;($pagewriter2);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// step 5 - run the paginators
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$paginator&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;run&lt;/span&gt;();
+
+
+$paginator2&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;run&lt;/span&gt;();
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// add extra url parameters for pagewriters
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$pagewriter&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;setParameters&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;(
+$pagewriter2&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getPageParam&lt;/span&gt;() &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; $pagewriter2&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;pager&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getCurrentPage&lt;/span&gt;(),
+$pagewriter2&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getItemsPerPageParam&lt;/span&gt;() &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; $pagewriter2&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;pager&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getItemsPerPage&lt;/span&gt;()
+));
+
+$pagewriter2&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;setParameters&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;(
+$pagewriter&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getPageParam&lt;/span&gt;() &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; $pagewriter&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;pager&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getCurrentPage&lt;/span&gt;(),
+$pagewriter&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getItemsPerPageParam&lt;/span&gt;() &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; $pagewriter&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;pager&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getItemsPerPage&lt;/span&gt;()
+));
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// step 6 -- output
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$paginator&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;output&lt;/span&gt;();
+$paginator2&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;output&lt;/span&gt;();
+&lt;span style=&#34;color:#75715e&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Accept posted XML data</title>
+      <link>/post/2006-01-18-accept-posted-xml-data/</link>
+      <pubDate>Wed, 18 Jan 2006 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2006-01-18-accept-posted-xml-data/</guid>
+      <description>
+        
+          &lt;p&gt;I remember that i have spent a lot of time finding something that allowed me to accept the posted XML data. The solution was very simple&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;$data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;file_get_contents&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;php://input&amp;#34;&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Brainteaser</title>
+      <link>/post/2006-01-14-brainteaser/</link>
+      <pubDate>Sat, 14 Jan 2006 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2006-01-14-brainteaser/</guid>
+      <description>
+        
+          &lt;p&gt;Earlier today Chung Leong, an intelligent regular at &lt;a href=&#34;news://comp.lang.php&#34;&gt;comp.lang.php&lt;/a&gt;, posted a little brainteaser:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The two functions in the example below behave differently. The difference is easy to spot, of ocurse. The challenge is correctly explaining why this is so. Why does the second function seemingly corrupt the cloned copy of an object?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;BritneySpear&lt;/span&gt;(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;$obj) {
+$attr &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;amp;&lt;/span&gt; $obj&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;attributes&lt;/span&gt;;
+$clone &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;/* clone */&lt;/span&gt; $obj;
+$obj&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;attributes&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;‘Length’&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+$obj&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;data&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;“”&lt;/span&gt;;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; $clone;
+}
+
+$data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;“This&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;is&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;test”&lt;/span&gt;;
+$obj1&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;attributes&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;‘Length’&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;strlen&lt;/span&gt;($data));
+$obj1&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;data&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; $data;
+$clone1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Bobcat&lt;/span&gt;($obj1);
+&lt;span style=&#34;color:#a6e22e&#34;&gt;print_r&lt;/span&gt;($clone1);
+
+$obj2&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;attributes&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;‘Length’&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;strlen&lt;/span&gt;($data));
+$obj2&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;data&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; $data;
+$clone2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;BritneySpear&lt;/span&gt;($obj2);
+&lt;span style=&#34;color:#a6e22e&#34;&gt;print_r&lt;/span&gt;($clone2);
+&lt;span style=&#34;color:#75715e&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;Result:&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;stdClass&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Object&lt;/span&gt;
+(
+    [&lt;span style=&#34;color:#a6e22e&#34;&gt;attributes&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Array&lt;/span&gt;
+        (
+            [&lt;span style=&#34;color:#a6e22e&#34;&gt;Length&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;14&lt;/span&gt;
+        )
+
+    [&lt;span style=&#34;color:#a6e22e&#34;&gt;data&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;This&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;is&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;test&lt;/span&gt;
+)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;stdClass&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Object&lt;/span&gt;
+(
+    [&lt;span style=&#34;color:#a6e22e&#34;&gt;attributes&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Array&lt;/span&gt;
+        (
+            [&lt;span style=&#34;color:#a6e22e&#34;&gt;Length&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+        )
+
+    [&lt;span style=&#34;color:#a6e22e&#34;&gt;data&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;This&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;is&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;test&lt;/span&gt;
+)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It took me fifteen minutes to figure out the source of this mysterious behaviour, but it took me a couple of hours to come up with the following explanation: After $attr =&amp;amp; $obj-&amp;gt;attributes in the BritneySpear function the container that holds this variables has is_ref=1. Any properties that are references to other variables, will remain references when $obj is copied into $clone as explained in &lt;a href=&#34;http://php.belnet.be/manual/en/language.oop5.cloning.php&#34;&gt;Object cloning&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If you want to know more about references i can advise you to read &lt;a href=&#34;http://derickrethans.nl/files/phparch-php-variables-article.pdf&#34;&gt;PHP References&lt;/a&gt; by &lt;a href=&#34;http://derickrethans.nl&#34;&gt;Derick Rethans&lt;/a&gt;.&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>How private is private really?</title>
+      <link>/post/2006-01-12-how-private-is-private-really/</link>
+      <pubDate>Thu, 12 Jan 2006 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2006-01-12-how-private-is-private-really/</guid>
+      <description>
+        
+          &lt;p&gt;Today i ended up at &lt;a href=&#34;http://derickrethans.nl/private_properties_exposed.php&#34;&gt;private properties exposed&lt;/a&gt; (Apparently it is also used by &lt;a href=&#34;http://www.phpunit.de/en/index.php&#34;&gt;PHPUnit&lt;/a&gt;)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;foo&lt;/span&gt; {
+ &lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; $bar &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;42&lt;/span&gt;;
+}
+
+$obj &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;foo&lt;/span&gt;;
+$propname&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\0&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;foo&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\0&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;bar&amp;#34;&lt;/span&gt;;
+$a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;) $obj;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;echo&lt;/span&gt; $a[$propname];
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Wordfinder</title>
+      <link>/post/2005-11-15-wordfinder/</link>
+      <pubDate>Tue, 15 Nov 2005 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2005-11-15-wordfinder/</guid>
+      <description>
+        
+          &lt;p&gt;I&amp;rsquo;ve noticed there are still a lot of shows on television that want you to find a word. So i wrote a little wordfinder that does this for you using the ispell wordlist. As always, you can download the &lt;a href=&#34;http://www.timvw.be/wp-content/code/php/wordfinder.txt&#34;&gt;wordfinder.txt&lt;/a&gt;.&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Changing the include_path</title>
+      <link>/post/2005-11-06-changing-the-include_path/</link>
+      <pubDate>Sun, 06 Nov 2005 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2005-11-06-changing-the-include_path/</guid>
+      <description>
+        
+          &lt;p&gt;PHP has a feature to change the &lt;a href=&#34;http://www.php.net/manual/en/ini.core.php#ini.include-path&#34;&gt;include_path&lt;/a&gt; programatically. The problem is that the path separator is : on unix and ; on windows. Luckily there is a constant &lt;a href=&#34;http://www.php.net/manual/en/reserved.constants.php&#34;&gt;PATH_SEPARATOR&lt;/a&gt; to overcome this issue. Here is how i would do it&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;ini_set&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;error_reporting&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;E_ALL&lt;/span&gt;);
+&lt;span style=&#34;color:#a6e22e&#34;&gt;ini_set&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;display_errors&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;TRUE&lt;/span&gt;);
+
+$include_paths &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;(
+  &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;.&amp;#39;&lt;/span&gt;,
+  &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/home/users/timvw/phpincs&amp;#39;&lt;/span&gt;,
+  &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/home/users/timvw/pear&amp;#39;&lt;/span&gt;,
+  &lt;span style=&#34;color:#a6e22e&#34;&gt;ini_get&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;include_path&amp;#39;&lt;/span&gt;)
+);
+
+&lt;span style=&#34;color:#a6e22e&#34;&gt;ini_set&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;include_path&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;implode&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;PATH_SEPARATOR&lt;/span&gt;, $include_paths));
+
+&lt;span style=&#34;color:#75715e&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Introducing the masterpage</title>
+      <link>/post/2005-11-06-introducing-the-masterpage/</link>
+      <pubDate>Sun, 06 Nov 2005 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2005-11-06-introducing-the-masterpage/</guid>
+      <description>
+        
+          &lt;p&gt;Most websites have the same layout and an area with dynamic content. So most people choose for the following solution: generate a couple of template files for the static content and then write the code for the dynamic content and include the static templates. Here is how the code for a contact and an aboutme page would look like&lt;/p&gt;
+&lt;p&gt;contact.php&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;include&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;header.php&amp;#39;&lt;/span&gt;);
+&lt;span style=&#34;color:#66d9ef&#34;&gt;include&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;leftpanel.php&amp;#39;&lt;/span&gt;);
+&lt;span style=&#34;color:#75715e&#34;&gt;// code for contact page
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;include&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;rightpanel.php&amp;#39;&lt;/span&gt;);
+&lt;span style=&#34;color:#66d9ef&#34;&gt;include&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;footer.php&amp;#39;&lt;/span&gt;);
+&lt;span style=&#34;color:#75715e&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;aboutme.php&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;include&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;header.php&amp;#39;&lt;/span&gt;);
+&lt;span style=&#34;color:#66d9ef&#34;&gt;include&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;leftpanel.php&amp;#39;&lt;/span&gt;);
+&lt;span style=&#34;color:#75715e&#34;&gt;//something about me
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;include&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;rightpanel.php&amp;#39;&lt;/span&gt;);
+&lt;span style=&#34;color:#66d9ef&#34;&gt;include&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;footer.php&amp;#39;&lt;/span&gt;);
+&lt;span style=&#34;color:#75715e&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This code is pretty flexible. But what happens if you want to change your layout to something without a rightpanel? Right, you have to edit each page and remove the include call. A couple of weeks ago i discovered the concept of &lt;a href=&#34;http://www.lifl.fr/~dumoulin/tiles/&#34;&gt;tiles&lt;/a&gt; and immediately realised this is useful for php too. Here is an example implementation&lt;/p&gt;
+&lt;p&gt;contact.php&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;require_once&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;init.php&amp;#39;&lt;/span&gt;);
+$tiles &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;();
+$tiles[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;main&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PAGE_CONTENT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/contact.html&amp;#39;&lt;/span&gt;;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;include&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;masterpage.php&amp;#39;&lt;/span&gt;);
+&lt;span style=&#34;color:#75715e&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;aboutme.php&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;require_once&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;init.php&amp;#39;&lt;/span&gt;);
+$tiles &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;();
+$tiles[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;main&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PAGE_CONTENT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/aboutme.html&amp;#39;&lt;/span&gt;;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;include&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;masterpage.php&amp;#39;&lt;/span&gt;);
+&lt;span style=&#34;color:#75715e&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;masterpage.php&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;isset&lt;/span&gt;($tiles)) $tiles &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;();
+&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;isset&lt;/span&gt;($tiles[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;header&amp;#39;&lt;/span&gt;]) $tiles[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;headers&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PAGE_CONTENT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/default-header.html&amp;#39;&lt;/span&gt;;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;isset&lt;/span&gt;($tiles[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;leftpanel&amp;#39;&lt;/span&gt;]) $tiles[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;headers&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PAGE_CONTENT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/default-leftpanel.html&amp;#39;&lt;/span&gt;;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;isset&lt;/span&gt;($tiles[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;main&amp;#39;&lt;/span&gt;]) $tiles[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;headers&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PAGE_CONTENT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/default-main.html&amp;#39;&lt;/span&gt;;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;isset&lt;/span&gt;($tiles[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;footer&amp;#39;&lt;/span&gt;]) $tiles[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;headers&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PAGE_CONTENT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/default-footer.html&amp;#39;&lt;/span&gt;;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;include&lt;/span&gt;($tiles[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;header&amp;#39;&lt;/span&gt;]);
+&lt;span style=&#34;color:#66d9ef&#34;&gt;include&lt;/span&gt;($tiles[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;leftpanel&amp;#39;&lt;/span&gt;]);
+&lt;span style=&#34;color:#66d9ef&#34;&gt;include&lt;/span&gt;($tiles[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;main&amp;#39;&lt;/span&gt;]);
+&lt;span style=&#34;color:#66d9ef&#34;&gt;include&lt;/span&gt;($tiles[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;footer.php&amp;#39;&lt;/span&gt;]);
+&lt;span style=&#34;color:#75715e&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As you can see, this allows the programmer to change the layout in a single file, the masterpage. If a programmer wants to change the content of a specific area of a page all he has to do is change the $tiles array.&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Odd behaviour with arrays</title>
+      <link>/post/2005-10-12-odd-behaviour-with-arrays/</link>
+      <pubDate>Wed, 12 Oct 2005 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2005-10-12-odd-behaviour-with-arrays/</guid>
+      <description>
+        
+          &lt;p&gt;A while ago i was really stumbled by the behaviour of a server. This problem solved itself after the sysadmin noticed that he forgot to upgrade &lt;a href=&#34;http://www.ioncube.com/&#34;&gt;ionCube&lt;/a&gt; after a php upgrade.Here is the code that i ran&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;$array &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;();
+$array[] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;name&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;row1&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;value&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;1&amp;#39;&lt;/span&gt;);
+$array[] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;name&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;row2&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;value&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;3&amp;#39;&lt;/span&gt;);
+$array[] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;name&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;row3&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;value&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2&amp;#39;&lt;/span&gt;);
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;foreach&lt;/span&gt;($array &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; $row)
+{    
+  &lt;span style=&#34;color:#a6e22e&#34;&gt;print_r&lt;/span&gt;($row);  
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The expected output is&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Array&lt;/span&gt; ( [&lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;row1&lt;/span&gt; [&lt;span style=&#34;color:#a6e22e&#34;&gt;value&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; )
+&lt;span style=&#34;color:#66d9ef&#34;&gt;Array&lt;/span&gt; ( [&lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;row2&lt;/span&gt; [&lt;span style=&#34;color:#a6e22e&#34;&gt;value&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; )
+&lt;span style=&#34;color:#66d9ef&#34;&gt;Array&lt;/span&gt; ( [&lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;row3&lt;/span&gt; [&lt;span style=&#34;color:#a6e22e&#34;&gt;value&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; )
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For some odd reason this is the output i got&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Array&lt;/span&gt; ( [&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Array&lt;/span&gt; ( [&lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;row1&lt;/span&gt; [&lt;span style=&#34;color:#a6e22e&#34;&gt;value&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; ) [&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; )
+&lt;span style=&#34;color:#66d9ef&#34;&gt;Array&lt;/span&gt; ( [&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Array&lt;/span&gt; ( [&lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;row2&lt;/span&gt; [&lt;span style=&#34;color:#a6e22e&#34;&gt;value&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; ) [&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; )
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Currency convertor</title>
+      <link>/post/2005-08-29-currency-convertor/</link>
+      <pubDate>Mon, 29 Aug 2005 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2005-08-29-currency-convertor/</guid>
+      <description>
+        
+          &lt;p&gt;I discovered that the &lt;a href=&#34;http://www.ecb.int&#34;&gt;European Central Bank (ECB)&lt;/a&gt; has a page with &lt;a href=&#34;http://www.ecb.int/stats/exchange/eurofxref/html/index.en.html&#34;&gt;Euro foreign exchange rates&lt;/a&gt;. I thought it would be a nice exercise to write a little script that works with the &lt;a href=&#34;http://www.ecb.int/stats/eurofxref/eurofxref-hist.xml&#34;&gt;XML data&lt;/a&gt; source. Get &lt;a href=&#34;http://www.timvw.be/wp-content/code/php/currencyconvertor.txt&#34;&gt;currencyconvertor.txt&lt;/a&gt; now!&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Tests if $host is a proxy server</title>
+      <link>/post/2005-08-20-tests-if-host-is-a-proxy-server/</link>
+      <pubDate>Sat, 20 Aug 2005 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2005-08-20-tests-if-host-is-a-proxy-server/</guid>
+      <description>
+        
+          &lt;p&gt;Code: &lt;a href=&#34;/wp-content/code/php/proxytester.txt&#34;&gt;php/proxytester.txt&lt;/a&gt;&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Generating JavaScript strings</title>
+      <link>/post/2005-07-29-generating-javascript-strings/</link>
+      <pubDate>Fri, 29 Jul 2005 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2005-07-29-generating-javascript-strings/</guid>
+      <description>
+        
+          &lt;p&gt;Well, I&amp;rsquo;ve always experienced the generating JavaScript strings with PHP as a PITA. An example, which requires you to take care of the escaping of quotes, is the string: &amp;lsquo;O&amp;rsquo;Reilly has nice books&amp;rsquo;. Today i had this brilliant idea to do it as following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt;
+$str &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;addslashes&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Hello peter&amp;#39;s cats&amp;#34;&lt;/span&gt;);
+&lt;span style=&#34;color:#66d9ef&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;lt;script type=&amp;#39;text/javascript&amp;#39;&amp;gt;&amp;#34;&lt;/span&gt;;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;alert(&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$str&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;)&amp;#34;&lt;/span&gt;;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;;
+&lt;span style=&#34;color:#75715e&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Read from STDIN without echoing the input back</title>
+      <link>/post/2005-07-24-read-from-stdin-without-echoing-the-input-back/</link>
+      <pubDate>Sun, 24 Jul 2005 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2005-07-24-read-from-stdin-without-echoing-the-input-back/</guid>
+      <description>
+        
+          &lt;p&gt;Today i was looking for a way to read passwords from a PHP-CLI script. So it was important the password didn&amp;rsquo;t appear on the console. I wrote a &lt;a href=&#34;http://www.timvw.be/wp-content/code/php/ttyecho.php.txt&#34;&gt;ttyecho function&lt;/a&gt; that uses &lt;a href=&#34;http://unixhelp.ed.ac.uk/CGI/man-cgi?stty&#34;&gt;stty&lt;/a&gt; to change the terminal line settings.&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Scriptable browser</title>
+      <link>/post/2005-07-10-scriptable-browser/</link>
+      <pubDate>Sun, 10 Jul 2005 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2005-07-10-scriptable-browser/</guid>
+      <description>
+        
+          &lt;p&gt;Last couple of days i have been trying out &lt;a href=&#34;http://www.lastcraft.com/simple_test.php&#34;&gt;Simple Test&lt;/a&gt;. It allowed me stop stop &lt;a href=&#34;http://www.php.net/echo&#34;&gt;echo&lt;/a&gt; and &lt;a href=&#34;http://www.php.net/print_r&#34;&gt;print_r&lt;/a&gt; variables all over the place. The package also has a &lt;a href=&#34;http://www.lastcraft.com/browser_documentation.php&#34;&gt;Scriptable Browser&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;At &lt;a href=&#34;http://www.smscity.be&#34;&gt;smscity.be&lt;/a&gt; you can earn credits each day. Therefor you have to visit their site and click some links. I wrote a &lt;a href=&#34;http://www.timvw.be/wp-content/code/php/smscity.txt&#34;&gt;smscity.txt script&lt;/a&gt; that does this for me.&lt;/p&gt;
+&lt;p&gt;Now all i had to do is make sure this script is executed each day, so i edited my &lt;a href=&#34;http://unixhelp.ed.ac.uk/CGI/man-cgi?crontab+5&#34;&gt;crontab&lt;/a&gt;. It looks like:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;###############################################################################
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# # 
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;###############################################################################
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# $###############################################################################
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;reboot&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;usr&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;bin&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;fetchmail&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;d&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1800&lt;/span&gt; 
+&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;40&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;\&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;\&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;\&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;\&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;usr&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;bin&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;wget&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;O&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;dev&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;://&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;timvw&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;cron&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;blogmarks&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;dev&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; 
+&lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;02&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;\&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;\&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;usr&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;bin&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;wget&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;O&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;dev&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;://&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;timvw&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;cron&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;smscity&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;dev&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# \* \* \* \* \* \* 
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# | | | | | |
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# | | | | | - command to be executed 
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# | | | | --- day of week (1 - 7) (monday = 1) 
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# | | | ----- month (1 - 12) 
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# | | ------- day of month (1 - 31)
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# | --------- hour (0 - 23) 
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# ----------- min (0 - 59)
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>I am the manual</title>
+      <link>/post/2005-07-06-i-am-the-manual/</link>
+      <pubDate>Wed, 06 Jul 2005 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2005-07-06-i-am-the-manual/</guid>
+      <description>
+        
+          &lt;p&gt;I found this in my inbox on my favorite &lt;a href=&#34;http://www.php.net&#34;&gt;PHP&lt;/a&gt; forum, &lt;a href=&#34;http://forums.devnetwork.net&#34;&gt;DevNetwork&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Hi timvw,
+you&amp;rsquo;ve won an award!&lt;/p&gt;
+&lt;p&gt;I Am The Manual Award&lt;/p&gt;
+&lt;p&gt;And the beauty is, you now have a badge to show for it! Smile&lt;/p&gt;
+&lt;p&gt;You can download it and use them as your avatar or in your signature:&lt;/p&gt;
+&lt;p&gt;Congratulations
+patrikG&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;!-- raw HTML omitted --&gt;Forum Rules&lt;!-- raw HTML omitted --&gt;
+&lt;!-- raw HTML omitted --&gt;How to get what you want!&lt;!-- raw HTML omitted --&gt;
+&lt;!-- raw HTML omitted --&gt;PHP Manual!&lt;!-- raw HTML omitted --&gt;
+This isn&amp;rsquo;t the code you&amp;rsquo;re looking for.
+&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;/blockquote&gt;
+
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Exploring the FTP functions</title>
+      <link>/post/2005-05-04-exploring-the-ftp-functions/</link>
+      <pubDate>Wed, 04 May 2005 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2005-05-04-exploring-the-ftp-functions/</guid>
+      <description>
+        
+          &lt;p&gt;I am still drowning in the work, and exams are coming close too, but i decided to blog something about the &lt;a href=&#34;http://www.php.net/ftp&#34;&gt;FTP&lt;/a&gt; functions in &lt;a href=&#34;http://www.php.net&#34;&gt;PHP&lt;/a&gt;. The script will download all the files that are available on the remote server.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// make sure we have time enough to execute this script
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;set_time_limit&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;1200&lt;/span&gt;);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// connect to the ftp server
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$ftp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ftp_connect&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ftp.scarlet.be&amp;#39;&lt;/span&gt;);
+&lt;span style=&#34;color:#a6e22e&#34;&gt;ftp_login&lt;/span&gt;($ftp, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;anonymous&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;password&amp;#39;&lt;/span&gt;);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// get the files that are available here
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$local &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;glob&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;*.\*&amp;#39;&lt;/span&gt;);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// get the files that are available there
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$remote &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ftp_nlist&lt;/span&gt;($ftp, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;.&amp;#39;&lt;/span&gt;);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// get the files there that are not availble here
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;foreach&lt;/span&gt;($remote &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; $file)
+{  
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;in_array&lt;/span&gt;($file, $local))  
+  {  
+    &lt;span style=&#34;color:#75715e&#34;&gt;// we do not have the file, thus download it  
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;ftp_get&lt;/span&gt;($ftp, $file, $file, &lt;span style=&#34;color:#a6e22e&#34;&gt;FTP_BINARY&lt;/span&gt;);  
+  }
+}
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// close the connection
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ftp_close&lt;/span&gt;($ftp);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>More on recursion</title>
+      <link>/post/2005-03-04-more-on-recursion/</link>
+      <pubDate>Fri, 04 Mar 2005 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2005-03-04-more-on-recursion/</guid>
+      <description>
+        
+          &lt;p&gt;Yesterday i already wrote that an interative implementation for a recursive function is more efficient. And i gave you an example of the fibonacci function. Well, today i am here to present you an implementation for every recursive function.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Math&lt;/span&gt;
+{
+  &lt;span style=&#34;color:#75715e&#34;&gt;// calculate the linear combination  
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// fe:     
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// coefficients = array(1, 2, 3)   
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// values = array(4, 5, 6)     
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// returns: (1 \* 4) + (2 \* 5) + (3 * 6)
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;lc&lt;/span&gt;($coefficients, $values)     
+  {        
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;count&lt;/span&gt;($coefficients) &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;count&lt;/span&gt;($values))        
+    {             
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;;      
+    }
+
+    $result &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;        
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; ($i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; $i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;count&lt;/span&gt;($coefficients); &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;$i)    
+    {          
+      $result &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; $coefficients[$i] &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; $values[$i];        
+    }         
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; $result;     
+  }
+
+  &lt;span style=&#34;color:#75715e&#34;&gt;// lookup the value for the recursive function     
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// fe:     
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// n: 3      
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// coefficients = array(a, b)    
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// initvalues = array(0, 1)     
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// returns: 2    
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// this is the same as f(n) = (a \* (n-2)) + (b \* (n-1))    
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;recursive&lt;/span&gt;($n, $coefficients, $initvalues)    
+  {          
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; ($n &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;count&lt;/span&gt;($initvalues))         
+    {             
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; $initvalues[$n];          
+    }
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; ($i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;count&lt;/span&gt;($initvalues); $i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; $n; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;$i)        
+    {            
+      $result &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Math&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;lc&lt;/span&gt;($coefficients, $initvalues);            
+      &lt;span style=&#34;color:#a6e22e&#34;&gt;array_shift&lt;/span&gt;($initvalues);             
+      &lt;span style=&#34;color:#a6e22e&#34;&gt;array_push&lt;/span&gt;($initvalues, $result);        
+    }
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; $result;    
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As an example we use this class to calculate fibonacci(3):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;$coefficients &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;); &lt;span style=&#34;color:#75715e&#34;&gt;// f(n) = (1 \* f(n-2)) + (1 \* f(n-1))
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$initvalues &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;array&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;); &lt;span style=&#34;color:#75715e&#34;&gt;// f(0) = 0 and f(1) = 1
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Math&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;recursive&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;, $coefficients, $initvalues);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Calculating Fibonacci</title>
+      <link>/post/2005-03-03-calculating-fibonacci/</link>
+      <pubDate>Thu, 03 Mar 2005 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2005-03-03-calculating-fibonacci/</guid>
+      <description>
+        
+          &lt;p&gt;What is a &lt;a href=&#34;http://en.wikipedia.org/wiki/Recursion&#34;&gt;recursive&lt;/a&gt; function? It is a function where the value for input n is calculated as a linear combination of the previous 1, 2, &amp;hellip;, n-1 function values. An example is the fibonacci function: f(n) = f(n-1) + f(n-2).&lt;/p&gt;
+&lt;p&gt;If we program this our first code would look like:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;fibonacci&lt;/span&gt;($n)
+{
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; ($n &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; $n; } &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;fibonacci&lt;/span&gt;($n&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;fibonacci&lt;/span&gt;($n&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;); 
+} 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It becomes clear that this is really inefficient. For example if we call fibonacci(3) the following function calls will be made:&lt;/p&gt;
+&lt;p&gt;fibonacci(3)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;fibonacci(2)
+&amp;ndash; fibonacci(1)
+&amp;mdash; fibonacci(0)
+&amp;ndash;fibonacci(1)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We can optimize this function by implementing it as an iteration. We still have to calculate all the previous values, thus the time-complexity of this algorithm is O(n). Here is the code:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;fibonacci&lt;/span&gt;($n)
+{ 
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; ($n &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) { &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; $n; } 
+  $nmin2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; 
+  $nmin1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; 
+  $result &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; 
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; ($i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;; $i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;n&lt;/span&gt;; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;$i) { 
+    $result &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; $nmin1 &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; $nmin2; 
+    $nmin2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; $nmin1; 
+    $nmin1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; $result; 
+  }    
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; $result; 
+} 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Time to take our math course and lookup a non-recursive function for fibonacci. Eureka, we have found one! The algorithm has constant time complexity. The proof for this function is can be found &lt;a href=&#34;http://mathforum.org/library/drmath/view/52686.html&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;fibonacci&lt;/span&gt;($n)
+{   
+  $denominator &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;pow&lt;/span&gt;((&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sqrt&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;))&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, $n) &lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;pow&lt;/span&gt;((&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sqrt&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;))&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, $n);  
+  $nominator &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sqrt&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;);
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; $denominator &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; $nominator;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Elegantly generate SQL queries</title>
+      <link>/post/2005-02-02-elegantly-generate-sql-queries/</link>
+      <pubDate>Wed, 02 Feb 2005 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2005-02-02-elegantly-generate-sql-queries/</guid>
+      <description>
+        
+          &lt;p&gt;Code: &lt;a href=&#34;/wp-content/code/php/elegantsql.txt&#34;&gt;php/elegantsql.txt&lt;/a&gt;&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Bypassing URL file-access is disabled</title>
+      <link>/post/2005-01-28-bypassing-url-file-access-is-disabled/</link>
+      <pubDate>Fri, 28 Jan 2005 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2005-01-28-bypassing-url-file-access-is-disabled/</guid>
+      <description>
+        
+          &lt;p&gt;For some odd reason this host has disabled URL file-access.&lt;/p&gt;
+&lt;p&gt;So i needed something simple to bypass this problem:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;fetch_url&lt;/span&gt;($url)
+{     
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;preg_match&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;#^http://(.\*?)/(.\*)$#&amp;#34;&lt;/span&gt;, $url, $matches))    
+  {
+    $host &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; $matches[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;];       
+    $uri &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; $matches[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;];       
+    $msg &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;GET /&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$uri&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; HTTP/1.0&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\r\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;Host: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$host\r\n\r\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;;
+    $fp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;fsockopen&lt;/span&gt;($host, &lt;span style=&#34;color:#ae81ff&#34;&gt;80&lt;/span&gt;, $errno, $errstr, &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;);
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;fwrite&lt;/span&gt;($fp, $msg);         
+    $ignore &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;;        
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;feof&lt;/span&gt;($fp))        
+    {            
+      $read &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;fgets&lt;/span&gt;($fp, &lt;span style=&#34;color:#ae81ff&#34;&gt;1024&lt;/span&gt;);
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;$ignore)            
+      {     
+        $contents &lt;span style=&#34;color:#f92672&#34;&gt;.=&lt;/span&gt; $read;            
+      }
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;preg_match&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;^Content-Type: .*?&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\r\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;, $read))          
+      {                
+        $ignore &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;;          
+      }        
+    }
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;fclose&lt;/span&gt;($fp);
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; $contents;    
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Playing with XML and XSL</title>
+      <link>/post/2005-01-23-playing-with-xml-and-xsl/</link>
+      <pubDate>Sun, 23 Jan 2005 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2005-01-23-playing-with-xml-and-xsl/</guid>
+      <description>
+        
+          &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// add stuff to an xml document in php4
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$doc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;domxml_open_mem&lt;/span&gt;($xml);
+$root &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; $doc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;document_element&lt;/span&gt;();
+$inner &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; $doc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;create_element&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;inner&amp;#39;&lt;/span&gt;);
+$root &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; $root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;append_child&lt;/span&gt;($inner);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;// add stuff to an xml document in php5
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;$doc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;DomDocument&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;1.0&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;UTF-8&amp;#39;&lt;/span&gt;);
+$doc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;loadXML&lt;/span&gt;($xml);
+$root &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; $doc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getelementsByTagName&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;resultset&amp;#39;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;item&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
+$inner &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; $doc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;createElement&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;inner&amp;#39;&lt;/span&gt;);
+$root &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; $root&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;appendChild&lt;/span&gt;($inner); 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;a href=&#34;http://www.w3.org/TR/xhtml1/&#34;&gt;XHTML&lt;/a&gt; does not allow to have an empty list, &lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;. Therefore we need to test first if there are any nodes we want to put in that list. The code to do this looks like:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;xsl:for-each&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;select=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;//resultset/entity&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+
+  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;div&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;class=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;mainitem&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;div&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;class=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;maintitle&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+      &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;xsl:value-of&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;select=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;div&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;class=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;maincontent&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+      &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;xsl:if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;test=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;count(items/item) &amp;gt; 0&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;ul&amp;gt;&lt;/span&gt;
+          &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;xsl:for-each&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;select=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;items/item&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; 
+            &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;
+              &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;a&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;href=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;{link}&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;lt;xsl:value-of&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;select=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&amp;gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
+            &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+          &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/xsl:for-each&amp;gt;&lt;/span&gt; 
+        &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/ul&amp;gt;&lt;/span&gt; 
+      &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/xsl:if&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt; 
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/xsl:for-each&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Basic download script</title>
+      <link>/post/2004-12-29-basic-download-script/</link>
+      <pubDate>Wed, 29 Dec 2004 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2004-12-29-basic-download-script/</guid>
+      <description>
+        
+          &lt;p&gt;Code: &lt;a href=&#34;/wp-content/code/php/download.txt&#34;&gt;php/download.txt&lt;/a&gt;&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>One login at a time</title>
+      <link>/post/2004-07-16-one-login-at-a-time/</link>
+      <pubDate>Fri, 16 Jul 2004 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2004-07-16-one-login-at-a-time/</guid>
+      <description>
+        
+          &lt;p&gt;Today someone asked: &amp;ldquo;In other words, how do we prevent two users from using the same password to access the same account at the same time?&amp;rdquo; You can read my answer in &lt;a href=&#34;http://www.timvw.be/wp-content/code/php/onlyone.txt&#34;&gt;onlyone.txt&lt;/a&gt;&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Get all the languages a visitor accepts</title>
+      <link>/post/2004-06-26-get-all-the-languages-a-visitor-accepts/</link>
+      <pubDate>Sat, 26 Jun 2004 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2004-06-26-get-all-the-languages-a-visitor-accepts/</guid>
+      <description>
+        
+          &lt;p&gt;Code: &lt;a href=&#34;/wp-content/code/php/languages.txt&#34;&gt;php/languages.txt&lt;/a&gt;&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>A banner script</title>
+      <link>/post/2004-04-12-a-banner-script/</link>
+      <pubDate>Mon, 12 Apr 2004 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2004-04-12-a-banner-script/</guid>
+      <description>
+        
+          &lt;p&gt;Recently i wrote a &lt;a href=&#34;http://www.timvw.be/wp-content/code/php/banner.txt&#34;&gt;banner system&lt;/a&gt; that displays different banners based on the visitor&amp;rsquo;s country. It uses the remote address to find the country associated with that address (using &lt;a href=&#34;http://www.maxmind.com/&#34;&gt;geoip&lt;/a&gt;), and then it looks in the database to find a url for that country. If there is no such url, it looks up the default url. And finally it redirects the visitor to the url.&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Allow to select multiple items in a selectbox</title>
+      <link>/post/2003-12-19-allow-to-select-multiple-items-in-a-selectbox/</link>
+      <pubDate>Fri, 19 Dec 2003 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2003-12-19-allow-to-select-multiple-items-in-a-selectbox/</guid>
+      <description>
+        
+          &lt;p&gt;Code: &lt;a href=&#34;/wp-content/code/php/select-multiple.txt&#34;&gt;php/select-multiple.txt&lt;/a&gt;&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+  </channel>
+</rss>

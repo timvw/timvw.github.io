@@ -1,0 +1,103 @@
+using System;
+using System.Windows.Forms;
+using System.Drawing.Printing;
+using System.Drawing;
+
+namespace VanWassenhove.WinForms
+{
+    #region ControlPrintPageEventHandler
+    /// <summary>
+    /// This class allows the user to print a control.
+    /// </summary>
+    public class ControlPrintPageEventHandler
+    {
+        #region Private Fields
+        private Control control;
+        private int currentPage;
+        private int requiredPagesForWidth;
+        private int requiredPagesForHeight;
+        private int lastPage;
+        private Bitmap bitmap;
+        #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="control">The control that will be printed.</param>
+        public ControlPrintPageEventHandler(Control control)
+        {
+            this.Control = control;
+        }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// The Control that will be printed.
+        /// </summary>
+        public Control Control
+        {
+            get 
+            { 
+                return this.control; 
+            }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                this.control = value;
+                this.currentPage = 0;
+            }
+        }
+
+        /// <summary>
+        /// Returns true if the EventHandler is about to print the first page
+        /// </summary>
+        public bool IsFirstPage 
+        {
+            get 
+            { 
+                return this.currentPage == 0; 
+            }
+        }
+
+        #endregion
+
+        #region Public Methods
+        /// <summary>
+        /// Represents the method that will handle the PrintPage event of a PrintDocument. 
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">A PrintPageEventArgs that contains the event data.</param>
+        public virtual void PrintPage(object sender, PrintPageEventArgs e)
+        {
+            if (this.currentPage == 0)
+            {
+                this.requiredPagesForWidth = ((int)this.control.Width / e.MarginBounds.Width) + 1;
+                this.requiredPagesForHeight = ((int)this.control.Height / e.MarginBounds.Height) + 1;
+                this.lastPage = (this.requiredPagesForWidth * this.requiredPagesForHeight) - 1;
+
+                this.bitmap = new Bitmap(this.control.Width, this.control.Height);
+                this.control.DrawToBitmap(bitmap, this.control.Bounds);
+            }
+
+            e.HasMorePages = (this.currentPage < this.lastPage);
+
+            int posX = ((int)this.currentPage % this.requiredPagesForWidth) * e.MarginBounds.Width;
+            int posY = ((int)this.currentPage / this.requiredPagesForWidth) * e.MarginBounds.Height;
+
+            e.Graphics.DrawImage(this.bitmap, new Rectangle(e.MarginBounds.X, e.MarginBounds.Y, e.MarginBounds.Width, e.MarginBounds.Height), new Rectangle(posX, posY, e.MarginBounds.Width, e.MarginBounds.Height), GraphicsUnit.Pixel);
+
+            ++this.currentPage;
+            if (this.currentPage > this.lastPage)
+            {
+                this.currentPage = 0;
+            }
+        }
+        #endregion
+    }
+    #endregion
+}
