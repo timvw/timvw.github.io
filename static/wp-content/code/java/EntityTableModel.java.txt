@@ -1,0 +1,156 @@
+// +----------------------------------------------------------------------------
+// | Author: Tim Van Wassenhove <timvw@users.sourceforge.net>
+// | Update: 2006-06-18 21:35
+// |
+// | This class represents a tablemodel for entitybeans
+// +----------------------------------------------------------------------------
+package be.regapan.ui.model;
+
+import java.util.Collection;
+import java.util.HashMap;
+
+import javax.swing.event.TableModelListener;
+import javax.swing.table.TableModel;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.hibernate.validator.ClassValidator;
+import org.hibernate.validator.InvalidValue;
+
+/**
+ * This class represents a tablemodel for entitybeans
+ */
+public class EntityTableModel implements TableModel {
+	
+	private Object[] elements;
+	private HashMap<String, String> attributes;
+	private Collection<String> editables;
+	
+	/**
+	 * Constructor
+	 * @param elements - the entity beans
+	 * @param attributes - a map with (columnname, attributename) pairs
+	 * @param editables - an array with attributenames that are read-write
+	 */
+	public EntityTableModel(Object[] elements, HashMap<String, String> attributes, Collection<String> editables) {
+		this.elements = elements;
+		this.attributes = attributes;
+		this.editables = editables;
+	}
+	
+	/**
+	 * Returns the number of rows in the model
+	 * @return <b>int</b> the number of rows in the model
+	 */
+	public int getRowCount() {
+		return elements.length;
+	}
+	
+	/**
+	 * Returns the number of columns in the model
+	 * @return <b>int</b> the number of columns in the model
+	 */
+	public int getColumnCount() {
+		return attributes.keySet().toArray().length;
+	}
+	
+	/**
+	 * Returns the name of the column at columnIndex
+	 * @param index - the index of the column
+	 * @return <b>String</b> the name of the column
+	 */
+	public String getColumnName(int index) {
+		Object[] colNames = attributes.keySet().toArray();
+		if (index >= 0 && index < colNames.length) {
+			return (String) colNames[index];
+		} 
+		return null; 
+	}
+	
+	/**
+	 * Returns the most specific superclass for all the cell values in the column
+	 * @param index - the index of the column
+	 * @return <b>Class<?></b> the common ancestor class of the object values in the model
+	 */
+	public Class<?> getColumnClass(int index) {
+		return getValueAt(0, index).getClass();
+	}
+	
+	/**
+	 * Returns true if the cell at rowIndex and columnIndex  is editable
+	 * @param row - the row whose value to be queried
+	 * @param column - the column whose value to be queried
+	 * @return <b>boolean</b> true if the cell is editable
+	 */
+	public boolean isCellEditable(int row, int column) {
+		if (row >= 0 && row < elements.length) {
+			Object[] colNames = attributes.keySet().toArray();
+			if (editables.contains(attributes.get((String) colNames[column]))) {
+				return true;
+			}
+		}
+		 return false;		
+	}
+	
+	/**
+	 * Returns the value for the cell at columnIndex and rowIndex
+	 * @param row - the row whose value is to be queried
+	 * @param column - the column whose value is to be queried
+	 * @return <b>Object</b> the value Object at the specified cell
+	 */
+	public Object getValueAt(int row, int column) {
+		Object result = null;
+		if (row >= 0 && row < elements.length) {
+			Object[] colNames = attributes.keySet().toArray();
+			if (column >= 0 && column < colNames.length) {
+				Object o = elements[row];
+				try {
+					result = PropertyUtils.getSimpleProperty(o, attributes.get((String) colNames[column]));
+				} catch (Exception ex) {
+					//
+				}
+			}
+		}		
+
+		return (result != null) ? result : "";
+	}
+	
+	/**
+	 * Sets the value in the cell at columnIndex and rowIndex to aValue
+	 * @param value - the new value
+	 * @param row - the row whose value is to be changed
+	 * @param column - the column whose value is to be changed
+	 */
+	@SuppressWarnings("unchecked")
+	public void setValueAt(Object value, int row, int column) {
+		if (row >= 0 && row < elements.length) {
+			Object[] colNames = attributes.keySet().toArray();
+			if (column >= 0 && column < colNames.length) {
+				Object o = elements[row];
+				try {
+					String propertyName = attributes.get((String) colNames[column]);
+					InvalidValue[] invalids = new ClassValidator(o.getClass()).getPotentialInvalidValues(propertyName, value);
+					if (invalids == null || invalids.length == 0) {
+						BeanUtils.setProperty(o, propertyName, value);	
+					} 	
+				} catch (Exception ex) {
+					//
+				}
+			}
+		}			
+	}
+	
+	/**
+	 * Adds a listener to the list that is notified each time a change to the data model occurs
+	 * @param tlm - the TableModelListener
+	 */
+	public void addTableModelListener(TableModelListener tlm) {
+	}
+	
+	/**
+	 * Removes a listener from the list that is notified each time a change to the data model occurs
+	 * @param tlm - the TableModelListener
+	 */
+	public void removeTableModelListener(TableModelListener tlm) {
+	}
+}

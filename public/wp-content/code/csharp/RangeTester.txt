@@ -1,0 +1,296 @@
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Be.Timvw.Framework.Domain;
+
+namespace Be.Timvw.Framework.Tests.Domain
+{
+    [TestClass]
+    public class RangeTester
+    {
+        #region Constructor Tests
+
+        [TestMethod]
+        public void TestConstructorValidRange()
+        {
+            DateTime begin = new DateTime(1980, 04, 30);
+            DateTime end = begin.AddDays(10);
+
+            Range<DateTime> dateTimeRange = new Range<DateTime>(begin, end);
+            Assert.AreEqual(begin, dateTimeRange.Begin);
+            Assert.AreEqual(end, dateTimeRange.End);
+        }
+
+        [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void TestConstructorInvalidRange()
+        {
+            DateTime begin = new DateTime(1980, 04, 30);
+            DateTime end = begin.AddDays(-10);
+
+            new Range<DateTime>(begin, end);
+        }
+
+        #endregion
+
+        #region Begin Tests
+
+        [TestMethod]
+        public void TestBeginValid()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            DateTime soonerBegin = dateTimeRange.Begin.AddDays(-10);
+
+            dateTimeRange.Begin = soonerBegin;
+            Assert.AreEqual(soonerBegin, dateTimeRange.Begin);
+        }
+
+        [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void TestBeginInValid()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            DateTime tooLateBegin = dateTimeRange.End.AddDays(10);
+
+            dateTimeRange.Begin = tooLateBegin;
+        }
+
+        #endregion
+
+        #region End Tests
+
+        [TestMethod]
+        public void TestEndValid()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            DateTime laterEnd = dateTimeRange.End.AddDays(10);
+
+            dateTimeRange.End = laterEnd;
+            Assert.AreEqual(laterEnd, dateTimeRange.End);
+        }
+
+        [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void TestEndInvalid()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            DateTime tooSoonEnd = dateTimeRange.Begin.AddDays(-10);
+
+            dateTimeRange.End = tooSoonEnd;
+        }
+
+        #endregion
+
+        #region Includes Element Tests
+
+        [TestMethod]
+        public void TestIncludesElementInRange()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            DateTime valueInRange = dateTimeRange.Begin.AddDays(1);
+
+            Assert.IsTrue(dateTimeRange.Includes(valueInRange));
+        }
+
+        [TestMethod]
+        public void TestIncludesElementOnRangeBeginBoundary()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            DateTime valueInRange = dateTimeRange.Begin;
+
+            Assert.IsTrue(dateTimeRange.Includes(valueInRange));
+        }
+
+        [TestMethod]
+        public void TestIncludesElementOnRangeEndBoundary()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            DateTime valueInRange = dateTimeRange.End;
+
+            Assert.IsTrue(dateTimeRange.Includes(valueInRange));
+        }
+
+        [TestMethod]
+        public void TestIncludesElementBeforeRange()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            DateTime valueBeforeRange = dateTimeRange.Begin.AddDays(-1);
+
+            Assert.IsFalse(dateTimeRange.Includes(valueBeforeRange));
+        }
+
+        [TestMethod]
+        public void TestIncludesElementAfterRange()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            DateTime valueAfterRange = dateTimeRange.End.AddDays(1);
+
+            Assert.IsFalse(dateTimeRange.Includes(valueAfterRange));
+        }
+
+        #endregion
+
+        #region Includes Range Tests
+
+        [TestMethod]
+        public void TestIncludesRangeSubRange()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            Range<DateTime> includedDateTimeRange = new Range<DateTime>(dateTimeRange.Begin.AddDays(1), dateTimeRange.End.AddDays(-1));
+
+            Assert.IsTrue(dateTimeRange.Includes(includedDateTimeRange));
+        }
+
+        [TestMethod]
+        public void TestIncludesRangeNotIncludedBegin()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            Range<DateTime> notIncludedDateTimeRange = new Range<DateTime>(dateTimeRange.Begin.AddDays(-1), dateTimeRange.End);
+
+            Assert.IsFalse(dateTimeRange.Includes(notIncludedDateTimeRange));
+        }
+
+        [TestMethod]
+        public void TestIncludesRangeNotIncludedEnd()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            Range<DateTime> notIncludedDateTimeRange = new Range<DateTime>(dateTimeRange.Begin, dateTimeRange.End.AddDays(1));
+
+            Assert.IsFalse(dateTimeRange.Includes(notIncludedDateTimeRange));
+        }
+
+        #endregion
+
+        #region Overlaps Tests
+
+        [TestMethod]
+        public void TestOverlapsNoOverlap()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            Range<DateTime> notOverlappingDateTimeRange = new Range<DateTime>(dateTimeRange.End.AddDays(1), dateTimeRange.End.AddDays(2));
+
+            Assert.IsFalse(dateTimeRange.Overlaps(notOverlappingDateTimeRange));
+        }
+
+        [TestMethod]
+        public void TestOverlapsBegin()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            Range<DateTime> overlappingDateTimeRangeverlappingDateTimeRange = new Range<DateTime>(dateTimeRange.Begin.AddDays(-10), dateTimeRange.Begin.AddDays(2));
+
+            Assert.IsTrue(dateTimeRange.Overlaps(overlappingDateTimeRangeverlappingDateTimeRange));
+        }
+
+        [TestMethod]
+        public void TestOverlapsEnd()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            Range<DateTime> overlappingDateTimeRangeverlappingDateTimeRange = new Range<DateTime>(dateTimeRange.End.AddDays(-2), dateTimeRange.End.AddDays(2));
+
+            Assert.IsTrue(dateTimeRange.Overlaps(overlappingDateTimeRangeverlappingDateTimeRange));
+        }
+
+        [TestMethod]
+        public void TestOverlapsInclusion()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            Range<DateTime> overlappingDateTimeRangeverlappingDateTimeRange = new Range<DateTime>(dateTimeRange.Begin.AddDays(1), dateTimeRange.End.AddDays(-1));
+
+            Assert.IsTrue(dateTimeRange.Overlaps(overlappingDateTimeRangeverlappingDateTimeRange));
+        }
+
+        #endregion
+
+        #region Equals Tests
+
+        [TestMethod]
+        public void TestEqualsForSameRange()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            Range<DateTime> otherDateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+
+            Assert.IsTrue(dateTimeRange.Equals(otherDateTimeRange));
+        }
+
+        [TestMethod]
+        public void TestEqualsForDifferentBegin()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            Range<DateTime> sameDateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            sameDateTimeRange.Begin = sameDateTimeRange.Begin.AddDays(-1);
+
+            Assert.IsFalse(dateTimeRange.Equals(sameDateTimeRange));
+        }
+
+        [TestMethod]
+        public void TestEqualsForDifferentEnd()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            Range<DateTime> otherDateTimeRange = GetRangeForDaysFromFirstJanuary2000(11);
+
+            Assert.IsFalse(dateTimeRange.Equals(otherDateTimeRange));
+        }
+
+        [TestMethod]
+        public void TestEqualsForNull()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            Range<DateTime> otherDateTimeRange = null;
+
+            Assert.IsFalse(dateTimeRange.Equals(otherDateTimeRange));
+        }
+
+        [TestMethod]
+        public void TestEqualsForObject()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            Object otherObject = new object();
+
+            Assert.IsFalse(dateTimeRange.Equals(otherObject));
+        }
+
+        #endregion
+
+        #region GetHashCodeTests
+
+        [TestMethod]
+        public void TestGetHashCodeForSameRanges()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            Range<DateTime> sameDateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+
+            Assert.AreEqual(dateTimeRange.GetHashCode(), sameDateTimeRange.GetHashCode());
+        }
+
+        [TestMethod]
+        public void TestGetHashCodeForDifferentRanges()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            Range<DateTime> otherDateTimeRange = GetRangeForDaysFromFirstJanuary2000(11);
+
+            Assert.AreNotEqual(dateTimeRange.GetHashCode(), otherDateTimeRange.GetHashCode());
+        }
+
+        #endregion
+
+        #region ToString Tests
+
+        [TestMethod]
+        public void TestToString()
+        {
+            Range<DateTime> dateTimeRange = GetRangeForDaysFromFirstJanuary2000(10);
+            string expected = string.Format("{0} - {1}", dateTimeRange.Begin, dateTimeRange.End);
+
+            Assert.AreEqual(expected, dateTimeRange.ToString());
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private static Range<DateTime> GetRangeForDaysFromFirstJanuary2000(int numberOfDays)
+        {
+            DateTime begin = new DateTime(1980, 04, 30);
+            DateTime end = begin.AddDays(numberOfDays);
+            return new Range<DateTime>(begin, end);
+        }
+
+        #endregion
+    }
+}

@@ -1,0 +1,160 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Windows.Forms;
+
+namespace Infrastructure.Tests
+{
+    [TestClass]
+    public class WhenExecutingControlChanges
+    {
+        protected ControlChanges sut;
+        protected Control owner;
+
+        public virtual void Arrange()
+        {
+            owner = new Control();
+            sut = new ControlChanges(owner);
+        }
+
+        public void Act()
+        {
+            sut.Execute();
+        }
+
+        [TestInitialize]
+        public void BeforeEachTest()
+        {
+            Arrange();
+            Act();
+        }
+
+        [TestClass]
+        public class GivenThereIsAControlThatShouldBeMadeVisible : WhenExecutingControlChanges
+        {
+            private Control controlToMakeVisible;
+
+            public override void Arrange()
+            {
+                base.Arrange();
+
+                controlToMakeVisible = new Control();
+                controlToMakeVisible.Visible = false;
+
+                sut.MakeVisible(controlToMakeVisible);
+            }
+
+            [TestMethod]
+            public void ShouldMakeThatControlVisible()
+            {
+                Assert.IsTrue(controlToMakeVisible.Visible);
+            }
+        }
+
+        [TestClass]
+        public class GivenThereIsAControlThatShouldBeMadeInvisible : WhenExecutingControlChanges
+        {
+            private Control controlToMakeInvisible;
+
+            public override void Arrange()
+            {
+                base.Arrange();
+
+                controlToMakeInvisible = new Control();
+                controlToMakeInvisible.Visible = true;
+
+                sut.MakeInvisible(controlToMakeInvisible);
+            }
+
+            [TestMethod]
+            public void ShouldMakeThatControlInvisible()
+            {
+                Assert.IsFalse(controlToMakeInvisible.Visible);
+            }
+        }
+
+        [TestClass]
+        public class GivenOnlyCertainControlsShouldBeMadeVisible : WhenExecutingControlChanges
+        {
+            private Control otherControl;
+            private Control onlyControlToBeVisible;
+
+            public override void Arrange()
+            {
+                base.Arrange();
+
+                onlyControlToBeVisible = new Control();
+                onlyControlToBeVisible.Visible = false;
+                owner.Controls.Add(onlyControlToBeVisible);
+
+                otherControl = new Control();
+                otherControl.Visible = true;
+                owner.Controls.Add(otherControl);
+
+                sut.TheOnlyVisibleControlsAre(onlyControlToBeVisible);
+            }
+
+            [TestMethod]
+            public void ShouldMakeThoseCertainControlsVisible()
+            {
+                Assert.IsTrue(onlyControlToBeVisible.Visible);
+            }
+
+            [TestMethod]
+            public void ShouldMakeOtherControlsInvisble()
+            {
+                Assert.IsFalse(otherControl.Visible);
+            }
+        }
+
+        [TestClass]
+        public class GivenThereAreNoControlsThatShouldBeTheOnlyVisibleOnes : WhenExecutingControlChanges
+        {
+            private Control invisibleControl;
+            private Control visibleControl;
+
+            public override void Arrange()
+            {
+                base.Arrange();
+
+                visibleControl = new Control();
+                visibleControl.Visible = true;
+                owner.Controls.Add(visibleControl);
+
+                invisibleControl = new Control();
+                invisibleControl.Visible = false;
+                owner.Controls.Add(invisibleControl);
+            }
+
+            [TestMethod]
+            public void ShouldNotModifyVisibilityOfVisibleControls()
+            {
+                Assert.IsTrue(visibleControl.Visible);
+            }
+
+            [TestMethod]
+            public void ShouldNotModifyVisibilityOfInvisibleControls()
+            {
+                Assert.IsFalse(invisibleControl.Visible);
+            }
+        }
+
+        [TestClass]
+        public class GivenThereIsAnActionToPerform : WhenExecutingControlChanges
+        {
+            private bool wasExecuted;
+
+            public override void Arrange()
+            {
+                base.Arrange();
+
+                wasExecuted = false;
+                sut.Do(() => wasExecuted = true);
+            }
+
+            [TestMethod]
+            public void ShouldPerformTheAction()
+            {
+                Assert.IsTrue(wasExecuted);
+            }
+        }
+    }
+}

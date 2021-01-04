@@ -1,0 +1,74 @@
+<?php
+
+/*
+ * Author: Tim Van Wassenhove <timvw@users.sourceforge.net>
+ * Update: 16-07-2004 09:33
+ *
+ * This script makes sure a user can logged in only once at the same time.
+ *
+ * If the user requests a page, isValid should be called.
+ * This function compares the uid and cnt in the session with the uid and cnt in the database.
+ *
+ * If a user logs in, validate should be called.
+ * This function tests if the uid and pwd are valid, and if they are, the cnt is incremented.
+ *
+ * This way:
+ * If a user tries to login with a valid uid and pwd, he get's access. (No messing with session_timeout etc)
+ * If a user has logged in again, all the older sessions will have an expired count.
+ *
+*/
+
+require_once('config.php');
+require_once('database.php');
+
+session_start();
+
+// function that tests if the session is valid
+function isValid()
+{
+  // get the userid and count from the session
+  $uid = $_SESSION['uid'];
+  $cnt = $_SESSION['cnt'];
+  
+  $valid = false;
+  
+  // see if there is an equal userid and count combination in the database
+  $result = mysql_query("SELECT * FROM users WHERE uid='$uid' AND cnt='$cnt'") or die(mysql_error());
+  if ($row = mysql_fetch_assoc($result))
+  {
+    $valid = true;
+  }
+  
+  return $valid;
+}
+
+// function the handles login
+function validate($uid, $pwd)
+{
+  // clean up
+  $uid = mysql_escape_string($uid);
+  $pwd = mysql_escape_string($pwd);
+  
+  $valid = false;
+  
+  // see if we find a valid userid and password
+  $result = mysql_query("SELECT * FROM users WHERE uid='$uid' AND pwd='$pwd'") or die(mysql_error());
+  if ($row = mysql_fetch_assoc($result))
+  {
+    $valid = true;
+
+    // add one to the counter
+    $cnt = $row['cnt'];
+    $cnt++;
+    mysql_query("UPDATE users SET cnt='$cnt' WHERE uid='$uid'") or die(mysql_error());
+
+    // store results in the session
+    $_SESSION['cnt'] = $cnt;
+    $_SESSION['uid'] = $row['uid'];
+  }
+
+  return $valid;
+}
+  
+  
+    

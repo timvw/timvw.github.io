@@ -1,0 +1,37 @@
+﻿using System;
+namespace Be.Timvw.Framework.Domain
+{
+    public interface IRange<T> : IComparable<IRange<T>>
+    {
+        /// <summary>
+        /// Gets and sets the Begin
+        /// </summary>
+        T Begin { get; set; }
+
+        /// <summary>
+        /// Gets and sets the End
+        /// </summary>
+        T End { get; set; }
+
+        /// <summary>
+        /// Tests if t is included
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns>true if t is included</returns>
+        bool Includes(T t);
+
+        /// <summary>
+        /// Tests if the range is included
+        /// </summary>
+        /// <param name="range"></param>
+        /// <returns>true if range is included</returns>
+        bool Includes(IRange<T> range);
+
+        /// <summary>
+        /// Tests is the range overlaps
+        /// </summary>
+        /// <param name="range"></param>
+        /// <returns>true if range overlaps</returns>
+        bool Overlaps(IRange<T> range);
+    }
+}

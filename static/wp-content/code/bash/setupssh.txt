@@ -1,0 +1,40 @@
+#!/bin/bash
+###############################################################################
+# Generate OpenSSH config files
+# Author: Tim Van Wassenhove <timvw@users.sourceforge.net>
+# Update: 2005-09-16 02:01:00
+###############################################################################
+
+# make ~/.ssh/config file
+config=~/.ssh/config
+touch $config
+echo "#################################################################################" > $config
+echo "# Author: Tim Van Wassenhove <timvw@users.sourceforge.net>" >> $config
+echo "#################################################################################" >> $config
+
+# add all private keys to config
+for file in `find ~/.ssh/private -type f`
+do
+	echo "IdentityFile $file" >> $config
+done
+
+# make authorized key files
+
+authorized=~/.ssh/authorized_keys
+authorized2=~/.ssh/authorized_keys2
+
+# remove existing file
+if [ -a $authorized ]
+then
+	rm $authorized
+fi
+
+# only need openSSH2 file, other one can be a symlink
+ln -s $authorized2 $authorized
+echo "" > $authorized2
+
+# add all public key files
+for file in `find ~/.ssh/public -type f`
+do
+	cat "$file" >> $authorized2
+done

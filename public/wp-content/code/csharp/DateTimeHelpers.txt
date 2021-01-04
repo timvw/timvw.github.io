@@ -1,0 +1,139 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace VanWassenhove.Util
+{
+    /// <summary>
+    /// This class contains helper methods for the manipulation of DateTime instances.
+    /// </summary>
+    public class DateTimeHelpers
+    {
+        /// <summary>
+        /// The base DateTime.
+        /// </summary>
+        public static DateTime UnixTimeBase = new DateTime(1970, 1, 1);
+
+        /// <summary>
+        /// Converts a unixtime into a DateTime.
+        /// </summary>
+        /// <param name="timestamp">The unixtime to convert.</param>
+        /// <returns>An equivalent datetime for the given unixtime.</returns>
+        public static DateTime FromUnixTime(double timestamp)
+        {
+            return UnixTimeBase.AddSeconds(timestamp);
+        }
+
+        /// <summary>
+        /// Converts a DateTime to a unixtime.
+        /// </summary>
+        /// <param name="dateTime">The datetime to convert.</param>
+        /// <returns>An equivalent unixtime for the given datetime.</returns>
+        public static double ToUnixTime(DateTime dateTime)
+        {
+            TimeSpan timeSpan = dateTime - UnixTimeBase;
+            return timeSpan.TotalSeconds;
+        }
+
+        /// <summary>
+        /// Returns the first day of the week for a given datetime.
+        /// </summary>
+        /// <param name="dateTime">The given datetime.</param>
+        /// <returns>The first day of the week.</returns>
+        public static DateTime FirstDayOfWeek(DateTime dateTime)
+        {
+            if (dateTime.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dateTime = dateTime.AddDays(-7);
+            }
+            return dateTime.AddDays(-Convert.ToInt32(dateTime.DayOfWeek) + 1);
+        }
+
+        /// <summary>
+        /// Returns the last day of the week for a given datetime.
+        /// </summary>
+        /// <param name="dateTime">The given datetime.</param>
+        /// <returns>The last day of the week.</returns>
+        public static DateTime LastDayOfWeek(DateTime dateTime)
+        {
+            if (dateTime.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dateTime = dateTime.AddDays(-7);
+            }
+            return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day).AddDays(7 - Convert.ToInt32(dateTime.DayOfWeek));
+        }
+
+        /// <summary>
+        /// Returns the first day of the month of a given datetime.
+        /// </summary>
+        /// <param name="dateTime">The given datetime.</param>
+        /// <returns>The first day of the month.</returns>
+        public static DateTime FirstDayOfMonth(DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month, 1);
+        }
+
+        /// <summary>
+        /// Returns the last day of the month for a given datetme.
+        /// </summary>
+        /// <param name="dateTime">The given datetime.</param>
+        /// <returns>The last day of the month.</returns>
+        public static DateTime LastDayOfMonth(DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month, DateTime.DaysInMonth(dateTime.Year, dateTime.Month));
+        }
+
+        /// <summary>
+        /// Returns the interval that exist between end and begin expressed in units of the given spanUnit.
+        /// </summary>
+        /// <param name="begin">The begin of the interval.</param>
+        /// <param name="end">The end of the interval>.</param>
+        /// <param name="spanUnit">The unit in which the interval should be expressed.</param>
+        /// <returns>The number of units that exist between end and begin.</returns>
+        public static long TimeSpan(DateTime begin, DateTime end, SpanUnit spanUnit)
+        {
+            TimeSpan ts = ts = end - begin;
+
+            switch (spanUnit)
+            {
+                case SpanUnit.Year:
+                    return end.Year - begin.Year;
+                case SpanUnit.Month:
+                    return (end.Month - begin.Month) + (12 * (end.Year - begin.Year));
+                case SpanUnit.Weekday:
+                    return Fix(ts.TotalDays) / 7;
+                case SpanUnit.Day:
+                    return Fix(ts.TotalDays);
+                case SpanUnit.Hour:
+                    return Fix(ts.TotalHours);
+                case SpanUnit.Minute:
+                    return Fix(ts.TotalMinutes);
+                default:
+                    return Fix(ts.TotalSeconds);
+            }
+        }
+
+        private static long Fix(double number)
+        {
+            if (number >= 0)
+            {
+                return (long)Math.Floor(number);
+            }
+            return (long)Math.Ceiling(number);
+        }
+    }
+
+    /// <summary>
+    /// This enum represents the Unit in which a TimeSpan (interval) number is expressed.
+    /// </summary>
+    public enum SpanUnit
+    {
+        Year,
+        Month,
+        Weekday,
+        Day,
+        Hour,
+        Minute,
+        Second
+    }
+}

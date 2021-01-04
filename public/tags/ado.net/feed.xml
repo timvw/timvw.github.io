@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ado.net on Tim Van Wassenhove&#39;s blog</title>
+    <link>/tags/ado.net/</link>
+    <description>Recent content in ado.net on Tim Van Wassenhove&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 13 Jul 2011 00:00:00 +0000</lastBuildDate><atom:link href="/tags/ado.net/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Using User-Defined Table Type with Identity column in ADO.NET</title>
+      <link>/post/2011-07-13-using-user-defined-table-type-with-identity-column-in-ado-net/</link>
+      <pubDate>Wed, 13 Jul 2011 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2011-07-13-using-user-defined-table-type-with-identity-column-in-ado-net/</guid>
+      <description>
+        
+          &lt;p&gt;A while ago i wanted to use a &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/bb522526.aspx&#34;&gt;User-Defined Table Type&lt;/a&gt; to pass in a set of records. Nothing special about this except that the first column of the UDTT was an Identity column:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;CREATE&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;TYPE&lt;/span&gt; [Star].[example] &lt;span style=&#34;color:#66d9ef&#34;&gt;AS&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;TABLE&lt;/span&gt;(  
+  [Ordinal] [int] &lt;span style=&#34;color:#66d9ef&#34;&gt;IDENTITY&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;,  
+  [Name] [nvarchar](&lt;span style=&#34;color:#ae81ff&#34;&gt;200&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;NOT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NULL&lt;/span&gt;,
+)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After finding a lot of posts saying that this is not supported a colleague of mine, &lt;a href=&#34;http://stevehorsfield.wordpress.com/&#34;&gt;Stephen Horsfield&lt;/a&gt;, found a way to do it as following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; sqlMetaData = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt;[] 
+{  
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; SqlMetaData(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Ordinal&amp;#34;&lt;/span&gt;, SqlDbType.Int, &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;, SortOrder.Unspecified, -&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;),   
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; SqlMetaData(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Name&amp;#34;&lt;/span&gt;, SqlDbType.NVarChar, &lt;span style=&#34;color:#ae81ff&#34;&gt;200&lt;/span&gt;)
+};
+
+sqlRecords = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; HashSet&amp;lt;SqlDataRecord&amp;gt;(usersToInclude.Select(user =&amp;gt;
+{   
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; record = &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; SqlDataRecord(sqlMetaData);   
+  record.SetString(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, user.Name);   
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; record; 
+}));
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+        
+      </description>
+    </item>
+    
+  </channel>
+</rss>

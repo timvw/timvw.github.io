@@ -1,0 +1,95 @@
+public class GlobalSalesRow : SalesRow
+{
+ #region Private Fields
+ private BindingList<SalesRow> salesRows;
+ #endregion
+
+ #region Constructors
+ public GlobalSalesRow(string label, BindingList<SalesRow> salesRows)
+ {
+  if (label == null || salesRows == null)
+  {
+   throw new ArgumentNullException();
+  }
+
+  this.Label = label;
+  this.salesRows = salesRows;
+  this.salesRows.RaiseListChangedEvents = true;
+  this.salesRows.ListChanged += new ListChangedEventHandler(salesRows_ListChanged);
+ }
+ #endregion
+
+ #region Private Methods
+ private void salesRows_ListChanged(object sender, ListChangedEventArgs e)
+ {
+  this.OnPropertyChanged(e.PropertyDescriptor.Name);
+ }
+ #endregion
+
+ #region Public Properties
+ public override int Q1
+ {
+  get
+  {
+   int sum = 0;
+   foreach (SalesRow salesRow in this.salesRows)
+   {
+    sum += salesRow.Q1;
+   }
+   return sum;
+  }
+ }
+
+ public override int Q2
+ {
+  get
+  {
+   int sum = 0;
+   foreach (SalesRow salesRow in this.salesRows)
+   {
+    sum += salesRow.Q2;
+   }
+   return sum;
+  }
+ }
+
+ public override int Q3
+ {
+  get
+  {
+   int sum = 0;
+   foreach (SalesRow salesRow in this.salesRows)
+   {
+    sum += salesRow.Q3;
+   }
+   return sum;
+  }
+ }
+
+ public override int Q4
+ {
+  get
+  {
+   int sum = 0;
+   foreach (SalesRow salesRow in this.salesRows)
+   {
+    sum += salesRow.Q4;
+   }
+   return sum;
+  }
+ }
+
+ public override int Year
+ {
+  get
+  {
+   int sum = 0;
+   foreach (SalesRow salesRow in this.salesRows)
+   {
+    sum += salesRow.Year;
+   }
+   return sum;
+  }
+ }
+ #endregion
+}
