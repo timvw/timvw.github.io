@@ -1,6 +1,7 @@
+# timvw.github.io
 
+Sources for timvw.be 
 
-git submodule add git@github.com:spf13/herring-cove.git themes/herring-cove
+Currently this blog is using [HUGO](https://gohugo.io/) to generate a static website. Work in progress.
 
-hugo server
 
