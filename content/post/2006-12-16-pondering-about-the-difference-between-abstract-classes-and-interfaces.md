@@ -1,7 +1,7 @@
 ---
 date: "2006-12-16T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Pondering about the difference between abstract classes and interfaces
 aliases:
  - /2006/12/16/pondering-about-the-difference-between-abstract-classes-and-interfaces/

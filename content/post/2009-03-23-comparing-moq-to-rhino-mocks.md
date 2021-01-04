@@ -2,7 +2,7 @@
 date: "2009-03-23T00:00:00Z"
 guid: http://www.timvw.be/?p=888
 tags:
-- C#
+- CSharp
 title: Comparing Moq to Rhino Mocks
 aliases:
  - /2009/03/23/comparing-moq-to-rhino-mocks/

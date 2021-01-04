@@ -2,7 +2,7 @@
 date: "2008-12-24T00:00:00Z"
 guid: http://www.timvw.be/?p=751
 tags:
-- C#
+- CSharp
 - Visual Studio
 title: Presenting MyTestRunner
 aliases:

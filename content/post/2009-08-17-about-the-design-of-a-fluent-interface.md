@@ -2,7 +2,7 @@
 date: "2009-08-17T00:00:00Z"
 guid: http://www.timvw.be/?p=1184
 tags:
-- C#
+- CSharp
 - Visual Studio
 title: About the design of a fluent interface
 aliases:

@@ -2,7 +2,7 @@
 date: "2008-08-06T00:00:00Z"
 guid: http://www.timvw.be/?p=350
 tags:
-- C#
+- CSharp
 title: Presenting EnumerableHelper
 aliases:
  - /2008/08/06/presenting-enumerablehelper/

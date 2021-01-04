@@ -2,7 +2,7 @@
 date: "2009-03-14T00:00:00Z"
 guid: http://www.timvw.be/?p=857
 tags:
-- C#
+- CSharp
 - Visual Studio
 title: Another reason for not using mstest
 aliases:

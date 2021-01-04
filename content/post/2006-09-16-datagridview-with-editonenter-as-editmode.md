@@ -1,7 +1,7 @@
 ---
 date: "2006-09-16T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: DataGridView with EditOnEnter as EditMode
 aliases:

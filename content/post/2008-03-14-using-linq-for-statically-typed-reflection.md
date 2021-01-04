@@ -1,7 +1,7 @@
 ---
 date: "2008-03-14T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Using Linq for statically-typed reflection
 aliases:
  - /2008/03/14/using-linq-for-statically-typed-reflection/

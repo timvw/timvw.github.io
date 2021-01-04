@@ -2,7 +2,7 @@
 date: "2006-10-04T00:00:00Z"
 guid: http://www.timvw.be/?p=5
 tags:
-- C#
+- CSharp
 title: Accessing ConnectionStrings from App.config in a Console Application Project
 aliases:
  - /2006/10/04/accessing-connectionstrings-from-appconfig-in-a-console-application-project/

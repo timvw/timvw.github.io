@@ -2,7 +2,7 @@
 date: "2009-11-06T00:00:00Z"
 guid: http://www.timvw.be/?p=1512
 tags:
-- C#
+- CSharp
 - Silverlight
 - WPF
 title: Couple of methods missing on ObservableCollection

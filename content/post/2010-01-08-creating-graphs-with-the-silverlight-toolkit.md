@@ -2,7 +2,7 @@
 date: "2010-01-08T00:00:00Z"
 guid: http://www.timvw.be/?p=1594
 tags:
-- C#
+- CSharp
 - Silverlight
 title: Creating graphs with the Silverlight Toolkit
 aliases:

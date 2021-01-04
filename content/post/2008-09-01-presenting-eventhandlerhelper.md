@@ -2,7 +2,7 @@
 date: "2008-09-01T00:00:00Z"
 guid: http://www.timvw.be/?p=467
 tags:
-- C#
+- CSharp
 title: Presenting EventHandlerHelper
 aliases:
  - /2008/09/01/presenting-eventhandlerhelper/

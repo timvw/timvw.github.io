@@ -2,7 +2,7 @@
 date: "2009-08-15T00:00:00Z"
 guid: http://www.timvw.be/?p=1163
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Presenting ControlChanges
 aliases:

@@ -1,7 +1,7 @@
 ---
 date: "2007-01-06T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Enable and disable TabPages on a TabControl
 aliases:

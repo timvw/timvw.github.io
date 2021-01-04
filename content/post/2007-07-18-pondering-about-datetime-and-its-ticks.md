@@ -1,7 +1,7 @@
 ---
 date: "2007-07-18T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Pondering about DateTime and it's Ticks...
 aliases:
  - /2007/07/18/pondering-about-datetime-and-its-ticks/

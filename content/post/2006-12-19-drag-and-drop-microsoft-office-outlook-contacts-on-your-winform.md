@@ -1,7 +1,7 @@
 ---
 date: "2006-12-19T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Drag and Drop Microsoft Office Outlook Contacts on your WinForm
 aliases:

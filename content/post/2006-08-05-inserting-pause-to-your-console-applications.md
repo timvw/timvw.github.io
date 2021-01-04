@@ -1,7 +1,7 @@
 ---
 date: "2006-08-05T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Visual Studio
 title: Inserting pause to your Console Applications
 aliases:

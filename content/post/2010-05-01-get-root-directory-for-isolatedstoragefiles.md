@@ -2,7 +2,7 @@
 date: "2010-05-01T00:00:00Z"
 guid: http://www.timvw.be/?p=1715
 tags:
-- C#
+- CSharp
 title: Get root directory for IsolatedStorageFiles
 aliases:
  - /2010/05/01/get-root-directory-for-isolatedstoragefiles/

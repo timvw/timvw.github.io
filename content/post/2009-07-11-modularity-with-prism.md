@@ -2,7 +2,7 @@
 date: "2009-07-11T00:00:00Z"
 guid: http://www.timvw.be/?p=1121
 tags:
-- C#
+- CSharp
 title: Small modification to achieve better modularity with Prism
 aliases:
  - /2009/07/11/modularity-with-prism/

@@ -1,7 +1,7 @@
 ---
 date: "2006-10-23T00:00:00Z"
 tags:
-- C#
+- CSharp
 - SQL
 title: Using a collection as parameter for a stored procedure
 aliases:

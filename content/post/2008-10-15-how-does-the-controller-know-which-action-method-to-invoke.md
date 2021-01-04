@@ -3,7 +3,7 @@ date: "2008-10-15T00:00:00Z"
 guid: http://www.timvw.be/?p=696
 tags:
 - ASP.NET
-- C#
+- CSharp
 title: How does the controller know which action method to invoke?
 aliases:
  - /2008/10/15/how-does-the-controller-know-which-action-method-to-invoke/

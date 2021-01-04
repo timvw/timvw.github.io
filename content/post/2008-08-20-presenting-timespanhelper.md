@@ -2,7 +2,7 @@
 date: "2008-08-20T00:00:00Z"
 guid: http://www.timvw.be/?p=418
 tags:
-- C#
+- CSharp
 title: Presenting TimeSpanHelper
 aliases:
  - /2008/08/20/presenting-timespanhelper/

@@ -2,7 +2,7 @@
 date: "2009-09-11T00:00:00Z"
 guid: http://www.timvw.be/?p=1248
 tags:
-- C#
+- CSharp
 - Visual Basic
 title: Instruct T4 to use C# v3.5
 aliases:

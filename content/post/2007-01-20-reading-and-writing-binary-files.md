@@ -1,7 +1,7 @@
 ---
 date: "2007-01-20T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Reading and writing unmanged structs from binary files
 aliases:
  - /2007/01/20/reading-and-writing-binary-files/

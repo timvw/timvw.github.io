@@ -1,7 +1,7 @@
 ---
 date: "2007-04-17T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Get hexadecimal RGB value from System.Drawing.Color
 aliases:
  - /2007/04/17/get-hexadecimal-rgb-value-from-systemdrawingcolor/

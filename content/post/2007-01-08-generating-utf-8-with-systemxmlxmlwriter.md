@@ -1,7 +1,7 @@
 ---
 date: "2007-01-08T00:00:00Z"
 tags:
-- C#
+- CSharp
 - XML
 title: Generating UTF-8 with System.Xml.XmlWriter
 aliases:

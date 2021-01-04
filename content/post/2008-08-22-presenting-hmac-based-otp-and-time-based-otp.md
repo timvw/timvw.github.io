@@ -2,7 +2,7 @@
 date: "2008-08-22T00:00:00Z"
 guid: http://www.timvw.be/?p=425
 tags:
-- C#
+- CSharp
 title: Presenting HMAC-Based OTP and Time-Based OTP
 aliases:
  - /2008/08/22/presenting-hmac-based-otp-and-time-based-otp/

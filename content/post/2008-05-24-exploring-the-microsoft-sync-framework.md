@@ -2,7 +2,7 @@
 date: "2008-05-24T00:00:00Z"
 guid: http://www.timvw.be/?p=228
 tags:
-- C#
+- CSharp
 title: Exploring the Microsoft Sync Framework
 aliases:
  - /2008/05/24/exploring-the-microsoft-sync-framework/

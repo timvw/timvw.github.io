@@ -2,7 +2,7 @@
 date: "2009-10-17T00:00:00Z"
 guid: http://www.timvw.be/?p=1457
 tags:
-- C#
+- CSharp
 - Silverlight
 title: 'Silverlight: leveraging attached properties to handle key events'
 aliases:

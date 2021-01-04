@@ -2,7 +2,7 @@
 date: "2007-04-07T00:00:00Z"
 tags:
 - Book reviews
-- C#
+- CSharp
 title: Programming .NET Components
 aliases:
  - /2007/04/07/programming-net-components/

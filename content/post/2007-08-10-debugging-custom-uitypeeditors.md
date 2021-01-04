@@ -1,7 +1,7 @@
 ---
 date: "2007-08-10T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Visual Studio
 - Windows Forms
 title: Debugging custom UITypeEditors

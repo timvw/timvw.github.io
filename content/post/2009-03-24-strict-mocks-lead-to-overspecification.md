@@ -2,7 +2,7 @@
 date: "2009-03-24T00:00:00Z"
 guid: http://www.timvw.be/?p=927
 tags:
-- C#
+- CSharp
 - Patterns
 title: Strict mocks lead to overspecification
 aliases:

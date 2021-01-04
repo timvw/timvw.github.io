@@ -2,7 +2,7 @@
 date: "2010-05-28T00:00:00Z"
 guid: http://www.timvw.be/?p=1737
 tags:
-- C#
+- CSharp
 title: Support both GET and HEAD requests on the same method with WCF REST
 aliases:
  - /2010/05/28/support-both-get-and-head-requests-on-the-same-method-with-wcf-rest/

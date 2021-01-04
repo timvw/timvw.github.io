@@ -2,7 +2,7 @@
 date: "2008-06-30T00:00:00Z"
 guid: http://www.timvw.be/?p=241
 tags:
-- C#
+- CSharp
 title: Presenting HtmlClipboard
 aliases:
  - /2008/06/30/presenting-htmlclipboard/

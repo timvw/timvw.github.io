@@ -1,7 +1,7 @@
 ---
 date: "2008-02-18T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Updating Assembly References with TFS
 aliases:
  - /2008/02/18/updating-assembly-references-with-tfs/

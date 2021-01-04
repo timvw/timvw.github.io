@@ -1,7 +1,7 @@
 ---
 date: "2007-05-10T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Improvements for the SortableBindingList (and TypedList)
 aliases:

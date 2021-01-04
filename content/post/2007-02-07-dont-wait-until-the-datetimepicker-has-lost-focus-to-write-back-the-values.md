@@ -1,7 +1,7 @@
 ---
 date: "2007-02-07T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Don't wait until the DateTimePicker has lost focus to write back the values
 aliases:

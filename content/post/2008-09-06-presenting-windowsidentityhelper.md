@@ -1,7 +1,7 @@
 ---
 date: "2008-09-06T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Presenting WindowsIdentityHelper
 aliases:
  - /2008/09/06/presenting-windowsidentityhelper/

@@ -2,7 +2,7 @@
 date: "2009-10-13T00:00:00Z"
 guid: http://www.timvw.be/?p=1430
 tags:
-- C#
+- CSharp
 - Silverlight
 - WPF
 title: ViewModel to translate domain messages to view events

@@ -1,7 +1,7 @@
 ---
 date: "2007-01-12T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Presenting a Generic RemotingHelper
 aliases:
  - /2007/01/12/presenting-a-generic-remotinghelper/

@@ -1,7 +1,7 @@
 ---
 date: "2007-08-29T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Using DateTimePicker and Custom Format
 aliases:

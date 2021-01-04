@@ -2,7 +2,7 @@
 date: "2010-05-02T00:00:00Z"
 guid: http://www.timvw.be/?p=1719
 tags:
-- C#
+- CSharp
 title: Enumerating SpecialFolders
 aliases:
  - /2010/05/02/enumerating-specialfolders/

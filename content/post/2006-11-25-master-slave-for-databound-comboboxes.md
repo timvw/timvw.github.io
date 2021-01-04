@@ -1,7 +1,7 @@
 ---
 date: "2006-11-25T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Master-Slave for databound ComboBoxes
 aliases:

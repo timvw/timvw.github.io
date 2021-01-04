@@ -1,7 +1,7 @@
 ---
 date: "2007-01-10T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Databinding a Nullable<T> property
 aliases:

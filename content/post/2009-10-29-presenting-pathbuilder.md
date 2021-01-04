@@ -2,7 +2,7 @@
 date: "2009-10-29T00:00:00Z"
 guid: http://www.timvw.be/?p=1493
 tags:
-- C#
+- CSharp
 title: Presenting PathBuilder
 aliases:
  - /2009/10/29/presenting-pathbuilder/

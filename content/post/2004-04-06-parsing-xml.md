@@ -1,7 +1,7 @@
 ---
 date: "2004-04-06T00:00:00Z"
 tags:
-- C#
+- CSharp
 - XML
 title: Parsing XML
 aliases:

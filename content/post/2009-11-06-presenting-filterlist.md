@@ -17,7 +17,7 @@ enclosure:
   video/x-ms-wmv
 guid: http://www.timvw.be/?p=1504
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Presenting FilterList
 aliases:

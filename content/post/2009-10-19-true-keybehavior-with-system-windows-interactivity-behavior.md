@@ -2,7 +2,7 @@
 date: "2009-10-19T00:00:00Z"
 guid: http://www.timvw.be/?p=1472
 tags:
-- C#
+- CSharp
 - Silverlight
 title: True KeyBehavior with System.Windows.Interactivity.Behavior
 aliases:

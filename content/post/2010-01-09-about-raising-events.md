@@ -2,7 +2,7 @@
 date: "2010-01-09T00:00:00Z"
 guid: http://www.timvw.be/?p=1605
 tags:
-- C#
+- CSharp
 title: About raising events
 aliases:
  - /2010/01/09/about-raising-events/

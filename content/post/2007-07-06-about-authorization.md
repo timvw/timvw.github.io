@@ -1,7 +1,7 @@
 ---
 date: "2007-07-06T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: About Authorization
 aliases:
  - /2007/07/06/about-authorization/

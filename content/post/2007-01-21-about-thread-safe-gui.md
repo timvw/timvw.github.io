@@ -1,7 +1,7 @@
 ---
 date: "2007-01-21T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: About Thread-Safe GUI...
 aliases:

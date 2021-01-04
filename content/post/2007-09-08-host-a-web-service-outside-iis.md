@@ -1,7 +1,7 @@
 ---
 date: "2007-09-08T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Query a Web Service hosted outside IIS with it's DNS name
 aliases:
  - /2007/09/08/host-a-web-service-outside-iis/

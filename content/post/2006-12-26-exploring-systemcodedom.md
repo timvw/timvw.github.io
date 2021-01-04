@@ -1,7 +1,7 @@
 ---
 date: "2006-12-26T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Exploring System.CodeDom
 aliases:
  - /2006/12/26/exploring-systemcodedom/

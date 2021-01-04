@@ -1,7 +1,7 @@
 ---
 date: "2008-01-25T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: Programming the csproj file
 aliases:
  - /2008/01/25/programming-the-csproj-file/

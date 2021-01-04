@@ -2,7 +2,7 @@
 date: "2008-09-23T00:00:00Z"
 guid: http://www.timvw.be/?p=588
 tags:
-- C#
+- CSharp
 - Patterns
 title: Refactoring EffectivityManager
 aliases:

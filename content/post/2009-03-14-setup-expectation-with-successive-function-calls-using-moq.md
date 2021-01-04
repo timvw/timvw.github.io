@@ -2,7 +2,7 @@
 date: "2009-03-14T00:00:00Z"
 guid: http://www.timvw.be/?p=864
 tags:
-- C#
+- CSharp
 title: Setup expectation with successive function calls using Moq
 aliases:
  - /2009/03/14/setup-expectation-with-successive-function-calls-using-moq/

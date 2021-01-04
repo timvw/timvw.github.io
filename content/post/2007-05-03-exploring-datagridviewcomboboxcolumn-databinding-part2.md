@@ -1,7 +1,7 @@
 ---
 date: "2007-05-03T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Exploring DataGridViewComboBoxColumn databinding (part2)
 aliases:

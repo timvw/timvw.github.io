@@ -1,7 +1,7 @@
 ---
 date: "2006-09-03T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: List the month names
 aliases:
  - /2006/09/03/list-the-month-names/

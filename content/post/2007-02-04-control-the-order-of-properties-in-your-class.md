@@ -1,7 +1,7 @@
 ---
 date: "2007-02-04T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Control the order of Properties in your Class
 aliases:

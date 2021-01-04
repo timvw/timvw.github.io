@@ -1,7 +1,7 @@
 ---
 date: "2006-10-08T00:00:00Z"
 tags:
-- C#
+- CSharp
 - Windows Forms
 title: Screenshot of DataGridViews
 aliases:

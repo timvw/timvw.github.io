@@ -2,7 +2,7 @@
 date: "2010-07-20T00:00:00Z"
 guid: http://www.timvw.be/?p=1811
 tags:
-- C#
+- CSharp
 title: Removing Dead Tracks (Duplicates that don't exist) from iTunes using C#
 aliases:
  - /2010/07/20/removing-dead-tracks-duplicates-that-dont-exist-from-itunes-using-c/

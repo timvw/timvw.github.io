@@ -2,7 +2,7 @@
 date: "2008-08-09T00:00:00Z"
 guid: http://www.timvw.be/?p=371
 tags:
-- C#
+- CSharp
 title: Presenting UriHelper
 aliases:
  - /2008/08/09/presenting-urihelper/

@@ -2,7 +2,7 @@
 date: "2009-05-25T00:00:00Z"
 guid: http://www.timvw.be/?p=1054
 tags:
-- C#
+- CSharp
 title: Using the Do handler for a method with out parameters
 aliases:
  - /2009/05/25/using-the-do-handler-for-a-method-with-out-parameters/

@@ -1,7 +1,7 @@
 ---
 date: "2008-03-06T00:00:00Z"
 tags:
-- C#
+- CSharp
 title: "Exploring alternative input: ActiveHome"
 aliases:
  - /2008/03/06/exploring-alternative-input-activehome/
