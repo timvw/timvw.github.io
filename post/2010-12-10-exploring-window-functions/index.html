@@ -17,7 +17,7 @@ WITH [Nums1] AS ( SELECT 1 AS [Value] UNION SELECT 2 AS [Value] ) , [Nums2] AS (
 <meta property="og:description" content="Here is a sample query that allows you to explore the behavior of various aggregate window functions:
 WITH [Nums1] AS ( SELECT 1 AS [Value] UNION SELECT 2 AS [Value] ) , [Nums2] AS ( SELECT A.* FROM [Nums1] AS A, [Nums1] AS B, [Nums1] AS C) , [Nums3] AS ( SELECT A.* FROM [Nums2] AS A, [Nums2] AS B, [Nums2] AS C) , [Nums4] AS ( SELECT A.* FROM [Nums3] AS A, [Nums3] AS B ) -- Build numbers from 1 to 1000 , [Numbers] AS ( SELECT TOP(1000) ROW_NUMBER() OVER(ORDER BY [Value]) AS [Value] FROM[Nums4] ) SELECT [Value] , ROW_NUMBER() OVER(PARTITION BY [Value] / 100 ORDER BY [Value] % 10) AS [RowNumber] , RANK() OVER(PARTITION BY [Value] / 100 ORDER BY [Value] % 10) AS [Rank] , DENSE_RANK() OVER (PARTITION BY [Value] / 100 ORDER BY [Value] % 10) AS [DenseRank] , NTILE(4) OVER (PARTITION BY [Value] / 100 ORDER BY [Value] % 10) AS [Tile100] FROM [Numbers] ORDER BY [Value]; " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/post/2010-12-10-exploring-window-functions/" />
+<meta property="og:url" content="https://timvw.be/post/2010-12-10-exploring-window-functions/" />
 <meta property="article:published_time" content="2010-12-10T00:00:00+00:00" />
 <meta property="article:modified_time" content="2010-12-10T00:00:00+00:00" />
 <meta name="twitter:card" content="summary"/>
@@ -25,20 +25,20 @@ WITH [Nums1] AS ( SELECT 1 AS [Value] UNION SELECT 2 AS [Value] ) , [Nums2] AS (
 <meta name="twitter:description" content="Here is a sample query that allows you to explore the behavior of various aggregate window functions:
 WITH [Nums1] AS ( SELECT 1 AS [Value] UNION SELECT 2 AS [Value] ) , [Nums2] AS ( SELECT A.* FROM [Nums1] AS A, [Nums1] AS B, [Nums1] AS C) , [Nums3] AS ( SELECT A.* FROM [Nums2] AS A, [Nums2] AS B, [Nums2] AS C) , [Nums4] AS ( SELECT A.* FROM [Nums3] AS A, [Nums3] AS B ) -- Build numbers from 1 to 1000 , [Numbers] AS ( SELECT TOP(1000) ROW_NUMBER() OVER(ORDER BY [Value]) AS [Value] FROM[Nums4] ) SELECT [Value] , ROW_NUMBER() OVER(PARTITION BY [Value] / 100 ORDER BY [Value] % 10) AS [RowNumber] , RANK() OVER(PARTITION BY [Value] / 100 ORDER BY [Value] % 10) AS [Rank] , DENSE_RANK() OVER (PARTITION BY [Value] / 100 ORDER BY [Value] % 10) AS [DenseRank] , NTILE(4) OVER (PARTITION BY [Value] / 100 ORDER BY [Value] % 10) AS [Tile100] FROM [Numbers] ORDER BY [Value]; "/>
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" media="screen" href="css/normalize.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
 
-        <link id="dark-scheme" rel="stylesheet" type="text/css" href="css/dark.css" />
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
 
 	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-		<script src="js/main.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
 </head>
 
 <body>
 	<div class="container wrapper">
 		<div class="header">
 	
-	<h1 class="site-title"><a href="">Tim Van Wassenhove</a></h1>
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
 	<div class="site-description"><nav class="nav social">
 			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
 		</nav></div>
