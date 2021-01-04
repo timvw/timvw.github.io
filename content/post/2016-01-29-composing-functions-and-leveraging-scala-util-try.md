@@ -2,7 +2,7 @@
 date: "2016-01-29T00:00:00Z"
 guid: http://www.timvw.be/?p=2532
 tags:
-- Fsharp
+- FSharp
 - railway oriented programming
 - scala
 title: Composing functions and leveraging scala.util.Try
