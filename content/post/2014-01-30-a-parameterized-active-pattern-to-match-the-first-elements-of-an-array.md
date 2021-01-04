@@ -3,7 +3,7 @@ date: "2014-01-30T00:00:00Z"
 guid: http://www.timvw.be/?p=2401
 tags:
 - Active Pattern
-- F#
+- FSharp
 - Pattern Matching
 title: A parameterized active pattern to match the first elements of an array
 aliases:
