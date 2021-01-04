@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Inconsistent Drag and Drop API
-aliases:
- - /2006/09/16/inconsistent-drag-and-drop-api/
- - /2006/09/16/inconsistent-drag-and-drop-api.html
 ---
 Every System.Windows.Forms.Control has the following events
 

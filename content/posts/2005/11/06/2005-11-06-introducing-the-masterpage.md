@@ -3,9 +3,6 @@ date: "2005-11-06T00:00:00Z"
 tags:
 - PHP
 title: Introducing the masterpage
-aliases:
- - /2005/11/06/introducing-the-masterpage/
- - /2005/11/06/introducing-the-masterpage.html
 ---
 Most websites have the same layout and an area with dynamic content. So most people choose for the following solution: generate a couple of template files for the static content and then write the code for the dynamic content and include the static templates. Here is how the code for a contact and an aboutme page would look like
 

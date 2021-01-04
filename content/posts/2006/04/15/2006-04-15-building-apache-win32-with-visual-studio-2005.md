@@ -3,9 +3,6 @@ date: "2006-04-15T00:00:00Z"
 tags:
 - Free Software
 title: Building apache-win32 with Visual Studio 2005
-aliases:
- - /2006/04/15/building-apache-win32-with-visual-studio-2005/
- - /2006/04/15/building-apache-win32-with-visual-studio-2005.html
 ---
 Today i decided to build apache-win32. Here's how i did it:
 

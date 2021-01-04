@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=2090
 tags:
 - PowerShell
 title: Dynamic scriptblock with PowerShell
-aliases:
- - /2011/03/12/dynamic-scriptblock-with-powershell/
- - /2011/03/12/dynamic-scriptblock-with-powershell.html
 ---
 Earlier this week i tried to run a command on a remote computer but it did not seem to work:
 

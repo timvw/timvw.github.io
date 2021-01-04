@@ -6,9 +6,6 @@ tags:
 - railway oriented programming
 - scala
 title: Composing functions and leveraging scala.util.Try
-aliases:
- - /2016/01/29/composing-functions-and-leveraging-scala-util-try/
- - /2016/01/29/composing-functions-and-leveraging-scala-util-try.html
 ---
 Last couple of days I have been hacking around trying to find a cute way to express the intent of my code. Typically it involves parsing some input, validating whatever rules that are in charge and persisting some values. In scala one can compose such a function by using the [andThen](http://www.scala-lang.org/api/2.11.x/index.html#scala.Function1) method. Here is a concrete example:
 

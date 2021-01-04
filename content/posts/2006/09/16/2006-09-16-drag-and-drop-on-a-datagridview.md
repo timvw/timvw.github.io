@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Drag and Drop on a DataGridView
-aliases:
- - /2006/09/16/drag-and-drop-on-a-datagridview/
- - /2006/09/16/drag-and-drop-on-a-datagridview.html
 ---
 Here is a bit of sample code that allows you to drag and drop a cellvalue in a DataGridView (don't forget to set the AllowDrop property of the DataGridView to true). Notice that you need to translate the X and Y properties of the DragEventArgs first (unlike the X and Y properties of the MouseEventArgs)
 

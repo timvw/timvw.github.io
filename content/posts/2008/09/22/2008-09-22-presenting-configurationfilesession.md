@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=565
 tags:
 - CSharp
 title: Presenting ConfigurationFileSession
-aliases:
- - /2008/09/22/presenting-configurationfilesession/
- - /2008/09/22/presenting-configurationfilesession.html
 ---
 Here is a little class that allows you to use different configuration files. I find it extremely useful for tests where i want to mock the values that would be retrieved via the [ConfigurationManager](http://msdn.microsoft.com/en-us/library/system.configuration.configurationmanager.aspx). Here are a couple of examples how it can be used
 

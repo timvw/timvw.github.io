@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=888
 tags:
 - CSharp
 title: Comparing Moq to Rhino Mocks
-aliases:
- - /2009/03/23/comparing-moq-to-rhino-mocks/
- - /2009/03/23/comparing-moq-to-rhino-mocks.html
 ---
 So which mocking framework should we use? Do we fall back on good old [Rhino Mocks](http://ayende.com/projects/rhino-mocks.aspx) or do we choose for the new kid on the block [Moq](http://code.google.com/p/moq/)?
 

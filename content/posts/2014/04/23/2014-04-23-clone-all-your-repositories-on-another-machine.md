@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=2411
 tags:
 - git bash awk
 title: Clone all your repositories on another machine
-aliases:
- - /2014/04/23/clone-all-your-repositories-on-another-machine/
- - /2014/04/23/clone-all-your-repositories-on-another-machine.html
 ---
 Recently I was configuring a new machine (God, i love [Chocolatey](https://chocolatey.org/)) and I wanted to take all the repositories I have under c:/src and clone them on my new machine. Here is how i did that:
 

@@ -5,9 +5,6 @@ tags:
 - collation
 - SQL
 title: Sample query to demonstrate influence of collation in Sql Server
-aliases:
- - /2012/10/18/sample-query-to-demonstrate-influence-of-collation-in-sql-server/
- - /2012/10/18/sample-query-to-demonstrate-influence-of-collation-in-sql-server.html
 ---
 Lately I had the pleasure to investigate [collations](http://technet.microsoft.com/en-us/library/aa174903(v=sql.80).aspx) and here is a sample query that demonstrates how a collation impacts the behaviour of a query:
 

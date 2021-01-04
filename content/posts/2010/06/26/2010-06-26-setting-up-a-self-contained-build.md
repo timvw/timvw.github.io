@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1779
 tags:
 - MSBuild
 title: Setting up a self-contained build
-aliases:
- - /2010/06/26/setting-up-a-self-contained-build/
- - /2010/06/26/setting-up-a-self-contained-build.html
 ---
 Here is something you may have experienced already: As a newcomer on an existing project, you check out the code from source-control and discover that the build is broken. When you ask around no-one else seems to have that problem but a helpful collegue is kind enough to tell you that you can find the installers for the missing dependencies at location X (Let's not even mention the places where those installers are not available \*sigh\*).
 

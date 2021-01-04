@@ -5,9 +5,6 @@ tags:
 - PowerShell
 - SQL
 title: Invoke parameterized stored procedure with PowerShell
-aliases:
- - /2011/03/21/invoke-parameterized-stored-procedure-with-powershell/
- - /2011/03/21/invoke-parameterized-stored-procedure-with-powershell.html
 ---
 Here is a quick snippet that demonstrates how you can invoke a parametrized stored procedure with PowerShell:
 

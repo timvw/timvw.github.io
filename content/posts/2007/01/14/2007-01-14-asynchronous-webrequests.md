@@ -3,9 +3,6 @@ date: "2007-01-14T00:00:00Z"
 tags:
 - CSharp
 title: Making WebRequests in parallel...
-aliases:
- - /2007/01/14/asynchronous-webrequests/
- - /2007/01/14/asynchronous-webrequests.html
 ---
 Under the assumption that making sequential WebRequests is slower than making them in parallel i wrote a little program that returns the HTTP status code for each URI in a list. Because the number of WaitHandles on a system is limited to 64 and i would have been required to hack around this limitation i decided to use ThreadPool instead...
 

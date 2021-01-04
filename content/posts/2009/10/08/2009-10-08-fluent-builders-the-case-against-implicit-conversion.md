@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1321
 tags:
 - CSharp
 title: 'Fluent Builders: The case against implicit conversion'
-aliases:
- - /2009/10/08/fluent-builders-the-case-against-implicit-conversion/
- - /2009/10/08/fluent-builders-the-case-against-implicit-conversion.html
 ---
 Most people add an implicit conversion to their builder API which gives them the advantage that they don't have to call Build explicitely. I have decided that i do not want to have this implicit conversion for a couple of reasons:
 

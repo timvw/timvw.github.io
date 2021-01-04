@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Don't wait until the DateTimePicker has lost focus to write back the values
-aliases:
- - /2007/02/07/dont-wait-until-the-datetimepicker-has-lost-focus-to-write-back-the-values/
- - /2007/02/07/dont-wait-until-the-datetimepicker-has-lost-focus-to-write-back-the-values.html
 ---
 Drag a TextBox and a DateTimePicker control on a Form and databind them to a DateTime property, eg
 

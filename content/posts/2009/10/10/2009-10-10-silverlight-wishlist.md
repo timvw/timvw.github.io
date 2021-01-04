@@ -5,9 +5,6 @@ tags:
 - Silverlight
 - WPF
 title: Silverlight wishlist
-aliases:
- - /2009/10/10/silverlight-wishlist/
- - /2009/10/10/silverlight-wishlist.html
 ---
 Here are the features that i would love to see in Silverlight:
 

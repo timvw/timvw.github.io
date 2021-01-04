@@ -1,9 +1,6 @@
 ---
 date: "2016-11-20T00:00:00Z"
 title: Parsing lines from Spark RDD
-aliases:
- - /2016/11/20/parsing-lines-from-spark-rdd/
- - /2016/11/20/parsing-lines-from-spark-rdd.html
 ---
 A typical [Apache Spark](http://spark.apache.org/) application using RDD api starts as following:
 

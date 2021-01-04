@@ -3,9 +3,6 @@ date: "2006-06-14T00:00:00Z"
 tags:
 - Java
 title: BBCode for Graphics2D
-aliases:
- - /2006/06/14/bbcode-for-graphics2d/
- - /2006/06/14/bbcode-for-graphics2d.html
 ---
 For my graduation project we needed the ability to print a couple of bills etc. Printing lines was pretty simple with the [LinesPrinter](http://www.timvw.be/wp-content/code/java/LinesPrinter.java.txt) i blogged about a while ago. We had two choices: either implement a specific [print method](http://java.sun.com/j2se/1.5.0/docs/api/java/awt/print/Printable.html#print(java.awt.Graphics,%20java.awt.print.PageFormat,%20int)) for each module or implement a reusable markup system. Obviously we went for the second option and came up with something alike [BBCode](http://en.wikipedia.org/wiki/BBCode). The codes we implemented are
 

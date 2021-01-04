@@ -5,9 +5,6 @@ tags:
 - SQL
 - t-sql
 title: An example of Common Table Expression and Window function usage...
-aliases:
- - /2012/03/27/an-example-of-common-table-expression-and-window-function-usage/
- - /2012/03/27/an-example-of-common-table-expression-and-window-function-usage.html
 ---
 Earlier this week some colleague had been assigned a maintenance task and asked me how I would solve it. Every customer is permitted to have an amount of publications. All excess publications should be removed from the system (only the n most recent ones are permitted to remain on the system).
 

@@ -5,9 +5,6 @@ tags:
 - C
 - security
 title: Remove all access rules from a directory
-aliases:
- - /2011/09/22/remove-all-access-rules-from-a-directory/
- - /2011/09/22/remove-all-access-rules-from-a-directory.html
 ---
 A while ago i needed to write some code that removes all (existing/inherited) access rules from a given directory. It was pretty frustrating to notice that all my attempts seemed to fail ([RemoveAccessRule](http://msdn.microsoft.com/en-us/library/system.security.accesscontrol.commonobjectsecurity.removeaccessrule.aspx), [PurgeAccessRule](http://msdn.microsoft.com/en-us/library/system.security.accesscontrol.objectsecurity.purgeaccessrules.aspx), ...)
 

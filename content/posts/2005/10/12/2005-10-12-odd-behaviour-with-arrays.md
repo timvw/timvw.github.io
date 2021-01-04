@@ -3,9 +3,6 @@ date: "2005-10-12T00:00:00Z"
 tags:
 - PHP
 title: Odd behaviour with arrays
-aliases:
- - /2005/10/12/odd-behaviour-with-arrays/
- - /2005/10/12/odd-behaviour-with-arrays.html
 ---
 A while ago i was really stumbled by the behaviour of a server. This problem solved itself after the sysadmin noticed that he forgot to upgrade [ionCube](http://www.ioncube.com/) after a php upgrade.Here is the code that i ran
 

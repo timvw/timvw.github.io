@@ -5,9 +5,6 @@ tags:
 - CSharp
 - Silverlight
 title: Calculate EndpointAddress for Silverlight client
-aliases:
- - /2010/02/15/calculate-endpointaddress-for-silverlight-client/
- - /2010/02/15/calculate-endpointaddress-for-silverlight-client.html
 ---
 Because Silverlight checks the origin it considers http://localhost and http://127.0.0.1 as different locations. In case you want your visitors to be able to use both addresses you can recalculate the address as following:
 

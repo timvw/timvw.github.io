@@ -3,9 +3,6 @@ date: "2006-03-19T00:00:00Z"
 tags:
 - WordPress
 title: Adding support for localization to a WordPress plugin
-aliases:
- - /2006/03/19/adding-support-for-localization-to-a-wordpress-plugin/
- - /2006/03/19/adding-support-for-localization-to-a-wordpress-plugin.html
 ---
 WordPress uses [GNU gettext](http://www.gnu.org/software/gettext/), as explained in [Translating WordPress](http://codex.wordpress.org/Localizing_WordPress) and [Writing a Plugin](http://codex.wordpress.org/Writing_a_Plugin), for [localization](http://en.wikipedia.org/wiki/Software_localization). I decided that my plugins should support l10n too. Here is how i realised it:
 

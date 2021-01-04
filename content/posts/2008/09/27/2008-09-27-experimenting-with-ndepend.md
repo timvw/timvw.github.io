@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=631
 tags:
 - CSharp
 title: Experimenting with NDepend
-aliases:
- - /2008/09/27/experimenting-with-ndepend/
- - /2008/09/27/experimenting-with-ndepend.html
 ---
 Google Reader found 122 posts in my [blogroll](http://www.timvw.be/wp-links-opml.php) about [NDepend](http://www.ndepend.com) so i happily accepted the professional license which [Patrick Smacchia](http://codebetter.com/blogs/patricksmacchia/) (thank you) offered me earlier this week. I quickly picked the assemblies from a project that has evolved over more than 5 years (.NET 1.0, 1.1 and 2.0) and the tool generated a screen loaded with data, but i found it difficult to extract any valuable information out of the statistics. Although i found zooming in the UI impressive, i was a bit disappointed.
 

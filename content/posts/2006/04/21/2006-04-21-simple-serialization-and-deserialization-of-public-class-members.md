@@ -3,9 +3,6 @@ date: "2006-04-21T00:00:00Z"
 tags:
 - CSharp
 title: Simple serialization and deserialization of public class members
-aliases:
- - /2006/04/21/simple-serialization-and-deserialization-of-public-class-members/
- - /2006/04/21/simple-serialization-and-deserialization-of-public-class-members.html
 ---
 Here is a simple generic class that allows you to serialize classes (well, their public members) into XML and deserialize the XML to objects again. Make sure the class (or struct) has a parameterless constructor and that all the members that you want to serialize are public. Here is the code
 

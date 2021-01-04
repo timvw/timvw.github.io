@@ -5,9 +5,6 @@ tags:
 - CSharp
 - Visual Studio
 title: Revisited the int and string ValueObject templates
-aliases:
- - /2008/10/13/revisited-the-int-and-string-valueobject-templates/
- - /2008/10/13/revisited-the-int-and-string-valueobject-templates.html
 ---
 After reading [The Compare Contract](http://blogs.msdn.com/bclteam/archive/2008/10/06/the-compare-contract-kim-hamilton.aspx) last week i realized that my [templates for int and string ValueObjects](http://www.timvw.be/presenting-templates-for-int-and-string-valueobjects) did not comply with the contract so i decided to add a unittest that reproduces the faulty behavior (and then corrected the implementation)
 

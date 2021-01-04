@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=228
 tags:
 - CSharp
 title: Exploring the Microsoft Sync Framework
-aliases:
- - /2008/05/24/exploring-the-microsoft-sync-framework/
- - /2008/05/24/exploring-the-microsoft-sync-framework.html
 ---
 Earlier this week i've been experimenting with the [Microsoft Sync Framework](http://msdn.microsoft.com/en-us/sync/default.aspx). In a typical n-tier architecture the client can't access the remote database directly but uses a proxy instead. The available [Earlier this week i've been experimenting with the [Microsoft Sync Framework](http://msdn.microsoft.com/en-us/sync/default.aspx). In a typical n-tier architecture the client can't access the remote database directly but uses a proxy instead. The available](http://msdn.microsoft.com/en-us/library/microsoft.synchronization.data.serversyncproviderproxy(SQL.100).aspx) has only one constructor which accepts an object. With reflector i found out that the proxy simply uses reflection to call some methods. Here are a couple of helper classes that help you prevent runtime errors due to this approach
 

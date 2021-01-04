@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1663
 tags:
 - CSharp
 title: Verify that a X509Certificate can be used for key exchange
-aliases:
- - /2010/02/02/verify-that-a-x509certificate-can-be-used-for-key-exchange/
- - /2010/02/02/verify-that-a-x509certificate-can-be-used-for-key-exchange.html
 ---
 Here is another method that earned it's place in my ever growing toolbox:
 

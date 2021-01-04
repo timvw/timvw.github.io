@@ -3,9 +3,6 @@ date: "2006-01-28T00:00:00Z"
 tags:
 - Hibernate
 title: ManyToMany relationships with Java Persistence (JSR-220)
-aliases:
- - /2006/01/28/manytomany-relationships-with-java-persistence-jsr-220/
- - /2006/01/28/manytomany-relationships-with-java-persistence-jsr-220.html
 ---
 The scenario is as following: each table can have many reservations, and each reservation can span many tables. Here is our first trial
 

@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=445
 tags:
 - CSharp
 title: Presenting OneTimePasswordMembershipProvider
-aliases:
- - /2008/08/29/presenting-onetimepasswordmembershipprovider/
- - /2008/08/29/presenting-onetimepasswordmembershipprovider.html
 ---
 What good is a [TimeOTP](http://www.timvw.be/presenting-timeotpclient/) client if you don't have anything to use it with? Last week i have implemented a [MembershipProvider](http://msdn.microsoft.com/en-us/library/system.web.security.membershipprovider.aspx) that uses [Time-based One-Time Password](http://www.timvw.be/presenting-hmac-based-otp-and-time-based-otp/) to validate the user credentials. Basically, it is a wrapper around an existing MembershipProvider, you get to choose which one via the providerType attribute in the configuration, and requires that it can access the password of users. Here is an example configuration that relies on the SqlMembershipProvider
 

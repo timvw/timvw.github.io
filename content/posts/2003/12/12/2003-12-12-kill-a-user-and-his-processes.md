@@ -3,9 +3,6 @@ date: "2003-12-12T00:00:00Z"
 tags:
 - Bash
 title: Kill a user and his processes
-aliases:
- - /2003/12/12/kill-a-user-and-his-processes/
- - /2003/12/12/kill-a-user-and-his-processes.html
 ---
 ```bash
 #!/bin/sh 

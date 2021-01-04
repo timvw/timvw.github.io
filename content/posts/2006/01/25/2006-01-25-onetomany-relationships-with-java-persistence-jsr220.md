@@ -3,9 +3,6 @@ date: "2006-01-25T00:00:00Z"
 tags:
 - Hibernate
 title: OneToMany relationships with Java Persistence (JSR 220)
-aliases:
- - /2006/01/25/onetomany-relationships-with-java-persistence-jsr220/
- - /2006/01/25/onetomany-relationships-with-java-persistence-jsr220.html
 ---
 Let's experiment a bit with [Hibernate](http://www.hibernate.org). We want to model the tables employee and shift. Each employee has multiple shifts (and each shift belongs to an employee). We want an employee table and a shift table (which has the employee_id as a foreign key).
 

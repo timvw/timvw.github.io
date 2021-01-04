@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1715
 tags:
 - CSharp
 title: Get root directory for IsolatedStorageFiles
-aliases:
- - /2010/05/01/get-root-directory-for-isolatedstoragefiles/
- - /2010/05/01/get-root-directory-for-isolatedstoragefiles.html
 ---
 Sometimes you want to know the absolute path of a file that is persisted with [IsolatedStorageFile](http://msdn.microsoft.com/en-us/library/system.io.isolatedstorage.isolatedstoragefile(VS.95).aspx). Apparently there is an internal property RootDirectory which contains this information
 

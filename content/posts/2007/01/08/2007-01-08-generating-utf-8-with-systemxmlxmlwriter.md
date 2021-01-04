@@ -4,9 +4,6 @@ tags:
 - CSharp
 - XML
 title: Generating UTF-8 with System.Xml.XmlWriter
-aliases:
- - /2007/01/08/generating-utf-8-with-systemxmlxmlwriter/
- - /2007/01/08/generating-utf-8-with-systemxmlxmlwriter.html
 ---
 Today i decided to experiment with [XmlWriter](http://msdn2.microsoft.com/en-us/library/system.xml.xmlwriter.aspx). The first i wanted to do was set the Encoding to UTF-8.
 

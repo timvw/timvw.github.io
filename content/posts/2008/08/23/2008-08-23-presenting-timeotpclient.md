@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=436
 tags:
 - Java
 title: Presenting TimeOTPClient
-aliases:
- - /2008/08/23/presenting-timeotpclient/
- - /2008/08/23/presenting-timeotpclient.html
 ---
 Because most people have their java enabled mobile phone with them, and I did not want to buy an expensive token generator I decided to write a [MIDlet](http://en.wikipedia.org/wiki/MIDlet) that can generate passwords as specified in the [TOTP](http://www.ietf.org/internet-drafts/draft-mraihi-totp-timebased-00.txt) algorithm. This project is build with [Sun Java Wireless Toolkit for CLDC](http://java.sun.com/products/sjwtoolkit). Feel free to download the sources, [TimeOTPClient.zip](http://www.timvw.be/wp-content/code/java/TimeOTPClient.zip).
 

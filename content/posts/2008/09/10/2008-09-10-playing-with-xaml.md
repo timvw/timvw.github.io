@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=540
 tags:
 - CSharp
 title: Presenting a couple of custom MarkupExtensions
-aliases:
- - /2008/09/10/playing-with-xaml/
- - /2008/09/10/playing-with-xaml.html
 ---
 [XAML](http://en.wikipedia.org/wiki/Xaml) provides us a way to declare objects with xml. Because i don't want to clutter my domain classes with attributes like [TypeConverterAttribute](http://msdn.microsoft.com/en-us/library/system.componentmodel.typeconverterattribute.aspx), i needed a different approach to manipulate the parsing. This is where custom [MarkupExtension](http://msdn.microsoft.com/en-us/library/system.windows.markup.markupextension.aspx)s come to the rescue. Here is an example where i use the [x:Array MarkupExtension](http://msdn.microsoft.com/en-us/library/ms752340.aspx) in order to load a list of Lines into my IList<string> Lines property
 

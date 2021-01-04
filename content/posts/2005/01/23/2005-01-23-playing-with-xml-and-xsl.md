@@ -4,9 +4,6 @@ tags:
 - PHP
 - XML
 title: Playing with XML and XSL
-aliases:
- - /2005/01/23/playing-with-xml-and-xsl/
- - /2005/01/23/playing-with-xml-and-xsl.html
 ---
 ```php  
 // add stuff to an xml document in php4

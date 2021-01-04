@@ -5,9 +5,6 @@ tags:
 - oss
 - scala
 title: Scaffolding scala projects
-aliases:
- - /2015/08/19/scaffolding-scala-projects/
- - /2015/08/19/scaffolding-scala-projects.html
 ---
 These days the cool kids scaffold their projects with [Yeoman](http://yeoman.io/). Obviously I could not stay behind, so here is my first [generator for scala](https://github.com/timvw/generator-scala).
 

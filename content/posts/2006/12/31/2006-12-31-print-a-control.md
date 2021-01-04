@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Print a Control
-aliases:
- - /2006/12/31/print-a-control/
- - /2006/12/31/print-a-control.html
 ---
 A while ago i discovered the [DrawToBitmap](http://msdn2.microsoft.com/en-us/library/system.windows.forms.control.drawtobitmap.aspx) method on the [Control](http://msdn2.microsoft.com/en-us/library/system.windows.forms.control.aspx) class. The availability of this method makes it relatively easy to implement a [PrintPageEventHandler](http://msdn2.microsoft.com/en-us/library/system.drawing.printing.printpageeventhandler.aspx) for the [PrintDocument](http://msdn2.microsoft.com/en-us/library/system.drawing.printing.printdocument.aspx) class. Here is an example implementation that prints a DataGridView
 

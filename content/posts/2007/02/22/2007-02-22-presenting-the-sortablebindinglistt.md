@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Presenting the SortableBindingList<T>
-aliases:
- - /2007/02/22/presenting-the-sortablebindinglistt/
- - /2007/02/22/presenting-the-sortablebindinglistt.html
 ---
 If you are databinding your custom objects (in a Bindinglist of <T>) to a DataGridView you will notice that the users can't sort the rows by clicking on the columnheaders... Unlike an unbound DataGridView, the SortCompare event is not raised. Here is a class that uses IComparer to implement a BindingList that supports Sorting:
 

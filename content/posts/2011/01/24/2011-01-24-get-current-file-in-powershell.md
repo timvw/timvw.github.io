@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=2044
 tags:
 - PowerShell
 title: Get current file in PowerShell
-aliases:
- - /2011/01/24/get-current-file-in-powershell/
- - /2011/01/24/get-current-file-in-powershell.html
 ---
 A while ago i wrote a small script to take care of deployment. Configuring the source folders went as following:
 

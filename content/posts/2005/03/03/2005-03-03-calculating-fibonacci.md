@@ -3,9 +3,6 @@ date: "2005-03-03T00:00:00Z"
 tags:
 - PHP
 title: Calculating Fibonacci
-aliases:
- - /2005/03/03/calculating-fibonacci/
- - /2005/03/03/calculating-fibonacci.html
 ---
 What is a [recursive](http://en.wikipedia.org/wiki/Recursion) function? It is a function where the value for input n is calculated as a linear combination of the previous 1, 2, ..., n-1 function values. An example is the fibonacci function: f(n) = f(n-1) + f(n-2).
 

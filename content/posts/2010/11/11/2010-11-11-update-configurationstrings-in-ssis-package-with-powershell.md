@@ -5,9 +5,6 @@ tags:
 - PowerShell
 - SSIS
 title: Update ConfigurationStrings in SSIS package with PowerShell
-aliases:
- - /2010/11/11/update-configurationstrings-in-ssis-package-with-powershell/
- - /2010/11/11/update-configurationstrings-in-ssis-package-with-powershell.html
 ---
 Here are some functions that allow you to update ConfigurationStrings in a SSIS package (dtsx) using PowerShell:
 

@@ -5,9 +5,6 @@ tags:
 - C
 - SSIS
 title: Get/SetVariable value from SSIS VariableDispenser
-aliases:
- - /2011/03/08/getsetvariable-value-from-ssis-variabledispenser/
- - /2011/03/08/getsetvariable-value-from-ssis-variabledispenser.html
 ---
 Here is some code that allows you to Get/Set a variable (object) value from/on the [VariableDispenser](http://msdn.microsoft.com/en-us/library/microsoft.sqlserver.dts.runtime.variabledispenser.aspx) in an SSIS package:
 

@@ -5,9 +5,6 @@ tags:
 - CSharp
 - Visual Studio
 title: Presenting MyTestRunner
-aliases:
- - /2008/12/24/presenting-mytestrunner/
- - /2008/12/24/presenting-mytestrunner.html
 ---
 Here are a couple of reasons why i dislike the [Unit Testing Framework](http://msdn.microsoft.com/en-us/library/ms243147(VS.80).aspx) that comes with [Visual Studio Team System](http://msdn.microsoft.com/en-us/library/fda2bad5(VS.80).aspx):
 

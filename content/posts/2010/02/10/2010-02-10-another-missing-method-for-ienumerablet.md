@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1669
 tags:
 - CSharp
 title: Another missing method for IEnumerable<T>
-aliases:
- - /2010/02/10/another-missing-method-for-ienumerablet/
- - /2010/02/10/another-missing-method-for-ienumerablet.html
 ---
 Currently there are two overloads for OrderBy on Enumerable
 

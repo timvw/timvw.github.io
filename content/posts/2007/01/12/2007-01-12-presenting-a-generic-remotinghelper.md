@@ -3,9 +3,6 @@ date: "2007-01-12T00:00:00Z"
 tags:
 - CSharp
 title: Presenting a Generic RemotingHelper
-aliases:
- - /2007/01/12/presenting-a-generic-remotinghelper/
- - /2007/01/12/presenting-a-generic-remotinghelper.html
 ---
 Last couple of months i've been experimenting with [Remoting](http://msdn2.microsoft.com/en-us/library/kwdt6w2k.aspx). Here is a class that helps a client to acquire proxies to an endpoint served by the requested well-known object
 

@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=230
 tags:
 - CSharp
 title: Enumerate all properties and their value of an object
-aliases:
- - /2008/06/14/get-a-list-of-all-properties-and-their-values-of-an-object/
- - /2008/06/14/get-a-list-of-all-properties-and-their-values-of-an-object.html
 ---
 Earlier today someone asked me how to generate a List with all the properties (and their respective value) that an object has. With C# 2.0 i would have created a class to represent a single element, PropertyRow, with a Name and a Value property and a class that is IEnumerable<PropertyRow> to hold all PropertyRows.
 

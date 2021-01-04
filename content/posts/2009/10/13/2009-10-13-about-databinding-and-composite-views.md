@@ -6,9 +6,6 @@ tags:
 - Silverlight
 - WPF
 title: About databinding and composite views
-aliases:
- - /2009/10/13/about-databinding-and-composite-views/
- - /2009/10/13/about-databinding-and-composite-views.html
 ---
 A couple of days ago i had a databound ItemsControl (collection of Model.Cell) which instantiated sub views (with their own viewmodel).
 

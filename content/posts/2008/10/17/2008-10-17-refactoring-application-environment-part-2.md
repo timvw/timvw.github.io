@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=718
 tags:
 - CSharp
 title: Refactoring Application Environment (Part 2)
-aliases:
- - /2008/10/17/refactoring-application-environment-part-2/
- - /2008/10/17/refactoring-application-environment-part-2.html
 ---
 [Luca Milan](http://lucamilan.blogspot.com/) notified me of a design issue. Until now the ApplicationEnvironment had an Instance property as following:
 

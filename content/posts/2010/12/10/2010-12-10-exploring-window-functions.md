@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=2005
 tags:
 - SQL
 title: Exploring window functions
-aliases:
- - /2010/12/10/exploring-window-functions/
- - /2010/12/10/exploring-window-functions.html
 ---
 Here is a sample query that allows you to explore the behavior of various [aggregate window functions](http://msdn.microsoft.com/en-us/library/ms189461.aspx):
 

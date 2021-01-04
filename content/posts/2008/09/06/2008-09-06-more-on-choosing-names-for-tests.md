@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=507
 tags:
 - Information Technology
 title: More on choosing names for tests
-aliases:
- - /2008/09/06/more-on-choosing-names-for-tests/
- - /2008/09/06/more-on-choosing-names-for-tests.html
 ---
 Choosing names with the [technique i presented yesterday](http://www.timvw.be/experimenting-with-naming-conventions-for-unit-tests/) leads to at least one class per method. To tackle that explosion of classes i have made two decisions:
 

@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=418
 tags:
 - CSharp
 title: Presenting TimeSpanHelper
-aliases:
- - /2008/08/20/presenting-timespanhelper/
- - /2008/08/20/presenting-timespanhelper.html
 ---
 A [TimeSpan](http://msdn.microsoft.com/en-us/library/system.timespan.aspx) is a structure that represents a time interval or a duration. To make the everything as clear as possible, a well designed system should not only know the quantity, but also the unit of that quantity. In order to create a TimeSpan that represents the right value, you will probably use one of the [FromXXX (Hours, Days, Minutes, Seconds) methods](http://msdn.microsoft.com/en-us/library/system.timespan_methods.aspx) as following
 

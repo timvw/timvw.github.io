@@ -3,9 +3,6 @@ date: "2006-08-14T00:00:00Z"
 tags:
 - Information Technology
 title: Installing MSDN Library May 2006
-aliases:
- - /2006/08/14/installing-msdn-library-may-2006/
- - /2006/08/14/installing-msdn-library-may-2006.html
 ---
 Today i downloaded the freely available [MSDN Library (May 2006 Edition)](http://www.microsoft.com/downloads/details.aspx?FamilyId=373930CB-A3D7-4EA5-B421-DD6818DC7C41&displaylang=en). I appended .iso to the filenames and mounted the first image with [Nero ImageDrive](http://ww2.nero.com/nero6/eng/Nero_ImageDrive_prev.html). After a while i got the following error message: "Source file not found: _17693_RTL_x86_enu_NET_Framework_SDK_HxS.cab".
 

@@ -5,9 +5,6 @@ tags:
 - PowerShell
 - SSIS
 title: Set variables in SSIS package at runtime
-aliases:
- - /2011/05/19/set-variables-in-ssis-package-at-runtime/
- - /2011/05/19/set-variables-in-ssis-package-at-runtime.html
 ---
 The documentation on [dtexec Utility (SSIS Tool)](http://msdn.microsoft.com/en-us/library/ms162810.aspx) says the following:
 

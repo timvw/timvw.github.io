@@ -5,9 +5,6 @@ tags:
 - Android
 - Java
 title: Get entire message body from an Intent
-aliases:
- - /2011/01/06/get-entire-message-body-from-an-intent/
- - /2011/01/06/get-entire-message-body-from-an-intent.html
 ---
 I recently started programming the [Android](http://www.android.com/) and noticed that most examples for processing an incoming SMS are not entirely correct.
 

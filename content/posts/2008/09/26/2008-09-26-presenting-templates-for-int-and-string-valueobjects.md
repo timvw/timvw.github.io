@@ -5,9 +5,6 @@ tags:
 - CSharp
 - Visual Studio
 title: Presenting templates for int and string ValueObjects
-aliases:
- - /2008/09/26/presenting-templates-for-int-and-string-valueobjects/
- - /2008/09/26/presenting-templates-for-int-and-string-valueobjects.html
 ---
 Most [ValueObjects](http://domaindrivendesign.org/discussion/messageboardarchive/ValueObjects.html) that i have implemented were wrappers around an int or a string. Apart from the domain specific rules, there is a lot of repetitive work in implementing operator overloads, IEquatable<T>, IComparable<T>, ... Thus i decided to create a couple of Item templates that generate this code (and related tests).
 

@@ -4,9 +4,6 @@ tags:
 - CSharp
 - XML
 title: Writing Xml without the XmlDeclaration
-aliases:
- - /2008/02/26/writing-xml-without-the-xmldeclaration/
- - /2008/02/26/writing-xml-without-the-xmldeclaration.html
 ---
 Consider the following xml file:
 

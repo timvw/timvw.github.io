@@ -4,9 +4,6 @@ tags:
 - CSharp
 - SQL
 title: Using a collection as parameter for a stored procedure
-aliases:
- - /2006/10/23/using-a-collection-as-parameter-for-a-stored-procedure/
- - /2006/10/23/using-a-collection-as-parameter-for-a-stored-procedure.html
 ---
 Sometimes you want to select rows where a value is in a specific collection. Here's an example that show how you can select all the rows in the TEST table with an id of 1, 2 or 3. First we create an SQL type to contain a list of numbers
 

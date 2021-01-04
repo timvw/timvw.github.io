@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1766
 tags:
 - MSBuild
 title: Convention over configuration with MSBuild
-aliases:
- - /2010/06/26/convention-over-configuration-with-msbuild/
- - /2010/06/26/convention-over-configuration-with-msbuild.html
 ---
 A while ago i blogged that i was using the TemplateFile task from the <a hrefhttp://msbuildtasks.tigris.org/">MSBuild Community Tasks Project</a> to generate configuration files. Each project that required templating would have modified it's csproj file as following
 

@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=269
 tags:
 - Patterns
 title: About the Specification pattern
-aliases:
- - /2008/07/22/about-the-specification-pattern/
- - /2008/07/22/about-the-specification-pattern.html
 ---
 A couple of days ago i mentionned [Yves Goeleven's blog](http://www.goeleven.com) as a reference for solutions using [DDD](http://en.wikipedia.org/wiki/Domain-driven_design) principles. Let's have a look at his implementation of the AndSpecification and OrSpecification in [Design Patterns -- The Specification Pattern -- Part I](http://www.goeleven.com/blog/entryDetail.aspx?entry=57)
 

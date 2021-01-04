@@ -3,9 +3,6 @@ date: "2008-03-14T00:00:00Z"
 tags:
 - CSharp
 title: Using Linq for statically-typed reflection
-aliases:
- - /2008/03/14/using-linq-for-statically-typed-reflection/
- - /2008/03/14/using-linq-for-statically-typed-reflection.html
 ---
 I discovered the [TypedReflector](http://www.codeplex.com/Release/ProjectReleases.aspx?ProjectName=clarius&ReleaseId=9495)
    

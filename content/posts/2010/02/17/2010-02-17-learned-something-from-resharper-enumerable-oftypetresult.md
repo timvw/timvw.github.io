@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1697
 tags:
 - CSharp
 title: 'Learned something from Resharper: Enumerable.OfType<TResult>'
-aliases:
- - /2010/02/17/learned-something-from-resharper-enumerable-oftypetresult/
- - /2010/02/17/learned-something-from-resharper-enumerable-oftypetresult.html
 ---
 A couple of weeks ago i discovered [Enumerable.OfType<TResult>](http://msdn.microsoft.com/en-us/library/bb360913.aspx) when i let Resharper rewrite my code as a Linq statement. Here is the original code:
 

@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=2111
 tags:
 - chm
 title: Navigation to the webpage was canceled
-aliases:
- - /2011/03/16/navigation-to-the-webpage-was-canceled/
- - /2011/03/16/navigation-to-the-webpage-was-canceled.html
 ---
 Earlier today i ran into the 'Navigation to the webpage was canceled' when i tried to open a CHM file:
 

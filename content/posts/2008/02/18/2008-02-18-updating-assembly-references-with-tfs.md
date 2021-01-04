@@ -3,9 +3,6 @@ date: "2008-02-18T00:00:00Z"
 tags:
 - CSharp
 title: Updating Assembly References with TFS
-aliases:
- - /2008/02/18/updating-assembly-references-with-tfs/
- - /2008/02/18/updating-assembly-references-with-tfs.html
 ---
 A while ago i [posted some code that allows you to update the Assembly references](http://www.timvw.be/programming-the-csproj-file/). Here is some code that uses the [Team Foundation Server SDK](http://msdn2.microsoft.com/en-us/library/bb130146(VS.80).aspx) that checks the csproj files out and updates their references. Afterwards it's possible to check the modified csproj files in with a reference to a WorkItem (or to undo the checkout in case no modifications were made).
 

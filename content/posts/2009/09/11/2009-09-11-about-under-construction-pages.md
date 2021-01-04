@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1255
 tags:
 - Information Technology
 title: About under construction pages
-aliases:
- - /2009/09/11/about-under-construction-pages/
- - /2009/09/11/about-under-construction-pages.html
 ---
 Why do people visit a website? To find information. Thus, when you publish a page to announce that the information is not there (yet) you are wasting your visitors time. Instead of creating the actual content you wasted time while your were creating an under construction page. A loss-loss situation instead of a win-win one.
 

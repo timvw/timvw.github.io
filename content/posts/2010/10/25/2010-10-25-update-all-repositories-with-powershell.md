@@ -5,9 +5,6 @@ tags:
 - PowerShell
 - TortoiseSVN
 title: Update all repositories with Powershell
-aliases:
- - /2010/10/25/update-all-repositories-with-powershell/
- - /2010/10/25/update-all-repositories-with-powershell.html
 ---
 I typically store the repositories i am working on under D:\Code. Each morning i had to right click on each of those folders and select 'SVN Update' using [Tortoise SVN](http://tortoisesvn.tigris.org/). Today i decided there had to be a better way to accomplish this tedious task:
 

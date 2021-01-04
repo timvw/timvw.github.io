@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1624
 tags:
 - Information Technology
 title: About forced design
-aliases:
- - /2010/01/23/about-forced-design/
- - /2010/01/23/about-forced-design.html
 ---
 > if you need typemock your design is wrong.
 

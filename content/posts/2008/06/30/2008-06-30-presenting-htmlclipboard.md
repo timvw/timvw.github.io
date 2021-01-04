@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=241
 tags:
 - CSharp
 title: Presenting HtmlClipboard
-aliases:
- - /2008/06/30/presenting-htmlclipboard/
- - /2008/06/30/presenting-htmlclipboard.html
 ---
 Very often i need to encode/decode the contents of my Clipboard so i decided to write a little tray application to help me
 

@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1605
 tags:
 - CSharp
 title: About raising events
-aliases:
- - /2010/01/09/about-raising-events/
- - /2010/01/09/about-raising-events.html
 ---
 Very often i see people write the following to 'safely' raise a method
 

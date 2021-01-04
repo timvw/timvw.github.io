@@ -5,9 +5,6 @@ tags:
 - CSharp
 - Silverlight
 title: Creating graphs with the Silverlight Toolkit
-aliases:
- - /2010/01/08/creating-graphs-with-the-silverlight-toolkit/
- - /2010/01/08/creating-graphs-with-the-silverlight-toolkit.html
 ---
 As i wrote already: In a chart the elements on the X-axis are usually numbers or dates, and the elements on the Y-axis are usually doubles. We can define such a combination as following
 

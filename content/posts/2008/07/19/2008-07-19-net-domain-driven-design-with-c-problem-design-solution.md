@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=260
 tags:
 - Book reviews
 title: ".NET Domain-Driven Design with C#: Problem -- Design -- Solution"
-aliases:
- - /2008/07/19/net-domain-driven-design-with-c-problem-design-solution/
- - /2008/07/19/net-domain-driven-design-with-c-problem-design-solution.html
 ---
 Since i didn't find many reviews on [Tim McCarthy's](http://blogs.interknowlogy.com/timmccarthy/) book: [.NET Domain-Driven Design with C#: Problem -- Design -- Solution](http://www.amazon.com/dp/0470147563?tag=timcsbl-20&camp=14573&creative=327641&linkCode=as1&creativeASIN=0470147563&adid=0G2QZKFS5TEKWFYAGKWG&), i've decided to write a short one myself:
 

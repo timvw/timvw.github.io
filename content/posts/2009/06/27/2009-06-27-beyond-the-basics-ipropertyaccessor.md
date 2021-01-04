@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1091
 tags:
 - NHibernate
 title: 'Beyond the basics: IPropertyAccessor'
-aliases:
- - /2009/06/27/beyond-the-basics-ipropertyaccessor/
- - /2009/06/27/beyond-the-basics-ipropertyaccessor.html
 ---
 Consider the following classes: an abstract Account and a concrete SavingAccount
 

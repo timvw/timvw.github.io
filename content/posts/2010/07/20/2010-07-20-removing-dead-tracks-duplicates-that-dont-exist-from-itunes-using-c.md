@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1811
 tags:
 - CSharp
 title: Removing Dead Tracks (Duplicates that don't exist) from iTunes using C#
-aliases:
- - /2010/07/20/removing-dead-tracks-duplicates-that-dont-exist-from-itunes-using-c/
- - /2010/07/20/removing-dead-tracks-duplicates-that-dont-exist-from-itunes-using-c.html
 ---
 Last week i noticed the following post from Scott Hanselman: [Removing Dead Tracks (Duplicates that don't exist) from iTunes using C#](http://www.hanselman.com/blog/RemovingDeadTracksDuplicatesThatDontExistFromITunesUsingC.aspx). As a good boy scout i noticed that these days iTunesLib.IITTrackCollection inherits from IEnumerable so i rewrote the code a little
 

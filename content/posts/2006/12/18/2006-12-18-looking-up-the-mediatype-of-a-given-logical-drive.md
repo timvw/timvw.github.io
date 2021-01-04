@@ -3,9 +3,6 @@ date: "2006-12-18T00:00:00Z"
 tags:
 - CSharp
 title: Looking up the MediaType of a given Logical Drive
-aliases:
- - /2006/12/18/looking-up-the-mediatype-of-a-given-logical-drive/
- - /2006/12/18/looking-up-the-mediatype-of-a-given-logical-drive.html
 ---
 Earlier today i saw someone asking how he could find out the MediaType of a given logical drive. The easy solution would be to iterate over [DriveInfo.GetDrives](http://msdn2.microsoft.com/en-us/library/system.io.driveinfo.getdrives.aspx) and pick the one you are looking for... Anyway, i thought it would be nice to experiment with [WMI](http://msdn.microsoft.com/library/default.asp?url=/library/en-us/wmisdk/wmi/wmi_start_page.asp) so i wrote a little function that uses [Win32_LogicalDisk](http://msdn.microsoft.com/library/default.asp?url=/library/en-us/wmisdk/wmi/Win32_LogicalDisk.asp) to look the MediaType up
 

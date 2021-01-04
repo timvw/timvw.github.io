@@ -3,9 +3,6 @@ date: "2006-08-21T00:00:00Z"
 tags:
 - SQL
 title: Experimenting with Oracle and PL/SQL
-aliases:
- - /2006/08/21/experimenting-with-oracle-and-plsql/
- - /2006/08/21/experimenting-with-oracle-and-plsql.html
 ---
 As i already wrote, last couple of days i've been experimenting with PL/SQL. At work we use [Toad for Oracle](http://www.toadsoft.com/toad_oracle.htm) but since [TOADSoft](http://www.toadsoft.com/) only offers a limited freeware version i decided to write my code with [GVim](http://www.vim.org) and use [SQL*Plus](http://orafaq.com/faqplus.htm#WHAT) at home. Here are a couple of lines i added to my login.sql file
 

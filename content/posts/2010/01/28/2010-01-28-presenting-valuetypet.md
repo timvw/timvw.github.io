@@ -5,9 +5,6 @@ tags:
 - CSharp
 - Patterns
 title: Presenting ValueType<T>
-aliases:
- - /2010/01/28/presenting-valuetypet/
- - /2010/01/28/presenting-valuetypet.html
 ---
 Here is a base class for some code that i have written once too many in my life: (In case you're an early adaptor (.Net 4.0) you may want to use System.Tuple<T1> as base class)
 

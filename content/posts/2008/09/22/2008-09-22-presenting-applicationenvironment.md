@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=571
 tags:
 - CSharp
 title: Presenting ApplicationEnvironment
-aliases:
- - /2008/09/22/presenting-applicationenvironment/
- - /2008/09/22/presenting-applicationenvironment.html
 ---
 Imagine we are an ice cream vendor. During summer months our available capacity is twice as high as in the rest of the year. In code this problem looks like the following
 

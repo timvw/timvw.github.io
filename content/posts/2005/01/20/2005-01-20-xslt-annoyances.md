@@ -3,9 +3,6 @@ date: "2005-01-20T00:00:00Z"
 tags:
 - XML
 title: XSLT annoyances
-aliases:
- - /2005/01/20/xslt-annoyances/
- - /2005/01/20/xslt-annoyances.html
 ---
 Today i've finally made the switch. My code generates [XML](http://www.w3.org/XML/) and then i translate it to [XHTML](http://www.w3.org/TR/xhtml1/) with [XSLT](http://www.w3.org/TR/xslt). However, if i write 
 

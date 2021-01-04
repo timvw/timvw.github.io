@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1345
 tags:
 - Information Technology
 title: Configuring Apache to serve Office 2007 documents with the correct MIME type
-aliases:
- - /2009/10/09/configuring-apache-to-serve-office-2007-documents-with-the-correct-mime-type/
- - /2009/10/09/configuring-apache-to-serve-office-2007-documents-with-the-correct-mime-type.html
 ---
 Untill now i haven't published any Office 2007 documents but i noticed that my webhost hasn't configured apache to serve such documents with the correct MIME types. This resulted in my web browser downloading .docx files as zip archives. Here's how a couple of additions to .htaccess tackle the problem:
 

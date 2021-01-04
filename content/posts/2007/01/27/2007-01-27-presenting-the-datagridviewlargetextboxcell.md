@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Presenting the DataGridViewLargeTextBoxCell
-aliases:
- - /2007/01/27/presenting-the-datagridviewlargetextboxcell/
- - /2007/01/27/presenting-the-datagridviewlargetextboxcell.html
 ---
 Today i decided to experiment a bit with custom [DataGridViewCell](http://msdn2.microsoft.com/en-us/library/system.windows.forms.datagridviewcell.aspx) implementations. If you insert large text into a DataGridView it will (at best) wrap the text. I wanted my DataGridView to behave like [Excel](http://office.microsoft.com/excel/) so that the whole text is displayed. Here are a couple of screenshots of the result
 

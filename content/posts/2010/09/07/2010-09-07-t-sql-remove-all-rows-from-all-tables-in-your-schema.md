@@ -5,9 +5,6 @@ tags:
 - SQL
 - t-sql
 title: 'T-SQL: Remove all rows from all tables in your schema'
-aliases:
- - /2010/09/07/t-sql-remove-all-rows-from-all-tables-in-your-schema/
- - /2010/09/07/t-sql-remove-all-rows-from-all-tables-in-your-schema.html
 ---
 Sometimes i want to quickly clean up a database and start from fresh. Here is a small script that does exactly that.. (I just run the script a couple of times, untill no affected rows remain... Far more efficient than figuring out which constraints exist, building up a dependency tree, and cleanly deleting all rows):
 

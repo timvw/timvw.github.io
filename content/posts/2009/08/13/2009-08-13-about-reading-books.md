@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1151
 tags:
 - Information Technology
 title: About reading books
-aliases:
- - /2009/08/13/about-reading-books/
- - /2009/08/13/about-reading-books.html
 ---
 A while ago [Gabriel](http://gabriel.lozano-moran.name/blog/PermaLink,guid,1fbcd60c-0b3e-40c2-a0e1-3f61e4f81fab.aspx) wrote the following:
 

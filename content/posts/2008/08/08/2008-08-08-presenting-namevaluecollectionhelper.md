@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=359
 tags:
 - CSharp
 title: Presenting NameValueCollectionHelper
-aliases:
- - /2008/08/08/presenting-namevaluecollectionhelper/
- - /2008/08/08/presenting-namevaluecollectionhelper.html
 ---
 Here are a couple functions that i find extremely useful when i'm working with a [NameValueCollection](http://msdn.microsoft.com/en-us/library/system.collections.specialized.namevaluecollection.aspx)
 

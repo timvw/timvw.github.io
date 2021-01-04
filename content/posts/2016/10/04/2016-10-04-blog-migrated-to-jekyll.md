@@ -1,9 +1,6 @@
 ---
 date: "2016-10-04T00:00:00Z"
 title: Blog migrated to Jekyll
-aliases:
- - /2016/10/04/blog-migrated-to-jekyll/
- - /2016/10/04/blog-migrated-to-jekyll.html
 ---
 As many other people I have decided to leave Wordpress behind and move to Jekyll instead.
 

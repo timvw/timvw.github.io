@@ -3,9 +3,6 @@ date: "2006-12-16T00:00:00Z"
 tags:
 - CSharp
 title: Pondering about the difference between abstract classes and interfaces
-aliases:
- - /2006/12/16/pondering-about-the-difference-between-abstract-classes-and-interfaces/
- - /2006/12/16/pondering-about-the-difference-between-abstract-classes-and-interfaces.html
 ---
 Back in May i was asked to explain the difference between an [interface](http://msdn.microsoft.com/library/en-us/csref/html/vcreftheinterfacetype.asp) and an [abstract class](http://msdn.microsoft.com/library/en-us/csspec/html/vclrfcsharpspec_10_1_1_1.asp) at a job interview. Obviously the interviewer wanted me to tell him that an abstract class allows you to provide a partial implementation... I answered that the major difference is the fact that with interface-based programming you're not forced into an inheritance tree that might not make sense and that i didn't see much use for abstract classes (I'm not sure he saw that one coming :P). For some unknown reason this kept spinning in my head... Here's an example of an abstract class and a concrete implementation
 

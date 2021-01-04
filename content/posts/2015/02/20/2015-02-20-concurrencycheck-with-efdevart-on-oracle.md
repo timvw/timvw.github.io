@@ -2,9 +2,6 @@
 date: "2015-02-20T00:00:00Z"
 guid: http://www.timvw.be/?p=2461
 title: ConcurrencyCheck with EF/Devart on Oracle
-aliases:
- - /2015/02/20/concurrencycheck-with-efdevart-on-oracle/
- - /2015/02/20/concurrencycheck-with-efdevart-on-oracle.html
 ---
 Earlier this week I was wondering how I could easily achieve optimistic concurrency in a system using EF/Devart targetting an Oracle database (Not really my preferred technologies, but whatever:P). Here is a potential solution:
 

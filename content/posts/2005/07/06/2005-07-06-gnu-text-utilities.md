@@ -3,9 +3,6 @@ date: "2005-07-06T00:00:00Z"
 tags:
 - Free Software
 title: GNU text utilities
-aliases:
- - /2005/07/06/gnu-text-utilities/
- - /2005/07/06/gnu-text-utilities.html
 ---
 More and more i seem to recieve requests from people that need to manipulate some text files.
   

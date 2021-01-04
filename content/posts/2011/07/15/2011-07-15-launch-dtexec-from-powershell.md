@@ -5,9 +5,6 @@ tags:
 - PowerShell
 - SSIS
 title: Launch DtExec from PowerShell
-aliases:
- - /2011/07/15/launch-dtexec-from-powershell/
- - /2011/07/15/launch-dtexec-from-powershell.html
 ---
 Running an SSIS package from PowerShell (using DTExec) can be as simple as:
 

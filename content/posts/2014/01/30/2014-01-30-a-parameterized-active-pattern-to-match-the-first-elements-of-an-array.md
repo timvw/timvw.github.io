@@ -6,9 +6,6 @@ tags:
 - FSharp
 - Pattern Matching
 title: A parameterized active pattern to match the first elements of an array
-aliases:
- - /2014/01/30/a-parameterized-active-pattern-to-match-the-first-elements-of-an-array/
- - /2014/01/30/a-parameterized-active-pattern-to-match-the-first-elements-of-an-array.html
 ---
 Been writing code in F# for almost a year and never blogged about it. Time to change that. Earlier today someone asked the following on twitter:
 

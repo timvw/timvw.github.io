@@ -3,9 +3,6 @@ date: "2006-04-25T00:00:00Z"
 tags:
 - Free Software
 title: Running .NET applications on Debian GNU/Linux with Mono
-aliases:
- - /2006/04/25/running-net-applications-on-debian-gnulinux-with-mono/
- - /2006/04/25/running-net-applications-on-debian-gnulinux-with-mono.html
 ---
 Today i noticed [Running .Net applications on Linux with Mono](http://www.linux.com/article.pl?sid=06/04/12/1921225) and the author wrote the following:
 

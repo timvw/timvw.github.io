@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Using DataGridViewComboBoxColumn with Custom Objects
-aliases:
- - /2006/09/10/using-datagridviewcomboboxcolumn-with-custom-objects/
- - /2006/09/10/using-datagridviewcomboboxcolumn-with-custom-objects.html
 ---
 Earlier today i was playing with the [DataGridView](http://msdn2.microsoft.com/en-us/library/system.windows.forms.datagridview.aspx) control. I wanted to have a couple of [DataGridViewComboBoxColumn](http://msdn2.microsoft.com/en-us/library/xwx934x7.aspx)s in order to limit the available input options for the user. The documentation clearly mentions the following
 

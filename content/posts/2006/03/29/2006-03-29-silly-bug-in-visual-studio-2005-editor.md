@@ -3,9 +3,6 @@ date: "2006-03-29T00:00:00Z"
 tags:
 - Visual Studio
 title: Silly bug in Visual Studio 2005 editor
-aliases:
- - /2006/03/29/silly-bug-in-visual-studio-2005-editor/
- - /2006/03/29/silly-bug-in-visual-studio-2005-editor.html
 ---
 If you try to compile the code below you will see that the i in the second loop is not defined in my main function. Position your mouse over the i, click right and choose "Go To Definition" in the context menu. Why does the cursor move to the i in the struct? Btw, if you remove the first for loop this doesn't happen.
 

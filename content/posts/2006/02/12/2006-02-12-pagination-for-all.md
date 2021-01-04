@@ -3,9 +3,6 @@ date: "2006-02-12T00:00:00Z"
 tags:
 - PHP
 title: Pagination for all
-aliases:
- - /2006/02/12/pagination-for-all/
- - /2006/02/12/pagination-for-all.html
 ---
 Suppose you have a a large collection of items and you want to display them. Users don't want to see 5000 items at once. They only want to see a couple of items and have the possibility to look at the next (or previous) couple of items. The solution for this problem is usually named pagination. You can compare this technique with [paging](http://en.wikipedia.org/paging). Most people seem to come up with their own (My)SQL specific implementation. Here are a couple of examples how you can use [mine](http://www.timvw.be/wp-content/code/php/pagination.txt)
 

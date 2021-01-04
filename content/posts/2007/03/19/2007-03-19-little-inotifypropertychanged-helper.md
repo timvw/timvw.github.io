@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Little INotifyPropertyChanged helper
-aliases:
- - /2007/03/19/little-inotifypropertychanged-helper/
- - /2007/03/19/little-inotifypropertychanged-helper.html
 ---
 Most implementations of INotifyPropertyChanged look as following (notice that you have to make sure that the hardcoded PropertyName is spelled correctly)
 

@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Control the order of Properties in your Class
-aliases:
- - /2007/02/04/control-the-order-of-properties-in-your-class/
- - /2007/02/04/control-the-order-of-properties-in-your-class.html
 ---
 Sometimes you want to manipulate the order in which properties are used for databinding. Eg: If you drag and drop an object datasource on a DataGridView you have no control in which order it binds the properties. Offcourse, you can order the columns by moving them around... Today someone asked the following
 

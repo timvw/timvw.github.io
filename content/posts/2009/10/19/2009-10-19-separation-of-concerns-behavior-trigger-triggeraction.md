@@ -5,9 +5,6 @@ tags:
 - CSharp
 - Silverlight
 title: 'Separation of concerns: Behavior = Trigger + TriggerAction'
-aliases:
- - /2009/10/19/separation-of-concerns-behavior-trigger-triggeraction/
- - /2009/10/19/separation-of-concerns-behavior-trigger-triggeraction.html
 ---
 If you look at my [KeyBehavior](http://www.timvw.be/true-keybehavior-with-system-windows-interactivity-behavior/) you notice that it is doing two things: register for events so that the behavior can be triggered and handle the actual command invocation. In order to enhance reuse we can refactor this KeyBehavior in a KeyTrigger and an InvokeCommandAction. Well, we're not going to do that, because they exist already in the silverlight sdk.
 

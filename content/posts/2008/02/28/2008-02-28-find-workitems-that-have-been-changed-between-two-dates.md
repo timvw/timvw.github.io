@@ -3,9 +3,6 @@ date: "2008-02-28T00:00:00Z"
 tags:
 - CSharp
 title: Find WorkItems that have been changed between two dates
-aliases:
- - /2008/02/28/find-workitems-that-have-been-changed-between-two-dates/
- - /2008/02/28/find-workitems-that-have-been-changed-between-two-dates.html
 ---
 Sometimes i want to know which WorkItems i have closed (or completed) between two dates. According to [Amit Ghosh](http://forums.microsoft.com/MSDN/ShowPost.aspx?PostID=2528099&SiteID=1) it's not possible to write such a query so i wrote some code that uses the [TFS SDK](http://msdn2.microsoft.com/en-us/library/bb130146(VS.80).aspx) to get that list
 

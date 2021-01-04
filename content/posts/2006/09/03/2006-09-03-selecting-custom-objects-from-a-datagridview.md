@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Selecting custom Objects from a DataGridView
-aliases:
- - /2006/09/03/selecting-custom-objects-from-a-datagridview/
- - /2006/09/03/selecting-custom-objects-from-a-datagridview.html
 ---
 Here is a way that allows the user to select a row (custom object properties are used as column values) from a [DataGridView](http://msdn2.microsoft.com/en-us/library/system.windows.forms.datagridview.aspx) assuming that the [SelectionMode](http://msdn2.microsoft.com/en-us/library/system.windows.forms.datagridview.selectionmode.aspx) property is set FullRowSelect
 

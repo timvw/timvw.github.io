@@ -3,9 +3,6 @@ date: "2005-03-04T00:00:00Z"
 tags:
 - PHP
 title: More on recursion
-aliases:
- - /2005/03/04/more-on-recursion/
- - /2005/03/04/more-on-recursion.html
 ---
 Yesterday i already wrote that an interative implementation for a recursive function is more efficient. And i gave you an example of the fibonacci function. Well, today i am here to present you an implementation for every recursive function.
 

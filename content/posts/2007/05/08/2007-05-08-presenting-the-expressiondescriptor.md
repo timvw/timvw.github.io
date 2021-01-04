@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Presenting the ExpressionDescriptor
-aliases:
- - /2007/05/08/presenting-the-expressiondescriptor/
- - /2007/05/08/presenting-the-expressiondescriptor.html
 ---
 A couple of days ago i presented you the [TypedList](http://www.timvw.be/presenting-the-typedlistt/) which supports navigation through subproperties. Another common feature request is the possibility to add a column that has a value based on other values in the row (like a DataColumn with it's Expression property set). With the plumbing code i've written it's as simple as implementing the following interface
 

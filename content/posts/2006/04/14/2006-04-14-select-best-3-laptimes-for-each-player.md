@@ -3,9 +3,6 @@ date: "2006-04-14T00:00:00Z"
 tags:
 - SQL
 title: Select best 3 laptimes for each player
-aliases:
- - /2006/04/14/select-best-3-laptimes-for-each-player/
- - /2006/04/14/select-best-3-laptimes-for-each-player.html
 ---
 Imagine that you have a schema where you store all the times a player needed to complete a parcours. A possible schema could be ([postgresql](http://www.postgresql.org))
 

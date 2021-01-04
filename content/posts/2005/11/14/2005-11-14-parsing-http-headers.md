@@ -3,9 +3,6 @@ date: "2005-11-14T00:00:00Z"
 tags:
 - Perl
 title: Parsing http headers
-aliases:
- - /2005/11/14/parsing-http-headers/
- - /2005/11/14/parsing-http-headers.html
 ---
 Today i updated my HTTP proxy a little. [RFC 2616](http://www.w3.org/Protocols/rfc2616/rfc2616.html) describes [Message Headers](http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2) as following:
 

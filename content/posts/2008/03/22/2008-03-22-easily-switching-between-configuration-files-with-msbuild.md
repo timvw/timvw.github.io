@@ -3,9 +3,6 @@ date: "2008-03-22T00:00:00Z"
 tags:
 - Visual Studio
 title: Easily switching between configuration files with MSBuild
-aliases:
- - /2008/03/22/easily-switching-between-configuration-files-with-msbuild/
- - /2008/03/22/easily-switching-between-configuration-files-with-msbuild.html
 ---
 A couple of days ago i wrote about [Easily switching between App.Config files with MSBuild](http://www.timvw.be/easily-switching-between-appconfig-files-with-msbuild/). Christophe Gijbels, a fellow [compuwarrior](http://www.compuware.be/root/Careers/index.asp), pointed out that developers usually need to copy more than a single App.Config file... I would propose to add a Folder for each Customer that contains all the specific configuration files. Eg
 

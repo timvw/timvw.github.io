@@ -6,9 +6,6 @@ tags:
 - C
 - t-sql
 title: Using User-Defined Table Type with Identity column in ADO.NET
-aliases:
- - /2011/07/13/using-user-defined-table-type-with-identity-column-in-ado-net/
- - /2011/07/13/using-user-defined-table-type-with-identity-column-in-ado-net.html
 ---
 A while ago i wanted to use a [User-Defined Table Type](http://msdn.microsoft.com/en-us/library/bb522526.aspx) to pass in a set of records. Nothing special about this except that the first column of the UDTT was an Identity column:
 

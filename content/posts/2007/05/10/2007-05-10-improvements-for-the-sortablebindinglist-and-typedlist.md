@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Improvements for the SortableBindingList (and TypedList)
-aliases:
- - /2007/05/10/improvements-for-the-sortablebindinglist-and-typedlist/
- - /2007/05/10/improvements-for-the-sortablebindinglist-and-typedlist.html
 ---
 I found out that the sorting didn't work for 'Expression' properties. My first thought was to add another switch to the logic of the already existing code
 

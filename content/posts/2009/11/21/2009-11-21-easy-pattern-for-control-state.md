@@ -5,9 +5,6 @@ tags:
 - ASP.NET
 - CSharp
 title: Easy pattern for Control state
-aliases:
- - /2009/11/21/easy-pattern-for-control-state/
- - /2009/11/21/easy-pattern-for-control-state.html
 ---
 If you have decided that your WebControl requires to maintain it's state you will want to figure out how to implement Control state. Most examples on the web will then create an array of objects and then hardcode the indices to find stuff back... Simply define a serializable inner class and use that instead of the 'magic array object'. Eg
 

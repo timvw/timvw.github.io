@@ -3,9 +3,6 @@ date: "2006-12-26T00:00:00Z"
 tags:
 - CSharp
 title: Exploring System.CodeDom
-aliases:
- - /2006/12/26/exploring-systemcodedom/
- - /2006/12/26/exploring-systemcodedom.html
 ---
 Today i wanted to experiment with [System.CodeDom](http://msdn2.microsoft.com/en-us/library/system.codedom.aspx). This little program requests the user to input names for a namespace, class and method. It also asks the user to input the code that should go into the method body. Then it generates an assembly (test.dll) and creates a new appdomain in which the assembly is loaded... Finally it initializes an instance of the created class and calls the method...
 

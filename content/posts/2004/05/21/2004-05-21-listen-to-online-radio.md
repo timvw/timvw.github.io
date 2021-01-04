@@ -3,9 +3,6 @@ date: "2004-05-21T00:00:00Z"
 tags:
 - Bash
 title: Listen to online radio
-aliases:
- - /2004/05/21/listen-to-online-radio/
- - /2004/05/21/listen-to-online-radio.html
 ---
 ```bash
 #!/bin/sh

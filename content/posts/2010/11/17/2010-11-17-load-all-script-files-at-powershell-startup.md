@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1986
 tags:
 - PowerShell
 title: Load all script files at PowerShell startup
-aliases:
- - /2010/11/17/load-all-script-files-at-powershell-startup/
- - /2010/11/17/load-all-script-files-at-powershell-startup.html
 ---
 These days i have quite some scripts files that i want to be loaded each time i launch PowerShell. [Windows PowerShell Profiles](http://msdn.microsoft.com/en-us/library/bb613488%28VS.85%29.aspx) teaches me where i should store my $profile. Here is what it looks like:
 

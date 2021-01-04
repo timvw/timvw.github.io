@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=2425
 tags:
 - C
 title: Cute sort implementation
-aliases:
- - /2014/07/28/cute-sort-implementation/
- - /2014/07/28/cute-sort-implementation.html
 ---
 For years I had been implementing my [sort functions](http://msdn.microsoft.com/en-us/library/tfakywbh(v=vs.110).aspx) as following:
 

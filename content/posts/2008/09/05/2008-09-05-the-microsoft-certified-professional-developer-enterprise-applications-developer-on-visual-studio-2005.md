@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=486
 tags:
 - Awards and Certifications
 title: "The Microsoft Certified Professional Developer: Enterprise Applications Developer on Visual Studio 2005"
-aliases:
- - /2008/09/05/the-microsoft-certified-professional-developer-enterprise-applications-developer-on-visual-studio-2005/
- - /2008/09/05/the-microsoft-certified-professional-developer-enterprise-applications-developer-on-visual-studio-2005.html
 ---
 Not that anyone should care, apart from my manager, i [posted](http://www.timvw.be/mcts/) that the only remaining exam was [070-549](http://www.microsoft.com/learning/en/us/exams/70-549.mspx) PRO: Designing and Developing Enterprise Applications by Using the Microsoft .NET Framework a while ago. And this morning i passed that exam 🙂 This means that i have earned the "[MCPD: Enterprise Applications Developer](http://www.microsoft.com/learning/mcp/mcpd/entapp/default.mspx)" certificate that demonstrates that i have the comprehensive skills required to build n-tier solutions that target both Web and client user experiences.
 

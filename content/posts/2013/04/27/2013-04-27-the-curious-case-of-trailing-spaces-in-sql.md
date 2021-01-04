@@ -5,9 +5,6 @@ tags:
 - SQL
 - t-sql
 title: The curious case of trailing spaces in SQL
-aliases:
- - /2013/04/27/the-curious-case-of-trailing-spaces-in-sql/
- - /2013/04/27/the-curious-case-of-trailing-spaces-in-sql.html
 ---
 A while ago I was quite surprised to see that the following query returns 1 instead of 0:
 

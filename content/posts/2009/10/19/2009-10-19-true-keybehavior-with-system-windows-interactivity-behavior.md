@@ -5,9 +5,6 @@ tags:
 - CSharp
 - Silverlight
 title: True KeyBehavior with System.Windows.Interactivity.Behavior
-aliases:
- - /2009/10/19/true-keybehavior-with-system-windows-interactivity-behavior/
- - /2009/10/19/true-keybehavior-with-system-windows-interactivity-behavior.html
 ---
 Yesterday i demonstrated how attached properties can be used to invoke commands on specific key presses (and releases). With the aid of System.Windows.Interactivity.Behavior we can implement a true behavior and we get an extension point to do the required cleanup.
 

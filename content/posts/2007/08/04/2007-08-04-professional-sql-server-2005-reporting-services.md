@@ -3,9 +3,6 @@ date: "2007-08-04T00:00:00Z"
 tags:
 - Book reviews
 title: Professional SQL Server 2005 Reporting Services
-aliases:
- - /2007/08/04/professional-sql-server-2005-reporting-services/
- - /2007/08/04/professional-sql-server-2005-reporting-services.html
 ---
 Last couple of days i've been reading [Professional SQL Server Reporting Services](http://www.wrox.com/WileyCDA/WroxTitle/productCd-0764568787.html). Today i wanted to display some images so i decided to use the Northwind database which has an Employees table that contains photos.. I set the MIMEType to image/bmp, Source to Database and Value to =Fields!Photo.Value but i kept getting a red cross instead of the image
 

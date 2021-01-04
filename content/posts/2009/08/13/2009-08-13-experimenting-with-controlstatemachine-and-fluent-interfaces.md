@@ -6,9 +6,6 @@ tags:
 - Patterns
 - Windows Forms
 title: Experimenting with ControlStateMachine and Fluent interfaces
-aliases:
- - /2009/08/13/experimenting-with-controlstatemachine-and-fluent-interfaces/
- - /2009/08/13/experimenting-with-controlstatemachine-and-fluent-interfaces.html
 ---
 A long time ago i read [Build your own CAB series](http://codebetter.com/blogs/jeremy.miller/archive/2007/07/25/the-build-your-own-cab-series-table-of-contents.aspx) and recently i noticed that there is a wiki: [Presentation Patterns Wiki!](http://www.jeremydmiller.com/ppatterns/Default.aspx?Page=MainPage&AspxAutoDetectCookieSupport=1) and it inspired me to experiment with state machines. Here are a couple of examples:
 

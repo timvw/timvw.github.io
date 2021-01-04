@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Performing long running tasks in a Windows Application
-aliases:
- - /2007/04/27/performing-long-running-tasks-in-a-windows-application/
- - /2007/04/27/performing-long-running-tasks-in-a-windows-application.html
 ---
 A while ago i blogged about [Thread Safe UI](http://www.timvw.be/about-thread-safe-gui/). Today someone asked the following
 

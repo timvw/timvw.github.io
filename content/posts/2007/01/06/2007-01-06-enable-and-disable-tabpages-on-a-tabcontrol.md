@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Enable and disable TabPages on a TabControl
-aliases:
- - /2007/01/06/enable-and-disable-tabpages-on-a-tabcontrol/
- - /2007/01/06/enable-and-disable-tabpages-on-a-tabcontrol.html
 ---
 ![screenshot of tabcontrol with disabled tabpages](http://www.timvw.be/wp-content/images/disabled-tabcontrol-1.gif)
   

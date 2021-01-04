@@ -7,9 +7,6 @@ tags:
 - spark-csv
 - spark-notebook
 title: Notes on running spark-notebook
-aliases:
- - /2015/08/27/notes-on-running-spark-notebook/
- - /2015/08/27/notes-on-running-spark-notebook.html
 ---
 These days [Docker](https://www.docker.com/) makes it extremely easy to get started with virtually any application you like. At first I was a bit skeptical but over the last couple of months I have changed my mind. Now I strongly believe this is a game changer. Even more when it comes to Windows. Anyway, these days kitematic (GUI to manage docker images) allows you to simply pick the [spark-notebook](https://github.com/andypetrella/spark-notebook) by Andy Petrella.
 

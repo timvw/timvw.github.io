@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=2189
 tags:
 - t-sql
 title: Specialized solution for aggregate string concatenation
-aliases:
- - /2011/08/01/specialized-solution-for-aggregate-string-concatenation/
- - /2011/08/01/specialized-solution-for-aggregate-string-concatenation.html
 ---
 I have noticed that most people come up with the following solution to build a string in T-SQL:
 

@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Selecting custom Objects from a ComboBox
-aliases:
- - /2006/09/03/selecting-custom-objects-from-a-combobox/
- - /2006/09/03/selecting-custom-objects-from-a-combobox.html
 ---
 Earlier this week someone asked me how he could select custom objects from a [ComboBox](http://msdn2.microsoft.com/en-us/library/system.windows.forms.combobox.aspx). Here is the code he used
 

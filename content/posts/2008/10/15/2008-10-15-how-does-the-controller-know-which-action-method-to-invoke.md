@@ -5,9 +5,6 @@ tags:
 - ASP.NET
 - CSharp
 title: How does the controller know which action method to invoke?
-aliases:
- - /2008/10/15/how-does-the-controller-know-which-action-method-to-invoke/
- - /2008/10/15/how-does-the-controller-know-which-action-method-to-invoke.html
 ---
 Yesterday i attended another great [VISUG](http://www.visug.be) event on ASP.NET presented by [Maarten Balliauw](http://blog.maartenballiauw.be/). He demonstrated a custom filter but did not dig into the mechanics of action method resolving. With the aid of of the ActionName attribute we can map different methods to the same action. The following methods will all map to the same "Detail" action
 

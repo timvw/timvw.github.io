@@ -3,9 +3,6 @@ date: "2005-11-06T00:00:00Z"
 tags:
 - PHP
 title: Changing the include_path
-aliases:
- - /2005/11/06/changing-the-include_path/
- - /2005/11/06/changing-the-include_path.html
 ---
 PHP has a feature to change the [include_path](http://www.php.net/manual/en/ini.core.php#ini.include-path) programatically. The problem is that the path separator is : on unix and ; on windows. Luckily there is a constant [PATH_SEPARATOR](http://www.php.net/manual/en/reserved.constants.php) to overcome this issue. Here is how i would do it
 

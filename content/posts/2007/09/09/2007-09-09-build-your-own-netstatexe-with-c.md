@@ -3,9 +3,6 @@ date: "2007-09-09T00:00:00Z"
 tags:
 - CSharp
 title: Build your own netstat.exe with c#
-aliases:
- - /2007/09/09/build-your-own-netstatexe-with-c/
- - /2007/09/09/build-your-own-netstatexe-with-c.html
 ---
 Earlier today i wrote ManagedIpHelper, a wrapper for [IP Helper API](http://msdn2.microsoft.com/en-us/library/aa366073.aspx) it's [GetExtendedTcpTable](http://msdn2.microsoft.com/en-us/library/aa365928.aspx). Using this wrapper i could easily create my own version of netstat.exe. The following code generates the same output (but much faster) than "netstat.exe -anvbp tcp"
 

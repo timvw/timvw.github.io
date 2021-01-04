@@ -3,9 +3,6 @@ date: "2006-09-03T00:00:00Z"
 tags:
 - CSharp
 title: List the month names
-aliases:
- - /2006/09/03/list-the-month-names/
- - /2006/09/03/list-the-month-names.html
 ---
 As i wrote in [Generate a menu with month names](http://www.timvw.be/generate-a-menu-with-month-names/) it's silly to hardcode month names. Here's a C# sample using localization/globalization
 

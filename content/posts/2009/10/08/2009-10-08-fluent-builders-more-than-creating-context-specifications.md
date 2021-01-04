@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1313
 tags:
 - CSharp
 title: 'Fluent Builders: More than creating context specifications'
-aliases:
- - /2009/10/08/fluent-builders-more-than-creating-context-specifications/
- - /2009/10/08/fluent-builders-more-than-creating-context-specifications.html
 ---
 Last couple of months i have been using the concept of (Fluent) Builder classes in order to create context specifications and i [blogged about the steps i take to design their API](http://www.timvw.be/about-the-design-of-a-fluent-interface/). Lately i have realised that this concept has more uses than context specifcation only. Here is an example:
 

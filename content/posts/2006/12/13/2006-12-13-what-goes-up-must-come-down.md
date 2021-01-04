@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: What goes up must come down...
-aliases:
- - /2006/12/13/what-goes-up-must-come-down/
- - /2006/12/13/what-goes-up-must-come-down.html
 ---
 What goes up must come down... So you might think that after each CellMouseDown event you recieve a CellMouseUp event... Well, here is some code that proves that isn't always true
 

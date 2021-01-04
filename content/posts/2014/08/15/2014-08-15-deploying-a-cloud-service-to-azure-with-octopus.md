@@ -6,9 +6,6 @@ tags:
 - Octopus
 - PowerShell
 title: Deploying a Cloud Service to Azure with Octopus
-aliases:
- - /2014/08/15/deploying-a-cloud-service-to-azure-with-octopus/
- - /2014/08/15/deploying-a-cloud-service-to-azure-with-octopus.html
 ---
 Currently Octopus has limited support to deploy a Cloud Service on Azure. A typical use-case is that you need a different Web.Config file per environment. Simply add the Web.Environment.Config files to your NuGet package and use the following [PreDeploy.ps1](https://gist.github.com/timvw/4e32226dd1ff149b5eab.js) script:
 
