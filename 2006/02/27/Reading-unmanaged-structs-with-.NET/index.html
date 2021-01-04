@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Reading unmanaged structs with .NET - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta itemprop="name" content="Reading unmanaged structs with .NET">
+<meta itemprop="description" content="Last week i&rsquo;ve spend a lot of time studying System::Runtime::InteropServices. It took me a while to figure out how i could read unmanaged structs with .NET System::IO. Here is a bit of sample code (Should be obvious enough to write a template or generic class for all sorts of structs, just like i did at the office)
+typedef struct { char name[9]; int name; double sterr; } TEST; FileStream ^f = gcnew FileStream(&#34;C:\\TEST.">
+<meta itemprop="datePublished" content="2006-02-27T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
+<meta itemprop="wordCount" content="91">
+
+
+
+<meta itemprop="keywords" content="C&#43;&#43;," />
+<meta property="og:title" content="Reading unmanaged structs with .NET" />
+<meta property="og:description" content="Last week i&rsquo;ve spend a lot of time studying System::Runtime::InteropServices. It took me a while to figure out how i could read unmanaged structs with .NET System::IO. Here is a bit of sample code (Should be obvious enough to write a template or generic class for all sorts of structs, just like i did at the office)
+typedef struct { char name[9]; int name; double sterr; } TEST; FileStream ^f = gcnew FileStream(&#34;C:\\TEST." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timvw.be/2006/02/27/Reading-unmanaged-structs-with-.NET/" />
+<meta property="article:published_time" content="2006-02-27T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Reading unmanaged structs with .NET"/>
+<meta name="twitter:description" content="Last week i&rsquo;ve spend a lot of time studying System::Runtime::InteropServices. It took me a while to figure out how i could read unmanaged structs with .NET System::IO. Here is a bit of sample code (Should be obvious enough to write a template or generic class for all sorts of structs, just like i did at the office)
+typedef struct { char name[9]; int name; double sterr; } TEST; FileStream ^f = gcnew FileStream(&#34;C:\\TEST."/>
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
+		</nav></div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">27</span>
+							<span class="rest">Feb 2006</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">Reading unmanaged structs with .NET</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<p>Last week i&rsquo;ve spend a lot of time studying <a href="http://msdn.microsoft.com/library/default.asp?url=../../../../library/en-us/cpref/html/frlrfSystemRuntimeInteropServices.asp">System::Runtime::InteropServices</a>. It took me a while to figure out how i could read unmanaged structs with .NET <a href="http://msdn.microsoft.com/library/default.asp?url=../../../../library/en-us/cpref/html/frlrfsystemio.asp">System::IO</a>. Here is a bit of sample code (Should be obvious enough to write a template or generic class for all sorts of structs, just like i did at the office)</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> {
+<span style="color:#458;font-weight:bold">char</span> name[<span style="color:#099">9</span>];
+<span style="color:#458;font-weight:bold">int</span> name;
+<span style="color:#458;font-weight:bold">double</span> sterr;
+} TEST;
+
+FileStream <span style="color:#000;font-weight:bold">^</span>f <span style="color:#000;font-weight:bold">=</span> gcnew FileStream(<span style="color:#d14">&#34;C:</span><span style="color:#d14">\\</span><span style="color:#d14">TEST.DAT&#34;</span>, FileMode<span style="color:#000;font-weight:bold">::</span>Open, FileAccess<span style="color:#000;font-weight:bold">::</span>ReadWrite);
+BinaryReader <span style="color:#000;font-weight:bold">^</span>r <span style="color:#000;font-weight:bold">=</span> gcnew BinaryReader(f);
+array<span style="color:#000;font-weight:bold">&lt;</span>byte<span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000;font-weight:bold">^</span>buf <span style="color:#000;font-weight:bold">=</span> r<span style="color:#000;font-weight:bold">-&gt;</span>ReadBytes(<span style="color:#000;font-weight:bold">sizeof</span>(TEST));
+TEST test;
+Marshal<span style="color:#000;font-weight:bold">::</span>Copy(buf, <span style="color:#099">0</span>, (IntPtr) <span style="color:#000;font-weight:bold">&amp;</span>test, <span style="color:#000;font-weight:bold">sizeof</span>(TEST));
+</code></pre></div>
+			</div>
+
+			<div class="tags">
+				
+					
+						<ul class="flat">
+							
+							<li><a href="../../../../tags/C&#43;&#43;">C&#43;&#43;</a></li>
+							
+						</ul>
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-2585435-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<script>feather.replace()</script>
+</body>
+</html>

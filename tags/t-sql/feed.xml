@@ -9,20 +9,20 @@
     <lastBuildDate>Sat, 27 Apr 2013 00:00:00 +0000</lastBuildDate><atom:link href="https://timvw.be/tags/t-sql/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>The curious case of trailing spaces in SQL</title>
-      <link>https://timvw.be/post/2013-04-27-the-curious-case-of-trailing-spaces-in-sql/</link>
+      <link>https://timvw.be/2013/04/27/The-curious-case-of-trailing-spaces-in-SQL/</link>
       <pubDate>Sat, 27 Apr 2013 00:00:00 +0000</pubDate>
       
-      <guid>https://timvw.be/post/2013-04-27-the-curious-case-of-trailing-spaces-in-sql/</guid>
+      <guid>https://timvw.be/2013/04/27/The-curious-case-of-trailing-spaces-in-SQL/</guid>
       <description>A while ago I was quite surprised to see that the following query returns 1 instead of 0:
 SELECT COUNT(*) WHERE N&amp;#39;Tim&amp;#39; = N&amp;#39;Tim &amp;#39;; -- notice the trailing space Apparently this is just standard behaviour. Here is an extract from sql1992.txt (Section 8.2 Paragraph 3):</description>
     </item>
     
     <item>
       <title>An example of Common Table Expression and Window function usage...</title>
-      <link>https://timvw.be/post/2012-03-27-an-example-of-common-table-expression-and-window-function-usage/</link>
+      <link>https://timvw.be/2012/03/27/An-example-of-Common-Table-Expression-and-Window-function-usage.../</link>
       <pubDate>Tue, 27 Mar 2012 00:00:00 +0000</pubDate>
       
-      <guid>https://timvw.be/post/2012-03-27-an-example-of-common-table-expression-and-window-function-usage/</guid>
+      <guid>https://timvw.be/2012/03/27/An-example-of-Common-Table-Expression-and-Window-function-usage.../</guid>
       <description>Earlier this week some colleague had been assigned a maintenance task and asked me how I would solve it. Every customer is permitted to have an amount of publications. All excess publications should be removed from the system (only the n most recent ones are permitted to remain on the system).
 Here is an example of the Customer table:
 CREATE TABLE [dbo].[Customer]( [CustomerId] [int] IDENTITY(1,1) NOT NULL, [CustomerName] [nvarchar](50) NOT NULL, [PermittedPublications] [int] NOT NULL ); INSERT INTO [dbo].</description>
@@ -30,49 +30,49 @@ CREATE TABLE [dbo].[Customer]( [CustomerId] [int] IDENTITY(1,1) NOT NULL, [Custo
     
     <item>
       <title>SqlConnectionStringBuilder sets the Pooling property to true by default</title>
-      <link>https://timvw.be/post/2011-08-18-sqlconnectionstringbuilder-sets-the-pooling-property-to-true-by-default/</link>
+      <link>https://timvw.be/2011/08/18/SqlConnectionStringBuilder-sets-the-Pooling-property-to-true-by-default/</link>
       <pubDate>Thu, 18 Aug 2011 00:00:00 +0000</pubDate>
       
-      <guid>https://timvw.be/post/2011-08-18-sqlconnectionstringbuilder-sets-the-pooling-property-to-true-by-default/</guid>
+      <guid>https://timvw.be/2011/08/18/SqlConnectionStringBuilder-sets-the-Pooling-property-to-true-by-default/</guid>
       <description>Here is something that surprised me: SqlConnectionStringBuilder sets the Pooling property to true by default.</description>
     </item>
     
     <item>
       <title>Specialized solution for aggregate string concatenation</title>
-      <link>https://timvw.be/post/2011-08-01-specialized-solution-for-aggregate-string-concatenation/</link>
+      <link>https://timvw.be/2011/08/01/Specialized-solution-for-aggregate-string-concatenation/</link>
       <pubDate>Mon, 01 Aug 2011 00:00:00 +0000</pubDate>
       
-      <guid>https://timvw.be/post/2011-08-01-specialized-solution-for-aggregate-string-concatenation/</guid>
+      <guid>https://timvw.be/2011/08/01/Specialized-solution-for-aggregate-string-concatenation/</guid>
       <description>I have noticed that most people come up with the following solution to build a string in T-SQL:
 WITH [Numbers] AS (	SELECT TOP(10) [n]	FROM [Nums] )	SELECT @message = COALESCE(@message, &amp;#39;&amp;#39;) + &amp;#39;&amp;#39; + CAST([n] AS nvarchar(2))	FROM [Numbers]; SELECT @message = STUFF(@message, 1, 2, &amp;#39;&amp;#39;); SELECT @message;  Important! Microsoft has no official documentation describing this aggregate concatenation technique that is based on the assignment SELECT syntax. The behavior described here is based on observation alone.</description>
     </item>
     
     <item>
       <title>Building a Nums table (quickly)</title>
-      <link>https://timvw.be/post/2011-07-13-building-a-nums-table-quickly/</link>
+      <link>https://timvw.be/2011/07/13/Building-a-Nums-table-quickly/</link>
       <pubDate>Wed, 13 Jul 2011 00:00:00 +0000</pubDate>
       
-      <guid>https://timvw.be/post/2011-07-13-building-a-nums-table-quickly/</guid>
+      <guid>https://timvw.be/2011/07/13/Building-a-Nums-table-quickly/</guid>
       <description>A while ago i presented my approach to generate a nums table here.
 DECLARE @count INT = 1000; WITH [Nums1] AS ( SELECT 1 AS [Value] UNION SELECT 2 AS [Value] ) , [Nums2] AS ( SELECT A.* FROM [Nums1] AS A, [Nums1] AS B, [Nums1] AS C) , [Nums3] AS ( SELECT A.* FROM [Nums2] AS A, [Nums2] AS B, [Nums2] AS C) , [Nums4] AS ( SELECT A.* FROM [Nums3] AS A, [Nums3] AS B ) , [Numbers] AS ( SELECT TOP(@count) -1 + ROW_NUMBER() OVER(ORDER BY [Value]) AS [Value] FROM[Nums4] ) SELECT * FROM [Numbers]; Because we only use this code once to fill the table we don&amp;rsquo;t really care that it is not very fast.</description>
     </item>
     
     <item>
       <title>Using User-Defined Table Type with Identity column in ADO.NET</title>
-      <link>https://timvw.be/post/2011-07-13-using-user-defined-table-type-with-identity-column-in-ado-net/</link>
+      <link>https://timvw.be/2011/07/13/Using-User-Defined-Table-Type-with-Identity-column-in-ADO.NET/</link>
       <pubDate>Wed, 13 Jul 2011 00:00:00 +0000</pubDate>
       
-      <guid>https://timvw.be/post/2011-07-13-using-user-defined-table-type-with-identity-column-in-ado-net/</guid>
+      <guid>https://timvw.be/2011/07/13/Using-User-Defined-Table-Type-with-Identity-column-in-ADO.NET/</guid>
       <description>A while ago i wanted to use a User-Defined Table Type to pass in a set of records. Nothing special about this except that the first column of the UDTT was an Identity column:
 CREATE TYPE [Star].[example] AS TABLE( [Ordinal] [int] IDENTITY(1,1) NOT NULL, [Name] [nvarchar](200) NOT NULL, ) After finding a lot of posts saying that this is not supported a colleague of mine, Stephen Horsfield, found a way to do it as following:</description>
     </item>
     
     <item>
       <title>T-SQL: Remove all rows from all tables in your schema</title>
-      <link>https://timvw.be/post/2010-09-07-t-sql-remove-all-rows-from-all-tables-in-your-schema/</link>
+      <link>https://timvw.be/2010/09/07/T-SQL-Remove-all-rows-from-all-tables-in-your-schema/</link>
       <pubDate>Tue, 07 Sep 2010 00:00:00 +0000</pubDate>
       
-      <guid>https://timvw.be/post/2010-09-07-t-sql-remove-all-rows-from-all-tables-in-your-schema/</guid>
+      <guid>https://timvw.be/2010/09/07/T-SQL-Remove-all-rows-from-all-tables-in-your-schema/</guid>
       <description>Sometimes i want to quickly clean up a database and start from fresh. Here is a small script that does exactly that.. (I just run the script a couple of times, untill no affected rows remain&amp;hellip; Far more efficient than figuring out which constraints exist, building up a dependency tree, and cleanly deleting all rows):
 -- Remove all rows from all tables DECLARE @tableName VARCHAR(255) DECLARE tableNames CURSOR FOR SELECT name FROM sys.</description>
     </item>

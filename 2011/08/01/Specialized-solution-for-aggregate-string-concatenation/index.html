@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Specialized solution for aggregate string concatenation - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta itemprop="name" content="Specialized solution for aggregate string concatenation">
+<meta itemprop="description" content="I have noticed that most people come up with the following solution to build a string in T-SQL:
+WITH [Numbers] AS (	SELECT TOP(10) [n]	FROM [Nums] )	SELECT @message = COALESCE(@message, &#39;&#39;) &#43; &#39;&#39; &#43; CAST([n] AS nvarchar(2))	FROM [Numbers]; SELECT @message = STUFF(@message, 1, 2, &#39;&#39;); SELECT @message;  Important! Microsoft has no official documentation describing this aggregate concatenation technique that is based on the assignment SELECT syntax. The behavior described here is based on observation alone.">
+<meta itemprop="datePublished" content="2011-08-01T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
+<meta itemprop="wordCount" content="218">
+
+
+
+<meta itemprop="keywords" content="t-sql," />
+<meta property="og:title" content="Specialized solution for aggregate string concatenation" />
+<meta property="og:description" content="I have noticed that most people come up with the following solution to build a string in T-SQL:
+WITH [Numbers] AS (	SELECT TOP(10) [n]	FROM [Nums] )	SELECT @message = COALESCE(@message, &#39;&#39;) &#43; &#39;&#39; &#43; CAST([n] AS nvarchar(2))	FROM [Numbers]; SELECT @message = STUFF(@message, 1, 2, &#39;&#39;); SELECT @message;  Important! Microsoft has no official documentation describing this aggregate concatenation technique that is based on the assignment SELECT syntax. The behavior described here is based on observation alone." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timvw.be/2011/08/01/Specialized-solution-for-aggregate-string-concatenation/" />
+<meta property="article:published_time" content="2011-08-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Specialized solution for aggregate string concatenation"/>
+<meta name="twitter:description" content="I have noticed that most people come up with the following solution to build a string in T-SQL:
+WITH [Numbers] AS (	SELECT TOP(10) [n]	FROM [Nums] )	SELECT @message = COALESCE(@message, &#39;&#39;) &#43; &#39;&#39; &#43; CAST([n] AS nvarchar(2))	FROM [Numbers]; SELECT @message = STUFF(@message, 1, 2, &#39;&#39;); SELECT @message;  Important! Microsoft has no official documentation describing this aggregate concatenation technique that is based on the assignment SELECT syntax. The behavior described here is based on observation alone."/>
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
+		</nav></div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">01</span>
+							<span class="rest">Aug 2011</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">Specialized solution for aggregate string concatenation</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<p>I have noticed that most people come up with the following solution to build a string in T-SQL:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">WITH</span> [Numbers] <span style="color:#000;font-weight:bold">AS</span> (	  
+	<span style="color:#000;font-weight:bold">SELECT</span> TOP(<span style="color:#099">10</span>) [n]	  
+	<span style="color:#000;font-weight:bold">FROM</span> [Nums] 
+)	  
+<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">@</span>message <span style="color:#000;font-weight:bold">=</span> COALESCE(<span style="color:#000;font-weight:bold">@</span>message, <span style="color:#d14">&#39;&#39;</span>) <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#39;&#39;</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000;font-weight:bold">CAST</span>([n] <span style="color:#000;font-weight:bold">AS</span> nvarchar(<span style="color:#099">2</span>))	  
+<span style="color:#000;font-weight:bold">FROM</span> [Numbers];
+
+<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">@</span>message <span style="color:#000;font-weight:bold">=</span> STUFF(<span style="color:#000;font-weight:bold">@</span>message, <span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#d14">&#39;&#39;</span>);
+<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">@</span>message;
+</code></pre></div><blockquote>
+<p>Important! Microsoft has no official documentation describing this aggregate concatenation
+technique that is based on the assignment SELECT syntax. The behavior described here is
+based on observation alone. The current implementation of the ConcatOrders function doesn’t
+incorporate
+an ORDER BY clause and does not guarantee the order of concatenation. According
+to a blog entry by Microsoft’s Conor Cunningham, it seems that SQL Server will respect an
+ORDER BY clause if specified (<a href="http://blogs.msdn.com/sqltips/archive/2005/07/20/441053.aspx)">http://blogs.msdn.com/sqltips/archive/2005/07/20/441053.aspx)</a>.
+Conor is a very credible source, but I should stress that besides
+this blog entry I haven’t found
+any official documentation describing how a multi-row assignment
+SELECT should behave—with
+or without an ORDER BY clause.</p>
+</blockquote>
+<p>With the aid of FOR XML PATH (as mentionned in <a href="http://www.sql.co.il/books/insidetsql2008/">Inside Microsoft SQL Server 2008: T-SQL Programming</a> we can solve this problem using a documented approach:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">WITH</span> [Numbers] <span style="color:#000;font-weight:bold">AS</span> (	  
+	<span style="color:#000;font-weight:bold">SELECT</span> TOP(<span style="color:#099">10</span>) [n]	  
+	<span style="color:#000;font-weight:bold">FROM</span> [Nums] 
+)	  
+<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">@</span>message <span style="color:#000;font-weight:bold">=</span> (<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#d14">&#39;&#39;</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000;font-weight:bold">CAST</span>([n] <span style="color:#000;font-weight:bold">AS</span> nvarchar(<span style="color:#099">2</span>)) <span style="color:#000;font-weight:bold">AS</span> [<span style="color:#0086b3">text</span>()]  
+<span style="color:#000;font-weight:bold">FROM</span> [Numbers]	  
+<span style="color:#000;font-weight:bold">FOR</span> XML PATH(<span style="color:#d14">&#39;&#39;</span>));
+
+<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">@</span>message <span style="color:#000;font-weight:bold">=</span> STUFF(<span style="color:#000;font-weight:bold">@</span>message, <span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#d14">&#39;&#39;</span>);
+<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">@</span>message;
+</code></pre></div>
+			</div>
+
+			<div class="tags">
+				
+					
+						<ul class="flat">
+							
+							<li><a href="../../../../tags/t-sql">t-sql</a></li>
+							
+						</ul>
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-2585435-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<script>feather.replace()</script>
+</body>
+</html>

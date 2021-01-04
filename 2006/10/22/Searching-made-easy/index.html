@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Searching made easy - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta itemprop="name" content="Searching made easy">
+<meta itemprop="description" content="Very often i have to write queries that return all the rows where one or more columns match a specific value. If i add for every column the condition &lsquo;P_COLUMN IS NULL OR COLUMN = P_COLUMN&rsquo; to the WHERE clause i only have to write one query. Here&rsquo;s an example of such a query
+PROCEDURE FIND_TESTS ( P_ID IN TEST.ID%Type, P_TITLE IN TEST.TITLE%Type, P_TYPE_CODE IN TEST.TYPE_CODE%Type, P_CURSOR OUT CURSOR REF ) AS BEGIN OPEN P_CURSOR FOR SELECT ID, TITLE, TYPE_CODE FROM TEST WHERE (P_ID IS NULL OR ID = P_ID) AND (P_TITLE IS NULL OR TITLE LIKE P_TITLE) AND (P_TYPE_CODE IS NULL OR TYPE_CODE LIKE P_TYPE_CODE) ORDER BY ID ASC; END; A couple of examples how you can use this query">
+<meta itemprop="datePublished" content="2006-10-22T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
+<meta itemprop="wordCount" content="216">
+
+
+
+<meta itemprop="keywords" content="SQL," />
+<meta property="og:title" content="Searching made easy" />
+<meta property="og:description" content="Very often i have to write queries that return all the rows where one or more columns match a specific value. If i add for every column the condition &lsquo;P_COLUMN IS NULL OR COLUMN = P_COLUMN&rsquo; to the WHERE clause i only have to write one query. Here&rsquo;s an example of such a query
+PROCEDURE FIND_TESTS ( P_ID IN TEST.ID%Type, P_TITLE IN TEST.TITLE%Type, P_TYPE_CODE IN TEST.TYPE_CODE%Type, P_CURSOR OUT CURSOR REF ) AS BEGIN OPEN P_CURSOR FOR SELECT ID, TITLE, TYPE_CODE FROM TEST WHERE (P_ID IS NULL OR ID = P_ID) AND (P_TITLE IS NULL OR TITLE LIKE P_TITLE) AND (P_TYPE_CODE IS NULL OR TYPE_CODE LIKE P_TYPE_CODE) ORDER BY ID ASC; END; A couple of examples how you can use this query" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timvw.be/2006/10/22/Searching-made-easy/" />
+<meta property="article:published_time" content="2006-10-22T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Searching made easy"/>
+<meta name="twitter:description" content="Very often i have to write queries that return all the rows where one or more columns match a specific value. If i add for every column the condition &lsquo;P_COLUMN IS NULL OR COLUMN = P_COLUMN&rsquo; to the WHERE clause i only have to write one query. Here&rsquo;s an example of such a query
+PROCEDURE FIND_TESTS ( P_ID IN TEST.ID%Type, P_TITLE IN TEST.TITLE%Type, P_TYPE_CODE IN TEST.TYPE_CODE%Type, P_CURSOR OUT CURSOR REF ) AS BEGIN OPEN P_CURSOR FOR SELECT ID, TITLE, TYPE_CODE FROM TEST WHERE (P_ID IS NULL OR ID = P_ID) AND (P_TITLE IS NULL OR TITLE LIKE P_TITLE) AND (P_TYPE_CODE IS NULL OR TYPE_CODE LIKE P_TYPE_CODE) ORDER BY ID ASC; END; A couple of examples how you can use this query"/>
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
+		</nav></div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">22</span>
+							<span class="rest">Oct 2006</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">Searching made easy</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<p>Very often i have to write queries that return all the rows where one or more columns match a specific value. If i add for every column the condition &lsquo;P_COLUMN IS NULL OR COLUMN = P_COLUMN&rsquo; to the WHERE clause i only have to write one query. Here&rsquo;s an example of such a query</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">PROCEDURE</span> FIND_TESTS
+(
+	P_ID <span style="color:#000;font-weight:bold">IN</span> TEST.ID<span style="color:#000;font-weight:bold">%</span><span style="color:#000;font-weight:bold">Type</span>,
+	P_TITLE <span style="color:#000;font-weight:bold">IN</span> TEST.TITLE<span style="color:#000;font-weight:bold">%</span><span style="color:#000;font-weight:bold">Type</span>,
+	P_TYPE_CODE <span style="color:#000;font-weight:bold">IN</span> TEST.TYPE_CODE<span style="color:#000;font-weight:bold">%</span><span style="color:#000;font-weight:bold">Type</span>,
+	P_CURSOR <span style="color:#000;font-weight:bold">OUT</span> <span style="color:#000;font-weight:bold">CURSOR</span> <span style="color:#000;font-weight:bold">REF</span>
+)
+
+<span style="color:#000;font-weight:bold">AS</span>
+
+<span style="color:#000;font-weight:bold">BEGIN</span>
+
+<span style="color:#000;font-weight:bold">OPEN</span>
+P_CURSOR <span style="color:#000;font-weight:bold">FOR</span>
+<span style="color:#000;font-weight:bold">SELECT</span>
+ID,
+TITLE,
+TYPE_CODE
+<span style="color:#000;font-weight:bold">FROM</span>
+TEST
+<span style="color:#000;font-weight:bold">WHERE</span>
+(P_ID <span style="color:#000;font-weight:bold">IS</span> <span style="color:#000;font-weight:bold">NULL</span> <span style="color:#000;font-weight:bold">OR</span> ID <span style="color:#000;font-weight:bold">=</span> P_ID)
+<span style="color:#000;font-weight:bold">AND</span> (P_TITLE <span style="color:#000;font-weight:bold">IS</span> <span style="color:#000;font-weight:bold">NULL</span> <span style="color:#000;font-weight:bold">OR</span> TITLE <span style="color:#000;font-weight:bold">LIKE</span> P_TITLE)
+<span style="color:#000;font-weight:bold">AND</span> (P_TYPE_CODE <span style="color:#000;font-weight:bold">IS</span> <span style="color:#000;font-weight:bold">NULL</span> <span style="color:#000;font-weight:bold">OR</span> TYPE_CODE <span style="color:#000;font-weight:bold">LIKE</span> P_TYPE_CODE)
+<span style="color:#000;font-weight:bold">ORDER</span> <span style="color:#000;font-weight:bold">BY</span>
+ID <span style="color:#000;font-weight:bold">ASC</span>;
+<span style="color:#000;font-weight:bold">END</span>;
+</code></pre></div><p>A couple of examples how you can use this query</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">using</span> (OracleConnection conn = <span style="color:#000;font-weight:bold">new</span> OracleConnection(<span style="color:#d14">&#34;User Id=u;password=p;Data Source=ORCL&#34;</span>))
+{
+	conn.Open();
+
+	OracleCommand command = conn.CreateCommand();
+	command.CommandText = <span style="color:#d14">&#34;TIMVW.MYPACKAGE.FIND_TESTS&#34;</span>;
+	command.CommandType = CommandType.StoredProcedure;
+
+	<span style="color:#998;font-style:italic">// select all tests of type_code &#34;book&#34; that have a title that starts with &#34;Myst&#34;
+</span><span style="color:#998;font-style:italic"></span>	command.Parameters.Add(<span style="color:#d14">&#34;P_ID&#34;</span>, OracleDbType.Int32, <span style="color:#099">10</span>, DBNull.Value, ParameterDirection.Input);
+	command.Parameters.Add(<span style="color:#d14">&#34;P_TITLE&#34;</span>, OracleDbType.Varchar2, <span style="color:#099">20</span>, <span style="color:#d14">&#34;Myst%&#34;</span>, ParameterDirection.Input);
+	command.Parameters.Add(<span style="color:#d14">&#34;P\_TYPE\_CODE&#34;</span>, OracleDbType.Varchar2, <span style="color:#099">20</span>, <span style="color:#d14">&#34;book&#34;</span>, ParameterDirection.Input);
+	command.Parameters.Add(<span style="color:#d14">&#34;P_CURSOR&#34;</span>, OracleDbType.RefCursor, ParameterDirection.Output);
+
+	<span style="color:#998;font-style:italic">// select the test with id 1
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">//command.Parameters.Add(&#34;P_ID&#34;, OracleDbType.Int32, 10, 1, ParameterDirection.Input);
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">//command.Parameters.Add(&#34;P_TITLE&#34;, OracleDbType.Varchar2, 20, DBNull.Value, ParameterDirection.Input);
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">//command.Parameters.Add(&#34;P\_TYPE\_CODE&#34;, OracleDbType.Varchar2, 20, DBNull.Value, ParameterDirection.Input);
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">//command.Parameters.Add(&#34;P_CURSOR&#34;, OracleDbType.RefCursor, ParameterDirection.Output);
+</span><span style="color:#998;font-style:italic"></span>
+	OracleDataReader reader = command.ExecuteReader();
+	<span style="color:#000;font-weight:bold">while</span> (reader.Read())
+	{
+		Console.WriteLine(<span style="color:#d14">&#34;test 	}
+</span><span style="color:#d14"></span>
+	Console.Write(<span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
+	Console.ReadKey();
+}
+</code></pre></div>
+			</div>
+
+			<div class="tags">
+				
+					
+						<ul class="flat">
+							
+							<li><a href="../../../../tags/SQL">SQL</a></li>
+							
+						</ul>
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-2585435-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<script>feather.replace()</script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Another method i wrote once too many - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta itemprop="name" content="Another method i wrote once too many">
+<meta itemprop="description" content="Virtually every Silverlight application will fetch resources at one point or another. In case you&rsquo;re using the WebClient you have probably written the following in your xxxCompletedEventHandler
+if (e.Error != null &amp;&amp; !e.Cancelled) { // do something with the result } Anyway, i don&rsquo;t like repetition so i captured the conditions in a method:
+public static class ExtensionMethods { public static bool HasResult(this AsyncCompletedEventArgs e) { if (e.Error != null) return false; if (e.">
+<meta itemprop="datePublished" content="2009-11-01T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
+<meta itemprop="wordCount" content="121">
+
+
+
+<meta itemprop="keywords" content="CSharp," />
+<meta property="og:title" content="Another method i wrote once too many" />
+<meta property="og:description" content="Virtually every Silverlight application will fetch resources at one point or another. In case you&rsquo;re using the WebClient you have probably written the following in your xxxCompletedEventHandler
+if (e.Error != null &amp;&amp; !e.Cancelled) { // do something with the result } Anyway, i don&rsquo;t like repetition so i captured the conditions in a method:
+public static class ExtensionMethods { public static bool HasResult(this AsyncCompletedEventArgs e) { if (e.Error != null) return false; if (e." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timvw.be/2009/11/01/Another-method-i-wrote-once-too-many/" />
+<meta property="article:published_time" content="2009-11-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Another method i wrote once too many"/>
+<meta name="twitter:description" content="Virtually every Silverlight application will fetch resources at one point or another. In case you&rsquo;re using the WebClient you have probably written the following in your xxxCompletedEventHandler
+if (e.Error != null &amp;&amp; !e.Cancelled) { // do something with the result } Anyway, i don&rsquo;t like repetition so i captured the conditions in a method:
+public static class ExtensionMethods { public static bool HasResult(this AsyncCompletedEventArgs e) { if (e.Error != null) return false; if (e."/>
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
+		</nav></div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">01</span>
+							<span class="rest">Nov 2009</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">Another method i wrote once too many</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<p>Virtually every Silverlight application will fetch resources at one point or another. In case you&rsquo;re using the <a href="http://msdn.microsoft.com/en-us/library/system.net.webclient(VS.95).aspx">WebClient</a> you have probably written the following in your xxxCompletedEventHandler</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">if</span> (e.Error != <span style="color:#000;font-weight:bold">null</span> &amp;&amp; !e.Cancelled)
+{
+	<span style="color:#998;font-style:italic">// do something with the result
+</span><span style="color:#998;font-style:italic"></span>}
+</code></pre></div><p>Anyway, i don&rsquo;t like repetition so i captured the conditions in a method:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ExtensionMethods</span>
+{
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> HasResult(<span style="color:#000;font-weight:bold">this</span> AsyncCompletedEventArgs e)
+	{
+		<span style="color:#000;font-weight:bold">if</span> (e.Error != <span style="color:#000;font-weight:bold">null</span>) <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>;
+		<span style="color:#000;font-weight:bold">if</span> (e.Cancelled) <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>;
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>;
+	}
+}
+</code></pre></div><p>And now we can write our code as:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">if</span> (e.HasResult())
+{
+	<span style="color:#998;font-style:italic">// do something with the result
+</span><span style="color:#998;font-style:italic"></span>}
+</code></pre></div><p>Apart from saving a couple of keystrokes this also allows us to easily add another condition to determine the success of the operation.</p>
+
+			</div>
+
+			<div class="tags">
+				
+					
+						<ul class="flat">
+							
+							<li><a href="../../../../tags/CSharp">CSharp</a></li>
+							
+						</ul>
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-2585435-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<script>feather.replace()</script>
+</body>
+</html>
