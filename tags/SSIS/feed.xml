@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>SSIS on Tim Van Wassenhove</title>
-    <link>https://timvw.be/tags/SSIS/</link>
+    <link>/tags/SSIS/</link>
     <description>Recent content in SSIS on Tim Van Wassenhove</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 15 Jul 2011 00:00:00 +0000</lastBuildDate><atom:link href="https://timvw.be/tags/SSIS/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 15 Jul 2011 00:00:00 +0000</lastBuildDate><atom:link href="/tags/SSIS/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Launch DtExec from PowerShell</title>
-      <link>https://timvw.be/post/2011-07-15-launch-dtexec-from-powershell/</link>
+      <link>/post/2011-07-15-launch-dtexec-from-powershell/</link>
       <pubDate>Fri, 15 Jul 2011 00:00:00 +0000</pubDate>
       
-      <guid>https://timvw.be/post/2011-07-15-launch-dtexec-from-powershell/</guid>
+      <guid>/post/2011-07-15-launch-dtexec-from-powershell/</guid>
       <description>Running an SSIS package from PowerShell (using DTExec) can be as simple as:
 RunPackage -File &amp;#39;C:\test.dtsx&amp;#39; -DatabaseHost &amp;#39;.&amp;#39; -DatabaseName &amp;#39;TEST&amp;#39;; Here are the functions that make it this simple:
 function GetDtExecPath { $DtsPath = (Get-ItemProperty &amp;#39;HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup&amp;#39;).SQLPath; $DtExecPath = (Resolve-Path &amp;#34;$DtsPath\Binn\DTExec.exe&amp;#34;); $DtExecPath; } function GetDtExecPropertyPathValue() { param( $PropertyPath = &amp;#39;&amp;#39;, $Value = &amp;#39;&amp;#39;; ); &amp;#34;$PropertyPath;\`&amp;#34;\`&amp;#34;$Value\`&amp;#34;\`&amp;#34;&amp;#34;; } function RunPackage { param( $DtExecPath = (GetDtExecPath), $File = &amp;#39;test.dtsx&amp;#39; ); $Params = &amp;#34;/FILE $File&amp;#34;; for($i = 0; $i -lt $Args.</description>
@@ -20,10 +20,10 @@ function GetDtExecPath { $DtsPath = (Get-ItemProperty &amp;#39;HKLM:\SOFTWARE\Mi
     
     <item>
       <title>Set variables in SSIS package at runtime</title>
-      <link>https://timvw.be/post/2011-05-19-set-variables-in-ssis-package-at-runtime/</link>
+      <link>/post/2011-05-19-set-variables-in-ssis-package-at-runtime/</link>
       <pubDate>Thu, 19 May 2011 00:00:00 +0000</pubDate>
       
-      <guid>https://timvw.be/post/2011-05-19-set-variables-in-ssis-package-at-runtime/</guid>
+      <guid>/post/2011-05-19-set-variables-in-ssis-package-at-runtime/</guid>
       <description>The documentation on dtexec Utility (SSIS Tool) says the following:
  /Set propertyPath;value
 (Optional). Overrides the configuration of a variable, property, container, log provider, Foreach enumerator, or connection within a package. When this option is used, /Set changes the propertyPath argument to the value specified. Multiple /Set options can be specified.
@@ -32,30 +32,30 @@ function GetDtExecPath { $DtsPath = (Get-ItemProperty &amp;#39;HKLM:\SOFTWARE\Mi
     
     <item>
       <title>Some PowerShell functions to work with SSIS packages</title>
-      <link>https://timvw.be/post/2011-03-12-some-powershell-functions-to-work-with-ssis-packages/</link>
+      <link>/post/2011-03-12-some-powershell-functions-to-work-with-ssis-packages/</link>
       <pubDate>Sat, 12 Mar 2011 00:00:00 +0000</pubDate>
       
-      <guid>https://timvw.be/post/2011-03-12-some-powershell-functions-to-work-with-ssis-packages/</guid>
+      <guid>/post/2011-03-12-some-powershell-functions-to-work-with-ssis-packages/</guid>
       <description>Here are some powershell functions (using XPath) that come in handy when working with SSIS packages:
 function FindConnectionManagerNames {	param($fileName) $xml = [xml] (Get-Content $fileName);	$ns = New-Object Xml.XmlNamespaceManager $xml.NameTable;	$ns.AddNamespace(&amp;#34;DTS&amp;#34;, &amp;#34;www.microsoft.com/SqlServer/Dts&amp;#34;);	$xml.SelectNodes(&amp;#34;//DTS:ConnectionManager/DTS:Property[@DTS:Name=&amp;#39;ObjectName&amp;#39;]&amp;#34;, $ns) | Foreach { $_.&amp;#34;#text&amp;#34;; } } function GetConnectionManagerConnectionString { param($fileName, $connectionManagerName) $xml = [xml] (Get-Content $fileName); $ns = New-Object Xml.XmlNamespaceManager $xml.NameTable; $ns.AddNamespace(&amp;#34;DTS&amp;#34;, &amp;#34;www.microsoft.com/SqlServer/Dts&amp;#34;); $path = &amp;#34;//DTS:ConnectionManager[DTS:Property=&amp;#39;$connectionManagerName&amp;#39;]/DTS:ObjectData/DTS:ConnectionManager/DTS:Property[@DTS:Name=&amp;#39;ConnectionString&amp;#39;]&amp;#34; $xml.SelectSingleNode($path, $ns).&amp;#34;#text&amp;#34;; } function FindVariables {	param($fileName) $xml = [xml] (Get-Content $fileName); $ns = New-Object Xml.</description>
     </item>
     
     <item>
       <title>Get/SetVariable value from SSIS VariableDispenser</title>
-      <link>https://timvw.be/post/2011-03-08-getsetvariable-value-from-ssis-variabledispenser/</link>
+      <link>/post/2011-03-08-getsetvariable-value-from-ssis-variabledispenser/</link>
       <pubDate>Tue, 08 Mar 2011 00:00:00 +0000</pubDate>
       
-      <guid>https://timvw.be/post/2011-03-08-getsetvariable-value-from-ssis-variabledispenser/</guid>
+      <guid>/post/2011-03-08-getsetvariable-value-from-ssis-variabledispenser/</guid>
       <description>Here is some code that allows you to Get/Set a variable (object) value from/on the VariableDispenser in an SSIS package:
 public static T GetVariable&amp;lt;T&amp;gt;(this VariableDispenser variableDispenser, string scopedVariableName) { Variables variables = null; try { variableDispenser.LockForRead(scopedVariableName); variableDispenser.GetVariables(ref variables); return (T)variables[0].Value; } finally { if (variables != null) variables.Unlock(); } } public static void SetVariable&amp;lt;T&amp;gt;(this VariableDispenser variableDispenser, string scopedVariableName, T value) { Variables variables = null; try { variableDispenser.LockForWrite(scopedVariableName); variableDispenser.GetVariables(ref variables); variables[0].</description>
     </item>
     
     <item>
       <title>Consume custom SSIS tasks without GAC installation</title>
-      <link>https://timvw.be/post/2011-03-05-consume-custom-ssis-tasks-without-gac-installation/</link>
+      <link>/post/2011-03-05-consume-custom-ssis-tasks-without-gac-installation/</link>
       <pubDate>Sat, 05 Mar 2011 00:00:00 +0000</pubDate>
       
-      <guid>https://timvw.be/post/2011-03-05-consume-custom-ssis-tasks-without-gac-installation/</guid>
+      <guid>/post/2011-03-05-consume-custom-ssis-tasks-without-gac-installation/</guid>
       <description>For a while i thought that in order to consume a custom SSIS task you had to install the assembly in the GAC. Now i know better 😉
 For the designer (BIDS) you have to copy the files to
  C:\Program Files\Microsoft SQL Server\100\DTS\Tasks C:\Program Files\Microsoft SQL Server\100\DTS\PipelineComponents  For the runtime (BIDS) you have to copy the files to
@@ -64,10 +64,10 @@ For the designer (BIDS) you have to copy the files to
     
     <item>
       <title>Update ConfigurationStrings in SSIS package with PowerShell</title>
-      <link>https://timvw.be/post/2010-11-11-update-configurationstrings-in-ssis-package-with-powershell/</link>
+      <link>/post/2010-11-11-update-configurationstrings-in-ssis-package-with-powershell/</link>
       <pubDate>Thu, 11 Nov 2010 00:00:00 +0000</pubDate>
       
-      <guid>https://timvw.be/post/2010-11-11-update-configurationstrings-in-ssis-package-with-powershell/</guid>
+      <guid>/post/2010-11-11-update-configurationstrings-in-ssis-package-with-powershell/</guid>
       <description>Here are some functions that allow you to update ConfigurationStrings in a SSIS package (dtsx) using PowerShell:
 function UpdateConfigurationStrings($file) { $xml = [xml] (Get-Content $file); $ns = New-Object Xml.XmlNamespaceManager $xml.NameTable; $ns.AddNamespace(&amp;#34;DTS&amp;#34;, &amp;#34;www.microsoft.com/SqlServer/Dts&amp;#34;); UpdateConfigurationNodes $xml $ns; Set-Content $file $xml.OuterXml; } function UpdateConfigurationNodes($xml, $ns) { $selectConfigurationNodes = &amp;#34;//DTS:Configuration&amp;#34;; $xml.SelectNodes($selectConfigurationNodes, $ns) | foreach { UpdateConfigurationNode $_ $ns; }; } function UpdateConfigurationNode($configurationNode, $ns) { $selectConfigurationString = &amp;#34;./DTS:Property[@DTS:Name=&amp;#39;ConfigurationString&amp;#39;]&amp;#34;; $configurationStringNode = $configurationNode.SelectSingleNode($selectConfigurationString, $ns); $oldConfigurationStringValue = $configurationStringNode.&amp;#39;#text&amp;#39;; $newConfigurationStringValue = GetNewConfigurationStringValue $oldConfigurationStringValue; $configurationStringNode.</description>
     </item>
