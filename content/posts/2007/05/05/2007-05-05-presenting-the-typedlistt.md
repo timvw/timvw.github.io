@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Presenting the TypedList<T>
-aliases:
- - /2007/05/05/presenting-the-typedlistt/
- - /2007/05/05/presenting-the-typedlistt.html
 ---
 A while ago i presented the [SortableBindingList](http://www.timvw.be/presenting-the-sortablebindinglistt/). One of the nice features you get with DataSets is that you can use relations to navigate through the data. Business Objects don't give you this functionality by default. Today i implemented a BindingList that supports navigation through relations. First i'll present you the Business Objects
 

@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=425
 tags:
 - CSharp
 title: Presenting HMAC-Based OTP and Time-Based OTP
-aliases:
- - /2008/08/22/presenting-hmac-based-otp-and-time-based-otp/
- - /2008/08/22/presenting-hmac-based-otp-and-time-based-otp.html
 ---
 I could not find a .NET implementation of the HMAC-Based One Time Password (HOTP) algorithm as specified in [RFC4226](ftp://ftp.rfc-editor.org/in-notes/rfc4226.txt) so i decided to write one myself. Because the [Time-Based OTP (TOTP)](http://www.ietf.org/internet-drafts/draft-mraihi-totp-timebased-00.txt) algorithm is an application of HOTP, more specifically: TOTP = HOTP(K, T) with T = (Current Unix time -- T0) / Timestep, i have implemented that algorithm too.
 

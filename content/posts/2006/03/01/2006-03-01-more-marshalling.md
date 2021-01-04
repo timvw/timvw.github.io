@@ -3,9 +3,6 @@ date: "2006-03-01T00:00:00Z"
 tags:
 - C++
 title: More marshalling...
-aliases:
- - /2006/03/01/more-marshalling/
- - /2006/03/01/more-marshalling.html
 ---
 This snippet uses [GetPrivateProfileString](http://windowssdk.msdn.microsoft.com/library/default.asp?url=/library/en-us/sysinfo/base/getprivateprofilestring.asp) that is available in kernel32.dll. Apparently microsoft has decided to remove this useful function from the dotnet api.
 

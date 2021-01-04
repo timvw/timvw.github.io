@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=227
 tags:
 - Patterns
 title: Presenting a generic EffectivityManager
-aliases:
- - /2008/05/19/presenting-a-generic-effectivitymanager/
- - /2008/05/19/presenting-a-generic-effectivitymanager.html
 ---
 I've already presented a [Generic Effectivity](http://www.timvw.be/presenting-a-generic-effectivity/). Offcourse, managing all these effectivities (versions of data) can be handled in a generic way too. A bit of experience mixed with [Patterns for things that change with time](http://martinfowler.com/ap2/timeNarrative.html) allowed me to come up with the following interface
 

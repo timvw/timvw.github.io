@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=467
 tags:
 - CSharp
 title: Presenting EventHandlerHelper
-aliases:
- - /2008/09/01/presenting-eventhandlerhelper/
- - /2008/09/01/presenting-eventhandlerhelper.html
 ---
 Being bored of writing code to raise an event, i have added an EventHandlerHelper to [BeTimvwFramework](http://www.codeplex.com/BeTimvwFramework).
 

@@ -3,9 +3,6 @@ date: "2006-04-02T00:00:00Z"
 tags:
 - PHP
 title: Allow a form to be posted only once
-aliases:
- - /2006/04/02/allow-a-form-to-be-posted-only-once/
- - /2006/04/02/allow-a-form-to-be-posted-only-once.html
 ---
 People can fill in a form and submit it. Then they can hit their back button, and choose to submit it again. Usually the second time this form is being posted, the values in that form aren't valid anymore and thus corrupt the database.
   

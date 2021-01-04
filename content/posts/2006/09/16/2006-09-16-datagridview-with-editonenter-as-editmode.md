@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: DataGridView with EditOnEnter as EditMode
-aliases:
- - /2006/09/16/datagridview-with-editonenter-as-editmode/
- - /2006/09/16/datagridview-with-editonenter-as-editmode.html
 ---
 Earlier this week i found that when a [DataGridView](http://msdn2.microsoft.com/en-us/library/system.windows.forms.datagridview.aspx) has it's [EditMode](http://msdn2.microsoft.com/en-us/library/system.windows.forms.datagridview.editmode.aspx) property set to [EditOnEnter](http://msdn2.microsoft.com/en-us/library/system.windows.forms.datagridvieweditmode.aspx) the user cannot select an entire row by clicking on the row header. This prevents the user from being able to delete a row. A couple of websearches later i found a [bugreport](http://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=98504) but the proposed workarounds didn't work for me 🙁 Here is a workaround that does work for me
 

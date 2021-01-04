@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1076
 tags:
 - Information Technology
 title: Adding items to SendTo folder
-aliases:
- - /2009/06/07/adding-items-to-sendto-folder/
- - /2009/06/07/adding-items-to-sendto-folder.html
 ---
 When i tried to access the SendTo folder i got a message box saying: "Access is denied".
 

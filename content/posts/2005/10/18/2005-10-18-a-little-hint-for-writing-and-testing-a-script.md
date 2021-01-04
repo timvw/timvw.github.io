@@ -4,9 +4,6 @@ tags:
 - Free Software
 - Vim
 title: a little hint for writing and testing a script
-aliases:
- - /2005/10/18/a-little-hint-for-writing-and-testing-a-script/
- - /2005/10/18/a-little-hint-for-writing-and-testing-a-script.html
 ---
 I noticed that most people think Vim sucks and they constantly perform the following keystrokes
 

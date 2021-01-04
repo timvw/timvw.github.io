@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=223
 tags:
 - Free Software
 title: Build OpenSSL with Visual Studio 2008
-aliases:
- - /2008/04/21/build-openssl-with-visual-studio-2008/
- - /2008/04/21/build-openssl-with-visual-studio-2008.html
 ---
 These days building [OpenSSL](http://www.openssl.org) with Visual Studio 2008 has become really easy. I don't like to edit .cnf files so i decided to patch the code a little so that the default configuration file becomes openssl.config
 

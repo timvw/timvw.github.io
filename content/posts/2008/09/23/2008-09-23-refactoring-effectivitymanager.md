@@ -5,9 +5,6 @@ tags:
 - CSharp
 - Patterns
 title: Refactoring EffectivityManager
-aliases:
- - /2008/09/23/refactoring-effectivitymanager/
- - /2008/09/23/refactoring-effectivitymanager.html
 ---
 A while ago i presented the [EffectivityManager](http://www.timvw.be/presenting-a-generic-effectivitymanager/). Having used this class for a while i have decided to rename it to Temporal<T>. The implementation of IList<T> is not required anymore because a user is typically only interested in a specific effectivity, not the evolution of the effectivities.
 

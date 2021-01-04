@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=4
 tags:
 - CSharp
 title: From UnixTime to DateTime and back
-aliases:
- - /2006/10/04/from-unixtime-to-datetime-and-back/
- - /2006/10/04/from-unixtime-to-datetime-and-back.html
 ---
 Here are a couple of functions that allow you to convert from [UnixTime](http://en.wikipedia.org/wiki/Unixtime) to [DateTime](http://msdn2.microsoft.com/en-us/library/system.datetime.aspx) and back
 

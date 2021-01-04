@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1702
 tags:
 - CSharp
 title: Exploring System.Interactive
-aliases:
- - /2010/02/18/exploring-system-interactive/
- - /2010/02/18/exploring-system-interactive.html
 ---
 A couple of weeks ago i was working on an application that would transfer data through a couple of components as a List<object>. In essence, all we were doing over and over again was the following:
 

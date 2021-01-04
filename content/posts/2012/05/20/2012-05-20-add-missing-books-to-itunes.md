@@ -6,9 +6,6 @@ tags:
 - git
 - iTunes
 title: Add missing books to iTunes
-aliases:
- - /2012/05/20/add-missing-books-to-itunes/
- - /2012/05/20/add-missing-books-to-itunes.html
 ---
 These days i read most books on my ipad. The problem is that iTunes does not seem to add pdf files when i choose 'Add Folder' to the library. So here is a small application that adds them one by one (way too lazy/unmotivated to do this by hand).
 

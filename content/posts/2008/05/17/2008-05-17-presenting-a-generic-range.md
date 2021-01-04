@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=225
 tags:
 - Patterns
 title: Presenting a generic Range
-aliases:
- - /2008/05/17/presenting-a-generic-range/
- - /2008/05/17/presenting-a-generic-range.html
 ---
 Quite often i'm writing code that compares one value against a range of other values. Most implementations compare the value against the boundaries (smallest and largest in the collection of other values). Having written this sort of code way too much i've decided to generalize the problem and distill an interface
 

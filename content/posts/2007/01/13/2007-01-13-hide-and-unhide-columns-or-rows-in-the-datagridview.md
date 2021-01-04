@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Hide and unhide columns (or rows) in the DataGridView
-aliases:
- - /2007/01/13/hide-and-unhide-columns-or-rows-in-the-datagridview/
- - /2007/01/13/hide-and-unhide-columns-or-rows-in-the-datagridview.html
 ---
 Once in a while i see the following question
 

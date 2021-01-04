@@ -3,9 +3,6 @@ date: "2007-08-11T00:00:00Z"
 tags:
 - CSharp
 title: List string resources
-aliases:
- - /2007/08/11/list-string-resources/
- - /2007/08/11/list-string-resources.html
 ---
 Earlier today someone asked how he could list the string resources (name, value and comment) in a Resource file. Here is some code that generates a nice list of the information
 

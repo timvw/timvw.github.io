@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=825
 tags:
 - Book reviews
 title: Non-Designer's Design Book
-aliases:
- - /2009/02/13/non-designers-design-book/
- - /2009/02/13/non-designers-design-book.html
 ---
 A couple of weeks ago the [Non-Designer's Design Book](http://www.amazon.com/Non-Designers-Design-Book-3rd-Designers/dp/0321534042) was mentionned in some podcast i was listening to and i decided to give it a read. The author has stuffed the color printed book with examples describing the four basic design principles:
 

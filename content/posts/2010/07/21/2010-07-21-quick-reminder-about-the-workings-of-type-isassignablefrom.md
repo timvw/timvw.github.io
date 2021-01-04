@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1833
 tags:
 - CSharp
 title: Quick reminder about the workings of Type.IsAssignableFrom
-aliases:
- - /2010/07/21/quick-reminder-about-the-workings-of-type-isassignablefrom/
- - /2010/07/21/quick-reminder-about-the-workings-of-type-isassignablefrom.html
 ---
 Here is a quick reminder about the workings of [Type.IsAssignableFrom](http://msdn.microsoft.com/en-us/library/system.type.isassignablefrom.aspx)
 

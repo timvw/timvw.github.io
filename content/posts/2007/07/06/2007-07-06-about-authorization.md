@@ -3,9 +3,6 @@ date: "2007-07-06T00:00:00Z"
 tags:
 - CSharp
 title: About Authorization
-aliases:
- - /2007/07/06/about-authorization/
- - /2007/07/06/about-authorization.html
 ---
 Yesterday i visited an evening session about authentication and authorization at [Compuware](http://www.compuware.be) (Yes, i've got interesting collegues that are willing to share their knowledige). Anyway, i left the meeting with a couple of questions
 

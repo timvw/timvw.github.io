@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Exploring DataGridViewComboBoxColumn databinding (part2)
-aliases:
- - /2007/05/03/exploring-datagridviewcomboboxcolumn-databinding-part2/
- - /2007/05/03/exploring-datagridviewcomboboxcolumn-databinding-part2.html
 ---
 A while ago i wrote about [Exploring DataGridViewComboBoxColumn databinding](http://www.timvw.be/exploring-datagridviewcomboboxcolumn-databinding/) using Business Objects. Some people asked me to give an example using DataSets...
 

@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=2186
 tags:
 - C
 title: TryGetResult
-aliases:
- - /2011/08/01/trygetresult/
- - /2011/08/01/trygetresult.html
 ---
 I think this entry has been in the pipeline for a couple of years now and today i have decided to finally post it 😉 I got frustrated with the annoying out parameter in TryGet methods so i decided to use a different signature using TryGetResult:
 

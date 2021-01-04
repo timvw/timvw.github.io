@@ -3,9 +3,6 @@ date: "2008-03-05T00:00:00Z"
 tags:
 - CSharp
 title: Find the members of an AD group
-aliases:
- - /2008/03/05/find-the-members-of-an-ad-group/
- - /2008/03/05/find-the-members-of-an-ad-group.html
 ---
 Because i always seem to forget about the syntax of LDAP Search Filters ([RFC 2254: The String Representation of LDAP Search Filters](http://www.ietf.org/rfc/rfc2254.txt) and [Creating a Query Filter](http://msdn2.microsoft.com/en-us/library/ms675768(VS.85).aspx)) i'm going to post a basic demo of [DirectorySearcher](http://msdn2.microsoft.com/en-us/library/system.directoryservices.directorysearcher.aspx) that returns the members that are part of a given AD group
 

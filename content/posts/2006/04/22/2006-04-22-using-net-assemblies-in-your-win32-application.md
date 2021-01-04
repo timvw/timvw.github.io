@@ -3,9 +3,6 @@ date: "2006-04-22T00:00:00Z"
 tags:
 - C++
 title: Using .Net assemblies in your WIN32 application
-aliases:
- - /2006/04/22/using-net-assemblies-in-your-win32-application/
- - /2006/04/22/using-net-assemblies-in-your-win32-application.html
 ---
 Imagine that you've got an extensive codebase using WIN32/MFC and don't want to give that up but on the other hand you'd like to take advantage of DOTNET classes then here's a simple solution: First we write an Interface and an Implementation with C# as following
 

@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=371
 tags:
 - CSharp
 title: Presenting UriHelper
-aliases:
- - /2008/08/09/presenting-urihelper/
- - /2008/08/09/presenting-urihelper.html
 ---
 Adding parameters to an [Uri](http://msdn.microsoft.com/en-us/library/system.uri.aspx) is an example where my [NameValueCollectionHelper](http://www.timvw.be/presenting-namevaluecollectionhelper/) comes in handy. Although [UriTemplate](http://msdn.microsoft.com/en-us/library/system.uritemplate.aspx) allows us to bind parameters, it doesn't really support add/remove/fail on duplicate parameters. Here is an example
 

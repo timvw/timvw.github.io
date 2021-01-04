@@ -3,9 +3,6 @@ date: "2006-10-22T00:00:00Z"
 tags:
 - SQL
 title: Searching made easy
-aliases:
- - /2006/10/22/searching-made-easy/
- - /2006/10/22/searching-made-easy.html
 ---
 Very often i have to write queries that return all the rows where one or more columns match a specific value. If i add for every column the condition 'P\_COLUMN IS NULL OR COLUMN = P\_COLUMN' to the WHERE clause i only have to write one query. Here's an example of such a query
 

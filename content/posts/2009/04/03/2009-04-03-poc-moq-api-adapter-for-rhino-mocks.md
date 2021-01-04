@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=960
 tags:
 - CSharp
 title: 'POC: Moq API adapter for Rhino Mocks'
-aliases:
- - /2009/04/03/poc-moq-api-adapter-for-rhino-mocks/
- - /2009/04/03/poc-moq-api-adapter-for-rhino-mocks.html
 ---
 One of my main concerns with third party software, and software in general, is maintainability. The Rhino Mocks project has been out there for a couple of years now and i'm pretty confident that it won't go away anytime soon. The Moq project is a lot younger and will have to proove that it can stay alive...
 

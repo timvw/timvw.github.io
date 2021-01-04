@@ -2,9 +2,6 @@
 date: "2011-05-09T00:00:00Z"
 guid: http://www.timvw.be/?p=2132
 title: How to handle (short) bursts of work
-aliases:
- - /2011/05/09/how-to-handle-short-bursts-of-work/
- - /2011/05/09/how-to-handle-short-bursts-of-work.html
 ---
 Here is a summary of how businesses around me handle short bursts of work:
 

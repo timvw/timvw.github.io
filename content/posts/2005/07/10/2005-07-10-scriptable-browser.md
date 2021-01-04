@@ -3,9 +3,6 @@ date: "2005-07-10T00:00:00Z"
 tags:
 - PHP
 title: Scriptable browser
-aliases:
- - /2005/07/10/scriptable-browser/
- - /2005/07/10/scriptable-browser.html
 ---
 Last couple of days i have been trying out [Simple Test](http://www.lastcraft.com/simple_test.php). It allowed me stop stop [echo](http://www.php.net/echo) and [print_r](http://www.php.net/print_r) variables all over the place. The package also has a [Scriptable Browser](http://www.lastcraft.com/browser_documentation.php).
 

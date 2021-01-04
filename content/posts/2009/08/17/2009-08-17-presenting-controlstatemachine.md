@@ -5,9 +5,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Presenting ControlStateMachine
-aliases:
- - /2009/08/17/presenting-controlstatemachine/
- - /2009/08/17/presenting-controlstatemachine.html
 ---
 Here is a situation we are all familiar with: A form that only displays a certain set of controls depending on the mode or state of the application. Let me start with an example: At design time there are three buttons
 

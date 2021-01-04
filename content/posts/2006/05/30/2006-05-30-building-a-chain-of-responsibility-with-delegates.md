@@ -3,9 +3,6 @@ date: "2006-05-30T00:00:00Z"
 tags:
 - CSharp
 title: Building a chain of responsibility with delegates
-aliases:
- - /2006/05/30/building-a-chain-of-responsibility-with-delegates/
- - /2006/05/30/building-a-chain-of-responsibility-with-delegates.html
 ---
 Imagine that you have to write a function that verifies if there is a license available for a given clientID. Suppose that there are a couple of possibilities to find an available license. Your code would probably look like the following
 

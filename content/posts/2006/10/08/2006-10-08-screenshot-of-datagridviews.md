@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Screenshot of DataGridViews
-aliases:
- - /2006/10/08/screenshot-of-datagridviews/
- - /2006/10/08/screenshot-of-datagridviews.html
 ---
 The problem with a regular screenshot is that you only get to see a part of the DataGridViews. Here's an example of a typical form
 

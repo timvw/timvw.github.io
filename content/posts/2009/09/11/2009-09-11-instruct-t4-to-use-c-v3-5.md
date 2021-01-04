@@ -5,9 +5,6 @@ tags:
 - CSharp
 - Visual Basic
 title: Instruct T4 to use C# v3.5
-aliases:
- - /2009/09/11/instruct-t4-to-use-c-v3-5/
- - /2009/09/11/instruct-t4-to-use-c-v3-5.html
 ---
 Consider this simple T4 template:
 

@@ -3,9 +3,6 @@ date: "2005-11-04T00:00:00Z"
 tags:
 - Free Software
 title: Problem with Base and MySQL support
-aliases:
- - /2005/11/04/problem-with-base-and-mysql-support/
- - /2005/11/04/problem-with-base-and-mysql-support.html
 ---
 Today i decided to try out the new [OpenOffice.org](http://www.openoffice.org/) release. Creating a presentation with [Impress](http://www.openoffice.org/product/impress.html) went pretty smooth. After that i wanted to check out [Base](http://www.openoffice.org/product/base.html) with a MySQL backend but i got an error message that the JDBC driver could not be loaded. 
 

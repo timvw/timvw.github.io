@@ -3,9 +3,6 @@ date: "2007-03-24T00:00:00Z"
 tags:
 - SQL
 title: Simulate AutoIncrement
-aliases:
- - /2007/03/24/simulate-autoincrement/
- - /2007/03/24/simulate-autoincrement.html
 ---
 Earlier today someone asked the following
 

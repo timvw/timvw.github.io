@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1301
 tags:
 - WPF
 title: About Expression Blend
-aliases:
- - /2009/10/05/about-expression-blend/
- - /2009/10/05/about-expression-blend.html
 ---
 At first i developed most WPF interfaces by writing XAML in the code view of Visual Studio. Those days are gone 😉 These days i find it a lot easier to use Expression Blend (eg: paths, animations and timelines) but i reallly don't like it that Blend adds design-time information to the XAML that is intended to be used in production code. A tool should not add clutter to your code!
 

@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1679
 tags:
 - MSBuild
 title: Clever TemplateFile hack
-aliases:
- - /2010/02/12/clever-templatefile-hack/
- - /2010/02/12/clever-templatefile-hack.html
 ---
 In my current project i use TemplateFileTask ([MSBuild Community Tasks Project](http://msbuildtasks.tigris.org/)) to generate configuration files. I ran into the problem that i don't want to expose a MEX endpoint in production. This is my initial template file
 

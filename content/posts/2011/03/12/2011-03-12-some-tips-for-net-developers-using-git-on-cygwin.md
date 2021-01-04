@@ -6,9 +6,6 @@ tags:
 - git
 - MSBuild
 title: Some tips for .Net developers using git on cygwin
-aliases:
- - /2011/03/12/some-tips-for-net-developers-using-git-on-cygwin/
- - /2011/03/12/some-tips-for-net-developers-using-git-on-cygwin.html
 ---
 Here are some tips that i want to share with fellow .Net developers that use git on cygwin.
 

@@ -6,9 +6,6 @@ tags:
 - profiler
 - SQL
 title: Use SQL Server Profiler to see if a connection is pooled
-aliases:
- - /2011/08/19/use-sql-server-profiler-to-see-if-a-connection-is-pooled/
- - /2011/08/19/use-sql-server-profiler-to-see-if-a-connection-is-pooled.html
 ---
 It took me a couple of websearches to discover how i can see in SQL Server Profiler whether or not a connection is pooled. Apparently you have to check 'Show all columns' and then you can check the 'EventSubClass' column:
 

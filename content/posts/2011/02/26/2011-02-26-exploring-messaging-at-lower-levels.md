@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=2056
 tags:
 - C
 title: Exploring messaging at lower levels...
-aliases:
- - /2011/02/26/exploring-messaging-at-lower-levels/
- - /2011/02/26/exploring-messaging-at-lower-levels.html
 ---
 Yesterday a colleague of mine, [Neil Robbins](http://neildoesdotnet.blogspot.com/), asked me how a piece of code would look like if I apply the Hollywood principle on it (Don't call us, we'll cal you).
 

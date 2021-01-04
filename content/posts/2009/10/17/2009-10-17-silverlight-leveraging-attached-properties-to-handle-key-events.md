@@ -5,9 +5,6 @@ tags:
 - CSharp
 - Silverlight
 title: 'Silverlight: leveraging attached properties to handle key events'
-aliases:
- - /2009/10/17/silverlight-leveraging-attached-properties-to-handle-key-events/
- - /2009/10/17/silverlight-leveraging-attached-properties-to-handle-key-events.html
 ---
 I strongly believe that input handling is a responsability that belongs to the View. At first i simply added the following in the code-behind of my GameView
 

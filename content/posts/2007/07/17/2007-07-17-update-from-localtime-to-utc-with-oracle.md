@@ -3,9 +3,6 @@ date: "2007-07-17T00:00:00Z"
 tags:
 - SQL
 title: Update from localtime to UTC or any other timezone with Oracle
-aliases:
- - /2007/07/17/update-from-localtime-to-utc-with-oracle/
- - /2007/07/17/update-from-localtime-to-utc-with-oracle.html
 ---
 Imagine that you have a table with a column of the type DATETIME. You've been storing data as localtime and after a while you need to convert these datetimes to UTC. Here's a possible approach
 

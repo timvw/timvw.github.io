@@ -8,9 +8,6 @@ tags:
 - PowerShell
 - VLC
 title: Convert AAC/M4A files to MP3 with VLC and PowerShell
-aliases:
- - /2010/11/20/convert-aacm4a-files-to-mp3-with-vlc-and-powershell/
- - /2010/11/20/convert-aacm4a-files-to-mp3-with-vlc-and-powershell.html
 ---
 Here is a way to convert your AAC/M4A files to MP3 using [VLC](http://www.videolan.org/vlc) media player:
 

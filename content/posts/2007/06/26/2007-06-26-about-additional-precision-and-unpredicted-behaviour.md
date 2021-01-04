@@ -3,9 +3,6 @@ date: "2007-06-26T00:00:00Z"
 tags:
 - CSharp
 title: About additional precision and unpredicted behaviour...
-aliases:
- - /2007/06/26/about-additional-precision-and-unpredicted-behaviour/
- - /2007/06/26/about-additional-precision-and-unpredicted-behaviour.html
 ---
 Earlier today someone posted the following code
 

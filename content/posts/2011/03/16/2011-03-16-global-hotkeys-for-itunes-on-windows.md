@@ -5,9 +5,6 @@ tags:
 - AutoHotkey
 - iTunes
 title: Global hotkeys for iTunes on windows
-aliases:
- - /2011/03/16/global-hotkeys-for-itunes-on-windows/
- - /2011/03/16/global-hotkeys-for-itunes-on-windows.html
 ---
 These days i use iTunes as media player. Unlike winamp this program does not seem to support system-wide hotkeys to control playback. This is the place where a productivity tool like [AutoHotkey](http://www.autohotkey.com/) comes into the rescue ;).
 

@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Exploring DataGridViewComboBoxColumn databinding
-aliases:
- - /2007/01/17/exploring-datagridviewcomboboxcolumn-databinding/
- - /2007/01/17/exploring-datagridviewcomboboxcolumn-databinding.html
 ---
 Let's start with a simple example: Each Person has a Name (string) and PersonTypeCode (an Enumerated value) property. We drag a DataGridView on the designer form and add two columns (DataGridViewComboBoxColumn for the PersonTypeCode property). And then we hook up the Bindingsource as following
 

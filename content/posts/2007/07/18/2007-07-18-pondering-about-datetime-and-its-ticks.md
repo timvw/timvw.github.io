@@ -3,9 +3,6 @@ date: "2007-07-18T00:00:00Z"
 tags:
 - CSharp
 title: Pondering about DateTime and it's Ticks...
-aliases:
- - /2007/07/18/pondering-about-datetime-and-its-ticks/
- - /2007/07/18/pondering-about-datetime-and-its-ticks.html
 ---
 Recently someone was able to convince me that there is no problem with using [System.DateTime](http://msdn2.microsoft.com/en-us/library/System.Datetime.aspx) for the storage of localtimes (even if DST is in effect), because it works with [Ticks](http://msdn2.microsoft.com/en-us/library/system.datetime.ticks.aspx) and i bought into his base + offset story.... The following table explains his reasoning
 

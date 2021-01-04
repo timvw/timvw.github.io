@@ -1,9 +1,6 @@
 ---
 date: "2016-12-31T00:00:00Z"
 title: Looking back at 2016
-aliases:
- - /2016/12/31/Looking-back-at-2016/
- - /2016/12/31/Looking-back-at-2016.html
 ---
 Starting 2016 at Emergency Care was a game changer for me.
 

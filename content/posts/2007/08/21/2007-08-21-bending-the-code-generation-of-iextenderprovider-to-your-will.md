@@ -5,9 +5,6 @@ tags:
 - Visual Studio
 - Windows Forms
 title: Bending the code generation of IExtenderProvider to your will
-aliases:
- - /2007/08/21/bending-the-code-generation-of-iextenderprovider-to-your-will/
- - /2007/08/21/bending-the-code-generation-of-iextenderprovider-to-your-will.html
 ---
 In [Exploring CodeDomSerializer](http://www.timvw.be/exploring-codedomserializer/) i already explained how we can modify the code that the Visual Studio designer generates for us. With a typical [IExtenderProvider](http://msdn2.microsoft.com/en-us/library/system.componentmodel.iextenderprovider.aspx) the designer generates an initializer, SetXXX methods and a variable declaration, which looks like
 

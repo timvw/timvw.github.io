@@ -4,9 +4,6 @@ tags:
 - Awards and Certifications
 - PHP
 title: I am the manual
-aliases:
- - /2005/07/06/i-am-the-manual/
- - /2005/07/06/i-am-the-manual.html
 ---
 I found this in my inbox on my favorite [PHP](http://www.php.net) forum, [DevNetwork](http://forums.devnetwork.net)
 

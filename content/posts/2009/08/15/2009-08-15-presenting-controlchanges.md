@@ -5,9 +5,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Presenting ControlChanges
-aliases:
- - /2009/08/15/presenting-controlchanges/
- - /2009/08/15/presenting-controlchanges.html
 ---
 Because i noticed that i kept writing the same operations on control over and over again i decided to capture them in a couple of functions. I presume most of you have done this already. Here is the list of operations:
 

@@ -7,9 +7,6 @@ tags:
 - mono
 - osx
 title: Failure to load mono-supplied .dylib (libgdiplus.dylib) when running from console
-aliases:
- - /2014/09/27/failure-to-load-mono-supplied-dylib-libgdiplus-dylib-when-running-from-console/
- - /2014/09/27/failure-to-load-mono-supplied-dylib-libgdiplus-dylib-when-running-from-console.html
 ---
 So earlier this week I was bit by the following bug: [Bug 22140 -- Failure to load mono-supplied .dylib when running from console.](https://bugzilla.xamarin.com/show_bug.cgi?id=22140)
 

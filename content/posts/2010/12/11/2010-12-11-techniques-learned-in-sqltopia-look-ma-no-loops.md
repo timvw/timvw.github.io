@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=2012
 tags:
 - SQL
 title: 'Techniques learned in SQLtopia: Look Ma, no loops!'
-aliases:
- - /2010/12/11/techniques-learned-in-sqltopia-look-ma-no-loops/
- - /2010/12/11/techniques-learned-in-sqltopia-look-ma-no-loops.html
 ---
 I have been programming in c-based languages for more than 10 years now. Lately i have spent quite a bit of time in SQLtopia and learned a couple of techniques that are quite different from what i was used to.
 

@@ -3,9 +3,6 @@ date: "2006-04-01T00:00:00Z"
 tags:
 - PHP
 title: Using cmd.exe
-aliases:
- - /2006/04/01/using-cmdexe/
- - /2006/04/01/using-cmdexe.html
 ---
 Earlier someone asked me how he could use [windows cmd.exe](http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/cmd.mspx?mfr=true) with PHP. People run into trouble as soon as there are quotes needed because there are special characters (>/&()[]{}^=;!'+,\`~ and <space>) in the command. I do it like this
 

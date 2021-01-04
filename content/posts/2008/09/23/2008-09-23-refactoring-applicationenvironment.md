@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=584
 tags:
 - CSharp
 title: Refactoring ApplicationEnvironment
-aliases:
- - /2008/09/23/refactoring-applicationenvironment/
- - /2008/09/23/refactoring-applicationenvironment.html
 ---
 Yesterday i blogged about an [ApplicationEnvironment](http://www.timvw.be/presenting-applicationenvironment/) which had a dependency on the application configuration file. With my [ConfigurationFileSession](http://www.timvw.be/presenting-configurationfilesession/) i was able to test the implementation despite that dependency. Today i modified the design a little so that i do not require the ConfigurationFileSession hack anymore.
 

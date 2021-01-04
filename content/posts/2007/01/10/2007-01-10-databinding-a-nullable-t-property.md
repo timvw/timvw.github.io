@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Databinding a Nullable<T> property
-aliases:
- - /2007/01/10/databinding-a-nullable-t-property/
- - /2007/01/10/databinding-a-nullable-t-property.html
 ---
 I find it frustrating that data binding does not really support Nullable<T>. Anyway, it's relatively easy to workaround this shortcoming
 

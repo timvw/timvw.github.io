@@ -5,9 +5,6 @@ tags:
 - CSharp
 - Patterns
 title: Creating series of elements
-aliases:
- - /2010/01/08/creating-series-of-elements/
- - /2010/01/08/creating-series-of-elements.html
 ---
 Lately i have done quite a bit of charting. Very often the X-axis is populated with a series of numbers or dates. This can be as simple as: (My very little DSL in [Jeremy D. Miller Style](http://codebetter.com/blogs/jeremy.miller/archive/2010/01/06/writing-internal-dsl-s-in-msdn.aspx))
 

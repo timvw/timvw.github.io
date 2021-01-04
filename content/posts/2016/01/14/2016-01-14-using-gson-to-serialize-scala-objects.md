@@ -5,9 +5,6 @@ tags:
 - gson
 - scala
 title: Using Gson to serialize Scala objects
-aliases:
- - /2016/01/14/using-gson-to-serialize-scala-objects/
- - /2016/01/14/using-gson-to-serialize-scala-objects.html
 ---
 [gson](https://github.com/google/gson) is a pretty nice library that converts Java objects into JSON and back. When using this library from Scala things become a bit harder (eg: Plenty of people have difficulties when their scala object has an (im)mutable Map or List).
 

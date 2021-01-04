@@ -5,9 +5,6 @@ tags:
 - CSharp
 - Patterns
 title: Strict mocks lead to overspecification
-aliases:
- - /2009/03/24/strict-mocks-lead-to-overspecification/
- - /2009/03/24/strict-mocks-lead-to-overspecification.html
 ---
 Here is an example that demonstrates how strick mocks lead to overspecification. Imagine that we are creating a simple screen in a [Passive View](http://martinfowler.com/eaaDev/PassiveScreen.html) architecture. The first feature that we implement is displaying the message "edit" when the user clicks the edit button
 

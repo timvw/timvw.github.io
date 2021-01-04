@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=303
 tags:
 - CSharp
 title: NHibernate SessionFactory configuration
-aliases:
- - /2008/07/28/nhibernate-sessionfactory-configuration/
- - /2008/07/28/nhibernate-sessionfactory-configuration.html
 ---
 My preferred way for configuring [NHibernate](http://www.nhibernate.org) is as following
 

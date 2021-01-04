@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=2267
 tags:
 - PowerShell
 title: Multiclean solution
-aliases:
- - /2012/04/26/multiclean-solution/
- - /2012/04/26/multiclean-solution.html
 ---
 One of my favorite powershell commands when cleaning up:
 

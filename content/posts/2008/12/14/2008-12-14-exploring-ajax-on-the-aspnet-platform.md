@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=752
 tags:
 - ASP.NET
 title: Exploring AJAX on the ASP.NET platform
-aliases:
- - /2008/12/14/exploring-ajax-on-the-aspnet-platform/
- - /2008/12/14/exploring-ajax-on-the-aspnet-platform.html
 ---
 I finally found some time to experiment with AJAX on the ASP.NET platform. The first technique i looked into was [Partial-Page Rendering](http://msdn.microsoft.com/en-us/library/bb386573.aspx) with controls like [UpdatePanel](http://msdn.microsoft.com/en-us/library/bb386454.aspx). It gave me an awkward feeling but even Dino Esposito, who spent a whole chapter on this technique in his [book](http://www.amazon.com/Programming-Microsoft-ASP-NET-Dino-Esposito/dp/0735625271), seems to [share](http://weblogs.asp.net/despos/archive/2007/09/19/partial-rendering-misses-ajax-architectural-points.aspx) that feeling.
 

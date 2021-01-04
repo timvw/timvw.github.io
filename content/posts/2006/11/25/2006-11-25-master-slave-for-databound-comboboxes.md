@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Master-Slave for databound ComboBoxes
-aliases:
- - /2006/11/25/master-slave-for-databound-comboboxes/
- - /2006/11/25/master-slave-for-databound-comboboxes.html
 ---
 In most examples on the Internet you'll find that the Master has a property that returns the allowed Slaves. Here's an example that does not require such a property. Let's start with a simple class that represents a Person.
 

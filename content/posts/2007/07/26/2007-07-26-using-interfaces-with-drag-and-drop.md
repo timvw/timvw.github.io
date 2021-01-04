@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Using interfaces with Drag and Drop
-aliases:
- - /2007/07/26/using-interfaces-with-drag-and-drop/
- - /2007/07/26/using-interfaces-with-drag-and-drop.html
 ---
 Earlier today i was refactoring some graphical components. I wanted to use an interface instead of concrete implementations for my drag and drop code... Although i was using an instance of Foo, and thus IFoo, the following code never allowed me to drop
 

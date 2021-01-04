@@ -3,9 +3,6 @@ date: "2006-03-19T00:00:00Z"
 tags:
 - WordPress
 title: Plugin template for WordPress
-aliases:
- - /2006/03/19/plugin-template-for-wordpress/
- - /2006/03/19/plugin-template-for-wordpress.html
 ---
 Today i've been cleaning up my code. All my plugins live in a directory %plugin_name% under the wp-content/plugins directory. Here is the code for %plugin_name%/%plugin_name%.php
 

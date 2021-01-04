@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=239
 tags:
 - CSharp
 title: Example implementation of a callback method for use in the Asynchronous Programming Model
-aliases:
- - /2008/06/28/example-usage-of-the-asynchronous-programming-model/
- - /2008/06/28/example-usage-of-the-asynchronous-programming-model.html  
 ---
 I always seem to forget about the mechanics of implementing a Callback method that can be used in the [Asynchronous Programming Model (APM)](http://msdn.microsoft.com/en-us/library/ms228963(VS.80).aspx). So here is a simple example in C# 3.0 using the [Func<T, TResult>](http://msdn.microsoft.com/en-us/library/bb549151.aspx) delegate
 

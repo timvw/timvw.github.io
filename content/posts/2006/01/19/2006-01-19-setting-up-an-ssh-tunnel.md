@@ -3,9 +3,6 @@ date: "2006-01-19T00:00:00Z"
 tags:
 - Free Software
 title: Setting up an SSH tunnel
-aliases:
- - /2006/01/19/setting-up-an-ssh-tunnel/
- - /2006/01/19/setting-up-an-ssh-tunnel.html
 ---
 On the machine example there is a ([tcp/ip](http://en.wikipedia.org/wiki/TCP/IP)) program listening on port 12345. The protocol it talks is some [plaintext](http://en.wikipedia.org/wiki/Plain_text) language. I want to talk with it, but i do not want others to know what i am sending to it. I am lucky enough to have remote access to that machine via [ssh](http://en.wikipedia.org/wiki/Ssh). I setup a tunnel with the following command
 

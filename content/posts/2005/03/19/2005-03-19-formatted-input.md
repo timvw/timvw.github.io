@@ -3,9 +3,6 @@ date: "2005-03-19T00:00:00Z"
 tags:
 - Java
 title: Formatted input
-aliases:
- - /2005/03/19/formatted-input/
- - /2005/03/19/formatted-input.html
 ---
 I was in need for formatted input and the decomposition of the input into a stream of tokens so i came up with the following:
 

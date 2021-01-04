@@ -5,9 +5,6 @@ tags:
 - Bash
 - git-tfs
 title: Consume locally build software without overloading your $PATH
-aliases:
- - /2011/03/12/consume-locally-build-software-without-overloading-your-path/
- - /2011/03/12/consume-locally-build-software-without-overloading-your-path.html
 ---
 How do you consume locally build software? For a while now i have used the following approach:
 

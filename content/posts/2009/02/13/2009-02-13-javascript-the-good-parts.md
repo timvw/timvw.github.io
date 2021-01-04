@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=830
 tags:
 - Book reviews
 title: 'JavaScript: The Good Parts'
-aliases:
- - /2009/02/13/javascript-the-good-parts/
- - /2009/02/13/javascript-the-good-parts.html
 ---
 This week i have been reading [JavaScript: The Good Parts](http://www.amazon.com/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742). Although the book is pretty thin, approximitaly. 150 pages, the information that is inside the book is really powerful. The book provides deep insight for people that are considering to implement functionality in JavaScript. I would say that this is a must read.
 

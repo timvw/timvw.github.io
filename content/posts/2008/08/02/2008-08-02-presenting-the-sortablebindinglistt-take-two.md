@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=314
 tags:
 - CSharp
 title: Presenting the SortableBindingList<T> (take two)
-aliases:
- - /2008/08/02/presenting-the-sortablebindinglistt-take-two/
- - /2008/08/02/presenting-the-sortablebindinglistt-take-two.html
 ---
 I'm in the progress of adding classes that i find interesting to the [BeTimvwFramework](http://www.codeplex.com/BeTimvwFramework) project. The original implementation of my [SortableBindingList<T>](http://www.timvw.be/presenting-the-sortablebindinglistt/) relied on [IComparable](http://msdn.microsoft.com/en-us/library/system.icomparable.aspx) to implement ApplySortCore(PropertyDescriptor property, ListSortDirection direction). I received some good feedback and [blogged about those improvements](http://www.timvw.be/improvements-for-the-sortablebindinglist-and-typedlist/).
 

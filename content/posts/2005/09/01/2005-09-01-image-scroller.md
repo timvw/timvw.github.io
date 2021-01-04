@@ -3,9 +3,6 @@ date: "2005-09-01T00:00:00Z"
 tags:
 - JavaScript
 title: Image scroller
-aliases:
- - /2005/09/01/image-scroller/
- - /2005/09/01/image-scroller.html
 ---
 ```javascript
 // +—————————————————————————

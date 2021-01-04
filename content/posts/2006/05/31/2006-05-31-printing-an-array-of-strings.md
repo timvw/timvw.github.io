@@ -3,9 +3,6 @@ date: "2006-05-31T00:00:00Z"
 tags:
 - Java
 title: Printing an array of strings
-aliases:
- - /2006/05/31/printing-an-array-of-strings/
- - /2006/05/31/printing-an-array-of-strings.html
 ---
 Yesterday i've been experimenting with [Printing on the Java Platform](http://java.sun.com/printing/). I needed to generate a printout of ordered menuitems on the default printer. It took a while before i found out there is translation needed between the coordinates of the [Graphics](http://java.sun.com/j2se/1.4.2/docs/api/java/awt/Graphics.html) device and the [PageFormat](http://java.sun.com/j2se/1.4.2/docs/api/java/awt/print/PageFormat.html). Here is my [LinesPrinter](http://www.timvw.be/wp-content/code/java/LinesPrinter.java.txt). Here is an example of how you can use the class
 

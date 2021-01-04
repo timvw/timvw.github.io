@@ -3,9 +3,6 @@ date: "2004-06-28T00:00:00Z"
 tags:
 - Bash
 title: Backup script
-aliases:
- - /2004/06/28/backup-script/
- - /2004/06/28/backup-script.html
 ---
 The current shell server i am using returns bogus output for commands like df. Mind the negative value for 1-k blocks.
 

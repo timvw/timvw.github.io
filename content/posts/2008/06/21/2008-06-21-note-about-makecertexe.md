@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=235
 tags:
 - Information Technology
 title: "Note about makecert.exe"
-aliases:
- - /2008/06/21/note-about-makecertexe/
- - /2008/06/21/note-about-makecertexe.html
 ---
 A couple of days ago i didn't have a binary version of [OpenSSL](http://www.openssl.org) around so i decided to use [Makecert.exe](http://msdn.microsoft.com/en-us/library/bfsktky3(VS.80).aspx). I generated a couple of test certificates and started playing around with them.
 

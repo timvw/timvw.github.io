@@ -5,9 +5,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Presenting AssemblyTypePicker
-aliases:
- - /2008/09/01/presenting-assemblytypepicker/
- - /2008/09/01/presenting-assemblytypepicker.html
 ---
 I really like the way the [Object Browser](http://msdn.microsoft.com/en-us/library/exy1facf(VS.80).aspx) makes the types in an assembly visible. Because i have a couple of programs that require a given type as input, i have decided to add a TypeTree control to [BeTimvwFramework](http://www.codeplex.com/BeTimvwFramework) that mimicks the Object Browser. Here are a couple of screenshots of the control in a demo application that allows the user to generate interfaces and wrapper classes based on a selected type:
 

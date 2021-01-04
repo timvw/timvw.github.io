@@ -5,9 +5,6 @@ tags:
 - sts
 - wif
 title: 'WIF: Change STS per request'
-aliases:
- - /2010/09/05/wif-change-sts-per-request/
- - /2010/09/05/wif-change-sts-per-request.html
 ---
 Here is some code that will redirect unauthenticated users to their respective STS (Eg: A user visiting ~/CompanyA/Default.aspx will be asked to authenticate at the STS linked to CompanyA.
 

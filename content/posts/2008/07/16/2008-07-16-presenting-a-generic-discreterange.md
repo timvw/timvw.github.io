@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=242
 tags:
 - Patterns
 title: Presenting a generic DiscreteValuesRange
-aliases:
- - /2008/07/16/presenting-a-generic-discreterange/
- - /2008/07/16/presenting-a-generic-discreterange.html
 ---
 Let me start with a real world example demonstrating the usefulness of a generic DiscreteValuesRange. Imagine that i run a grid computing business and my clients want to book capacity on the grid for a given period. Before their booking is approved, i have to verify that the client has contracts that allow him to use the system for each day of the booking period. Usually, such a check is implemented as following
 

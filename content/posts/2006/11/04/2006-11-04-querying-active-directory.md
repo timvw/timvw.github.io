@@ -3,9 +3,6 @@ date: "2006-11-04T00:00:00Z"
 tags:
 - CSharp
 title: Querying Active Directory
-aliases:
- - /2006/11/04/querying-active-directory/
- - /2006/11/04/querying-active-directory.html
 ---
 A while ago i wanted to figure out which demo accounts i had already created in my [Active Directory](http://www.microsoft.com/windowsserver2003/technologies/directory/activedirectory/default.mspx). Since i was smart enough to give them all a description 'Demo User' this was easily done as following
 

@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1719
 tags:
 - CSharp
 title: Enumerating SpecialFolders
-aliases:
- - /2010/05/02/enumerating-specialfolders/
- - /2010/05/02/enumerating-specialfolders.html
 ---
 [Environment.SpecialFolder](http://msdn.microsoft.com/en-us/library/system.environment.specialfolder.aspx) is a value-type that i always seem to forget about. Let's try to do something about that by posting about it here :)
 

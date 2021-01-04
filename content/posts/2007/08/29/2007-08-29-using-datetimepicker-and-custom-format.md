@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Using DateTimePicker and Custom Format
-aliases:
- - /2007/08/29/using-datetimepicker-and-custom-format/
- - /2007/08/29/using-datetimepicker-and-custom-format.html
 ---
 Today we ran into a nasty problem with [DateTimePickerFormat](http://msdn2.microsoft.com/en-us/library/system.windows.forms.datetimepickerformat.aspx).Custom. We allow the user to input a month/date with a DateTimePicker as following (nothing fancy)
 

@@ -3,9 +3,6 @@ date: "2005-12-06T00:00:00Z"
 tags:
 - Information Technology
 title: How (not) to apply for a job?
-aliases:
- - /2005/12/06/how-no-to-apply-for-a-job/
- - /2005/12/06/how-no-to-apply-for-a-job.html
 ---
 Today i was part of a jury looking for a junior programmer. Most of them had an extensive list with programming languages on their curriculum vitae, eg: [html](http://www.w3.org/TR/html4/), [xml](http://www.w3.org/XML/), [css](http://www.w3.org/Style/CSS/), ... Ok, there are people out there that consider writing markup language is programming too.
 

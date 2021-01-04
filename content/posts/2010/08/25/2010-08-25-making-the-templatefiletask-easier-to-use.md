@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1871
 tags:
 - MSBuild
 title: Making the TemplateFileTask easier to use...
-aliases:
- - /2010/08/25/making-the-templatefiletask-easier-to-use/
- - /2010/08/25/making-the-templatefiletask-easier-to-use.html
 ---
 One of the disadvantages of the TemplateFile task ([msbuildtasks](http://msbuildtasks.tigris.org/)) is the fact that it requires a lot of typing to define template values
 

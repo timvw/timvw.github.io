@@ -3,9 +3,6 @@ date: "2006-08-27T00:00:00Z"
 tags:
 - PHP
 title: Dynamic CSS with PHP
-aliases:
- - /2006/08/27/dynamic-css-with-php/
- - /2006/08/27/dynamic-css-with-php.html
 ---
 Both html and css are simply text. Thus you should be able to generate css as easily as html with php. Now if you add a reference to the css.php file in your html (eg: <link rel="stylesheet" href="http://example.com/css.php" type="text/css" media="screen" />) you'll probably experience that your browser ignores the file. How is this possible? Here is an example of a simple css.php file
 

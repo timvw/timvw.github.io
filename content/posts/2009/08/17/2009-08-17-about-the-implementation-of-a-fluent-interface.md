@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1218
 tags:
 - CSharp
 title: About the implementation of a fluent interface
-aliases:
- - /2009/08/17/about-the-implementation-of-a-fluent-interface/
- - /2009/08/17/about-the-implementation-of-a-fluent-interface.html
 ---
 Now that i have [defined my API for initialization](http://www.timvw.be/about-the-design-of-a-fluent-interface/) it is time to implement it. Inspired by the Moq.Language and Moq.Language.Flow namespaces in [Moq](http://code.google.com/p/moq/) i have decided to define my interfaces in a separate namespace: Infrastructure.StateMachineLanguage.
 

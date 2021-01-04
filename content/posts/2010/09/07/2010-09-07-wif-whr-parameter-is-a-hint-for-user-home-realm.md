@@ -5,9 +5,6 @@ tags:
 - sts
 - wif
 title: 'WIF: whr parameter is a hint for user Home Realm'
-aliases:
- - /2010/09/07/wif-whr-parameter-is-a-hint-for-user-home-realm/
- - /2010/09/07/wif-whr-parameter-is-a-hint-for-user-home-realm.html
 ---
 Yesterday i was reading the [Claims Based Identity & Access Control Guide](http://claimsid.codeplex.com/) and learned that the whr parameter is a hint from the application to the STS about the user's STS. So if i look back at the code in [WIF: Change STS per request](http://www.timvw.be/wif-change-sts-per-request/) i should not hardcode the HomeRealm parameter to timvw but use the company name instead.
 

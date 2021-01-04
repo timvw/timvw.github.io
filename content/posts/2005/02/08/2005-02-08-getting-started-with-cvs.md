@@ -3,9 +3,6 @@ date: "2005-02-08T00:00:00Z"
 tags:
 - Free Software
 title: Getting started with CVS
-aliases:
- - /2005/02/08/getting-started-with-cvs/
- - /2005/02/08/getting-started-with-cvs.html
 ---
 I got an e-mail that asked me how to get started with CVS as quick as possible. The first time i got lost too. So i'll give a quick summary how i did it (no p-server).
 

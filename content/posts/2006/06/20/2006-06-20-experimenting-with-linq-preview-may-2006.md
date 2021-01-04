@@ -3,9 +3,6 @@ date: "2006-06-20T00:00:00Z"
 tags:
 - CSharp
 title: Experimenting with LINQ Preview (May 2006)
-aliases:
- - /2006/06/20/experimenting-with-linq-preview-may-2006/
- - /2006/06/20/experimenting-with-linq-preview-may-2006.html
 ---
 Today i downloaded and installed [LINQ Preview (May 2006)](http://www.microsoft.com/downloads/details.aspx?familyid=1e902c21-340c-4d13-9f04-70eb5e3dceea&displaylang=en). Well, that was the plan anyway:
 

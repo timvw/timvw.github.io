@@ -4,9 +4,6 @@ tags:
 - Book reviews
 - CSharp
 title: Programming .NET Components
-aliases:
- - /2007/04/07/programming-net-components/
- - /2007/04/07/programming-net-components.html
 ---
 I couple of weeks ago i got a copy of [Programming .NET Components](http://www.oreilly.com/catalog/pnetcomp2/)... I can only suggest to read it yourself because i found it really good 😉 Anyway, in one of the chapters [Juval Lowy](http://www.oreillynet.com/pub/au/741) talks about context and interception ([msdnmag article](http://msdn.microsoft.com/msdnmag/issues/03/03/ContextsinNET/default.aspx)). I got inspired and implemented my own log4net LoggingSink
 

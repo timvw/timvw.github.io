@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Implementing Master/Detail for Custom Objects with DataGridViewComboBoxColumns
-aliases:
- - /2006/09/10/implementing-masterdetail-for-custom-objects-with-datagridviewcomboboxcolumns/
- - /2006/09/10/implementing-masterdetail-for-custom-objects-with-datagridviewcomboboxcolumns.html
 ---
 Imagine you have the following two classes
 

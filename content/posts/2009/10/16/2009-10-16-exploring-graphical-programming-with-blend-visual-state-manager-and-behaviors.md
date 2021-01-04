@@ -5,9 +5,6 @@ tags:
 - Silverlight
 - WPF
 title: Exploring graphical programming with Blend, Visual State Manager and Behaviors
-aliases:
- - /2009/10/16/exploring-graphical-programming-with-blend-visual-state-manager-and-behaviors/
- - /2009/10/16/exploring-graphical-programming-with-blend-visual-state-manager-and-behaviors.html
 ---
 A while ago i presented the [ControlStateMachine](http://www.timvw.be/experimenting-with-controlstatemachine-and-fluent-interfaces/) and in Silverlight this concept is implemented as the [Visual State Manager](http://windowsclient.net/wpf/wpf35/wpf-35sp1-toolkit-visual-state-manager-overview.aspx).
 

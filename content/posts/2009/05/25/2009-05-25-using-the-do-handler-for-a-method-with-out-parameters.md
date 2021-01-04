@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1054
 tags:
 - CSharp
 title: Using the Do handler for a method with out parameters
-aliases:
- - /2009/05/25/using-the-do-handler-for-a-method-with-out-parameters/
- - /2009/05/25/using-the-do-handler-for-a-method-with-out-parameters.html
 ---
 As you can read in [the documentation](http://ayende.com/Wiki/(S(mc1hst55a1303emfc34dkmyr))/Rhino+Mocks+The+Do()+Handler.ashx) for Rhino Mocks:
 

@@ -2,9 +2,6 @@
 date: "2011-10-28T00:00:00Z"
 guid: http://www.timvw.be/?p=2245
 title: Say no to primitives in your API.. and make your software more explicit
-aliases:
- - /2011/10/28/say-no-to-primitives-in-your-api-and-make-your-software-more-explicit/
- - /2011/10/28/say-no-to-primitives-in-your-api-and-make-your-software-more-explicit.html
 ---
 A while ago I wrote some code like this:
 

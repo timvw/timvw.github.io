@@ -5,9 +5,6 @@ tags:
 - CSharp
 - Visual Studio
 title: About the design of a fluent interface
-aliases:
- - /2009/08/17/about-the-design-of-a-fluent-interface/
- - /2009/08/17/about-the-design-of-a-fluent-interface.html
 ---
 Now that i have [presented a simple ControlStateMachine]() i can raise the bar a little. A statemachine that handles commands. Here is how a developer should be able to initialize this machine:
 

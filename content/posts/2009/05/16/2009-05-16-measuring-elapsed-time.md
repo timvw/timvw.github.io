@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1045
 tags:
 - CSharp
 title: Measuring elapsed time
-aliases:
- - /2009/05/16/measuring-elapsed-time/
- - /2009/05/16/measuring-elapsed-time.html
 ---
 As the documentation for [System.Diagnostics.Stopwatch](http://msdn.microsoft.com/en-us/library/system.diagnostics.stopwatch.aspx) says
 

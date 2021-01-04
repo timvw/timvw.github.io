@@ -3,9 +3,6 @@ date: "2007-08-07T00:00:00Z"
 tags:
 - CSharp
 title: Helper methods for DbProviderFactory
-aliases:
- - /2007/08/07/helper-methods-for-dbconnection/
- - /2007/08/07/helper-methods-for-dbconnection.html
 ---
 Here are a couple of functions that make it easier to take advantage of the DbProviderFactory to create DbConnections
 

@@ -6,9 +6,6 @@ tags:
 - Silverlight
 - WPF
 title: Exploring M-V-VM
-aliases:
- - /2009/10/13/exploring-m-v-vm/
- - /2009/10/13/exploring-m-v-vm.html
 ---
 A couple of years ago a collegue recommended [Data Binding with Windows Forms 2.0: Programming Smart Client Data Applications with .NET](http://www.amazon.com/Data-Binding-Windows-Forms-2-0/dp/032126892X) and i noticed that my code started to gravitate towards an [Model-View-ViewModel](http://en.wikipedia.org/wiki/Model_View_ViewModel) architecture. Due to shortcomings and painful experiences i gave up on databinding and began to use [Passieve View](http://martinfowler.com/eaaDev/PassiveScreen.html) instead.
 

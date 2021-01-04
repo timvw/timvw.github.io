@@ -3,9 +3,6 @@ date: "2008-02-23T00:00:00Z"
 tags:
 - CSharp
 title: Introducing DeferredExecutionHelper
-aliases:
- - /2008/02/23/introducing-deferredexecutionhelper/
- - /2008/02/23/introducing-deferredexecutionhelper.html
 ---
 Sometimes i don't want a costly function to be performed unless it's really necessary. In Patterns of Enterprise Application Architecture it's described as [Lazy Load](http://www.martinfowler.com/eaaCatalog/lazyLoad.html). Anyway, in order to achieve that i've written a wrapper for [RealProxy](http://msdn2.microsoft.com/en-us/library/system.runtime.remoting.proxies.realproxy.aspx)
 

@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Developing a DataSource for your DataGridView
-aliases:
- - /2007/01/04/developing-a-datasource-for-your-datagridview/
- - /2007/01/04/developing-a-datasource-for-your-datagridview.html
 ---
 Imagine that you want to develop a DataSource that is capable to represent the data displayed in the following excel sheet
 

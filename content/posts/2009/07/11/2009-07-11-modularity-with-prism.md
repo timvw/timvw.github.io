@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1121
 tags:
 - CSharp
 title: Small modification to achieve better modularity with Prism
-aliases:
- - /2009/07/11/modularity-with-prism/
- - /2009/07/11/modularity-with-prism.html
 ---
 I have been experimenting with WPF and Prism ([Composite Application Guidance for WPF and Silverlight](http://msdn.microsoft.com/en-us/library/cc707819.aspx)) and ran into a major issue: modularity. Here is an excerpt from the documentation
 

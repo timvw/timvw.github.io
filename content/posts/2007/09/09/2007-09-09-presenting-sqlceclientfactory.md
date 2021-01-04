@@ -3,9 +3,6 @@ date: "2007-09-09T00:00:00Z"
 tags:
 - CSharp
 title: Presenting SqlCeClientFactory
-aliases:
- - /2007/09/09/presenting-sqlceclientfactory/
- - /2007/09/09/presenting-sqlceclientfactory.html
 ---
 Apart from Microsoft.SqlServerCe.Client.SqlCeClientFactory in Microsoft.SqlServerCe.Client (an undocumented and unsupported library) there is no DbProviderFactory for System.Data.SqlServerCe. Today i decided to write a SqlCeClientFactory
 

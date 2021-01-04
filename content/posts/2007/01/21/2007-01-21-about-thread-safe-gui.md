@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: About Thread-Safe GUI...
-aliases:
- - /2007/01/21/about-thread-safe-gui/
- - /2007/01/21/about-thread-safe-gui.html
 ---
 If you're writing windows applications you'll most certainly recognize the following piece of code
 

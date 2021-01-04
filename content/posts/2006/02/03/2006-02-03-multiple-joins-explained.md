@@ -3,9 +3,6 @@ date: "2006-02-03T00:00:00Z"
 tags:
 - SQL
 title: Multiple joins explained
-aliases:
- - /2006/02/03/multiple-joins-explained/
- - /2006/02/03/multiple-joins-explained.html
 ---
 I'll try to explain how a join on more than one table works. I've noticed people get confused by it. Assume we have the following tables
 

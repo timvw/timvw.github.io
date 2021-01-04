@@ -3,9 +3,6 @@ date: "2005-02-06T00:00:00Z"
 tags:
 - Free Software
 title: Configuring Mutt for GPG
-aliases:
- - /2005/02/06/configuring-mutt-for-gpg/
- - /2005/02/06/configuring-mutt-for-gpg.html
 ---
 Today i generated a [PGP](http://www.pgpi.org/) (Pretty Good Privacy) key for my e-mail address. I also configured my mailclient, [mutt](http://www.mutt.org), for use with [GnuPG](http://www.gnupg.org). I copied a sample file i found on the net but always got an error message: sh: line 1: pgpewrap: command not found. It appears that /usr/lib/mutt/ is not in the path and therefore is not found. Here is the tweaked .muttrc part:
 

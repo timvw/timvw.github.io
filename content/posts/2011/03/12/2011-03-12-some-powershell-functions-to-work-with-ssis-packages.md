@@ -6,9 +6,6 @@ tags:
 - SSIS
 - xpath
 title: Some PowerShell functions to work with SSIS packages
-aliases:
- - /2011/03/12/some-powershell-functions-to-work-with-ssis-packages/
- - /2011/03/12/some-powershell-functions-to-work-with-ssis-packages.html
 ---
 Here are some powershell functions (using XPath) that come in handy when working with SSIS packages:
 

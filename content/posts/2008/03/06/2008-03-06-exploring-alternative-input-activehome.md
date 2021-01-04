@@ -3,9 +3,6 @@ date: "2008-03-06T00:00:00Z"
 tags:
 - CSharp
 title: "Exploring alternative input: ActiveHome"
-aliases:
- - /2008/03/06/exploring-alternative-input-activehome/
- - /2008/03/06/exploring-alternative-input-activehome.html
 ---
 A while ago i bought [Media Centerkit](http://www.easycomputing.com/product.asp?ref=3655) for an euro or two. I wouldn't recommend the product because it comes with crappy software. Anyway, i was only interested in playing with the hardware (RF Remote and USB Receiver) so i downloaded the [ActiveHome Professional SDK](http://www.activehomepro.com/sdk/sdk-info.html). Once you install this you can add a reference to "ActiveHomeScript 1.0 Type Library" under the COM tab in Visual Studio. I wrote a little library so that i can consume the ActiveHomeClass.RecvAction in a Type-safe way
 

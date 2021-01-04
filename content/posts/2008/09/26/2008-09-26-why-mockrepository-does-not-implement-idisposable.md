@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=622
 tags:
 - CSharp
 title: Why MockRepository does not implement IDisposable
-aliases:
- - /2008/09/26/why-mockrepository-does-not-implement-idisposable/
- - /2008/09/26/why-mockrepository-does-not-implement-idisposable.html
 ---
 Earlier this week i was experimenting with [Rhino Mocks](http://ayende.com/projects/rhino-mocks.aspx) and i was wondering why the MockRepository does not implement [IDisposable](http://msdn.microsoft.com/en-us/library/system.idisposable.aspx) unlike most other mocking frameworks for .NET</a>. After a bit of searching i found out that ([here](http://groups.google.com/group/RhinoMocks/browse_thread/thread/c1a89f58d512d03e/48ca85746276c97b?lnk=gst&q=idisposable+mockrepository&pli=1)) originally the MockRepository did implement the interface, but that the implementation was removed because it is can be painful (hiding the original exception) when unexpected exceptions are thrown.
 

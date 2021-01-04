@@ -6,9 +6,6 @@ tags:
 - Silverlight
 - WPF
 title: ViewModel to translate domain messages to view events
-aliases:
- - /2009/10/13/viewmodel-to-translate-domain-messages-to-view-events/
- - /2009/10/13/viewmodel-to-translate-domain-messages-to-view-events.html
 ---
 Here is an example of a ViewModel that translates domain messages to view events:
 

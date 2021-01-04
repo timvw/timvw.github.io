@@ -1,9 +1,6 @@
 ---
 date: "2020-02-25T00:00:00Z"
 title: Leverage Terraform, NGINX Ingress Controller, cert-manager and Let's Encrypt to quickly create a Kubernetes cluster on AWS.
-aliases:
- - /2020/02/25/terraform-aws-k8s-nginx-letsencrypt/
- - /2020/02/25/terraform-aws-k8s-nginx-letsencrypt.html
 ---
 In my [previous](https://timvw.be/2020/02/10/terraform-azure-k8s-nginx-letsencrypt.html) post I demonstrated how easy it has become to deploy a webapplications with an HTTPS backend on Kubernetes and Azure. In this post I demonstrate the same but on AWS.
 

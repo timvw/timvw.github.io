@@ -3,9 +3,6 @@ date: "2006-09-02T00:00:00Z"
 tags:
 - Information Technology
 title: Automating the configuration of Internet Options / Lan Settings
-aliases:
- - /2006/09/02/automating-the-configuration-of-internet-options-and-lan-settings/
- - /2006/09/02/automating-the-configuration-of-internet-options-and-lan-settings.html
 ---
 I got tired of manually changing my Internet Options / Lan Settings. It was really time to say goodbye to the dialog below
 

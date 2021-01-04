@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1635
 tags:
 - Information Technology
 title: About dependencies
-aliases:
- - /2010/01/26/about-dependencies/
- - /2010/01/26/about-dependencies.html
 ---
 This weekend i noticed a couple of posts by Uncle Bob trying to get some discussions going. In [Mocking Mocking and Testing Outcomes](http://blog.objectmentor.com/articles/2010/01/23/mocking-mocking-and-testing-outcomes) at some point he generates a fake of some class
 

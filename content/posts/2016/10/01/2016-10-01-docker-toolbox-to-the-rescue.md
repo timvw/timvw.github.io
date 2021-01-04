@@ -1,9 +1,6 @@
 ---
 date: "2016-10-01T00:00:00Z"
 title: Docker toolbox to the rescue
-aliases:
- - /2016/10/01/docker-toolbox-to-the-rescue/
- - /2016/10/01/docker-toolbox-to-the-rescue.html
 ---
 With the help of [Docker Toolbox](https://www.docker.com/products/docker-toolbox) a lot of apps become easily available...
 

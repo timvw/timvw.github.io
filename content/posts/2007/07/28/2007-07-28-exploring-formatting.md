@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Exploring formatting...
-aliases:
- - /2007/07/28/exploring-formatting/
- - /2007/07/28/exploring-formatting.html
 ---
 In the documentation you can read the following for [CultureInfo](http://msdn2.microsoft.com/en-us/library/system.globalization.cultureinfo.aspx)
 

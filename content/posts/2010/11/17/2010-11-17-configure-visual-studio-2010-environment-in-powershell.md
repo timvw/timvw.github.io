@@ -5,9 +5,6 @@ tags:
 - PowerShell
 - Visual Studio
 title: Configure Visual Studio 2010 environment in PowerShell
-aliases:
- - /2010/11/17/configure-visual-studio-2010-environment-in-powershell/
- - /2010/11/17/configure-visual-studio-2010-environment-in-powershell.html
 ---
 Instead of using the "Visual Studo Command Prompt (2010)" i wanted to use PowerShell instead. I found [this](http://blogs.msdn.com/b/ploeh/archive/2008/04/09/visualstudio2008powershell.aspx) post which does it for VS2008. Extending it for VS2010 was pretty easy:
 

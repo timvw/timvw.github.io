@@ -5,9 +5,6 @@ tags:
 - MSBuild
 - Visual Studio
 title: What i dislike about the Web.config Transformation in VS2010
-aliases:
- - /2010/08/25/what-i-dislike-about-the-web-config-transformation-in-vs2010/
- - /2010/08/25/what-i-dislike-about-the-web-config-transformation-in-vs2010.html
 ---
 There are a couple of things that i strongly dislike about the [Web.config transformation in VS2010](http://blogs.msdn.com/b/webdevtools/archive/2009/05/04/web-deployment-web-config-transformation.aspx)
 

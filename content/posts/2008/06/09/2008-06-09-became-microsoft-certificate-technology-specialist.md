@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=229
 tags:
 - Awards and Certifications
 title: Became Microsoft Certified Technology Specialist...
-aliases:
- - /2008/06/09/became-microsoft-certificate-technology-specialist/
- - /2008/06/09/became-microsoft-certificate-technology-specialist.html
 ---
 Not that i really care, but [my manager](http://wimvdd.blogspot.com) seems to do, last week, during a couple of dead moments at Tech-Ed North America (I'll blog about that later on this week) i decided to take a couple of exams ([70-536](http://www.microsoft.com/learning/en/us/exams/70-536.mspx), [70-526](http://www.microsoft.com/learning/en/us/exams/70-526.mspx) and [70-528](http://www.microsoft.com/learning/en/us/exams/70-528.mspx)) and passed them 😉 
 

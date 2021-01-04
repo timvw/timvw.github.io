@@ -3,9 +3,6 @@ date: "2006-01-14T00:00:00Z"
 tags:
 - PHP
 title: Brainteaser
-aliases:
- - /2006/01/14/brainteaser/
- - /2006/01/14/brainteaser.html
 ---
 Earlier today Chung Leong, an intelligent regular at [comp.lang.php](news://comp.lang.php), posted a little brainteaser:
 

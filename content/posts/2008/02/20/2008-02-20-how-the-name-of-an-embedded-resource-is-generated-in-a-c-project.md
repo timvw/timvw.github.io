@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: How the name of an embedded resource is generated in a C# project
-aliases:
- - /2008/02/20/how-the-name-of-an-embedded-resource-is-generated-in-a-c-project/
- - /2008/02/20/how-the-name-of-an-embedded-resource-is-generated-in-a-c-project.html
 ---
 A while ago i was wondering how the name of an embedded resource is generated in a C&#35; project. Earlier today i was looking in Microsoft.CSharp.targets and found the answer
 

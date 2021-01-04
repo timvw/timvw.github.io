@@ -5,9 +5,6 @@ tags:
 - SQL
 - t-sql
 title: Building a Nums table (quickly)
-aliases:
- - /2011/07/13/building-a-nums-table-quickly/
- - /2011/07/13/building-a-nums-table-quickly.html
 ---
 A while ago i presented my approach to generate a nums table [here](http://www.timvw.be/2010/12/11/techniques-learned-in-sqltopia-look-ma-no-loops/). 
 

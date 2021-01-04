@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1273
 tags:
 - CSharp
 title: Brad Abrams and extension methods to the rescue..
-aliases:
- - /2009/09/29/brad-abrams-and-extension-methods-to-the-rescue/
- - /2009/09/29/brad-abrams-and-extension-methods-to-the-rescue.html
 ---
 Currently i am implementing [Sokoban](http://en.wikipedia.org/wiki/Sokoban) and i was pondering which methods i should add to my Cell class:
 

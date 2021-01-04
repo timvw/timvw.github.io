@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Adding DataGridViewColumns (lots of them)
-aliases:
- - /2006/09/14/adding-datagridviewcolumns-lots-of-them/
- - /2006/09/14/adding-datagridviewcolumns-lots-of-them.html
 ---
 Last couple of days i've been trying to add a couple (750+) columns into a DataGridView. Initially i tried the following
 

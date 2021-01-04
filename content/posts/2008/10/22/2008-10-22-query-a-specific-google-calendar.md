@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=728
 tags:
 - CSharp
 title: Query a specific Google Calendar
-aliases:
- - /2008/10/22/query-a-specific-google-calendar/
- - /2008/10/22/query-a-specific-google-calendar.html
 ---
 Despite the multiple copies of the [API Developer's Guide: .NET](http://code.google.com/apis/calendar/developers_guide_dotnet.html) i found i was unable to find how i should query a specific calendar (not the default). Anyway, it can be done by using the CalendarEntry.Content.BaseUri as the query uri. Here is an example
 

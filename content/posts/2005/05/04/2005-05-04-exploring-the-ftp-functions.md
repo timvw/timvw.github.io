@@ -3,9 +3,6 @@ date: "2005-05-04T00:00:00Z"
 tags:
 - PHP
 title: Exploring the FTP functions
-aliases:
- - /2005/05/04/exploring-the-ftp-functions/
- - /2005/05/04/exploring-the-ftp-functions.html
 ---
 I am still drowning in the work, and exams are coming close too, but i decided to blog something about the [FTP](http://www.php.net/ftp) functions in [PHP](http://www.php.net). The script will download all the files that are available on the remote server.
 

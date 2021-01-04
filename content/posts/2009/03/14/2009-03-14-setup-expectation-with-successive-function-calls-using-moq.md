@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=864
 tags:
 - CSharp
 title: Setup expectation with successive function calls using Moq
-aliases:
- - /2009/03/14/setup-expectation-with-successive-function-calls-using-moq/
- - /2009/03/14/setup-expectation-with-successive-function-calls-using-moq.html
 ---
 In the [Quickstart](http://code.google.com/p/moq/wiki/QuickStart) guide we find an example that shows us how to setup a different return value for each invocation as following
 

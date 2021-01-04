@@ -3,9 +3,6 @@ date: "2007-08-17T00:00:00Z"
 tags:
 - CSharp
 title: StreamHelper
-aliases:
- - /2007/08/17/streamhelper/
- - /2007/08/17/streamhelper.html
 ---
 The following is an example of a classic mistake for people that read from a [Stream](http://msdn2.microsoft.com/en-us/library/system.io.stream.aspx)
 

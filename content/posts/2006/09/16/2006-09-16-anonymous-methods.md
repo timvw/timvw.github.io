@@ -3,9 +3,6 @@ date: "2006-09-16T00:00:00Z"
 tags:
 - CSharp
 title: Anonymous methods
-aliases:
- - /2006/09/16/anonymous-methods/
- - /2006/09/16/anonymous-methods.html
 ---
 Suppose you add a couple of buttons to a panel as shown below. What do you think the message in the MessageBoxes will be?
 

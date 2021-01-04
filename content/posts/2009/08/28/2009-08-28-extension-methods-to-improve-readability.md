@@ -5,9 +5,6 @@ tags:
 - CSharp
 - Patterns
 title: Extension methods to improve readability
-aliases:
- - /2009/08/28/extension-methods-to-improve-readability/
- - /2009/08/28/extension-methods-to-improve-readability.html
 ---
 A common reason to take advantage of extension methods is to enhance readability (think fluent interfaces). My team uses the [specification pattern](http://en.wikipedia.org/wiki/Specification_pattern) regularly and in case a requirement says something like "if the player has reached level 10 a message should be displayed" they would implement it as
 

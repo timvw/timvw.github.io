@@ -5,9 +5,6 @@ tags:
 - PowerShell
 - SSIS
 title: Consume custom SSIS tasks without GAC installation
-aliases:
- - /2011/03/05/consume-custom-ssis-tasks-without-gac-installation/
- - /2011/03/05/consume-custom-ssis-tasks-without-gac-installation.html
 ---
 For a while i thought that in order to consume a custom SSIS task you had to install the assembly in the GAC. Now i know better 😉
 

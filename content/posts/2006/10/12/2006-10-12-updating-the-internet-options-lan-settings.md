@@ -3,9 +3,6 @@ date: "2006-10-12T00:00:00Z"
 tags:
 - CSharp
 title: Updating the Internet Options / Lan Settings
-aliases:
- - /2006/10/12/updating-the-internet-options-lan-settings/
- - /2006/10/12/updating-the-internet-options-lan-settings.html
 ---
 A while ago i wrote that i had created two .reg files to update my Internet Options / Lan Settings ([Automating the configuration of Internet Options / Lan Settings](http://www.timvw.be/automating-the-configuration-of-internet-options-and-lan-settings/)). Yesterday i build a little Windows Service that automates this completely. With [NotifyAddrChange](http://windowssdk.msdn.microsoft.com/en-gb/library/aa366329.aspx) i am notified whenever a change occurs in the table that maps IPv4 addresses to interfaces
 

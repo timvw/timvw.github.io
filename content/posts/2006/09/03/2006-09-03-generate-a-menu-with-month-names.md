@@ -3,9 +3,6 @@ date: "2006-09-03T00:00:00Z"
 tags:
 - PHP
 title: Generate a menu with month names
-aliases:
- - /2006/09/03/generate-a-menu-with-month-names/
- - /2006/09/03/generate-a-menu-with-month-names.html
 ---
 I still see people building their calendar control or month (or day) picker with a hardcoded array of month (or day) names. With the use of [strftime](http://www.php.net/strftime) you can easily build a [locale aware](http://www.php.net/setlocale) version. Here is an example
 

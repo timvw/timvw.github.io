@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1493
 tags:
 - CSharp
 title: Presenting PathBuilder
-aliases:
- - /2009/10/29/presenting-pathbuilder/
- - /2009/10/29/presenting-pathbuilder.html
 ---
 Currently it is annoying to build a path with [Path.Combine](http://msdn.microsoft.com/en-us/library/fyy7a5kt.aspx)
 

@@ -6,9 +6,6 @@ tags:
 - git
 - winmerge
 title: Using WinMerge as difftool on cygwin/git
-aliases:
- - /2011/03/12/using-winmerge-as-difftool-on-cygwingit/
- - /2011/03/12/using-winmerge-as-difftool-on-cygwingit.html
 ---
 Last couple of weeks i have been using [Git](http://git-scm.com/) on [cygwin](http://www.cygwin.com) and i got very satisfying results out of it. One thing that i wanted to tweak was the ability to use [WinMerge](http://winmerge.org/) to compare files. Here is how i do it:
 

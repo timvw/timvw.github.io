@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=2240
 tags:
 - PowerShell
 title: Force the removal of a file with PowerShell
-aliases:
- - /2011/10/18/force-the-removal-of-a-file-with-powershell/
- - /2011/10/18/force-the-removal-of-a-file-with-powershell.html
 ---
 Last couple of weeks I have been generating a lot of files (and restricting their ACLs) and today I decided to remove all those files. The problem is that my user account did not have permissions on those files. Here is a small script that will first take ownership of the file, then grants FullControl permissions, and finally removes the file 🙂
 

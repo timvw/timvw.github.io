@@ -5,9 +5,6 @@ tags:
 - CSharp
 - Patterns
 title: In case you really have to Append one array to another
-aliases:
- - /2009/12/04/in-case-you-really-have-to-append-one-array-to-another/
- - /2009/12/04/in-case-you-really-have-to-append-one-array-to-another.html
 ---
 Here is another problem i've seen people solve once too many: Append one array to another. STOP. Revisit the problem. Can't you simply use List<T> and move on to solving actual business problems? In case you really can't get rid of the arrays read the following
 

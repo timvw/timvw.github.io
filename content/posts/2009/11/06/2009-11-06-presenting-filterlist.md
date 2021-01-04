@@ -20,12 +20,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Presenting FilterList
-aliases:
- - /2009/11/06/presenting-filterlist/
- - /2009/11/06/presenting-filterlist.html
-
-wp_media_player:
-- 1
 ---
 Earlier today i decided to add 'Filtering' to my SortableBindingList. This resulted in writing a [FilterList](http://www.timvw.be/wp-content/code/csharp/FilterList.txt) class. This class can be easily used as following
 

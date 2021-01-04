@@ -3,9 +3,6 @@ date: "2006-01-12T00:00:00Z"
 tags:
 - PHP
 title: How private is private really?
-aliases:
- - /2006/01/12/how-private-is-private-really/
- - /2006/01/12/how-private-is-private-really.html
 ---
 Today i ended up at [private properties exposed](http://derickrethans.nl/private_properties_exposed.php) (Apparently it is also used by [PHPUnit](http://www.phpunit.de/en/index.php))
 

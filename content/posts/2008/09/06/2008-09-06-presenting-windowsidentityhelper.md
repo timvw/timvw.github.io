@@ -3,9 +3,6 @@ date: "2008-09-06T00:00:00Z"
 tags:
 - CSharp
 title: Presenting WindowsIdentityHelper
-aliases:
- - /2008/09/06/presenting-windowsidentityhelper/
- - /2008/09/06/presenting-windowsidentityhelper.html
 ---
 One of the difficulties of using the [WindowsIdentity](http://msdn.microsoft.com/en-us/library/system.security.principal.windowsidentity.aspx) class is the fact that it requires a handle ([IntPtr](http://msdn.microsoft.com/en-us/library/system.intptr.aspx)) to a Windows Security Token. Using the [LogonUser](http://msdn.microsoft.com/en-us/library/aa378184(VS.85).aspx) functionality we can get a hold of such a handle
 

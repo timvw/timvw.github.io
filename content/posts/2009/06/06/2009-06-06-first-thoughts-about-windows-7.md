@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1063
 tags:
 - Information Technology
 title: First thoughts about Windows 7
-aliases:
- - /2009/06/06/first-thoughts-about-windows-7/
- - /2009/06/06/first-thoughts-about-windows-7.html
 ---
 It is almost two years ago that i decided to [uninstall Vista](http://www.timvw.be/about-the-wow-i-removed-vista-from-my-harddisk-experience/) after a bad first impression. Nowadays i have learned to live with it, but i guess i will never understand what all the fuss was about.
 

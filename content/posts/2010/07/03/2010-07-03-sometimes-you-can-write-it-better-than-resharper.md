@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1768
 tags:
 - CSharp
 title: Sometimes you can write it better than Resharper
-aliases:
- - /2010/07/03/sometimes-you-can-write-it-better-than-resharper/
- - /2010/07/03/sometimes-you-can-write-it-better-than-resharper.html
 ---
 Here is a real-life example of when people are much better expressing intent than a tool: Consider the following code from a typical Silverlight Navigation application
 

@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=1972
 tags:
 - PowerShell
 title: Get variable value from variable with PowerShell
-aliases:
- - /2010/11/11/get-variable-value-from-variable-with-powershell/
- - /2010/11/11/get-variable-value-from-variable-with-powershell.html
 ---
 Sometimes you only know at runtime in which variable a certain value is stored. Let me clarify with an example:
 

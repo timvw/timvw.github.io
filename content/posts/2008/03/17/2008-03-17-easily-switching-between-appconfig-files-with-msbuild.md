@@ -3,9 +3,6 @@ date: "2008-03-17T00:00:00Z"
 tags:
 - Visual Studio
 title: Easily switching between App.Config files with MSBuild
-aliases:
- - /2008/03/17/easily-switching-between-appconfig-files-with-msbuild/
- - /2008/03/17/easily-switching-between-appconfig-files-with-msbuild.html
 ---
 Imagine the following situation: One codebase, two customers with different [Application Configuration files](http://msdn2.microsoft.com/en-us/library/kkz9kefa(VS.80).aspx). How can we easily switch between the different configurations? By taking advantage of the [Build Configurations](http://msdn2.microsoft.com/en-us/library/kkz9kefa(VS.80).aspx) functionality in Visual Studio we can easily switch between different configurations
 

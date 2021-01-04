@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Windows Forms
 title: Display WorkItems in a WinForms application
-aliases:
- - /2008/02/29/display-workitems-in-a-winforms-application/
- - /2008/02/29/display-workitems-in-a-winforms-application.html
 ---
 Using the Microsoft.TeamFoundation.WorkItemTracking.Controls assembly it is possibe to display WorkItems. Here is a little demo application that will display all the WorkItems that have been changed by one of the given users in the given range
 

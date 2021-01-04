@@ -4,9 +4,6 @@ guid: http://www.timvw.be/?p=872
 tags:
 - CSharp
 title: Getting started with Moq
-aliases:
- - /2009/03/21/getting-started-with-moq/
- - /2009/03/21/getting-started-with-moq.html
 ---
 In this article I will demonstrate the Moq API by means of a simple application that allows the user to manage a quote.
 

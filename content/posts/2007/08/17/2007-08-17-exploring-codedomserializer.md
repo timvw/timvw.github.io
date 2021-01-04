@@ -3,9 +3,6 @@ date: "2007-08-17T00:00:00Z"
 tags:
 - CSharp
 title: Exploring CodeDomSerializer
-aliases:
- - /2007/08/17/exploring-codedomserializer/
- - /2007/08/17/exploring-codedomserializer.html
 ---
 Sometimes we want absolute control over the code that the visual studio designer generates. Imagine that we have a UserControl with a Number property and instead of the default "this.userControl1.Number = 27;" code that the designer would generate we want it like "this.userControl1.Number = 1 + 3 + 23". In order to achieve this we first have to inform the designer that we want custom serialization. This is done by adding a [DesignerSerializerAttribute](http://msdn2.microsoft.com/en-us/library/system.componentmodel.design.serialization.designerserializerattribute.aspx) to our UserControl
 

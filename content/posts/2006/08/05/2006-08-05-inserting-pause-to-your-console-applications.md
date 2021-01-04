@@ -4,9 +4,6 @@ tags:
 - CSharp
 - Visual Studio
 title: Inserting pause to your Console Applications
-aliases:
- - /2006/08/05/inserting-pause-to-your-console-applications/
- - /2006/08/05/inserting-pause-to-your-console-applications.html
 ---
 When i write Console Applications i find myself to write the following two lines quite often
 

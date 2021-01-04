@@ -3,9 +3,6 @@ date: "2006-06-12T00:00:00Z"
 tags:
 - Hibernate
 title: Couple of screenshots of my graduation project
-aliases:
- - /2006/06/12/couple-of-screenshots-of-my-graduation-project/
- - /2006/06/12/couple-of-screenshots-of-my-graduation-project.html
 ---
 Here are a couple of screenshots of my graduation project i've been working on last couple of weeks. The GUI is built with Swing, the bussiness rules make extensive use of the Apache BeanUtils and Hibernate Validators packages and with PostgreSQL we have a solid database. Since it takes a while to load the EntityManagerFactory we've added a simple splashscreen:
 
