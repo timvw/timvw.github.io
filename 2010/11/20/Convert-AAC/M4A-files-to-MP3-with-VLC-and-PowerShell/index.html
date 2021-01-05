@@ -8,7 +8,7 @@
 vlc.exe -I dummy old.m4a :sout=#transcode{acodec=$codec,vcodec=dummy}:standard{access=file,mux=raw,dst=new.mp3} vlc://quit Let&rsquo;s wrap this command in a bit of PowerShell:
 function ConvertToMp3([switch] $inputObject, [string] $vlc = &#39;C:\Program Files\VideoLAN\VLC\vlc.exe&#39;) { PROCESS { $codec = &#39;mp3&#39;; $oldFile = $_; $newFile = $oldFile.FullName.Replace($oldFile.Extension, &#34;.$codec&#34;); &amp;&#34;$vlc&#34; -I dummy &#34;$oldFile&#34; &#34;:sout=#transcode{acodec=$codec,vcodec=dummy}:standard{access=file,mux=raw,dst=\`&#39;$newFile\`&#39;}&#34; vlc://quit | out-null; #Only remove source files when you are sure that the conversion works as you want  #Remove-Item $oldFile; } } And now we can use this function for *all* m4a files in a given folder:">
 <meta itemprop="datePublished" content="2010-11-20T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-05T07:03:09+01:00" />
+<meta itemprop="dateModified" content="2021-01-05T08:23:24+01:00" />
 <meta itemprop="wordCount" content="114">
 
 
@@ -21,7 +21,7 @@ function ConvertToMp3([switch] $inputObject, [string] $vlc = &#39;C:\Program Fil
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/2010/11/20/Convert-AAC/M4A-files-to-MP3-with-VLC-and-PowerShell/" />
 <meta property="article:published_time" content="2010-11-20T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-05T07:03:09+01:00" />
+<meta property="article:modified_time" content="2021-01-05T08:23:24+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Convert AAC/M4A files to MP3 with VLC and PowerShell"/>
 <meta name="twitter:description" content="Here is a way to convert your AAC/M4A files to MP3 using VLC media player:
