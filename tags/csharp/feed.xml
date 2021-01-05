@@ -1,0 +1,1777 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CSharp on Tim Van Wassenhove</title>
+    <link>https://timvw.be/tags/csharp/</link>
+    <description>Recent content in CSharp on Tim Van Wassenhove</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 21 Jul 2010 00:00:00 +0000</lastBuildDate><atom:link href="https://timvw.be/tags/csharp/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Quick reminder about the workings of Type.IsAssignableFrom</title>
+      <link>https://timvw.be/2010/07/21/quick-reminder-about-the-workings-of-type.isassignablefrom/</link>
+      <pubDate>Wed, 21 Jul 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/07/21/quick-reminder-about-the-workings-of-type.isassignablefrom/</guid>
+      <description>Here is a quick reminder about the workings of Type.IsAssignableFrom
+class Fruit {} class Banana : Fruit {} [Test] public void CanAssignBananaToFruit() { var fruit = typeof (Fruit); var banana = typeof (Banana); Assert.IsTrue(fruit.IsAssignableFrom(banana)); } [Test] public void CanNotAssignFruitToBanana() { var fruit = typeof(Fruit); var banana = typeof(Banana); Assert.IsFalse(banana.IsAssignableFrom(fruit)); } I really hate this API because it always seems backward to me. Here is how i really want to use it</description>
+    </item>
+    
+    <item>
+      <title>Removing Dead Tracks (Duplicates that don&#39;t exist) from iTunes using C#</title>
+      <link>https://timvw.be/2010/07/20/removing-dead-tracks-duplicates-that-dont-exist-from-itunes-using-c/</link>
+      <pubDate>Tue, 20 Jul 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/07/20/removing-dead-tracks-duplicates-that-dont-exist-from-itunes-using-c/</guid>
+      <description>Last week i noticed the following post from Scott Hanselman: Removing Dead Tracks (Duplicates that don&amp;rsquo;t exist) from iTunes using C#. As a good boy scout i noticed that these days iTunesLib.IITTrackCollection inherits from IEnumerable so i rewrote the code a little
+class Program { [STAThread] static void Main() { var itunes = new iTunesApp(); itunes.DeleteTracksThatDoNotExist(); } } public static class ITunesExtensions { public static void DeleteTracksThatDoNotExist(this IiTunes itunes) { var tracksThatDoNotExist = FindTracksThatDoNotExist(itunes); foreach (var track in tracksThatDoNotExist) track.</description>
+    </item>
+    
+    <item>
+      <title>Sometimes you can write it better than Resharper</title>
+      <link>https://timvw.be/2010/07/03/sometimes-you-can-write-it-better-than-resharper/</link>
+      <pubDate>Sat, 03 Jul 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/07/03/sometimes-you-can-write-it-better-than-resharper/</guid>
+      <description>Here is a real-life example of when people are much better expressing intent than a tool: Consider the following code from a typical Silverlight Navigation application
+foreach (UIElement child in LinksStackPanel.Children) { var hb = child as HyperlinkButton; if (hb != null &amp;amp;&amp;amp; hb.NavigateUri != null) { .. } } Resharper proposed to write this as following
+foreach (var hb in LinksStackPanel.Children .Select(child =&amp;gt; child as HyperlinkButton) .Where(hb =&amp;gt; hb !</description>
+    </item>
+    
+    <item>
+      <title>Support both GET and HEAD requests on the same method with WCF REST</title>
+      <link>https://timvw.be/2010/05/28/support-both-get-and-head-requests-on-the-same-method-with-wcf-rest/</link>
+      <pubDate>Fri, 28 May 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/05/28/support-both-get-and-head-requests-on-the-same-method-with-wcf-rest/</guid>
+      <description>A while ago i had to modify an existing WCF REST service which was being consumed by BITS. Apparently the implementation has changed in Windows7 in such a way that the BITS client first makes a HEAD request to discover the file size.
+The following attempts did not work
+// A method can not have both WebGet and WebInvoke attributes [OperationContract] [WebGet] [WebInvoke(Method=&amp;#34;HEAD&amp;#34;)] public Stream Download(string token) { } and</description>
+    </item>
+    
+    <item>
+      <title>WCF REST: generate correct Content-Length header for HEAD request</title>
+      <link>https://timvw.be/2010/05/28/wcf-rest-generate-correct-content-length-header-for-head-request/</link>
+      <pubDate>Fri, 28 May 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/05/28/wcf-rest-generate-correct-content-length-header-for-head-request/</guid>
+      <description>The point of a HEAD request is to return a Content-Length header, but with an empty body. The WCF transport stack has the annoying &amp;lsquo;feature&amp;rsquo; that it &amp;lsquo;corrects&amp;rsquo; the Content-Length header based on the stream that is returned. With the aid of Carlos Figueira&amp;rsquo;s MyLengthOnlyStream i was able to workaround that &amp;lsquo;feature&amp;rsquo; :) (I know, i know, a good old HttpHandler is so much easier to implement!)</description>
+    </item>
+    
+    <item>
+      <title>Enumerating SpecialFolders</title>
+      <link>https://timvw.be/2010/05/02/enumerating-specialfolders/</link>
+      <pubDate>Sun, 02 May 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/05/02/enumerating-specialfolders/</guid>
+      <description>Environment.SpecialFolder is a value-type that i always seem to forget about. Let&amp;rsquo;s try to do something about that by posting about it here :)
+foreach (var name in Enum.GetNames(typeof(Environment.SpecialFolder))) { var specialFolder = (Environment.SpecialFolder)Enum.Parse(typeof(Environment.SpecialFolder), name); Console.WriteLine(&amp;#34;{0,25} =&amp;gt; {1}&amp;#34;, name, Environment.GetFolderPath(specialFolder)); } &amp;lt;td&amp;gt; C:\Users\timvw\AppData\Roaming\Microsoft\Windows\Start Menu\Programs &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; C:\Users\timvw\Documents &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; C:\Users\timvw\Documents &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; C:\Users\timvw\Favorites &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; C:\Users\timvw\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; C:\Users\timvw\AppData\Roaming\Microsoft\Windows\Recent &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; C:\Users\timvw\AppData\Roaming\Microsoft\Windows\SendTo &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; C:\Users\timvw\AppData\Roaming\Microsoft\Windows\Start Menu &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; C:\Users\timvw\Music &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; C:\Users\timvw\Desktop &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; C:\Users\timvw\AppData\Roaming\Microsoft\Windows\Templates &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; C:\Users\timvw\AppData\Roaming &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; C:\Users\timvw\AppData\Local &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; C:\Users\timvw\AppData\Local\Microsoft\Windows\Temporary Internet Files &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; C:\Users\timvw\AppData\Roaming\Microsoft\Windows\Cookies &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; C:\Users\timvw\AppData\Local\Microsoft\Windows\History &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; C:\ProgramData &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; C:\Windows\system32 &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; C:\Program Files &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; C:\Users\timvw\Pictures &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; C:\Program Files\Common Files &amp;lt;/td&amp;gt;  </description>
+    </item>
+    
+    <item>
+      <title>Get root directory for IsolatedStorageFiles</title>
+      <link>https://timvw.be/2010/05/01/get-root-directory-for-isolatedstoragefiles/</link>
+      <pubDate>Sat, 01 May 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/05/01/get-root-directory-for-isolatedstoragefiles/</guid>
+      <description>Sometimes you want to know the absolute path of a file that is persisted with IsolatedStorageFile. Apparently there is an internal property RootDirectory which contains this information
+public static class IsolatedStorageFileExtensions { public static string GetRootDirectory(this IsolatedStorageFile isf) { var property = isf.GetType().GetProperty(&amp;#34;RootDirectory&amp;#34;, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetProperty); return (string)property.GetValue(isf, null); } } Here is a real world example of using SharpBITS.NET to download a file to IsolatedStorage:</description>
+    </item>
+    
+    <item>
+      <title>Exploring System.Interactive</title>
+      <link>https://timvw.be/2010/02/18/exploring-system.interactive/</link>
+      <pubDate>Thu, 18 Feb 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/02/18/exploring-system.interactive/</guid>
+      <description>A couple of weeks ago i was working on an application that would transfer data through a couple of components as a List. In essence, all we were doing over and over again was the following:
+interface IMapper { TEntity FromObjectList(List objectList); List ToObjectList(TEntity entity); } My initial implementation (using EnumerableEx operators from Reactive Extensions) looked like this
+public TEntity FromObjectList(List objectList) { var entity = new TEntity(); properties .Zip(objectList, (property, value) =&amp;gt; AssignValueToProperty(entity, property, value)) .</description>
+    </item>
+    
+    <item>
+      <title>Learned something from Resharper: Enumerable.OfType&lt;TResult&gt;</title>
+      <link>https://timvw.be/2010/02/17/learned-something-from-resharper-enumerable.oftypetresult/</link>
+      <pubDate>Wed, 17 Feb 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/02/17/learned-something-from-resharper-enumerable.oftypetresult/</guid>
+      <description>A couple of weeks ago i discovered Enumerable.OfType when i let Resharper rewrite my code as a Linq statement. Here is the original code:
+var selectedPersons = new List&amp;lt;personSelectItem&amp;gt;(); foreach(var selectedItem in selectedItems) { var selectedPerson = selectedItem as PersonSelectItem; if (selectedPerson == null) continue; selectedPersons.Add(selectedPerson); } And here is how it looks after the rewrite:
+var selectedPersons = selectedItems.OfType&amp;lt;personSelectItem&amp;gt;().ToList(); Yup, the Resharper license was definitely worth it&amp;rsquo;s money.</description>
+    </item>
+    
+    <item>
+      <title>Calculate EndpointAddress for Silverlight client</title>
+      <link>https://timvw.be/2010/02/15/calculate-endpointaddress-for-silverlight-client/</link>
+      <pubDate>Mon, 15 Feb 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/02/15/calculate-endpointaddress-for-silverlight-client/</guid>
+      <description>Because Silverlight checks the origin it considers http://localhost and http://127.0.0.1 as different locations. In case you want your visitors to be able to use both addresses you can recalculate the address as following:
+EndpointAddress GetEndpointAddress(EndpointAddress endpointAddress) { var scheme = Application.Current.Host.Source.GetComponents(UriComponents.Scheme, UriFormat.Unescaped); var serverAndPort = Application.Current.Host.Source.GetComponents(UriComponents.HostAndPort, UriFormat.Unescaped); var pathAndQuery = endpointAddress.Uri.GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped); return new EndpointAddress(scheme + &amp;#34;://&amp;#34; + serverAndPort + pathAndQuery); } And you can use this method as following:</description>
+    </item>
+    
+    <item>
+      <title>Another missing method for IEnumerable&lt;T&gt;</title>
+      <link>https://timvw.be/2010/02/10/another-missing-method-for-ienumerablet/</link>
+      <pubDate>Wed, 10 Feb 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/02/10/another-missing-method-for-ienumerablet/</guid>
+      <description>Currently there are two overloads for OrderBy on Enumerable
+ OrderBy(this IEnumerablesource, Func&amp;lt;TSource, TKey&amp;gt; keySelector) OrderBy(this IEnumerablesource, Func&amp;lt;TSource, TKey&amp;gt; keySelector, IComparercomparer)  Because i don&amp;rsquo;t want to implement an IComparereach time i have implemented the following class
+class DelegateComparer&amp;lt;T&amp;gt; : IComparer&amp;lt;T&amp;gt; { public Func&amp;lt;t, T, int&amp;gt; CompareFunction { get; set; } public DelegateComparer(Func&amp;lt;t, T, int&amp;gt; compareFunction) { CompareFunction = compareFunction; } public int Compare(T x, T y) { return CompareFunction(x, y); } } And now i can define a nice extension method:</description>
+    </item>
+    
+    <item>
+      <title>Verify that a X509Certificate can be used for key exchange</title>
+      <link>https://timvw.be/2010/02/02/verify-that-a-x509certificate-can-be-used-for-key-exchange/</link>
+      <pubDate>Tue, 02 Feb 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/02/02/verify-that-a-x509certificate-can-be-used-for-key-exchange/</guid>
+      <description>Here is another method that earned it&amp;rsquo;s place in my ever growing toolbox:
+public static bool CanDoKeyExchange(this X509Certificate2 certificate) { if (!certificate.HasPrivateKey) return false; var privateKey = certificate.PrivateKey as RSACryptoServiceProvider; if (privateKey == null) return false; var canDoKeyExchange = privateKey.CspKeyContainerInfo.KeyNumber == KeyNumber.Exchange; return canDoKeyExchange; } </description>
+    </item>
+    
+    <item>
+      <title>Presenting ValueType&lt;T&gt;</title>
+      <link>https://timvw.be/2010/01/28/presenting-valuetypet/</link>
+      <pubDate>Thu, 28 Jan 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/01/28/presenting-valuetypet/</guid>
+      <description>Here is a base class for some code that i have written once too many in my life: (In case you&amp;rsquo;re an early adaptor (.Net 4.0) you may want to use System.Tupleas base class)
+public class ValueType&amp;lt;T&amp;gt; : IComparable, IComparable&amp;lt;valueType&amp;lt;T&amp;gt;&amp;gt;, IEquatable&amp;lt;valueType&amp;lt;T&amp;gt;&amp;gt; where T : IComparable&amp;lt;T&amp;gt; { protected T Value { get; private set; } public ValueType(T value) { Value = value; } public override int GetHashCode() { return Value.GetHashCode(); } public override string ToString() { return Value.</description>
+    </item>
+    
+    <item>
+      <title>Programming the Bus Pirate with C#</title>
+      <link>https://timvw.be/2010/01/16/programming-the-bus-pirate-with-c/</link>
+      <pubDate>Sat, 16 Jan 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/01/16/programming-the-bus-pirate-with-c/</guid>
+      <description>A while ago i received my Bus Pirate from Seeed Studio Depot. In essence it is a universal serial bus interface and i would love to program it using c#. I know that i can use the DataReceived event and then fiddle with bits (read here if you&amp;rsquo;re into that kind of self-punishment) but spawning a separate thread to do the blocking work is ten times less work to get it up and running</description>
+    </item>
+    
+    <item>
+      <title>About raising events</title>
+      <link>https://timvw.be/2010/01/09/about-raising-events/</link>
+      <pubDate>Sat, 09 Jan 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/01/09/about-raising-events/</guid>
+      <description>Very often i see people write the following to &amp;lsquo;safely&amp;rsquo; raise a method
+public event EventHandler Stopped; void RaiseStoppedEvent() { if (Stopped != null) Stopped(this, EventArgs.Empty); } Some developers think that they should program defensively and avoid the potential concurrency problem
+public event EventHandler Stopped; void RaiseStoppedEvent() { var handler = Stopped; if (handler!= null) handler(this, EventArgs.Empty); } And then there is Tim&amp;rsquo;s way to raise an event: (If i&amp;rsquo;m not mistaken it was Ayende who once blogged about this)</description>
+    </item>
+    
+    <item>
+      <title>Creating graphs with the Silverlight Toolkit</title>
+      <link>https://timvw.be/2010/01/08/creating-graphs-with-the-silverlight-toolkit/</link>
+      <pubDate>Fri, 08 Jan 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/01/08/creating-graphs-with-the-silverlight-toolkit/</guid>
+      <description>As i wrote already: In a chart the elements on the X-axis are usually numbers or dates, and the elements on the Y-axis are usually doubles. We can define such a combination as following
+public class Point&amp;lt;T&amp;gt; { public T X { get; set; } public double Y { get; set; } } Here is a little helper function for creating line series that are used by the Silverlight Toolkit:</description>
+    </item>
+    
+    <item>
+      <title>Creating series of elements</title>
+      <link>https://timvw.be/2010/01/08/creating-series-of-elements/</link>
+      <pubDate>Fri, 08 Jan 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/01/08/creating-series-of-elements/</guid>
+      <description>Lately i have done quite a bit of charting. Very often the X-axis is populated with a series of numbers or dates. This can be as simple as: (My very little DSL in Jeremy D. Miller Style)
+[Test] public void ShouldBeAbleToGetSeriesOfNumbers() { // Arrange 	var series = 3.To(5); // Act 	var elements = series.Elements; // Assert 	var expected = new[] { 3, 4, 5 }; CollectionAssert.AreEqual(expected, elements); } [Test] public void ShouldBeAbleToGetSeriesOfDays() { // Arrange 	var now = DateTime.</description>
+    </item>
+    
+    <item>
+      <title>Ninject: connect an IProxyFactory component to the kernel</title>
+      <link>https://timvw.be/2009/12/16/ninject-connect-an-iproxyfactory-component-to-the-kernel/</link>
+      <pubDate>Wed, 16 Dec 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/12/16/ninject-connect-an-iproxyfactory-component-to-the-kernel/</guid>
+      <description>Because it&amp;rsquo;s the second time that i run into this i will post the solution here so that i (and all the other people that run into the same issue) can easily solve it next time. Anyway, i was playing with Ninject and ran into the following exception:
+ Error activating XXX: the implementation type YYY requests static interceptors, or dynamic interceptors have been defined.
+  In order to provide interception, you must connect an IProxyFactory component to the kernel.</description>
+    </item>
+    
+    <item>
+      <title>In case you really have to Append one array to another</title>
+      <link>https://timvw.be/2009/12/04/in-case-you-really-have-to-append-one-array-to-another/</link>
+      <pubDate>Fri, 04 Dec 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/12/04/in-case-you-really-have-to-append-one-array-to-another/</guid>
+      <description>Here is another problem i&amp;rsquo;ve seen people solve once too many: Append one array to another. STOP. Revisit the problem. Can&amp;rsquo;t you simply use Listand move on to solving actual business problems? In case you really can&amp;rsquo;t get rid of the arrays read the following
+Given() { source = new[] { SourceElement }; destination = new[] { DestinationElement }; } and
+When() { source.AppendTo(ref destination); } and
+ThenTheDestinationShouldStillHaveTheDestinationElement() { Assert.AreEqual(DestinationElement, destination[0]); } and</description>
+    </item>
+    
+    <item>
+      <title>Easy pattern for Control state</title>
+      <link>https://timvw.be/2009/11/21/easy-pattern-for-control-state/</link>
+      <pubDate>Sat, 21 Nov 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/11/21/easy-pattern-for-control-state/</guid>
+      <description>If you have decided that your WebControl requires to maintain it&amp;rsquo;s state you will want to figure out how to implement Control state. Most examples on the web will then create an array of objects and then hardcode the indices to find stuff back&amp;hellip; Simply define a serializable inner class and use that instead of the &amp;lsquo;magic array object&amp;rsquo;. Eg
+class SilverlightHost : WebControl { [Serializable] class State { public object BaseState { get; set; } public string SilverlightUrl { get; set; } public string SilverlightErrorHandlerUrl { get; set; } public Dictionary&amp;lt;string, string&amp;gt; Parameters { get; set; } } protected override void OnInit(EventArgs e) { base.</description>
+    </item>
+    
+    <item>
+      <title>Couple of methods missing on ObservableCollection</title>
+      <link>https://timvw.be/2009/11/06/couple-of-methods-missing-on-observablecollection/</link>
+      <pubDate>Fri, 06 Nov 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/11/06/couple-of-methods-missing-on-observablecollection/</guid>
+      <description>Here are a couple of methods that are missing on ObservableCollection
+public static class ObservableCollectionExtensions { public static void AddRange&amp;lt;T&amp;gt;(this ObservableCollection&amp;lt;T&amp;gt; observableCollection, IEnumerable&amp;lt;T&amp;gt; elements) { foreach (var element in elements) observableCollection.Add(element); } public static ObservableCollection&amp;lt;T&amp;gt; Create&amp;lt;T&amp;gt;(IEnumerable&amp;lt;T&amp;gt; elements) { var observableCollection = new ObservableCollection&amp;lt;T&amp;gt;(); observableCollection.AddRange(elements); return observableCollection; } } </description>
+    </item>
+    
+    <item>
+      <title>Presenting FilterList</title>
+      <link>https://timvw.be/2009/11/06/presenting-filterlist/</link>
+      <pubDate>Fri, 06 Nov 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/11/06/presenting-filterlist/</guid>
+      <description>Earlier today i decided to add &amp;lsquo;Filtering&amp;rsquo; to my SortableBindingList. This resulted in writing a FilterList class. This class can be easily used as following
+void textBoxFilter_KeyUp(object sender, KeyEventArgs e) { var filterChars = this.textBoxFilter.Text.ToLower(); this.Filter(filterChars); } void Filter(string filterChars) { var persons = (FilterList&amp;lt;person&amp;gt;)this.dataGridView1.DataSource; persons.Filter(p =&amp;gt; p.Firstname.ToLower().Contains(filterChars)); } I even created a screencast to demonstrate it:
+[mediaplayer src=&amp;lsquo;http://www.timvw.be/screencasts/filterlist.wmv&amp;rsquo; width=512 height=344]</description>
+    </item>
+    
+    <item>
+      <title>Another method i wrote once too many</title>
+      <link>https://timvw.be/2009/11/01/another-method-i-wrote-once-too-many/</link>
+      <pubDate>Sun, 01 Nov 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/11/01/another-method-i-wrote-once-too-many/</guid>
+      <description>Virtually every Silverlight application will fetch resources at one point or another. In case you&amp;rsquo;re using the WebClient you have probably written the following in your xxxCompletedEventHandler
+if (e.Error != null &amp;amp;&amp;amp; !e.Cancelled) { // do something with the result } Anyway, i don&amp;rsquo;t like repetition so i captured the conditions in a method:
+public static class ExtensionMethods { public static bool HasResult(this AsyncCompletedEventArgs e) { if (e.Error != null) return false; if (e.</description>
+    </item>
+    
+    <item>
+      <title>Party for one</title>
+      <link>https://timvw.be/2009/10/29/party-for-one/</link>
+      <pubDate>Thu, 29 Oct 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/10/29/party-for-one/</guid>
+      <description>Inspired by Jimmy Bogard&amp;rsquo;s More missing LINQ operators i found another one
+public static IEnumerable&amp;lt;T&amp;gt; MakeEnumerable&amp;lt;T&amp;gt;(this T element) { yield return element; } </description>
+    </item>
+    
+    <item>
+      <title>Presenting PathBuilder</title>
+      <link>https://timvw.be/2009/10/29/presenting-pathbuilder/</link>
+      <pubDate>Thu, 29 Oct 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/10/29/presenting-pathbuilder/</guid>
+      <description>Currently it is annoying to build a path with Path.Combine
+var home1 = Path.Combine(Path.Combine(Path.Combine(&amp;#34;C&amp;#34;, &amp;#34;Users&amp;#34;), &amp;#34;timvw&amp;#34;), &amp;#34;My Documents&amp;#34;); And here is how it can be:
+var home2 = PathBuilder.Combine(&amp;#34;C&amp;#34;, &amp;#34;Users&amp;#34;, &amp;#34;timvw&amp;#34;, &amp;#34;My Documents&amp;#34;); The implementation is pretty simple:
+public static class PathBuilder { public static string Combine(params string[] parts) { return parts.Aggregate((l, r) =&amp;gt; Path.Combine(l, r)); } } </description>
+    </item>
+    
+    <item>
+      <title>Separation of concerns: Behavior = Trigger &#43; TriggerAction</title>
+      <link>https://timvw.be/2009/10/19/separation-of-concerns-behavior-trigger-triggeraction/</link>
+      <pubDate>Mon, 19 Oct 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/10/19/separation-of-concerns-behavior-trigger-triggeraction/</guid>
+      <description>If you look at my KeyBehavior you notice that it is doing two things: register for events so that the behavior can be triggered and handle the actual command invocation. In order to enhance reuse we can refactor this KeyBehavior in a KeyTrigger and an InvokeCommandAction. Well, we&amp;rsquo;re not going to do that, because they exist already in the silverlight sdk.
+A shortcoming of the InvokeCommandAction is that it can only invoke commands on the FrameworkElement itself, thus we write a custom implementation that finds commands on the DataContext instead</description>
+    </item>
+    
+    <item>
+      <title>True KeyBehavior with System.Windows.Interactivity.Behavior</title>
+      <link>https://timvw.be/2009/10/19/true-keybehavior-with-system.windows.interactivity.behavior/</link>
+      <pubDate>Mon, 19 Oct 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/10/19/true-keybehavior-with-system.windows.interactivity.behavior/</guid>
+      <description>Yesterday i demonstrated how attached properties can be used to invoke commands on specific key presses (and releases). With the aid of System.Windows.Interactivity.Behavior we can implement a true behavior and we get an extension point to do the required cleanup.
+&amp;lt;grid&amp;gt; &amp;lt;interactivity:Interaction.Behaviors&amp;gt; &amp;lt;inf:KeyBehavior&amp;gt; &amp;lt;inf:KeyBehavior.DownKeyCommands&amp;gt; &amp;lt;inf:KeyCommandName Key=&amp;#34;Right&amp;#34; CommandName=&amp;#34;PlayerRight&amp;#34; /&amp;gt; &amp;lt;inf:KeyCommandName Key=&amp;#34;Left&amp;#34; CommandName=&amp;#34;PlayerLeft&amp;#34; /&amp;gt; &amp;lt;inf:KeyCommandName Key=&amp;#34;Up&amp;#34; CommandName=&amp;#34;PlayerUp&amp;#34; /&amp;gt; &amp;lt;inf:KeyCommandName Key=&amp;#34;Down&amp;#34; CommandName=&amp;#34;PlayerDown&amp;#34; /&amp;gt; &amp;lt;/inf:KeyBehavior.DownKeyCommands&amp;gt; &amp;lt;/inf:KeyBehavior&amp;gt; &amp;lt;/interactivity:Interaction.Behaviors&amp;gt; ... &amp;lt;/grid&amp;gt; The behavior implementation is the same as yesterday, only this time we thankfully override the OnAttached and OnDetaching methods</description>
+    </item>
+    
+    <item>
+      <title>Silverlight: leveraging attached properties to handle key events</title>
+      <link>https://timvw.be/2009/10/17/silverlight-leveraging-attached-properties-to-handle-key-events/</link>
+      <pubDate>Sat, 17 Oct 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/10/17/silverlight-leveraging-attached-properties-to-handle-key-events/</guid>
+      <description>I strongly believe that input handling is a responsability that belongs to the View. At first i simply added the following in the code-behind of my GameView
+protected override void OnKeyDown(KeyEventArgs e) { base.OnKeyDown(e); if (e.Key == Key.Left) Model.MovePlayerLeft(); ... } But i wanted to play with the cool kids so i exposed ICommand properties on my ViewModel instead and rewrote the code like this
+protected override void OnKeyDown(KeyEventArgs e) { base.</description>
+    </item>
+    
+    <item>
+      <title>ViewModel to translate domain messages to view events</title>
+      <link>https://timvw.be/2009/10/13/viewmodel-to-translate-domain-messages-to-view-events/</link>
+      <pubDate>Tue, 13 Oct 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/10/13/viewmodel-to-translate-domain-messages-to-view-events/</guid>
+      <description>Here is an example of a ViewModel that translates domain messages to view events:
+class GameViewModel : INotifyPropertyChanged, IListener&amp;lt;boardChanged&amp;gt; { public event PropertyChangedEventHandler PropertyChanged = delegate { }; public GameViewModel() { var messageBus = ServiceLocator.MessageBus; messageBus.Subscribe&amp;lt;boardChanged&amp;gt;(this); } void IListener&amp;lt;boardChanged&amp;gt;.Handle(BoardChanged message) { PropertyChanged(&amp;#34;Board&amp;#34;); } } </description>
+    </item>
+    
+    <item>
+      <title>Fluent Builders: More than creating context specifications</title>
+      <link>https://timvw.be/2009/10/08/fluent-builders-more-than-creating-context-specifications/</link>
+      <pubDate>Thu, 08 Oct 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/10/08/fluent-builders-more-than-creating-context-specifications/</guid>
+      <description>Last couple of months i have been using the concept of (Fluent) Builder classes in order to create context specifications and i blogged about the steps i take to design their API. Lately i have realised that this concept has more uses than context specifcation only. Here is an example:
+In sokoban a game board can be stored in plain text using the following &amp;lsquo;protocol&amp;rsquo;:
+   Level element Character     Wall #   Player @   Player on Goal +   Box $   Box on Goal *   Goal .</description>
+    </item>
+    
+    <item>
+      <title>Fluent Builders: The case against implicit conversion</title>
+      <link>https://timvw.be/2009/10/08/fluent-builders-the-case-against-implicit-conversion/</link>
+      <pubDate>Thu, 08 Oct 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/10/08/fluent-builders-the-case-against-implicit-conversion/</guid>
+      <description>Most people add an implicit conversion to their builder API which gives them the advantage that they don&amp;rsquo;t have to call Build explicitely. I have decided that i do not want to have this implicit conversion for a couple of reasons:
+ C# does not allow to define implicit conversions to or from an interface Implicit conversions are not very discoverable Implicit conversions can break the API  Here is an example to clarify that last reason: Consider an OrderBuilder which requires the user to provide a product and then a quantity:</description>
+    </item>
+    
+    <item>
+      <title>Fluent Builders: The case against implicit conversion (2)</title>
+      <link>https://timvw.be/2009/10/08/fluent-builders-the-case-against-implicit-conversion-2/</link>
+      <pubDate>Thu, 08 Oct 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/10/08/fluent-builders-the-case-against-implicit-conversion-2/</guid>
+      <description>Here is another example that demonstrates how implicit conversion in a Fluent Builder can lead to surprises (Jan Van Ryswyck noticed this too). Originally the code in my previous example was the following:
+var order = new OrderBuilder(); Wich would make the c# compiler conclude that order is an OrderBuilder instead of an Order.</description>
+    </item>
+    
+    <item>
+      <title>Brad Abrams and extension methods to the rescue..</title>
+      <link>https://timvw.be/2009/09/29/brad-abrams-and-extension-methods-to-the-rescue../</link>
+      <pubDate>Tue, 29 Sep 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/09/29/brad-abrams-and-extension-methods-to-the-rescue../</guid>
+      <description>Currently i am implementing Sokoban and i was pondering which methods i should add to my Cell class:
+ bool HoldsWall bool HoldsBox bool HoldsPlayer  Or
+ bool HoldsPieceOfType(Type type)  Which option should i choose? With the aid of extension methods (in the same namespace) i can have them both:
+namespace Sokoban.Domain { public static class ExtensionMethods { public static bool HoldsBox(this Cell cell) { return cell.HoldsPieceOfType(typeof(Box)); } public static bool HoldsPlayer(this Cell cell) { return cell.</description>
+    </item>
+    
+    <item>
+      <title>Improve readability with LINQ</title>
+      <link>https://timvw.be/2009/09/29/improve-readability-with-linq/</link>
+      <pubDate>Tue, 29 Sep 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/09/29/improve-readability-with-linq/</guid>
+      <description>At first i was not very fond of LINQ but it seems that i am finally convinced that LINQ may improve readability:
+bool IsCompleted() { var boxesNotOnGoal = from cell in Cells where cell.HoldsBox() &amp;amp;&amp;amp; !cell.IsGoal() select cell.Piece; return boxesNotOnGoal.Any(); } </description>
+    </item>
+    
+    <item>
+      <title>Instruct T4 to use C# v3.5</title>
+      <link>https://timvw.be/2009/09/11/instruct-t4-to-use-c#-v3.5/</link>
+      <pubDate>Fri, 11 Sep 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/09/11/instruct-t4-to-use-c#-v3.5/</guid>
+      <description>Consider this simple T4 template:
+&amp;lt;# for (var i = 0; i &amp;lt; 10; ++i) { WriteLine(&amp;#34;hello&amp;#34;); } #&amp;gt; Trying to build the project results in a compilation error because &amp;lsquo;var&amp;rsquo; is an unknown type. A bit of research learned me that i should instruct the processor to use a specific c# version like this:
+&amp;lt;#@ template language=&amp;#34;C#v3.5&amp;#34; inherits=&amp;#34;Microsoft.VisualStudio.TextTemplating.VSHost.ModelingTextTransformation&amp;#34; #&amp;gt; &amp;lt;# for (var i = 0; i &amp;lt; 10; ++i) { WriteLine(&amp;#34;hello&amp;#34;); } #&amp;gt; Problem solved 🙂</description>
+    </item>
+    
+    <item>
+      <title>Extension methods to improve readability</title>
+      <link>https://timvw.be/2009/08/28/extension-methods-to-improve-readability/</link>
+      <pubDate>Fri, 28 Aug 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/08/28/extension-methods-to-improve-readability/</guid>
+      <description>A common reason to take advantage of extension methods is to enhance readability (think fluent interfaces). My team uses the specification pattern regularly and in case a requirement says something like &amp;ldquo;if the player has reached level 10 a message should be displayed&amp;rdquo; they would implement it as
+if (new HasReachedLevel(10).IsSatisfiedBy(player)) { view.DisplayMessage(&amp;#34;Congratulations! You have reached level 10.&amp;#34;); } Pretty good but did you notice that they changed the order of player and level in their (code) story?</description>
+    </item>
+    
+    <item>
+      <title>About the design of a fluent interface</title>
+      <link>https://timvw.be/2009/08/17/about-the-design-of-a-fluent-interface/</link>
+      <pubDate>Mon, 17 Aug 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/08/17/about-the-design-of-a-fluent-interface/</guid>
+      <description>Now that i have presented a simple ControlStateMachine i can raise the bar a little. A statemachine that handles commands. Here is how a developer should be able to initialize this machine:
+sut.WhenIn(States.Loading) .On(Commands.Next) .Do(() =&amp;gt; Console.WriteLine(&amp;#34;got next command while loading...&amp;#34;)) .Do(() =&amp;gt; Console.WriteLine(&amp;#34;doing it again...&amp;#34;)) .On(Commands.Previous) .Do(() =&amp;gt; Console.WriteLine(&amp;#34;got previous command while loading...&amp;#34;)); sut.WhenIn(States.Ready) .On(Commands.Previous) .Do(() =&amp;gt; Console.WriteLine(&amp;#34;got previous command while ready...&amp;#34;)); So how should we define our methods to accomplish this initialization style?</description>
+    </item>
+    
+    <item>
+      <title>About the implementation of a fluent interface</title>
+      <link>https://timvw.be/2009/08/17/about-the-implementation-of-a-fluent-interface/</link>
+      <pubDate>Mon, 17 Aug 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/08/17/about-the-implementation-of-a-fluent-interface/</guid>
+      <description>Now that i have defined my API for initialization it is time to implement it. Inspired by the Moq.Language and Moq.Language.Flow namespaces in Moq i have decided to define my interfaces in a separate namespace: Infrastructure.StateMachineLanguage.
+Ever since i have read Clean code i feel the need to write classes that do one thing (and one thing only) so i came up with the following classes
+ something to store commands per state, CommandsForState something to store actions per command, ActionsForCommand  For the implementation of the IChooseCommandAndAction interface i have decided to create a class that falls back on my classes that handle IChooseCommand and IChooseAction already</description>
+    </item>
+    
+    <item>
+      <title>Presenting ControlStateMachine</title>
+      <link>https://timvw.be/2009/08/17/presenting-controlstatemachine/</link>
+      <pubDate>Mon, 17 Aug 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/08/17/presenting-controlstatemachine/</guid>
+      <description>Here is a situation we are all familiar with: A form that only displays a certain set of controls depending on the mode or state of the application. Let me start with an example: At design time there are three buttons
+The user can look at the data and decide to edit it:
+Or the user is editing the data and can decide to commit or discard her changes:
+A couple of years i ago i used to spread such display logic all over my code and it was hard to figure out which control was visible at a given point.</description>
+    </item>
+    
+    <item>
+      <title>Presenting ControlChanges</title>
+      <link>https://timvw.be/2009/08/15/presenting-controlchanges/</link>
+      <pubDate>Sat, 15 Aug 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/08/15/presenting-controlchanges/</guid>
+      <description>Because i noticed that i kept writing the same operations on control over and over again i decided to capture them in a couple of functions. I presume most of you have done this already. Here is the list of operations:
+In case it is not clear what these methods should do i have defined the following specifications for them:
+Get the code here: ControlChanges and WhenExecutingControlChanges. Stay tuned for more!</description>
+    </item>
+    
+    <item>
+      <title>Experimenting with ControlStateMachine and Fluent interfaces</title>
+      <link>https://timvw.be/2009/08/13/experimenting-with-controlstatemachine-and-fluent-interfaces/</link>
+      <pubDate>Thu, 13 Aug 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/08/13/experimenting-with-controlstatemachine-and-fluent-interfaces/</guid>
+      <description>A long time ago i read Build your own CAB series and recently i noticed that there is a wiki: Presentation Patterns Wiki! and it inspired me to experiment with state machines. Here are a couple of examples:
+controlStateMachine = new ControlStateMachine&amp;lt;states&amp;gt;(this); controlStateMachine.AfterEachStateChange() .Do(MakeRelevantButtonsVisible); controlStateMachine.WhenStateChangesTo(States.RetrievingSubscriptionPeriod) .TheOnlyVisibleControlsAre(flowLayoutPanel1, datePicker1); controlStateMachine.WhenStateChangesTo(States.RetrievingCustomerInformation) .MakeVisible(customerInput1) .Do(() =&amp;gt; customerInput1.Dock = DockStyle.Fill); controlStateMachine.WhenStateChangesTo(States.Ready) .MakeInvisible(customerInput1); And here is another example:
+wizardStateMachine = new WizardStateMachine&amp;lt;states&amp;gt;(controlStateMachine); wizardStateMachine.InState(States.RetrievingSubscriptionPeriod) .OnCommand(WizardCommands.Next) .TransitionTo(States.RetrievingCustomerInformation); wizardStateMachine.InState(States.RetrievingCustomerInformation) .OnCommand(WizardCommands.Back) .</description>
+    </item>
+    
+    <item>
+      <title>Small modification to achieve better modularity with Prism</title>
+      <link>https://timvw.be/2009/07/11/small-modification-to-achieve-better-modularity-with-prism/</link>
+      <pubDate>Sat, 11 Jul 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/07/11/small-modification-to-achieve-better-modularity-with-prism/</guid>
+      <description>I have been experimenting with WPF and Prism (Composite Application Guidance for WPF and Silverlight) and ran into a major issue: modularity. Here is an excerpt from the documentation
+ Modules have explicit boundaries, typically by subsystem or feature. Having these boundaries makes it easier for separate teams to develop modules. On large applications, teams may be organized by cross-cutting capabilities in addition to being organized by a specific subsystem or feature.</description>
+    </item>
+    
+    <item>
+      <title>Using the Do handler for a method with out parameters</title>
+      <link>https://timvw.be/2009/05/25/using-the-do-handler-for-a-method-with-out-parameters/</link>
+      <pubDate>Mon, 25 May 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/05/25/using-the-do-handler-for-a-method-with-out-parameters/</guid>
+      <description>As you can read in the documentation for Rhino Mocks:
+ There are times when the returning a static value is not good enough for the scenario that you are testing, so for those cases, you can use the Do() handler to add custom behavior when the method is called. In general, the Do() handler simply replaces the method call. Its return value will be returned from the mocked call (as well as any exception thrown).</description>
+    </item>
+    
+    <item>
+      <title>Measuring elapsed time</title>
+      <link>https://timvw.be/2009/05/16/measuring-elapsed-time/</link>
+      <pubDate>Sat, 16 May 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/05/16/measuring-elapsed-time/</guid>
+      <description>As the documentation for System.Diagnostics.Stopwatch says
+ In a typical Stopwatch scenario, you call the Start method, then eventually call the Stop method, and then you check elapsed time using the Elapsed property.
+ I find it a shame that they didn&amp;rsquo;t provide a method that covers this particular scenario so i did it myself
+public static class Stopwatch { public static TimeSpan Measure(this Action action) { var stopwatch = new System.</description>
+    </item>
+    
+    <item>
+      <title>POC: Moq API adapter for Rhino Mocks</title>
+      <link>https://timvw.be/2009/04/03/poc-moq-api-adapter-for-rhino-mocks/</link>
+      <pubDate>Fri, 03 Apr 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/04/03/poc-moq-api-adapter-for-rhino-mocks/</guid>
+      <description>One of my main concerns with third party software, and software in general, is maintainability. The Rhino Mocks project has been out there for a couple of years now and i&amp;rsquo;m pretty confident that it won&amp;rsquo;t go away anytime soon. The Moq project is a lot younger and will have to proove that it can stay alive&amp;hellip;
+Anyway, because most people seem to digg the Moq API i have decided to write an adapter that provides the same API using Rhino Mocks.</description>
+    </item>
+    
+    <item>
+      <title>Strict mocks lead to overspecification</title>
+      <link>https://timvw.be/2009/03/24/strict-mocks-lead-to-overspecification/</link>
+      <pubDate>Tue, 24 Mar 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/03/24/strict-mocks-lead-to-overspecification/</guid>
+      <description>Here is an example that demonstrates how strick mocks lead to overspecification. Imagine that we are creating a simple screen in a Passive View architecture. The first feature that we implement is displaying the message &amp;ldquo;edit&amp;rdquo; when the user clicks the edit button
+[Fact] public void ShouldDisplayEditClickMessage() { // Establish context 	MockRepository mockRepository = new MockRepository(); IView view = mockRepository.StrictMock&amp;lt;iview&amp;gt;(); Expect.Call(delegate { view.EditClick += null; }).IgnoreArguments(); mockRepository.Replay(view); // Create sut 	Presenter sut = new Presenter(view); // Setup expectations 	mockRepository.</description>
+    </item>
+    
+    <item>
+      <title>Comparing Moq to Rhino Mocks</title>
+      <link>https://timvw.be/2009/03/23/comparing-moq-to-rhino-mocks/</link>
+      <pubDate>Mon, 23 Mar 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/03/23/comparing-moq-to-rhino-mocks/</guid>
+      <description>So which mocking framework should we use? Do we fall back on good old Rhino Mocks or do we choose for the new kid on the block Moq?
+From a technical point of view i would dare to say that they will be able to support the same set of features because they&amp;rsquo;re both based on Castle&amp;rsquo;s DynamicProxy. Rhino Mocks has the advantages that it, unlike Moq, supports the mocking of Delegates and can be used in a .</description>
+    </item>
+    
+    <item>
+      <title>Getting started with Moq</title>
+      <link>https://timvw.be/2009/03/21/getting-started-with-moq/</link>
+      <pubDate>Sat, 21 Mar 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/03/21/getting-started-with-moq/</guid>
+      <description>In this article I will demonstrate the Moq API by means of a simple application that allows the user to manage a quote.
+In order to prevent that we have to rewrite our application when we move to a different graphical environment such as Web Forms, Silverlight or WPF I have decided to apply the [Humble Object](http://xunitpatterns.com/Humble Object.html) pattern in the design. The implementation of the application has been based on the Passive View pattern.</description>
+    </item>
+    
+    <item>
+      <title>Another reason for not using mstest</title>
+      <link>https://timvw.be/2009/03/14/another-reason-for-not-using-mstest/</link>
+      <pubDate>Sat, 14 Mar 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/03/14/another-reason-for-not-using-mstest/</guid>
+      <description>As you can read in CA1001: Types that own disposable fields should be disposable. Pretty solid advice, but for some reason the mstest runner does not dispose of classes that implement IDisposable. A possible workaround is to apply a TestCleanupAttribute to the Dispose method, but this is really contradictory with the &amp;ldquo;Shared test fixture&amp;rdquo; approach mstest uses. Imho, there is only one clean solution: use a decent testing framework instead.</description>
+    </item>
+    
+    <item>
+      <title>Setup expectation with successive function calls using Moq</title>
+      <link>https://timvw.be/2009/03/14/setup-expectation-with-successive-function-calls-using-moq/</link>
+      <pubDate>Sat, 14 Mar 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/03/14/setup-expectation-with-successive-function-calls-using-moq/</guid>
+      <description>In the Quickstart guide we find an example that shows us how to setup a different return value for each invocation as following
+// returning different values on each invocation var mock = new Mock&amp;lt;ifoo&amp;gt;(); var calls = 0; mock.Setup(foo =&amp;gt; foo.Execute(&amp;#34;ping&amp;#34;)) .Returns(() =&amp;gt; calls) .Callback(() =&amp;gt; calls++); // returns 0 on first invocation, 1 on the next, and so on Console.WriteLine(mock.Object.Execute(&amp;#34;ping&amp;#34;)); In Moq Triqs &amp;ndash; Successive Expectations i found inspiration to implement an extension method that allows me to define an expectation that calls a set of successive functions</description>
+    </item>
+    
+    <item>
+      <title>Using sed</title>
+      <link>https://timvw.be/2009/03/05/using-sed/</link>
+      <pubDate>Thu, 05 Mar 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2009/03/05/using-sed/</guid>
+      <description>For a couple of days now i&amp;rsquo;ve been pondering about posting something about my love for GNU text-utilities but never got round to it. A couple of minutes ago i read Phil Windley&amp;rsquo;s Using Grep and Find post so here is a one-liner that shows how you can add a reference to a msbuild target file to all csproj files in a given folder:
+find -name *.csproj -exec sed -i -e &amp;#39;#^&amp;lt;/project&amp;gt;$# &amp;lt;import Project=&amp;#34;X:\\BuildTasks\\Corp.</description>
+    </item>
+    
+    <item>
+      <title>Presenting MyTestRunner</title>
+      <link>https://timvw.be/2008/12/24/presenting-mytestrunner/</link>
+      <pubDate>Wed, 24 Dec 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/12/24/presenting-mytestrunner/</guid>
+      <description>Here are a couple of reasons why i dislike the Unit Testing Framework that comes with Visual Studio Team System:
+ Not all versions of Visual Studio are capable of running the tests. Test inheritance is not supported. Running tests via mstest.exe is slow. Visual Studio creating tens of .vmsdi files.  There are already a couple of better frameworks out there, and currently MbUnit is my favorite one, certainly in combination with TestDriven.</description>
+    </item>
+    
+    <item>
+      <title>Query a specific Google Calendar</title>
+      <link>https://timvw.be/2008/10/22/query-a-specific-google-calendar/</link>
+      <pubDate>Wed, 22 Oct 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/10/22/query-a-specific-google-calendar/</guid>
+      <description>Despite the multiple copies of the API Developer&amp;rsquo;s Guide: .NET i found i was unable to find how i should query a specific calendar (not the default). Anyway, it can be done by using the CalendarEntry.Content.BaseUri as the query uri. Here is an example
+public class CalendarHelper { public const string OwnedCalendarsUrl = &amp;#34;http://www.google.com/calendar/feeds/default/owncalendars/full&amp;#34;; private readonly CalendarService svc; public CalendarHelper(string username, string password) { this.svc = new CalendarService(&amp;#34;demo&amp;#34;); this.svc.setUserCredentials(username, password); } public IEnumerable&amp;lt;calendarEntry&amp;gt; FindOwnedCalendars() { CalendarQuery query = new CalendarQuery(OwnedCalendarsUrl); CalendarFeed result = this.</description>
+    </item>
+    
+    <item>
+      <title>Refactoring Application Environment (Part 2)</title>
+      <link>https://timvw.be/2008/10/17/refactoring-application-environment-part-2/</link>
+      <pubDate>Fri, 17 Oct 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/10/17/refactoring-application-environment-part-2/</guid>
+      <description>Luca Milan notified me of a design issue. Until now the ApplicationEnvironment had an Instance property as following:
+public static ApplicationEnvironment Instance { get { ... } } A lot of flexibility can be added by extracting an interface IApplicationEnvironment and use that as return type for the property:
+public static IApplicationEnvironment Instance { get { ... } } Now that we have Common Service Locator i have decided to completely remove the Instance property.</description>
+    </item>
+    
+    <item>
+      <title>How does the controller know which action method to invoke?</title>
+      <link>https://timvw.be/2008/10/15/how-does-the-controller-know-which-action-method-to-invoke/</link>
+      <pubDate>Wed, 15 Oct 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/10/15/how-does-the-controller-know-which-action-method-to-invoke/</guid>
+      <description>Yesterday i attended another great VISUG event on ASP.NET presented by Maarten Balliauw. He demonstrated a custom filter but did not dig into the mechanics of action method resolving. With the aid of of the ActionName attribute we can map different methods to the same action. The following methods will all map to the same &amp;ldquo;Detail&amp;rdquo; action
+public ActionResult Detail(int productId) { ... } public ActionResult Detail(int productId, string name) { .</description>
+    </item>
+    
+    <item>
+      <title>Adaptive control behavior: LinkButton without javascript</title>
+      <link>https://timvw.be/2008/10/14/adaptive-control-behavior-linkbutton-without-javascript/</link>
+      <pubDate>Tue, 14 Oct 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/10/14/adaptive-control-behavior-linkbutton-without-javascript/</guid>
+      <description>&amp;lsquo;Experiment with Adaptive Control Behavior&amp;rsquo; has been an item on my TO-DO list for a very long time and this weekend i finally found some time to do exactly that. Because i hate it that a LinkButton renders as i decided to develop a ControlAdapter that makes the LinkButton work without JavaScript. While i was at it i also wrote adapters for the LoginStatus and Login controls. Feel free to play with the Adaptive Rendering Demo.</description>
+    </item>
+    
+    <item>
+      <title>Revisited the int and string ValueObject templates</title>
+      <link>https://timvw.be/2008/10/13/revisited-the-int-and-string-valueobject-templates/</link>
+      <pubDate>Mon, 13 Oct 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/10/13/revisited-the-int-and-string-valueobject-templates/</guid>
+      <description>After reading The Compare Contract last week i realized that my templates for int and string ValueObjects did not comply with the contract so i decided to add a unittest that reproduces the faulty behavior (and then corrected the implementation)
+[TestMethod] public void ShouldReturnPositiveWhenComparedWithNull() { $classname$ value = new $classname$(&amp;#34;0&amp;#34;); Assert.IsTrue(value.CompareTo(null) &amp;gt; 0); } Anyway, feel free to download the corrected IntValueObject and StringValueObject templates.</description>
+    </item>
+    
+    <item>
+      <title>Experimenting with NDepend</title>
+      <link>https://timvw.be/2008/09/27/experimenting-with-ndepend/</link>
+      <pubDate>Sat, 27 Sep 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/09/27/experimenting-with-ndepend/</guid>
+      <description>Google Reader found 122 posts in my blogroll about NDepend so i happily accepted the professional license which Patrick Smacchia (thank you) offered me earlier this week. I quickly picked the assemblies from a project that has evolved over more than 5 years (.NET 1.0, 1.1 and 2.0) and the tool generated a screen loaded with data, but i found it difficult to extract any valuable information out of the statistics.</description>
+    </item>
+    
+    <item>
+      <title>Presenting templates for int and string ValueObjects</title>
+      <link>https://timvw.be/2008/09/26/presenting-templates-for-int-and-string-valueobjects/</link>
+      <pubDate>Fri, 26 Sep 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/09/26/presenting-templates-for-int-and-string-valueobjects/</guid>
+      <description>Most ValueObjects that i have implemented were wrappers around an int or a string. Apart from the domain specific rules, there is a lot of repetitive work in implementing operator overloads, IEquatable, IComparable, &amp;hellip; Thus i decided to create a couple of Item templates that generate this code (and related tests).
+Simply save IntValueObject.zip and StringValueObject.zip under %My Documents%\Visual Studio 2005\Templates\ItemTemplates and click on &amp;ldquo;Add New Item&amp;rdquo; in your project:</description>
+    </item>
+    
+    <item>
+      <title>Why MockRepository does not implement IDisposable</title>
+      <link>https://timvw.be/2008/09/26/why-mockrepository-does-not-implement-idisposable/</link>
+      <pubDate>Fri, 26 Sep 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/09/26/why-mockrepository-does-not-implement-idisposable/</guid>
+      <description>Earlier this week i was experimenting with Rhino Mocks and i was wondering why the MockRepository does not implement IDisposable unlike most other mocking frameworks for .NET. After a bit of searching i found out that (here) originally the MockRepository did implement the interface, but that the implementation was removed because it is can be painful (hiding the original exception) when unexpected exceptions are thrown.
+I really like the API. Here is a simple example and notice that i did not have to provide the method name (as in the string &amp;ldquo;GetTime&amp;rdquo;) for the excepted calls.</description>
+    </item>
+    
+    <item>
+      <title>Refactoring ApplicationEnvironment</title>
+      <link>https://timvw.be/2008/09/23/refactoring-applicationenvironment/</link>
+      <pubDate>Tue, 23 Sep 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/09/23/refactoring-applicationenvironment/</guid>
+      <description>Yesterday i blogged about an ApplicationEnvironment which had a dependency on the application configuration file. With my ConfigurationFileSession i was able to test the implementation despite that dependency. Today i modified the design a little so that i do not require the ConfigurationFileSession hack anymore.
+First i added an internal constructor as following
+internal protected ApplicationEnvironment(DateTime instanceEpoch, DateTime applicationEpoch) { this.instanceEpoch = instanceEpoch; this.applicationEpoch = applicationEpoch; } Then i made the internals visible to the test project</description>
+    </item>
+    
+    <item>
+      <title>Refactoring EffectivityManager</title>
+      <link>https://timvw.be/2008/09/23/refactoring-effectivitymanager/</link>
+      <pubDate>Tue, 23 Sep 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/09/23/refactoring-effectivitymanager/</guid>
+      <description>A while ago i presented the EffectivityManager. Having used this class for a while i have decided to rename it to Temporal. The implementation of IListis not required anymore because a user is typically only interested in a specific effectivity, not the evolution of the effectivities.
+public interface ITemporal&amp;lt;T&amp;gt; { void Modify(T element, DateTime from); IEffectivity&amp;lt;T&amp;gt; GetSnapshot(DateTime validityDate); bool TryGetSnapshot(DateTime validityDate, out IEffectivity&amp;lt;T&amp;gt; effectivity); } In the implementation i have added a constructor that accepts a DiscreteValuesGenerator which makes it possible to create Periods with a resolution of a day instead of seconds.</description>
+    </item>
+    
+    <item>
+      <title>Presenting ApplicationEnvironment</title>
+      <link>https://timvw.be/2008/09/22/presenting-applicationenvironment/</link>
+      <pubDate>Mon, 22 Sep 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/09/22/presenting-applicationenvironment/</guid>
+      <description>Imagine we are an ice cream vendor. During summer months our available capacity is twice as high as in the rest of the year. In code this problem looks like the following
+public int AvailableCapacity { get { DateTime now = DateTime.UtcNow; if (new DateTime(now.Year, 6, 1) &amp;lt;= now &amp;amp;&amp;amp; now &amp;lt;= new DateTime(now.Year, 9, 1) ) { return 10000; } else { return 5000; } } } This code is pretty difficult to test because it depends on DateTime.</description>
+    </item>
+    
+    <item>
+      <title>Presenting ConfigurationFileSession</title>
+      <link>https://timvw.be/2008/09/22/presenting-configurationfilesession/</link>
+      <pubDate>Mon, 22 Sep 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/09/22/presenting-configurationfilesession/</guid>
+      <description>Here is a little class that allows you to use different configuration files. I find it extremely useful for tests where i want to mock the values that would be retrieved via the ConfigurationManager. Here are a couple of examples how it can be used
+[TestMethod] public void ShouldUseSystemTimeWhenNoValuesAreProvided() { using (new ConfigurationFileSession(&amp;#34;WithoutDateTimeManipulation.config&amp;#34;)) { ApplicationEnvironment.Instance.Refresh(); DateTime now = DateTime.UtcNow; TimeSpan allowedDifference = TimeSpan.FromSeconds(1); TimeSpan actualDifference = ApplicationEnvironment.Instance.CurrentDateTime -- configurationNow; Assert.IsTrue(actualDifference &amp;lt; allowedDifference); } } [TestMethod] public void ShouldUseValuesAsProvided() { using (new ConfigurationFileSession(&amp;#34;WithDateTimeManipulation.</description>
+    </item>
+    
+    <item>
+      <title>Presenting a couple of custom MarkupExtensions</title>
+      <link>https://timvw.be/2008/09/10/presenting-a-couple-of-custom-markupextensions/</link>
+      <pubDate>Wed, 10 Sep 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/09/10/presenting-a-couple-of-custom-markupextensions/</guid>
+      <description>XAML provides us a way to declare objects with xml. Because i don&amp;rsquo;t want to clutter my domain classes with attributes like TypeConverterAttribute, i needed a different approach to manipulate the parsing. This is where custom MarkupExtensions come to the rescue. Here is an example where i use the x:Array MarkupExtension in order to load a list of Lines into my IListLines property
+&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;utf-8&amp;#34; ?&amp;gt; &amp;lt;d:Address xmlns:x=&amp;#34;http://schemas.microsoft.com/winfx/2006/xaml&amp;#34; xmlns:s=&amp;#34;clr-namespace:System;assembly=mscorlib&amp;#34; xmlns:d=&amp;#34;clr-namespace:XamlDemo.</description>
+    </item>
+    
+    <item>
+      <title>Presenting WindowsIdentityHelper</title>
+      <link>https://timvw.be/2008/09/06/presenting-windowsidentityhelper/</link>
+      <pubDate>Sat, 06 Sep 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/09/06/presenting-windowsidentityhelper/</guid>
+      <description>One of the difficulties of using the WindowsIdentity class is the fact that it requires a handle (IntPtr) to a Windows Security Token. Using the LogonUser functionality we can get a hold of such a handle
+[DllImport(Advapi32File, CharSet = DefaultCharSet, SetLastError = DefaultSetLastError)] public static extern bool LogonUser( /* other parameters */, out IntPtr userTokenHandle); The easiest way to avoid memory leaks is to implement a custom SafeHandle
+public class SafeTokenHandle : SafeHandleZeroOrMinusOneIsInvalid { protected internal SafeTokenHandle() : base(true) { } protected override bool ReleaseHandle() { if(!</description>
+    </item>
+    
+    <item>
+      <title>Presenting AssemblyTypePicker</title>
+      <link>https://timvw.be/2008/09/01/presenting-assemblytypepicker/</link>
+      <pubDate>Mon, 01 Sep 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/09/01/presenting-assemblytypepicker/</guid>
+      <description>I really like the way the Object Browser makes the types in an assembly visible. Because i have a couple of programs that require a given type as input, i have decided to add a TypeTree control to BeTimvwFramework that mimicks the Object Browser. Here are a couple of screenshots of the control in a demo application that allows the user to generate interfaces and wrapper classes based on a selected type:</description>
+    </item>
+    
+    <item>
+      <title>Presenting EventHandlerHelper</title>
+      <link>https://timvw.be/2008/09/01/presenting-eventhandlerhelper/</link>
+      <pubDate>Mon, 01 Sep 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/09/01/presenting-eventhandlerhelper/</guid>
+      <description>Being bored of writing code to raise an event, i have added an EventHandlerHelper to BeTimvwFramework.
+public static class EventHandlerHelper { [MethodImpl(MethodImplOptions.NoInlining)] public static void Raise&amp;lt;T&amp;gt;(EventHandler&amp;lt;T&amp;gt; handler, object sender, T e) where T : EventArgs { if (handler != null) { handler(sender, e); } } } </description>
+    </item>
+    
+    <item>
+      <title>Presenting ItemEventArgs&lt;T&gt;</title>
+      <link>https://timvw.be/2008/09/01/presenting-itemeventargst/</link>
+      <pubDate>Mon, 01 Sep 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/09/01/presenting-itemeventargst/</guid>
+      <description>Because i believe in the DRY principle i decided to add a generic ItemEventArgs class to BeTimvwFramework
+public class ItemEventArgs&amp;lt;T&amp;gt; : EventArgs { private T item; public ItemEventArgs(T item) { this.item = item; } public T Item { get { return this.item; } set { this.item = value; } } } </description>
+    </item>
+    
+    <item>
+      <title>Presenting OneTimePasswordMembershipProvider</title>
+      <link>https://timvw.be/2008/08/29/presenting-onetimepasswordmembershipprovider/</link>
+      <pubDate>Fri, 29 Aug 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/08/29/presenting-onetimepasswordmembershipprovider/</guid>
+      <description>What good is a TimeOTP client if you don&amp;rsquo;t have anything to use it with? Last week i have implemented a MembershipProvider that uses Time-based One-Time Password to validate the user credentials. Basically, it is a wrapper around an existing MembershipProvider, you get to choose which one via the providerType attribute in the configuration, and requires that it can access the password of users. Here is an example configuration that relies on the SqlMembershipProvider</description>
+    </item>
+    
+    <item>
+      <title>Presenting HMAC-Based OTP and Time-Based OTP</title>
+      <link>https://timvw.be/2008/08/22/presenting-hmac-based-otp-and-time-based-otp/</link>
+      <pubDate>Fri, 22 Aug 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/08/22/presenting-hmac-based-otp-and-time-based-otp/</guid>
+      <description>I could not find a .NET implementation of the HMAC-Based One Time Password (HOTP) algorithm as specified in RFC4226 so i decided to write one myself. Because the Time-Based OTP (TOTP) algorithm is an application of HOTP, more specifically: TOTP = HOTP(K, T) with T = (Current Unix time &amp;ndash; T0) / Timestep, i have implemented that algorithm too.
+You can find both Be.Timvw.Framework.Security.HmacOneTimePassword and Be.Timvw.Framework.Security.TimeOneTimePassword in the BeTimvwFramework. For more information about authentication i would recommend the specifications and technicals resources at the OATH.</description>
+    </item>
+    
+    <item>
+      <title>Presenting TimeSpanHelper</title>
+      <link>https://timvw.be/2008/08/20/presenting-timespanhelper/</link>
+      <pubDate>Wed, 20 Aug 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/08/20/presenting-timespanhelper/</guid>
+      <description>A TimeSpan is a structure that represents a time interval or a duration. To make the everything as clear as possible, a well designed system should not only know the quantity, but also the unit of that quantity. In order to create a TimeSpan that represents the right value, you will probably use one of the FromXXX (Hours, Days, Minutes, Seconds) methods as following
+double value = 1; string unit = &amp;#34;Day&amp;#34;; TimeSpan actual; if (unit == &amp;#34;Day&amp;#34;) { actual = TimeSpan.</description>
+    </item>
+    
+    <item>
+      <title>Presenting UriHelper</title>
+      <link>https://timvw.be/2008/08/09/presenting-urihelper/</link>
+      <pubDate>Sat, 09 Aug 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/08/09/presenting-urihelper/</guid>
+      <description>Adding parameters to an Uri is an example where my NameValueCollectionHelper comes in handy. Although UriTemplate allows us to bind parameters, it doesn&amp;rsquo;t really support add/remove/fail on duplicate parameters. Here is an example
+[TestMethod] public void TestAddParametersReplaceWithReplaceOfExistingParameters() { Uri originalUri = new Uri(&amp;#34;http://www.example.com/path/?key1=val1&amp;amp;key2=val2#abcd&amp;#34;) NameValueCollection parameters = new NameValueCollection(); parameters.Add(&amp;#34;key1&amp;#34;, &amp;#34;newval&amp;#34;); parameters.Add(&amp;#34;key3&amp;#34;, &amp;#34;val3&amp;#34;); Uri expected = new Uri(&amp;#34;http://www.example.com/path/?key1=newval&amp;amp;key2=val2&amp;amp;key3=val3#abcd&amp;#34;); Uri actual = UriHelper.AddParameters(originalUri, parameters, DuplicateKeyBehavior.Replace); Assert.AreEqual(expected, actual); } Once again, source of this class can be found at BeTimvwFramework.</description>
+    </item>
+    
+    <item>
+      <title>Presenting NameValueCollectionHelper</title>
+      <link>https://timvw.be/2008/08/08/presenting-namevaluecollectionhelper/</link>
+      <pubDate>Fri, 08 Aug 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/08/08/presenting-namevaluecollectionhelper/</guid>
+      <description>Here are a couple functions that i find extremely useful when i&amp;rsquo;m working with a NameValueCollection
+public static class NameValueCollectionHelper { public static void AddOrIgnoreOnDuplicateKey(NameValueCollection collection, NameValueCollection nameValuesToAdd); public static void AddOrReplaceOnDuplicateKey(NameValueCollection collection, NameValueCollection nameValuesToAdd); public static void AddOrCombineOnDuplicateKey(NameValueCollection collection, NameValueCollection nameValuesToAdd); public static void AddOrFailOnDuplicateKey(NameValueCollection collection, NameValueCollection nameValuesToAdd); } All these methods provide a specific scenario of the more generic Add operation
+public static class NameValueCollectionHelper { private static Dictionary&amp;lt;duplicateKeyBehavior, Action&amp;lt;nameValueCollection, NameValueCollection&amp;gt;&amp;gt; duplicateKeyBehaviors; static NameValueCollectionHelper() { duplicateKeyBehaviors = new Dictionary&amp;lt;duplicateKeyBehavior, Action&amp;lt;nameValueCollection, NameValueCollection&amp;gt;&amp;gt;(); duplicateKeyBehaviors.</description>
+    </item>
+    
+    <item>
+      <title>Presenting EnumerableHelper</title>
+      <link>https://timvw.be/2008/08/06/presenting-enumerablehelper/</link>
+      <pubDate>Wed, 06 Aug 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/08/06/presenting-enumerablehelper/</guid>
+      <description>I noticed (eg: here) that i&amp;rsquo;m not the only one that has experienced some annoyances when working with generics. Here are a couple of methods that i find extremely helpful when i&amp;rsquo;m working with IEnumerable:
+IEnumerable&amp;lt;tbase&amp;gt; Convert&amp;lt;tderived, TBase&amp;gt;(IEnumerable&amp;lt;tderived&amp;gt; enumerable) where TDerived : TBase; IEnumerable&amp;lt;t&amp;gt; Convert&amp;lt;t&amp;gt;(IEnumerable enumerable); bool HaveSameElements&amp;lt;t&amp;gt;(IEnumerable&amp;lt;t&amp;gt; enumerable1, IEnumerable&amp;lt;t&amp;gt; enumerable2, Func&amp;lt;bool, T, T&amp;gt; areEqual); bool HaveSameElements(IEnumerable enumerable1, IEnumerable enumerable2, Func&amp;lt;bool, object, object&amp;gt; areEqual); bool HaveSameElements(IEnumerable enumerable1, IEnumerable enumerable2); You can download the actual implementation of this Be.</description>
+    </item>
+    
+    <item>
+      <title>Presenting the SortableBindingList&lt;T&gt; (take two)</title>
+      <link>https://timvw.be/2008/08/02/presenting-the-sortablebindinglistt-take-two/</link>
+      <pubDate>Sat, 02 Aug 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/08/02/presenting-the-sortablebindinglistt-take-two/</guid>
+      <description>I&amp;rsquo;m in the progress of adding classes that i find interesting to the BeTimvwFramework project. The original implementation of my SortableBindingList relied on IComparable to implement ApplySortCore(PropertyDescriptor property, ListSortDirection direction). I received some good feedback and blogged about those improvements.
+Because some of my classes only implement IComparable i needed support for this too. My first thought was to use ComparerIComparer comparer = Comparer&amp;lt;t&amp;gt;.Default; itemsList.Sort(delegate(T t1, T t2) { object property1 = prop.</description>
+    </item>
+    
+    <item>
+      <title>NHibernate SessionFactory configuration</title>
+      <link>https://timvw.be/2008/07/28/nhibernate-sessionfactory-configuration/</link>
+      <pubDate>Mon, 28 Jul 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/07/28/nhibernate-sessionfactory-configuration/</guid>
+      <description>My preferred way for configuring NHibernate is as following
+ Create a hibernate.cfg.xml file for session-factory settings. Add mapping files, named type.hbm.xml, as embedded resources to the library project that implements the repository.  When i looked at the documentation i found the following
+ Another alternative (probably the best) way is to let NHibernate load all of the mapping files contained in an Assembly:
+ Configuration cfg = new Configuration(); cfg.</description>
+    </item>
+    
+    <item>
+      <title>Presenting HtmlClipboard</title>
+      <link>https://timvw.be/2008/06/30/presenting-htmlclipboard/</link>
+      <pubDate>Mon, 30 Jun 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/06/30/presenting-htmlclipboard/</guid>
+      <description>Very often i need to encode/decode the contents of my Clipboard so i decided to write a little tray application to help me
+With the aid of Clipboard and HttpUtility this is quite easy to implement
+private void toolStripMenuItemDecode_Click(object sender, EventArgs e) { string original = Clipboard.GetText(); string decodedHtml = HttpUtility.HtmlDecode(original); Clipboard.SetText(decodedHtml); } private void toolStripMenuItemEncode_Click(object sender, EventArgs e) { string original = Clipboard.GetText(); string encodedHtml = HttpUtility.HtmlEncode(original); Clipboard.SetText(encodedHtml); } Anyway, feel free to download HtmlClipboard.</description>
+    </item>
+    
+    <item>
+      <title>Example implementation of a callback method for use in the Asynchronous Programming Model</title>
+      <link>https://timvw.be/2008/06/28/example-implementation-of-a-callback-method-for-use-in-the-asynchronous-programming-model/</link>
+      <pubDate>Sat, 28 Jun 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/06/28/example-implementation-of-a-callback-method-for-use-in-the-asynchronous-programming-model/</guid>
+      <description>I always seem to forget about the mechanics of implementing a Callback method that can be used in the Asynchronous Programming Model (APM). So here is a simple example in C# 3.0 using the Func&amp;lt;T, TResult&amp;gt; delegate
+class Program { static void Main(string[] args) { Func&amp;lt;string, string&amp;gt; echoDelegate = Echo; IAsyncResult asyncResult = echoDelegate.BeginInvoke(&amp;#34;some input&amp;#34;, EchoCallback, &amp;#34;x&amp;#34;); WaitHandle.WaitAll(new WaitHandle[] {asyncResult.AsyncWaitHandle}); Console.Write(&amp;#34;{0}Press any key to continue...&amp;#34;, Environment.NewLine); Console.ReadKey(); } static string Echo(string input) { return string.</description>
+    </item>
+    
+    <item>
+      <title>Enumerate all properties and their value of an object</title>
+      <link>https://timvw.be/2008/06/14/enumerate-all-properties-and-their-value-of-an-object/</link>
+      <pubDate>Sat, 14 Jun 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/06/14/enumerate-all-properties-and-their-value-of-an-object/</guid>
+      <description>Earlier today someone asked me how to generate a List with all the properties (and their respective value) that an object has. With C# 2.0 i would have created a class to represent a single element, PropertyRow, with a Name and a Value property and a class that is IEnumerableto hold all PropertyRows.
+With C# 3.0 we can take advantage of anonymous types and the code we have to write is fairly minimal</description>
+    </item>
+    
+    <item>
+      <title>Exploring the Microsoft Sync Framework</title>
+      <link>https://timvw.be/2008/05/24/exploring-the-microsoft-sync-framework/</link>
+      <pubDate>Sat, 24 May 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/05/24/exploring-the-microsoft-sync-framework/</guid>
+      <description>Earlier this week i&amp;rsquo;ve been experimenting with the Microsoft Sync Framework. In a typical n-tier architecture the client can&amp;rsquo;t access the remote database directly but uses a proxy instead. The available [Earlier this week i&amp;rsquo;ve been experimenting with the Microsoft Sync Framework. In a typical n-tier architecture the client can&amp;rsquo;t access the remote database directly but uses a proxy instead. The available](http://msdn.microsoft.com/en-us/library/microsoft.synchronization.data.serversyncproviderproxy(SQL.100).aspx) has only one constructor which accepts an object. With reflector i found out that the proxy simply uses reflection to call some methods.</description>
+    </item>
+    
+    <item>
+      <title>Using Linq for statically-typed reflection</title>
+      <link>https://timvw.be/2008/03/14/using-linq-for-statically-typed-reflection/</link>
+      <pubDate>Fri, 14 Mar 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/03/14/using-linq-for-statically-typed-reflection/</guid>
+      <description>I discovered the TypedReflector
+on Daniel Cazzulino&amp;rsquo;s Blog. In essence, a simplified version of the code looks like
+public static class Reflector { public static PropertyInfo GetProperty&amp;lt;t, TRet&amp;gt;(Expression&amp;lt;func&amp;lt;t, TRet&amp;gt;&amp;gt; expression) { return GetMemberInfo(expression) as PropertyInfo; } public static FieldInfo GetField&amp;lt;t, TRet&amp;gt;(Expression&amp;lt;func&amp;lt;t, TRet&amp;gt;&amp;gt; expression) { return GetMemberInfo(expression) as FieldInfo; } public static MethodInfo GetMethod&amp;lt;t, TRet&amp;gt;(Expression&amp;lt;func&amp;lt;t, TRet&amp;gt;&amp;gt; expression) { return GetMemberInfo(expression) as MethodInfo; } public static MemberInfo GetMemberInfo(Expression memberInfoExpression) { Expression lambdaBodyExpression = ((LambdaExpression)memberInfoExpression).</description>
+    </item>
+    
+    <item>
+      <title>Using System.DirectoryServices.AccountManagement to find the members of an AD group</title>
+      <link>https://timvw.be/2008/03/08/using-system.directoryservices.accountmanagement-to-find-the-members-of-an-ad-group/</link>
+      <pubDate>Sat, 08 Mar 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/03/08/using-system.directoryservices.accountmanagement-to-find-the-members-of-an-ad-group/</guid>
+      <description>A while ago i posted some code that demonstrated how to find the members of an AD group. If you&amp;rsquo;re using the brandnew .Net 3.5 framework you can take advantage of the System.DirectoryServices.AccountManagement library which is an abstraction for AD (DS, LDS) and SAM accounts. Using this new library my method can be simplified
+private static IEnumerable&amp;lt;string&amp;gt; FindUsernames(string groupname) { PrincipalContext principalContext = new PrincipalContext(ContextType.Domain, &amp;#34;mydomain&amp;#34;); GroupPrincipal groupPrincipal = GroupPrincipal.FindByIdentity(principalContext, groupname); foreach (Principal principal in groupPrincipal.</description>
+    </item>
+    
+    <item>
+      <title>Exploring alternative input: ActiveHome</title>
+      <link>https://timvw.be/2008/03/06/exploring-alternative-input-activehome/</link>
+      <pubDate>Thu, 06 Mar 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/03/06/exploring-alternative-input-activehome/</guid>
+      <description>A while ago i bought Media Centerkit for an euro or two. I wouldn&amp;rsquo;t recommend the product because it comes with crappy software. Anyway, i was only interested in playing with the hardware (RF Remote and USB Receiver) so i downloaded the ActiveHome Professional SDK. Once you install this you can add a reference to &amp;ldquo;ActiveHomeScript 1.0 Type Library&amp;rdquo; under the COM tab in Visual Studio. I wrote a little library so that i can consume the ActiveHomeClass.</description>
+    </item>
+    
+    <item>
+      <title>Find the members of an AD group</title>
+      <link>https://timvw.be/2008/03/05/find-the-members-of-an-ad-group/</link>
+      <pubDate>Wed, 05 Mar 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/03/05/find-the-members-of-an-ad-group/</guid>
+      <description>Because i always seem to forget about the syntax of LDAP Search Filters (RFC 2254: The String Representation of LDAP Search Filters and Creating a Query Filter) i&amp;rsquo;m going to post a basic demo of DirectorySearcher that returns the members that are part of a given AD group
+private static void Main(string[] args) { foreach (string member in FindUsernames(&amp;#34;CWBE-PS-.NetDev&amp;#34;)) { Console.WriteLine(member); } Console.Write(&amp;#34;{0}Press any key to continue...&amp;#34;, Environment.NewLine); Console.ReadKey(); } private static IEnumerable&amp;lt;string&amp;gt; FindUsernames(string groupname) { string filter = &amp;#34;(&amp;amp;(&amp;amp;(objectCategory=Group)(objectClass=Group))(name={0}))&amp;#34;; filter = string.</description>
+    </item>
+    
+    <item>
+      <title>Display WorkItems in a WinForms application</title>
+      <link>https://timvw.be/2008/02/29/display-workitems-in-a-winforms-application/</link>
+      <pubDate>Fri, 29 Feb 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/02/29/display-workitems-in-a-winforms-application/</guid>
+      <description>Using the Microsoft.TeamFoundation.WorkItemTracking.Controls assembly it is possibe to display WorkItems. Here is a little demo application that will display all the WorkItems that have been changed by one of the given users in the given range
+Feel free to download the source: WorkItemTracker.zip
+Edit (05/03/2008):
+Refactored the code a little and added some features like sortable columns, loading default tfsserver and users from App.Config, &amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>Find WorkItems that have been changed between two dates</title>
+      <link>https://timvw.be/2008/02/28/find-workitems-that-have-been-changed-between-two-dates/</link>
+      <pubDate>Thu, 28 Feb 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/02/28/find-workitems-that-have-been-changed-between-two-dates/</guid>
+      <description>Sometimes i want to know which WorkItems i have closed (or completed) between two dates. According to Amit Ghosh it&amp;rsquo;s not possible to write such a query so i wrote some code that uses the TFS SDK to get that list
+static void Main(string[] args) { TeamFoundationServer tfs = TeamFoundationServerFactory.GetServer(&amp;#34;tfsrtm08&amp;#34;); WorkItemStore wis = (WorkItemStore)tfs.GetService(typeof(WorkItemStore)); DateTime begin = new DateTime(2008, 1, 1); DateTime end = new DateTime(2008, 2, 28); string username = &amp;#34;Darren&amp;#34;; foreach (WorkItem workItem in FindChangesByUserInRange(wis, username, begin, end)) { Console.</description>
+    </item>
+    
+    <item>
+      <title>Writing Xml without the XmlDeclaration</title>
+      <link>https://timvw.be/2008/02/26/writing-xml-without-the-xmldeclaration/</link>
+      <pubDate>Tue, 26 Feb 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/02/26/writing-xml-without-the-xmldeclaration/</guid>
+      <description>Consider the following xml file:
+&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;utf-8&amp;#34; ?&amp;gt; &amp;lt;!-- some comment --&amp;gt; &amp;lt;root&amp;gt; &amp;lt;/root&amp;gt; &amp;lt;!-- another comment --&amp;gt; If you look at the Well-Formed XML Documents section in the XML specification you see that a well-formed document is defined as:
+ [1] document ::= prolog element Misc*
+ Since there is only 1 root element (ever), i assumed that if you Load this file with XmlDocument their would be only one XmlNode in the document ChildNodes.</description>
+    </item>
+    
+    <item>
+      <title>Introducing DeferredExecutionHelper</title>
+      <link>https://timvw.be/2008/02/23/introducing-deferredexecutionhelper/</link>
+      <pubDate>Sat, 23 Feb 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/02/23/introducing-deferredexecutionhelper/</guid>
+      <description>Sometimes i don&amp;rsquo;t want a costly function to be performed unless it&amp;rsquo;s really necessary. In Patterns of Enterprise Application Architecture it&amp;rsquo;s described as Lazy Load. Anyway, in order to achieve that i&amp;rsquo;ve written a wrapper for RealProxy
+public static class DeferredExecutionHelper { public static IList&amp;lt;Tresult&amp;gt; GetListHelper&amp;lt;T, TResult&amp;gt;(Func&amp;lt;T, IList&amp;lt;Tresult&amp;gt;&amp;gt; costlyFunction, T t) { return new Proxy&amp;lt;T, IList&amp;lt;Tresult&amp;gt;&amp;gt;(costlyFunction, t).ResultProxy; } public static TResult GetHelper&amp;lt;T, TResult&amp;gt;(Func&amp;lt;T, TResult&amp;gt; costlyFunction, T t) where TResult : MarshalByRefObject { return new Proxy&amp;lt;T, TResult&amp;gt;(costlyFunction, t).</description>
+    </item>
+    
+    <item>
+      <title>Generating Artifacts By Using Text Templates</title>
+      <link>https://timvw.be/2008/02/21/generating-artifacts-by-using-text-templates/</link>
+      <pubDate>Thu, 21 Feb 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/02/21/generating-artifacts-by-using-text-templates/</guid>
+      <description>Since i remember myself thinking &amp;ldquo;I should look up that .tt templating thing&amp;rdquo; already a couple of times and always forgot to actually do so, i&amp;rsquo;m posting it here: Generating Artifacts By Using Text Templates. The tools comes with the Visual Studio SDK.</description>
+    </item>
+    
+    <item>
+      <title>How the name of an embedded resource is generated in a C# project</title>
+      <link>https://timvw.be/2008/02/20/how-the-name-of-an-embedded-resource-is-generated-in-a-c#-project/</link>
+      <pubDate>Wed, 20 Feb 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/02/20/how-the-name-of-an-embedded-resource-is-generated-in-a-c#-project/</guid>
+      <description>A while ago i was wondering how the name of an embedded resource is generated in a C# project. Earlier today i was looking in Microsoft.CSharp.targets and found the answer
+ The CreateManifestResourceNames target create the manifest resource names from the .RESX files.
+[IN] @(ResxWithNoCulture) - The names the non-culture .RESX files. @(ResxWithCulture) - The names the culture .RESX files. @(NonResxWithNoCulture) - The names of the non-culture non-RESX files (like bitmaps, etc).</description>
+    </item>
+    
+    <item>
+      <title>Updating Assembly References with TFS</title>
+      <link>https://timvw.be/2008/02/18/updating-assembly-references-with-tfs/</link>
+      <pubDate>Mon, 18 Feb 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/02/18/updating-assembly-references-with-tfs/</guid>
+      <description>A while ago i posted some code that allows you to update the Assembly references. Here is some code that uses the Team Foundation Server SDK that checks the csproj files out and updates their references. Afterwards it&amp;rsquo;s possible to check the modified csproj files in with a reference to a WorkItem (or to undo the checkout in case no modifications were made).
+static void Main() { string tfsServerName = &amp;#34;tfsrtm08&amp;#34;; string projectsPath = @&amp;#34;D:\Projects&amp;#34;; Console.</description>
+    </item>
+    
+    <item>
+      <title>Programming the csproj file</title>
+      <link>https://timvw.be/2008/01/25/programming-the-csproj-file/</link>
+      <pubDate>Fri, 25 Jan 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2008/01/25/programming-the-csproj-file/</guid>
+      <description>Imagine that you have a couple of project files that reference framework libraries that are on a buildserver. Upgrading to a newer version requires that you update all the references&amp;hellip; I wrote some wrapper classes (ProjectFile, AssemblyReference) that make this tedious task a breeze. Here is an example of their usage
+string path = &amp;#34;D:\\Projects\\MyProject&amp;#34;; string[] projectFileNames = ProjectFile.Find(path); foreach (string projectFileName in projectFileNames) { ProjectFile projectFile = new ProjectFile(projectFileName); bool updated = false; foreach (AssemblyReference assemblyReference in projectFile.</description>
+    </item>
+    
+    <item>
+      <title>Build your own netstat.exe with c#</title>
+      <link>https://timvw.be/2007/09/09/build-your-own-netstat.exe-with-c/</link>
+      <pubDate>Sun, 09 Sep 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/09/09/build-your-own-netstat.exe-with-c/</guid>
+      <description>Earlier today i wrote ManagedIpHelper, a wrapper for IP Helper API it&amp;rsquo;s GetExtendedTcpTable. Using this wrapper i could easily create my own version of netstat.exe. The following code generates the same output (but much faster) than &amp;ldquo;netstat.exe -anvbp tcp&amp;rdquo;
+static void Main(string[] args) { Console.WriteLine(&amp;#34;Active Connections&amp;#34;); Console.WriteLine(); Console.WriteLine(&amp;#34; Proto Local Address Foreign Address State PID&amp;#34;); foreach (TcpRow tcpRow in ManagedIpHelper.GetExtendedTcpTable(true)) { Console.WriteLine(&amp;#34; {0,-7}{1,-23}{2, -23}{3,-14}{4}&amp;#34;, &amp;#34;TCP&amp;#34;, tcpRow.LocalEndPoint, tcpRow.RemoteEndPoint, tcpRow.State, tcpRow.ProcessId); Process process = Process.</description>
+    </item>
+    
+    <item>
+      <title>Presenting SqlCeClientFactory</title>
+      <link>https://timvw.be/2007/09/09/presenting-sqlceclientfactory/</link>
+      <pubDate>Sun, 09 Sep 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/09/09/presenting-sqlceclientfactory/</guid>
+      <description>Apart from Microsoft.SqlServerCe.Client.SqlCeClientFactory in Microsoft.SqlServerCe.Client (an undocumented and unsupported library) there is no DbProviderFactory for System.Data.SqlServerCe. Today i decided to write a SqlCeClientFactory
+public class SqlCeClientFactory : DbProviderFactory { public static readonly SqlCeClientFactory Instance = new SqlCeClientFactory(); public override DbCommand CreateCommand() { return new SqlCeCommand(); } public override DbCommandBuilder CreateCommandBuilder() { return new SqlCeCommandBuilder(); } public override DbConnection CreateConnection() { return new SqlCeConnection(); } public override DbDataAdapter CreateDataAdapter() { return new SqlCeDataAdapter(); } public override DbParameter CreateParameter() { return new SqlCeParameter(); } } As you can see, the implementation is trivial, so i still wonder why microsoft didn&amp;rsquo;t provide it.</description>
+    </item>
+    
+    <item>
+      <title>Query a Web Service hosted outside IIS with it&#39;s DNS name</title>
+      <link>https://timvw.be/2007/09/08/query-a-web-service-hosted-outside-iis-with-its-dns-name/</link>
+      <pubDate>Sat, 08 Sep 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/09/08/query-a-web-service-hosted-outside-iis-with-its-dns-name/</guid>
+      <description>Yesterday someone asked the following:
+  My first attempt was to simulate the problem. I added an entry in my hosts file so that example.com resolves to 192.168.10.1 (My machine&amp;rsquo;s IP address) and wrote the following code
+EndpointReference epr = new EndpointReference(new Uri(&amp;#34;soap.tcp://example.com:9090/BookService&amp;#34;)); SoapReceivers.Add(epr, typeof(BookService)); When i tried to run this code i received an ArgumentException: &amp;ldquo;WSE813: The following transport address could not be mapped to a local network interface: soap.</description>
+    </item>
+    
+    <item>
+      <title>Using DateTimePicker and Custom Format</title>
+      <link>https://timvw.be/2007/08/29/using-datetimepicker-and-custom-format/</link>
+      <pubDate>Wed, 29 Aug 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/08/29/using-datetimepicker-and-custom-format/</guid>
+      <description>Today we ran into a nasty problem with DateTimePickerFormat.Custom. We allow the user to input a month/date with a DateTimePicker as following (nothing fancy)
+private void Form1_Load(object sender, EventArgs e) { this.dateTimePicker1.Value = new DateTime(2007, 8, 31); this.dateTimePicker1.Format = DateTimePickerFormat.Custom; this.dateTimePicker1.CustomFormat = &amp;#34;MM/yyyy&amp;#34;; } Now, change to 09/2007 and notice that you get an Exception, because the control tries to create an unrepresentable new DateTime(2007, 8+1, 31). Thus, if you&amp;rsquo;re going to use the DateTimePicker for MM/yyyy input make sure to set it&amp;rsquo;s value to a DateTimeTime with a day component that exists for all months/years (thus a value between 1 and 28).</description>
+    </item>
+    
+    <item>
+      <title>ClickOnce Deployment is not user-friendly!</title>
+      <link>https://timvw.be/2007/08/26/clickonce-deployment-is-not-user-friendly/</link>
+      <pubDate>Sun, 26 Aug 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/08/26/clickonce-deployment-is-not-user-friendly/</guid>
+      <description>Today i was experimenting with ClickOnce Deployment. Some people have warned for the elevation of permissions: Be aware of ClickOnce default settings. What i find even more annoying is the fact that all you get to see are the following dialogs
+If the user has to make an informed decision about the permissions he&amp;rsquo;s going to grant to an application he should have atleast an easily accessible dialog that displays the PermissionSet that is being request.</description>
+    </item>
+    
+    <item>
+      <title>Bending the code generation of IExtenderProvider to your will</title>
+      <link>https://timvw.be/2007/08/21/bending-the-code-generation-of-iextenderprovider-to-your-will/</link>
+      <pubDate>Tue, 21 Aug 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/08/21/bending-the-code-generation-of-iextenderprovider-to-your-will/</guid>
+      <description>In Exploring CodeDomSerializer i already explained how we can modify the code that the Visual Studio designer generates for us. With a typical IExtenderProvider the designer generates an initializer, SetXXX methods and a variable declaration, which looks like
+this.constantsExtenderProvider1 = new WindowsApplication1.ConstantsExtenderProvider(); this.constantsExtenderProvider1.SetConstants(this.button1, new string[] { &amp;#34;Operation1&amp;#34;, &amp;#34;Operation5&amp;#34;}); this.constantsExtenderProvider1.SetConstants(this, null); private ConstantsExtenderProvider constantsExtenderProvider1; Now, what if we&amp;rsquo;re not happy with those generated SetXXX methods on each Component? The problem is that this code is not generated by the serializer for the ConstantsExtenderProvider but by the serializers for the Components.</description>
+    </item>
+    
+    <item>
+      <title>Exploring CodeDomSerializer</title>
+      <link>https://timvw.be/2007/08/17/exploring-codedomserializer/</link>
+      <pubDate>Fri, 17 Aug 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/08/17/exploring-codedomserializer/</guid>
+      <description>Sometimes we want absolute control over the code that the visual studio designer generates. Imagine that we have a UserControl with a Number property and instead of the default &amp;ldquo;this.userControl1.Number = 27;&amp;rdquo; code that the designer would generate we want it like &amp;ldquo;this.userControl1.Number = 1 + 3 + 23&amp;rdquo;. In order to achieve this we first have to inform the designer that we want custom serialization. This is done by adding a DesignerSerializerAttribute to our UserControl</description>
+    </item>
+    
+    <item>
+      <title>StreamHelper</title>
+      <link>https://timvw.be/2007/08/17/streamhelper/</link>
+      <pubDate>Fri, 17 Aug 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/08/17/streamhelper/</guid>
+      <description>The following is an example of a classic mistake for people that read from a Stream
+  Offcourse, if you look at the documentation for the Read method it clearly says that the function returns the number of bytes that were actually read. Here is a little helper function that keeps you from writing the same code over and over again
+public void Copy(Stream input, Stream output, int bufferSize) { byte[] buffer = new byte[bufferSize]; int bytesRead; while((bytesRead = input.</description>
+    </item>
+    
+    <item>
+      <title>List string resources</title>
+      <link>https://timvw.be/2007/08/11/list-string-resources/</link>
+      <pubDate>Sat, 11 Aug 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/08/11/list-string-resources/</guid>
+      <description>Earlier today someone asked how he could list the string resources (name, value and comment) in a Resource file. Here is some code that generates a nice list of the information
+static void Main(string[] args) { DislayResourceStrings(GetResourceStrings(@&amp;#34;C:\Resource1.resx&amp;#34;)); Console.Write(&amp;#34;{0}Press any key to continue...&amp;#34;, Environment.NewLine); Console.ReadKey(); } public static List&amp;lt;resourceString&amp;gt; GetResourceStrings(string path) { List&amp;lt;resourceString&amp;gt; resourceStrings = new List&amp;lt;resourceString&amp;gt;(); XPathDocument doc = new XPathDocument(path); foreach (XPathNavigator node in doc.CreateNavigator().Select(&amp;#34;//data&amp;#34;)) { string type = node.</description>
+    </item>
+    
+    <item>
+      <title>Debugging custom UITypeEditors</title>
+      <link>https://timvw.be/2007/08/10/debugging-custom-uitypeeditors/</link>
+      <pubDate>Fri, 10 Aug 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/08/10/debugging-custom-uitypeeditors/</guid>
+      <description>If you read this you&amp;rsquo;re probably gonna think: What a moron! Anyway, i&amp;rsquo;m sharing this in the hope that i&amp;rsquo;ll be the last to undergo the following. In order to test my custom UITypeEditor i did the following
+ Create a UserControl Add a property to the control Add an Editor attribute to the property Build Drag a UserControl on the designer form Test via Visual Studio&amp;rsquo;s Property Window if the UITypeEditor works as expected Everytime i changed some code: Restart Visual Studio, load the project and repeat 6.</description>
+    </item>
+    
+    <item>
+      <title>Helper methods for DbProviderFactory</title>
+      <link>https://timvw.be/2007/08/07/helper-methods-for-dbproviderfactory/</link>
+      <pubDate>Tue, 07 Aug 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/08/07/helper-methods-for-dbproviderfactory/</guid>
+      <description>Here are a couple of functions that make it easier to take advantage of the DbProviderFactory to create DbConnections
+public DbConnection GetDbConnection(string connectionStringName) { return GetDbConnection(ConfigurationManager.ConnectionStrings[connectionStringName]); } public DbConnection GetDbConnection(ConnectionStringSettings connectionStringSettings) { return GetDbConnection(connectionStringSettings.ProviderName, connectionStringSettings.ConnectionString); } public DbConnection GetDbConnection(string providerInvariantName, string connectionString) { DbConnection connection = DbProviderFactories.GetFactory(providerInvariantName).CreateConnection(); connection.ConnectionString = connectionString; return connection; } Using these functions, the pattern for querying a database could be something as following:
+using (DbConnection conn = GetDbConnection(&amp;#34;Local_Northwind&amp;#34;)) { conn.</description>
+    </item>
+    
+    <item>
+      <title>Exploring formatting...</title>
+      <link>https://timvw.be/2007/07/28/exploring-formatting.../</link>
+      <pubDate>Sat, 28 Jul 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/07/28/exploring-formatting.../</guid>
+      <description>In the documentation you can read the following for CultureInfo
+  First i&amp;rsquo;ll initialize an instance of a customized CultureInfo and install it in the current thread:
+CultureInfo appCultureInfo = new CultureInfo(&amp;#34;en-US&amp;#34;); appCultureInfo.NumberFormat.NumberDecimalSeparator = &amp;#34;.&amp;#34;; appCultureInfo.NumberFormat.NumberGroupSeparator = &amp;#34; &amp;#34;; appCultureInfo.NumberFormat.NumberDecimalDigits = 2; appCultureInfo.NumberFormat.CurrencySymbol = &amp;#34;€&amp;#34;; Thread.CurrentThread.CurrentCulture = appCultureInfo; Note: The culture in Thread.CurrentThread.CurrentUICulture is only used by the Resource Manager to lookup culture-specific resources at run-time. Since we&amp;rsquo;re not playing with resources, we don&amp;rsquo;t have to care about this one.</description>
+    </item>
+    
+    <item>
+      <title>Using interfaces with Drag and Drop</title>
+      <link>https://timvw.be/2007/07/26/using-interfaces-with-drag-and-drop/</link>
+      <pubDate>Thu, 26 Jul 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/07/26/using-interfaces-with-drag-and-drop/</guid>
+      <description>Earlier today i was refactoring some graphical components. I wanted to use an interface instead of concrete implementations for my drag and drop code&amp;hellip; Although i was using an instance of Foo, and thus IFoo, the following code never allowed me to drop
+interface IFoo { } class Foo : IFoo { } private void label1_MouseDown(object sender, MouseEventArgs e) { this.DoDragDrop(new Foo(), DragDropEffects.All); } private void Form1_DragEnter(object sender, DragEventArgs e) { // for an instance of Foo it returns false, 	// if you use typeof(Foo) it returns true though.</description>
+    </item>
+    
+    <item>
+      <title>Pondering about DateTime and it&#39;s Ticks...</title>
+      <link>https://timvw.be/2007/07/18/pondering-about-datetime-and-its-ticks.../</link>
+      <pubDate>Wed, 18 Jul 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/07/18/pondering-about-datetime-and-its-ticks.../</guid>
+      <description>Recently someone was able to convince me that there is no problem with using System.DateTime for the storage of localtimes (even if DST is in effect), because it works with Ticks and i bought into his base + offset story&amp;hellip;. The following table explains his reasoning
+&amp;lt;th style=&amp;quot;width: 33%&amp;quot;&amp;gt; Localtime &amp;lt;/th&amp;gt; &amp;lt;th style=&amp;quot;width: 33%&amp;quot;&amp;gt; Ticks (Localtime) &amp;lt;/th&amp;gt;  &amp;lt;td&amp;gt; 2007-10-28 01:59:59 &amp;lt;/td&amp;gt; &amp;lt;td&amp;gt; 63329133&amp;lt;b&amp;gt;599&amp;lt;/b&amp;gt;0000000 &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; 2007-10-28 02:00:00 &amp;lt;/td&amp;gt; &amp;lt;td&amp;gt; 63329133&amp;lt;b&amp;gt;600&amp;lt;/b&amp;gt;0000000 &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; 2007-10-28 02:00:01 &amp;lt;/td&amp;gt; &amp;lt;td&amp;gt; 63329133&amp;lt;b&amp;gt;601&amp;lt;/b&amp;gt;0000000 &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; 2007-10-28 02:59:59 &amp;lt;/td&amp;gt; &amp;lt;td&amp;gt; 63329137&amp;lt;b&amp;gt;199&amp;lt;/b&amp;gt;0000000 &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; 2007-10-28 02:00:00 &amp;lt;/td&amp;gt; &amp;lt;td&amp;gt; 63329133&amp;lt;b&amp;gt;200&amp;lt;/b&amp;gt;0000000 &amp;lt;/td&amp;gt;  &amp;lt;td&amp;gt; 2007-10-28 02:00:01 &amp;lt;/td&amp;gt; &amp;lt;td&amp;gt; 63329133&amp;lt;b&amp;gt;201&amp;lt;/b&amp;gt;0000000 &amp;lt;/td&amp;gt;  This reasoning gives you the impression that for each second 10000000 is added to the ticks.</description>
+    </item>
+    
+    <item>
+      <title>About Authorization</title>
+      <link>https://timvw.be/2007/07/06/about-authorization/</link>
+      <pubDate>Fri, 06 Jul 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/07/06/about-authorization/</guid>
+      <description>Yesterday i visited an evening session about authentication and authorization at Compuware (Yes, i&amp;rsquo;ve got interesting collegues that are willing to share their knowledige). Anyway, i left the meeting with a couple of questions
+How does System.Security.Principal.PrincipalPolicy work under Mono?
+Well, NoPrincipal and UnauthenticatedPrincipal behave exactly the same way as they do in the Microsoft implementation. For the WindowsPrincipal the unix groups are used to determine the result of IsInRole. eg</description>
+    </item>
+    
+    <item>
+      <title>About additional precision and unpredicted behaviour...</title>
+      <link>https://timvw.be/2007/06/26/about-additional-precision-and-unpredicted-behaviour.../</link>
+      <pubDate>Tue, 26 Jun 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/06/26/about-additional-precision-and-unpredicted-behaviour.../</guid>
+      <description>Earlier today someone posted the following code
+float a = 0.12f; float b = a * 100f; Console.WriteLine((int) b); // prints 12 Console.WriteLine((int)(a * 100f)); // prints 11 !!!!!!!! An (extensive) explanation for this strange behaviour can be found at CLR and floating point: Some answers to common questions&amp;hellip; A possible way to force the compiler and runtime to get rid of the additional precision would be the following
+Console.WriteLine((int)(float)(a * 100f)); </description>
+    </item>
+    
+    <item>
+      <title>Improvements for the SortableBindingList (and TypedList)</title>
+      <link>https://timvw.be/2007/05/10/improvements-for-the-sortablebindinglist-and-typedlist/</link>
+      <pubDate>Thu, 10 May 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/05/10/improvements-for-the-sortablebindinglist-and-typedlist/</guid>
+      <description>I found out that the sorting didn&amp;rsquo;t work for &amp;lsquo;Expression&amp;rsquo; properties. My first thought was to add another switch to the logic of the already existing code
+object value1 = t1; object value2 = t2; if (prop.Name.StartsWith(&amp;#34;||&amp;#34;)) { // do something to find the &amp;#39;ExpressionProperty&amp;#39; values } else { foreach (string property in prop.Name.Split(&amp;#39;.&amp;#39;)) { // navigate through the relations 	PropertyInfo propertyInfo = value1.GetType().GetProperty(property); value1 = propertyInfo.GetValue(value1, null); value2 = propertyInfo.</description>
+    </item>
+    
+    <item>
+      <title>Presenting the ExpressionDescriptor</title>
+      <link>https://timvw.be/2007/05/08/presenting-the-expressiondescriptor/</link>
+      <pubDate>Tue, 08 May 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/05/08/presenting-the-expressiondescriptor/</guid>
+      <description>A couple of days ago i presented you the TypedList which supports navigation through subproperties. Another common feature request is the possibility to add a column that has a value based on other values in the row (like a DataColumn with it&amp;rsquo;s Expression property set). With the plumbing code i&amp;rsquo;ve written it&amp;rsquo;s as simple as implementing the following interface
+public interface IExpressionProvider&amp;lt;componentType, PropertyType&amp;gt; { string Name { get; } PropertyType GetValue(ComponentType component); } An example implementation could be an expression that represents the duration of an Appointment</description>
+    </item>
+    
+    <item>
+      <title>Presenting the TypedList&lt;T&gt;</title>
+      <link>https://timvw.be/2007/05/05/presenting-the-typedlistt/</link>
+      <pubDate>Sat, 05 May 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/05/05/presenting-the-typedlistt/</guid>
+      <description>A while ago i presented the SortableBindingList. One of the nice features you get with DataSets is that you can use relations to navigate through the data. Business Objects don&amp;rsquo;t give you this functionality by default. Today i implemented a BindingList that supports navigation through relations. First i&amp;rsquo;ll present you the Business Objects
+We would like to create an overview of the appointments using a datagridview
+I drag a datagridview on the designer form, add columns, and then i set the datapropertynames as following: (Notice how i use a .</description>
+    </item>
+    
+    <item>
+      <title>Exploring DataGridViewComboBoxColumn databinding (part2)</title>
+      <link>https://timvw.be/2007/05/03/exploring-datagridviewcomboboxcolumn-databinding-part2/</link>
+      <pubDate>Thu, 03 May 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/05/03/exploring-datagridviewcomboboxcolumn-databinding-part2/</guid>
+      <description>A while ago i wrote about Exploring DataGridViewComboBoxColumn databinding using Business Objects. Some people asked me to give an example using DataSets&amp;hellip;
+I&amp;rsquo;ll start with creating a DataSet, add two DataTables, and create a relation on PersonType.Id (int32). In the designer this looks like
+Next i create a DataSetDac that will return an instance of a Filled PersonDataSet (In real life you would probably use a TableAdapter and get the data from a database) The code is as simple as</description>
+    </item>
+    
+    <item>
+      <title>Presenting the MultiPanel</title>
+      <link>https://timvw.be/2007/04/29/presenting-the-multipanel/</link>
+      <pubDate>Sun, 29 Apr 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/04/29/presenting-the-multipanel/</guid>
+      <description>A while ago i was thinking that i would be nice to have a control that exposes multiple designer panels, but only shows one at a time&amp;hellip; Somewhat like a TabControl, but without the header.. Anyway, i found out (here) that a TabControl can be tweaked into that behaviour
+public class MultiPanel : TabControl { protected override void WndProc(ref Message m) { if (m.Msg == 0x1328 &amp;amp;&amp;amp; !DesignMode) { m.Result = (IntPtr) 1; } else { base.</description>
+    </item>
+    
+    <item>
+      <title>Performing long running tasks in a Windows Application</title>
+      <link>https://timvw.be/2007/04/27/performing-long-running-tasks-in-a-windows-application/</link>
+      <pubDate>Fri, 27 Apr 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/04/27/performing-long-running-tasks-in-a-windows-application/</guid>
+      <description>A while ago i blogged about Thread Safe UI. Today someone asked the following
+  The first thing i do is define a delegate (void Performer()) that will do the work of a long running operation. The reason i do this is because the compiler generates a class Performer that inherits from System.MulticastDelegate and exposes Begin- and EndInvoke methods.
+Since i want to disable my form before each run of a Performer and enable it after each run i implement a method Perform as following</description>
+    </item>
+    
+    <item>
+      <title>Get the complement of a Color</title>
+      <link>https://timvw.be/2007/04/26/get-the-complement-of-a-color/</link>
+      <pubDate>Thu, 26 Apr 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/04/26/get-the-complement-of-a-color/</guid>
+      <description>Here is a simple function that returns the complement of a given Color
+public static void GetComplement(Color color) { return Color.FromArgb(int.MaxValue -- color.ToArgb()); } </description>
+    </item>
+    
+    <item>
+      <title>Get hexadecimal RGB value from System.Drawing.Color</title>
+      <link>https://timvw.be/2007/04/17/get-hexadecimal-rgb-value-from-system.drawing.color/</link>
+      <pubDate>Tue, 17 Apr 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/04/17/get-hexadecimal-rgb-value-from-system.drawing.color/</guid>
+      <description>Here&amp;rsquo;s a simple function that returns the hexadecimal RGB value of a System.Drawing.Color
+private string ToHexadecimalRgb(Color color) { return color.ToArgb().ToString(&amp;#34;X&amp;#34;).Substring(2); } EDIT Apparently there is also a ColorTranslator with methods ToHtml and FromHtml.</description>
+    </item>
+    
+    <item>
+      <title>Programming .NET Components</title>
+      <link>https://timvw.be/2007/04/07/programming-.net-components/</link>
+      <pubDate>Sat, 07 Apr 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/04/07/programming-.net-components/</guid>
+      <description>I couple of weeks ago i got a copy of Programming .NET Components&amp;hellip; I can only suggest to read it yourself because i found it really good 😉 Anyway, in one of the chapters Juval Lowy talks about context and interception (msdnmag article). I got inspired and implemented my own log4net LoggingSink
+public class LoggingSink : IMessageSink { ... public IMessage SyncProcessMessage(IMessage msg) { IMethodMessage methodMessage = msg as IMethodMessage; ILog log = LogManager.</description>
+    </item>
+    
+    <item>
+      <title>DataGridView to Excel</title>
+      <link>https://timvw.be/2007/04/05/datagridview-to-excel/</link>
+      <pubDate>Thu, 05 Apr 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/04/05/datagridview-to-excel/</guid>
+      <description>The CarlosAg Excel Xml Writer Library does not require Excel in order to generate Excel Workbooks. I already presented a method to print a DataGridView (here) and now i present you a method that allows you to export a DataGridView to an Excel Workbook: DataGridViewToExcel.zip.</description>
+    </item>
+    
+    <item>
+      <title>Little INotifyPropertyChanged helper</title>
+      <link>https://timvw.be/2007/03/19/little-inotifypropertychanged-helper/</link>
+      <pubDate>Mon, 19 Mar 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/03/19/little-inotifypropertychanged-helper/</guid>
+      <description>Most implementations of INotifyPropertyChanged look as following (notice that you have to make sure that the hardcoded PropertyName is spelled correctly)
+class MyClass : INotifyPropertyChanged { public event PropertyChangedEventHandler PropertyChanged; private int x; public int X { get { return this.x; } set { if (this.x != value) { this.x = value; this.OnPropertyChanged(&amp;#34;X&amp;#34;); } } } [MethodImpl(MethodImplOptions.NoInlining)] private void Fire(Delegate del, params object[] args) { if (del != null) { foreach (Delegate sink in del.</description>
+    </item>
+    
+    <item>
+      <title>Presenting the SortableBindingList&lt;T&gt;</title>
+      <link>https://timvw.be/2007/02/22/presenting-the-sortablebindinglistt/</link>
+      <pubDate>Thu, 22 Feb 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/02/22/presenting-the-sortablebindinglistt/</guid>
+      <description>If you are databinding your custom objects (in a Bindinglist of ) to a DataGridView you will notice that the users can&amp;rsquo;t sort the rows by clicking on the columnheaders&amp;hellip; Unlike an unbound DataGridView, the SortCompare event is not raised. Here is a class that uses IComparer to implement a BindingList that supports Sorting:
+Please read the follow up article to find the updated source code.
+Using this SortableBindingList is as easy as</description>
+    </item>
+    
+    <item>
+      <title>Don&#39;t wait until the DateTimePicker has lost focus to write back the values</title>
+      <link>https://timvw.be/2007/02/07/dont-wait-until-the-datetimepicker-has-lost-focus-to-write-back-the-values/</link>
+      <pubDate>Wed, 07 Feb 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/02/07/dont-wait-until-the-datetimepicker-has-lost-focus-to-write-back-the-values/</guid>
+      <description>Drag a TextBox and a DateTimePicker control on a Form and databind them to a DateTime property, eg
+public partial class Form1 : Form { public Form1() { InitializeComponent(); SimpleObject simpleObject = new SimpleObject(); simpleObject.Birthday = DateTime.Now; this.dateTimePicker1.DataBindings.Add(&amp;#34;Value&amp;#34;, simpleObject, &amp;#34;Birthday&amp;#34;); this.textBox1.DataBindings.Add(&amp;#34;Text&amp;#34;, simpleObject, &amp;#34;Birthday&amp;#34;, true, DataSourceUpdateMode.OnPropertyChanged); } } public class SimpleObject : INotifyPropertyChanged { private DateTime birthday; public event PropertyChangedEventHandler PropertyChanged; public DateTime Birthday { get { return this.birthday; } set { this.</description>
+    </item>
+    
+    <item>
+      <title>Control the order of Properties in your Class</title>
+      <link>https://timvw.be/2007/02/04/control-the-order-of-properties-in-your-class/</link>
+      <pubDate>Sun, 04 Feb 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/02/04/control-the-order-of-properties-in-your-class/</guid>
+      <description>Sometimes you want to manipulate the order in which properties are used for databinding. Eg: If you drag and drop an object datasource on a DataGridView you have no control in which order it binds the properties. Offcourse, you can order the columns by moving them around&amp;hellip; Today someone asked the following
+  I started with the implementation of a PropertyOrderAttribute
+[AttributeUsage(AttributeTargets.Property)] public class PropertyOrderAttribute : Attribute { private int order; public PropertyOrderAttribute(int order) { this.</description>
+    </item>
+    
+    <item>
+      <title>Presenting the DataGridViewLargeTextBoxCell</title>
+      <link>https://timvw.be/2007/01/27/presenting-the-datagridviewlargetextboxcell/</link>
+      <pubDate>Sat, 27 Jan 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/01/27/presenting-the-datagridviewlargetextboxcell/</guid>
+      <description>Today i decided to experiment a bit with custom DataGridViewCell implementations. If you insert large text into a DataGridView it will (at best) wrap the text. I wanted my DataGridView to behave like Excel so that the whole text is displayed. Here are a couple of screenshots of the result
+Feel free to download CustomDataGridViewCells.zip.</description>
+    </item>
+    
+    <item>
+      <title>About Thread-Safe GUI...</title>
+      <link>https://timvw.be/2007/01/21/about-thread-safe-gui.../</link>
+      <pubDate>Sun, 21 Jan 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/01/21/about-thread-safe-gui.../</guid>
+      <description>If you&amp;rsquo;re writing windows applications you&amp;rsquo;ll most certainly recognize the following piece of code
+private delegate void UpdateIntResultDelegate(int result); private void UpdateIntResult(int result) { if (this.labelIntResult.InvokeRequired) this.labelIntResult.Invoke(new UpdateIntResultDelegate(this.UpdateIntResult), result); else this.myDataSource.IntResult = result; } private delegate void UpdateStringResultDelegate(string result); private void UpdateStringResult(string result) { if (this.labelStringResult.InvokeRequired) this.labelStringResult.Invoke(new UpdateStringResultDelegate(this.UpdateStringResult), result); else this.myDataSource.StringResult = result; } Today i was fed up with defining all these Delegates.. So i decided to define a generic delegate instead</description>
+    </item>
+    
+    <item>
+      <title>Reading and writing unmanged structs from binary files</title>
+      <link>https://timvw.be/2007/01/20/reading-and-writing-unmanged-structs-from-binary-files/</link>
+      <pubDate>Sat, 20 Jan 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/01/20/reading-and-writing-unmanged-structs-from-binary-files/</guid>
+      <description>I still remember one of the first tasks during my internship (At a software shop that still used Visual Studio 6 as development environment) last year: Develop a GUI application using .Net that allows the user to manipulate data stored in a binary file which was generated by c/c++ program. As a newcomer to C# programming i just couldn&amp;rsquo;t find the right attributes to Marshal the following structs
+struct test1 { char name[9]; int score; }; struct test2 { test1 items[10]; } After a couple of days they wanted me to deliver a product, so i decided to stop experimenting and wrote the application in C++ (Example).</description>
+    </item>
+    
+    <item>
+      <title>Exploring DataGridViewComboBoxColumn databinding</title>
+      <link>https://timvw.be/2007/01/17/exploring-datagridviewcomboboxcolumn-databinding/</link>
+      <pubDate>Wed, 17 Jan 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/01/17/exploring-datagridviewcomboboxcolumn-databinding/</guid>
+      <description>Let&amp;rsquo;s start with a simple example: Each Person has a Name (string) and PersonTypeCode (an Enumerated value) property. We drag a DataGridView on the designer form and add two columns (DataGridViewComboBoxColumn for the PersonTypeCode property). And then we hook up the Bindingsource as following
+class Form1 : Form { public Form1() { InitializeComponent(); this.dataGridView1.AutoGenerateColumns = false; this.ColumnName.DataPropertyName = &amp;#34;Name&amp;#34;; this.ColumnPersonTypeCode.DataPropertyName = &amp;#34;PersonTypeCode&amp;#34;; BindingSource bindingSource = new BindingSource(); bindingSource.DataSource = FindPersons(); this.</description>
+    </item>
+    
+    <item>
+      <title>Making WebRequests in parallel...</title>
+      <link>https://timvw.be/2007/01/14/making-webrequests-in-parallel.../</link>
+      <pubDate>Sun, 14 Jan 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/01/14/making-webrequests-in-parallel.../</guid>
+      <description>Under the assumption that making sequential WebRequests is slower than making them in parallel i wrote a little program that returns the HTTP status code for each URI in a list. Because the number of WaitHandles on a system is limited to 64 and i would have been required to hack around this limitation i decided to use ThreadPool instead&amp;hellip;
+using System; using System.Collections.Generic; using System.Text; using System.Threading; using System.Net; namespace ManyRequests { class Program { static void Main(string[] args) { List&amp;lt;uri&amp;gt; uris = new List&amp;lt;uri&amp;gt;(); uris.</description>
+    </item>
+    
+    <item>
+      <title>Hide and unhide columns (or rows) in the DataGridView</title>
+      <link>https://timvw.be/2007/01/13/hide-and-unhide-columns-or-rows-in-the-datagridview/</link>
+      <pubDate>Sat, 13 Jan 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/01/13/hide-and-unhide-columns-or-rows-in-the-datagridview/</guid>
+      <description>Once in a while i see the following question
+  Using the Visibile property of the DataGridViewColumn makes this a no-brainer. Let&amp;rsquo;s take the Databound DataGridView and implement functionality to hide/unhide the quarterly results. All you have to do is add a DataGridViewButtonColumn and handle the DataGridView CellClick event as following
+private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e) { if (e.ColumnIndex == this.ColumnButton.Index) { bool visible = !this.ColumnQ1.Visible; this.ColumnQ1.Visible = visible; this.</description>
+    </item>
+    
+    <item>
+      <title>Presenting a Generic RemotingHelper</title>
+      <link>https://timvw.be/2007/01/12/presenting-a-generic-remotinghelper/</link>
+      <pubDate>Fri, 12 Jan 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/01/12/presenting-a-generic-remotinghelper/</guid>
+      <description>Last couple of months i&amp;rsquo;ve been experimenting with Remoting. Here is a class that helps a client to acquire proxies to an endpoint served by the requested well-known object
+public static class RemotingHelper { static RemotingHelper() { RemotingConfiguration.Configure(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, false); } private static object GetService(string fullName) { WellKnownClientTypeEntry[] wellKnownClientTypeEntries = RemotingConfiguration.GetRegisteredWellKnownClientTypes(); foreach (WellKnownClientTypeEntry welknownClientTypeEntry in wellKnownClientTypeEntries) { if (welknownClientTypeEntry.ObjectType.FullName == fullName) { return Activator.GetObject(welknownClientTypeEntry.ObjectType, welknownClientTypeEntry.ObjectUrl); } } throw new ArgumentException(fullName + &amp;#34; is not a wellKnownClientType.</description>
+    </item>
+    
+    <item>
+      <title>Databinding a Nullable&lt;T&gt; property</title>
+      <link>https://timvw.be/2007/01/10/databinding-a-nullablet-property/</link>
+      <pubDate>Wed, 10 Jan 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/01/10/databinding-a-nullablet-property/</guid>
+      <description>I find it frustrating that data binding does not really support Nullable. Anyway, it&amp;rsquo;s relatively easy to workaround this shortcoming
+public partial class Form1 : Form { private MyDataSource myDataSource; public Form1() { InitializeComponent(); this.myDataSource = new MyDataSource(); this.textBox1.DataBindings.Add(&amp;#34;Text&amp;#34;, this.myDataSource, &amp;#34;Double&amp;#34;, true); this.textBox1.DataBindings[&amp;#34;Text&amp;#34;].Parse += this.Text_Parse; } void Text_Parse( object sender, ConvertEventArgs e ) { if( e.Value == null || e.Value.ToString().Length == 0 ) { e.Value = null; } } private void buttonTellMe_Click(object sender, EventArgs e) { if (this.</description>
+    </item>
+    
+    <item>
+      <title>Generating UTF-8 with System.Xml.XmlWriter</title>
+      <link>https://timvw.be/2007/01/08/generating-utf-8-with-system.xml.xmlwriter/</link>
+      <pubDate>Mon, 08 Jan 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/01/08/generating-utf-8-with-system.xml.xmlwriter/</guid>
+      <description>Today i decided to experiment with XmlWriter. The first i wanted to do was set the Encoding to UTF-8.
+StringBuilder stringBuilder = new StringBuilder(); XmlWriter xmlWriter = XmlWriter.Create(stringBuilder); xmlWriter.Settings.Encoding = Encoding.UTF8; When i ran this code i recieved the following exception: XmlException was unhandled: The &amp;lsquo;XmlWriterSettings.Encoding&amp;rsquo; property is read only and cannot be set. The documentation for the Settings property clearly says
+  So i wrote the following
+StringBuilder stringBuilder = new StringBuilder(); XmlWriterSettings xmlWriterSettings = new XmlWriterSettings(); xmlWriterSettings.</description>
+    </item>
+    
+    <item>
+      <title>The NullableDateAndTimePicker Control</title>
+      <link>https://timvw.be/2007/01/07/the-nullabledateandtimepicker-control/</link>
+      <pubDate>Sun, 07 Jan 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/01/07/the-nullabledateandtimepicker-control/</guid>
+      <description>A while ago i presented the concept of a DateAndTimePicker. Today someone asked if it&amp;rsquo;s possible to give the user an option to &amp;lsquo;not choose a DateTime&amp;rsquo;. I created a UserControl that has both a DateAndTimePicker and a CheckBox with a Value property of Nullable.
+Feel free to download the updated DateAndTimePicker.zip.</description>
+    </item>
+    
+    <item>
+      <title>Enable and disable TabPages on a TabControl</title>
+      <link>https://timvw.be/2007/01/06/enable-and-disable-tabpages-on-a-tabcontrol/</link>
+      <pubDate>Sat, 06 Jan 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/01/06/enable-and-disable-tabpages-on-a-tabcontrol/</guid>
+      <description>Apparently Microsoft choose not to implement support for disabled TabPages. The reason seems to be that it&amp;rsquo;s against their Guidelines for Tabs. Let&amp;rsquo;s ignore the guideline and implement the support anyway. First we set the DrawMode property of the TabControl to OwnerDrawFixed. Next we add an eventhandler for the DrawItem Event
+private void tabControl1_DrawItem(object sender, DrawItemEventArgs e) { TabControl tabControl = sender as TabControl; TabPage tabPage = tabControl.TabPages[e.Index]; Rectangle tabRectangle = tabControl.</description>
+    </item>
+    
+    <item>
+      <title>Developing a DataSource for your DataGridView</title>
+      <link>https://timvw.be/2007/01/04/developing-a-datasource-for-your-datagridview/</link>
+      <pubDate>Thu, 04 Jan 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/01/04/developing-a-datasource-for-your-datagridview/</guid>
+      <description>Imagine that you want to develop a DataSource that is capable to represent the data displayed in the following excel sheet
+For each region the values are given. The YEAR value is defined as the sum of Q1, Q2, Q3 and Q4, eg: for EMEA this is SUM(B2:E2). The GLOBAL values are calculated as the sum of the regions for the quarter, eg: for Q1 this is SUM(B2:B5). We&amp;rsquo;ll start with the easiest task: Add columns to the DGV and define the headers</description>
+    </item>
+    
+    <item>
+      <title>Print a Control</title>
+      <link>https://timvw.be/2006/12/31/print-a-control/</link>
+      <pubDate>Sun, 31 Dec 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/12/31/print-a-control/</guid>
+      <description>A while ago i discovered the DrawToBitmap method on the Control class. The availability of this method makes it relatively easy to implement a PrintPageEventHandler for the PrintDocument class. Here is an example implementation that prints a DataGridView
+private void buttonPrint_Click(object sender, EventArgs e) { this.printDocument1.Print(); } void printDocument1_BeginPrint(object sender, PrintEventArgs e) { this.currentPage = 0; } private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e) { Size oldSize = this.dataGridView1.Size; this.dataGridView1.Height = Math.</description>
+    </item>
+    
+    <item>
+      <title>Exploring System.CodeDom</title>
+      <link>https://timvw.be/2006/12/26/exploring-system.codedom/</link>
+      <pubDate>Tue, 26 Dec 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/12/26/exploring-system.codedom/</guid>
+      <description>Today i wanted to experiment with System.CodeDom. This little program requests the user to input names for a namespace, class and method. It also asks the user to input the code that should go into the method body. Then it generates an assembly (test.dll) and creates a new appdomain in which the assembly is loaded&amp;hellip; Finally it initializes an instance of the created class and calls the method&amp;hellip;
+static void Main(string[] args) { string loopEnd = &amp;#34;&amp;#34;; while (loopEnd !</description>
+    </item>
+    
+    <item>
+      <title>Drag and Drop Microsoft Office Outlook Contacts on your WinForm</title>
+      <link>https://timvw.be/2006/12/19/drag-and-drop-microsoft-office-outlook-contacts-on-your-winform/</link>
+      <pubDate>Tue, 19 Dec 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/12/19/drag-and-drop-microsoft-office-outlook-contacts-on-your-winform/</guid>
+      <description>Earlier today i saw someone that wanted to know how to drag and drop Microsoft Office Outlook Contacts on his winform (and get the data of the contact). Here are the few lines of code that do what he asked for
+// in the constructor of the form (or in the InitializeComponent method if you set it via the Designer) this.AllowDrop = true; // handle the DragOver event private void Form1_DragOver(object sender, DragEventArgs e) { e.</description>
+    </item>
+    
+    <item>
+      <title>A DateAndTimePicker control</title>
+      <link>https://timvw.be/2006/12/18/a-dateandtimepicker-control/</link>
+      <pubDate>Mon, 18 Dec 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/12/18/a-dateandtimepicker-control/</guid>
+      <description>The DateTimePicker control allows the user to input a Date or a Time. The problem is that you can&amp;rsquo;t let the user pick both a date and a time with one instance of the control (unless you set the CustomFormat property and give up the &amp;lsquo;nice&amp;rsquo; ui) so i decided to build my own DateAndTimePicker control
+Feel free to download and extended the DateAndTimePicker.zip.</description>
+    </item>
+    
+    <item>
+      <title>Looking up the MediaType of a given Logical Drive</title>
+      <link>https://timvw.be/2006/12/18/looking-up-the-mediatype-of-a-given-logical-drive/</link>
+      <pubDate>Mon, 18 Dec 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/12/18/looking-up-the-mediatype-of-a-given-logical-drive/</guid>
+      <description>Earlier today i saw someone asking how he could find out the MediaType of a given logical drive. The easy solution would be to iterate over DriveInfo.GetDrives and pick the one you are looking for&amp;hellip; Anyway, i thought it would be nice to experiment with WMI so i wrote a little function that uses Win32_LogicalDisk to look the MediaType up
+static void Main(string[] args) { char[] driveLetters = new char[] { &amp;#39;a&amp;#39;, &amp;#39;c&amp;#39;, &amp;#39;d&amp;#39;, &amp;#39;e&amp;#39; }; foreach (char driveLetter in driveLetters) { try { Console.</description>
+    </item>
+    
+    <item>
+      <title>Simple OutlookBar Control</title>
+      <link>https://timvw.be/2006/12/17/simple-outlookbar-control/</link>
+      <pubDate>Sun, 17 Dec 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/12/17/simple-outlookbar-control/</guid>
+      <description>Earlier this evening i wanted to experiment with the ToolStrip class so i decided to design a simple OutlookBar Control and a demo application that uses this control. Feel free to download OutlookBar.zip.</description>
+    </item>
+    
+    <item>
+      <title>Pondering about the difference between abstract classes and interfaces</title>
+      <link>https://timvw.be/2006/12/16/pondering-about-the-difference-between-abstract-classes-and-interfaces/</link>
+      <pubDate>Sat, 16 Dec 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/12/16/pondering-about-the-difference-between-abstract-classes-and-interfaces/</guid>
+      <description>Back in May i was asked to explain the difference between an interface and an abstract class at a job interview. Obviously the interviewer wanted me to tell him that an abstract class allows you to provide a partial implementation&amp;hellip; I answered that the major difference is the fact that with interface-based programming you&amp;rsquo;re not forced into an inheritance tree that might not make sense and that i didn&amp;rsquo;t see much use for abstract classes (I&amp;rsquo;m not sure he saw that one coming :P).</description>
+    </item>
+    
+    <item>
+      <title>Helper methods for DateTime</title>
+      <link>https://timvw.be/2006/12/14/helper-methods-for-datetime/</link>
+      <pubDate>Thu, 14 Dec 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/12/14/helper-methods-for-datetime/</guid>
+      <description>Here are a couple of methods that help you with the manipulation of DateTime structs:
+Code: csharp/DateTimeHelpers.txt</description>
+    </item>
+    
+    <item>
+      <title>What goes up must come down...</title>
+      <link>https://timvw.be/2006/12/13/what-goes-up-must-come-down.../</link>
+      <pubDate>Wed, 13 Dec 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/12/13/what-goes-up-must-come-down.../</guid>
+      <description>What goes up must come down&amp;hellip; So you might think that after each CellMouseDown event you recieve a CellMouseUp event&amp;hellip; Well, here is some code that proves that isn&amp;rsquo;t always true
+public partial class Form1 : Form { private string lastEvent; public Form1() { InitializeComponent(); this.dataGridView1.ColumnCount = 10; this.dataGridView1.RowCount = 10; } public string LastEvent { get { return this.lastEvent; } set { if (this.lastEvent == value) { MessageBox.Show(&amp;#34;i&amp;#39;ve detected two &amp;#34; + value + &amp;#34; after each other&amp;#34;); } this.</description>
+    </item>
+    
+    <item>
+      <title>Master-Slave for databound ComboBoxes</title>
+      <link>https://timvw.be/2006/11/25/master-slave-for-databound-comboboxes/</link>
+      <pubDate>Sat, 25 Nov 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/11/25/master-slave-for-databound-comboboxes/</guid>
+      <description>In most examples on the Internet you&amp;rsquo;ll find that the Master has a property that returns the allowed Slaves. Here&amp;rsquo;s an example that does not require such a property. Let&amp;rsquo;s start with a simple class that represents a Person.
+public class Person { private string name; public Person(string name) { this.name = name; } public string Name { get { return this.name; } set { this.name = value; } } } And now we define a class to hold the choosen Master and Slave persons.</description>
+    </item>
+    
+    <item>
+      <title>A better look at the Foreach statement</title>
+      <link>https://timvw.be/2006/11/23/a-better-look-at-the-foreach-statement/</link>
+      <pubDate>Thu, 23 Nov 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/11/23/a-better-look-at-the-foreach-statement/</guid>
+      <description>Earlier this week i was a bit surprised that the following code compiled without errors or warning messages. I expected at least a warning that i was trying to assign a double value to an integer parameter
+static void Main(string[] args) { double[] values = new double[] { 1.1, 2.2, 3.3, 4.4, 5.5 }; Console.WriteLine(&amp;#34;foreach with int:&amp;#34;); // happily iterate over the double values as if they are ints... 	// this outputs the lines 1, 2, 3, 4 and 5.</description>
+    </item>
+    
+    <item>
+      <title>Querying Active Directory</title>
+      <link>https://timvw.be/2006/11/04/querying-active-directory/</link>
+      <pubDate>Sat, 04 Nov 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/11/04/querying-active-directory/</guid>
+      <description>A while ago i wanted to figure out which demo accounts i had already created in my Active Directory. Since i was smart enough to give them all a description &amp;lsquo;Demo User&amp;rsquo; this was easily done as following
+using( DirectoryEntry directoryEntry = new DirectoryEntry() ) { using( DirectorySearcher directorySearcher = new DirectorySearcher() ) { directorySearcher.Filter = &amp;#34;(&amp;amp;(objectClass=user)(description=Demo User))&amp;#34;; directorySearcher.SearchScope = SearchScope.Subtree; directorySearcher.Sort = new SortOption(&amp;#34;displayname&amp;#34;, SortDirection.Ascending ); SearchResultCollection results = directorySearcher.</description>
+    </item>
+    
+    <item>
+      <title>Using a collection as parameter for a stored procedure</title>
+      <link>https://timvw.be/2006/10/23/using-a-collection-as-parameter-for-a-stored-procedure/</link>
+      <pubDate>Mon, 23 Oct 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/10/23/using-a-collection-as-parameter-for-a-stored-procedure/</guid>
+      <description>Sometimes you want to select rows where a value is in a specific collection. Here&amp;rsquo;s an example that show how you can select all the rows in the TEST table with an id of 1, 2 or 3. First we create an SQL type to contain a list of numbers
+CREATE TYPE LIST_NUMBER AS TABLE OF NUMBER(10); / Next thing to do is add a custom type and function header to the package specification</description>
+    </item>
+    
+    <item>
+      <title>Updating the Internet Options / Lan Settings</title>
+      <link>https://timvw.be/2006/10/12/updating-the-internet-options-/-lan-settings/</link>
+      <pubDate>Thu, 12 Oct 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/10/12/updating-the-internet-options-/-lan-settings/</guid>
+      <description>A while ago i wrote that i had created two .reg files to update my Internet Options / Lan Settings (Automating the configuration of Internet Options / Lan Settings). Yesterday i build a little Windows Service that automates this completely. With NotifyAddrChange i am notified whenever a change occurs in the table that maps IPv4 addresses to interfaces
+[DllImport(&amp;#34;iphlpapi.dll&amp;#34;, CharSet = CharSet.Ansi)] private static extern int NotifyAddrChange(ref IntPtr handle, IntPtr overlapped); The main loop of the service looks like this</description>
+    </item>
+    
+    <item>
+      <title>Screenshot of DataGridViews</title>
+      <link>https://timvw.be/2006/10/08/screenshot-of-datagridviews/</link>
+      <pubDate>Sun, 08 Oct 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/10/08/screenshot-of-datagridviews/</guid>
+      <description>The problem with a regular screenshot is that you only get to see a part of the DataGridViews. Here&amp;rsquo;s an example of a typical form
+Here is a snippet that makes a screenshot of the complete DataGridViews
+List&amp;lt;bitmap&amp;gt; bitmaps = new List&amp;lt;bitmap&amp;gt;(); Size size = new Size(); for (int i = 1; i &amp;lt; 4; ++i) { // lookup the datagridview 	DataGridView dataGridView = (DataGridView)this.Controls[&amp;#34;dataGridView&amp;#34; + i]; // maximize the datagridview size (choosing between current and preferred) 	Size oldSize = dataGridView.</description>
+    </item>
+    
+    <item>
+      <title>Accessing ConnectionStrings from App.config in a Console Application Project</title>
+      <link>https://timvw.be/2006/10/04/accessing-connectionstrings-from-app.config-in-a-console-application-project/</link>
+      <pubDate>Wed, 04 Oct 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/10/04/accessing-connectionstrings-from-app.config-in-a-console-application-project/</guid>
+      <description>Earlier today i added a configuration file to my Console Applicaton Project (Add Item -&amp;gt; Application Configuration File). Via ConfigurationSettings i could only access the AppSettings. It took me a while to figure out that i had to add a reference to System.Configuration.dll. Once that was done i could access the ConnectionStrings via ConfigurationManager.</description>
+    </item>
+    
+    <item>
+      <title>From UnixTime to DateTime and back</title>
+      <link>https://timvw.be/2006/10/04/from-unixtime-to-datetime-and-back/</link>
+      <pubDate>Wed, 04 Oct 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/10/04/from-unixtime-to-datetime-and-back/</guid>
+      <description>Here are a couple of functions that allow you to convert from UnixTime to DateTime and back
+public class Util { private static DateTime UnixTime { get { return new DateTime(1970, 1, 1); } } public static DateTime FromUnixTime( double unixTime ) { return UnixTime.AddSeconds( unixTime ); } public static double ToUnixTime( DateTime dateTime ) { TimeSpan timeSpan = dateTime -- UnixTime; return timeSpan.TotalSeconds; } } </description>
+    </item>
+    
+    <item>
+      <title>Code  39 barcodes recognizer</title>
+      <link>https://timvw.be/2006/09/18/code-39-barcodes-recognizer/</link>
+      <pubDate>Mon, 18 Sep 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/09/18/code-39-barcodes-recognizer/</guid>
+      <description>Earlier today i read Code 39 barcodes in C# by Bart De Smet. The article shows the reader how to generate a Code 39 barcode. I thought it would be cool if you could actually recognize the barcode in the generated bitmaps so i last couple of hours i wrote a BarCode39 Reader 🙂 Feel free to get BarCode39Reader.zip sources now!(PS: I forgot to write this is still a very quick &amp;lsquo;n dirty hack.</description>
+    </item>
+    
+    <item>
+      <title>Anonymous methods</title>
+      <link>https://timvw.be/2006/09/16/anonymous-methods/</link>
+      <pubDate>Sat, 16 Sep 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/09/16/anonymous-methods/</guid>
+      <description>Suppose you add a couple of buttons to a panel as shown below. What do you think the message in the MessageBoxes will be?
+public partial class Form1 : Form { public Form1() { InitializeComponent(); for (int i = 0; i &amp;lt; 10; ++i) { Button button = new Button(); button.Text = String.Format(&amp;#34;{0:00}&amp;#34;, i); this.flowLayoutPanel1.Controls.Add( button ); button.Click += new EventHandler(delegate(Object sender, EventArgs e) { MessageBox.Show(String.Format(&amp;#34;You clicked button {0:00}&amp;#34;, i)); }); } } } In case you&amp;rsquo;re wondering why they all have the message &amp;ldquo;You clicked button 10&amp;rdquo; i suggest you read the following articles</description>
+    </item>
+    
+    <item>
+      <title>DataGridView with EditOnEnter as EditMode</title>
+      <link>https://timvw.be/2006/09/16/datagridview-with-editonenter-as-editmode/</link>
+      <pubDate>Sat, 16 Sep 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/09/16/datagridview-with-editonenter-as-editmode/</guid>
+      <description>Earlier this week i found that when a DataGridView has it&amp;rsquo;s EditMode property set to EditOnEnter the user cannot select an entire row by clicking on the row header. This prevents the user from being able to delete a row. A couple of websearches later i found a bugreport but the proposed workarounds didn&amp;rsquo;t work for me 🙁 Here is a workaround that does work for me
+private void dataGridView1_MouseClick( object sender, MouseEventArgs e ) { DataGridView.</description>
+    </item>
+    
+    <item>
+      <title>Drag and Drop on a DataGridView</title>
+      <link>https://timvw.be/2006/09/16/drag-and-drop-on-a-datagridview/</link>
+      <pubDate>Sat, 16 Sep 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/09/16/drag-and-drop-on-a-datagridview/</guid>
+      <description>Here is a bit of sample code that allows you to drag and drop a cellvalue in a DataGridView (don&amp;rsquo;t forget to set the AllowDrop property of the DataGridView to true). Notice that you need to translate the X and Y properties of the DragEventArgs first (unlike the X and Y properties of the MouseEventArgs)
+private void dataGridView1_MouseDown( object sender, MouseEventArgs e ) { DataGridView.HitTestInfo info = this.dataGridView1.HitTest( e.X, e.Y ); if ( info.</description>
+    </item>
+    
+    <item>
+      <title>Inconsistent Drag and Drop API</title>
+      <link>https://timvw.be/2006/09/16/inconsistent-drag-and-drop-api/</link>
+      <pubDate>Sat, 16 Sep 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/09/16/inconsistent-drag-and-drop-api/</guid>
+      <description>Every System.Windows.Forms.Control has the following events
+ public event DragEventHandler DragDrop public event DragEventHandler DragEnter public event EventHandler DragLeave public event DragEventHandler DragOver  This means, when the user drags something away of the control, you can&amp;rsquo;t access the data anymore (unless you cached it somewhere when the DragEnter or DragOver events occured). Here is an extract from Microsoft patterns and practives on Event Design
+  </description>
+    </item>
+    
+    <item>
+      <title>Adding DataGridViewColumns (lots of them)</title>
+      <link>https://timvw.be/2006/09/14/adding-datagridviewcolumns-lots-of-them/</link>
+      <pubDate>Thu, 14 Sep 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/09/14/adding-datagridviewcolumns-lots-of-them/</guid>
+      <description>Last couple of days i&amp;rsquo;ve been trying to add a couple (750+) columns into a DataGridView. Initially i tried the following
+this.dataGridView1.ColumnCount = 750; The code above results in the following error: Sum of the columns&#39; FillWeight values cannot exceed 65535. Then i tried the following
+DataGridViewColumn[] columns = new DataGridViewColumn[750]; for ( int i = 0; i &amp;lt; columns.Length; ++i ) { DataGridViewColumn column = new DataGridViewColumn(); column.CellTemplate = new DataGridViewTextBoxCell(); column.</description>
+    </item>
+    
+    <item>
+      <title>Implementing Master/Detail for Custom Objects with DataGridViewComboBoxColumns</title>
+      <link>https://timvw.be/2006/09/10/implementing-master/detail-for-custom-objects-with-datagridviewcomboboxcolumns/</link>
+      <pubDate>Sun, 10 Sep 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/09/10/implementing-master/detail-for-custom-objects-with-datagridviewcomboboxcolumns/</guid>
+      <description>Imagine you have the following two classes
+public class Parent { private int id; private string name; public Parent( int id, string name ) { this.id = id; this.name = name; } public int Id { get { return this.id; } } public string Name { get { return this.name; } } } public class Child : Parent { private int parentId; public Child( int id, int parentId, string name ) : base( id, name ) { this.</description>
+    </item>
+    
+    <item>
+      <title>Using DataGridViewComboBoxColumn with Custom Objects</title>
+      <link>https://timvw.be/2006/09/10/using-datagridviewcomboboxcolumn-with-custom-objects/</link>
+      <pubDate>Sun, 10 Sep 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/09/10/using-datagridviewcomboboxcolumn-with-custom-objects/</guid>
+      <description>Earlier today i was playing with the DataGridView control. I wanted to have a couple of DataGridViewComboBoxColumns in order to limit the available input options for the user. The documentation clearly mentions the following
+  Here is sample of a custom object
+public class Slot { private int id; private DateTime dateTime; public Slot( int id, DateTime dateTime ) { this.id = id; this.dateTime = dateTime; } public int Id { get { return this.</description>
+    </item>
+    
+    <item>
+      <title>List the month names</title>
+      <link>https://timvw.be/2006/09/03/list-the-month-names/</link>
+      <pubDate>Sun, 03 Sep 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/09/03/list-the-month-names/</guid>
+      <description>As i wrote in Generate a menu with month names it&amp;rsquo;s silly to hardcode month names. Here&amp;rsquo;s a C# sample using localization/globalization
+using System; using System.Globalization; using System.Threading; namespace ConsoleApplication1 { class Program { static void ListMonths() { for ( int i = 1; i &amp;lt; 13; ++i ) { DateTime dateTime = new DateTime( DateTime.Now.Year, i, 1 ); Console.WriteLine( dateTime.ToString( &amp;#34;MMMM&amp;#34; ) ); } Console.WriteLine(); } static void Main( string[] args ) { Thread.</description>
+    </item>
+    
+    <item>
+      <title>Selecting custom Objects from a ComboBox</title>
+      <link>https://timvw.be/2006/09/03/selecting-custom-objects-from-a-combobox/</link>
+      <pubDate>Sun, 03 Sep 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/09/03/selecting-custom-objects-from-a-combobox/</guid>
+      <description>Earlier this week someone asked me how he could select custom objects from a ComboBox. Here is the code he used
+private void FillComboBoxPersons(List&amp;lt;person&amp;gt; persons) { this.comboBoxPersons.Items.Clear(); this.comboBoxPersons.Items.Add( &amp;#34;-- Select Person -------------&amp;#34; ); foreach ( Person person in persons ) { this.comboBoxPersons.Items.Add( person.Name ); } this.comboBoxPersons.SelectedIndex = 0; } In order to get the selected item he then used the SelectedIndex property to lookup the Person in a cache of the persons collection.</description>
+    </item>
+    
+    <item>
+      <title>Selecting custom Objects from a DataGridView</title>
+      <link>https://timvw.be/2006/09/03/selecting-custom-objects-from-a-datagridview/</link>
+      <pubDate>Sun, 03 Sep 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/09/03/selecting-custom-objects-from-a-datagridview/</guid>
+      <description>Here is a way that allows the user to select a row (custom object properties are used as column values) from a DataGridView assuming that the SelectionMode property is set FullRowSelect
+private void FillDataGridViewPersons( List&amp;lt;person&amp;gt; persons ) { this.dataGridViewPersons.Rows.Clear(); for ( int i = 0; i &amp;lt; persons.Count; ++i ) { this.dataGridViewPersons.Rows.Add(); this.dataGridViewPersons.Rows[i].Tag = persons[i]; this.dataGridViewPersons.Rows[i].SetValues( new object[] { persons[i].Id, persons[i].Name } ); } } private void buttonDoSomething_Click( object sender, EventArgs e ) { if ( this.</description>
+    </item>
+    
+    <item>
+      <title>Unable to enlist in a distributed transaction</title>
+      <link>https://timvw.be/2006/08/26/unable-to-enlist-in-a-distributed-transaction/</link>
+      <pubDate>Sat, 26 Aug 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/08/26/unable-to-enlist-in-a-distributed-transaction/</guid>
+      <description>Earlier today we were confronted with the following OracleException: Unable to enlist in a distributed transaction. Our code (and accompanying tests) had been running fine for the last two weeks thus we expected there was a problem with the database. A member of the DBA team assurred us there was nothing wrong with the database. Finally we discovered that we had created a circular reference and thus the program ended up in an endless loop (well untill the database decided it had been enough anyway :p).</description>
+    </item>
+    
+    <item>
+      <title>Inserting pause to your Console Applications</title>
+      <link>https://timvw.be/2006/08/05/inserting-pause-to-your-console-applications/</link>
+      <pubDate>Sat, 05 Aug 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/08/05/inserting-pause-to-your-console-applications/</guid>
+      <description>When i write Console Applications i find myself to write the following two lines quite often
+Console.Write(&amp;#34;{0}Press any key to continue...&amp;#34;, Environment.NewLine); Console.ReadKey(); As you already know i&amp;rsquo;m lazy so i decided to write an IntelliSense Code Snippet. When i type &amp;ldquo;pau&amp;rdquo; Intellisense show the following:
+Next i hit the tab button twice and i get the following effect:
+Download pause.txt and save it as Pause.snippet in your %My DocumentS\Visual Studio 2005\Code Snippets\Visual C#\My Code Snippets% folder.</description>
+    </item>
+    
+    <item>
+      <title>eID with .NET</title>
+      <link>https://timvw.be/2006/07/23/eid-with-.net/</link>
+      <pubDate>Sun, 23 Jul 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/07/23/eid-with-.net/</guid>
+      <description>When i started working (already 3 weeks ago) i recieved a laptop. Friday i discovered that this laptop has a Smart card reader and i wanted to experiment with it. I thought it would be nice if i could read the data on my eID. Apart from Accessing the eID Middleware from .NET (Version 1.0) i couldn&amp;rsquo;t find much information. I decided to use the document as the basis for my own libeid wrapper.</description>
+    </item>
+    
+    <item>
+      <title>Windows Multimedia Video Capture</title>
+      <link>https://timvw.be/2006/06/26/windows-multimedia-video-capture/</link>
+      <pubDate>Mon, 26 Jun 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/06/26/windows-multimedia-video-capture/</guid>
+      <description>On my computer the WIA (Windows Image Acquisition) API is SLOOOOOW. So i decided to give the Windows Multimedia Video Capture API a try. I didn&amp;rsquo;t take long to create the prototypes in Managed Code and call the DLL functions. Everything runs really smooth now&amp;hellip; As always, feel free to download the testavicap32 sources now!</description>
+    </item>
+    
+    <item>
+      <title>Windows Image Acquisition</title>
+      <link>https://timvw.be/2006/06/24/windows-image-acquisition/</link>
+      <pubDate>Sat, 24 Jun 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/06/24/windows-image-acquisition/</guid>
+      <description>Earlier today i decided to toy around with my webcam. A couple of websearches later i ended up at WIA (Windows Image Acquisition). I found a couple of articles (eg: here and here) that showed how to capture images. I wanted to display the caputered image in a PictureBox. Unfortunately everybody seems to save the WIA.ImageFile to a file and then load the imagefile into a PictureBox. It&amp;rsquo;s obvious that i don&amp;rsquo;t want to save the image into a file first.</description>
+    </item>
+    
+    <item>
+      <title>Experimenting with LINQ Preview (May 2006)</title>
+      <link>https://timvw.be/2006/06/20/experimenting-with-linq-preview-may-2006/</link>
+      <pubDate>Tue, 20 Jun 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/06/20/experimenting-with-linq-preview-may-2006/</guid>
+      <description>Today i downloaded and installed LINQ Preview (May 2006). Well, that was the plan anyway:
+A couple of minutes later i found this page and was able to solve the problem by adding the following users with administrative rights: Power Users, Users and Creator Owner.</description>
+    </item>
+    
+    <item>
+      <title>Building a chain of responsibility with delegates</title>
+      <link>https://timvw.be/2006/05/30/building-a-chain-of-responsibility-with-delegates/</link>
+      <pubDate>Tue, 30 May 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/05/30/building-a-chain-of-responsibility-with-delegates/</guid>
+      <description>Imagine that you have to write a function that verifies if there is a license available for a given clientID. Suppose that there are a couple of possibilities to find an available license. Your code would probably look like the following
+// This code verifies if the client with the given clientID is licensed // returns the licenseID or 0 if no license is available public Int32 IsLicensed(Int32 clientID) { int result = 0; // verify if there is already a license &amp;#39;assigned&amp;#39; to the client 	result = IsAssigned(clientID); if (result == 0) { // find a dedicated license (license that is bound to the given client) 	result = IsDedicated(clientID); if (result == 0) { // find a nondedicated license (license that can be used by any client) 	result = IsNonDedicated(clientID); } } return result; } It&amp;rsquo;s obvious that this structures becomes more complex as the number of possible ways to get a license grows.</description>
+    </item>
+    
+    <item>
+      <title>Simple serialization and deserialization of public class members</title>
+      <link>https://timvw.be/2006/04/21/simple-serialization-and-deserialization-of-public-class-members/</link>
+      <pubDate>Fri, 21 Apr 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/04/21/simple-serialization-and-deserialization-of-public-class-members/</guid>
+      <description>Here is a simple generic class that allows you to serialize classes (well, their public members) into XML and deserialize the XML to objects again. Make sure the class (or struct) has a parameterless constructor and that all the members that you want to serialize are public. Here is the code
+public class SimpleSerializer&amp;lt;t&amp;gt; { public String Serialize(T o) { using(MemoryStream m = new MemoryStream()) { XmlSerializer s = new XmlSerializer(o.</description>
+    </item>
+    
+    <item>
+      <title>More about marshalling</title>
+      <link>https://timvw.be/2006/03/28/more-about-marshalling/</link>
+      <pubDate>Tue, 28 Mar 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/03/28/more-about-marshalling/</guid>
+      <description>Last month i&amp;rsquo;ve started programming with the .NET Framework using Visual Basic, C++.NET and C# on a daily basis. The first thing i noticed is that some useful functions that were available in kernel32.dll, user32.dll, etc. have been removed from the API. At pinvoke.net you find a summary of the functions in these DLLs and the PInvoke signatures.The most common approach is to build classes for the DLLs as following</description>
+    </item>
+    
+    <item>
+      <title>Parsing XML</title>
+      <link>https://timvw.be/2004/04/06/parsing-xml/</link>
+      <pubDate>Tue, 06 Apr 2004 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2004/04/06/parsing-xml/</guid>
+      <description>Today i wrote a little program, VolumeMeter which is usefull for Scarlet customers. It queries mijn.scarlet.be and returns how many megabytes they have used this month.</description>
+    </item>
+    
+  </channel>
+</rss>

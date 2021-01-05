@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Get entire message body from an Intent - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta itemprop="name" content="Get entire message body from an Intent">
+<meta itemprop="description" content="I recently started programming the Android and noticed that most examples for processing an incoming SMS are not entirely correct.
+An SMS message is limited to 160 characters. Current mobile phones break up a larger message in multiple messages transparently for the user. When Android notifies you about an incoming SMS it has all parts (of that large message) available. So here is how you reconstruct the entire message body from an Intent">
+<meta itemprop="datePublished" content="2011-01-06T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-01-05T08:24:13+01:00" />
+<meta itemprop="wordCount" content="128">
+
+
+
+<meta itemprop="keywords" content="Android,Java," />
+<meta property="og:title" content="Get entire message body from an Intent" />
+<meta property="og:description" content="I recently started programming the Android and noticed that most examples for processing an incoming SMS are not entirely correct.
+An SMS message is limited to 160 characters. Current mobile phones break up a larger message in multiple messages transparently for the user. When Android notifies you about an incoming SMS it has all parts (of that large message) available. So here is how you reconstruct the entire message body from an Intent" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timvw.be/2011/01/06/get-entire-message-body-from-an-intent/" />
+<meta property="article:published_time" content="2011-01-06T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-05T08:24:13+01:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Get entire message body from an Intent"/>
+<meta name="twitter:description" content="I recently started programming the Android and noticed that most examples for processing an incoming SMS are not entirely correct.
+An SMS message is limited to 160 characters. Current mobile phones break up a larger message in multiple messages transparently for the user. When Android notifies you about an incoming SMS it has all parts (of that large message) available. So here is how you reconstruct the entire message body from an Intent"/>
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
+		</nav></div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">06</span>
+							<span class="rest">Jan 2011</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">Get entire message body from an Intent</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<p>I recently started programming the <a href="http://www.android.com/">Android</a> and noticed that most examples for processing an incoming SMS are not entirely correct.</p>
+<p>An SMS message is <a href="http://en.wikipedia.org/wiki/SMS#Message_size">limited</a> to 160 characters. Current mobile phones break up a larger message in multiple messages transparently for the user. When Android notifies you about an incoming SMS it has all parts (of that large message) available. So here is how you reconstruct the entire message body from an Intent</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Bundle bundle <span style="color:#000;font-weight:bold">=</span> intent<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getExtras</span><span style="color:#000;font-weight:bold">();</span>
+<span style="color:#000;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span>bundle <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">null</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">return</span><span style="color:#000;font-weight:bold">;</span>
+
+StringBuilder message <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> StringBuilder<span style="color:#000;font-weight:bold">();</span>  
+Object<span style="color:#000;font-weight:bold">[]</span> pdus <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">(</span>Object<span style="color:#000;font-weight:bold">[])</span> bundle<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">get</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;pdus&#34;</span><span style="color:#000;font-weight:bold">);</span>
+
+<span style="color:#998;font-style:italic">// Rebuild this entire message from the multi part smses/pdus  
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">(</span>Object pdu <span style="color:#000;font-weight:bold">:</span> pdus<span style="color:#000;font-weight:bold">){</span>
+  <span style="color:#998;font-style:italic">// Notice that i use the deprecated android.telephony.gsm.SmsMessage
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// android.telephony.SmsMessage throws when i call createFromPdu
+</span><span style="color:#998;font-style:italic"></span>  SmsMessage msg <span style="color:#000;font-weight:bold">=</span> SmsMessage<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">createFromPdu</span><span style="color:#000;font-weight:bold">((</span><span style="color:#458;font-weight:bold">byte</span><span style="color:#000;font-weight:bold">[])</span>pdu<span style="color:#000;font-weight:bold">);</span>
+  message<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">append</span><span style="color:#000;font-weight:bold">(</span>msg<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getMessageBody</span><span style="color:#000;font-weight:bold">().</span><span style="color:#008080">toString</span><span style="color:#000;font-weight:bold">());</span>  
+<span style="color:#000;font-weight:bold">}</span>  
+</code></pre></div>
+			</div>
+
+			<div class="tags">
+				
+					
+						<ul class="flat">
+							
+							<li><a href="../../../../tags/android">Android</a></li>
+							
+							<li><a href="../../../../tags/java">Java</a></li>
+							
+						</ul>
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-2585435-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<script>feather.replace()</script>
+</body>
+</html>

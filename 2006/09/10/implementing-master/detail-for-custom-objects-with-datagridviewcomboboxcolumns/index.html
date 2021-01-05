@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Implementing Master/Detail for Custom Objects with DataGridViewComboBoxColumns - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta itemprop="name" content="Implementing Master/Detail for Custom Objects with DataGridViewComboBoxColumns">
+<meta itemprop="description" content="Imagine you have the following two classes
+public class Parent { private int id; private string name; public Parent( int id, string name ) { this.id = id; this.name = name; } public int Id { get { return this.id; } } public string Name { get { return this.name; } } } public class Child : Parent { private int parentId; public Child( int id, int parentId, string name ) : base( id, name ) { this.">
+<meta itemprop="datePublished" content="2006-09-10T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-01-05T08:24:13+01:00" />
+<meta itemprop="wordCount" content="350">
+
+
+
+<meta itemprop="keywords" content="CSharp,Windows Forms," />
+<meta property="og:title" content="Implementing Master/Detail for Custom Objects with DataGridViewComboBoxColumns" />
+<meta property="og:description" content="Imagine you have the following two classes
+public class Parent { private int id; private string name; public Parent( int id, string name ) { this.id = id; this.name = name; } public int Id { get { return this.id; } } public string Name { get { return this.name; } } } public class Child : Parent { private int parentId; public Child( int id, int parentId, string name ) : base( id, name ) { this." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timvw.be/2006/09/10/implementing-master/detail-for-custom-objects-with-datagridviewcomboboxcolumns/" />
+<meta property="article:published_time" content="2006-09-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-05T08:24:13+01:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Implementing Master/Detail for Custom Objects with DataGridViewComboBoxColumns"/>
+<meta name="twitter:description" content="Imagine you have the following two classes
+public class Parent { private int id; private string name; public Parent( int id, string name ) { this.id = id; this.name = name; } public int Id { get { return this.id; } } public string Name { get { return this.name; } } } public class Child : Parent { private int parentId; public Child( int id, int parentId, string name ) : base( id, name ) { this."/>
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
+		</nav></div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../../tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">10</span>
+							<span class="rest">Sep 2006</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">Implementing Master/Detail for Custom Objects with DataGridViewComboBoxColumns</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<p>Imagine you have the following two classes</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Parent</span> 
+{
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> id;
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">string</span> name;
+
+	<span style="color:#000;font-weight:bold">public</span> Parent( <span style="color:#458;font-weight:bold">int</span> id, <span style="color:#458;font-weight:bold">string</span> name ) 
+	{
+		<span style="color:#000;font-weight:bold">this</span>.id = id;
+		<span style="color:#000;font-weight:bold">this</span>.name = name;
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> Id 
+	{
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.id; }
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Name 
+	{
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.name; }
+	}
+}
+
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Child</span> : Parent 
+{
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> parentId;
+
+	<span style="color:#000;font-weight:bold">public</span> Child( <span style="color:#458;font-weight:bold">int</span> id, <span style="color:#458;font-weight:bold">int</span> parentId, <span style="color:#458;font-weight:bold">string</span> name ) : <span style="color:#000;font-weight:bold">base</span>( id, name ) 
+	{
+		<span style="color:#000;font-weight:bold">this</span>.parentId = parentId;
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> ParentId 
+	{
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.parentId; }
+	}
+}
+</code></pre></div><p>In the first ComboBoxColumn you display a list of possible Parents. In the second ComboBoxColumn you display Children, but only those that belong to the Chosen Parent. Here is how it goes</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form 
+{
+	<span style="color:#000;font-weight:bold">private</span> Object selectedValue;
+
+	<span style="color:#000;font-weight:bold">public</span> Form1() 
+	{
+		InitializeComponent();
+
+		<span style="color:#998;font-style:italic">// Add a couple of Parents
+</span><span style="color:#998;font-style:italic"></span>		<span style="color:#000;font-weight:bold">for</span> ( <span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">0</span>; i &lt; <span style="color:#099">3</span>; ++i ) 
+		{ 
+			Parent parent = <span style="color:#000;font-weight:bold">new</span> Parent( i, String.Format( <span style="color:#d14">&#34;Parent{0:00}&#34;</span>, i ) ); 
+			<span style="color:#000;font-weight:bold">this</span>.Column1.Items.Add( parent ); 
+			<span style="color:#998;font-style:italic">// Add a couple of Children to each parent 
+</span><span style="color:#998;font-style:italic"></span>			<span style="color:#000;font-weight:bold">for</span> ( <span style="color:#458;font-weight:bold">int</span> j = <span style="color:#099">0</span>; j &lt; <span style="color:#099">5</span>; ++j ) 
+			{ 
+				Child child = <span style="color:#000;font-weight:bold">new</span> Child( j, i, String.Format( <span style="color:#d14">&#34;Child{0:00}&#34;</span>, i * <span style="color:#099">10</span> + j ) ); 
+				<span style="color:#000;font-weight:bold">this</span>.Column2.Items.Add( child ); 
+			} 
+		} 
+		<span style="color:#000;font-weight:bold">this</span>.Column1.DisplayMember = <span style="color:#d14">&#34;Name&#34;</span>; 
+		<span style="color:#000;font-weight:bold">this</span>.Column2.DisplayMember = <span style="color:#d14">&#34;Name&#34;</span>; 
+	} 
+	
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_CellParsing( <span style="color:#458;font-weight:bold">object</span> sender, DataGridViewCellParsingEventArgs e ) 
+	{ 
+		e.Value = <span style="color:#000;font-weight:bold">this</span>.selectedValue; 
+		e.ParsingApplied = <span style="color:#000;font-weight:bold">true</span>; 
+	} 
+	
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing( <span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e ) 
+	{ 
+		ComboBox cb = e.Control <span style="color:#000;font-weight:bold">as</span> ComboBox; 
+		<span style="color:#000;font-weight:bold">if</span> ( cb != <span style="color:#000;font-weight:bold">null</span> ) 
+		{ 
+			<span style="color:#998;font-style:italic">// remove all the children that do not belong to the choosen parent 
+</span><span style="color:#998;font-style:italic"></span>			<span style="color:#458;font-weight:bold">int</span> currentColumnIndex = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.CurrentCell.ColumnIndex; 
+			<span style="color:#000;font-weight:bold">if</span> ( currentColumnIndex == <span style="color:#099">1</span> ) 
+			{ 
+				cb.Items.Clear(); 
+				<span style="color:#458;font-weight:bold">int</span> currentRowIndex = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.CurrentCell.RowIndex; 
+				Object currentCellValue = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.Rows[currentRowIndex].Cells[<span style="color:#099">0</span>].Value; 
+				<span style="color:#000;font-weight:bold">if</span> ( currentCellValue != <span style="color:#000;font-weight:bold">null</span> ) 
+				{ 
+					<span style="color:#458;font-weight:bold">int</span> parentId = ( (Parent)currentCellValue ).Id; 
+					<span style="color:#000;font-weight:bold">foreach</span> ( Child child <span style="color:#000;font-weight:bold">in</span> <span style="color:#000;font-weight:bold">this</span>.Column2.Items ) 
+					{ 
+						<span style="color:#000;font-weight:bold">if</span> ( child.ParentId == parentId ) 
+						{ 
+							cb.Items.Add( child ); 
+						} 
+					} 
+				} 
+			} 
+			cb.SelectedIndexChanged -= cb_SelectedIndexChanged; 
+			cb.SelectedIndexChanged += cb_SelectedIndexChanged; 
+		} 
+		
+		<span style="color:#000;font-weight:bold">void</span> cb_SelectedIndexChanged(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e) 
+		{ 
+			ComboBox comboBox = sender <span style="color:#000;font-weight:bold">as</span> ComboBox; 
+			<span style="color:#000;font-weight:bold">this</span>.selectedValue = comboBox.SelectedItem; 
+		} 
+	}
+}
+</code></pre></div>
+			</div>
+
+			<div class="tags">
+				
+					
+						<ul class="flat">
+							
+							<li><a href="../../../../../tags/csharp">CSharp</a></li>
+							
+							<li><a href="../../../../../tags/windows-forms">Windows Forms</a></li>
+							
+						</ul>
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-2585435-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<script>feather.replace()</script>
+</body>
+</html>

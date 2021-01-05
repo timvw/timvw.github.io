@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Using DateTimePicker and Custom Format - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta itemprop="name" content="Using DateTimePicker and Custom Format">
+<meta itemprop="description" content="Today we ran into a nasty problem with DateTimePickerFormat.Custom. We allow the user to input a month/date with a DateTimePicker as following (nothing fancy)
+private void Form1_Load(object sender, EventArgs e) { this.dateTimePicker1.Value = new DateTime(2007, 8, 31); this.dateTimePicker1.Format = DateTimePickerFormat.Custom; this.dateTimePicker1.CustomFormat = &#34;MM/yyyy&#34;; } Now, change to 09/2007 and notice that you get an Exception, because the control tries to create an unrepresentable new DateTime(2007, 8&#43;1, 31). Thus, if you&rsquo;re going to use the DateTimePicker for MM/yyyy input make sure to set it&rsquo;s value to a DateTimeTime with a day component that exists for all months/years (thus a value between 1 and 28).">
+<meta itemprop="datePublished" content="2007-08-29T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-01-05T08:24:13+01:00" />
+<meta itemprop="wordCount" content="249">
+
+
+
+<meta itemprop="keywords" content="CSharp,Windows Forms," />
+<meta property="og:title" content="Using DateTimePicker and Custom Format" />
+<meta property="og:description" content="Today we ran into a nasty problem with DateTimePickerFormat.Custom. We allow the user to input a month/date with a DateTimePicker as following (nothing fancy)
+private void Form1_Load(object sender, EventArgs e) { this.dateTimePicker1.Value = new DateTime(2007, 8, 31); this.dateTimePicker1.Format = DateTimePickerFormat.Custom; this.dateTimePicker1.CustomFormat = &#34;MM/yyyy&#34;; } Now, change to 09/2007 and notice that you get an Exception, because the control tries to create an unrepresentable new DateTime(2007, 8&#43;1, 31). Thus, if you&rsquo;re going to use the DateTimePicker for MM/yyyy input make sure to set it&rsquo;s value to a DateTimeTime with a day component that exists for all months/years (thus a value between 1 and 28)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timvw.be/2007/08/29/using-datetimepicker-and-custom-format/" />
+<meta property="article:published_time" content="2007-08-29T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-05T08:24:13+01:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Using DateTimePicker and Custom Format"/>
+<meta name="twitter:description" content="Today we ran into a nasty problem with DateTimePickerFormat.Custom. We allow the user to input a month/date with a DateTimePicker as following (nothing fancy)
+private void Form1_Load(object sender, EventArgs e) { this.dateTimePicker1.Value = new DateTime(2007, 8, 31); this.dateTimePicker1.Format = DateTimePickerFormat.Custom; this.dateTimePicker1.CustomFormat = &#34;MM/yyyy&#34;; } Now, change to 09/2007 and notice that you get an Exception, because the control tries to create an unrepresentable new DateTime(2007, 8&#43;1, 31). Thus, if you&rsquo;re going to use the DateTimePicker for MM/yyyy input make sure to set it&rsquo;s value to a DateTimeTime with a day component that exists for all months/years (thus a value between 1 and 28)."/>
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
+		</nav></div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">29</span>
+							<span class="rest">Aug 2007</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">Using DateTimePicker and Custom Format</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<p>Today we ran into a nasty problem with <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.datetimepickerformat.aspx">DateTimePickerFormat</a>.Custom. We allow the user to input a month/date with a DateTimePicker as following (nothing fancy)</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Form1_Load(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
+{
+	<span style="color:#000;font-weight:bold">this</span>.dateTimePicker1.Value = <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">8</span>, <span style="color:#099">31</span>);
+	<span style="color:#000;font-weight:bold">this</span>.dateTimePicker1.Format = DateTimePickerFormat.Custom;
+	<span style="color:#000;font-weight:bold">this</span>.dateTimePicker1.CustomFormat = <span style="color:#d14">&#34;MM/yyyy&#34;</span>;
+}
+</code></pre></div><p>Now, change to 09/2007 and notice that you get an Exception, because the control tries to create an unrepresentable new DateTime(2007, 8+1, 31). Thus, if you&rsquo;re going to use the DateTimePicker for MM/yyyy input make sure to set it&rsquo;s value to a DateTimeTime with a day component that exists for all months/years (thus a value between 1 and 28).</p>
+<p><strong>Addendum:</strong> As usual, super moderator and MVP <a href="https://mvp.support.microsoft.com/default.aspx/profile=6c93adc6-026f-42bf-823c-8e65ca732af2">Hans Passant</a> provided a nice workaround for the problem:)</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MonthPicker</span> : DateTimePicker 
+{
+	<span style="color:#000;font-weight:bold">public</span> MonthPicker() 
+	{
+		<span style="color:#000;font-weight:bold">this</span>.Format = DateTimePickerFormat.Custom;
+		<span style="color:#000;font-weight:bold">this</span>.CustomFormat = <span style="color:#d14">&#34;MM/yyyy&#34;</span>;
+		DateTime now = DateTime.Now;
+		<span style="color:#000;font-weight:bold">this</span>.Value = <span style="color:#000;font-weight:bold">new</span> DateTime(now.Year, now.Month, <span style="color:#099">1</span>);
+	}
+	
+	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">void</span> WndProc(<span style="color:#000;font-weight:bold">ref</span> Message m) 
+	{
+		<span style="color:#000;font-weight:bold">if</span> (m.Msg == <span style="color:#099">0</span>x204e) 
+		{
+			NMHDR hdr = (NMHDR)m.GetLParam(<span style="color:#000;font-weight:bold">typeof</span>(NMHDR));
+				<span style="color:#000;font-weight:bold">if</span> (hdr.code == -<span style="color:#099">759</span>) 
+				{
+					NMDATETIMECHANGE dt = (NMDATETIMECHANGE)m.GetLParam(<span style="color:#000;font-weight:bold">typeof</span>(NMDATETIMECHANGE));
+					<span style="color:#000;font-weight:bold">this</span>.Value = <span style="color:#000;font-weight:bold">new</span> DateTime(dt.st.wYear, dt.st.wMonth, <span style="color:#099">1</span>);
+					<span style="color:#000;font-weight:bold">return</span>;
+				}
+		}
+		<span style="color:#000;font-weight:bold">base</span>.WndProc(<span style="color:#000;font-weight:bold">ref</span> m);
+	}
+	
+	<span style="color:#998;font-style:italic">// P/Invoke declarations
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">	[StructLayout(LayoutKind.Sequential)]</span>
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">NMHDR</span> 
+	{
+		<span style="color:#000;font-weight:bold">public</span> IntPtr hWnd;
+		<span style="color:#000;font-weight:bold">public</span> IntPtr id;
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> code;
+	}
+<span style="color:#008080">	
+</span><span style="color:#008080">	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]</span>
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">NMDATETIMECHANGE</span> 
+	{
+		<span style="color:#000;font-weight:bold">public</span> NMHDR nmhdr;
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> dwFlags;
+		<span style="color:#000;font-weight:bold">public</span> SYSTEMTIME st;
+	}
+<span style="color:#008080">	
+</span><span style="color:#008080">	[StructLayout(LayoutKind.Sequential)]</span>
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">SYSTEMTIME</span> 
+	{
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">short</span> wYear;
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">short</span> wMonth;
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">short</span> wDayOfWeek;
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">short</span> wDay;
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">short</span> wHour;
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">short</span> wMinute;
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">short</span> wSecond;
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">short</span> wMilliseconds;
+	}
+}
+</code></pre></div>
+			</div>
+
+			<div class="tags">
+				
+					
+						<ul class="flat">
+							
+							<li><a href="../../../../tags/csharp">CSharp</a></li>
+							
+							<li><a href="../../../../tags/windows-forms">Windows Forms</a></li>
+							
+						</ul>
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-2585435-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<script>feather.replace()</script>
+</body>
+</html>

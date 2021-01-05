@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>WordPress on Tim Van Wassenhove</title>
+    <link>https://timvw.be/tags/wordpress/</link>
+    <description>Recent content in WordPress on Tim Van Wassenhove</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 25 Aug 2007 00:00:00 +0000</lastBuildDate><atom:link href="https://timvw.be/tags/wordpress/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>WordPress: Import Blogroll from Sage</title>
+      <link>https://timvw.be/2007/08/25/wordpress-import-blogroll-from-sage/</link>
+      <pubDate>Sat, 25 Aug 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2007/08/25/wordpress-import-blogroll-from-sage/</guid>
+      <description>Earlier today i exported the list with blogs i read from Sage and tried to import them into WordPress. Although all the entries had been processed but none of them appeared. Apparently you have to rename the xmlUrl attribute to htmlUrl in the OPML file. With Vim that&amp;rsquo;s as simple as &amp;ldquo;:%s/xmlUrl/htmlUrl/g&amp;rdquo;.
+Anyway, feel free to see if you find anything interesting in the list of blogs i&amp;rsquo;m reading.</description>
+    </item>
+    
+    <item>
+      <title>Adding support for localization to a WordPress plugin</title>
+      <link>https://timvw.be/2006/03/19/adding-support-for-localization-to-a-wordpress-plugin/</link>
+      <pubDate>Sun, 19 Mar 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/03/19/adding-support-for-localization-to-a-wordpress-plugin/</guid>
+      <description>WordPress uses GNU gettext, as explained in Translating WordPress and Writing a Plugin, for localization. I decided that my plugins should support l10n too. Here is how i realised it:
+I started with defining the WPLANG constant in my wp-config.php:
+define (&amp;#39;WPLANG&amp;#39;, &amp;#39;en_EN&amp;#39;); Then i changed the beginning of my localized plugin as following:
+&amp;lt;?php /* Plugin Name: WP-SpamFilter Version: 0.4 Plugin URI: http://timvw.madoka.be/?p=533 Description: Mark the new comment as spam if the sender is in the spammers list.</description>
+    </item>
+    
+    <item>
+      <title>Internationalizing strings with variables</title>
+      <link>https://timvw.be/2006/03/19/internationalizing-strings-with-variables/</link>
+      <pubDate>Sun, 19 Mar 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/03/19/internationalizing-strings-with-variables/</guid>
+      <description>Yesterday i wrote that you can use __($string, $domain) and _e($string, $domain) to internationalize a string with WordPress. I forgot to mention that if you use sprintf you can handle strings with variables too. An example:
+echo sprintf(__(&amp;#39;There are %d monkeys in the %s&amp;#39;), $domain), $number, $location); </description>
+    </item>
+    
+    <item>
+      <title>Plugin template for WordPress</title>
+      <link>https://timvw.be/2006/03/19/plugin-template-for-wordpress/</link>
+      <pubDate>Sun, 19 Mar 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/03/19/plugin-template-for-wordpress/</guid>
+      <description>Today i&amp;rsquo;ve been cleaning up my code. All my plugins live in a directory %plugin_name% under the wp-content/plugins directory. Here is the code for %plugin_name%/%plugin_name%.php
+&amp;lt;?php /* Plugin Name: %plugin_name% Version: %plugin_version% Plugin URI: %plugin_uri% Description: %plugin_description% Author URI: %plugin_author_uri% */ // Direct access is not allowed. if (!function\_exists(&amp;#39;load_plugin_textdomain&amp;#39;)) { exit; } else { require(&amp;#39;%plugin_name%.php&amp;#39;); $plugin_name = substr(basename(__FILE__), 0, -4); // You can add optional parameters to the constructor, eg: the wpdb instance.</description>
+    </item>
+    
+    <item>
+      <title>Adding an action when your plugin is activated</title>
+      <link>https://timvw.be/2006/03/15/adding-an-action-when-your-plugin-is-activated/</link>
+      <pubDate>Wed, 15 Mar 2006 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2006/03/15/adding-an-action-when-your-plugin-is-activated/</guid>
+      <description>The WordPress documentation says that you have to call add_action(&amp;lsquo;activate_pluginurl&amp;rsquo;, &amp;lsquo;somefunction&amp;rsquo;) to trigger somefunction when your plugin is activated. Unfortunately i couldn&amp;rsquo;t find with what pluginurl should be replaced. After a bit of experimenting i&amp;rsquo;ve found that in wp-admin/plugins.php the following is called when a plugin is activated:
+do_action(&amp;#39;activate_&amp;#39; . trim( $_GET[&amp;#39;plugin&amp;#39;] )); So it appears that you simply have to use the path of your plugin relative to /wp-content/plugins. Eg: you have a plugin in /wp-content/plugins/wp-spamfilter/wp-spamfilter.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>BBCode for Graphics2D - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta itemprop="name" content="BBCode for Graphics2D">
+<meta itemprop="description" content="For my graduation project we needed the ability to print a couple of bills etc. Printing lines was pretty simple with the LinesPrinter i blogged about a while ago. We had two choices: either implement a specific print method for each module or implement a reusable markup system. Obviously we went for the second option and came up with something alike BBCode. The codes we implemented are
+ [b]..[/b] for bold [i].">
+<meta itemprop="datePublished" content="2006-06-14T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-01-05T08:24:13+01:00" />
+<meta itemprop="wordCount" content="186">
+
+
+
+<meta itemprop="keywords" content="Java," />
+<meta property="og:title" content="BBCode for Graphics2D" />
+<meta property="og:description" content="For my graduation project we needed the ability to print a couple of bills etc. Printing lines was pretty simple with the LinesPrinter i blogged about a while ago. We had two choices: either implement a specific print method for each module or implement a reusable markup system. Obviously we went for the second option and came up with something alike BBCode. The codes we implemented are
+ [b]..[/b] for bold [i]." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timvw.be/2006/06/14/bbcode-for-graphics2d/" />
+<meta property="article:published_time" content="2006-06-14T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-05T08:24:13+01:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="BBCode for Graphics2D"/>
+<meta name="twitter:description" content="For my graduation project we needed the ability to print a couple of bills etc. Printing lines was pretty simple with the LinesPrinter i blogged about a while ago. We had two choices: either implement a specific print method for each module or implement a reusable markup system. Obviously we went for the second option and came up with something alike BBCode. The codes we implemented are
+ [b]..[/b] for bold [i]."/>
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
+		</nav></div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">14</span>
+							<span class="rest">Jun 2006</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">BBCode for Graphics2D</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<p>For my graduation project we needed the ability to print a couple of bills etc. Printing lines was pretty simple with the <a href="http://www.timvw.be/wp-content/code/java/LinesPrinter.java.txt">LinesPrinter</a> i blogged about a while ago. We had two choices: either implement a specific <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/awt/print/Printable.html#print(java.awt.Graphics,%20java.awt.print.PageFormat,%20int)">print method</a> for each module or implement a reusable markup system. Obviously we went for the second option and came up with something alike <a href="http://en.wikipedia.org/wiki/BBCode">BBCode</a>. The codes we implemented are</p>
+<ul>
+<li>[b]..[/b] for bold</li>
+<li>[i]..[/i] for italic</li>
+<li>[color=x]..[/color] for color x</li>
+<li>[c]..[/c] for centered text</li>
+<li>[r]..[/r] for right aligned text</li>
+<li>[ll=x]..[/ll] for left aligned text starting from the x-th column at the left</li>
+<li>[lr=x]..[/lr] for left aligned text starting from the x-th column at the right</li>
+<li>[rl=x]..[/ll] for right aligned text starting from the x-th column at the left</li>
+<li>[rr=x]..[/ll] for right aligned text starting from the x-th column at the right</li>
+</ul>
+<p>Since the code is written to work on a <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/awt/Graphics2D.html">Graphics2D</a> device you can also render the formatted text on a jpanel etc instead of a printer device. Here is a screenshot of a generated bill (on a jpanel):</p>
+<p><img src="http://www.timvw.be/wp-content/images/rpcode.png" alt="rpcode"></p>
+<p>Feel free to download, try and improve the <a href="http://www.timvw.be/wp-content/code/java/rpcode.zip">rpcode.zip</a> package.</p>
+
+			</div>
+
+			<div class="tags">
+				
+					
+						<ul class="flat">
+							
+							<li><a href="../../../../tags/java">Java</a></li>
+							
+						</ul>
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-2585435-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<script>feather.replace()</script>
+</body>
+</html>

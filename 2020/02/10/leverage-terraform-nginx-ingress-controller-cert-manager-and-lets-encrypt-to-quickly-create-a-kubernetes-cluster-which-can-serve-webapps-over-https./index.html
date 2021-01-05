@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Leverage Terraform, NGINX Ingress Controller, cert-manager and Let&#39;s Encrypt to quickly create a Kubernetes cluster which can serve webapps over HTTPS. - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta itemprop="name" content="Leverage Terraform, NGINX Ingress Controller, cert-manager and Let&#39;s Encrypt to quickly create a Kubernetes cluster which can serve webapps over HTTPS.">
+<meta itemprop="description" content="In this post I demonstrate how easy it has become to create a kubernetes cluster which serves webapplications over HTTPS.
+In order to follow along you should clone the sample code from this repository:
+git clone https://github.com/timvw/sample-terraform-azure-k8s-nginx-letsencrypt First configure the azure service principal for Terraform:
+export ARM_CLIENT_ID=&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34; export ARM_CLIENT_SECRET=&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34; export ARM_SUBSCRIPTION_ID=&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34; export ARM_TENANT_ID=&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34; The resources in this example depend on the following variables: client_id, client_secret, aks_service_principal_app_id and aks_service_principal_client_secret. One way to configure them is by exporting their values as a TF_VAR_xxx:">
+<meta itemprop="datePublished" content="2020-02-10T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-01-05T08:24:13+01:00" />
+<meta itemprop="wordCount" content="363">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta property="og:title" content="Leverage Terraform, NGINX Ingress Controller, cert-manager and Let&#39;s Encrypt to quickly create a Kubernetes cluster which can serve webapps over HTTPS." />
+<meta property="og:description" content="In this post I demonstrate how easy it has become to create a kubernetes cluster which serves webapplications over HTTPS.
+In order to follow along you should clone the sample code from this repository:
+git clone https://github.com/timvw/sample-terraform-azure-k8s-nginx-letsencrypt First configure the azure service principal for Terraform:
+export ARM_CLIENT_ID=&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34; export ARM_CLIENT_SECRET=&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34; export ARM_SUBSCRIPTION_ID=&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34; export ARM_TENANT_ID=&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34; The resources in this example depend on the following variables: client_id, client_secret, aks_service_principal_app_id and aks_service_principal_client_secret. One way to configure them is by exporting their values as a TF_VAR_xxx:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timvw.be/2020/02/10/leverage-terraform-nginx-ingress-controller-cert-manager-and-lets-encrypt-to-quickly-create-a-kubernetes-cluster-which-can-serve-webapps-over-https./" />
+<meta property="article:published_time" content="2020-02-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-05T08:24:13+01:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Leverage Terraform, NGINX Ingress Controller, cert-manager and Let&#39;s Encrypt to quickly create a Kubernetes cluster which can serve webapps over HTTPS."/>
+<meta name="twitter:description" content="In this post I demonstrate how easy it has become to create a kubernetes cluster which serves webapplications over HTTPS.
+In order to follow along you should clone the sample code from this repository:
+git clone https://github.com/timvw/sample-terraform-azure-k8s-nginx-letsencrypt First configure the azure service principal for Terraform:
+export ARM_CLIENT_ID=&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34; export ARM_CLIENT_SECRET=&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34; export ARM_SUBSCRIPTION_ID=&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34; export ARM_TENANT_ID=&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34; The resources in this example depend on the following variables: client_id, client_secret, aks_service_principal_app_id and aks_service_principal_client_secret. One way to configure them is by exporting their values as a TF_VAR_xxx:"/>
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
+		</nav></div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">10</span>
+							<span class="rest">Feb 2020</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">Leverage Terraform, NGINX Ingress Controller, cert-manager and Let&#39;s Encrypt to quickly create a Kubernetes cluster which can serve webapps over HTTPS.</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<p>In this post I demonstrate how easy it has become to create a kubernetes cluster which serves webapplications over HTTPS.</p>
+<p>In order to follow along you should clone the sample code from this <a href="https://github.com/timvw/sample-terraform-azure-k8s-nginx-letsencrypt">repository</a>:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/timvw/sample-terraform-azure-k8s-nginx-letsencrypt
+</code></pre></div><p>First <a href="https://www.terraform.io/docs/providers/azurerm/guides/service_principal_client_secret.html">configure the azure service principal for Terraform</a>:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#0086b3">export</span> <span style="color:#008080">ARM_CLIENT_ID</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34;</span>
+<span style="color:#0086b3">export</span> <span style="color:#008080">ARM_CLIENT_SECRET</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34;</span>
+<span style="color:#0086b3">export</span> <span style="color:#008080">ARM_SUBSCRIPTION_ID</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34;</span>
+<span style="color:#0086b3">export</span> <span style="color:#008080">ARM_TENANT_ID</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34;</span>
+</code></pre></div><p>The resources in this example depend on the following variables: client_id, client_secret, aks_service_principal_app_id and aks_service_principal_client_secret. One way to configure them is by exporting their values as a TF_VAR_xxx:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#0086b3">export</span> <span style="color:#008080">TF_VAR_client_id</span><span style="color:#000;font-weight:bold">=</span><span style="color:#008080">$ARM_CLIENT_ID</span>
+<span style="color:#0086b3">export</span> <span style="color:#008080">TF_VAR_client_secret</span><span style="color:#000;font-weight:bold">=</span><span style="color:#008080">$ARM_CLIENT_SECRET</span>
+<span style="color:#0086b3">export</span> <span style="color:#008080">TF_VAR_aks_service_principal_app_id</span><span style="color:#000;font-weight:bold">=</span><span style="color:#008080">$ARM_CLIENT_ID</span>
+<span style="color:#0086b3">export</span> <span style="color:#008080">TF_VAR_aks_service_principal_client_secret</span><span style="color:#000;font-weight:bold">=</span><span style="color:#008080">$ARM_CLIENT_SECRET</span>
+</code></pre></div><p>With all this configuration in place we can instruct Terraform to create the kubernetes cluster:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">terraform init
+terraform apply -auto-approve
+</code></pre></div><p>After a couple (~10) of minutes your cluster will be ready. Importing the credentials into your ~/.kube/config can be done as following:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">az aks get-credentials --resource-group k8s-test --name kaz
+</code></pre></div><p><a href="https://github.com/ahmetb/kubectx">kubectx</a> is an awesome tool that allows you to easily switch between contexts.</p>
+<p>Now it is time to <a href="https://kubernetes.github.io/ingress-nginx/deploy/">deploy the NGINX Ingress Controller</a>. We also need to apply the <a href="https://kubernetes.github.io/ingress-nginx/deploy/#azure">azure specific</a> additions:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.28.0/deploy/static/mandatory.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.28.0/deploy/static/provider/cloud-generic.yaml
+</code></pre></div><p>Deploying the NGINX Ingress Controller results in the creation of a loadbalancer and a public ip. Here is how you can fetch that address:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">az network public-ip list | grep -Po <span style="color:#d14">&#39;(?&lt;=&#34;ipAddress&#34;: &#34;)([^&#34;]*)&#39;</span>
+</code></pre></div><p>In this example we want to access our applications as <a href="https://XXX.apps.icteam.be">https://XXX.apps.icteam.be</a>.
+We achieve this by adding an A-record (the azure public ip address) pointing to *.apps.icteam.be</p>
+<p>For the HTTPS part we <a href="https://cert-manager.io/docs/installation/kubernetes/">install cert-manager</a> and use <a href="https://letsencrypt.org/">Let&rsquo;s Encrypt</a> to provide certificates:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.13.0/cert-manager.yaml
+kubectl apply -f letsencrypt.yaml 
+</code></pre></div><p>With all this infrastructure in place we can deploy a sample application:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create deployment hello-node --image<span style="color:#000;font-weight:bold">=</span>gcr.io/hello-minikube-zero-install/hello-node
+kubectl expose deployment hello-node --port<span style="color:#000;font-weight:bold">=</span><span style="color:#099">8080</span>
+kubectl apply -f ingress.yaml
+</code></pre></div><p>Now we can access our application:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl -v https://hello-node.apps.icteam.be
+</code></pre></div><p>Here are some useful commands to help with debugging:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic"># get some cluster info</span>
+kubectl cluster-info
+kubectl proxy
+
+<span style="color:#998;font-style:italic"># follow logs of the ingress controller</span>
+kubectl logs -n ingress-nginx deployment/nginx-ingress-controller -f
+
+<span style="color:#998;font-style:italic"># restart the ingress controller</span>
+kubectl scale deployment -n ingress-nginx --replicas<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span> nginx-ingress-controller
+kubectl scale deployment -n ingress-nginx --replicas<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span> nginx-ingress-controller
+</code></pre></div><p>Remove the hello-node application (pods/deployment/service/ingress):</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl delete all -l <span style="color:#008080">app</span><span style="color:#000;font-weight:bold">=</span>hello-node
+</code></pre></div><p>Finally you want to remove everything:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">terraform destroy -auto-approve
+</code></pre></div>
+			</div>
+
+			<div class="tags">
+				
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-2585435-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<script>feather.replace()</script>
+</body>
+</html>

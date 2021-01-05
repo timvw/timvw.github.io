@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Build OpenSSL with Visual Studio 2008 - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta itemprop="name" content="Build OpenSSL with Visual Studio 2008">
+<meta itemprop="description" content="These days building OpenSSL with Visual Studio 2008 has become really easy. I don&rsquo;t like to edit .cnf files so i decided to patch the code a little so that the default configuration file becomes openssl.config
+string basePath = @&#34;C:\src\openssl-0.9.8g&#34;; string originalConfigfile = &#34;openssl.cnf&#34;; string updatedConfigfile = &#34;openssl.config&#34;; foreach (string filename in Directory.GetFiles(basePath, &#34;\*.\*&#34;, SearchOption.AllDirectories)) { string contents = File.ReadAllText(filename); if (contents.Contains(originalConfigfile)) { Console.WriteLine(filename); File.WriteAllText(filename, contents.Replace(originalConfigfile, updatedConfigfile)); } } File.WriteAllText(basePath &#43; @&#34;\apps\&#34; &#43; updatedConfigfile, File.">
+<meta itemprop="datePublished" content="2008-04-21T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-01-05T08:24:13+01:00" />
+<meta itemprop="wordCount" content="136">
+
+
+
+<meta itemprop="keywords" content="Free Software," />
+<meta property="og:title" content="Build OpenSSL with Visual Studio 2008" />
+<meta property="og:description" content="These days building OpenSSL with Visual Studio 2008 has become really easy. I don&rsquo;t like to edit .cnf files so i decided to patch the code a little so that the default configuration file becomes openssl.config
+string basePath = @&#34;C:\src\openssl-0.9.8g&#34;; string originalConfigfile = &#34;openssl.cnf&#34;; string updatedConfigfile = &#34;openssl.config&#34;; foreach (string filename in Directory.GetFiles(basePath, &#34;\*.\*&#34;, SearchOption.AllDirectories)) { string contents = File.ReadAllText(filename); if (contents.Contains(originalConfigfile)) { Console.WriteLine(filename); File.WriteAllText(filename, contents.Replace(originalConfigfile, updatedConfigfile)); } } File.WriteAllText(basePath &#43; @&#34;\apps\&#34; &#43; updatedConfigfile, File." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timvw.be/2008/04/21/build-openssl-with-visual-studio-2008/" />
+<meta property="article:published_time" content="2008-04-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-05T08:24:13+01:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Build OpenSSL with Visual Studio 2008"/>
+<meta name="twitter:description" content="These days building OpenSSL with Visual Studio 2008 has become really easy. I don&rsquo;t like to edit .cnf files so i decided to patch the code a little so that the default configuration file becomes openssl.config
+string basePath = @&#34;C:\src\openssl-0.9.8g&#34;; string originalConfigfile = &#34;openssl.cnf&#34;; string updatedConfigfile = &#34;openssl.config&#34;; foreach (string filename in Directory.GetFiles(basePath, &#34;\*.\*&#34;, SearchOption.AllDirectories)) { string contents = File.ReadAllText(filename); if (contents.Contains(originalConfigfile)) { Console.WriteLine(filename); File.WriteAllText(filename, contents.Replace(originalConfigfile, updatedConfigfile)); } } File.WriteAllText(basePath &#43; @&#34;\apps\&#34; &#43; updatedConfigfile, File."/>
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
+		</nav></div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">21</span>
+							<span class="rest">Apr 2008</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">Build OpenSSL with Visual Studio 2008</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<p>These days building <a href="http://www.openssl.org">OpenSSL</a> with Visual Studio 2008 has become really easy. I don&rsquo;t like to edit .cnf files so i decided to patch the code a little so that the default configuration file becomes openssl.config</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">string</span> basePath = <span style="color:#d14">@&#34;C:\src\openssl-0.9.8g&#34;</span>;
+
+<span style="color:#458;font-weight:bold">string</span> originalConfigfile = <span style="color:#d14">&#34;openssl.cnf&#34;</span>;
+<span style="color:#458;font-weight:bold">string</span> updatedConfigfile = <span style="color:#d14">&#34;openssl.config&#34;</span>;
+<span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">string</span> filename <span style="color:#000;font-weight:bold">in</span> Directory.GetFiles(basePath, <span style="color:#d14">&#34;\*.\*&#34;</span>, SearchOption.AllDirectories))
+{
+	<span style="color:#458;font-weight:bold">string</span> contents = File.ReadAllText(filename);
+	<span style="color:#000;font-weight:bold">if</span> (contents.Contains(originalConfigfile))
+	{
+		Console.WriteLine(filename);
+		File.WriteAllText(filename, contents.Replace(originalConfigfile, updatedConfigfile));
+	}
+}
+
+File.WriteAllText(basePath + <span style="color:#d14">@&#34;\apps\&#34;</span> + updatedConfigfile, File.ReadAllText(basePath + <span style="color:#d14">@&#34;\apps\&#34;</span> + originalConfigfile));
+</code></pre></div><p>Open a Visual Studio 2008 Command prompt and add references to the <a href="http://blogs.msdn.com/windowssdk">Microsoft SDK</a> as following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">SET <span style="color:#008080">PATH</span><span style="color:#000;font-weight:bold">=</span>%PATH%;C:<span style="color:#d14">\P</span>rogram Files<span style="color:#d14">\M</span>icrosoft SDKs<span style="color:#d14">\W</span>indows<span style="color:#d14">\v</span>6.0A<span style="color:#d14">\b</span>in
+SET <span style="color:#008080">LIB</span><span style="color:#000;font-weight:bold">=</span>%LIB%;C:<span style="color:#d14">\P</span>rogram Files<span style="color:#d14">\M</span>icrosoft SDKs<span style="color:#d14">\W</span>indows<span style="color:#d14">\v</span>6.0A<span style="color:#d14">\L</span>ib
+SET <span style="color:#008080">INCLUDE</span><span style="color:#000;font-weight:bold">=</span>%INCLUDE%;C:<span style="color:#d14">\P</span>rogram Files<span style="color:#d14">\M</span>icrosoft SDKs<span style="color:#d14">\W</span>indows<span style="color:#d14">\v</span>6.0A<span style="color:#d14">\I</span>nclude
+</code></pre></div><p>Now we simply have to follow the tasks listed in INSTALL.W32:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">perl Configure VC-WIN32 --prefix<span style="color:#000;font-weight:bold">=</span>c:/openssl
+ms<span style="color:#d14">\d</span>o_masm
+nmake -f ms<span style="color:#d14">\n</span>tdll.mak
+nmake -f ms<span style="color:#d14">\n</span>tdll.mak <span style="color:#0086b3">test</span>
+nmake -f ms<span style="color:#d14">\n</span>tdll.mak install
+</code></pre></div><p>Happy OpenSSL&rsquo;ing!</p>
+
+			</div>
+
+			<div class="tags">
+				
+					
+						<ul class="flat">
+							
+							<li><a href="../../../../tags/free-software">Free Software</a></li>
+							
+						</ul>
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-2585435-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<script>feather.replace()</script>
+</body>
+</html>
