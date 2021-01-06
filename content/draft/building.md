@@ -1,6 +1,7 @@
 ---
 title: Leverage Terraform, Azure Container Service and kaniko to create and use container images on Kubernetes.
 layout: post
+draft: true
 ---
 In this post I demonstrate how easy it has become to build and use container images on Kubernetes (without docker) leveraging [kaniko](https://github.com/GoogleContainerTools/kaniko).
 
