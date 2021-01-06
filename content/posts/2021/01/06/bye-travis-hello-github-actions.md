@@ -1,6 +1,7 @@
 ---
 date: 2021-01-06
 title: bye-travis-hello-github-actions
+draft: true
 tags:
 - travis-ci
 - github-actions
