@@ -1,3 +1,6 @@
+---
+draft: true
+---
 # Openshift
 
 ## Authenticate etc...

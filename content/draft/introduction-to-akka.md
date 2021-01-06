@@ -1,6 +1,7 @@
 ---
 title: Introduction to Akka
 layout: post
+draft: true
 ---
 Functional programming is all about immutable data and pure functions.
 
