@@ -1,6 +1,7 @@
 ---
 date: 2021-01-07
 title: Blog migrated to HUGO
+draft: true
 tags:
 - meta
 - blog
