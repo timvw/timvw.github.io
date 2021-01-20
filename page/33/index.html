@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:05:50+01:00" />
+<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -32,7 +32,8 @@
 	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
 	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
 			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav></div>
+		</nav>
+	</div>
 
 	<nav class="nav">
 		<ul class="flat">
@@ -61,215 +62,784 @@
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">16</span>
-							<span class="rest">Dec 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">16</span>
+										<span class="rest">Dec 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/12/16/pondering-about-the-difference-between-abstract-classes-and-interfaces/">Pondering about the difference between abstract classes and interfaces</a>
-								</h4>
-								<span class="description">
-									
-										Back in May i was asked to explain the difference between an [interface](http://msdn.microsoft.com/library/en-us/csref/h...
-									
-								</span>
+								<h1 class="title">Pondering about the difference between abstract classes and interfaces</h1>
 							</div>
 						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">14</span>
-							<span class="rest">Dec 2006</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/12/14/helper-methods-for-datetime/">Helper methods for DateTime</a>
-								</h4>
-								<span class="description">
-									
-										Here are a couple of methods that help you with the manipulation of DateTime structs:
+								
+						<div class="markdown">
+							<p>Back in May i was asked to explain the difference between an <a href="http://msdn.microsoft.com/library/en-us/csref/html/vcreftheinterfacetype.asp">interface</a> and an <a href="http://msdn.microsoft.com/library/en-us/csspec/html/vclrfcsharpspec_10_1_1_1.asp">abstract class</a> at a job interview. Obviously the interviewer wanted me to tell him that an abstract class allows you to provide a partial implementation&hellip; I answered that the major difference is the fact that with interface-based programming you&rsquo;re not forced into an inheritance tree that might not make sense and that i didn&rsquo;t see much use for abstract classes (I&rsquo;m not sure he saw that one coming :P). For some unknown reason this kept spinning in my head&hellip; Here&rsquo;s an example of an abstract class and a concrete implementation</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">abstract</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">FooAbstract</span>
+{
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> DoX()
+	{
+		DoY();
+	}
 
-Code: [csharp/DateTimeHelpers.txt...
-									
-								</span>
-							</div>
+	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">abstract</span> <span style="color:#000;font-weight:bold">void</span> DoY();
+}
+
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">FooConcrete</span> : FooAbstract
+{
+	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">void</span> DoY()
+	{
+		Console.WriteLine(<span style="color:#d14">&#34;FooConcrete does Y&#34;</span>);
+	}
+}
+</code></pre></div><p>I find the interface-based implementation below a lot cleaner because it still provides the partial implementation but a concrete implementation is not forced into the inheritance relationship anymore. Another advantage is that the implementation only depends on the interface (the unimplemented parts) so you get some looser coupling than with abstract classes. A disadvantage is that an interface requires you to make all the unimplemented methods public</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Foo</span>
+{
+	<span style="color:#000;font-weight:bold">private</span> IAbstract myAbstract;
+
+	<span style="color:#000;font-weight:bold">public</span> Foo(IAbstract myAbstract)
+	{
+		<span style="color:#000;font-weight:bold">if</span> (myAbstract == <span style="color:#000;font-weight:bold">null</span>)
+		{
+			<span style="color:#000;font-weight:bold">throw</span> <span style="color:#000;font-weight:bold">new</span> ArgumentNullException();
+		}
+
+		<span style="color:#000;font-weight:bold">this</span>.myAbstract = myAbstract;
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> DoX()
+	{
+		<span style="color:#000;font-weight:bold">this</span>.myAbstract.DoY();
+	}
+}
+
+<span style="color:#000;font-weight:bold">interface</span> IAbstract
+{
+	<span style="color:#000;font-weight:bold">void</span> DoY();
+}
+
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Concrete</span> : IAbstract
+{
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> DoY()
+	{
+		Console.WriteLine(<span style="color:#d14">&#34;Concrete does Y&#34;</span>);
+	}
+}
+</code></pre></div><p>Conclusion: I still don&rsquo;t see much use for abstract classes.</p>
+
 						</div>
-					</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">13</span>
-							<span class="rest">Dec 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">14</span>
+										<span class="rest">Dec 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/12/13/what-goes-up-must-come-down.../">What goes up must come down...</a>
-								</h4>
-								<span class="description">
-									
-										What goes up must come down... So you might think that after each CellMouseDown event you recieve a CellMouseUp event......
-									
-								</span>
+								<h1 class="title">Helper methods for DateTime</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Here are a couple of methods that help you with the manipulation of DateTime structs:</p>
+<p>Code: <a href="../../wp-content/code/csharp/DateTimeHelpers.txt">csharp/DateTimeHelpers.txt</a></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">25</span>
-							<span class="rest">Nov 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">13</span>
+										<span class="rest">Dec 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/11/25/master-slave-for-databound-comboboxes/">Master-Slave for databound ComboBoxes</a>
-								</h4>
-								<span class="description">
-									
-										In most examples on the Internet you&#39;ll find that the Master has a property that returns the allowed Slaves. Here&#39;s an e...
-									
-								</span>
+								<h1 class="title">What goes up must come down...</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>What goes up must come down&hellip; So you might think that after each CellMouseDown event you recieve a CellMouseUp event&hellip; Well, here is some code that proves that isn&rsquo;t always true</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form
+{
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">string</span> lastEvent;
+
+	<span style="color:#000;font-weight:bold">public</span> Form1()
+	{
+		InitializeComponent();
+		<span style="color:#000;font-weight:bold">this</span>.dataGridView1.ColumnCount = <span style="color:#099">10</span>;
+		<span style="color:#000;font-weight:bold">this</span>.dataGridView1.RowCount = <span style="color:#099">10</span>;
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> LastEvent
+	{
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.lastEvent; }
+		<span style="color:#000;font-weight:bold">set</span> {
+			<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.lastEvent == <span style="color:#000;font-weight:bold">value</span>)
+			{
+				MessageBox.Show(<span style="color:#d14">&#34;i&#39;ve detected two &#34;</span> + <span style="color:#000;font-weight:bold">value</span> + <span style="color:#d14">&#34; after each other&#34;</span>);
+			}
+			<span style="color:#000;font-weight:bold">this</span>.lastEvent = <span style="color:#000;font-weight:bold">value</span>;
+		}
+	}
+
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_CellMouseDown(<span style="color:#458;font-weight:bold">object</span> sender, DataGridViewCellMouseEventArgs e)
+	{
+		LastEvent = <span style="color:#d14">&#34;MouseDown&#34;</span>;
+	}
+
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_CellMouseUp(<span style="color:#458;font-weight:bold">object</span> sender, DataGridViewCellMouseEventArgs e)
+	{
+		LastEvent = <span style="color:#d14">&#34;MouseUp&#34;</span>;
+	}
+}
+</code></pre></div><p>And with a bit of a twisted optical mouse it&rsquo;s pretty easy to see the following MessageBox</p>
+<p><img src="http://www.timvw.be/wp-content/images/mousedown.jpg" alt="MessageBox that says the MouseDownEvent was captured two times after each other"></p>
+<p>After a bit of research i also found the following at <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.mouseeventargs.aspx">MouseEventArgs</a></p>
+<blockquote>
+<!-- raw HTML omitted -->
+</blockquote>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">23</span>
-							<span class="rest">Nov 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">25</span>
+										<span class="rest">Nov 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/11/23/a-better-look-at-the-foreach-statement/">A better look at the Foreach statement</a>
-								</h4>
-								<span class="description">
-									
-										Earlier this week i was a bit surprised that the following code compiled without errors or warning messages. I expected ...
-									
-								</span>
+								<h1 class="title">Master-Slave for databound ComboBoxes</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>In most examples on the Internet you&rsquo;ll find that the Master has a property that returns the allowed Slaves. Here&rsquo;s an example that does not require such a property. Let&rsquo;s start with a simple class that represents a Person.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Person</span>
+{
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">string</span> name;
+
+	<span style="color:#000;font-weight:bold">public</span> Person(<span style="color:#458;font-weight:bold">string</span> name)
+	{
+		<span style="color:#000;font-weight:bold">this</span>.name = name;
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Name
+	{
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.name; }
+		<span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>.name = <span style="color:#000;font-weight:bold">value</span>; }
+	}
+}
+</code></pre></div><p>And now we define a class to hold the choosen Master and Slave persons.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MasterSlave</span>
+{
+	<span style="color:#000;font-weight:bold">private</span> Person master;
+	<span style="color:#000;font-weight:bold">private</span> Person slave;
+
+	<span style="color:#000;font-weight:bold">public</span> MasterSlave()
+	{
+		Person[] masters = <span style="color:#000;font-weight:bold">this</span>.GetMasters();
+		<span style="color:#000;font-weight:bold">this</span>.master = masters[<span style="color:#099">0</span>];
+
+		Person[] slaves = <span style="color:#000;font-weight:bold">this</span>.GetSlaves(<span style="color:#000;font-weight:bold">this</span>.master);
+		<span style="color:#000;font-weight:bold">this</span>.slave = slaves[<span style="color:#099">0</span>];
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> Person Master
+	{
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.master; }
+		<span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>.master = <span style="color:#000;font-weight:bold">value</span>; }
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> Person Slave
+	{
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.slave; }
+		<span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>.slave = <span style="color:#000;font-weight:bold">value</span>; }
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> Person[] GetMasters()
+	{
+		List&lt;person&gt; masters = <span style="color:#000;font-weight:bold">new</span> List&lt;person&gt;();
+		masters.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master1&#34;</span>));
+		masters.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master2&#34;</span>));
+		<span style="color:#000;font-weight:bold">return</span> masters.ToArray();
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> Person[] GetSlaves(Person person)
+	{
+		List&lt;person&gt; slaves = <span style="color:#000;font-weight:bold">new</span> List&lt;person&gt;();
+
+		<span style="color:#000;font-weight:bold">switch</span> (person.Name)
+		{
+		<span style="color:#000;font-weight:bold">case</span> <span style="color:#d14">&#34;master1&#34;</span>:
+		slaves.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master1-slave1&#34;</span>));
+		slaves.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master1-slave2&#34;</span>));
+		<span style="color:#000;font-weight:bold">break</span>;
+		<span style="color:#000;font-weight:bold">case</span> <span style="color:#d14">&#34;master2&#34;</span>:
+		slaves.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master2-slave1&#34;</span>));
+		slaves.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master2-slave2&#34;</span>));
+		slaves.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master2-slave3&#34;</span>));
+		<span style="color:#000;font-weight:bold">break</span>;
+		}
+		<span style="color:#000;font-weight:bold">return</span> slaves.ToArray();
+	}
+}
+</code></pre></div><p>And now we can hook these objects to your Form.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form
+{
+	<span style="color:#000;font-weight:bold">public</span> Form1()
+	{
+		InitializeComponent();
+
+		MasterSlave masterSlave = <span style="color:#000;font-weight:bold">new</span> MasterSlave();
+
+		BindingSource masterBindingSource = <span style="color:#000;font-weight:bold">new</span> BindingSource();
+		masterBindingSource.DataSource = masterSlave.GetMasters();
+		masterBindingSource.CurrentChanged += <span style="color:#000;font-weight:bold">new</span> EventHandler(masterBindingSource_CurrentChanged);
+
+		<span style="color:#000;font-weight:bold">this</span>.comboBoxMaster.DataSource = masterBindingSource;
+		<span style="color:#000;font-weight:bold">this</span>.comboBoxMaster.DisplayMember = <span style="color:#d14">&#34;Name&#34;</span>;
+		<span style="color:#000;font-weight:bold">this</span>.comboBoxMaster.DataBindings.Add(<span style="color:#d14">&#34;SelectedItem&#34;</span>, masterSlave, <span style="color:#d14">&#34;Master&#34;</span>);
+
+		BindingSource slaveBindingSource = <span style="color:#000;font-weight:bold">new</span> BindingSource();
+		slaveBindingSource.DataSource = masterSlave.GetSlaves(masterBindingSource.Current <span style="color:#000;font-weight:bold">as</span> Person);
+
+		<span style="color:#000;font-weight:bold">this</span>.comboBoxSlave.DataSource = slaveBindingSource;
+		<span style="color:#000;font-weight:bold">this</span>.comboBoxSlave.DisplayMember = <span style="color:#d14">&#34;Name&#34;</span>;
+		<span style="color:#000;font-weight:bold">this</span>.comboBoxSlave.DataBindings.Add(<span style="color:#d14">&#34;SelectedItem&#34;</span>, masterSlave, <span style="color:#d14">&#34;Slave&#34;</span>);
+	}
+
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> masterBindingSource_CurrentChanged(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
+	{
+		BindingSource masterBindingSource = <span style="color:#000;font-weight:bold">this</span>.comboBoxMaster.DataSource <span style="color:#000;font-weight:bold">as</span> BindingSource;
+		Person master = masterBindingSource.Current <span style="color:#000;font-weight:bold">as</span> Person;
+
+		BindingSource slaveBindingSource = <span style="color:#000;font-weight:bold">this</span>.comboBoxSlave.DataSource <span style="color:#000;font-weight:bold">as</span> BindingSource;
+		MasterSlave masterSlave = <span style="color:#000;font-weight:bold">this</span>.comboBoxSlave.DataBindings[<span style="color:#d14">&#34;SelectedItem&#34;</span>].DataSource <span style="color:#000;font-weight:bold">as</span> MasterSlave;
+		slaveBindingSource.DataSource = masterSlave.GetSlaves(master);
+	}
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">04</span>
-							<span class="rest">Nov 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">23</span>
+										<span class="rest">Nov 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/11/04/querying-active-directory/">Querying Active Directory</a>
-								</h4>
-								<span class="description">
-									
-										A while ago i wanted to figure out which demo accounts i had already created in my [Active Directory](http://www.microso...
-									
-								</span>
+								<h1 class="title">A better look at the Foreach statement</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Earlier this week i was a bit surprised that the following code compiled without errors or warning messages. I expected at least a warning that i was trying to assign a double value to an integer parameter</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
+{
+	<span style="color:#458;font-weight:bold">double</span>[] values = <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">double</span>[] { <span style="color:#099">1.1</span>, <span style="color:#099">2.2</span>, <span style="color:#099">3.3</span>, <span style="color:#099">4.4</span>, <span style="color:#099">5.5</span> };
+
+	Console.WriteLine(<span style="color:#d14">&#34;foreach with int:&#34;</span>);
+
+	<span style="color:#998;font-style:italic">// happily iterate over the double values as if they are ints...
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// this outputs the lines 1, 2, 3, 4 and 5.
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">int</span> <span style="color:#000;font-weight:bold">value</span> <span style="color:#000;font-weight:bold">in</span> values)
+	{
+		Console.WriteLine(<span style="color:#000;font-weight:bold">value</span>);
+	}
+}
+</code></pre></div><p>So i decided to dive into the <a href="http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-334.pdf">C# Language Specification</a> (Section 15.8.4 The foreach statement) where i found the following:</p>
+<blockquote>
+<!-- raw HTML omitted -->
+</blockquote>
+<p><!-- raw HTML omitted --> {<!-- raw HTML omitted --> E e = ((C)(x)).GetEnumerator();<!-- raw HTML omitted --> try {<!-- raw HTML omitted --> V v;<!-- raw HTML omitted --> while (e.MoveNext()) {<!-- raw HTML omitted --> v = (V)(T)e.Current;<!-- raw HTML omitted --> embedded-statement<!-- raw HTML omitted --> }<!-- raw HTML omitted --> }<!-- raw HTML omitted --> finally {<!-- raw HTML omitted --> â€¦ // Dispose e<!-- raw HTML omitted --> }<!-- raw HTML omitted --> }<!-- raw HTML omitted --></p>
+<pre><code>&gt; &lt;/div&gt;
+</code></pre>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">23</span>
-							<span class="rest">Oct 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">04</span>
+										<span class="rest">Nov 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/10/23/using-a-collection-as-parameter-for-a-stored-procedure/">Using a collection as parameter for a stored procedure</a>
-								</h4>
-								<span class="description">
-									
-										Sometimes you want to select rows where a value is in a specific collection. Here&#39;s an example that show how you can sel...
-									
-								</span>
+								<h1 class="title">Querying Active Directory</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>A while ago i wanted to figure out which demo accounts i had already created in my <a href="http://www.microsoft.com/windowsserver2003/technologies/directory/activedirectory/default.mspx">Active Directory</a>. Since i was smart enough to give them all a description &lsquo;Demo User&rsquo; this was easily done as following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">using( DirectoryEntry directoryEntry = <span style="color:#000;font-weight:bold">new</span> DirectoryEntry() )
+{
+	using( DirectorySearcher directorySearcher = <span style="color:#000;font-weight:bold">new</span> DirectorySearcher() )
+	{
+		directorySearcher.Filter = <span style="color:#d14">&#34;(&amp;(objectClass=user)(description=Demo User))&#34;</span>;
+		directorySearcher.SearchScope = SearchScope.Subtree;
+		directorySearcher.Sort = <span style="color:#000;font-weight:bold">new</span> SortOption(<span style="color:#d14">&#34;displayname&#34;</span>, SortDirection.Ascending );
+
+		SearchResultCollection results = directorySearcher.FindAll();
+		<span style="color:#000;font-weight:bold">foreach</span>( SearchResult result <span style="color:#000;font-weight:bold">in</span> results )
+		{
+			ResultPropertyCollection propertyCollection = result.Properties;
+			Console.WriteLine( <span style="color:#d14">&#34;{0}: {1}&#34;</span>, propertyCollection<span style="color:#a61717;background-color:#e3d2d2">\</span>[<span style="color:#d14">&#34;displayname&#34;</span><span style="color:#a61717;background-color:#e3d2d2">\</span>]<span style="color:#a61717;background-color:#e3d2d2">\</span>[<span style="color:#099">0</span><span style="color:#a61717;background-color:#e3d2d2">\</span>].ToString(), propertyCollection<span style="color:#a61717;background-color:#e3d2d2">\</span>[<span style="color:#d14">&#34;description&#34;</span><span style="color:#a61717;background-color:#e3d2d2">\</span>]<span style="color:#a61717;background-color:#e3d2d2">\</span>[<span style="color:#099">0</span><span style="color:#a61717;background-color:#e3d2d2">\</span>].ToString() );
+		}
+	}
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">22</span>
-							<span class="rest">Oct 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">23</span>
+										<span class="rest">Oct 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/10/22/searching-made-easy/">Searching made easy</a>
-								</h4>
-								<span class="description">
-									
-										Very often i have to write queries that return all the rows where one or more columns match a specific value. If i add f...
-									
-								</span>
+								<h1 class="title">Using a collection as parameter for a stored procedure</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Sometimes you want to select rows where a value is in a specific collection. Here&rsquo;s an example that show how you can select all the rows in the TEST table with an id of 1, 2 or 3. First we create an SQL type to contain a list of numbers</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">CREATE</span> <span style="color:#000;font-weight:bold">TYPE</span> LIST_NUMBER <span style="color:#000;font-weight:bold">AS</span> <span style="color:#000;font-weight:bold">TABLE</span> <span style="color:#000;font-weight:bold">OF</span> <span style="color:#0086b3">NUMBER</span>(<span style="color:#099">10</span>);
+<span style="color:#000;font-weight:bold">/</span>
+</code></pre></div><p>Next thing to do is add a custom type and function header to the package specification</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">PACKAGE TIMVW.TESTPACKAGE <span style="color:#000;font-weight:bold">AS</span>
+
+<span style="color:#000;font-weight:bold">TYPE</span> CRSR_REF <span style="color:#000;font-weight:bold">IS</span> <span style="color:#000;font-weight:bold">REF</span> <span style="color:#000;font-weight:bold">CURSOR</span>;
+<span style="color:#000;font-weight:bold">TYPE</span> ARR<span style="color:#a61717;background-color:#e3d2d2">\</span>_IDS <span style="color:#000;font-weight:bold">IS</span> <span style="color:#000;font-weight:bold">TABLE</span> <span style="color:#000;font-weight:bold">OF</span> TEST.TEST<span style="color:#a61717;background-color:#e3d2d2">\</span>_ID<span style="color:#000;font-weight:bold">%</span><span style="color:#000;font-weight:bold">Type</span> <span style="color:#000;font-weight:bold">INDEX</span> <span style="color:#000;font-weight:bold">BY</span> BINARY_INTEGER;
+
+<span style="color:#000;font-weight:bold">PROCEDURE</span> GET_TESTS
+(
+P_IDS <span style="color:#000;font-weight:bold">IN</span> ARR_IDS,
+P_CURSOR <span style="color:#000;font-weight:bold">OUT</span> CRSR_REF
+);
+<span style="color:#000;font-weight:bold">END</span>;
+</code></pre></div><p>And offcourse we have to implement the function in the body</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">PROCEDURE</span> GET_TESTS
+(
+P_IDS <span style="color:#000;font-weight:bold">IN</span> ARR_IDS,
+P_CURSOR <span style="color:#000;font-weight:bold">OUT</span> CRSR_REF
+)
+
+<span style="color:#000;font-weight:bold">AS</span>
+
+V_IDS LIST_NUMBER :<span style="color:#000;font-weight:bold">=</span> LIST_NUMBER();
+
+<span style="color:#000;font-weight:bold">BEGIN</span>
+
+V_IDS.EXTEND(P_IDS.<span style="color:#000;font-weight:bold">COUNT</span>);
+<span style="color:#000;font-weight:bold">FOR</span> i <span style="color:#000;font-weight:bold">IN</span> P_IDS.<span style="color:#000;font-weight:bold">FIRST</span> .. P_IDS.<span style="color:#000;font-weight:bold">LAST</span> LOOP
+	V_IDS(i) :<span style="color:#000;font-weight:bold">=</span> P_IDS(i);
+<span style="color:#000;font-weight:bold">END</span> LOOP;
+
+<span style="color:#000;font-weight:bold">OPEN</span> P_CURSOR <span style="color:#000;font-weight:bold">FOR</span>
+<span style="color:#000;font-weight:bold">SELECT</span>
+TEST.TEST_ID,
+TEST.NAME,
+TEST.TYPE_CODE
+<span style="color:#000;font-weight:bold">FROM</span>
+TEST
+<span style="color:#000;font-weight:bold">WHERE</span>
+TEST_ID <span style="color:#000;font-weight:bold">IN</span> (<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> <span style="color:#000;font-weight:bold">TABLE</span>(V_IDS))
+<span style="color:#000;font-weight:bold">ORDER</span> <span style="color:#000;font-weight:bold">BY</span>
+TEST.TEST_ID <span style="color:#000;font-weight:bold">ASC</span>;
+<span style="color:#000;font-weight:bold">END</span>;
+</code></pre></div><p>Now that we have done all this we can consume the function from our client code</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">using</span> (OracleConnection conn = <span style="color:#000;font-weight:bold">new</span> OracleConnection(<span style="color:#d14">&#34;User Id=u;password=p;Data Source=ORCL&#34;</span>))
+{
+	conn.Open();
+
+	OracleCommand command = conn.CreateCommand();
+	command.CommandType = CommandType.StoredProcedure;
+
+	command.CommandText = <span style="color:#d14">&#34;TIMVW.TESTPACKAGE.GET_TESTS&#34;</span>;
+	command.Parameters.Add(<span style="color:#d14">&#34;P_IDS&#34;</span>, OracleDbType.Int32, <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">int</span>[] { <span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">3</span> }, ParameterDirection.Input);
+	command.Parameters[<span style="color:#d14">&#34;P_IDS&#34;</span>].CollectionType = OracleCollectionType.PLSQLAssociativeArray;
+	command.Parameters.Add(<span style="color:#d14">&#34;P_CURSOR&#34;</span>, OracleDbType.RefCursor, ParameterDirection.Output);
+
+	OracleDataReader reader = command.ExecuteReader();
+	<span style="color:#000;font-weight:bold">while</span> (reader.Read())
+	{
+		Console.WriteLine(<span style="color:#d14">&#34;test 	}
+</span><span style="color:#d14"></span>
+	Console.Write(<span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
+	Console.ReadKey();
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/sql">SQL</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">12</span>
-							<span class="rest">Oct 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">22</span>
+										<span class="rest">Oct 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/10/12/updating-the-internet-options-/-lan-settings/">Updating the Internet Options / Lan Settings</a>
-								</h4>
-								<span class="description">
-									
-										A while ago i wrote that i had created two .reg files to update my Internet Options / Lan Settings ([Automating the conf...
-									
-								</span>
+								<h1 class="title">Searching made easy</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Very often i have to write queries that return all the rows where one or more columns match a specific value. If i add for every column the condition &lsquo;P_COLUMN IS NULL OR COLUMN = P_COLUMN&rsquo; to the WHERE clause i only have to write one query. Here&rsquo;s an example of such a query</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">PROCEDURE</span> FIND_TESTS
+(
+	P_ID <span style="color:#000;font-weight:bold">IN</span> TEST.ID<span style="color:#000;font-weight:bold">%</span><span style="color:#000;font-weight:bold">Type</span>,
+	P_TITLE <span style="color:#000;font-weight:bold">IN</span> TEST.TITLE<span style="color:#000;font-weight:bold">%</span><span style="color:#000;font-weight:bold">Type</span>,
+	P_TYPE_CODE <span style="color:#000;font-weight:bold">IN</span> TEST.TYPE_CODE<span style="color:#000;font-weight:bold">%</span><span style="color:#000;font-weight:bold">Type</span>,
+	P_CURSOR <span style="color:#000;font-weight:bold">OUT</span> <span style="color:#000;font-weight:bold">CURSOR</span> <span style="color:#000;font-weight:bold">REF</span>
+)
+
+<span style="color:#000;font-weight:bold">AS</span>
+
+<span style="color:#000;font-weight:bold">BEGIN</span>
+
+<span style="color:#000;font-weight:bold">OPEN</span>
+P_CURSOR <span style="color:#000;font-weight:bold">FOR</span>
+<span style="color:#000;font-weight:bold">SELECT</span>
+ID,
+TITLE,
+TYPE_CODE
+<span style="color:#000;font-weight:bold">FROM</span>
+TEST
+<span style="color:#000;font-weight:bold">WHERE</span>
+(P_ID <span style="color:#000;font-weight:bold">IS</span> <span style="color:#000;font-weight:bold">NULL</span> <span style="color:#000;font-weight:bold">OR</span> ID <span style="color:#000;font-weight:bold">=</span> P_ID)
+<span style="color:#000;font-weight:bold">AND</span> (P_TITLE <span style="color:#000;font-weight:bold">IS</span> <span style="color:#000;font-weight:bold">NULL</span> <span style="color:#000;font-weight:bold">OR</span> TITLE <span style="color:#000;font-weight:bold">LIKE</span> P_TITLE)
+<span style="color:#000;font-weight:bold">AND</span> (P_TYPE_CODE <span style="color:#000;font-weight:bold">IS</span> <span style="color:#000;font-weight:bold">NULL</span> <span style="color:#000;font-weight:bold">OR</span> TYPE_CODE <span style="color:#000;font-weight:bold">LIKE</span> P_TYPE_CODE)
+<span style="color:#000;font-weight:bold">ORDER</span> <span style="color:#000;font-weight:bold">BY</span>
+ID <span style="color:#000;font-weight:bold">ASC</span>;
+<span style="color:#000;font-weight:bold">END</span>;
+</code></pre></div><p>A couple of examples how you can use this query</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">using</span> (OracleConnection conn = <span style="color:#000;font-weight:bold">new</span> OracleConnection(<span style="color:#d14">&#34;User Id=u;password=p;Data Source=ORCL&#34;</span>))
+{
+	conn.Open();
+
+	OracleCommand command = conn.CreateCommand();
+	command.CommandText = <span style="color:#d14">&#34;TIMVW.MYPACKAGE.FIND_TESTS&#34;</span>;
+	command.CommandType = CommandType.StoredProcedure;
+
+	<span style="color:#998;font-style:italic">// select all tests of type_code &#34;book&#34; that have a title that starts with &#34;Myst&#34;
+</span><span style="color:#998;font-style:italic"></span>	command.Parameters.Add(<span style="color:#d14">&#34;P_ID&#34;</span>, OracleDbType.Int32, <span style="color:#099">10</span>, DBNull.Value, ParameterDirection.Input);
+	command.Parameters.Add(<span style="color:#d14">&#34;P_TITLE&#34;</span>, OracleDbType.Varchar2, <span style="color:#099">20</span>, <span style="color:#d14">&#34;Myst%&#34;</span>, ParameterDirection.Input);
+	command.Parameters.Add(<span style="color:#d14">&#34;P\_TYPE\_CODE&#34;</span>, OracleDbType.Varchar2, <span style="color:#099">20</span>, <span style="color:#d14">&#34;book&#34;</span>, ParameterDirection.Input);
+	command.Parameters.Add(<span style="color:#d14">&#34;P_CURSOR&#34;</span>, OracleDbType.RefCursor, ParameterDirection.Output);
+
+	<span style="color:#998;font-style:italic">// select the test with id 1
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">//command.Parameters.Add(&#34;P_ID&#34;, OracleDbType.Int32, 10, 1, ParameterDirection.Input);
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">//command.Parameters.Add(&#34;P_TITLE&#34;, OracleDbType.Varchar2, 20, DBNull.Value, ParameterDirection.Input);
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">//command.Parameters.Add(&#34;P\_TYPE\_CODE&#34;, OracleDbType.Varchar2, 20, DBNull.Value, ParameterDirection.Input);
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">//command.Parameters.Add(&#34;P_CURSOR&#34;, OracleDbType.RefCursor, ParameterDirection.Output);
+</span><span style="color:#998;font-style:italic"></span>
+	OracleDataReader reader = command.ExecuteReader();
+	<span style="color:#000;font-weight:bold">while</span> (reader.Read())
+	{
+		Console.WriteLine(<span style="color:#d14">&#34;test 	}
+</span><span style="color:#d14"></span>
+	Console.Write(<span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
+	Console.ReadKey();
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/sql">SQL</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">08</span>
-							<span class="rest">Oct 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">12</span>
+										<span class="rest">Oct 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/10/08/screenshot-of-datagridviews/">Screenshot of DataGridViews</a>
-								</h4>
-								<span class="description">
-									
-										The problem with a regular screenshot is that you only get to see a part of the DataGridViews. Here&#39;s an example of a ty...
-									
-								</span>
+								<h1 class="title">Updating the Internet Options / Lan Settings</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>A while ago i wrote that i had created two .reg files to update my Internet Options / Lan Settings (<a href="http://www.timvw.be/automating-the-configuration-of-internet-options-and-lan-settings/">Automating the configuration of Internet Options / Lan Settings</a>). Yesterday i build a little Windows Service that automates this completely. With <a href="http://windowssdk.msdn.microsoft.com/en-gb/library/aa366329.aspx">NotifyAddrChange</a> i am notified whenever a change occurs in the table that maps IPv4 addresses to interfaces</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[DllImport(&#34;iphlpapi.dll&#34;, CharSet = CharSet.Ansi)]</span>
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">extern</span> <span style="color:#458;font-weight:bold">int</span> NotifyAddrChange(<span style="color:#000;font-weight:bold">ref</span> IntPtr handle, IntPtr overlapped);
+</code></pre></div><p>The main loop of the service looks like this</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">while</span> (<span style="color:#000;font-weight:bold">this</span>.isRunning)
+{
+	IntPtr handle = IntPtr.Zero;
+	NotifyAddrChange(<span style="color:#000;font-weight:bold">ref</span> handle, IntPtr.Zero);
+	UpdateRegistry();
+}
+</code></pre></div><p>Whenever i&rsquo;m connected to the LAN at work i want to use a proxy. Here&rsquo;s the code that takes care of this</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> UpdateRegistry()
+{
+	RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(<span style="color:#d14">@&#34;Software\Microsoft\Windows\CurrentVersion\Internet Settings&#34;</span>, <span style="color:#000;font-weight:bold">true</span>);
+	<span style="color:#000;font-weight:bold">if</span> (IsInWorkLan())
+	{
+		registryKey.SetValue(<span style="color:#d14">&#34;AutoConfigURL&#34;</span>, <span style="color:#d14">&#34;http://123.456.789.0&#34;</span>);
+	}
+	<span style="color:#000;font-weight:bold">else</span>
+	{
+		registryKey.DeleteValue(<span style="color:#d14">&#34;AutoConfigURL&#34;</span>, <span style="color:#000;font-weight:bold">false</span>);
+	}
+}
+</code></pre></div><p>Figuring out whether i&rsquo;m connected to the LAN at work is pretty simple. As soon as i have an IPAddress that looks like 192.168.X.Y i&rsquo;m connected. Here&rsquo;s how i translated this into code</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> IsInWorkLan()
+{
+	<span style="color:#000;font-weight:bold">foreach</span> (IPAddress ipAddress <span style="color:#000;font-weight:bold">in</span> Dns.GetHostAddresses(Dns.GetHostName()))
+	{
+		<span style="color:#000;font-weight:bold">if</span> (IsInWorkLan(ipAddress))
+		{
+			<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>;
+		}
+	}
+
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>;
+}
+
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> IsInWorkLan(IPAddress ipAddress)
+{
+	<span style="color:#458;font-weight:bold">byte</span>[] bytes = ipAddress.GetAddressBytes();
+	<span style="color:#000;font-weight:bold">if</span> ((<span style="color:#458;font-weight:bold">int</span>)bytes[<span style="color:#099">0</span>] == <span style="color:#099">192</span> &amp;&amp; (<span style="color:#458;font-weight:bold">int</span>)bytes[<span style="color:#099">1</span>] == <span style="color:#099">168</span>)
+	{
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>;
+	}
+
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>;
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">08</span>
+										<span class="rest">Oct 2006</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Screenshot of DataGridViews</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>The problem with a regular screenshot is that you only get to see a part of the DataGridViews. Here&rsquo;s an example of a typical form</p>
+<p><img src="http://www.timvw.be/wp-content/images/datagridviews-with-scrollbars.jpg" alt="image of datagridview with scrollbars"></p>
+<p>Here is a snippet that makes a screenshot of the complete DataGridViews</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">List&lt;bitmap&gt; bitmaps = <span style="color:#000;font-weight:bold">new</span> List&lt;bitmap&gt;();
+Size size = <span style="color:#000;font-weight:bold">new</span> Size();
+
+<span style="color:#000;font-weight:bold">for</span> (<span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">1</span>; i &lt; <span style="color:#099">4</span>; ++i) 
+{ 
+	<span style="color:#998;font-style:italic">// lookup the datagridview 
+</span><span style="color:#998;font-style:italic"></span>	DataGridView dataGridView = (DataGridView)<span style="color:#000;font-weight:bold">this</span>.Controls[<span style="color:#d14">&#34;dataGridView&#34;</span> + i]; 
+	<span style="color:#998;font-style:italic">// maximize the datagridview size (choosing between current and preferred) 
+</span><span style="color:#998;font-style:italic"></span>	Size oldSize = dataGridView.Size; 
+	Size newSize = dataGridView.PreferredSize; 
+	<span style="color:#000;font-weight:bold">if</span> (dataGridView.Size.Width &gt; newSize.Width)
+	{
+		newSize.Width = dataGridView.Size.Width;
+	}
+
+	<span style="color:#000;font-weight:bold">if</span> (dataGridView.Size.Height &gt; newSize.Height)
+	{
+		newSize.Height = dataGridView.Size.Height;
+	}
+
+	dataGridView.Size = newSize;
+
+	<span style="color:#998;font-style:italic">// draw the datagridview into a bitmap
+</span><span style="color:#998;font-style:italic"></span>	Bitmap bitmap = <span style="color:#000;font-weight:bold">new</span> Bitmap(dataGridView.Width, dataGridView.Height);
+	dataGridView.DrawToBitmap(bitmap, <span style="color:#000;font-weight:bold">new</span> Rectangle(<span style="color:#099">0</span>, <span style="color:#099">0</span>, dataGridView.Width, dataGridView.Height));
+
+	<span style="color:#998;font-style:italic">// restore the datagridview to it&#39;s original size
+</span><span style="color:#998;font-style:italic"></span>	dataGridView.Size = oldSize;
+
+	bitmaps.Add(bitmap);
+
+	<span style="color:#998;font-style:italic">// update total bitmap size
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span> (newSize.Width &gt; size.Width)
+	{
+		size.Width = newSize.Width;
+	}
+	size.Height += newSize.Height;
+}
+
+<span style="color:#998;font-style:italic">// copy all the bitmaps into one large bitmap
+</span><span style="color:#998;font-style:italic"></span>Bitmap bitmapComplete = <span style="color:#000;font-weight:bold">new</span> Bitmap(size.Width, size.Height);
+Graphics g = Graphics.FromImage(bitmapComplete);
+
+<span style="color:#458;font-weight:bold">int</span> height = <span style="color:#099">0</span>;
+<span style="color:#000;font-weight:bold">for</span> (<span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">1</span>; i &lt; <span style="color:#099">4</span>; ++i) 
+{ 
+	g.DrawImageUnscaled(bitmaps[i - <span style="color:#099">1</span>], <span style="color:#099">0</span>, height); 
+	height += bitmaps[i - <span style="color:#099">1</span>].Height; 
+} 
+
+<span style="color:#998;font-style:italic">// bitmapComplete is ready for use 
+</span><span style="color:#998;font-style:italic">// eg: pictureBox1.Image = bitmapComplete 
+</span><span style="color:#998;font-style:italic">// eg: bitmapComplete.Save(@&#34;C:\screenshot.jpg&#34;, ImageFormat.Jpeg); 
+</span></code></pre></div><p><img src="http://www.timvw.be/wp-content/images/datagridviews-without-scrollbars.jpg" alt="image of generated screenshot"></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 				
 

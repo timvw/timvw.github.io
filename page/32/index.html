@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:05:50+01:00" />
+<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -32,7 +32,8 @@
 	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
 	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
 			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav></div>
+		</nav>
+	</div>
 
 	<nav class="nav">
 		<ul class="flat">
@@ -61,215 +62,680 @@
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">07</span>
-							<span class="rest">Jan 2007</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">07</span>
+										<span class="rest">Jan 2007</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2007/01/07/the-nullabledateandtimepicker-control/">The NullableDateAndTimePicker Control</a>
-								</h4>
-								<span class="description">
-									
-										A while ago i presented the concept of a [DateAndTimePicker](http://www.timvw.be/a-dateandtimepicker-control/). Today so...
-									
-								</span>
+								<h1 class="title">The NullableDateAndTimePicker Control</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>A while ago i presented the concept of a <a href="http://www.timvw.be/a-dateandtimepicker-control/">DateAndTimePicker</a>. Today someone asked if it&rsquo;s possible to give the user an option to &lsquo;not choose a DateTime&rsquo;. I created a UserControl that has both a DateAndTimePicker and a CheckBox with a Value property of Nullable<!-- raw HTML omitted -->.</p>
+<p><img src="http://www.timvw.be/wp-content/images/dateandtimepicker-nullable-1.gif" alt="screenshot of the nullable dateandtimepicker"></p>
+<p><img src="http://www.timvw.be/wp-content/images/dateandtimepicker-nullable-2.gif" alt="screenshot of the nullable dateandtimepicker"></p>
+<p>Feel free to download the updated <a href="http://www.timvw.be/wp-content/code/csharp/DateAndTimePicker.zip">DateAndTimePicker.zip</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">06</span>
-							<span class="rest">Jan 2007</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">06</span>
+										<span class="rest">Jan 2007</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2007/01/06/enable-and-disable-tabpages-on-a-tabcontrol/">Enable and disable TabPages on a TabControl</a>
-								</h4>
-								<span class="description">
-									
-										![screenshot of tabcontrol with disabled tabpages](http://www.timvw.be/wp-content/images/disabled-tabcontrol-1.gif)
-  
-!...
-									
-								</span>
+								<h1 class="title">Enable and disable TabPages on a TabControl</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p><img src="http://www.timvw.be/wp-content/images/disabled-tabcontrol-1.gif" alt="screenshot of tabcontrol with disabled tabpages"></p>
+<p><img src="http://www.timvw.be/wp-content/images/disabled-tabcontrol-2.gif" alt="screenshot of tabcontrol with disabled tabpages"></p>
+<p>Apparently <a href="http://www.microsoft.com">Microsoft</a> choose not to implement support for disabled <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.tabpage.aspx">TabPage</a>s. The reason seems to be that it&rsquo;s against their <a href="http://msdn2.microsoft.com/en-us/library/aa511493.aspx">Guidelines for Tabs</a>. Let&rsquo;s ignore the guideline and implement the support anyway. First we set the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.tabcontrol.drawmode.aspx">DrawMode</a> property of the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.tabcontrol.aspx">TabControl</a> to <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.tabdrawmode.aspx">OwnerDrawFixed</a>. Next we add an eventhandler for the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.tabcontrol.drawitem.aspx">DrawItem</a> Event</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> tabControl1_DrawItem(<span style="color:#458;font-weight:bold">object</span> sender, DrawItemEventArgs e)
+{
+	TabControl tabControl = sender <span style="color:#000;font-weight:bold">as</span> TabControl;
+	TabPage tabPage = tabControl.TabPages[e.Index];
+	Rectangle tabRectangle = tabControl.GetTabRect(e.Index);
+
+	<span style="color:#000;font-weight:bold">if</span> (tabControl.Alignment == TabAlignment.Left || tabControl.Alignment == TabAlignment.Right)
+	{
+		<span style="color:#458;font-weight:bold">float</span> rotateAngle = <span style="color:#099">90</span>;
+		<span style="color:#000;font-weight:bold">if</span> (tabControl.Alignment == TabAlignment.Left)
+		{
+			rotateAngle = <span style="color:#099">270</span>;
+		}
+
+		PointF cp = <span style="color:#000;font-weight:bold">new</span> PointF(tabRectangle.Left + (tabRectangle.Width / <span style="color:#099">2</span>), tabRectangle.Top + (tabRectangle.Height / <span style="color:#099">2</span>));
+		e.Graphics.TranslateTransform(cp.X, cp.Y);
+		e.Graphics.RotateTransform(rotateAngle);
+		tabRectangle = <span style="color:#000;font-weight:bold">new</span> Rectangle(-(tabRectangle.Height / <span style="color:#099">2</span>), -(tabRectangle.Width / <span style="color:#099">2</span>), tabRectangle.Height, tabRectangle.Width);
+	}
+
+	<span style="color:#000;font-weight:bold">using</span> (SolidBrush foreBrush = <span style="color:#000;font-weight:bold">new</span> SolidBrush(tabPage.ForeColor))
+	{
+		<span style="color:#000;font-weight:bold">using</span> (SolidBrush backBrush = <span style="color:#000;font-weight:bold">new</span> SolidBrush(tabPage.BackColor))
+		{
+			<span style="color:#000;font-weight:bold">if</span> (!tabPage.Enabled)
+			{
+				foreBrush.Color = SystemColors.GrayText;
+			}
+
+			e.Graphics.FillRectangle(backBrush, tabRectangle);
+
+			<span style="color:#000;font-weight:bold">using</span> (StringFormat stringFormat = <span style="color:#000;font-weight:bold">new</span> StringFormat())
+			{
+				stringFormat.Alignment = StringAlignment.Center;
+				stringFormat.LineAlignment = StringAlignment.Center;
+				e.Graphics.DrawString(tabPage.Text, e.Font, foreBrush, tabRectangle, stringFormat);
+			}
+		}
+	}
+
+	e.Graphics.ResetTransform();
+}
+</code></pre></div><p>And we handle the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.tabcontrol.selecting.aspx">Selecting</a> Event as following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> tabControl1_Selecting(<span style="color:#458;font-weight:bold">object</span> sender, TabControlCancelEventArgs e)
+{
+	<span style="color:#000;font-weight:bold">if</span> (!e.TabPage.Enabled)
+	{
+		e.Cancel = <span style="color:#000;font-weight:bold">true</span>;
+	}
+}
+</code></pre></div><p>This works pretty fine, but we still have to make sure that the TabPages are Invalidated when the users changes their <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.control.enabled.aspx">Enabled</a> property. We do this by attaching and detaching an eventhandler for their <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.control.enabledchanged.aspx">EnabledChanged</a> Event when they&rsquo;re <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.control.controladded.aspx">added</a> and <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.control.controlremoved.aspx">removed</a>.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> tabControl1_ControlAdded(<span style="color:#458;font-weight:bold">object</span> sender, ControlEventArgs e)
+{
+	TabPage tabPage = sender <span style="color:#000;font-weight:bold">as</span> TabPage;
+	<span style="color:#000;font-weight:bold">if</span> (tabPage != <span style="color:#000;font-weight:bold">null</span>)
+	{
+		tabPage.EnabledChanged += <span style="color:#000;font-weight:bold">new</span> EventHandler(<span style="color:#000;font-weight:bold">this</span>.tabPage_EnabledChanged);
+	}
+}
+
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> tabControl1_ControlRemoved(<span style="color:#458;font-weight:bold">object</span> sender, ControlEventArgs e)
+{
+	TabPage tabPage = sender <span style="color:#000;font-weight:bold">as</span> TabPage;
+	<span style="color:#000;font-weight:bold">if</span> (tabPage != <span style="color:#000;font-weight:bold">null</span>)
+	{
+		tabPage.EnabledChanged -= <span style="color:#000;font-weight:bold">new</span> EventHandler(<span style="color:#000;font-weight:bold">this</span>.tabPage_EnabledChanged);
+	}
+}
+
+<span style="color:#000;font-weight:bold">void</span> tabPage_EnabledChanged(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
+{
+	TabPage tabPage = sender <span style="color:#000;font-weight:bold">as</span> TabPage;
+	TabControl tabControl = tabPage.Parent <span style="color:#000;font-weight:bold">as</span> TabControl;
+	tabControl.Invalidate(tabPage.ClientRectangle);
+}
+</code></pre></div><p>Feel free to download the demo application: <a href="http://www.timvw.be/wp-content/code/csharp/DisabledTabControl.zip">DisabledTabControl.zip</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">04</span>
-							<span class="rest">Jan 2007</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">04</span>
+										<span class="rest">Jan 2007</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2007/01/04/developing-a-datasource-for-your-datagridview/">Developing a DataSource for your DataGridView</a>
-								</h4>
-								<span class="description">
-									
-										Imagine that you want to develop a DataSource that is capable to represent the data displayed in the following excel she...
-									
-								</span>
+								<h1 class="title">Developing a DataSource for your DataGridView</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Imagine that you want to develop a DataSource that is capable to represent the data displayed in the following excel sheet</p>
+<p><img src="http://www.timvw.be/wp-content/images/dgv-ds-1.gif" alt="screenshot of excel sheet"></p>
+<p>For each region the values are given. The YEAR value is defined as the sum of Q1, Q2, Q3 and Q4, eg: for EMEA this is SUM(B2:E2). The GLOBAL values are calculated as the sum of the regions for the quarter, eg: for Q1 this is SUM(B2:B5). We&rsquo;ll start with the easiest task: Add columns to the DGV and define the headers</p>
+<p><img src="http://www.timvw.be/wp-content/images/dgv-ds-2.gif" alt="screenshot of first datagridview"></p>
+<p>If we look at the DGV it becomes clear that each row exists out of a Label, values for Q1 to Q4 and the sum of those values. If we translate this to code we end up with something like: <a href="http://www.timvw.be/wp-content/code/csharp/SalesRow.txt">SalesRow</a></p>
+<p>I&rsquo;ve implemented <a href="http://msdn2.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged.aspx">INotifyPropertyChanged</a> because i want the DGV to request and display the updated Year value when one of the quarterly values changes. Configure the Columns to use these properties as DataPropertyName and add a couple of SalesRow instances to a <a href="http://msdn2.microsoft.com/en-us/library/ms132679.aspx">BindingList</a> that we use as DataSource for the DGV.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> Form1()
+{
+	InitializeComponent();
+
+	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.AutoGenerateColumns = <span style="color:#000;font-weight:bold">false</span>;
+	<span style="color:#000;font-weight:bold">this</span>.ColumnRegion.DataPropertyName = <span style="color:#d14">&#34;Label&#34;</span>;
+	<span style="color:#000;font-weight:bold">this</span>.ColumnQ1.DataPropertyName = <span style="color:#d14">&#34;Q1&#34;</span>;
+	<span style="color:#000;font-weight:bold">this</span>.ColumnQ2.DataPropertyName = <span style="color:#d14">&#34;Q2&#34;</span>;
+	<span style="color:#000;font-weight:bold">this</span>.ColumnQ3.DataPropertyName = <span style="color:#d14">&#34;Q3&#34;</span>;
+	<span style="color:#000;font-weight:bold">this</span>.ColumnQ4.DataPropertyName = <span style="color:#d14">&#34;Q4&#34;</span>;
+	<span style="color:#000;font-weight:bold">this</span>.ColumnYear.DataPropertyName = <span style="color:#d14">&#34;Year&#34;</span>;
+
+	BindingList&lt;salesRow&gt; bindingList = <span style="color:#000;font-weight:bold">new</span> BindingList&lt;salesRow&gt;();
+	bindingList.Add(<span style="color:#000;font-weight:bold">new</span> SalesRow(<span style="color:#d14">&#34;EMEA&#34;</span>, <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">int</span>[] { <span style="color:#099">100</span>, <span style="color:#099">100</span>, <span style="color:#099">100</span>, <span style="color:#099">100</span> }));
+	bindingList.Add(<span style="color:#000;font-weight:bold">new</span> SalesRow(<span style="color:#d14">&#34;LATAM&#34;</span>, <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">int</span>[] { <span style="color:#099">150</span>, <span style="color:#099">150</span>, <span style="color:#099">150</span>, <span style="color:#099">150</span> }));
+	bindingList.Add(<span style="color:#000;font-weight:bold">new</span> SalesRow(<span style="color:#d14">&#34;APAC&#34;</span>, <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">int</span>[] { <span style="color:#099">100</span>, <span style="color:#099">100</span>, <span style="color:#099">100</span>, <span style="color:#099">100</span> }));
+	bindingList.Add(<span style="color:#000;font-weight:bold">new</span> SalesRow(<span style="color:#d14">&#34;NORAM&#34;</span>, <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">int</span>[] { <span style="color:#099">150</span>, <span style="color:#099">150</span>, <span style="color:#099">150</span>, <span style="color:#099">150</span> }));
+	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataSource = bindingList;
+}
+</code></pre></div><p>Notice that the Year value is nicely updated when the user changes one of the quarterly values</p>
+<p><img src="http://www.timvw.be/wp-content/images/dgv-ds-3.gif" alt="screenshot of datagridview with rows for regions."></p>
+<p>In order to calculate the GLOBAL values we inherit from the SalesRow class and override the implementation for the Q1, Q2, Q3, Q4 and Year properties: <a href="http://www.timvw.be/wp-content/code/csharp/GlobalSalesRow.txt">GlobalSalesRow</a>.</p>
+<p>Finally we can wrap everyting in a <a href="http://www.timvw.be/wp-content/code/csharp/SalesRows.txt">SalesRows</a> class to represent our Data. Hooking this code up is as easy as</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> Form1()
+{
+	InitializeComponent();
+
+	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.AutoGenerateColumns = <span style="color:#000;font-weight:bold">false</span>;
+	<span style="color:#000;font-weight:bold">this</span>.ColumnRegion.DataPropertyName = <span style="color:#d14">&#34;Label&#34;</span>;
+	<span style="color:#000;font-weight:bold">this</span>.ColumnQ1.DataPropertyName = <span style="color:#d14">&#34;Q1&#34;</span>;
+	<span style="color:#000;font-weight:bold">this</span>.ColumnQ2.DataPropertyName = <span style="color:#d14">&#34;Q2&#34;</span>;
+	<span style="color:#000;font-weight:bold">this</span>.ColumnQ3.DataPropertyName = <span style="color:#d14">&#34;Q3&#34;</span>;
+	<span style="color:#000;font-weight:bold">this</span>.ColumnQ4.DataPropertyName = <span style="color:#d14">&#34;Q4&#34;</span>;
+	<span style="color:#000;font-weight:bold">this</span>.ColumnYear.DataPropertyName = <span style="color:#d14">&#34;Year&#34;</span>;
+
+	BindingList&lt;salesRow&gt; bindingList = <span style="color:#000;font-weight:bold">new</span> BindingList&lt;salesRow&gt;();
+	bindingList.Add(<span style="color:#000;font-weight:bold">new</span> SalesRow(<span style="color:#d14">&#34;EMEA&#34;</span>, <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">int</span>[] { <span style="color:#099">100</span>, <span style="color:#099">100</span>, <span style="color:#099">100</span>, <span style="color:#099">100</span> }));
+	bindingList.Add(<span style="color:#000;font-weight:bold">new</span> SalesRow(<span style="color:#d14">&#34;LATAM&#34;</span>, <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">int</span>[] { <span style="color:#099">150</span>, <span style="color:#099">150</span>, <span style="color:#099">150</span>, <span style="color:#099">150</span> }));
+	bindingList.Add(<span style="color:#000;font-weight:bold">new</span> SalesRow(<span style="color:#d14">&#34;APAC&#34;</span>, <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">int</span>[] { <span style="color:#099">100</span>, <span style="color:#099">100</span>, <span style="color:#099">100</span>, <span style="color:#099">100</span> }));
+	bindingList.Add(<span style="color:#000;font-weight:bold">new</span> SalesRow(<span style="color:#d14">&#34;NORAM&#34;</span>, <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">int</span>[] { <span style="color:#099">150</span>, <span style="color:#099">150</span>, <span style="color:#099">150</span>, <span style="color:#099">150</span> }));
+
+	SalesRows salesRows = <span style="color:#000;font-weight:bold">new</span> SalesRows(bindingList);
+	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataMember = <span style="color:#d14">&#34;Rows&#34;</span>;
+	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataSource = salesRows;
+}
+</code></pre></div><p>And here is a screenshot of the result</p>
+<p><img src="http://www.timvw.be/wp-content/images/dgv-ds-4.gif" alt="screenshot of the complete implementation at work"></p>
+<p>Feel free to download the complete project: <a href="http://www.timvw.be/wp-content/code/csharp/DataGridViewDataSource.zip">DataGridViewDataSource.zip</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">31</span>
-							<span class="rest">Dec 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">31</span>
+										<span class="rest">Dec 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/12/31/print-a-control/">Print a Control</a>
-								</h4>
-								<span class="description">
-									
-										A while ago i discovered the [DrawToBitmap](http://msdn2.microsoft.com/en-us/library/system.windows.forms.control.drawto...
-									
-								</span>
+								<h1 class="title">Print a Control</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>A while ago i discovered the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.control.drawtobitmap.aspx">DrawToBitmap</a> method on the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.control.aspx">Control</a> class. The availability of this method makes it relatively easy to implement a <a href="http://msdn2.microsoft.com/en-us/library/system.drawing.printing.printpageeventhandler.aspx">PrintPageEventHandler</a> for the <a href="http://msdn2.microsoft.com/en-us/library/system.drawing.printing.printdocument.aspx">PrintDocument</a> class. Here is an example implementation that prints a DataGridView</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> buttonPrint_Click(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
+{
+	<span style="color:#000;font-weight:bold">this</span>.printDocument1.Print();
+}
+
+<span style="color:#000;font-weight:bold">void</span> printDocument1_BeginPrint(<span style="color:#458;font-weight:bold">object</span> sender, PrintEventArgs e)
+{
+	<span style="color:#000;font-weight:bold">this</span>.currentPage = <span style="color:#099">0</span>;
+}
+
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> printDocument1_PrintPage(<span style="color:#458;font-weight:bold">object</span> sender, System.Drawing.Printing.PrintPageEventArgs e)
+{
+	Size oldSize = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.Size;
+	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.Height = Math.Max(<span style="color:#000;font-weight:bold">this</span>.dataGridView1.Height, <span style="color:#000;font-weight:bold">this</span>.dataGridView1.PreferredSize.Height);
+	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.Width = Math.Max(<span style="color:#000;font-weight:bold">this</span>.dataGridView1.Width, <span style="color:#000;font-weight:bold">this</span>.dataGridView1.PreferredSize.Width);
+
+	<span style="color:#458;font-weight:bold">int</span> requiredPagesForWidth = ((<span style="color:#458;font-weight:bold">int</span>)<span style="color:#000;font-weight:bold">this</span>.dataGridView1.Width / e.MarginBounds.Width) + <span style="color:#099">1</span>;
+	<span style="color:#458;font-weight:bold">int</span> requiredPagesForHeight = ((<span style="color:#458;font-weight:bold">int</span>)<span style="color:#000;font-weight:bold">this</span>.dataGridView1.Height / e.MarginBounds.Height) + <span style="color:#099">1</span>;
+	<span style="color:#458;font-weight:bold">int</span> requiredPages = requiredPagesForWidth * requiredPagesForHeight;
+	e.HasMorePages = (<span style="color:#000;font-weight:bold">this</span>.currentPage &lt; requiredPages - <span style="color:#099">1</span>); 
+	<span style="color:#458;font-weight:bold">int</span> posX = ((<span style="color:#458;font-weight:bold">int</span>)<span style="color:#000;font-weight:bold">this</span>.currentPage % requiredPagesForWidth) <span style="color:#a61717;background-color:#e3d2d2">\</span>* e.MarginBounds.Width; 
+	<span style="color:#458;font-weight:bold">int</span> posY = ((<span style="color:#458;font-weight:bold">int</span>)<span style="color:#000;font-weight:bold">this</span>.currentPage / requiredPagesForWidth) <span style="color:#a61717;background-color:#e3d2d2">\</span>* e.MarginBounds.Height; 
+	Graphics graphics = e.Graphics; 
+	Bitmap bitmap = <span style="color:#000;font-weight:bold">new</span> Bitmap(<span style="color:#000;font-weight:bold">this</span>.dataGridView1.Width, <span style="color:#000;font-weight:bold">this</span>.dataGridView1.Height); 
+	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.DrawToBitmap(bitmap, <span style="color:#000;font-weight:bold">this</span>.dataGridView1.Bounds); 
+	graphics.DrawImage(bitmap, <span style="color:#000;font-weight:bold">new</span> Rectangle(e.MarginBounds.X, e.MarginBounds.Y, e.MarginBounds.Width, e.MarginBounds.Height), <span style="color:#000;font-weight:bold">new</span> Rectangle(posX, posY, e.MarginBounds.Width, e.MarginBounds.Height), GraphicsUnit.Pixel); 
+	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.Size = oldSize; 
+	++<span style="color:#000;font-weight:bold">this</span>.currentPage; 
+}
+</code></pre></div><p>Now that you understand the main idea, let&rsquo;s wrap it in a class and make it reusable: <a href="http://www.timvw.be/wp-content/code/csharp/ResizedControlPrintPageEventHandler.txt">ResizedControlPrintPageEventHandler</a>. Using this class is as simple as</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Initialise a controlPrintPageEventHandler and register the PrintPage method...
+</span><span style="color:#998;font-style:italic"></span>ResizedControlPrintPageEventHandler resizedControlPrintPageEventHandler = <span style="color:#000;font-weight:bold">new</span> ResizedControlPrintPageEventHandler(<span style="color:#000;font-weight:bold">this</span>.dataGridView1);
+<span style="color:#000;font-weight:bold">this</span>.printDocument1.PrintPage += resizedControlPrintPageEventHandler.PrintPage;
+
+<span style="color:#998;font-style:italic">// Print the control
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> buttonPrint_Click(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
+{
+	<span style="color:#000;font-weight:bold">this</span>.printDocument1.Print();
+}
+
+<span style="color:#998;font-style:italic">// Give the user a preview
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> buttonPreview_Click(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
+{
+	<span style="color:#000;font-weight:bold">this</span>.printPreviewDialog1.Show();
+}
+</code></pre></div><p>Here are a couple of screenshots</p>
+<p><img src="http://www.timvw.be/wp-content/images/print-datagridview1.gif" alt="Screenshot of demo application that has a datagridview with scrollbars."></p>
+<p><img src="http://www.timvw.be/wp-content/images/print-datagridview2.gif" alt="Screenshot of print preview. Notice that the scrollbars are gone."></p>
+<p><img src="http://www.timvw.be/wp-content/images/print-datagridview3.gif" alt="Screenshot of the print document."></p>
+<p>Feel free to download the class and demo application: <a href="http://www.timvw.be/wp-content/code/csharp/ControlPrintPageEventHandler.zip">ControlPrintPageEventHandler.zip</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">27</span>
-							<span class="rest">Dec 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">27</span>
+										<span class="rest">Dec 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/12/27/an-example-of-why-i-dont-like-the-ext/filter-api/">An example of why i don&#39;t like the ext/filter API</a>
-								</h4>
-								<span class="description">
-									
-										Earlier this week i decided to experiment with the [Filter](http://be2.php.net/manual/en/function.filter-input.php) func...
-									
-								</span>
+								<h1 class="title">An example of why i don&#39;t like the ext/filter API</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Earlier this week i decided to experiment with the <a href="http://be2.php.net/manual/en/function.filter-input.php">Filter</a> functions. Here&rsquo;s an example that illustrates why i think the API needs to be improved</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#008080">$isgoodapi</span> <span style="color:#000;font-weight:bold">=</span> filter_input(INPUT_GET, <span style="color:#d14">&#39;isgoodapi&#39;</span>, FILTER_VALIDATE_BOOLEAN);
+
+<span style="color:#000;font-weight:bold">if</span> (is_null(<span style="color:#008080">$isgoodapi</span>)) {
+ <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#34;the &#39;isgoodapi&#39; argument is missing.&#34;</span>;
+} <span style="color:#000;font-weight:bold">else</span> <span style="color:#000;font-weight:bold">if</span> (<span style="color:#008080">$isgoodapi</span> <span style="color:#000;font-weight:bold">===</span> <span style="color:#000;font-weight:bold">FALSE</span>) {
+ <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#34;The &#39;isgoodapi&#39; argument must be a valid boolean.&#34;</span>;
+} <span style="color:#000;font-weight:bold">else</span> {
+ <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#34;isgoodapi is: </span><span style="color:#d14">$isgoodapi</span><span style="color:#d14">.&#34;</span>;
+}
+<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div><p>And now you request the page with ?isgoodapi=false. The obvious problem is the fact that the function returns multiple &lsquo;sorts&rsquo; of return values: Value of the requested variable on success, FALSE if the filter fails, or NULL if the variable_name variable is not set. If the flag FILTER_NULL_ON_FAILURE is used, it returns FALSE if the variable is not set and NULL if the filter fails.</p>
+<p>The documentation for <a href="http://be2.php.net/manual/en/ref.filter.php">Filter Functions</a> says for FILTER_VALIDATE_BOOLEAN: Returns TRUE for &ldquo;1&rdquo;, &ldquo;true&rdquo;, &ldquo;on&rdquo; and &ldquo;yes&rdquo;, FALSE for &ldquo;0&rdquo;, &ldquo;false&rdquo;, &ldquo;off&rdquo;, &ldquo;no&rdquo;, and &ldquo;&rdquo;, NULL otherwise. So if you try with ?isgoodapi=konijn you would expect NULL but that isn&rsquo;t the case either.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/php">PHP</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">26</span>
-							<span class="rest">Dec 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">26</span>
+										<span class="rest">Dec 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/12/26/exploring-system.codedom/">Exploring System.CodeDom</a>
-								</h4>
-								<span class="description">
-									
-										Today i wanted to experiment with [System.CodeDom](http://msdn2.microsoft.com/en-us/library/system.codedom.aspx). This l...
-									
-								</span>
+								<h1 class="title">Exploring System.CodeDom</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Today i wanted to experiment with <a href="http://msdn2.microsoft.com/en-us/library/system.codedom.aspx">System.CodeDom</a>. This little program requests the user to input names for a namespace, class and method. It also asks the user to input the code that should go into the method body. Then it generates an assembly (test.dll) and creates a new appdomain in which the assembly is loaded&hellip; Finally it initializes an instance of the created class and calls the method&hellip;</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
+{
+	<span style="color:#458;font-weight:bold">string</span> loopEnd = <span style="color:#d14">&#34;&#34;</span>;
+	<span style="color:#000;font-weight:bold">while</span> (loopEnd != <span style="color:#d14">&#34;X&#34;</span>)
+	{
+		<span style="color:#998;font-style:italic">//string namespaceName = &#34;MySpace&#34;;
+</span><span style="color:#998;font-style:italic"></span>		<span style="color:#998;font-style:italic">//string className = &#34;MyClass&#34;;
+</span><span style="color:#998;font-style:italic"></span>		<span style="color:#998;font-style:italic">//string methodName = &#34;MyMethod&#34;;
+</span><span style="color:#998;font-style:italic"></span>		<span style="color:#998;font-style:italic">//StringBuilder stringBuilder = new StringBuilder(&#34;System.Console.WriteLine(\&#34;hihi\&#34;);&#34;);
+</span><span style="color:#998;font-style:italic"></span>
+		Console.Write(<span style="color:#d14">&#34;Enter namespace: &#34;</span>);
+		<span style="color:#458;font-weight:bold">string</span> namespaceName = Console.ReadLine();
+		Console.Write(<span style="color:#d14">&#34;Enter class: &#34;</span>);
+		<span style="color:#458;font-weight:bold">string</span> className = Console.ReadLine();
+		Console.Write(<span style="color:#d14">&#34;Enter method: &#34;</span>);
+		<span style="color:#458;font-weight:bold">string</span> methodName = Console.ReadLine();
+
+		StringBuilder stringBuilder = <span style="color:#000;font-weight:bold">new</span> StringBuilder();
+		Console.WriteLine(<span style="color:#d14">&#34;Enter method body (X to stop)&#34;</span>);
+		<span style="color:#458;font-weight:bold">string</span> input = Console.ReadLine();
+		<span style="color:#000;font-weight:bold">while</span> (input != <span style="color:#d14">&#34;X&#34;</span>)
+		{
+			stringBuilder.Append(input);
+			input = Console.ReadLine();
+		}
+
+		CodeCompileUnit codeCompileUnit = <span style="color:#000;font-weight:bold">new</span> CodeCompileUnit();
+
+		CodeAttributeDeclaration assemblyTitleAttribute = <span style="color:#000;font-weight:bold">new</span> CodeAttributeDeclaration(<span style="color:#d14">&#34;System.Reflection.AssemblyTitle&#34;</span>);
+		assemblyTitleAttribute.Arguments.Add(<span style="color:#000;font-weight:bold">new</span> CodeAttributeArgument(<span style="color:#000;font-weight:bold">new</span> CodePrimitiveExpression(<span style="color:#d14">&#34;A Generated Assembly&#34;</span>)));
+		codeCompileUnit.AssemblyCustomAttributes.Add(assemblyTitleAttribute);
+
+		CodeTypeDeclaration codeTypeDeclaration = <span style="color:#000;font-weight:bold">new</span> CodeTypeDeclaration();
+		codeTypeDeclaration.Name = className;
+		codeTypeDeclaration.IsClass = <span style="color:#000;font-weight:bold">true</span>;
+		codeTypeDeclaration.Attributes = MemberAttributes.Public;
+
+		CodeMemberMethod codeMemberMethod = <span style="color:#000;font-weight:bold">new</span> CodeMemberMethod();
+		codeMemberMethod.Name = methodName;
+		codeMemberMethod.Attributes = MemberAttributes.Public;
+		codeMemberMethod.ReturnType = <span style="color:#000;font-weight:bold">new</span> CodeTypeReference(<span style="color:#000;font-weight:bold">typeof</span>(<span style="color:#000;font-weight:bold">void</span>));
+		codeMemberMethod.Statements.Add(<span style="color:#000;font-weight:bold">new</span> CodeSnippetStatement(stringBuilder.ToString()));
+
+		codeTypeDeclaration.Members.Add(codeMemberMethod);
+
+		CodeNamespace codeNamespace = <span style="color:#000;font-weight:bold">new</span> CodeNamespace(namespaceName);
+		codeNamespace.Types.Add(codeTypeDeclaration);
+		codeCompileUnit.Namespaces.Add(codeNamespace);
+
+		CompilerParameters compilerParameters = <span style="color:#000;font-weight:bold">new</span> CompilerParameters();
+		compilerParameters.OutputAssembly = <span style="color:#d14">&#34;test.dll&#34;</span>;
+		compilerParameters.GenerateExecutable = <span style="color:#000;font-weight:bold">false</span>;
+		compilerParameters.GenerateInMemory = <span style="color:#000;font-weight:bold">false</span>;
+
+		CSharpCodeProvider cSharpCodeProvider = <span style="color:#000;font-weight:bold">new</span> CSharpCodeProvider();
+		CompilerResults compilerResults = cSharpCodeProvider.CompileAssemblyFromDom(compilerParameters, codeCompileUnit);
+
+		AppDomain appDomain = AppDomain.CreateDomain(<span style="color:#d14">&#34;new appdomain&#34;</span>);
+		Assembly assembly = appDomain.Load(compilerResults.CompiledAssembly.FullName);
+		<span style="color:#458;font-weight:bold">object</span> instance = assembly.CreateInstance(namespaceName + <span style="color:#d14">&#34;.&#34;</span> + className);
+		instance.GetType().InvokeMember(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.InvokeMethod, <span style="color:#000;font-weight:bold">null</span>, instance, <span style="color:#000;font-weight:bold">null</span>);
+		AppDomain.Unload(appDomain);
+
+		Console.WriteLine(<span style="color:#d14">&#34;Enter X to end (enter something different to continue)&#34;</span>);
+		loopEnd = Console.ReadLine();
+	}
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">19</span>
-							<span class="rest">Dec 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">19</span>
+										<span class="rest">Dec 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/12/19/drag-and-drop-microsoft-office-outlook-contacts-on-your-winform/">Drag and Drop Microsoft Office Outlook Contacts on your WinForm</a>
-								</h4>
-								<span class="description">
-									
-										Earlier today i saw someone that wanted to know how to drag and drop Microsoft Office Outlook Contacts on his winform (a...
-									
-								</span>
+								<h1 class="title">Drag and Drop Microsoft Office Outlook Contacts on your WinForm</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Earlier today i saw someone that wanted to know how to drag and drop Microsoft Office Outlook Contacts on his winform (and get the data of the contact). Here are the few lines of code that do what he asked for</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// in the constructor of the form (or in the InitializeComponent method if you set it via the Designer)
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">this</span>.AllowDrop = <span style="color:#000;font-weight:bold">true</span>;
+
+<span style="color:#998;font-style:italic">// handle the DragOver event
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Form1_DragOver(<span style="color:#458;font-weight:bold">object</span> sender, DragEventArgs e)
+{
+	e.Effect = DragDropEffects.All;
+}
+
+<span style="color:#998;font-style:italic">// handle the DragDrop event
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Form1_DragDrop(<span style="color:#458;font-weight:bold">object</span> sender, DragEventArgs e)
+{
+	<span style="color:#458;font-weight:bold">string</span> text = (<span style="color:#458;font-weight:bold">string</span>)e.Data.GetData(<span style="color:#d14">&#34;Text&#34;</span>, <span style="color:#000;font-weight:bold">true</span>);
+	<span style="color:#000;font-weight:bold">this</span>.label1.Text = text;
+
+	<span style="color:#998;font-style:italic">// for more finegrained access to the data
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">//string[] lines = text.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+</span><span style="color:#998;font-style:italic"></span>}
+</code></pre></div><p><img src="http://www.timvw.be/wp-content/images/outlookcontactdragdrop.jpg" alt="screenshot of outlook contact that was dragged and dropped on the form"></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">18</span>
-							<span class="rest">Dec 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">18</span>
+										<span class="rest">Dec 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/12/18/a-dateandtimepicker-control/">A DateAndTimePicker control</a>
-								</h4>
-								<span class="description">
-									
-										The [DateTimePicker](http://msdn2.microsoft.com/en-us/library/system.windows.forms.datetimepicker.aspx) control allows t...
-									
-								</span>
+								<h1 class="title">A DateAndTimePicker control</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>The <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.datetimepicker.aspx">DateTimePicker</a> control allows the user to input a Date or a Time. The problem is that you can&rsquo;t let the user pick both a date and a time with one instance of the control (unless you set the CustomFormat property and give up the &lsquo;nice&rsquo; ui) so i decided to build my own DateAndTimePicker control</p>
+<p><img src="http://www.timvw.be/wp-content/images/dateandtimepicker.jpg" alt="screenshot of the dateandtimepicker control"></p>
+<p>Feel free to download and extended the <a href="http://www.timvw.be/wp-content/code/csharp/DateAndTimePicker.zip">DateAndTimePicker.zip</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">18</span>
-							<span class="rest">Dec 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">18</span>
+										<span class="rest">Dec 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/12/18/looking-up-the-mediatype-of-a-given-logical-drive/">Looking up the MediaType of a given Logical Drive</a>
-								</h4>
-								<span class="description">
-									
-										Earlier today i saw someone asking how he could find out the MediaType of a given logical drive. The easy solution would...
-									
-								</span>
+								<h1 class="title">Looking up the MediaType of a given Logical Drive</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Earlier today i saw someone asking how he could find out the MediaType of a given logical drive. The easy solution would be to iterate over <a href="http://msdn2.microsoft.com/en-us/library/system.io.driveinfo.getdrives.aspx">DriveInfo.GetDrives</a> and pick the one you are looking for&hellip; Anyway, i thought it would be nice to experiment with <a href="http://msdn.microsoft.com/library/default.asp?url=../../library/en-us/wmisdk/wmi/wmi_start_page.asp">WMI</a> so i wrote a little function that uses <a href="http://msdn.microsoft.com/library/default.asp?url=../../library/en-us/wmisdk/wmi/Win32_LogicalDisk.asp">Win32_LogicalDisk</a> to look the MediaType up</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
+{
+	<span style="color:#458;font-weight:bold">char</span>[] driveLetters = <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">char</span>[] { <span style="color:#d14">&#39;a&#39;</span>, <span style="color:#d14">&#39;c&#39;</span>, <span style="color:#d14">&#39;d&#39;</span>, <span style="color:#d14">&#39;e&#39;</span> };
+	<span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">char</span> driveLetter <span style="color:#000;font-weight:bold">in</span> driveLetters)
+	{
+		<span style="color:#000;font-weight:bold">try</span>
+		{
+			Console.WriteLine(<span style="color:#d14">&#34;Drive {0} is a {1}&#34;</span>, driveLetter, GetMediaType(driveLetter));
+		}
+		<span style="color:#000;font-weight:bold">catch</span> (ManagementException)
+		{
+			Console.WriteLine(<span style="color:#d14">&#34;Drive {0} was not found&#34;</span>, driveLetter);
+		}
+	}
+
+	Console.WriteLine(<span style="color:#d14">&#34;Press any key to continue...&#34;</span>);
+	Console.ReadKey();
+}
+
+<span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> GetMediaType(<span style="color:#458;font-weight:bold">char</span> driveLetter)
+{
+	ManagementObject disk = <span style="color:#000;font-weight:bold">new</span> ManagementObject(<span style="color:#d14">&#34;win32_logicaldisk.deviceid=\&#34;&#34;</span> + driveLetter + <span style="color:#d14">&#34;:\&#34;&#34;</span>);
+	disk.Get();
+	<span style="color:#000;font-weight:bold">return</span> GetMediaMeaning((<span style="color:#458;font-weight:bold">uint</span>)disk[<span style="color:#d14">&#34;MediaType&#34;</span>]);
+}
+
+<span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> GetMediaMeaning(<span style="color:#458;font-weight:bold">uint</span> mediaType)
+{
+	Dictionary&lt;<span style="color:#458;font-weight:bold">uint</span>, <span style="color:#458;font-weight:bold">string</span>&gt; mediaTypes = <span style="color:#000;font-weight:bold">new</span> Dictionary&lt;<span style="color:#458;font-weight:bold">uint</span>, <span style="color:#458;font-weight:bold">string</span>&gt;();
+	mediaTypes.Add(<span style="color:#099">0</span>, <span style="color:#d14">&#34;Unknown Format&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">1</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 1.2Mb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">2</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 1.44Mb -512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">3</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 2.88Mb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">4</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 20.8Mb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">5</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 720Kb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">6</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 360Kb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">7</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 320Kb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">8</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 320Kb -- 1024bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">9</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 180Kb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">10</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 160Kb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">11</span>, <span style="color:#d14">&#34;Removable media other than floppy&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">12</span>, <span style="color:#d14">&#34;Fixed hard disk media&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">13</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 120Mb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">14</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 640Kb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">15</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 640Kb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">16</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 720Kb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">17</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 1.2Mb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">18</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 1.23Mb -- 1024bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">19</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 1.23Mb -- 1024bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">20</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 128Mb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">21</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 230Mb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">22</span>, <span style="color:#d14">&#34;8-Inch Floppy Disk -- 256Kb -- 128bytes/sector&#34;</span>);
+
+	<span style="color:#458;font-weight:bold">string</span> meaning = <span style="color:#d14">&#34;Unknown format&#34;</span>;
+	mediaTypes.TryGetValue(mediaType, <span style="color:#000;font-weight:bold">out</span> meaning);
+	<span style="color:#000;font-weight:bold">return</span> meaning;
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">17</span>
-							<span class="rest">Dec 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">17</span>
+										<span class="rest">Dec 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/12/17/simple-outlookbar-control/">Simple OutlookBar Control</a>
-								</h4>
-								<span class="description">
-									
-										Earlier this evening i wanted to experiment with the [ToolStrip](http://msdn2.microsoft.com/en-us/library/system.windows...
-									
-								</span>
+								<h1 class="title">Simple OutlookBar Control</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Earlier this evening i wanted to experiment with the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.toolstrip.aspx">ToolStrip</a> class so i decided to design a simple OutlookBar Control and a demo application that uses this control. Feel free to download <a href="http://www.timvw.be/wp-content/code/csharp/OutlookBar.zip">OutlookBar.zip</a>.</p>
+<p><img src="http://www.timvw.be/wp-content/images/outlookbardemo.jpg" alt="screenshot of OutlookBar demo"></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 				
 

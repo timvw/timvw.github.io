@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:05:50+01:00" />
+<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -32,7 +32,8 @@
 	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
 	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
 			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav></div>
+		</nav>
+	</div>
 
 	<nav class="nav">
 		<ul class="flat">
@@ -61,213 +62,413 @@
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">14</span>
-							<span class="rest">Jan 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">14</span>
+										<span class="rest">Jan 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/01/14/brainteaser/">Brainteaser</a>
-								</h4>
-								<span class="description">
-									
-										Earlier today Chung Leong, an intelligent regular at [comp.lang.php](news://comp.lang.php), posted a little brainteaser:...
-									
-								</span>
+								<h1 class="title">Brainteaser</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Earlier today Chung Leong, an intelligent regular at <a href="news://comp.lang.php">comp.lang.php</a>, posted a little brainteaser:</p>
+<blockquote>
+<p>The two functions in the example below behave differently. The difference is easy to spot, of ocurse. The challenge is correctly explaining why this is so. Why does the second function seemingly corrupt the cloned copy of an object?</p>
+</blockquote>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">BritneySpear</span>(<span style="color:#000;font-weight:bold">&amp;</span><span style="color:#008080">$obj</span>) {
+<span style="color:#008080">$attr</span> <span style="color:#000;font-weight:bold">=&amp;</span> <span style="color:#008080">$obj</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">attributes</span>;
+<span style="color:#008080">$clone</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#998;font-style:italic">/* clone */</span> <span style="color:#008080">$obj</span>;
+<span style="color:#008080">$obj</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">attributes</span>[‘Length’] <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>;
+<span style="color:#008080">$obj</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">data</span> <span style="color:#000;font-weight:bold">=</span> “”;
+<span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$clone</span>;
+}
+
+<span style="color:#008080">$data</span> <span style="color:#000;font-weight:bold">=</span> “This is a test”;
+<span style="color:#008080">$obj1</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">attributes</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>(‘Length’ <span style="color:#000;font-weight:bold">=&gt;</span> strlen(<span style="color:#008080">$data</span>));
+<span style="color:#008080">$obj1</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">data</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$data</span>;
+<span style="color:#008080">$clone1</span> <span style="color:#000;font-weight:bold">=</span> Bobcat(<span style="color:#008080">$obj1</span>);
+print_r(<span style="color:#008080">$clone1</span>);
+
+<span style="color:#008080">$obj2</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">attributes</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>(‘Length’ <span style="color:#000;font-weight:bold">=&gt;</span> strlen(<span style="color:#008080">$data</span>));
+<span style="color:#008080">$obj2</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">data</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$data</span>;
+<span style="color:#008080">$clone2</span> <span style="color:#000;font-weight:bold">=</span> BritneySpear(<span style="color:#008080">$obj2</span>);
+print_r(<span style="color:#008080">$clone2</span>);
+<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div><blockquote>
+<p>Result:</p>
+</blockquote>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">stdClass</span> Object
+(
+    [attributes] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">Array</span>
+        (
+            [Length] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#099">14</span>
+        )
+
+    [data] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">This</span> is a test
+)
+<span style="color:#000;font-weight:bold">stdClass</span> Object
+(
+    [attributes] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">Array</span>
+        (
+            [Length] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#099">0</span>
+        )
+
+    [data] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">This</span> is a test
+)
+</code></pre></div><p>It took me fifteen minutes to figure out the source of this mysterious behaviour, but it took me a couple of hours to come up with the following explanation: After $attr =&amp; $obj-&gt;attributes in the BritneySpear function the container that holds this variables has is_ref=1. Any properties that are references to other variables, will remain references when $obj is copied into $clone as explained in <a href="http://php.belnet.be/manual/en/language.oop5.cloning.php">Object cloning</a>.</p>
+<p>If you want to know more about references i can advise you to read <a href="http://derickrethans.nl/files/phparch-php-variables-article.pdf">PHP References</a> by <a href="http://derickrethans.nl">Derick Rethans</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/php">PHP</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">14</span>
-							<span class="rest">Jan 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">14</span>
+										<span class="rest">Jan 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/01/14/format-sourcecode-with-vim/">Format sourcecode with VIM</a>
-								</h4>
-								<span class="description">
-									
-										I once read an article that explained how i could make [Vim](http://www.vim.org) format my code but i forgot what the co...
-									
-								</span>
+								<h1 class="title">Format sourcecode with VIM</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>I once read an article that explained how i could make <a href="http://www.vim.org">Vim</a> format my code but i forgot what the command was. Many websearches for &ldquo;vim indent code&rdquo; later i had the luminous idea to search for &ldquo;vim format code&rdquo; instead. The first site i visited already had the answer i had been looking for: &ldquo;gg=G&rdquo;. Simple as that.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/free-software">Free Software</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">12</span>
-							<span class="rest">Jan 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">12</span>
+										<span class="rest">Jan 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/01/12/how-private-is-private-really/">How private is private really?</a>
-								</h4>
-								<span class="description">
-									
-										Today i ended up at [private properties exposed](http://derickrethans.nl/private_properties_exposed.php) (Apparently it ...
-									
-								</span>
+								<h1 class="title">How private is private really?</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Today i ended up at <a href="http://derickrethans.nl/private_properties_exposed.php">private properties exposed</a> (Apparently it is also used by <a href="http://www.phpunit.de/en/index.php">PHPUnit</a>)</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">foo</span> {
+ <span style="color:#000;font-weight:bold">private</span> <span style="color:#008080">$bar</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">42</span>;
+}
+
+<span style="color:#008080">$obj</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> foo;
+<span style="color:#008080">$propname</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;</span><span style="color:#d14">\0</span><span style="color:#d14">foo</span><span style="color:#d14">\0</span><span style="color:#d14">bar&#34;</span>;
+<span style="color:#008080">$a</span> <span style="color:#000;font-weight:bold">=</span> (<span style="color:#000;font-weight:bold">array</span>) <span style="color:#008080">$obj</span>;
+<span style="color:#000;font-weight:bold">echo</span> <span style="color:#008080">$a</span>[<span style="color:#008080">$propname</span>];
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/php">PHP</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">12</span>
-							<span class="rest">Jan 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">12</span>
+										<span class="rest">Jan 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/01/12/restore-from-a-mysql-dumpfile/">Restore from a MySQL dumpfile</a>
-								</h4>
-								<span class="description">
-									
-										If you are a longtime user of [mysqldump](http://dev.mysql.com/doc/refman/5.0/en/mysqldump.html) you may have experience...
-									
-								</span>
+								<h1 class="title">Restore from a MySQL dumpfile</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>If you are a longtime user of <a href="http://dev.mysql.com/doc/refman/5.0/en/mysqldump.html">mysqldump</a> you may have experienced that restoring with mysql &lt; dumpfile doesn&rsquo;t always work because of referential problems. Here is a little script that takes care of it: <a href="http://www.timvw.be/wp-content/code/bash/mysql-restore.txt">mysql-restore.txt</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/bash">Bash</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">20</span>
-							<span class="rest">Dec 2005</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">20</span>
+										<span class="rest">Dec 2005</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2005/12/20/simple-http-proxy-with-perl/">Simple HTTP proxy with Perl</a>
-								</h4>
-								<span class="description">
-									
-										Today i had to demonstrate my version of a HTTP proxy and hand in the code. There are already various programs that do t...
-									
-								</span>
+								<h1 class="title">Simple HTTP proxy with Perl</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Today i had to demonstrate my version of a HTTP proxy and hand in the code. There are already various programs that do this, but here is my version: <a href="http://www.timvw.be/wp-content/code/perl/httpproxy.txt">httpproxy.txt</a></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/perl">Perl</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">17</span>
-							<span class="rest">Dec 2005</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">17</span>
+										<span class="rest">Dec 2005</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2005/12/17/problem-with-switch-from-mandatory-to-roaming-profile/">Problem with switch from mandatory to roaming profile</a>
-								</h4>
-								<span class="description">
-									
-										Today i was experimenting with my [Windows Server 2003](http://en.wikipedia.org/wiki/Windows_Server_2003) and the [Activ...
-									
-								</span>
+								<h1 class="title">Problem with switch from mandatory to roaming profile</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Today i was experimenting with my <a href="http://en.wikipedia.org/wiki/Windows_Server_2003">Windows Server 2003</a> and the <a href="http://en.wikipedia.org/wiki/Active_Directory">Active Directory</a>. I was able to setup <a href="http://www.enterprisenetworkingplanet.com/netos/article.php/625291">Roaming and Mandatory profiles</a>. After my tests with the mandatory profile i changed it back to a regular roaming profile. I was surprised when i noticed that my changes to the profile were not saved. It seems that files are copied from the active directory to the domain pc (but not removed). The problem is that if there is already a ntuser.man file on the domain pc this pc will continue to think that it&rsquo;s a mandatory profile. Solution: Remove the copy of the profile on the domain pc.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/information-technology">Information Technology</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">06</span>
-							<span class="rest">Dec 2005</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">06</span>
+										<span class="rest">Dec 2005</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2005/12/06/how-not-to-apply-for-a-job/">How (not) to apply for a job?</a>
-								</h4>
-								<span class="description">
-									
-										Today i was part of a jury looking for a junior programmer. Most of them had an extensive list with programming language...
-									
-								</span>
+								<h1 class="title">How (not) to apply for a job?</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Today i was part of a jury looking for a junior programmer. Most of them had an extensive list with programming languages on their curriculum vitae, eg: <a href="http://www.w3.org/TR/html4/">html</a>, <a href="http://www.w3.org/XML/">xml</a>, <a href="http://www.w3.org/Style/CSS/">css</a>, &hellip; Ok, there are people out there that consider writing markup language is programming too.</p>
+<p>Most of them mentionned they had some experiences with <a href="http://www.perl.org">Perl</a>. My first question was: What are the kind of problems you would solve with Perl? In which areas does it seem to be right tool? A couple of them told me that they had written a proxy server or used it on linux. Fine, but i would have expected at least one to tell me that Perl (Practical Extraction and Report Language) seems to be the right tool for text manipulation&hellip;</p>
+<p>Most people added experience with virtually every Microsoft Operating System on their list with skills. Most of them also mentionned experience with Linux. When i asked them about differences between Windows and <a href="http://www.linux.org">Linux</a> i didn&rsquo;t get any answers. They could have at least said that Perl on windows can be a <a href="http://en.wiktionary.org/wiki/PITA">PITA</a> 😀 I got the feeling they have booted something like <a href="http://www.ubuntulinux.org/">Ubuntu</a> a couple of times and consider that as experience.</p>
+<p>I don&rsquo;t think that knowing an <a href="http://en.wikipedia.org/wiki/API">API</a> by heart is really required, so i asked them the following: What is <a href="http://en.wikipedia.org/wiki/Recursion">recursion</a>? Can you mention a couple of advantages and or disadvantages? How do you solve the problems that arise with recursion? You should have seen their faces turn white 😛 Most of them knew that it&rsquo;s a function that calls itself, and only one mentionned that it can lead to a stack overflow&hellip; Too bad that noone provided any tips for solving them more efficient or mentionned <a href="http://en.wikipedia.org/wiki/Wilhelm_Ackermann">Wilhelm Ackerman</a>.</p>
+<p>I was a bit surprised by the poor answers on recursion so i decided not to ask them what a <a href="http://en.wiktionary.org/wiki/semaphore">semaphore</a> or a <a href="http://www.webopedia.com/TERM/M/mutex.html">mutex</a> are&hellip;</p>
+<p><strong>My Advise:</strong> If you mention any skills make sure they are actually skills&hellip; And if you are interested in a maintenance job, stay at home and don&rsquo;t waste our valuable time. We&rsquo;ll get back to you. Goodbye.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/information-technology">Information Technology</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">15</span>
-							<span class="rest">Nov 2005</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">15</span>
+										<span class="rest">Nov 2005</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2005/11/15/wordfinder/">Wordfinder</a>
-								</h4>
-								<span class="description">
-									
-										I&#39;ve noticed there are still a lot of shows on television that want you to find a word. So i wrote a little wordfinder t...
-									
-								</span>
+								<h1 class="title">Wordfinder</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>I&rsquo;ve noticed there are still a lot of shows on television that want you to find a word. So i wrote a little wordfinder that does this for you using the ispell wordlist. As always, you can download the <a href="http://www.timvw.be/wp-content/code/php/wordfinder.txt">wordfinder.txt</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/php">PHP</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">14</span>
-							<span class="rest">Nov 2005</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">14</span>
+										<span class="rest">Nov 2005</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2005/11/14/parsing-http-headers/">Parsing http headers</a>
-								</h4>
-								<span class="description">
-									
-										Today i updated my HTTP proxy a little. [RFC 2616](http://www.w3.org/Protocols/rfc2616/rfc2616.html) describes [Message ...
-									
-								</span>
+								<h1 class="title">Parsing http headers</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Today i updated my HTTP proxy a little. <a href="http://www.w3.org/Protocols/rfc2616/rfc2616.html">RFC 2616</a> describes <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2">Message Headers</a> as following:</p>
+<blockquote>
+<!-- raw HTML omitted -->
+</blockquote>
+<p>message-header = field-name &ldquo;:&rdquo; [ field-value ]
+field-name     = token
+field-value    = *( field-content | LWS )
+field-content  = &lt;the OCTETs making up the field-value and consisting of
+either *TEXT or combinations of token, separators,
+and quoted-string&gt;
+<!-- raw HTML omitted --></p>
+<blockquote>
+<!-- raw HTML omitted -->
+</blockquote>
+<p>Here is the code i used to get the field-name and field-value. Do you see the bug?</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-perl" data-lang="perl"><span style="color:#000;font-weight:bold">my</span> (<span style="color:#008080">$name</span>, <span style="color:#008080">$value</span>) <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">split</span> <span style="color:#009926">/:/</span>, <span style="color:#008080">$in</span>;
+</code></pre></div><p>Location headers look like &lsquo;header: <a href="http://www.example.com">http://www.example.com</a>&rsquo;. Now, the problem is that <a href="http://perldoc.perl.org/functions/split.html">split</a> returns a list with &lsquo;location&rsquo;, &lsquo;http&rsquo; and &lsquo;<a href="http://www.example.com">www.example.com</a>&rsquo;. Here is the solution:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-perl" data-lang="perl"><span style="color:#000;font-weight:bold">my</span> <span style="color:#008080">$in</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;location: http://www.example.com&#39;</span>;
+<span style="color:#000;font-weight:bold">my</span> (<span style="color:#008080">$name</span>, <span style="color:#008080">$value</span>) <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">split</span> <span style="color:#009926">/:/</span>, <span style="color:#008080">$in</span>, <span style="color:#099">2</span>;
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/perl">Perl</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">06</span>
-							<span class="rest">Nov 2005</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">06</span>
+										<span class="rest">Nov 2005</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2005/11/06/changing-the-include_path/">Changing the include_path</a>
-								</h4>
-								<span class="description">
-									
-										PHP has a feature to change the [include_path](http://www.php.net/manual/en/ini.core.php#ini.include-path) programatical...
-									
-								</span>
+								<h1 class="title">Changing the include_path</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>PHP has a feature to change the <a href="http://www.php.net/manual/en/ini.core.php#ini.include-path">include_path</a> programatically. The problem is that the path separator is : on unix and ; on windows. Luckily there is a constant <a href="http://www.php.net/manual/en/reserved.constants.php">PATH_SEPARATOR</a> to overcome this issue. Here is how i would do it</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+ini_set(<span style="color:#d14">&#39;error_reporting&#39;</span>, <span style="color:#000;font-weight:bold">E_ALL</span>);
+ini_set(<span style="color:#d14">&#39;display_errors&#39;</span>, <span style="color:#000;font-weight:bold">TRUE</span>);
+
+<span style="color:#008080">$include_paths</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>(
+  <span style="color:#d14">&#39;.&#39;</span>,
+  <span style="color:#d14">&#39;/home/users/timvw/phpincs&#39;</span>,
+  <span style="color:#d14">&#39;/home/users/timvw/pear&#39;</span>,
+  ini_get(<span style="color:#d14">&#39;include_path&#39;</span>)
+);
+
+ini_set(<span style="color:#d14">&#39;include_path&#39;</span>, implode(PATH_SEPARATOR, <span style="color:#008080">$include_paths</span>));
+
+<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/php">PHP</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 				
 

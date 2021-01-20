@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:05:50+01:00" />
+<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -32,7 +32,8 @@
 	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
 	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
 			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav></div>
+		</nav>
+	</div>
 
 	<nav class="nav">
 		<ul class="flat">
@@ -61,213 +62,393 @@
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">01</span>
-							<span class="rest">Sep 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">01</span>
+										<span class="rest">Sep 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/09/01/presenting-eventhandlerhelper/">Presenting EventHandlerHelper</a>
-								</h4>
-								<span class="description">
-									
-										Being bored of writing code to raise an event, i have added an EventHandlerHelper to [BeTimvwFramework](http://www.codep...
-									
-								</span>
+								<h1 class="title">Presenting EventHandlerHelper</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Being bored of writing code to raise an event, i have added an EventHandlerHelper to <a href="http://www.codeplex.com/BeTimvwFramework">BeTimvwFramework</a>.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">EventHandlerHelper</span>
+{
+<span style="color:#008080">	[MethodImpl(MethodImplOptions.NoInlining)]</span>
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Raise&lt;T&gt;(EventHandler&lt;T&gt; handler, <span style="color:#458;font-weight:bold">object</span> sender, T e) <span style="color:#000;font-weight:bold">where</span> T : EventArgs
+	{
+		<span style="color:#000;font-weight:bold">if</span> (handler != <span style="color:#000;font-weight:bold">null</span>)
+		{
+			handler(sender, e);
+		}
+	}
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">01</span>
-							<span class="rest">Sep 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">01</span>
+										<span class="rest">Sep 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/09/01/presenting-itemeventargst/">Presenting ItemEventArgs&lt;T&gt;</a>
-								</h4>
-								<span class="description">
-									
-										Because i believe in the [DRY](http://en.wikipedia.org/wiki/Don%27t_repeat_yourself) principle i decided to add a generi...
-									
-								</span>
+								<h1 class="title">Presenting ItemEventArgs&lt;T&gt;</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Because i believe in the <a href="http://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a> principle i decided to add a generic ItemEventArgs class to <a href="http://www.codeplex.com/BeTimvwFramework">BeTimvwFramework</a></p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ItemEventArgs</span>&lt;T&gt; : EventArgs
+{
+	<span style="color:#000;font-weight:bold">private</span> T item;
+
+	<span style="color:#000;font-weight:bold">public</span> ItemEventArgs(T item)
+	{
+		<span style="color:#000;font-weight:bold">this</span>.item = item;
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> T Item
+	{
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.item; }
+		<span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>.item = <span style="color:#000;font-weight:bold">value</span>; }
+	}
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">29</span>
-							<span class="rest">Aug 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">29</span>
+										<span class="rest">Aug 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/08/29/presenting-onetimepasswordmembershipprovider/">Presenting OneTimePasswordMembershipProvider</a>
-								</h4>
-								<span class="description">
-									
-										What good is a [TimeOTP](http://www.timvw.be/presenting-timeotpclient/) client if you don&#39;t have anything to use it with...
-									
-								</span>
+								<h1 class="title">Presenting OneTimePasswordMembershipProvider</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>What good is a <a href="http://www.timvw.be/presenting-timeotpclient/">TimeOTP</a> client if you don&rsquo;t have anything to use it with? Last week i have implemented a <a href="http://msdn.microsoft.com/en-us/library/system.web.security.membershipprovider.aspx">MembershipProvider</a> that uses <a href="http://www.timvw.be/presenting-hmac-based-otp-and-time-based-otp/">Time-based One-Time Password</a> to validate the user credentials. Basically, it is a wrapper around an existing MembershipProvider, you get to choose which one via the providerType attribute in the configuration, and requires that it can access the password of users. Here is an example configuration that relies on the SqlMembershipProvider</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34;?&gt;</span>
+<span style="color:#000080">&lt;configuration&gt;</span>
+	<span style="color:#000080">&lt;connectionStrings&gt;</span>
+		<span style="color:#000080">&lt;add</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;MyDatabase&#34;</span> <span style="color:#008080">connectionString=</span><span style="color:#d14">&#34;xxxxx&#34;</span> <span style="color:#008080">providerName=</span><span style="color:#d14">&#34;System.Data.SqlClient&#34;</span><span style="color:#000080">/&gt;</span>
+	<span style="color:#000080">&lt;/connectionStrings&gt;</span>
+	
+	<span style="color:#000080">&lt;system.web&gt;</span>
+		<span style="color:#000080">&lt;membership</span> <span style="color:#008080">defaultProvider=</span><span style="color:#d14">&#34;OTPMembershipProvider&#34;</span><span style="color:#000080">&gt;</span> <span style="color:#000080">&lt;providers&gt;</span> <span style="color:#000080">&lt;add</span> <span style="color:#008080">connectionStringName=</span><span style="color:#d14">&#34;MyDatabase&#34;</span> <span style="color:#008080">enablePasswordRetrieval=</span><span style="color:#d14">&#34;true&#34;</span> <span style="color:#008080">enablePasswordReset=</span><span style="color:#d14">&#34;true&#34;</span> <span style="color:#008080">requiresQuestionAndAnswer=</span><span style="color:#d14">&#34;false&#34;</span> <span style="color:#008080">applicationName=</span><span style="color:#d14">&#34;/DemoOTP&#34;</span> <span style="color:#008080">requiresUniqueEmail=</span><span style="color:#d14">&#34;false&#34;</span> <span style="color:#008080">passwordFormat=</span><span style="color:#d14">&#34;Clear&#34;</span> <span style="color:#008080">maxInvalidPasswordAttempts=</span><span style="color:#d14">&#34;5&#34;</span> <span style="color:#008080">minRequiredPasswordLength=</span><span style="color:#d14">&#34;7&#34;</span> <span style="color:#008080">minRequiredNonalphanumericCharacters=</span><span style="color:#d14">&#34;1&#34;</span> <span style="color:#008080">passwordAttemptWindow=</span><span style="color:#d14">&#34;10&#34;</span> <span style="color:#008080">passwordStrengthRegularExpression=</span><span style="color:#d14">&#34;&#34;</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;OTPMembershipProvider&#34;</span> <span style="color:#008080">type=</span><span style="color:#d14">&#34;Be.Timvw.Framework.Web.Security.OneTimePasswordMembershipProvider, Be.Timvw.Framework.Web&#34;</span> <span style="color:#008080">providerType=</span><span style="color:#d14">&#34;System.Web.Security.SqlMembershipProvider, System.Web&#34;</span> <span style="color:#000080">/&gt;</span> <span style="color:#000080">&lt;/providers&gt;</span> <span style="color:#000080">&lt;/membership&gt;</span>
+		<span style="color:#000080">&lt;authentication</span> <span style="color:#008080">mode=</span><span style="color:#d14">&#34;Forms&#34;</span> <span style="color:#000080">/&gt;</span>
+		<span style="color:#000080">&lt;authorization&gt;</span>
+			<span style="color:#000080">&lt;allow</span> <span style="color:#008080">users=</span><span style="color:#d14">&#34;timvw&#34;</span><span style="color:#000080">/&gt;</span>
+			<span style="color:#000080">&lt;deny</span> <span style="color:#008080">users=</span><span style="color:#d14">&#34;*&#34;</span><span style="color:#000080">/&gt;</span>
+		<span style="color:#000080">&lt;/authorization&gt;</span>
+	<span style="color:#000080">&lt;/system.web&gt;</span>
+<span style="color:#000080">&lt;/configuration&gt;</span>
+</code></pre></div><p>While i was writing unittests i ran into a couple of issues</p>
+<ul>
+<li><a href="http://www.nmock.org/">NMock</a> seemingly only works with interfaces so i had to rip out an interface out of the abstract base class and wrap that in a MockMembershipProvider.</li>
+<li>Settings expectations for output parameters can be achieved with a SetNameParameterAction as described <a href="http://www.pashabitz.com/PermaLink,guid,02e35fa6-c729-43a8-85c3-8c05df7a4aa8.aspx">here</a>.</li>
+</ul>
+<p>Anyway, you can find the implementation of the MembershipProvider in <a href="http://www.codeplex.com/BeTimvwFramework">BeTimvwFramework</a> and <a href="http://www.timvw.be/wp-content/code/csharp/DemoOTP.zip">download the demo webapplication</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">23</span>
-							<span class="rest">Aug 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">23</span>
+										<span class="rest">Aug 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/08/23/presenting-timeotpclient/">Presenting TimeOTPClient</a>
-								</h4>
-								<span class="description">
-									
-										Because most people have their java enabled mobile phone with them, and I did not want to buy an expensive token generat...
-									
-								</span>
+								<h1 class="title">Presenting TimeOTPClient</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Because most people have their java enabled mobile phone with them, and I did not want to buy an expensive token generator I decided to write a <a href="http://en.wikipedia.org/wiki/MIDlet">MIDlet</a> that can generate passwords as specified in the <a href="http://www.ietf.org/internet-drafts/draft-mraihi-totp-timebased-00.txt">TOTP</a> algorithm. This project is build with <a href="http://java.sun.com/products/sjwtoolkit">Sun Java Wireless Toolkit for CLDC</a>. Feel free to download the sources, <a href="http://www.timvw.be/wp-content/code/java/TimeOTPClient.zip">TimeOTPClient.zip</a>.</p>
+<p><img src="http://www.timvw.be/wp-content/images/timeotpclient_inputsecret.gif" alt="screenshot of TimeOTPClient input area"></p>
+<p><img src="http://www.timvw.be/wp-content/images/timeotpclient_generated.gif" alt="screenshot of TimeOTPClient generated password area"></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/java">Java</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">22</span>
-							<span class="rest">Aug 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">22</span>
+										<span class="rest">Aug 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/08/22/presenting-hmac-based-otp-and-time-based-otp/">Presenting HMAC-Based OTP and Time-Based OTP</a>
-								</h4>
-								<span class="description">
-									
-										I could not find a .NET implementation of the HMAC-Based One Time Password (HOTP) algorithm as specified in [RFC4226](ft...
-									
-								</span>
+								<h1 class="title">Presenting HMAC-Based OTP and Time-Based OTP</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>I could not find a .NET implementation of the HMAC-Based One Time Password (HOTP) algorithm as specified in <a href="ftp://ftp.rfc-editor.org/in-notes/rfc4226.txt">RFC4226</a> so i decided to write one myself. Because the <a href="http://www.ietf.org/internet-drafts/draft-mraihi-totp-timebased-00.txt">Time-Based OTP (TOTP)</a> algorithm is an application of HOTP, more specifically: TOTP = HOTP(K, T) with T = (Current Unix time &ndash; T0) / Timestep, i have implemented that algorithm too.</p>
+<p>You can find both Be.Timvw.Framework.Security.HmacOneTimePassword and Be.Timvw.Framework.Security.TimeOneTimePassword in the <a href="http://www.codeplex.com/BeTimvwFramework">BeTimvwFramework</a>. For more information about authentication i would recommend the <a href="http://www.openauthentication.org/specifications">specifications and technicals resources</a> at the <a href="http://www.openauthentication.org/">OATH</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">20</span>
-							<span class="rest">Aug 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">20</span>
+										<span class="rest">Aug 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/08/20/presenting-timespanhelper/">Presenting TimeSpanHelper</a>
-								</h4>
-								<span class="description">
-									
-										A [TimeSpan](http://msdn.microsoft.com/en-us/library/system.timespan.aspx) is a structure that represents a time interva...
-									
-								</span>
+								<h1 class="title">Presenting TimeSpanHelper</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>A <a href="http://msdn.microsoft.com/en-us/library/system.timespan.aspx">TimeSpan</a> is a structure that represents a time interval or a duration. To make the everything as clear as possible, a well designed system should not only know the quantity, but also the unit of that quantity. In order to create a TimeSpan that represents the right value, you will probably use one of the <a href="http://msdn.microsoft.com/en-us/library/system.timespan_methods.aspx">FromXXX (Hours, Days, Minutes, Seconds) methods</a> as following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">double</span> <span style="color:#000;font-weight:bold">value</span> = <span style="color:#099">1</span>;
+<span style="color:#458;font-weight:bold">string</span> unit = <span style="color:#d14">&#34;Day&#34;</span>;
+
+TimeSpan actual;
+<span style="color:#000;font-weight:bold">if</span> (unit == <span style="color:#d14">&#34;Day&#34;</span>)
+{
+	actual = TimeSpan.FromDays(<span style="color:#000;font-weight:bold">value</span>);
+}
+<span style="color:#000;font-weight:bold">else</span> <span style="color:#000;font-weight:bold">if</span> (unit == <span style="color:#d14">&#34;Hour&#34;</span>)
+{
+	actual = TimeSpan.FromHours(<span style="color:#000;font-weight:bold">value</span>);
+}
+<span style="color:#998;font-style:italic">// more else if statements...
+</span></code></pre></div><p>After a while you get bored of writing that same if-else (or switch) construct and you end up wishing for something like</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">double</span> <span style="color:#000;font-weight:bold">value</span> = <span style="color:#099">1</span>;
+<span style="color:#458;font-weight:bold">string</span> unit = <span style="color:#d14">&#34;Day&#34;</span>;
+
+TimeUnit timeUnit = EnumHelper.Parse&lt;timeUnit&gt;(unit);
+TimeSpan actual = TimeSpanHelper.Create(<span style="color:#000;font-weight:bold">value</span>, timeUnit);
+</code></pre></div><p>Well, from now on you can find it in <a href="http://www.codeplex.com/BeTimvwFramework">BeTimvwFramework</a></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">16</span>
-							<span class="rest">Aug 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">16</span>
+										<span class="rest">Aug 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/08/16/.net-2.0-wrox-box-professional-asp.net-2.0-professional-c#-2005-professional-.net-2.0-generics-and-professional-.net-framework-2.0/">.NET 2.0 Wrox Box: Professional ASP.NET 2.0, Professional C# 2005, Professional .NET 2.0 Generics, and Professional .NET Framework 2.0</a>
-								</h4>
-								<span class="description">
-									
-										The books in the [.NET 2.0 Wrox Box: Professional ASP.NET 2.0, Professional C# 2005, Professional .NET 2.0 Generics, and...
-									
-								</span>
+								<h1 class="title">.NET 2.0 Wrox Box: Professional ASP.NET 2.0, Professional C# 2005, Professional .NET 2.0 Generics, and Professional .NET Framework 2.0</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>The books in the <a href="http://www.amazon.com/NET-2-0-Wrox-Box-Professional/dp/0470048409">.NET 2.0 Wrox Box: Professional ASP.NET 2.0, Professional C# 2005, Professional .NET 2.0 Generics, and Professional .NET Framework 2.0</a> were the first books i bought as a .NET developer. I can recommend each and every book in that box.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/book-reviews">Book reviews</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">16</span>
-							<span class="rest">Aug 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">16</span>
+										<span class="rest">Aug 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/08/16/clr-via-c/">CLR via C#</a>
-								</h4>
-								<span class="description">
-									
-										I find that [CLR via C#, Second Edition](http://www.amazon.com/CLR-via-Second-Pro-Developer/dp/0735621632) is another bo...
-									
-								</span>
+								<h1 class="title">CLR via C#</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>I find that <a href="http://www.amazon.com/CLR-via-Second-Pro-Developer/dp/0735621632">CLR via C#, Second Edition</a> is another book that every .NET developer should read at least twice. (It&rsquo;s sitting on my bookshelf waiting for that second reading.)</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/book-reviews">Book reviews</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">16</span>
-							<span class="rest">Aug 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">16</span>
+										<span class="rest">Aug 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/08/16/deploying-.net-applications-learning-msbuild-and-clickonce/">Deploying .NET Applications: Learning MSBuild and ClickOnce</a>
-								</h4>
-								<span class="description">
-									
-										[Deploying .NET Applications: Learning MSBuild and ClickOnce](http://www.amazon.com/Deploying-NET-Applications-Learning-...
-									
-								</span>
+								<h1 class="title">Deploying .NET Applications: Learning MSBuild and ClickOnce</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p><a href="http://www.amazon.com/Deploying-NET-Applications-Learning-ClickOnce/dp/1590596528">Deploying .NET Applications: Learning MSBuild and ClickOnce</a> is a book that will help you grasp the core concepts of MSBuild. This book is a great headstart if you&rsquo;re starting out with MSBuild and find the documentation confusing. The second part of the book, about clickonce, was less interesting. I&rsquo;m still waiting for <a href="http://www.sedodream.com/">Sayed Ibrahim Hashimi</a> to release a book that only convers MSBuild.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/book-reviews">Book reviews</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">16</span>
-							<span class="rest">Aug 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">16</span>
+										<span class="rest">Aug 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/08/16/domain-driven-design-tackling-complexity-in-the-heart-of-software/">Domain-Driven Design: Tackling Complexity in the Heart of Software</a>
-								</h4>
-								<span class="description">
-									
-										A couple of weeks ago i&#39;ve re-read [Domain-Driven Design: Tackling Complexity in the Heart of Software](http://www.amazo...
-									
-								</span>
+								<h1 class="title">Domain-Driven Design: Tackling Complexity in the Heart of Software</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>A couple of weeks ago i&rsquo;ve re-read <a href="http://www.amazon.com/Domain-Driven-Design-Tackling-Complexity-Software/dp/0321125215">Domain-Driven Design: Tackling Complexity in the Heart of Software</a>. Just like <a href="http://www.amazon.com/Design-Patterns-Object-Oriented-Addison-Wesley-Professional/dp/0201633612">Design Patterns: Elements of Reusable Object-Oriented Software</a> and <a href="http://www.amazon.com/Enterprise-Application-Architecture-Addison-Wesley-Signature/dp/0321127420">Patterns of Enterprise Application Architecture</a> this is a book that i consider to b e required literature for every developer.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/book-reviews">Book reviews</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 				
 

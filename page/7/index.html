@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:05:50+01:00" />
+<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -32,7 +32,8 @@
 	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
 	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
 			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav></div>
+		</nav>
+	</div>
 
 	<nav class="nav">
 		<ul class="flat">
@@ -61,217 +62,513 @@
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">11</span>
-							<span class="rest">Nov 2010</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">11</span>
+										<span class="rest">Nov 2010</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2010/11/11/update-configurationstrings-in-ssis-package-with-powershell/">Update ConfigurationStrings in SSIS package with PowerShell</a>
-								</h4>
-								<span class="description">
-									
-										Here are some functions that allow you to update ConfigurationStrings in a SSIS package (dtsx) using PowerShell:
+								<h1 class="title">Update ConfigurationStrings in SSIS package with PowerShell</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Here are some functions that allow you to update ConfigurationStrings in a SSIS package (dtsx) using PowerShell:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> UpdateConfigurationStrings(<span style="color:#008080">$file</span>)
+{
+	<span style="color:#008080">$xml</span> = <span style="color:#008080">[xml]</span> (<span style="color:#0086b3">Get-Content</span> <span style="color:#008080">$file</span>);
+	<span style="color:#008080">$ns</span> = <span style="color:#0086b3">New-Object</span> Xml.XmlNamespaceManager <span style="color:#008080">$xml</span>.NameTable;
+	<span style="color:#008080">$ns</span>.AddNamespace(<span style="color:#d14">&#34;DTS&#34;</span>, <span style="color:#d14">&#34;www.microsoft.com/SqlServer/Dts&#34;</span>);
+	UpdateConfigurationNodes <span style="color:#008080">$xml</span> <span style="color:#008080">$ns</span>;
+	<span style="color:#0086b3">Set-Content</span> <span style="color:#008080">$file</span> <span style="color:#008080">$xml</span>.OuterXml;
+}
 
-```pow...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">07</span>
-							<span class="rest">Nov 2010</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2010/11/07/build-your-solution-with-visual-studio-from-msbuild/">Build your solution with Visual Studio from MSBuild</a>
-								</h4>
-								<span class="description">
-									
-										Unfortunately MSBuild and [BIDS Helper](http://bidshelper.codeplex.com/) are not able to build an .asdatabase from our A...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">07</span>
-							<span class="rest">Nov 2010</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2010/11/07/invoke-powershell-script-from-msbuild/">Invoke PowerShell script from MSBuild</a>
-								</h4>
-								<span class="description">
-									
-										Here is a small MSBuild target that allows you to invoke a PowerShell script, eg: powershell.exe &amp; &#39;script.ps1&#39; -SomePar...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">07</span>
-							<span class="rest">Nov 2010</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2010/11/07/modify-a-text-file-with-powershell/">Modify a text file with PowerShell</a>
-								</h4>
-								<span class="description">
-									
-										A while ago i wanted to update a connection string in a configuration file. My first attempt was the following:
+<span style="color:#000;font-weight:bold">function</span> UpdateConfigurationNodes(<span style="color:#008080">$xml</span>, <span style="color:#008080">$ns</span>)
+{
+	<span style="color:#008080">$selectConfigurationNodes</span> = <span style="color:#d14">&#34;//DTS:Configuration&#34;</span>;
+	<span style="color:#008080">$xml</span>.SelectNodes(<span style="color:#008080">$selectConfigurationNodes</span>, <span style="color:#008080">$ns</span>) | <span style="color:#000;font-weight:bold">foreach</span> { UpdateConfigurationNode <span style="color:#008080">$_</span> <span style="color:#008080">$ns</span>; };
+}
 
-```powe...
-									
-								</span>
-							</div>
+<span style="color:#000;font-weight:bold">function</span> UpdateConfigurationNode(<span style="color:#008080">$configurationNode</span>, <span style="color:#008080">$ns</span>)
+{
+	<span style="color:#008080">$selectConfigurationString</span> = <span style="color:#d14">&#34;./DTS:Property[@DTS:Name=&#39;ConfigurationString&#39;]&#34;</span>;
+	<span style="color:#008080">$configurationStringNode</span> = <span style="color:#008080">$configurationNode</span>.SelectSingleNode(<span style="color:#008080">$selectConfigurationString</span>, <span style="color:#008080">$ns</span>);
+
+	<span style="color:#008080">$oldConfigurationStringValue</span> = <span style="color:#008080">$configurationStringNode</span>.<span style="color:#d14">&#39;#text&#39;</span>;
+	<span style="color:#008080">$newConfigurationStringValue</span> = GetNewConfigurationStringValue <span style="color:#008080">$oldConfigurationStringValue</span>;
+	<span style="color:#008080">$configurationStringNode</span>.<span style="color:#d14">&#39;#text&#39;</span> = <span style="color:#d14">&#34;$newConfigurationStringValue&#34;</span>;
+}
+
+<span style="color:#000;font-weight:bold">function</span> GetNewConfigurationStringValue(<span style="color:#008080">$oldConfigurationStringValue</span>)
+{
+	<span style="color:#998;font-style:italic"># implement some logic to determine new value</span>
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#d14">&#34;new value&#34;</span>;
+}
+</code></pre></div>
 						</div>
-					</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/powershell">PowerShell</a></li>
+										
+										<li><a href="../../tags/ssis">SSIS</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">01</span>
-							<span class="rest">Nov 2010</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">07</span>
+										<span class="rest">Nov 2010</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2010/11/01/deploying-a-database-project-does-not-create-artefacts-for-custom-schemas/">Deploying a Database Project does not create artefacts for custom schemas</a>
-								</h4>
-								<span class="description">
-									
-										Last week we noticed that the artefacts for a custom schema in our Database Project were not created (or updated). It to...
-									
-								</span>
+								<h1 class="title">Build your solution with Visual Studio from MSBuild</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Unfortunately MSBuild and <a href="http://bidshelper.codeplex.com/">BIDS Helper</a> are not able to build an .asdatabase from our Analysis Services project (.dwproj). Here is a task which invokes Visual Studio to build such a solution:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;Target</span> <span style="color:#008080">Name=</span><span style="color:#d14">&#34;DevEnvBuild&#34;</span><span style="color:#000080">&gt;</span>
+	<span style="color:#000080">&lt;Error</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34;&#39;$(SolutionFile)&#39;==&#34;</span><span style="color:#a61717;background-color:#e3d2d2">&#34;</span> <span style="color:#008080">Text=</span><span style="color:#d14">&#34;Missing SolutionFile&#34;</span> <span style="color:#000080">/&gt;</span>
+	<span style="color:#000080">&lt;PropertyGroup&gt;</span>
+		<span style="color:#000080">&lt;DevEnvTool</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34;&#39;$(DevEnvTool)&#39;==&#34;</span><span style="color:#a61717;background-color:#e3d2d2">&#34;</span><span style="color:#000080">&gt;</span>C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe<span style="color:#000080">&lt;/DevEnvTool&gt;</span>
+		<span style="color:#000080">&lt;DevEnvSwitch</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34;&#39;$(DevEnvSwitch)&#39;==&#34;</span><span style="color:#a61717;background-color:#e3d2d2">&#34;</span><span style="color:#000080">&gt;</span>Build<span style="color:#000080">&lt;/DevEnvSwitch&gt;</span>
+		<span style="color:#000080">&lt;DevEnvBuildCommand&gt;</span>&#34;$(DevEnvTool)&#34; &#34;$(SolutionFile)&#34; /$(DevEnvSwitch)<span style="color:#000080">&lt;/DevEnvBuildCommand&gt;</span>
+	<span style="color:#000080">&lt;/PropertyGroup&gt;</span>
+	<span style="color:#000080">&lt;Exec</span> <span style="color:#008080">Command=</span><span style="color:#d14">&#34;$(DevEnvBuildCommand)&#34;</span> <span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;/Target&gt;</span>
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/msbuild">MSBuild</a></li>
+										
+										<li><a href="../../tags/ssas">ssas</a></li>
+										
+										<li><a href="../../tags/visual-studio">Visual Studio</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">25</span>
-							<span class="rest">Oct 2010</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">07</span>
+										<span class="rest">Nov 2010</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2010/10/25/update-all-repositories-with-powershell/">Update all repositories with Powershell</a>
-								</h4>
-								<span class="description">
-									
-										I typically store the repositories i am working on under D:\Code. Each morning i had to right click on each of those fol...
-									
-								</span>
+								<h1 class="title">Invoke PowerShell script from MSBuild</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Here is a small MSBuild target that allows you to invoke a PowerShell script, eg: powershell.exe &amp; &lsquo;script.ps1&rsquo; -SomeParam &lsquo;x&rsquo;</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;Target</span> <span style="color:#008080">Name=</span><span style="color:#d14">&#34;InvokePowerShell&#34;</span><span style="color:#000080">&gt;</span>
+	<span style="color:#000080">&lt;PropertyGroup&gt;</span>
+		<span style="color:#000080">&lt;PowerShellCommand&gt;</span>&#34;$(PowerShellTool)&#34; &#34;<span style="color:#a61717;background-color:#e3d2d2">&amp;</span> &#39;$(ScriptFile)&#39; -SomeParam &#39;$(SomeParam)&#39; &#34;<span style="color:#000080">&lt;/PowerShellCommand&gt;</span>
+	<span style="color:#000080">&lt;/PropertyGroup&gt;</span>
+	<span style="color:#000080">&lt;Exec</span> <span style="color:#008080">Command=</span><span style="color:#d14">&#34;$(PowerShellCommand)&#34;</span> <span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;/Target&gt;</span>
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/msbuild">MSBuild</a></li>
+										
+										<li><a href="../../tags/powershell">PowerShell</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">07</span>
-							<span class="rest">Sep 2010</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">07</span>
+										<span class="rest">Nov 2010</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2010/09/07/t-sql-remove-all-rows-from-all-tables-in-your-schema/">T-SQL: Remove all rows from all tables in your schema</a>
-								</h4>
-								<span class="description">
-									
-										Sometimes i want to quickly clean up a database and start from fresh. Here is a small script that does exactly that.. (I...
-									
-								</span>
+								<h1 class="title">Modify a text file with PowerShell</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>A while ago i wanted to update a connection string in a configuration file. My first attempt was the following:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#0086b3">Get-Content</span> <span style="color:#008080">$File</span>
+| <span style="color:#000;font-weight:bold">Foreach</span> { <span style="color:#008080">$_</span> <span style="color:#000;font-weight:bold">-Replace</span> <span style="color:#d14">&#34;Source&gt;(.*?)&lt;&#34;</span>, <span style="color:#d14">&#34;Source&gt;$New&lt;&#34;</span> }
+| <span style="color:#0086b3">Set-Content</span> <span style="color:#008080">$File</span>;
+</code></pre></div><p>Running this scripts leads to the following error: &ldquo;Set-Content : The process cannot access the file because it is being used by another process.&rdquo; In order to avoid this you can complete the read operation before you start writing as following:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">(<span style="color:#0086b3">Get-Content</span> <span style="color:#008080">$File</span>)
+| <span style="color:#000;font-weight:bold">Foreach</span> { <span style="color:#008080">$_</span> <span style="color:#000;font-weight:bold">-Replace</span> <span style="color:#d14">&#34;Source&gt;(.*?)&lt;&#34;</span>, <span style="color:#d14">&#34;Source&gt;$New&lt;&#34;</span> }
+| <span style="color:#0086b3">Set-Content</span> <span style="color:#008080">$File</span>;
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/powershell">PowerShell</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">07</span>
-							<span class="rest">Sep 2010</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">01</span>
+										<span class="rest">Nov 2010</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2010/09/07/wif-whr-parameter-is-a-hint-for-user-home-realm/">WIF: whr parameter is a hint for user Home Realm</a>
-								</h4>
-								<span class="description">
-									
-										Yesterday i was reading the [Claims Based Identity &amp; Access Control Guide](http://claimsid.codeplex.com/) and learned th...
-									
-								</span>
+								<h1 class="title">Deploying a Database Project does not create artefacts for custom schemas</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Last week we noticed that the artefacts for a custom schema in our Database Project were not created (or updated). It took us a while to figure out what was wrong. When you add a script via the &lsquo;Add Existing item&rsquo; menu in VS2010 the file&rsquo;s <strong>Build Action</strong> is set to <strong>Not in Build</strong> for some unknown reason. As soon as we changed the value to <strong>Build</strong> and Deployed again our artefacts were created.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/sql">SQL</a></li>
+										
+										<li><a href="../../tags/vs2010">vs2010</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">05</span>
-							<span class="rest">Sep 2010</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">25</span>
+										<span class="rest">Oct 2010</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2010/09/05/wif-change-sts-per-request/">WIF: Change STS per request</a>
-								</h4>
-								<span class="description">
-									
-										Here is some code that will redirect unauthenticated users to their respective STS (Eg: A user visiting ~/CompanyA/Defau...
-									
-								</span>
+								<h1 class="title">Update all repositories with Powershell</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>I typically store the repositories i am working on under D:\Code. Each morning i had to right click on each of those folders and select &lsquo;SVN Update&rsquo; using <a href="http://tortoisesvn.tigris.org/">Tortoise SVN</a>. Today i decided there had to be a better way to accomplish this tedious task:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#0086b3">dir </span>d:\code | <span style="color:#000;font-weight:bold">foreach</span> { svn update <span style="color:#008080">$_</span>.FullName }
+</code></pre></div><p>And in case you really like tortoise, you can do the following:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#0086b3">dir </span>c:\code | <span style="color:#000;font-weight:bold">foreach</span> { tortoiseproc /command<span style="color:#a61717;background-color:#e3d2d2">:</span>update /closeonend<span style="color:#a61717;background-color:#e3d2d2">:</span>1 /path<span style="color:#a61717;background-color:#e3d2d2">:</span>$(<span style="color:#008080">$_</span>.FullName) }
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/powershell">PowerShell</a></li>
+										
+										<li><a href="../../tags/tortoisesvn">TortoiseSVN</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">25</span>
-							<span class="rest">Aug 2010</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">07</span>
+										<span class="rest">Sep 2010</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2010/08/25/making-the-templatefiletask-easier-to-use.../">Making the TemplateFileTask easier to use...</a>
-								</h4>
-								<span class="description">
-									
-										One of the disadvantages of the TemplateFile task ([msbuildtasks](http://msbuildtasks.tigris.org/)) is the fact that it ...
-									
-								</span>
+								<h1 class="title">T-SQL: Remove all rows from all tables in your schema</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Sometimes i want to quickly clean up a database and start from fresh. Here is a small script that does exactly that.. (I just run the script a couple of times, untill no affected rows remain&hellip; Far more efficient than figuring out which constraints exist, building up a dependency tree, and cleanly deleting all rows):</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#998;font-style:italic">-- Remove all rows from all tables
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">DECLARE</span> <span style="color:#000;font-weight:bold">@</span>tableName <span style="color:#0086b3">VARCHAR</span>(<span style="color:#099">255</span>)
+<span style="color:#000;font-weight:bold">DECLARE</span> tableNames <span style="color:#000;font-weight:bold">CURSOR</span> <span style="color:#000;font-weight:bold">FOR</span> <span style="color:#000;font-weight:bold">SELECT</span> name <span style="color:#000;font-weight:bold">FROM</span> sys.Tables;
+
+<span style="color:#000;font-weight:bold">OPEN</span> tableNames
+<span style="color:#000;font-weight:bold">FETCH</span> <span style="color:#000;font-weight:bold">NEXT</span> <span style="color:#000;font-weight:bold">FROM</span> tableNames <span style="color:#000;font-weight:bold">INTO</span> <span style="color:#000;font-weight:bold">@</span>tableName
+WHILE <span style="color:#000;font-weight:bold">@@</span>FETCH_STATUS <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span> 
+<span style="color:#000;font-weight:bold">BEGIN</span>
+	<span style="color:#000;font-weight:bold">EXEC</span>(<span style="color:#d14">&#39;DELETE FROM [&#39;</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000;font-weight:bold">@</span>tableName <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#39;]&#39;</span>)
+	<span style="color:#000;font-weight:bold">FETCH</span> <span style="color:#000;font-weight:bold">NEXT</span> <span style="color:#000;font-weight:bold">FROM</span> tableNames <span style="color:#000;font-weight:bold">INTO</span> <span style="color:#000;font-weight:bold">@</span>tableName
+<span style="color:#000;font-weight:bold">END</span>
+<span style="color:#000;font-weight:bold">CLOSE</span> tableNames
+<span style="color:#000;font-weight:bold">DEALLOCATE</span> tableNames
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/sql">SQL</a></li>
+										
+										<li><a href="../../tags/t-sql">t-sql</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">07</span>
+										<span class="rest">Sep 2010</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">WIF: whr parameter is a hint for user Home Realm</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Yesterday i was reading the <a href="http://claimsid.codeplex.com/">Claims Based Identity &amp; Access Control Guide</a> and learned that the whr parameter is a hint from the application to the STS about the user&rsquo;s STS. So if i look back at the code in <a href="http://www.timvw.be/wif-change-sts-per-request/">WIF: Change STS per request</a> i should not hardcode the HomeRealm parameter to timvw but use the company name instead.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">string</span> GetRedirectUrl(<span style="color:#458;font-weight:bold">string</span> company, <span style="color:#458;font-weight:bold">string</span> companySts, <span style="color:#458;font-weight:bold">string</span> realm, <span style="color:#458;font-weight:bold">string</span> returnUrl)
+{
+	<span style="color:#458;font-weight:bold">var</span> signInRequestMessage = <span style="color:#000;font-weight:bold">new</span> SignInRequestMessage(<span style="color:#000;font-weight:bold">new</span> Uri(companySts), realm)
+	{
+	Context = returnUrl,
+	HomeRealm = company
+	};
+
+	<span style="color:#000;font-weight:bold">return</span> signInRequestMessage.WriteQueryString();
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/sts">sts</a></li>
+										
+										<li><a href="../../tags/wif">wif</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">05</span>
+										<span class="rest">Sep 2010</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">WIF: Change STS per request</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Here is some code that will redirect unauthenticated users to their respective STS (Eg: A user visiting ~/CompanyA/Default.aspx will be asked to authenticate at the STS linked to CompanyA.</p>
+<p>Notice that in the enterprise you typically have multiple applications that require this kind of behavior, so you would solve this by establishing trust between your app(s) and your STS + establish trust between your STS and the client STSes.)</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Global</span> : HttpApplication
+{
+	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">void</span> wSFederationAuthenticationModule_RedirectingToIdentityProvider(<span style="color:#458;font-weight:bold">object</span> sender, RedirectingToIdentityProviderEventArgs e)
+	{
+		e.Cancel = <span style="color:#000;font-weight:bold">true</span>;
+		RedirectToCompanySts();
+	}
+
+	<span style="color:#000;font-weight:bold">void</span> RedirectToCompanySts()
+	{
+		<span style="color:#458;font-weight:bold">var</span> httpContext = HttpContext.Current;
+		<span style="color:#458;font-weight:bold">var</span> rawUrl = httpContext.Request.RawUrl;
+
+		<span style="color:#458;font-weight:bold">var</span> returnUrl = rawUrl;
+		<span style="color:#458;font-weight:bold">var</span> companyName = ExtractCompanyName(rawUrl);
+		<span style="color:#458;font-weight:bold">var</span> companySts = GetCompanySts(companyName);
+		<span style="color:#458;font-weight:bold">var</span> realm = GetRealm(companyName);
+		<span style="color:#458;font-weight:bold">var</span> redirectUrl = GetRedirectUrl(companySts, realm, returnUrl);
+
+		httpContext.Response.Redirect(redirectUrl, <span style="color:#000;font-weight:bold">false</span>);
+		httpContext.ApplicationInstance.CompleteRequest();
+	}
+
+	<span style="color:#458;font-weight:bold">string</span> ExtractCompanyName(<span style="color:#458;font-weight:bold">string</span> rawUrl)
+	{
+		<span style="color:#458;font-weight:bold">var</span> regex = <span style="color:#d14">@&#34;~/(.\*?)/.\*&#34;</span>;
+		<span style="color:#458;font-weight:bold">var</span> relativeUrl = VirtualPathUtility.ToAppRelative(rawUrl);
+		<span style="color:#458;font-weight:bold">var</span> match = Regex.Match(relativeUrl, regex);
+		<span style="color:#000;font-weight:bold">return</span> match.Success ? match.Groups[<span style="color:#099">1</span>].Value : <span style="color:#d14">&#34;&#34;</span>;
+	}
+
+	<span style="color:#458;font-weight:bold">string</span> GetCompanySts(<span style="color:#458;font-weight:bold">string</span> companyName)
+	{
+		<span style="color:#000;font-weight:bold">if</span> (companyName == <span style="color:#d14">&#34;CompanyA&#34;</span>) <span style="color:#000;font-weight:bold">return</span> <span style="color:#d14">@&#34;http://localhost/STS2Site&#34;</span>;
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#d14">@&#34;http://localhost/STSSite&#34;</span>;
+	}
+
+	<span style="color:#458;font-weight:bold">string</span> GetRealm(<span style="color:#458;font-weight:bold">string</span> companyName)
+	{
+		<span style="color:#458;font-weight:bold">var</span> realm = <span style="color:#d14">@&#34;http://localhost/RPSite/&#34;</span>;
+		<span style="color:#000;font-weight:bold">if</span> (!<span style="color:#458;font-weight:bold">string</span>.IsNullOrEmpty(companyName)) realm += companyName +<span style="color:#d14">&#34;/&#34;</span>;
+		<span style="color:#000;font-weight:bold">return</span> realm;
+	}
+
+	<span style="color:#458;font-weight:bold">string</span> GetRedirectUrl(<span style="color:#458;font-weight:bold">string</span> companySts, <span style="color:#458;font-weight:bold">string</span> realm, <span style="color:#458;font-weight:bold">string</span> returnUrl)
+	{
+		<span style="color:#458;font-weight:bold">var</span> signInRequestMessage = <span style="color:#000;font-weight:bold">new</span> SignInRequestMessage(<span style="color:#000;font-weight:bold">new</span> Uri(companySts), realm)
+		{
+			Context = returnUrl,
+			HomeRealm = <span style="color:#d14">&#34;timvw&#34;</span>
+		};
+
+		<span style="color:#000;font-weight:bold">return</span> signInRequestMessage.WriteQueryString();
+	}
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/sts">sts</a></li>
+										
+										<li><a href="../../tags/wif">wif</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">25</span>
+										<span class="rest">Aug 2010</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Making the TemplateFileTask easier to use...</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>One of the disadvantages of the TemplateFile task (<a href="http://msbuildtasks.tigris.org/">msbuildtasks</a>) is the fact that it requires a lot of typing to define template values</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;ItemGroup</span> <span style="color:#008080">Condition=</span> <span style="color:#d14">&#34; &#39;$(ConfigurationEnvironment)&#39;==&#39;build&#39; &#34;</span><span style="color:#000080">&gt;</span>
+	<span style="color:#000080">&lt;Tokens</span> <span style="color:#008080">Include=</span><span style="color:#d14">&#34;a&#34;</span><span style="color:#000080">&gt;</span>
+		<span style="color:#000080">&lt;ReplacementValue&gt;</span>localhost<span style="color:#000080">&lt;/ReplacementValue&gt;</span>
+	<span style="color:#000080">&lt;/Tokens&gt;</span>
+	<span style="color:#000080">&lt;Tokens</span> <span style="color:#008080">Include=</span><span style="color:#d14">&#34;b&#34;</span><span style="color:#000080">&gt;</span>
+		<span style="color:#000080">&lt;ReplacementValue&gt;&lt;mynode/&gt;&lt;/ReplacementValue&gt;</span>
+	<span style="color:#000080">&lt;/Tokens&gt;</span>
+<span style="color:#000080">&lt;/ItemGroup&gt;</span>
+</code></pre></div><p>Here is a format proposition to make this a lot more finger friendly</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;configuration&gt;</span>
+	<span style="color:#000080">&lt;variables</span> <span style="color:#008080">env=</span><span style="color:#d14">&#34;build&#34;</span><span style="color:#000080">&gt;</span>
+		<span style="color:#000080">&lt;x</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;a&#34;</span><span style="color:#000080">&gt;</span>localhost<span style="color:#000080">&lt;/x&gt;</span>
+		<span style="color:#000080">&lt;x</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;b</span><span style="color:#000080">&gt;&lt;mynode/&gt;&lt;/x&gt;</span>
+	<span style="color:#000080">&lt;/variables&gt;</span>
+<span style="color:#000080">&lt;/configuration&gt;</span>
+</code></pre></div><p>Here is the msbuild script we need to achieve that</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;PropertyGroup&gt;</span>
+	<span style="color:#000080">&lt;ConfigurationFile&gt;</span>configuration.xml<span style="color:#000080">&lt;/ConfigurationFile&gt;</span>
+	<span style="color:#000080">&lt;ConfigurationEnvironment&gt;</span>build<span style="color:#000080">&lt;/ConfigurationEnvironment&gt;</span>
+<span style="color:#000080">&lt;/PropertyGroup&gt;</span>
+
+<span style="color:#998;font-style:italic">&lt;!-- Retreive all template values for the specific environment --&gt;</span>
+<span style="color:#000080">&lt;XmlQuery</span> <span style="color:#008080">XmlFileName=</span><span style="color:#d14">&#34;$(ConfigurationFile)&#34;</span> <span style="color:#008080">XPath =</span> <span style="color:#d14">&#34;//variables[@env=&#39;$(ConfigurationEnvironment)&#39;]/*&#34;</span><span style="color:#000080">&gt;</span>
+	<span style="color:#000080">&lt;Output</span> <span style="color:#008080">TaskParameter=</span><span style="color:#d14">&#34;Values&#34;</span> <span style="color:#008080">ItemName=</span><span style="color:#d14">&#34;Values&#34;</span> <span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;/XmlQuery&gt;</span>
+
+<span style="color:#000080">&lt;--</span> <span style="color:#a61717;background-color:#e3d2d2">Construct</span> <span style="color:#a61717;background-color:#e3d2d2">@Tokens</span> <span style="color:#a61717;background-color:#e3d2d2">--</span><span style="color:#000080">&gt;</span>
+<span style="color:#000080">&lt;ItemGroup&gt;</span>
+	<span style="color:#000080">&lt;Tokens</span> <span style="color:#008080">Include=</span><span style="color:#d14">&#34;%(Values.name)&#34;</span><span style="color:#000080">&gt;</span>
+		<span style="color:#000080">&lt;ReplacementValue&gt;</span>%(Values._innerxml)<span style="color:#000080">&lt;/ReplacementValue&gt;</span>
+	<span style="color:#000080">&lt;/Tokens&gt;</span>
+<span style="color:#000080">&lt;/ItemGroup&gt;</span>
+
+<span style="color:#998;font-style:italic">&lt;!-- Generate the configuration files --&gt;</span>
+<span style="color:#000080">&lt;Message</span> <span style="color:#008080">Text=</span><span style="color:#d14">&#34;Available variables:&#34;</span> <span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;Message</span> <span style="color:#008080">Text=</span><span style="color:#d14">&#34;====================&#34;</span> <span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;Message</span> <span style="color:#008080">Text=</span><span style="color:#d14">&#34;%(Tokens.Identity): %(Tokens.ReplacementValue)&#34;</span> <span style="color:#000080">/&gt;</span>
+</code></pre></div><p>Happy coding!</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/msbuild">MSBuild</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 				
 

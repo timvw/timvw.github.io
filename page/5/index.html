@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:05:50+01:00" />
+<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -32,7 +32,8 @@
 	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
 	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
 			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav></div>
+		</nav>
+	</div>
 
 	<nav class="nav">
 		<ul class="flat">
@@ -61,227 +62,563 @@
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">21</span>
-							<span class="rest">Mar 2011</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">21</span>
+										<span class="rest">Mar 2011</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2011/03/21/invoke-parameterized-stored-procedure-with-powershell/">Invoke parameterized stored procedure with PowerShell</a>
-								</h4>
-								<span class="description">
-									
-										Here is a quick snippet that demonstrates how you can invoke a parametrized stored procedure with PowerShell:
+								<h1 class="title">Invoke parameterized stored procedure with PowerShell</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Here is a quick snippet that demonstrates how you can invoke a parametrized stored procedure with PowerShell:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$CreateTraceCommand</span> = <span style="color:#008080">$SqlConnection</span>.CreateCommand();
+<span style="color:#008080">$CreateTraceCommand</span>.CommandType = <span style="color:#008080">[System.Data.CommandType]</span> <span style="color:#d14">&#34;StoredProcedure&#34;</span>;
+<span style="color:#008080">$CreateTraceCommand</span>.CommandText = <span style="color:#d14">&#34;sp_trace_create&#34;</span>;
+<span style="color:#008080">$TraceIdParameter</span> = <span style="color:#008080">$CreateTraceCommand</span>.Parameters.Add(<span style="color:#d14">&#34;@traceid&#34;</span>, <span style="color:#008080">[System.Data.SqlDbType]</span> <span style="color:#d14">&#34;Int&#34;</span>);
+<span style="color:#008080">$TraceIdParameter</span>.Direction = <span style="color:#008080">[System.Data.ParameterDirection]</span> <span style="color:#d14">&#34;Output&#34;</span>;
+<span style="color:#008080">$OptionParameter</span> = <span style="color:#008080">$CreateTraceCommand</span>.Parameters.Add(<span style="color:#d14">&#34;@options&#34;</span>, <span style="color:#008080">[System.Data.SqlDbType]</span> <span style="color:#d14">&#34;Int&#34;</span>);
+<span style="color:#008080">$OptionParameter</span>.Value = <span style="color:#008080">[int]</span> 2;
+<span style="color:#008080">$TraceFileParameter</span> = <span style="color:#008080">$CreateTraceCommand</span>.Parameters.Add(<span style="color:#d14">&#34;@tracefile&#34;</span>, <span style="color:#008080">[System.Data.SqlDbType]</span> <span style="color:#d14">&#34;NVarChar&#34;</span>);
+<span style="color:#008080">$TraceFileParameter</span>.Value = <span style="color:#008080">[string]</span> <span style="color:#d14">&#34;c:\temp\test&#34;</span>;
 
-```powers...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">16</span>
-							<span class="rest">Mar 2011</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2011/03/16/global-hotkeys-for-itunes-on-windows/">Global hotkeys for iTunes on windows</a>
-								</h4>
-								<span class="description">
-									
-										These days i use iTunes as media player. Unlike winamp this program does not seem to support system-wide hotkeys to cont...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">16</span>
-							<span class="rest">Mar 2011</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2011/03/16/navigation-to-the-webpage-was-canceled/">Navigation to the webpage was canceled</a>
-								</h4>
-								<span class="description">
-									
-										Earlier today i ran into the &#39;Navigation to the webpage was canceled&#39; when i tried to open a CHM file:
+<span style="color:#008080">[void]</span> <span style="color:#008080">$CreateTraceCommand</span>.ExecuteNonQuery();
 
-[&lt;img src=&#34;http:...
-									
-								</span>
-							</div>
+<span style="color:#008080">$TraceId</span> = <span style="color:#008080">$TraceIdParameter</span>.Value;
+<span style="color:#0086b3">Write-Host</span> <span style="color:#d14">&#34;You created a trace with </span><span style="color:#d14">``</span><span style="color:#d14">`
+</span></code></pre></div>
 						</div>
-					</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/powershell">PowerShell</a></li>
+										
+										<li><a href="../../tags/sql">SQL</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">12</span>
-							<span class="rest">Mar 2011</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">16</span>
+										<span class="rest">Mar 2011</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2011/03/12/consume-locally-build-software-without-overloading-your-path/">Consume locally build software without overloading your $PATH</a>
-								</h4>
-								<span class="description">
-									
-										How do you consume locally build software? For a while now i have used the following approach:
+								<h1 class="title">Global hotkeys for iTunes on windows</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>These days i use iTunes as media player. Unlike winamp this program does not seem to support system-wide hotkeys to control playback. This is the place where a productivity tool like <a href="http://www.autohotkey.com/">AutoHotkey</a> comes into the rescue ;).</p>
+<p>I have configured the following keys:</p>
+<ul>
+<li>Move to next song: [Ctrl] + [Alt] + [Right]</li>
+<li>Move to previous song: [Ctrl] + [Alt] + [Left]</li>
+<li>Toggle play/pause: [Ctrl] + [Alt] + p</li>
+<li>Turn volume up: [Ctrl] + [Alt] + [Up]</li>
+<li>Turn volume down: [Ctrl] + [Alt] + [Down]</li>
+</ul>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">^!right::
+DetectHiddenWindows , On
+ControlSend , ahk_parent, ^<span style="color:#000;font-weight:bold">{</span>right<span style="color:#000;font-weight:bold">}</span>, iTunes ahk_class iTunes 
+DetectHiddenWindows , Off
+<span style="color:#000;font-weight:bold">return</span>
 
-  * Create a ~/bin folde...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">12</span>
-							<span class="rest">Mar 2011</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2011/03/12/dynamic-scriptblock-with-powershell/">Dynamic scriptblock with PowerShell</a>
-								</h4>
-								<span class="description">
-									
-										Earlier this week i tried to run a command on a remote computer but it did not seem to work:
+^!left:: 
+DetectHiddenWindows , On
+ControlSend , ahk_parent, ^<span style="color:#000;font-weight:bold">{</span>left<span style="color:#000;font-weight:bold">}</span>, iTunes ahk_class iTunes
+DetectHiddenWindows , Off
+<span style="color:#000;font-weight:bold">return</span>
 
-```powershell
-$name = &#39;tim...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">12</span>
-							<span class="rest">Mar 2011</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2011/03/12/some-powershell-functions-to-work-with-ssis-packages/">Some PowerShell functions to work with SSIS packages</a>
-								</h4>
-								<span class="description">
-									
-										Here are some powershell functions (using XPath) that come in handy when working with SSIS packages:
+^!p:: 
+DetectHiddenWindows , On 
+ControlSend , ahk_parent, <span style="color:#000;font-weight:bold">{</span>space<span style="color:#000;font-weight:bold">}</span>, iTunes ahk_class iTunes
+DetectHiddenWindows , Off
+<span style="color:#000;font-weight:bold">return</span>
 
-```powershell
-func...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">12</span>
-							<span class="rest">Mar 2011</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2011/03/12/some-tips-for-.net-developers-using-git-on-cygwin/">Some tips for .Net developers using git on cygwin</a>
-								</h4>
-								<span class="description">
-									
-										Here are some tips that i want to share with fellow .Net developers that use git on cygwin.
+^!up::
+DetectHiddenWindows , On
+ControlSend, ahk_parent, ^<span style="color:#000;font-weight:bold">{</span>UP<span style="color:#000;font-weight:bold">}</span>, iTunes ahk_class iTunes
+DetectHiddenWindows , Off
+<span style="color:#000;font-weight:bold">return</span>
 
-First of all i defined some...
-									
-								</span>
-							</div>
+^!down::
+DetectHiddenWindows , On
+ControlSend, ahk_parent, ^<span style="color:#000;font-weight:bold">{</span>DOWN<span style="color:#000;font-weight:bold">}</span>, iTunes ahk_class iTunes
+DetectHiddenWindows , Off 
+<span style="color:#000;font-weight:bold">return</span>
+</code></pre></div>
 						</div>
-					</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/autohotkey">AutoHotkey</a></li>
+										
+										<li><a href="../../tags/itunes">iTunes</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">12</span>
-							<span class="rest">Mar 2011</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">16</span>
+										<span class="rest">Mar 2011</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2011/03/12/using-winmerge-as-difftool-on-cygwin/git/">Using WinMerge as difftool on cygwin/git</a>
-								</h4>
-								<span class="description">
-									
-										Last couple of weeks i have been using [Git](http://git-scm.com/) on [cygwin](http://www.cygwin.com) and i got very sati...
-									
-								</span>
+								<h1 class="title">Navigation to the webpage was canceled</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Earlier today i ran into the &lsquo;Navigation to the webpage was canceled&rsquo; when i tried to open a CHM file:</p>
+<p><a href="http://www.timvw.be/wp-content/uploads/2011/03/chm_navigation_to_page_was_canceled.png"><!-- raw HTML omitted --></a></p>
+<p>Navigating to the file properties allows me to unblock the file:</p>
+<p><a href="http://www.timvw.be/wp-content/uploads/2011/03/chm_unblock.png"><!-- raw HTML omitted --></a></p>
+<p>And now i can happily use the CHM file:</p>
+<p><a href="http://www.timvw.be/wp-content/uploads/2011/03/chm_working.png"><!-- raw HTML omitted --></a></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/chm">chm</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">08</span>
-							<span class="rest">Mar 2011</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">12</span>
+										<span class="rest">Mar 2011</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2011/03/08/get/setvariable-value-from-ssis-variabledispenser/">Get/SetVariable value from SSIS VariableDispenser</a>
-								</h4>
-								<span class="description">
-									
-										Here is some code that allows you to Get/Set a variable (object) value from/on the [VariableDispenser](http://msdn.micro...
-									
-								</span>
+								<h1 class="title">Consume locally build software without overloading your $PATH</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>How do you consume locally build software? For a while now i have used the following approach:</p>
+<ul>
+<li>Create a ~/bin folder</li>
+<li>Add that ~/bin folder to my $PATH</li>
+<li>Add symlinks from binary to ~/bin (ln -s ~/src/git-tfs/GitTfs.Vs2010/bin/debug/git-tfs.exe git-tfs)</li>
+</ul>
+<p>Please let me know about your strategy..</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/bash">Bash</a></li>
+										
+										<li><a href="../../tags/git-tfs">git-tfs</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">05</span>
-							<span class="rest">Mar 2011</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">12</span>
+										<span class="rest">Mar 2011</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2011/03/05/consume-custom-ssis-tasks-without-gac-installation/">Consume custom SSIS tasks without GAC installation</a>
-								</h4>
-								<span class="description">
-									
-										For a while i thought that in order to consume a custom SSIS task you had to install the assembly in the GAC. Now i know...
-									
-								</span>
+								<h1 class="title">Dynamic scriptblock with PowerShell</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Earlier this week i tried to run a command on a remote computer but it did not seem to work:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$name</span> = <span style="color:#d14">&#39;tim&#39;</span>
+<span style="color:#008080">$computer</span> = <span style="color:#d14">&#39;localhost&#39;</span>
+<span style="color:#0086b3">Invoke-Command</span> -ComputerName <span style="color:#008080">$computer</span> -ScriptBlock { <span style="color:#0086b3">Write-Host</span> <span style="color:#d14">&#34;Hello $name&#34;</span> }
+</code></pre></div><p>Because powershell serialises the { Write-Host &ldquo;Hello $name&rdquo; } as a string this ends up at the remote computer as { Write-Host &ldquo;Hello $null&rdquo; }. In order to send our &ldquo;dynamic&quot;command string over the wire we have to make sure it is serialised correctly:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$scriptBlock</span> = <span style="color:#008080">$executioncontext</span>.InvokeCommand.NewScriptBlock(<span style="color:#d14">&#34;Write-Host \</span><span style="color:#d14">`&#34;</span><span style="color:#d14">Hello $name\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">&#34;</span>);
+<span style="color:#0086b3">Invoke-Command</span> -ComputerName <span style="color:#008080">$computer</span> -ScriptBlock <span style="color:#008080">$scriptBlock</span>;
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/powershell">PowerShell</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">12</span>
+										<span class="rest">Mar 2011</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Some PowerShell functions to work with SSIS packages</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Here are some powershell functions (using XPath) that come in handy when working with SSIS packages:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> FindConnectionManagerNames {	  
+	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$fileName</span>)
+
+	<span style="color:#008080">$xml</span> = <span style="color:#008080">[xml]</span> (<span style="color:#0086b3">Get-Content</span> <span style="color:#008080">$fileName</span>);	  
+	<span style="color:#008080">$ns</span> = <span style="color:#0086b3">New-Object</span> Xml.XmlNamespaceManager <span style="color:#008080">$xml</span>.NameTable;	  
+	<span style="color:#008080">$ns</span>.AddNamespace(<span style="color:#d14">&#34;DTS&#34;</span>, <span style="color:#d14">&#34;www.microsoft.com/SqlServer/Dts&#34;</span>);	  
+	<span style="color:#008080">$xml</span>.SelectNodes(<span style="color:#d14">&#34;//DTS:ConnectionManager/DTS:Property[@DTS:Name=&#39;ObjectName&#39;]&#34;</span>, <span style="color:#008080">$ns</span>) | <span style="color:#000;font-weight:bold">Foreach</span> { <span style="color:#008080">$_</span>.<span style="color:#d14">&#34;#text&#34;</span>; }
+
+}
+
+<span style="color:#000;font-weight:bold">function</span> GetConnectionManagerConnectionString {  
+	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$fileName</span>, <span style="color:#008080">$connectionManagerName</span>)
+
+	<span style="color:#008080">$xml</span> = <span style="color:#008080">[xml]</span> (<span style="color:#0086b3">Get-Content</span> <span style="color:#008080">$fileName</span>);
+	<span style="color:#008080">$ns</span> = <span style="color:#0086b3">New-Object</span> Xml.XmlNamespaceManager <span style="color:#008080">$xml</span>.NameTable;
+	<span style="color:#008080">$ns</span>.AddNamespace(<span style="color:#d14">&#34;DTS&#34;</span>, <span style="color:#d14">&#34;www.microsoft.com/SqlServer/Dts&#34;</span>);
+	<span style="color:#008080">$path</span> = <span style="color:#d14">&#34;//DTS:ConnectionManager[DTS:Property=&#39;$connectionManagerName&#39;]/DTS:ObjectData/DTS:ConnectionManager/DTS:Property[@DTS:Name=&#39;ConnectionString&#39;]&#34;</span>
+	<span style="color:#008080">$xml</span>.SelectSingleNode(<span style="color:#008080">$path</span>, <span style="color:#008080">$ns</span>).<span style="color:#d14">&#34;#text&#34;</span>;
+}
+
+<span style="color:#000;font-weight:bold">function</span> FindVariables {	  
+	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$fileName</span>)
+
+	<span style="color:#008080">$xml</span> = <span style="color:#008080">[xml]</span> (<span style="color:#0086b3">Get-Content</span> <span style="color:#008080">$fileName</span>);
+	<span style="color:#008080">$ns</span> = <span style="color:#0086b3">New-Object</span> Xml.XmlNamespaceManager <span style="color:#008080">$xml</span>.NameTable;
+	<span style="color:#008080">$ns</span>.AddNamespace(<span style="color:#d14">&#34;DTS&#34;</span>, <span style="color:#d14">&#34;www.microsoft.com/SqlServer/Dts&#34;</span>);
+	<span style="color:#008080">$xml</span>.SelectNodes(<span style="color:#d14">&#34;//DTS:Variable/DTS:Property[@DTS:Name=&#39;ObjectName&#39;]&#34;</span>, <span style="color:#008080">$ns</span>) | <span style="color:#000;font-weight:bold">Foreach</span> { <span style="color:#008080">$_</span>.<span style="color:#d14">&#34;#text&#34;</span>; }
+}
+
+<span style="color:#000;font-weight:bold">function</span> GetVariable {	  
+	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$fileName</span>, <span style="color:#008080">$variableName</span>)
+
+	<span style="color:#008080">$xml</span> = <span style="color:#008080">[xml]</span> (<span style="color:#0086b3">Get-Content</span> <span style="color:#008080">$fileName</span>);
+	<span style="color:#008080">$ns</span> = <span style="color:#0086b3">New-Object</span> Xml.XmlNamespaceManager <span style="color:#008080">$xml</span>.NameTable;
+	<span style="color:#008080">$ns</span>.AddNamespace(<span style="color:#d14">&#34;DTS&#34;</span>, <span style="color:#d14">&#34;www.microsoft.com/SqlServer/Dts&#34;</span>);
+	<span style="color:#008080">$xml</span>.SelectSingleNode(<span style="color:#d14">&#34;//DTS:Variable[DTS:Property=&#39;$variableName&#39;]/DTS:VariableValue&#34;</span>, <span style="color:#008080">$ns</span>).<span style="color:#d14">&#34;#text&#34;</span>;
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/powershell">PowerShell</a></li>
+										
+										<li><a href="../../tags/ssis">SSIS</a></li>
+										
+										<li><a href="../../tags/xpath">xpath</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">12</span>
+										<span class="rest">Mar 2011</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Some tips for .Net developers using git on cygwin</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Here are some tips that i want to share with fellow .Net developers that use git on cygwin.</p>
+<p>First of all i defined some aliases in my ~/.bashrc:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic"># open explorer in the current working directory </span>
+<span style="color:#0086b3">alias</span> <span style="color:#008080">explorer</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;explorer.exe &#34;\`cygpath -aw \&#34;$PWD\&#34;\`&#34;&#39;</span>
+
+<span style="color:#998;font-style:italic"># invoke MSBuild</span>
+<span style="color:#0086b3">alias</span> <span style="color:#008080">msbuild</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;/cygdrive/c/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe&amp;&#39;</span>
+</code></pre></div><p>Because i do not like the TFS source control story i use <a href="https://github.com/spraints/git-tfs">git-tfs</a>. As a .Net developer you want to add the following to your .git/info/exclude file:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic">#OS junk files</span>
+<span style="color:#000;font-weight:bold">[</span>Tt<span style="color:#000;font-weight:bold">]</span>humbs.db
+*.DS_Store
+<span style="color:#998;font-style:italic">#Visual Studio files  </span>
+*.<span style="color:#000;font-weight:bold">[</span>Oo<span style="color:#000;font-weight:bold">]</span>bj 
+*.exe 
+*.pdb
+*.user
+*.aps 
+*.pch 
+*.vspscc 
+*.vssscc 
+*_i.c 
+*_p.c 
+*.ncb 
+*.suo 
+*.tlb
+*.tlh
+*.bak
+*.<span style="color:#000;font-weight:bold">[</span>Cc<span style="color:#000;font-weight:bold">]</span>ache
+*.ilk 
+*.log 
+*.lib 
+*.sbr 
+*.sdf 
+ipch/ 
+obj/ 
+<span style="color:#000;font-weight:bold">[</span>Bb<span style="color:#000;font-weight:bold">]</span>in
+<span style="color:#000;font-weight:bold">[</span>Dd<span style="color:#000;font-weight:bold">]</span>ebug*/
+<span style="color:#000;font-weight:bold">[</span>Rr<span style="color:#000;font-weight:bold">]</span>elease*/
+Ankh.NoLoad
+<span style="color:#998;font-style:italic">#Tooling </span>
+_ReSharper*/ 
+*.resharper
+<span style="color:#000;font-weight:bold">[</span>Tt<span style="color:#000;font-weight:bold">]</span>est<span style="color:#000;font-weight:bold">[</span>Rr<span style="color:#000;font-weight:bold">]</span>esult*
+<span style="color:#998;font-style:italic">#Subversion files </span>
+.svn
+</code></pre></div><p>Whenever i work online i usually run these two commands consecutively: git -a -m &lsquo;commit message&rsquo; and git-tfs checkin -m &lsquo;commit message&rsquo;. Here is a small ~/bin/commit script that combines these:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-weight:bold;font-style:italic">#!/bin/bash
+</span><span style="color:#999;font-weight:bold;font-style:italic"></span>git commit -a -m <span style="color:#d14">&#34;</span><span style="color:#008080">$1</span><span style="color:#d14">&#34;</span>;
+git-tfs checkin -m <span style="color:#d14">&#34;</span><span style="color:#008080">$1</span><span style="color:#d14">&#34;</span>;
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/cygwin">cygwin</a></li>
+										
+										<li><a href="../../tags/git">git</a></li>
+										
+										<li><a href="../../tags/msbuild">MSBuild</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">12</span>
+										<span class="rest">Mar 2011</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Using WinMerge as difftool on cygwin/git</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Last couple of weeks i have been using <a href="http://git-scm.com/">Git</a> on <a href="http://www.cygwin.com">cygwin</a> and i got very satisfying results out of it. One thing that i wanted to tweak was the ability to use <a href="http://winmerge.org/">WinMerge</a> to compare files. Here is how i do it:</p>
+<p>Here is my ~/.gitconfig:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#000;font-weight:bold">[</span>user<span style="color:#000;font-weight:bold">]</span>	  
+<span style="color:#008080">name</span> <span style="color:#000;font-weight:bold">=</span> Tim Van Wassenhove	  
+<span style="color:#008080">email</span> <span style="color:#000;font-weight:bold">=</span> git@timvw.be
+<span style="color:#000;font-weight:bold">[</span>diff<span style="color:#000;font-weight:bold">]</span>
+<span style="color:#008080">external</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;~/bin/git-diff-wrapper.sh&#34;</span>
+</code></pre></div><p>Here is my ~/bin/git-diff-wrapper.sh (it uses <a href="http://www.cygwin.com/cygwin-ug-net/using-utils.html">cygpath</a> to translate the paths):</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-weight:bold;font-style:italic">#!/bin/sh
+</span><span style="color:#999;font-weight:bold;font-style:italic"></span><span style="color:#d14">&#34;/cygdrive/c/Program Files/WinMerge/WinMergeU.EXE&#34;</span> /e /ub /dl other /dr <span style="color:#0086b3">local</span> <span style="color:#d14">&#34;\`cygpath -aw </span><span style="color:#008080">$1</span><span style="color:#d14">\`&#34;</span> <span style="color:#d14">&#34;\`cygpath -aw </span><span style="color:#008080">$2</span><span style="color:#d14">\`&#34;</span> <span style="color:#d14">&#34;\`cygpath -aw </span><span style="color:#008080">$5</span><span style="color:#d14">\`&#34;</span>
+</code></pre></div><p>And now we are good to go 😉</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/cygwin">cygwin</a></li>
+										
+										<li><a href="../../tags/git">git</a></li>
+										
+										<li><a href="../../tags/winmerge">winmerge</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">08</span>
+										<span class="rest">Mar 2011</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Get/SetVariable value from SSIS VariableDispenser</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Here is some code that allows you to Get/Set a variable (object) value from/on the <a href="http://msdn.microsoft.com/en-us/library/microsoft.sqlserver.dts.runtime.variabledispenser.aspx">VariableDispenser</a> in an SSIS package:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> T GetVariable&lt;T&gt;(<span style="color:#000;font-weight:bold">this</span> VariableDispenser variableDispenser, <span style="color:#458;font-weight:bold">string</span> scopedVariableName)
+{
+  Variables variables = <span style="color:#000;font-weight:bold">null</span>;
+
+  <span style="color:#000;font-weight:bold">try</span>
+  {
+    variableDispenser.LockForRead(scopedVariableName);
+    variableDispenser.GetVariables(<span style="color:#000;font-weight:bold">ref</span> variables);
+    <span style="color:#000;font-weight:bold">return</span> (T)variables[<span style="color:#099">0</span>].Value;
+  }
+  <span style="color:#000;font-weight:bold">finally</span>
+  {
+    <span style="color:#000;font-weight:bold">if</span> (variables != <span style="color:#000;font-weight:bold">null</span>) variables.Unlock();
+  }
+}
+
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> SetVariable&lt;T&gt;(<span style="color:#000;font-weight:bold">this</span> VariableDispenser variableDispenser, <span style="color:#458;font-weight:bold">string</span> scopedVariableName, T <span style="color:#000;font-weight:bold">value</span>)
+{
+  Variables variables = <span style="color:#000;font-weight:bold">null</span>;
+
+  <span style="color:#000;font-weight:bold">try</span>   
+  {  
+    variableDispenser.LockForWrite(scopedVariableName);  
+    variableDispenser.GetVariables(<span style="color:#000;font-weight:bold">ref</span> variables);  
+    variables[<span style="color:#099">0</span>].Value = <span style="color:#000;font-weight:bold">value</span>;  
+  }  
+  <span style="color:#000;font-weight:bold">finally</span>  
+  {   
+    <span style="color:#000;font-weight:bold">if</span> (variables != <span style="color:#000;font-weight:bold">null</span>) variables.Unlock();  
+  }
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/c">C</a></li>
+										
+										<li><a href="../../tags/ssis">SSIS</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">05</span>
+										<span class="rest">Mar 2011</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Consume custom SSIS tasks without GAC installation</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>For a while i thought that in order to consume a custom SSIS task you had to install the assembly in the GAC. Now i know better 😉</p>
+<p>For the designer (BIDS) you have to copy the files to</p>
+<ul>
+<li>C:\Program Files\Microsoft SQL Server\100\DTS\Tasks</li>
+<li>C:\Program Files\Microsoft SQL Server\100\DTS\PipelineComponents</li>
+</ul>
+<p>For the runtime (BIDS) you have to copy the files to</p>
+<ul>
+<li>C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\PrivateAssemblies</li>
+</ul>
+<p>And for dtexec you have to copy the files to</p>
+<ul>
+<li>C:\Program Files\Microsoft SQL Server\100\DTS\Binn</li>
+</ul>
+<p>Here is a small powershell script that gives you the paths where you want to copy your assembly to:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#998;font-style:italic"># Lookup Tasks, PipelineComponents and DtExec paths  </span>
+<span style="color:#008080">$DtsPath</span> = (<span style="color:#0086b3">Get-ItemProperty</span> <span style="color:#d14">&#39;HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup&#39;</span>).SQLPath;
+<span style="color:#008080">$DtsTasksPath</span> = (<span style="color:#0086b3">Resolve-Path</span> <span style="color:#d14">&#34;$DtsPath\Tasks&#34;</span>);
+
+<span style="color:#008080">$DtsPipelineComponentsPath</span> = (<span style="color:#0086b3">Resolve-Path</span> <span style="color:#d14">&#34;$DtsPath\Pipelinecomponents&#34;</span>);
+<span style="color:#008080">$DtExecPath</span> = (<span style="color:#0086b3">Resolve-Path</span> <span style="color:#d14">&#34;$DtsPath\Binn&#34;</span>);
+
+<span style="color:#998;font-style:italic"># Lookup VS2008/Bids path</span>
+<span style="color:#008080">$Vs2008Path</span> = (<span style="color:#0086b3">Get-ItemProperty</span> <span style="color:#d14">&#39;HKLM:\Software\Microsoft\VisualStudio\9.0&#39;</span>).InstallDir;
+<span style="color:#008080">$Vs2008PrivateAssembliesPath</span> = (<span style="color:#0086b3">Resolve-Path</span> <span style="color:#d14">&#34;$Vs2008Path\PrivateAssemblies&#34;</span>);
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/powershell">PowerShell</a></li>
+										
+										<li><a href="../../tags/ssis">SSIS</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 				
 

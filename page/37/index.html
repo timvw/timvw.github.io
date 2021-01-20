@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:05:50+01:00" />
+<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -32,7 +32,8 @@
 	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
 	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
 			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav></div>
+		</nav>
+	</div>
 
 	<nav class="nav">
 		<ul class="flat">
@@ -61,218 +62,579 @@
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">30</span>
-							<span class="rest">May 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">30</span>
+										<span class="rest">May 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/05/30/building-a-chain-of-responsibility-with-delegates/">Building a chain of responsibility with delegates</a>
-								</h4>
-								<span class="description">
-									
-										Imagine that you have to write a function that verifies if there is a license available for a given clientID. Suppose th...
-									
-								</span>
+								<h1 class="title">Building a chain of responsibility with delegates</h1>
 							</div>
 						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">25</span>
-							<span class="rest">Apr 2006</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/04/25/running-.net-applications-on-debian-gnu/linux-with-mono/">Running .NET applications on Debian GNU/Linux with Mono</a>
-								</h4>
-								<span class="description">
-									
-										Today i noticed [Running .Net applications on Linux with Mono](http://www.linux.com/article.pl?sid=06/04/12/1921225) and...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">22</span>
-							<span class="rest">Apr 2006</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/04/22/using-.net-assemblies-in-your-win32-application/">Using .Net assemblies in your WIN32 application</a>
-								</h4>
-								<span class="description">
-									
-										Imagine that you&#39;ve got an extensive codebase using WIN32/MFC and don&#39;t want to give that up but on the other hand you&#39;d...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">21</span>
-							<span class="rest">Apr 2006</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/04/21/simple-serialization-and-deserialization-of-public-class-members/">Simple serialization and deserialization of public class members</a>
-								</h4>
-								<span class="description">
-									
-										Here is a simple generic class that allows you to serialize classes (well, their public members) into XML and deserializ...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">15</span>
-							<span class="rest">Apr 2006</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/04/15/building-apache-win32-with-visual-studio-2005/">Building apache-win32 with Visual Studio 2005</a>
-								</h4>
-								<span class="description">
-									
-										Today i decided to build apache-win32. Here&#39;s how i did it:
+								
+						<div class="markdown">
+							<p>Imagine that you have to write a function that verifies if there is a license available for a given clientID. Suppose that there are a couple of possibilities to find an available license. Your code would probably look like the following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// This code verifies if the client with the given clientID is licensed
+</span><span style="color:#998;font-style:italic">// returns the licenseID or 0 if no license is available
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">public</span> Int32 IsLicensed(Int32 clientID) 
+{
+	<span style="color:#458;font-weight:bold">int</span> result = <span style="color:#099">0</span>;
 
-* Download Apache [httpd-2.2.0-win32-src-rev2.zip](http://a...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">14</span>
-							<span class="rest">Apr 2006</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/04/14/select-best-3-laptimes-for-each-player/">Select best 3 laptimes for each player</a>
-								</h4>
-								<span class="description">
-									
-										Imagine that you have a schema where you store all the times a player needed to complete a parcours. A possible schema c...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">04</span>
-							<span class="rest">Apr 2006</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/04/04/using-a-function-with-parameters-as-parameter/">Using a function with parameters as parameter</a>
-								</h4>
-								<span class="description">
-									
-										Imagine that you have a function that expects a reference to a function. Here is an example of such a function
+	<span style="color:#998;font-style:italic">// verify if there is already a license &#39;assigned&#39; to the client
+</span><span style="color:#998;font-style:italic"></span>	result = IsAssigned(clientID);
 
-```javas...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">03</span>
-							<span class="rest">Apr 2006</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/04/03/jspace/">JSpace</a>
-								</h4>
-								<span class="description">
-									
-										I wrote a simple shoot-em-up game: [JSpace.zip](http://www.timvw.be/wp-content/code/java/JSpace.zip).
+	<span style="color:#000;font-weight:bold">if</span> (result == <span style="color:#099">0</span>) 
+	{
+		<span style="color:#998;font-style:italic">// find a dedicated license (license that is bound to the given client)
+</span><span style="color:#998;font-style:italic"></span>		result = IsDedicated(clientID);
 
-									
-								</span>
-							</div>
+		<span style="color:#000;font-weight:bold">if</span> (result == <span style="color:#099">0</span>) 
+		{
+			<span style="color:#998;font-style:italic">// find a nondedicated license (license that can be used by any client)
+</span><span style="color:#998;font-style:italic"></span>			result = IsNonDedicated(clientID);
+		}
+	}
+
+	<span style="color:#000;font-weight:bold">return</span> result;
+}
+</code></pre></div><p>It&rsquo;s obvious that this structures becomes more complex as the number of possible ways to get a license grows. If you look a while at the structure you&rsquo;ll notice a pattern: each function (IsAssigned, IsDedicated, IsNonDedicted) verifies if there is a license availble. If the function didn&rsquo;t find a license the next function is performed. If you translate this to OO you would end up with something similar to the following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// this methods tries to find an available license for the given clientID
+</span><span style="color:#998;font-style:italic">// returns the licenseID or 0 if no license was found
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">delegate</span> Int32 FindLicenseMethod(Int32 clientID);
+
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">LicenseFinder</span> 
+{
+	<span style="color:#000;font-weight:bold">private</span> FindLicenseMethod method;
+	<span style="color:#000;font-weight:bold">private</span> LicenseFinder next;
+
+	<span style="color:#000;font-weight:bold">public</span> LicenseFinder(FindLicenseMethod, method, LicenseFinder next) 
+	{
+		<span style="color:#000;font-weight:bold">this</span>.method = method;
+		<span style="color:#000;font-weight:bold">this</span>.next = next;
+	}
+
+	<span style="color:#998;font-style:italic">// property for the next licensefinder in the chain
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">public</span> Next 
+	{
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> next; }
+		<span style="color:#000;font-weight:bold">set</span> { next = val; }
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> Int32 GetLicense(Int32 clientID) 
+	{
+		Int32 result = method(clientID);
+
+		<span style="color:#000;font-weight:bold">if</span> (result == <span style="color:#099">0</span> &amp;&amp; Next != <span style="color:#000;font-weight:bold">null</span>) 
+		{
+			result = Next.GetLicense(clientID);
+		}
+
+		<span style="color:#000;font-weight:bold">return</span> result;
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> Int32 IsLicensed(Int32 clientID) 
+	{
+		LicenseFinder f = <span style="color:#000;font-weight:bold">new</span> LicenseFinder(
+		<span style="color:#000;font-weight:bold">new</span> FindLicenseMethod(IsAssigned), <span style="color:#000;font-weight:bold">new</span> LicenseFinder(
+		<span style="color:#000;font-weight:bold">new</span> FindLicenseMethod(IsDedicated), <span style="color:#000;font-weight:bold">new</span> LicenseFinder(
+		<span style="color:#000;font-weight:bold">new</span> FindLicenseMethod(IsNonDedicated), <span style="color:#000;font-weight:bold">null</span>))));
+
+		<span style="color:#000;font-weight:bold">return</span> f.GetLicense(clientID);
+	}
+}
+</code></pre></div>
 						</div>
-					</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">02</span>
-							<span class="rest">Apr 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">25</span>
+										<span class="rest">Apr 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/04/02/allow-a-form-to-be-posted-only-once/">Allow a form to be posted only once</a>
-								</h4>
-								<span class="description">
-									
-										People can fill in a form and submit it. Then they can hit their back button, and choose to submit it again. Usually the...
-									
-								</span>
+								<h1 class="title">Running .NET applications on Debian GNU/Linux with Mono</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Today i noticed <a href="http://www.linux.com/article.pl?sid=06/04/12/1921225">Running .Net applications on Linux with Mono</a> and the author wrote the following:</p>
+<blockquote>
+<p>I found that on Debian at this stage I got an error: The assembly mscorlib.dll was not found or could not be loaded. It should have been installed in the &lsquo;/usr/lib/mono/2.0/mscorlib.dll&rsquo; directory. I cured that by executing:</p>
+</blockquote>
+<blockquote>
+<p>$ cd /usr/lib/mono</p>
+</blockquote>
+<blockquote>
+<p>$ sudo ln -s 1.0 2.0</p>
+</blockquote>
+<p>There is only one error, and it&rsquo;s in the <a href="en.wikipedia.org/wiki/PEBKAC">PEBKAC</a> category. I can understand that the author couldn&rsquo;t find the TargetFrameworkVersion tag in his project file and generated 2.0 code. What i don&rsquo;t understand is that he didn&rsquo;t notice the <a href="http://www.mono-project.com/Downloads">Other Downloads</a> section and that there are <a href="http://www.debian.org">Debian</a> packages available with support for the 2.0 runtime. Ok, apt-get might complain about the packages and you would have to add a key to your keyring as following before you can install the packages</p>
+<pre><code class="language-dos" data-lang="dos">gpg --recv-keys 7127E5ABEEF946C8
+gpg --armor --export 7127E5ABEEF946C8 | apt-key add --
+</code></pre><p>How hard is that?</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/free-software">Free Software</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">01</span>
-							<span class="rest">Apr 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">22</span>
+										<span class="rest">Apr 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/04/01/using-cmd.exe/">Using cmd.exe</a>
-								</h4>
-								<span class="description">
-									
-										Earlier someone asked me how he could use [windows cmd.exe](http://www.microsoft.com/resources/documentation/windows/xp/...
-									
-								</span>
+								<h1 class="title">Using .Net assemblies in your WIN32 application</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Imagine that you&rsquo;ve got an extensive codebase using WIN32/MFC and don&rsquo;t want to give that up but on the other hand you&rsquo;d like to take advantage of DOTNET classes then here&rsquo;s a simple solution: First we write an Interface and an Implementation with C# as following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> IQuoteClient {
+	String getQuote();
+	Boolean setQuote(String quote);
+}
+
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">QuoteClient</span> : IQuoteClient {
+	<span style="color:#998;font-style:italic">// COM requires a parameterless constructor
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">public</span> QuoteClient() { ; }
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> getQuote() { <span style="color:#000;font-weight:bold">return</span> String.Format<span style="color:#d14">&#34;quote&#34;</span>;}
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> setQuote(<span style="color:#458;font-weight:bold">string</span> quote) { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>; }
+}
+</code></pre></div><p>Go the project Properties and check the &ldquo;Make assembly COM-Visible&rdquo; box which you find in the Application tab, Assembly Information. Then you go to the Build tab and check &ldquo;Register for COM interop&rdquo; box and at the Signing tab you check the &ldquo;Sign the assembly&rdquo; box and assign a key. Build the project.</p>
+<p>Now we have to extract a typelibrary, register the typelibrary and install it in the global assembly cache. Open a Visual Studio 2005 Command Prompt and go to your project\bin\Debug directory. Type the following commands</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tlbexp QuoteClient.dll
+regasm QuoteClient.dll /tlb:QuoteClient.tlb
+gacutil /i QuoteClient.dll
+</code></pre></div><p>Now you can import the classes in this assembly from your WIN32 application as following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#999;font-weight:bold;font-style:italic">#import &#34;C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\mscorlib.tlb&#34;
+</span><span style="color:#999;font-weight:bold;font-style:italic">#import &#34;D:\projects\Test\QuoteClient\bin\Debug\ClientLibrary.tlb&#34; no_namespace named_guids
+</span></code></pre></div><p>And you can use them just like any other COM component</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">CoInitialize(<span style="color:#0086b3">NULL</span>);
+
+IQuoteClient <span style="color:#000;font-weight:bold">*</span>qc <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">NULL</span>;
+HRESULT hr <span style="color:#000;font-weight:bold">=</span> CoCreateInstance(
+	CLSID_QuoteClient,
+	<span style="color:#0086b3">NULL</span>,
+	CLSCTX_INPROC_SERVER,
+	IID_IQuoteClient,
+	<span style="color:#000;font-weight:bold">reinterpret_cast</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#458;font-weight:bold">void</span><span style="color:#000;font-weight:bold">**&gt;</span>(<span style="color:#000;font-weight:bold">&amp;</span>qc)
+);
+
+<span style="color:#000;font-weight:bold">if</span> (SUCCEEDED(hr)) {
+	cout <span style="color:#000;font-weight:bold">&lt;&lt;</span> <span style="color:#d14">&#34;Quote: &#34;</span> <span style="color:#000;font-weight:bold">&lt;&lt;</span> qc<span style="color:#000;font-weight:bold">-&gt;</span>getQuote() <span style="color:#000;font-weight:bold">&lt;&lt;</span> endl; qc<span style="color:#000;font-weight:bold">-&gt;</span>Release();
+	qc <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">NULL</span>;
+}
+
+CoUninitialize();
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/c&#43;&#43;">C&#43;&#43;</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">21</span>
+										<span class="rest">Apr 2006</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Simple serialization and deserialization of public class members</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Here is a simple generic class that allows you to serialize classes (well, their public members) into XML and deserialize the XML to objects again. Make sure the class (or struct) has a parameterless constructor and that all the members that you want to serialize are public. Here is the code</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">SimpleSerializer</span>&lt;t&gt;
+{
+	<span style="color:#000;font-weight:bold">public</span> String Serialize(T o)
+	{
+		using(MemoryStream m = <span style="color:#000;font-weight:bold">new</span> MemoryStream())
+		{
+			XmlSerializer s = <span style="color:#000;font-weight:bold">new</span> XmlSerializer(o.GetType());
+			s.Serialize(m, o);
+			<span style="color:#000;font-weight:bold">return</span> Encoding.UTF8.GetString(m.ToArray());
+		}
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> T Deserialize(String xml)
+	{
+		<span style="color:#000;font-weight:bold">using</span> (MemoryStream m = <span style="color:#000;font-weight:bold">new</span> MemoryStream(Encoding.UTF8.GetBytes(xml)))
+		{
+			XmlSerializer s = <span style="color:#000;font-weight:bold">new</span> XmlSerializer(<span style="color:#000;font-weight:bold">typeof</span>(T));
+			<span style="color:#000;font-weight:bold">return</span> (T)s.Deserialize(m);
+		}
+	}
+}
+</code></pre></div><p>Here is a simple example of a class that will be serialized</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">Person</span> 
+{
+	<span style="color:#000;font-weight:bold">public</span> String firstname;
+	<span style="color:#000;font-weight:bold">public</span> String lastname;
+
+	<span style="color:#000;font-weight:bold">public</span> Person(String firstname, String lastname) 
+	{
+		<span style="color:#000;font-weight:bold">this</span>.firstname = firstname;
+		<span style="color:#000;font-weight:bold">this</span>.lastname = lastname;
+	}
+}
+</code></pre></div><p>And finally, a simple console application that demonstrates how it works:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Program</span> 
+{
+	<span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
+	{
+		Person p1 = <span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;Tim&#34;</span>, <span style="color:#d14">&#34;Van Wassenhove&#34;</span>);
+		SimpleSerializer&lt;person&gt; ss = <span style="color:#000;font-weight:bold">new</span> SimpleSerializer&lt;person&gt;();
+
+		String xml = ss.Serialize(p1);
+		Console.WriteLine(<span style="color:#d14">&#34;serialized:\n&#34;</span> + xml);
+
+		Person p2 = ss.Deserialize(xml);
+		Console.WriteLine(<span style="color:#d14">&#34;unserialized name: &#34;</span> + p2.firstname);
+
+		Console.WriteLine(<span style="color:#d14">&#34;Press any key to continue...&#34;</span>);
+		Console.ReadKey();
+	}
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">15</span>
+										<span class="rest">Apr 2006</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Building apache-win32 with Visual Studio 2005</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Today i decided to build apache-win32. Here&rsquo;s how i did it:</p>
+<ul>
+<li>Download Apache <a href="http://apache.be.proserve.nl/httpd/httpd-2.2.0-win32-src-rev2.zip">httpd-2.2.0-win32-src-rev2.zip</a>.</li>
+<li>Unzip and read README.TXT, INSTALL.TXT and docs/manual/platform/win_compiling.html.en</li>
+<li>Save <a href="http://cm.bell-labs.com/cm/cs/who/bwk/awk95.exe">awk95.exe</a> as awk.exe in a directory that&rsquo;s in your %PATH%.</li>
+<li>Open Apache.dsw with VS2005 and choose &ldquo;Yes To All&rdquo; to convert the project.</li>
+<li>Uncheck abs, mod_deflate and mod_ssl in the the configuration form via Build -&gt; Configuration Manager.</li>
+<li>Choose InstallBin, click right and Set as StartUp Project.</li>
+<li>Open InstallBin/Makefile.win and remove the lines 129, 130, 131, 133, 134, 135 and 136.</li>
+<li>Start debugging (F5). Stop debugging and end the httpd.exe process via your Task Manager.</li>
+<li>Download and extract <a href="http://www.zlib.net/zlib-1.2.3.tar.bz2">zlib-1.2.3.tar.bz2</a> into srclib/zlib.</li>
+<li>Prepend &ldquo;dword ptr&rdquo; to the second argument of the movd instructions on lines647, 649, 663 and 720 in srclib/zlib/contrib/masmx86/inffas32.asm</li>
+<li>Open srclib/zlib/projects/visualc6/zlib.dsp, choose the zlib project in the solution explorer. Choose &ldquo;LIB ASM Release&rdquo; in the configuration explorer and build zlib.</li>
+<li>Copy srclib/zlib/projects/visualc6/Win32_LIB_ASM_Release/zlib.lib to srclib/zlib.</li>
+<li>Check the mod_deflate in the configuration form via Build -&gt; Configuration Manager.</li>
+<li>Choose the mod_deflate project in the solution explorer and build it.</li>
+<li>The original <a href="http://www.openssl.org/source/openssl-0.9.8a.tar.gz">openssl-0.9.8a.tar.gz</a> doesn&rsquo;t compile with Visual Studio 2005 but someone has already made a <a href="http://bbdev.fluffy.co.uk/svn/box/chris/win32/support/openssl-0.9.8a-win32fix.patch">patch</a>. Download <a href="http://bbdev.fluffy.co.uk/svn/box/chris/win32/support/openssl-0.9.8a-vc2005.zip">openssl-0.9.8a-vc2005.zip</a> and extract it into srclib/openssl.</li>
+<li>Open a Visual Studio 2005 Command Prompt and cd to the openssl directory and run: &ldquo;perl Configure VC-WIN32&rdquo; (don&rsquo;t close this prompt yet).</li>
+<li>Insert before line 61 in srclib/openssl/ms/do_masm.bat the following line: &ldquo;perl util\mk1mf.pl debug dll VC-WIN32 &gt; ms\ntdll-dbg.mak&rdquo;. Now run: &ldquo;ms\do_masm&rdquo; and &ldquo;nmake -f ms\ntdll-dbg.mak&rdquo;.</li>
+<li>Check the abs and mod_ssl project in the configuration from via Build -&gt; Configuration Manager.</li>
+<li>Build the two projects.</li>
+<li>Done!</li>
+</ul>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/free-software">Free Software</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">14</span>
+										<span class="rest">Apr 2006</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Select best 3 laptimes for each player</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Imagine that you have a schema where you store all the times a player needed to complete a parcours. A possible schema could be (<a href="http://www.postgresql.org">postgresql</a>)</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">CREATE</span> <span style="color:#000;font-weight:bold">TABLE</span> laptimes (
+lap_id <span style="color:#0086b3">SERIAL</span> <span style="color:#000;font-weight:bold">NOT</span> <span style="color:#000;font-weight:bold">NULL</span>,
+player_id <span style="color:#0086b3">INT</span> <span style="color:#000;font-weight:bold">NOT</span> <span style="color:#000;font-weight:bold">NULL</span>,
+laptime <span style="color:#0086b3">INT</span> <span style="color:#000;font-weight:bold">NOT</span> <span style="color:#000;font-weight:bold">NULL</span>,
+<span style="color:#000;font-weight:bold">PRIMARY</span> <span style="color:#000;font-weight:bold">KEY</span> (lap_id)
+);
+
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">1</span>, <span style="color:#099">250</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">1</span>, <span style="color:#099">450</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">1</span>, <span style="color:#099">350</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">1</span>, <span style="color:#099">300</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">1</span>, <span style="color:#099">327</span>);
+
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">2</span>, <span style="color:#099">327</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">2</span>, <span style="color:#099">249</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">2</span>, <span style="color:#099">123</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">2</span>, <span style="color:#099">489</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">2</span>, <span style="color:#099">158</span>);
+
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">3</span>, <span style="color:#099">158</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">3</span>, <span style="color:#099">120</span>);
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">3</span>, <span style="color:#099">190</span>);
+
+<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">4</span>, <span style="color:#099">600</span>);
+</code></pre></div><p>Now imagine that you want to display the best 3 results for each player. Here&rsquo;s how</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">*</span>
+<span style="color:#000;font-weight:bold">FROM</span> laptimes <span style="color:#000;font-weight:bold">AS</span> l1
+<span style="color:#000;font-weight:bold">WHERE</span> lap_id <span style="color:#000;font-weight:bold">IN</span> (
+<span style="color:#000;font-weight:bold">SELECT</span> lap_id
+<span style="color:#000;font-weight:bold">FROM</span> laptimes <span style="color:#000;font-weight:bold">AS</span> l2
+<span style="color:#000;font-weight:bold">WHERE</span> l1.player<span style="color:#a61717;background-color:#e3d2d2">\</span>_id <span style="color:#000;font-weight:bold">=</span> l2.player<span style="color:#a61717;background-color:#e3d2d2">\</span>_id
+<span style="color:#000;font-weight:bold">ORDER</span> <span style="color:#000;font-weight:bold">BY</span> laptime <span style="color:#000;font-weight:bold">ASC</span>
+<span style="color:#000;font-weight:bold">LIMIT</span> <span style="color:#099">3</span>
+)
+<span style="color:#000;font-weight:bold">ORDER</span> <span style="color:#000;font-weight:bold">BY</span> player_id <span style="color:#000;font-weight:bold">ASC</span>, laptime <span style="color:#000;font-weight:bold">ASC</span>;
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/sql">SQL</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">04</span>
+										<span class="rest">Apr 2006</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Using a function with parameters as parameter</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Imagine that you have a function that expects a reference to a function. Here is an example of such a function</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#000;font-weight:bold">function</span> bar(fn) { fn(); }
+</code></pre></div><p>Now imagine that the function that you want to pass to bar accepts a parameter. Here is an example of such a function</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#000;font-weight:bold">function</span> foo(arg) { alert(arg); }
+</code></pre></div><p>With the help of a closure this is no problem</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">bar(<span style="color:#000;font-weight:bold">function</span> e() { foo(<span style="color:#d14">&#39;hello&#39;</span>); });
+</code></pre></div><p>PS: <a href="http://forums.devnetwork.net/viewtopic.php?t=46561">Kudos</a> go to <a href="http://forums.devnetwork.net/profile.php?mode=viewprofile&amp;u=7815">Weirdan</a> for providing the solution to this problem.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/javascript">JavaScript</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">03</span>
+										<span class="rest">Apr 2006</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">JSpace</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>I wrote a simple shoot-em-up game: <a href="http://www.timvw.be/wp-content/code/java/JSpace.zip">JSpace.zip</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/java">Java</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">02</span>
+										<span class="rest">Apr 2006</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Allow a form to be posted only once</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>People can fill in a form and submit it. Then they can hit their back button, and choose to submit it again. Usually the second time this form is being posted, the values in that form aren&rsquo;t valid anymore and thus corrupt the database.</p>
+<p>Most developpers i know try to work around this problem by using the header function or the html meta tags to set the expiration date. However, this solution does not only limit the usability of a site, it simply does not work for visitors that have a browser that ignores the expiration date.</p>
+<p>My solution for this problem is quite easy. For each entity in the database that can be updated by a form, we should add an attribute lastupdate. Now every time we build a form that contains data of that entity, we should also add an input of type hidden with the value of that lastupdate attribute. If the value of the lastupdate attribute in the database is more recent than the value of the posted lastupdate in the recieving script, then the posted values are invalid and this script should tell the user about this error. Offcourse, every time such an entity is updated, the lastupdate attribute of this entity should be updated too.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/php">PHP</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">01</span>
+										<span class="rest">Apr 2006</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Using cmd.exe</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Earlier someone asked me how he could use <a href="http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/cmd.mspx?mfr=true">windows cmd.exe</a> with PHP. People run into trouble as soon as there are quotes needed because there are special characters (&gt;/&amp;()[]{}^=;!'+,`~ and <!-- raw HTML omitted -->) in the command. I do it like this</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#008080">$result</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">`&#34;&#34;c:\\my path\\prog.exe&#34; &#34;filename&#34;&#34;`</span>;
+<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div><p>In case you have to do it often you might want to wrap it into a little function like this</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">cmd</span>(<span style="color:#008080">$command</span>, <span style="color:#008080">$arguments</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">null</span>)
+{
+        <span style="color:#008080">$commandline</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;&#39;</span>;
+        <span style="color:#000;font-weight:bold">foreach</span>(func_get_args() <span style="color:#000;font-weight:bold">as</span> <span style="color:#008080">$word</span>) {
+                <span style="color:#008080">$commandline</span> <span style="color:#000;font-weight:bold">.=</span> <span style="color:#d14">&#39;&#34;&#39;</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#008080">$word</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;&#34; &#39;</span>;
+        }
+        <span style="color:#008080">$commandline</span> <span style="color:#000;font-weight:bold">=</span> rtrim(<span style="color:#008080">$commandline</span>, <span style="color:#d14">&#39; &#39;</span>);
+        <span style="color:#008080">$commandline</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;&#34;&#39;</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#008080">$commandline</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;&#34;&#39;</span>;
+        <span style="color:#000;font-weight:bold">return</span> <span style="color:#d14">`$commandline`</span>;
+}
+
+<span style="color:#998;font-style:italic">// run blah.exe
+</span><span style="color:#998;font-style:italic"></span>cmd(<span style="color:#d14">&#39;blah.exe&#39;</span>);
+
+<span style="color:#998;font-style:italic">// run c:\my path\blah.exe with the arguments &#34;foo&#34; and &#34;bar bar&#34;
+</span><span style="color:#998;font-style:italic"></span>cmd(<span style="color:#d14">&#39;c:\\my path\\blah.exe&#39;</span>, <span style="color:#d14">&#39;foo&#39;</span>, <span style="color:#d14">&#39;bar bar&#39;</span>);
+<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/php">PHP</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 				
 

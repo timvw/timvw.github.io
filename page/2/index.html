@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:05:50+01:00" />
+<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -32,7 +32,8 @@
 	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
 	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
 			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav></div>
+		</nav>
+	</div>
 
 	<nav class="nav">
 		<ul class="flat">
@@ -61,213 +62,520 @@
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">29</span>
-							<span class="rest">Jan 2016</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">29</span>
+										<span class="rest">Jan 2016</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2016/01/29/composing-functions-and-leveraging-scala.util.try/">Composing functions and leveraging scala.util.Try</a>
-								</h4>
-								<span class="description">
-									
-										Last couple of days I have been hacking around trying to find a cute way to express the intent of my code. Typically it ...
-									
-								</span>
+								<h1 class="title">Composing functions and leveraging scala.util.Try</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Last couple of days I have been hacking around trying to find a cute way to express the intent of my code. Typically it involves parsing some input, validating whatever rules that are in charge and persisting some values. In scala one can compose such a function by using the <a href="http://www.scala-lang.org/api/2.11.x/index.html#scala.Function1">andThen</a> method. Here is a concrete example:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#000;font-weight:bold">def</span> id<span style="color:#000;font-weight:bold">(</span>x<span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">String</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">=</span> x  
+<span style="color:#000;font-weight:bold">def</span> parseInput <span style="color:#000;font-weight:bold">=</span> id <span style="color:#000;font-weight:bold">_</span>
+<span style="color:#000;font-weight:bold">def</span> validate <span style="color:#000;font-weight:bold">=</span> id <span style="color:#000;font-weight:bold">_</span>
+<span style="color:#000;font-weight:bold">def</span> persist <span style="color:#000;font-weight:bold">=</span> id <span style="color:#000;font-weight:bold">_</span>
+
+<span style="color:#000;font-weight:bold">def</span> usecase1 <span style="color:#000;font-weight:bold">=</span> parseInput andThen validate andThen persist
+</code></pre></div><p>Inspired by the excellent series on <a href="http://fsharpforfunandprofit.com/posts/recipe-part2/">Railway Oriented Programming</a> series by <a href="@ScottWlaschin">Scott Wlaschin</a> I wanted to take advange of <a href="http://www.scala-lang.org/files/archive/api/current/index.html#scala.util.Try">scala.util.Try</a> to remove try/catch clutter from my code. With a little helper function I can now compose my usecase as following:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#000;font-weight:bold">def</span> makeTry<span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">TIn</span>, <span style="color:#458;font-weight:bold">TOut</span><span style="color:#000;font-weight:bold">](</span>fn<span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">TIn</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#458;font-weight:bold">TOut</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">(</span>x<span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">TIn</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#458;font-weight:bold">Try</span><span style="color:#000;font-weight:bold">(</span>fn<span style="color:#000;font-weight:bold">(</span>x<span style="color:#000;font-weight:bold">))</span>
+
+<span style="color:#000;font-weight:bold">def</span> usecase <span style="color:#000;font-weight:bold">=</span>
+	makeTry<span style="color:#000;font-weight:bold">(</span>parseInput andThen validate andThen persist<span style="color:#000;font-weight:bold">)</span> andThen
+	processErrors andThen
+	proceedOrRetry
+</code></pre></div><p>Instead of composing functions I could have also written code as a chain of values that are transformed by subsequent functions as following (Very much fsharp like):</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Pipe</span><span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">T</span><span style="color:#000;font-weight:bold">](</span><span style="color:#000;font-weight:bold">val</span> x<span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">T</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+	<span style="color:#000;font-weight:bold">def</span> <span style="color:#000;font-weight:bold">|&gt;</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">U</span><span style="color:#000;font-weight:bold">](</span>f<span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">T</span> <span style="color:#000;font-weight:bold">=&gt;</span> U<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">=</span> f<span style="color:#000;font-weight:bold">(</span>x<span style="color:#000;font-weight:bold">)</span>
+<span style="color:#000;font-weight:bold">}</span>
+
+<span style="color:#000;font-weight:bold">implicit</span> <span style="color:#000;font-weight:bold">def</span> toPipe<span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">T</span><span style="color:#000;font-weight:bold">](</span>x<span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">T</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">Pipe</span><span style="color:#000;font-weight:bold">(</span>x<span style="color:#000;font-weight:bold">)</span>
+
+<span style="color:#000;font-weight:bold">def</span> usecase<span style="color:#000;font-weight:bold">(</span>x<span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">String</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">=</span> 
+	<span style="color:#458;font-weight:bold">Try</span><span style="color:#000;font-weight:bold">(</span>x <span style="color:#000;font-weight:bold">|&gt;</span> parseInput <span style="color:#000;font-weight:bold">|&gt;</span> validate <span style="color:#000;font-weight:bold">|&gt;</span> persist<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">|&gt;</span>
+	processErrors <span style="color:#000;font-weight:bold">|&gt;</span>
+	proceedOrRetry
+</code></pre></div><p>As you can see, with scala there is more than one way to express something in an elegant way!</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/fsharp">FSharp</a></li>
+										
+										<li><a href="../../tags/railway-oriented-programming">railway oriented programming</a></li>
+										
+										<li><a href="../../tags/scala">scala</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">14</span>
-							<span class="rest">Jan 2016</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">14</span>
+										<span class="rest">Jan 2016</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2016/01/14/using-gson-to-serialize-scala-objects/">Using Gson to serialize Scala objects</a>
-								</h4>
-								<span class="description">
-									
-										[gson](https://github.com/google/gson) is a pretty nice library that converts Java objects into JSON and back. When usin...
-									
-								</span>
+								<h1 class="title">Using Gson to serialize Scala objects</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p><a href="https://github.com/google/gson">gson</a> is a pretty nice library that converts Java objects into JSON and back. When using this library from Scala things become a bit harder (eg: Plenty of people have difficulties when their scala object has an (im)mutable Map or List).</p>
+<p>Here is an example to convert a JSON object to a Map[String,String]:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">com.google.gson.Gson</span>
+<span style="color:#000;font-weight:bold">import</span> <span style="color:#555">scala.collection.JavaConversions._</span>
+
+<span style="color:#000;font-weight:bold">val</span> mapJson <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;{ &#39;a&#39;: &#39;b&#39;, &#39;c&#39;: &#39;d&#39; }&#34;</span>
+<span style="color:#000;font-weight:bold">val</span> map <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">Gson</span><span style="color:#000;font-weight:bold">().</span>fromJson<span style="color:#000;font-weight:bold">(</span>mapJson<span style="color:#000;font-weight:bold">,</span> classOf<span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">java.util.Map</span><span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">String</span>, <span style="color:#458;font-weight:bold">String</span><span style="color:#000;font-weight:bold">]])</span>
+</code></pre></div><p>Now that we know that this works, we hide the java types in the constructor and expose a nicer scala type via a method:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#000;font-weight:bold">case</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Dummy</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">val</span> settings<span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">java.util.Map</span><span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">String</span>, <span style="color:#458;font-weight:bold">String</span><span style="color:#000;font-weight:bold">])</span> <span style="color:#000;font-weight:bold">{</span>
+	<span style="color:#000;font-weight:bold">def</span> getSettings <span style="color:#000;font-weight:bold">=</span> settings<span style="color:#000;font-weight:bold">.</span>toMap
+<span style="color:#000;font-weight:bold">}</span>
+
+<span style="color:#000;font-weight:bold">val</span> dummyJson <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;{ &#39;settings&#39; : { &#39;a&#39;: &#39;b&#39;, &#39;c&#39;: &#39;d&#39; } }&#34;</span>
+<span style="color:#000;font-weight:bold">val</span> dummy <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">Gson</span><span style="color:#000;font-weight:bold">().</span>fromJson<span style="color:#000;font-weight:bold">(</span>dummyJson<span style="color:#000;font-weight:bold">,</span> classOf<span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">Dummy</span><span style="color:#000;font-weight:bold">])</span>
+
+<span style="color:#000;font-weight:bold">case</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Dummy2</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">val</span> options<span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">java.util.List</span><span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">String</span><span style="color:#000;font-weight:bold">])</span> <span style="color:#000;font-weight:bold">{</span>
+	<span style="color:#000;font-weight:bold">def</span> getOptions <span style="color:#000;font-weight:bold">=</span> options<span style="color:#000;font-weight:bold">.</span>toList
+<span style="color:#000;font-weight:bold">}</span>
+
+<span style="color:#000;font-weight:bold">val</span> dummy2Json <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;{ &#39;options&#39; : [ &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39; ] }&#34;</span>
+<span style="color:#000;font-weight:bold">val</span> dummy2 <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">Gson</span><span style="color:#000;font-weight:bold">().</span>fromJson<span style="color:#000;font-weight:bold">(</span>dummy2Json<span style="color:#000;font-weight:bold">,</span> classOf<span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">Dummy2</span><span style="color:#000;font-weight:bold">])</span>
+</code></pre></div><p><strong>Edit:</strong> One could simply use <a href="https://github.com/lift/lift/tree/master/framework/lift-base/lift-json">lift-json</a> instead and get pretty good scala support for free.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/gson">gson</a></li>
+										
+										<li><a href="../../tags/scala">scala</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">27</span>
-							<span class="rest">Aug 2015</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">27</span>
+										<span class="rest">Aug 2015</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2015/08/27/notes-on-running-spark-notebook/">Notes on running spark-notebook</a>
-								</h4>
-								<span class="description">
-									
-										These days [Docker](https://www.docker.com/) makes it extremely easy to get started with virtually any application you l...
-									
-								</span>
+								<h1 class="title">Notes on running spark-notebook</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>These days <a href="https://www.docker.com/">Docker</a> makes it extremely easy to get started with virtually any application you like. At first I was a bit skeptical but over the last couple of months I have changed my mind. Now I strongly believe this is a game changer. Even more when it comes to Windows. Anyway, these days kitematic (GUI to manage docker images) allows you to simply pick the <a href="https://github.com/andypetrella/spark-notebook">spark-notebook</a> by Andy Petrella.</p>
+<p><a href="http://www.timvw.be/wp-content/uploads/2015/08/docker_pick_image.png"><!-- raw HTML omitted --></a></p>
+<p>When running your docker host in VirtualBox, you still need to set up port forwarding for port 9000 (the notebook) and ports 4040 to 4050 (spark-ui) Assuming your docker host vm is named default:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">VBoxManage modifyvm <span style="color:#d14">&#34;default&#34;</span> --natpf1 <span style="color:#d14">&#34;tcp-port9000,tcp,,9000,,9000&#34;</span>
+</code></pre></div><p>These days <a href="https://www.docker.com/">Docker</a> makes it extremely easy to get started with virtually any application you like. At first I was a bit skeptical but over the last couple of months I have changed my mind. Now I strongly believe this is a game changer. Even more when it comes to Windows. Anyway, these days kitematic (GUI to manage docker images) allows you to simply pick the <a href="https://github.com/andypetrella/spark-notebook">spark-notebook</a> by Andy Petrella.</p>
+<p><a href="http://www.timvw.be/wp-content/uploads/2015/08/docker_pick_image.png"><!-- raw HTML omitted --></a></p>
+<p>When running your docker host in VirtualBox, you still need to set up port forwarding for port 9000 (the notebook) and ports 4040 to 4050 (spark-ui) Assuming your docker host vm is named default:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">VBoxManage modifyvm <span style="color:#d14">&#34;default&#34;</span> --natpf1 <span style="color:#d14">&#34;tcp-port9000,tcp,,9000,,9000&#34;</span>
+</code></pre></div><p>Now you can browse to http://localhost:9000 and start using your new notebook:</p>
+<p><a href="http://www.timvw.be/wp-content/uploads/2015/08/spark_notebook_home.png"><!-- raw HTML omitted --></a></p>
+<p>You may want to copy the default set of notebooks to a local directory:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker cp <span style="color:#008080">$containerName</span>:/opt/docker/notebooks /Users/timvw/notebooks
+</code></pre></div><p>Using that local copy is just a few clicks away with Kitematic:</p>
+<p><a href="http://www.timvw.be/wp-content/uploads/2015/08/docker_notebook_settings.png"><!-- raw HTML omitted --></a></p>
+<p>Offcourse you want to use additional packages such as <a href="https://github.com/databricks/spark-csv">spark-csv</a>. This can be achieved by editting the your notebook metadata:</p>
+<p><a href="http://www.timvw.be/wp-content/uploads/2015/08/spark_notebook_metadata.png"><!-- raw HTML omitted --></a></p>
+<p>You simply need to add an entry to customDeps:</p>
+<p><a href="http://www.timvw.be/wp-content/uploads/2015/08/spark_notebook_customdeps.png"><!-- raw HTML omitted --></a></p>
+<p>When your container did not shutdown correctly, you may end up in the awkward situation that your container believes that it is still running(). The following commands fix that:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker start <span style="color:#008080">$containerName</span> <span style="color:#000;font-weight:bold">&amp;&amp;</span> docker <span style="color:#0086b3">exec</span> -t -i <span style="color:#008080">$containerName</span> /bin/rm /opt/docker/RUNNING_PID
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/apache">apache</a></li>
+										
+										<li><a href="../../tags/spark">spark</a></li>
+										
+										<li><a href="../../tags/spark-csv">spark-csv</a></li>
+										
+										<li><a href="../../tags/spark-notebook">spark-notebook</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">19</span>
-							<span class="rest">Aug 2015</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">19</span>
+										<span class="rest">Aug 2015</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2015/08/19/scaffolding-scala-projects/">Scaffolding scala projects</a>
-								</h4>
-								<span class="description">
-									
-										These days the cool kids scaffold their projects with [Yeoman](http://yeoman.io/). Obviously I could not stay behind, so...
-									
-								</span>
+								<h1 class="title">Scaffolding scala projects</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>These days the cool kids scaffold their projects with <a href="http://yeoman.io/">Yeoman</a>. Obviously I could not stay behind, so here is my first <a href="https://github.com/timvw/generator-scala">generator for scala</a>.</p>
+<p><img src="https://camo.githubusercontent.com/2d553cce06333627904d8e33b61c91dfa7ae7bc4/687474703a2f2f692e696d6775722e636f6d2f4a4861416c424a2e706e67" alt=""><!-- raw HTML omitted --></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/oss">oss</a></li>
+										
+										<li><a href="../../tags/scala">scala</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">20</span>
-							<span class="rest">Feb 2015</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">20</span>
+										<span class="rest">Feb 2015</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2015/02/20/concurrencycheck-with-ef/devart-on-oracle/">ConcurrencyCheck with EF/Devart on Oracle</a>
-								</h4>
-								<span class="description">
-									
-										Earlier this week I was wondering how I could easily achieve optimistic concurrency in a system using EF/Devart targetti...
-									
-								</span>
+								<h1 class="title">ConcurrencyCheck with EF/Devart on Oracle</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Earlier this week I was wondering how I could easily achieve optimistic concurrency in a system using EF/Devart targetting an Oracle database (Not really my preferred technologies, but whatever:P). Here is a potential solution:</p>
+<p>Using a column for optimistic concurrency is documented on the devart website:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[Table(&#34;TEST&#34;)]</span>
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Test</span> : IRequireConcurrencyCheck  
+{
+	...
+<span style="color:#008080">	[Required]</span>
+<span style="color:#008080">	[Column(&#34;VERSION&#34;)]</span>
+<span style="color:#008080">	[ConcurrencyCheck]</span> <span style="color:#998;font-style:italic">// TELL EF to use this column as our &#34;timestamp/logical version&#34;
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">virtual</span> <span style="color:#458;font-weight:bold">int</span> Version { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">set</span>; } <span style="color:#998;font-style:italic">// protected, so users of this type can not touch this (easily)
+</span><span style="color:#998;font-style:italic"></span>}
+</code></pre></div><p>By introducing an interface that exposes a version number like below:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> IRequireConcurrencyCheck
+{
+	<span style="color:#458;font-weight:bold">int</span> Version { <span style="color:#000;font-weight:bold">get</span>; } 
+}
+</code></pre></div><p>With some custom behaviour on SaveChanges we can now take away the burden of having to update the Version property correctly:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">DataContext</span> : DbContext
+{
+	<span style="color:#000;font-weight:bold">public</span> DataContext(DbConnection existingConnection)  
+		: <span style="color:#000;font-weight:bold">base</span>(existingConnection, <span style="color:#000;font-weight:bold">true</span>)    
+	{ 
+		Database.SetInitializer&lt;DataContext&gt;(<span style="color:#000;font-weight:bold">null</span>);
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">int</span> SaveChanges()
+	{
+		<span style="color:#458;font-weight:bold">var</span> = ChangeTracker        
+			.Entries&lt;IRequireConcurrencyCheck&gt;()
+			.Where(x =&gt; x.State == EntityState.Modified)	
+			.ToArray();
+
+		<span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">var</span> entity <span style="color:#000;font-weight:bold">in</span> entitiesWhichHaveConcurrencyCheck)
+		{
+			entity.Property&lt;<span style="color:#458;font-weight:bold">int</span>&gt;(x =&gt; x.Version).CurrentValue++;  
+		}
+
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">base</span>.SaveChanges();
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> IDbSet&lt;Test&gt; Tests { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">set</span>; }
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">27</span>
-							<span class="rest">Sep 2014</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">27</span>
+										<span class="rest">Sep 2014</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2014/09/27/failure-to-load-mono-supplied-.dylib-libgdiplus.dylib-when-running-from-console/">Failure to load mono-supplied .dylib (libgdiplus.dylib) when running from console</a>
-								</h4>
-								<span class="description">
-									
-										So earlier this week I was bit by the following bug: [Bug 22140 -- Failure to load mono-supplied .dylib when running fro...
-									
-								</span>
+								<h1 class="title">Failure to load mono-supplied .dylib (libgdiplus.dylib) when running from console</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>So earlier this week I was bit by the following bug: <a href="https://bugzilla.xamarin.com/show_bug.cgi?id=22140">Bug 22140 &ndash; Failure to load mono-supplied .dylib when running from console.</a></p>
+<p>The workaround that works for me is the following: Edit /Library/Frameworks/Mono.framework/Versions/3.8.0/etc/mono/config and</p>
+<p>replace the entries for libgdiplus:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;dllmap</span> <span style="color:#008080">dll=</span><span style="color:#d14">&#34;gdiplus&#34;</span> <span style="color:#008080">target=</span><span style="color:#d14">&#34;/Library/Frameworks/Mono.framework/Versions/3.8.0/lib/libgdiplus.dylib&#34;</span> <span style="color:#008080">os=</span><span style="color:#d14">&#34;!windows&#34;</span><span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;dllmap</span> <span style="color:#008080">dll=</span><span style="color:#d14">&#34;gdiplus.dll&#34;</span> <span style="color:#008080">target=</span><span style="color:#d14">&#34;/Library/Frameworks/Mono.framework/Versions/3.8.0/lib/libgdiplus.dylib&#34;</span> <span style="color:#008080">os=</span><span style="color:#d14">&#34;!windows&#34;</span><span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;dllmap</span> <span style="color:#008080">dll=</span><span style="color:#d14">&#34;gdi32&#34;</span> <span style="color:#008080">target=</span><span style="color:#d14">&#34;/Library/Frameworks/Mono.framework/Versions/3.8.0/lib/libgdiplus.dylib&#34;</span> <span style="color:#008080">os=</span><span style="color:#d14">&#34;!windows&#34;</span><span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;dllmap</span> <span style="color:#008080">dll=</span><span style="color:#d14">&#34;gdi32.dll&#34;</span> <span style="color:#008080">target=</span><span style="color:#d14">&#34;/Library/Frameworks/Mono.framework/Versions/3.8.0/lib/libgdiplus.dylib&#34;</span> <span style="color:#008080">os=</span><span style="color:#d14">&#34;!windows&#34;</span><span style="color:#000080">/&gt;</span>
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/bug">bug</a></li>
+										
+										<li><a href="../../tags/libgdiplus">libgdiplus</a></li>
+										
+										<li><a href="../../tags/mono">mono</a></li>
+										
+										<li><a href="../../tags/osx">osx</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">15</span>
-							<span class="rest">Aug 2014</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">15</span>
+										<span class="rest">Aug 2014</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2014/08/15/deploying-a-cloud-service-to-azure-with-octopus/">Deploying a Cloud Service to Azure with Octopus</a>
-								</h4>
-								<span class="description">
-									
-										Currently Octopus has limited support to deploy a Cloud Service on Azure. A typical use-case is that you need a differen...
-									
-								</span>
+								<h1 class="title">Deploying a Cloud Service to Azure with Octopus</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Currently Octopus has limited support to deploy a Cloud Service on Azure. A typical use-case is that you need a different Web.Config file per environment. Simply add the Web.Environment.Config files to your NuGet package and use the following <a href="https://gist.github.com/timvw/4e32226dd1ff149b5eab.js">PreDeploy.ps1</a> script:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#998;font-style:italic"># Load unzip support</span>
+<span style="color:#008080">[Reflection.Assembly]</span>::LoadWithPartialName(<span style="color:#d14">&#34;System.IO.Compression.FileSystem&#34;</span>) | <span style="color:#0086b3">Out-Null</span>
+<span style="color:#000;font-weight:bold">function</span> Unzip(<span style="color:#008080">$zipFile</span>, <span style="color:#008080">$destination</span>)
+{
+	<span style="color:#000;font-weight:bold">If</span> (<span style="color:#0086b3">Test-Path</span> <span style="color:#008080">$destination</span>){	  
+		<span style="color:#0086b3">Remove-Item</span> <span style="color:#008080">$destination</span> -Recurse | <span style="color:#0086b3">Out-Null</span>
+	}
+	  
+	<span style="color:#0086b3">New-Item</span> -ItemType directory -Force -Path <span style="color:#008080">$destination</span> | <span style="color:#0086b3">Out-Null</span>  
+	<span style="color:#008080">[System.IO.Compression.ZipFile]</span>::ExtractToDirectory(<span style="color:#008080">$zipFile</span>, <span style="color:#008080">$destination</span>) | <span style="color:#0086b3">Out-Null</span>
+}
+
+<span style="color:#998;font-style:italic"># Unzip deployment package  </span>
+<span style="color:#008080">$CsPkg</span> = <span style="color:#d14">&#34;Customer.Project.Api.Azure.cspkg&#34;</span>
+Unzip <span style="color:#008080">$CsPkg</span> <span style="color:#d14">&#34;azurePackage&#34;</span>
+Unzip (<span style="color:#0086b3">Get-Item</span> (<span style="color:#0086b3">join-path</span> -path <span style="color:#d14">&#34;azurePackage&#34;</span> -childPath <span style="color:#d14">&#34;*.cssx&#34;</span>)) <span style="color:#d14">&#34;website&#34;</span>
+
+<span style="color:#998;font-style:italic"># Perform replacements, eg: replace Web.Config  </span>
+<span style="color:#008080">$ConfigFileToUse</span> = <span style="color:#d14">&#34;Web.&#34;</span> + <span style="color:#008080">$OctopusParameters</span>[<span style="color:#d14">&#34;Octopus.Environment.Name&#34;</span>] + <span style="color:#d14">&#34;.config&#34;</span>
+<span style="color:#0086b3">Copy-Item</span> -Path <span style="color:#008080">$ConfigFileToUse</span> -Destination <span style="color:#d14">&#34;website/sitesroot/0/Web.Config&#34;</span> -Force
+
+<span style="color:#998;font-style:italic"># Repackage  </span>
+<span style="color:#008080">$role</span> = <span style="color:#d14">&#34;Customer.Project.Api&#34;</span>
+<span style="color:#008080">$contentPath</span> = <span style="color:#d14">&#34;website\approot&#34;</span>
+<span style="color:#008080">$rolePath</span> = <span style="color:#d14">&#34;website/approot&#34;</span>
+<span style="color:#008080">$webPath</span> = <span style="color:#d14">&#34;website/sitesroot/0&#34;</span>
+<span style="color:#008080">$cspackPath</span> = <span style="color:#d14">&#34;C:\Program Files\Microsoft SDKs\Windows Azure\.NET SDK\v2.2\bin\cspack.exe&#34;</span>
+&amp; <span style="color:#008080">$cspackPath</span> <span style="color:#d14">&#34;ServiceDefinition.csdef&#34;</span> <span style="color:#d14">&#34;/out:$CsPkg&#34;</span> <span style="color:#d14">&#34;/role:$role;$rolePath;Customer.Project.Api.dll&#34;</span> <span style="color:#d14">&#34;/sites:$role;Web;$webPath&#34;</span> <span style="color:#d14">&#34;/sitePhysicalDirectories:$role;Web;$webPath&#34;</span>  
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/dev-ops">Dev-Ops</a></li>
+										
+										<li><a href="../../tags/octopus">Octopus</a></li>
+										
+										<li><a href="../../tags/powershell">PowerShell</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">28</span>
-							<span class="rest">Jul 2014</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">28</span>
+										<span class="rest">Jul 2014</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2014/07/28/cute-sort-implementation/">Cute sort implementation</a>
-								</h4>
-								<span class="description">
-									
-										For years I had been implementing my [sort functions](http://msdn.microsoft.com/en-us/library/tfakywbh(v=vs.110).aspx) a...
-									
-								</span>
+								<h1 class="title">Cute sort implementation</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>For years I had been implementing my <a href="http://msdn.microsoft.com/en-us/library/tfakywbh(v=vs.110).aspx">sort functions</a> as following:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">(x,y) =&gt; {  
+	<span style="color:#000;font-weight:bold">if</span> (x.PartName == <span style="color:#000;font-weight:bold">null</span> &amp;&amp; y.PartName == <span style="color:#000;font-weight:bold">null</span>) <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+	<span style="color:#000;font-weight:bold">if</span> (x.PartName == <span style="color:#000;font-weight:bold">null</span>) <span style="color:#000;font-weight:bold">return</span> -<span style="color:#099">1</span>;
+	<span style="color:#000;font-weight:bold">if</span> (y.PartName == <span style="color:#000;font-weight:bold">null</span>) <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">1</span>; 
+	<span style="color:#000;font-weight:bold">return</span> x.PartName.CompareTo(y.PartName);
+}
+</code></pre></div><p>Earlier today I found the following cute variant while browsing through the <a href="https://github.com/ServiceStack/ServiceStack/blob/v3/src/ServiceStack/WebHost.Endpoints/Utils/FilterAttributeCache.cs">ServiceStack</a> codebase:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">(x,y) =&gt; x.Priority - y.Priority  
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/c">C</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">23</span>
-							<span class="rest">Apr 2014</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">23</span>
+										<span class="rest">Apr 2014</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2014/04/23/clone-all-your-repositories-on-another-machine/">Clone all your repositories on another machine</a>
-								</h4>
-								<span class="description">
-									
-										Recently I was configuring a new machine (God, i love [Chocolatey](https://chocolatey.org/)) and I wanted to take all th...
-									
-								</span>
+								<h1 class="title">Clone all your repositories on another machine</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Recently I was configuring a new machine (God, i love <a href="https://chocolatey.org/">Chocolatey</a>) and I wanted to take all the repositories I have under c:/src and clone them on my new machine. Here is how i did that:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic"># write all remote fetch locations into repositories.txt  </span>
+find /c/src -type d -mindepth <span style="color:#099">1</span> -maxdepth <span style="color:#099">1</span> -exec git -work-tree<span style="color:#000;font-weight:bold">={}</span> -git-dir<span style="color:#000;font-weight:bold">={}</span>/.git remote -v <span style="color:#d14">\;</span> | grep fetch | awk <span style="color:#d14">&#39;{print $2}&#39;</span> &gt; repositories.txt
+
+<span style="color:#998;font-style:italic"># clone each repository  </span>
+cat repositories.txt | xargs -l1 git clone
+</code></pre></div><p>Or as a gist: <a href="https://gist.github.com/timvw/11208834">https://gist.github.com/timvw/11208834</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/git-bash-awk">git bash awk</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">30</span>
-							<span class="rest">Jan 2014</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">30</span>
+										<span class="rest">Jan 2014</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2014/01/30/a-parameterized-active-pattern-to-match-the-first-elements-of-an-array/">A parameterized active pattern to match the first elements of an array</a>
-								</h4>
-								<span class="description">
-									
-										Been writing code in F# for almost a year and never blogged about it. Time to change that. Earlier today someone asked t...
-									
-								</span>
+								<h1 class="title">A parameterized active pattern to match the first elements of an array</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Been writing code in F# for almost a year and never blogged about it. Time to change that. Earlier today someone asked the following on twitter:</p>
+<p><!-- raw HTML omitted -->Is it possible to pattern match the first part of an array in #FSharp? Something like | 1::2::3::tail but for arrays? #lazyweb<!-- raw HTML omitted --></p>
+<p>I accepted the challenge :)</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#000;font-weight:bold">let</span> <span style="color:#000;font-weight:bold">(|</span>Array<span style="color:#000;font-weight:bold">|_|)</span> pattern toMatch <span style="color:#000;font-weight:bold">=</span>      
+	<span style="color:#000;font-weight:bold">let</span> <span style="color:#008080">patternLength</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#555">Array</span>.length pattern
+	<span style="color:#000;font-weight:bold">let</span> <span style="color:#008080">toMatchLength</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#555">Array</span>.length toMatch
+	<span style="color:#000;font-weight:bold">let</span> <span style="color:#008080">tailLength</span> <span style="color:#000;font-weight:bold">=</span> toMatchLength <span style="color:#000;font-weight:bold">-</span> patternLength
+
+	<span style="color:#000;font-weight:bold">if</span> patternLength <span style="color:#000;font-weight:bold">&gt;</span> toMatchLength <span style="color:#000;font-weight:bold">then</span>
+		None
+	<span style="color:#000;font-weight:bold">else</span>
+		<span style="color:#000;font-weight:bold">let</span> <span style="color:#008080">firstElementsAreEqual</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span> 0 <span style="color:#000;font-weight:bold">..</span> <span style="color:#000;font-weight:bold">(</span>patternLength <span style="color:#000;font-weight:bold">-</span> 1<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">|&gt;</span> <span style="color:#555">Seq</span>.forall <span style="color:#000;font-weight:bold">(</span><span style="color:#000;font-weight:bold">fun</span> i <span style="color:#000;font-weight:bold">-&gt;</span> pattern<span style="color:#000;font-weight:bold">.[</span>i<span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">=</span> toMatch<span style="color:#000;font-weight:bold">.[</span>i<span style="color:#000;font-weight:bold">])</span>
+          
+		<span style="color:#000;font-weight:bold">if</span> firstElementsAreEqual <span style="color:#000;font-weight:bold">then</span>
+			Some<span style="color:#000;font-weight:bold">(</span><span style="color:#555">Array</span>.sub toMatch patternLength tailLength<span style="color:#000;font-weight:bold">)</span>
+		<span style="color:#000;font-weight:bold">else</span> 
+			None
+		
+<span style="color:#000;font-weight:bold">match</span> <span style="color:#000;font-weight:bold">[|</span>1<span style="color:#000;font-weight:bold">;</span>2<span style="color:#000;font-weight:bold">;</span>3<span style="color:#000;font-weight:bold">|]</span> <span style="color:#000;font-weight:bold">with</span>
+<span style="color:#000;font-weight:bold">|</span> Array <span style="color:#a61717;background-color:#e3d2d2">\</span><span style="color:#000;font-weight:bold">[|</span>1<span style="color:#000;font-weight:bold">|]</span> tail <span style="color:#000;font-weight:bold">-&gt;</span> sprintf <span style="color:#d14">&#34;bingo %i&#34;</span> <span style="color:#000;font-weight:bold">(</span>tail <span style="color:#000;font-weight:bold">|&gt;</span> <span style="color:#555">Array</span>.sum<span style="color:#000;font-weight:bold">)</span> <span style="color:#998;font-style:italic">// the tail is [|2;3|\]
+</span></code></pre></div><p>Or as a gist: <a href="https://gist.github.com/timvw/8717796">https://gist.github.com/timvw/8717796</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/active-pattern">Active Pattern</a></li>
+										
+										<li><a href="../../tags/fsharp">FSharp</a></li>
+										
+										<li><a href="../../tags/pattern-matching">Pattern Matching</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 				
 

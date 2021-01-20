@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:05:50+01:00" />
+<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -32,7 +32,8 @@
 	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
 	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
 			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav></div>
+		</nav>
+	</div>
 
 	<nav class="nav">
 		<ul class="flat">
@@ -61,215 +62,631 @@
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">02</span>
-							<span class="rest">Aug 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">02</span>
+										<span class="rest">Aug 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/08/02/presenting-the-sortablebindinglistt-take-two/">Presenting the SortableBindingList&lt;T&gt; (take two)</a>
-								</h4>
-								<span class="description">
-									
-										I&#39;m in the progress of adding classes that i find interesting to the [BeTimvwFramework](http://www.codeplex.com/BeTimvwF...
-									
-								</span>
+								<h1 class="title">Presenting the SortableBindingList&lt;T&gt; (take two)</h1>
 							</div>
 						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">28</span>
-							<span class="rest">Jul 2008</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/07/28/nhibernate-sessionfactory-configuration/">NHibernate SessionFactory configuration</a>
-								</h4>
-								<span class="description">
-									
-										My preferred way for configuring [NHibernate](http://www.nhibernate.org) is as following
+								
+						<div class="markdown">
+							<p>I&rsquo;m in the progress of adding classes that i find interesting to the <a href="http://www.codeplex.com/BeTimvwFramework">BeTimvwFramework</a> project. The original implementation of my <a href="http://www.timvw.be/presenting-the-sortablebindinglistt/">SortableBindingList<!-- raw HTML omitted --></a> relied on <a href="http://msdn.microsoft.com/en-us/library/system.icomparable.aspx">IComparable</a> to implement ApplySortCore(PropertyDescriptor property, ListSortDirection direction). I received some good feedback and <a href="http://www.timvw.be/improvements-for-the-sortablebindinglist-and-typedlist/">blogged about those improvements</a>.</p>
+<p>Because some of my classes only implement <a href="http://msdn.microsoft.com/en-us/library/4d7sx9hd.aspx">IComparable<!-- raw HTML omitted --></a> i needed support for this too. My first thought was to use Comparer<!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">IComparer comparer = Comparer&lt;t&gt;.Default;
+itemsList.Sort(<span style="color:#000;font-weight:bold">delegate</span>(T t1, T t2)
+{
+	<span style="color:#458;font-weight:bold">object</span> property1 = prop.GetValue(t1);
+	<span style="color:#458;font-weight:bold">object</span> property2 = prop.GetValue(t2);
+	<span style="color:#000;font-weight:bold">return</span> reverse * comparer.Compare(property1, property2);
+});
+</code></pre></div><p>Obviously that didn&rsquo;t work. The problem is that i received the default Comparer for T, instead of the Comparer for the type of the property. Anyway, with a bit of reflection i got access to that Comparer</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Type comparablePropertyType = <span style="color:#000;font-weight:bold">typeof</span>(Comparer&lt;&gt;).MakeGenericType(property.PropertyType);
+IComparer comparer = (IComparer)comparablePropertyType.InvokeMember(<span style="color:#d14">&#34;Default&#34;</span>, BindingFlags.Static | BindingFlags.GetProperty | BindingFlags.Public, <span style="color:#000;font-weight:bold">null</span>, <span style="color:#000;font-weight:bold">null</span>, <span style="color:#000;font-weight:bold">null</span>);
+</code></pre></div><p>After a bit of refactoring i ended up with a PropertyComparer<!-- raw HTML omitted --> which allowed me to implement the sorting as following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Type propertyType = property.PropertyType;
 
-* Create a hibernate.cfg.xml f...
-									
-								</span>
-							</div>
+<span style="color:#998;font-style:italic">// this cache minimizes the cost of reflection in the PropertyComparer constructor
+</span><span style="color:#998;font-style:italic"></span>PropertyComparer&lt;t&gt; comparer;
+<span style="color:#000;font-weight:bold">if</span> (!<span style="color:#000;font-weight:bold">this</span>.comparers.TryGetValue(propertyType, <span style="color:#000;font-weight:bold">out</span> comparer))
+{
+	comparer = <span style="color:#000;font-weight:bold">new</span> PropertyComparer&lt;t&gt;(property, direction);
+	<span style="color:#000;font-weight:bold">this</span>.comparers.Add(propertyType, comparer);
+}
+<span style="color:#000;font-weight:bold">else</span>
+{
+	comparer.SetListSortDirection(direction);
+}
+
+itemsList.Sort(comparer);
+</code></pre></div><p>In order to write unittests, i needed a way to get instances of a <a href="http://msdn.microsoft.com/en-us/library/system.componentmodel.propertydescriptor.aspx">PropertyDescriptor</a>. This was achieved by using the <a href="http://msdn.microsoft.com/en-us/library/system.componentmodel.typedescriptor_methods.aspx">TypeDescriptor</a> as following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">PropertyDescriptor GetPropertyDescriptor(<span style="color:#458;font-weight:bold">object</span> component, <span style="color:#458;font-weight:bold">string</span> propertyName)
+{
+	PropertyDescriptorCollection propertyDescriptors = TypeDescriptor.GetProperties(component);
+	<span style="color:#000;font-weight:bold">foreach</span> (PropertyDescriptor propertyDescriptor <span style="color:#000;font-weight:bold">in</span> propertyDescriptors)
+	{
+		<span style="color:#000;font-weight:bold">if</span> (propertyDescriptor.Name == propertyName)
+		{
+			<span style="color:#000;font-weight:bold">return</span> propertyDescriptor;
+		}
+	}
+	<span style="color:#000;font-weight:bold">throw</span> <span style="color:#000;font-weight:bold">new</span> ArgumentException(<span style="color:#458;font-weight:bold">string</span>.Format(<span style="color:#d14">&#34;The property &#39;{0}&#39; was not found.&#34;</span>, propertyName));
+}
+</code></pre></div><p>Feel free to download the updated demo application: <a href="http://www.timvw.be/wp-content/code/csharp/SortableBindingList.zip">sortablebindinglist.zip</a>. There are even real applications that use this class, eg: <a href="http://vstrac.devjavu.com/">VSTrac</a> and <a href="http://monotorrent.com/">MonoTorrent</a>. If you&rsquo;re interested in the unittests you&rsquo;ll have to get the code at <a href="http://www.codeplex.com/BeTimvwFramework">BeTimvwFramework</a>.</p>
+
 						</div>
-					</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">26</span>
-							<span class="rest">Jul 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">28</span>
+										<span class="rest">Jul 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/07/26/error-loading-testrunconfig-failed-to-instantiate-type-microsoft.visualstudio.testtools.webstress.webtestrunconfig/">Error loading testrunconfig: Failed to instantiate type Microsoft.VisualStudio.TestTools.WebStress.WebTestRunConfig</a>
-								</h4>
-								<span class="description">
-									
-										Earlier this week i ran into the following exception when opening a solution: &#34;Error loading TestRunConfig1.testrunconfi...
-									
-								</span>
+								<h1 class="title">NHibernate SessionFactory configuration</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>My preferred way for configuring <a href="http://www.nhibernate.org">NHibernate</a> is as following</p>
+<ul>
+<li>Create a hibernate.cfg.xml file for session-factory settings.</li>
+<li>Add mapping files, named type.hbm.xml, as embedded resources to the library project that implements the repository.</li>
+</ul>
+<p>When i looked at the <a href="http://www.hibernate.org/hib_docs/nhibernate/1.2/reference/en/html_single/#configuration-programmatic">documentation</a> i found the following</p>
+<blockquote>
+<p>Another alternative (probably the best) way is to let NHibernate load all of the mapping files contained in an Assembly:</p>
+</blockquote>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Configuration cfg = <span style="color:#000;font-weight:bold">new</span> Configuration(); 
+cfg.AddAssembly( <span style="color:#d14">&#34;NHibernate.Auction&#34;</span> );
+</code></pre></div><p>Whenever i tried that code i received an InvalidOperationException: Could not find the dialect in the configuration. In order to make the configuration work the way i prefer you have to do the following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Configuration cfg = <span style="color:#000;font-weight:bold">new</span> Configuration().Configure();
+cfg.AddAssembly(<span style="color:#000;font-weight:bold">typeof</span>(MyRepository).Assembly);
+</code></pre></div><p>Another attention point is the fact that i believe that all connectionStrings belong in App.Config. This can be realised by using the connection.connection_string_name attribute</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
+<span style="color:#000080">&lt;hibernate-configuration</span> <span style="color:#008080">xmlns=</span><span style="color:#d14">&#34;urn:nhibernate-configuration-2.2&#34;</span><span style="color:#000080">&gt;</span>
+	<span style="color:#000080">&lt;session-factory&gt;</span> 
+		<span style="color:#000080">&lt;property</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;connection.provider&#34;</span><span style="color:#000080">&gt;</span>NHibernate.Connection.DriverConnectionProvider<span style="color:#000080">&lt;/property&gt;</span>
+		<span style="color:#000080">&lt;property</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;dialect&#34;</span><span style="color:#000080">&gt;</span>NHibernate.Dialect.MsSql2005Dialect<span style="color:#000080">&lt;/property&gt;</span> 
+		<span style="color:#000080">&lt;property</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;connection.driver_class&#34;</span><span style="color:#000080">&gt;</span>NHibernate.Driver.SqlClientDriver<span style="color:#000080">&lt;/property&gt;</span> 
+		<span style="color:#000080">&lt;property</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;connection.connection_string_name&#34;</span><span style="color:#000080">&gt;</span>AdventureWorks<span style="color:#000080">&lt;/property&gt;</span> 
+	<span style="color:#000080">&lt;/session-factory&gt;</span>
+<span style="color:#000080">&lt;/hibernate-configuration&gt;</span>
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">22</span>
-							<span class="rest">Jul 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">26</span>
+										<span class="rest">Jul 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/07/22/about-the-specification-pattern/">About the Specification pattern</a>
-								</h4>
-								<span class="description">
-									
-										A couple of days ago i mentionned [Yves Goeleven&#39;s blog](http://www.goeleven.com) as a reference for solutions using [DD...
-									
-								</span>
+								<h1 class="title">Error loading testrunconfig: Failed to instantiate type Microsoft.VisualStudio.TestTools.WebStress.WebTestRunConfig</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Earlier this week i ran into the following exception when opening a solution: &ldquo;Error loading TestRunConfig1.testrunconfig: Failed to instantiate type Microsoft.VisualStudio.TestTools.WebStress.WebTestRunConfig&rdquo;.</p>
+<p><img src="http://www.timvw.be/wp-content/images/testrunconfig_notexpectedformat.gif" alt="screenshot of testrunconfig not expected format dialog box"></p>
+<p>Apparently (<a href="http://forums.microsoft.com/MSDN/ShowPost.aspx?PostID=228438&amp;SiteID=1">here</a> and <a href="http://forums.microsoft.com/MSDN/ShowPost.aspx?PostID=425717&amp;SiteID=1">here</a>) the VS2005 Developer edition is missing a couple of libraries that the VS2005 Tester edition adds to the testrunconfig. If your tests don&rsquo;t depend on these, the simplest way to solve this problem is to remove all the values nodes, and their childnodes, where the type is defined in the Microsoft.VisualStudio.QualityTools.LoadTest, Microsoft.VisualStudio.QualityTools.WebTest and Microsoft.VisualStudio.QualityTools.LoadTest.WebStress assemblies.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/visual-studio">Visual Studio</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">19</span>
-							<span class="rest">Jul 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">22</span>
+										<span class="rest">Jul 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/07/19/.net-domain-driven-design-with-c#-problem-design-solution/">.NET Domain-Driven Design with C#: Problem -- Design -- Solution</a>
-								</h4>
-								<span class="description">
-									
-										Since i didn&#39;t find many reviews on [Tim McCarthy&#39;s](http://blogs.interknowlogy.com/timmccarthy/) book: [.NET Domain-Dri...
-									
-								</span>
+								<h1 class="title">About the Specification pattern</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>A couple of days ago i mentionned <a href="http://www.goeleven.com">Yves Goeleven&rsquo;s blog</a> as a reference for solutions using <a href="http://en.wikipedia.org/wiki/Domain-driven_design">DDD</a> principles. Let&rsquo;s have a look at his implementation of the AndSpecification and OrSpecification in <a href="http://www.goeleven.com/blog/entryDetail.aspx?entry=57">Design Patterns &ndash; The Specification Pattern &ndash; Part I</a></p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">AndSpecification</span>&lt;T&gt; : CompositeSpecification&lt;T&gt;
+{
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">bool</span> IsSatisfiedBy(T candidate)
+	{
+		<span style="color:#458;font-weight:bold">bool</span> isSatisfied = <span style="color:#000;font-weight:bold">true</span>;
+		<span style="color:#000;font-weight:bold">foreach</span>( ISpecification&lt;T&gt; spec <span style="color:#000;font-weight:bold">in</span> Specifications)
+		{
+			isSatisfied &amp;= spec.IsSatisfiedBy(candidate);
+		}
+		<span style="color:#000;font-weight:bold">return</span> isSatisfied;
+	}
+}
+
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">OrSpecification</span>&lt;T&gt; : CompositeSpecification&lt;T&gt;
+{
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">bool</span> IsSatisfiedBy(T obj)
+	{
+		<span style="color:#458;font-weight:bold">bool</span> isSatisfied = <span style="color:#000;font-weight:bold">false</span>;
+		<span style="color:#000;font-weight:bold">foreach</span>( ISpecification&lt;T&gt; spec <span style="color:#000;font-weight:bold">in</span> Specifications)
+		{
+			isSatisfied |= spec.IsSatisfiedBy(obj);
+		}
+		<span style="color:#000;font-weight:bold">return</span> isSatisfied;
+	}
+}
+</code></pre></div><p>I believe that it would be better if the implementations had the same lazy evaluation behaviour as the C# &amp;&amp; and || operators. Eg: in C# one can write (a &amp;&amp; b) and if a evaluates to false, then b is not evaluated anymore. Consider the following code</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">if</span> (person != <span style="color:#000;font-weight:bold">null</span> &amp;&amp; person.Age &gt; <span style="color:#099">18</span>) { }
+</code></pre></div><p>Let&rsquo;s rewrite that same code using Specifications</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">NotNullSpecification</span>&lt;T&gt; : ISpecification&lt;T&gt; <span style="color:#000;font-weight:bold">where</span> T : <span style="color:#000;font-weight:bold">class</span>
+{
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> IsSatisfiedBy(T item)
+	{
+		<span style="color:#000;font-weight:bold">return</span> item != <span style="color:#000;font-weight:bold">null</span>;
+	}
+}
+
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">OlderThanSpecification</span> : ISpecification&lt;person&gt; {
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> age;
+
+	<span style="color:#000;font-weight:bold">public</span> OlderThanSpecification(<span style="color:#458;font-weight:bold">int</span> age)
+	{
+		<span style="color:#000;font-weight:bold">this</span>.age = age;
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> IsSatisfiedBy(Person person)
+	{
+		<span style="color:#000;font-weight:bold">return</span> person.Age &gt; <span style="color:#000;font-weight:bold">this</span>.age;
+	}
+}
+
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PersonNotNullAndOlderThan18Specification</span> : AndSpecification&lt;person&gt; 
+{
+	<span style="color:#000;font-weight:bold">public</span> PersonNotNullAndOlderThan18Specification()
+	: <span style="color:#000;font-weight:bold">base</span>(<span style="color:#000;font-weight:bold">new</span> NotNullSpecification&lt;person&gt;(), <span style="color:#000;font-weight:bold">new</span> OlderThanSpecification(<span style="color:#099">18</span>))
+	{
+	}
+}
+</code></pre></div><p>Using the mentionned AndSpecification implementation the following unittest will fail</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestMethod]</span>
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> TestPersonNotNullAndOlderThan18Specification()
+{
+	Person person = <span style="color:#000;font-weight:bold">null</span>;
+
+	ISpecification&lt;person&gt; specification = <span style="color:#000;font-weight:bold">new</span> PersonNotNullAndOlderThan18Specifictation();
+	Assert.IsFalse(specification.IsSatisfiedBy(person));
+}
+</code></pre></div><p>In order to make that test pass we could rewrite the specifications as following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">abstract</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">CompositeSpecification</span>&lt;T&gt; : ISpecification&lt;T&gt;
+{
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">readonly</span> IEnumerable&lt;ispecification&lt;T&gt;&gt; specifications;
+
+	<span style="color:#000;font-weight:bold">public</span> CompositeSpecification(IEnumerable&lt;ispecification&lt;T&gt;&gt; specifications)
+	{
+		<span style="color:#000;font-weight:bold">this</span>.specifications = specifications;
+	}
+
+	<span style="color:#000;font-weight:bold">protected</span> IEnumerable&lt;ispecification&lt;T&gt;&gt; Specifications
+	{
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.specifications; }
+	}
+
+	<span style="color:#000;font-weight:bold">abstract</span> <span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> IsSatisfiedBy(T item);
+}
+
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">AndSpecification</span>&lt;T&gt; : CompositeSpecification&lt;T&gt;
+{
+	<span style="color:#000;font-weight:bold">public</span> AndSpecification(IEnumerable&lt;ispecification&lt;T&gt;&gt; specifications)
+	:<span style="color:#000;font-weight:bold">base</span>(specifications)
+	{ }
+
+	<span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> IsSatisfiedBy(T item)
+	{
+		<span style="color:#000;font-weight:bold">foreach</span> (ISpecification&lt;T&gt; specification <span style="color:#000;font-weight:bold">in</span> <span style="color:#000;font-weight:bold">this</span>.Specifications)
+		{
+			<span style="color:#000;font-weight:bold">if</span> (!specification.IsSatisfiedBy(item))
+			{
+			<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>;
+			}
+		}
+
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>;
+	}
+}
+
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">OrSpecification</span>&lt;T&gt; : CompositeSpecification&lt;T&gt;
+{
+	<span style="color:#000;font-weight:bold">public</span> OrSpecification(IEnumerable&lt;ispecification&lt;T&gt;&gt; specifications)
+	: <span style="color:#000;font-weight:bold">base</span>(specifications)
+	{ }
+
+	<span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> IsSatisfiedBy(T item)
+	{
+		<span style="color:#000;font-weight:bold">foreach</span> (ISpecification&lt;T&gt; specification <span style="color:#000;font-weight:bold">in</span> <span style="color:#000;font-weight:bold">this</span>.Specifications)
+		{
+			<span style="color:#000;font-weight:bold">if</span> (specification.IsSatisfiedBy(item))
+			{
+				<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>;
+			}
+		}
+
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>;
+	}
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/patterns">Patterns</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">16</span>
-							<span class="rest">Jul 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">19</span>
+										<span class="rest">Jul 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/07/16/presenting-a-generic-discretevaluesrange/">Presenting a generic DiscreteValuesRange</a>
-								</h4>
-								<span class="description">
-									
-										Let me start with a real world example demonstrating the usefulness of a generic DiscreteValuesRange. Imagine that i run...
-									
-								</span>
+								<h1 class="title">.NET Domain-Driven Design with C#: Problem -- Design -- Solution</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Since i didn&rsquo;t find many reviews on <a href="http://blogs.interknowlogy.com/timmccarthy/">Tim McCarthy&rsquo;s</a> book: <a href="http://www.amazon.com/dp/0470147563?tag=timcsbl-20&amp;camp=14573&amp;creative=327641&amp;linkCode=as1&amp;creativeASIN=0470147563&amp;adid=0G2QZKFS5TEKWFYAGKWG&amp;">.NET Domain-Driven Design with C#: Problem &ndash; Design &ndash; Solution</a>, i&rsquo;ve decided to write a short one myself:</p>
+<p>This book offers a real-world example of a project using <a href="http://en.wikipedia.org/wiki/Domain-driven_design">DDD</a>. If you already have experience with DDD you will read pretty quickly through the chapters.</p>
+<p>Here are a couple of items in the book i found noteworthy:</p>
+<ul>
+<li>The IAggregateRoot marker interface that is used as a constraint on the IRepository<!-- raw HTML omitted --> interface.</li>
+<li>Code that demonstrated the power of WPF through the implementation of <a href="http://blogs.msdn.com/dancre/archive/2006/10/11/datamodel-view-viewmodel-pattern-series.aspx">Model-View-ViewModel</a> and usage of the <a href="http://msdn.microsoft.com/en-us/library/system.windows.input.icommand.aspx">ICommand</a>.</li>
+<li>Used the <a href="http://martinfowler.com/eaaCatalog/unitOfWork.html">IUnitOfWork.Commit</a> method to plug a Synchronization Service into the application.</li>
+</ul>
+<p>All in all, the book is worth the 26$. In case that you&rsquo;re looking for more examples, i would recommend <a href="http://www.goeleven.com/blog/entryDetail.aspx?entry=89">Domain Driven Design &ndash; Table of contents and source code</a> as another source of inspiration&hellip;</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/book-reviews">Book reviews</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">30</span>
-							<span class="rest">Jun 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">16</span>
+										<span class="rest">Jul 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/06/30/presenting-htmlclipboard/">Presenting HtmlClipboard</a>
-								</h4>
-								<span class="description">
-									
-										Very often i need to encode/decode the contents of my Clipboard so i decided to write a little tray application to help ...
-									
-								</span>
+								<h1 class="title">Presenting a generic DiscreteValuesRange</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Let me start with a real world example demonstrating the usefulness of a generic DiscreteValuesRange. Imagine that i run a grid computing business and my clients want to book capacity on the grid for a given period. Before their booking is approved, i have to verify that the client has contracts that allow him to use the system for each day of the booking period. Usually, such a check is implemented as following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">bool</span> CheckEachDayIsCovered(Booking booking, Client client)
+{
+	DateRange periodToCheck = booking.Period;
+	DateTime endOfTime = <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">9999</span>, <span style="color:#099">12</span>, <span style="color:#099">31</span>);
+
+	DateTime dayToCheck = periodToCheck.Begin;
+	<span style="color:#000;font-weight:bold">while</span> (dayToCheck &lt;= periodToCheck.End) 
+	{ 
+		<span style="color:#458;font-weight:bold">bool</span> dayIsCovered = <span style="color:#000;font-weight:bold">false</span>; 
+		<span style="color:#000;font-weight:bold">foreach</span> (Contract contract <span style="color:#000;font-weight:bold">in</span> client.Contracts) 
+		{ 
+			<span style="color:#000;font-weight:bold">if</span> (contract.Period.Includes(dayToCheck)) 
+			{ 
+				dayIsCovered = <span style="color:#000;font-weight:bold">true</span>; 
+				<span style="color:#000;font-weight:bold">if</span> (contract.Period.End &lt; endOfTime) 
+				{ 
+					dayToCheck = contract.Period.End.AddDays(<span style="color:#099">1</span>); 
+				} 
+				<span style="color:#000;font-weight:bold">else</span> 
+				{ 
+					<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>; 
+				} 
+			} 
+		} 
+		<span style="color:#000;font-weight:bold">if</span> (!dayIsCovered) 
+		{ 
+			<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>; 
+		} 
+	} 
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>; 
+}
+</code></pre></div><p>After a while clients want to buy licenses for only a couple of hours instead of a full day. I realise that my check can remain the same, but that the concept &ldquo;EndOfTime&rdquo; has become DateTime(9999, 12, 31, 23, 59, 59) and that i can advance only an hour instead of a day. Since i want to reuse my code i define the IDiscreteValueProvider<!-- raw HTML omitted --> interface (See <a href="http://en.wikipedia.org/wiki/Discrete_space">Discrete Space</a>)</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">interface</span> IDiscreteValuesProvider&lt;T&gt;
+{
+	T GetNextValue(T <span style="color:#000;font-weight:bold">value</span>);
+	T MaxValue { <span style="color:#000;font-weight:bold">get</span>; }
+}
+</code></pre></div><p>After this i&rsquo;m able to implement a DiscreteValuesRange<!-- raw HTML omitted --> that implements the following interface (See: <a href="http://www.timvw.be/presenting-a-generic-range/">Generic Range</a>)</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">interface</span> IDiscreteValuesRange&lt;T&gt; : IRange&lt;T&gt;
+{
+	<span style="color:#458;font-weight:bold">bool</span> IsCoveredByRanges(IEnumerable&lt;idiscreteValuesRange&lt;T&gt;&gt; ranges);
+}
+</code></pre></div><p>Now, with all this infrastructure i can rewrite my original method as following:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">bool</span> CheckEachDayIsCovered(Booking booking, Client client)
+{
+	<span style="color:#000;font-weight:bold">return</span> booking.Period.IsCoveredByRanges(client.GetContractPeriods());
+}
+
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Client</span>
+{
+	...
+	IEnumerable&lt;range&lt;dateTime&gt;&gt; GetContractPeriods()
+	{
+		<span style="color:#000;font-weight:bold">foreach</span> (Contract contract <span style="color:#000;font-weight:bold">in</span> <span style="color:#000;font-weight:bold">this</span>.Contracts)
+		{
+			<span style="color:#000;font-weight:bold">yield</span> <span style="color:#000;font-weight:bold">return</span> contract.Period;
+		}
+	}
+}
+</code></pre></div><p>Feel free to download all this infrastructure: <a href="http://www.timvw.be/wp-content/code/csharp/DiscreteRange.zip">DiscreteRange.zip</a> and use it for your next coverage check.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/patterns">Patterns</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">28</span>
-							<span class="rest">Jun 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">30</span>
+										<span class="rest">Jun 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/06/28/example-implementation-of-a-callback-method-for-use-in-the-asynchronous-programming-model/">Example implementation of a callback method for use in the Asynchronous Programming Model</a>
-								</h4>
-								<span class="description">
-									
-										I always seem to forget about the mechanics of implementing a Callback method that can be used in the [Asynchronous Prog...
-									
-								</span>
+								<h1 class="title">Presenting HtmlClipboard</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Very often i need to encode/decode the contents of my Clipboard so i decided to write a little tray application to help me</p>
+<p><img src="http://www.timvw.be/wp-content/images/htmlclipboard.gif" alt="screenshot of htmlclipboard tray application"></p>
+<p>With the aid of <a href="http://msdn.microsoft.com/en-us/library/system.windows.forms.clipboard.aspx">Clipboard</a> and <a href="http://msdn.microsoft.com/en-us/library/system.web.httputility.aspx">HttpUtility</a> this is quite easy to implement</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> toolStripMenuItemDecode_Click(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
+{
+	<span style="color:#458;font-weight:bold">string</span> original = Clipboard.GetText();
+	<span style="color:#458;font-weight:bold">string</span> decodedHtml = HttpUtility.HtmlDecode(original);
+	Clipboard.SetText(decodedHtml);
+}
+
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> toolStripMenuItemEncode_Click(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
+{
+	<span style="color:#458;font-weight:bold">string</span> original = Clipboard.GetText();
+	<span style="color:#458;font-weight:bold">string</span> encodedHtml = HttpUtility.HtmlEncode(original);
+	Clipboard.SetText(encodedHtml);
+}
+</code></pre></div><p>Anyway, feel free to download <a href="http://www.timvw.be/wp-content/code/csharp/HtmlClipboard.zip">HtmlClipboard.zip</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">26</span>
-							<span class="rest">Jun 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">28</span>
+										<span class="rest">Jun 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/06/26/mcts-/">MCTS&#43;&#43;</a>
-								</h4>
-								<span class="description">
-									
-										Today i passed Exam [70-529](http://www.microsoft.com/learning/en/us/exams/70-529.mspx) and thus became a [MCTS: .NET Fr...
-									
-								</span>
+								<h1 class="title">Example implementation of a callback method for use in the Asynchronous Programming Model</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>I always seem to forget about the mechanics of implementing a Callback method that can be used in the <a href="http://msdn.microsoft.com/en-us/library/ms228963(VS.80).aspx">Asynchronous Programming Model (APM)</a>. So here is a simple example in C# 3.0 using the <a href="http://msdn.microsoft.com/en-us/library/bb549151.aspx">Func&lt;T, TResult&gt;</a> delegate</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Program</span>
+{
+	<span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
+	{
+		Func&lt;<span style="color:#458;font-weight:bold">string</span>, <span style="color:#458;font-weight:bold">string</span>&gt; echoDelegate = Echo;
+		IAsyncResult asyncResult = echoDelegate.BeginInvoke(<span style="color:#d14">&#34;some input&#34;</span>, EchoCallback, <span style="color:#d14">&#34;x&#34;</span>);
+
+		WaitHandle.WaitAll(<span style="color:#000;font-weight:bold">new</span> WaitHandle[] {asyncResult.AsyncWaitHandle});
+
+		Console.Write(<span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
+		Console.ReadKey();
+	}
+
+	<span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> Echo(<span style="color:#458;font-weight:bold">string</span> input)
+	{
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#458;font-weight:bold">string</span>.Format(<span style="color:#d14">&#34;Echoing {0}&#34;</span>, input);
+	}
+
+	<span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> EchoCallback(<span style="color:#458;font-weight:bold">object</span> state)
+	{
+		IAsyncResult r = (IAsyncResult)state;
+		Debug.Assert(r.AsyncState == <span style="color:#d14">&#34;x&#34;</span>);
+
+		AsyncResult asyncResult = (AsyncResult)state;
+		Func&lt;<span style="color:#458;font-weight:bold">string</span>, <span style="color:#458;font-weight:bold">string</span>&gt; echoDelegate = (Func&lt;<span style="color:#458;font-weight:bold">string</span>, <span style="color:#458;font-weight:bold">string</span>&gt;)asyncResult.AsyncDelegate;
+		<span style="color:#458;font-weight:bold">string</span> echoResult = echoDelegate.EndInvoke(asyncResult);
+		Debug.Assert(echoResult == <span style="color:#d14">&#34;Echoing some input&#34;</span>);
+
+		Console.WriteLine(<span style="color:#d14">&#34;EchoCallback completed.&#34;</span>);
+	}
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">21</span>
-							<span class="rest">Jun 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">26</span>
+										<span class="rest">Jun 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/06/21/note-about-makecert.exe/">Note about makecert.exe</a>
-								</h4>
-								<span class="description">
-									
-										A couple of days ago i didn&#39;t have a binary version of [OpenSSL](http://www.openssl.org) around so i decided to use [Mak...
-									
-								</span>
+								<h1 class="title">MCTS&#43;&#43;</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Today i passed Exam <a href="http://www.microsoft.com/learning/en/us/exams/70-529.mspx">70-529</a> and thus became a <a href="http://www.microsoft.com/learning/mcp/mcts/distapps/default.mspx">MCTS: .NET Framework 2.0 Distributed Applications</a>. This means that there is only one exam left, <a href="http://www.microsoft.com/learning/en/us/exams/70-549.mspx">70-549</a>, in order to become a <a href="http://www.microsoft.com/learning/mcp/mcpd/entapp/default.mspx">MCPD: Enterprise Applications Developer on Visual Studio 2005</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/awards-and-certifications">Awards and Certifications</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">21</span>
+										<span class="rest">Jun 2008</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Note about makecert.exe</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>A couple of days ago i didn&rsquo;t have a binary version of <a href="http://www.openssl.org">OpenSSL</a> around so i decided to use <a href="http://msdn.microsoft.com/en-us/library/bfsktky3(VS.80).aspx">Makecert.exe</a>. I generated a couple of test certificates and started playing around with them.</p>
+<p>Whenever i tried to decrypt an instance of <a href="http://msdn.microsoft.com/en-us/library/system.security.cryptography.xml.encryptedxml(VS.80).aspx">EncryptedXml</a> a <a href="http://msdn.microsoft.com/en-us/library/system.security.cryptography.cryptographicexception.aspx">CryptographicException</a> (&ldquo;Bad Key.&quot;) was thrown and when i tried to use a <a href="http://msdn.microsoft.com/en-us/library/aa529579.aspx">mutualCertificate11Security</a> assertion (<a href="http://msdn.microsoft.com/en-us/library/aa139619.aspx">WSE 3.0</a>) the same CryptographicException (&ldquo;WSE600: Unable to unwrap a symmetric key using the private key of an X.509 certificate. Please check if the account &lsquo;ASPNET&rsquo; has permissions to read the private key of certificate with subject name&hellip; &ldquo;) was thrown.</p>
+<p>The problem is that by default, makecert.exe generates a key type that is suited for signature. If you want to use the key for other purposes than signing (eg: SSL authentication) you have to use the -sky exchange option. The following commands made my problems disappear:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">makecert -n <span style="color:#d14">&#34;CN=Client&#34;</span> -pe -ss My -sr CurrentUser -sky exchange client.cer
+makecert -n <span style="color:#d14">&#34;CN=Host&#34;</span> -pe -ss My -sr LocalMachine -sky exchange host.cer
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/information-technology">Information Technology</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 				
 

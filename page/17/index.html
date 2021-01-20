@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:05:50+01:00" />
+<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -32,7 +32,8 @@
 	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
 	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
 			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav></div>
+		</nav>
+	</div>
 
 	<nav class="nav">
 		<ul class="flat">
@@ -61,213 +62,514 @@
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">16</span>
-							<span class="rest">May 2009</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">16</span>
+										<span class="rest">May 2009</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2009/05/16/measuring-elapsed-time/">Measuring elapsed time</a>
-								</h4>
-								<span class="description">
-									
-										As the documentation for [System.Diagnostics.Stopwatch](http://msdn.microsoft.com/en-us/library/system.diagnostics.stopw...
-									
-								</span>
+								<h1 class="title">Measuring elapsed time</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>As the documentation for <a href="http://msdn.microsoft.com/en-us/library/system.diagnostics.stopwatch.aspx">System.Diagnostics.Stopwatch</a> says</p>
+<blockquote>
+<p>In a typical Stopwatch scenario, you call the Start method, then eventually call the Stop method, and then you check elapsed time using the Elapsed property.</p>
+</blockquote>
+<p>I find it a shame that they didn&rsquo;t provide a method that covers this particular scenario so i did it myself</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Stopwatch</span>
+{
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> TimeSpan Measure(<span style="color:#000;font-weight:bold">this</span> Action action)
+	{
+		<span style="color:#458;font-weight:bold">var</span> stopwatch = <span style="color:#000;font-weight:bold">new</span> System.Diagnostics.Stopwatch();
+		stopwatch.Start();
+		action.Invoke();
+		stopwatch.Stop();
+		<span style="color:#000;font-weight:bold">return</span> stopwatch.Elapsed;
+	}
+}
+</code></pre></div><p>Consuming this method is as simple as</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">var</span> duration = Stopwatch.Measure(() =&gt; FindElement(<span style="color:#099">10000</span>));
+Console.WriteLine(<span style="color:#d14">&#34;It took {0:0} seconds.&#34;</span>, duration.TotalSeconds);
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">05</span>
-							<span class="rest">May 2009</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">05</span>
+										<span class="rest">May 2009</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2009/05/05/sparkles/">Sparkles</a>
-								</h4>
-								<span class="description">
-									
-										In my opinion Pieter Gheysens is one of those persons that has contributed something valuable to the Belgian .Net commun...
-									
-								</span>
+								<h1 class="title">Sparkles</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>In my opinion Pieter Gheysens is one of those persons that has contributed something valuable to the Belgian .Net community: Great Visug sessions and some interesting courses at Compuware so i shamelessly plug his new company <a href="http://www.sparkles.be">Sparkles</a> here. Now go and find out how they can make you a better developer!</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/information-technology">Information Technology</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">03</span>
-							<span class="rest">May 2009</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">03</span>
+										<span class="rest">May 2009</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2009/05/03/easy-deployment-through-virtualisation/">Easy deployment through virtualisation</a>
-								</h4>
-								<span class="description">
-									
-										A couple of years ago, i think somewhere in 2003, i realised that hardware virtualisation was the way to go. Whenever i ...
-									
-								</span>
+								<h1 class="title">Easy deployment through virtualisation</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>A couple of years ago, i think somewhere in 2003, i realised that hardware virtualisation was the way to go. Whenever i talked with people about distributing and deploying applications with a virtual machine image instead of a traditional installer they laughed at me (or atleast gave me a strange look of disbelief). The availability of multiple machines can be represented in a windowing environment through a metaphor of multiple desktops. Anyway, i&rsquo;m still convinced that there will be a point in time where users have access to multiple applications that run in their own virtual machine. Time will tell.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/information-technology">Information Technology</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">03</span>
-							<span class="rest">May 2009</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">03</span>
+										<span class="rest">May 2009</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2009/05/03/enterprise-service-bus/">Enterprise Service Bus</a>
-								</h4>
-								<span class="description">
-									
-										I believe it was at an [Alt.Net](http://www.altdotnet.be) meeting that the [Enterprise Service Bus](http://www.amazon.co...
-									
-								</span>
+								<h1 class="title">Enterprise Service Bus</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>I believe it was at an <a href="http://www.altdotnet.be">Alt.Net</a> meeting that the <a href="http://www.amazon.com/Enterprise-Service-Bus-David-Chappell/dp/0596006756">Enterprise Service Bus</a> book was mentionned and i recently decided to give it a read. This book covers everything there is to know about an ESB. From a developer point of view it can serve as a good introduction to the core components and applied patterns but nothing more.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/book-reviews">Book reviews</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">25</span>
-							<span class="rest">Apr 2009</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">25</span>
+										<span class="rest">Apr 2009</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2009/04/25/beautiful-code-leading-programmers-explain-how-they-think/">Beautiful Code: Leading Programmers Explain How They Think</a>
-								</h4>
-								<span class="description">
-									
-										[Beautiful Code: Leading Programmers Explain How They Think](http://www.amazon.com/Beautiful-Code-Leading-Programmers-Pr...
-									
-								</span>
+								<h1 class="title">Beautiful Code: Leading Programmers Explain How They Think</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p><a href="http://www.amazon.com/Beautiful-Code-Leading-Programmers-Practice/dp/0596510047">Beautiful Code: Leading Programmers Explain How They Think</a> is another book that i started reading a couple of weeks ago. A couple of chapters were pretty interesting but i skipped the parts with large chunks of code because i get bored with code in books. Code should be read on a computer display in an editor! Despite many others, i can&rsquo;t say that this book was worth it.</p>
+<p>Reading this book made me realize that posting large chunks of code in a blog post is boring too. So i have decided to write more about ideas and concepts instead of code.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/book-reviews">Book reviews</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">25</span>
-							<span class="rest">Apr 2009</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">25</span>
+										<span class="rest">Apr 2009</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2009/04/25/essentials-of-organizational-behavior/">Essentials of Organizational Behavior</a>
-								</h4>
-								<span class="description">
-									
-										Somewhere in 2007 I started reading [Essentials of Organizational Behavior](http://www.amazon.com/Essentials-Organizatio...
-									
-								</span>
+								<h1 class="title">Essentials of Organizational Behavior</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Somewhere in 2007 I started reading <a href="http://www.amazon.com/Essentials-Organizational-Behavior-Stephen-Robbins/dp/0136077617/ref=sr_1_2?ie=UTF8&amp;s=books&amp;qid=1240060292&amp;sr=8-2">Essentials of Organizational Behavior</a> and only finished it earlier this week. This book covers behavior of humans, humans in organizations, and organizations. Although the book covers the topics pretty well i must say that i liked Managing Humans: Biting and Humorous Tales of a Software Engineering Manager more.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/book-reviews">Book reviews</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">25</span>
-							<span class="rest">Apr 2009</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">25</span>
+										<span class="rest">Apr 2009</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2009/04/25/mastering-regular-expressions/">Mastering regular expressions</a>
-								</h4>
-								<span class="description">
-									
-										A regular expression is a domain specific language for identifying parts in text and is one of those things every softwa...
-									
-								</span>
+								<h1 class="title">Mastering regular expressions</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>A regular expression is a domain specific language for identifying parts in text and is one of those things every software developer should have learned. I ordered my copy of <a href="http://www.amazon.com/Mastering-Regular-Expressions-Jeffrey-Friedl/dp/1565922573">Mastering regular expressions</a> way back in 2001 and found it incredibly good! Allthough there are books that cover a specific dialect better, i still think this book is recommended because it also teaches the reader to read regular expressions.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/book-reviews">Book reviews</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">18</span>
-							<span class="rest">Apr 2009</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">18</span>
+										<span class="rest">Apr 2009</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2009/04/18/pondering-about-code-generation/">Pondering about code generation</a>
-								</h4>
-								<span class="description">
-									
-										A while ago i was listening to [&#39;Kathleen Dollard on MEF and More&#39; on NET Rocks!](http://www.dotnetrocks.com/default.asp...
-									
-								</span>
+								<h1 class="title">Pondering about code generation</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>A while ago i was listening to <a href="http://www.dotnetrocks.com/default.aspx?showNum=436">&lsquo;Kathleen Dollard on MEF and More&rsquo; on NET Rocks!</a> and it got me thinking.</p>
+<p>For a long time i considered code generation as a way to reduce the tedious parts of software development by spitting out considerable amounts of code and I immediately thought of tools like <a href="msdn.microsoft.com/en-us/library/bb126445.aspx">T4</a>: Text Template Transformation Toolkit and <a href="msdn.microsoft.com/en-us/teamsystem/aa718948.aspx">GAT</a>: Guidance Automation Toolkit.</p>
+<p>I believe that in order to become more productive we need a solution that requires less code spitting by means of better frameworks and higher languages. Eg: C# allows us to think about computer instructions on a much higher level than assembly language.</p>
+<p>And then i realised that the C# compiler is nothing more than a code generation tool!</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/information-technology">Information Technology</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">04</span>
-							<span class="rest">Apr 2009</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">04</span>
+										<span class="rest">Apr 2009</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2009/04/04/managing-humans-biting-and-humorous-tales-of-a-software-engineering-manager/">Managing Humans: Biting and Humorous Tales of a Software Engineering Manager</a>
-								</h4>
-								<span class="description">
-									
-										A while ago i heared Joel Spolsky shamelessly promote [Managing Humans: Biting and Humorous Tales of a Software Engineer...
-									
-								</span>
+								<h1 class="title">Managing Humans: Biting and Humorous Tales of a Software Engineering Manager</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>A while ago i heared Joel Spolsky shamelessly promote <a href="http://www.amazon.com/Managing-Humans-Humorous-Software-Engineering/dp/159059844X">Managing Humans: Biting and Humorous Tales of a Software Engineering Manager</a> and decided to give it a read. No boring process descriptions, but short and consice chapters, fed with real life examples, transmitting the message to the reader. I loved reading this book.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/book-reviews">Book reviews</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">03</span>
-							<span class="rest">Apr 2009</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">03</span>
+										<span class="rest">Apr 2009</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2009/04/03/poc-moq-api-adapter-for-rhino-mocks/">POC: Moq API adapter for Rhino Mocks</a>
-								</h4>
-								<span class="description">
-									
-										One of my main concerns with third party software, and software in general, is maintainability. The Rhino Mocks project ...
-									
-								</span>
+								<h1 class="title">POC: Moq API adapter for Rhino Mocks</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>One of my main concerns with third party software, and software in general, is maintainability. The Rhino Mocks project has been out there for a couple of years now and i&rsquo;m pretty confident that it won&rsquo;t go away anytime soon. The Moq project is a lot younger and will have to proove that it can stay alive&hellip;</p>
+<p>Anyway, because most people seem to digg the Moq API i have decided to write an adapter that provides the same API using Rhino Mocks. Here are some simple examples</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> IEcho
+{
+	<span style="color:#458;font-weight:bold">string</span> Echo(<span style="color:#458;font-weight:bold">string</span> input);
+}
+<span style="color:#008080">
+</span><span style="color:#008080">[TestClass]</span>
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MockTests</span>
+{
+<span style="color:#008080">	[TestMethod]</span>
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToReturnObject()
+	{
+		<span style="color:#998;font-style:italic">// Arrange
+</span><span style="color:#998;font-style:italic"></span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
+
+		<span style="color:#998;font-style:italic">// Act
+</span><span style="color:#998;font-style:italic"></span>		IEcho echo = sut.Object;
+
+		<span style="color:#998;font-style:italic">// Assert
+</span><span style="color:#998;font-style:italic"></span>		Assert.IsNotNull(echo);
+		Assert.IsInstanceOfType(echo, <span style="color:#000;font-weight:bold">typeof</span>(IEcho));
+	}
+<span style="color:#008080">
+</span><span style="color:#008080">	[TestMethod]</span>
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToSetupAnAction()
+	{
+		<span style="color:#998;font-style:italic">// Arrange
+</span><span style="color:#998;font-style:italic"></span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
+
+		sut.Setup(<span style="color:#000;font-weight:bold">delegate</span>(IEcho echo)
+		{
+		echo.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+		}).Returns(<span style="color:#d14">&#34;tim&#34;</span>);
+
+		<span style="color:#998;font-style:italic">// Act
+</span><span style="color:#998;font-style:italic"></span>		<span style="color:#458;font-weight:bold">string</span> result = sut.Object.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+
+		<span style="color:#998;font-style:italic">// Assert
+</span><span style="color:#998;font-style:italic"></span>		Assert.AreEqual(<span style="color:#d14">&#34;tim&#34;</span>, result);
+	}
+<span style="color:#008080">
+</span><span style="color:#008080">	[TestMethod]</span>
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToVerifyAnAction()
+	{
+		<span style="color:#998;font-style:italic">// Arrange
+</span><span style="color:#998;font-style:italic"></span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
+
+		<span style="color:#998;font-style:italic">// Act
+</span><span style="color:#998;font-style:italic"></span>		sut.Object.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+
+		<span style="color:#998;font-style:italic">// Assert
+</span><span style="color:#998;font-style:italic"></span>		sut.Verify(<span style="color:#000;font-weight:bold">delegate</span>(IEcho echo)
+		{
+		echo.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+		});
+	}
+<span style="color:#008080">
+</span><span style="color:#008080">	[TestMethod]</span>
+<span style="color:#008080">	[ExpectedException(typeof(ExpectationViolationException))]</span>
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToVerifyAnActionThatDidNotHappen()
+	{
+		<span style="color:#998;font-style:italic">// Arrange
+</span><span style="color:#998;font-style:italic"></span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
+
+		<span style="color:#998;font-style:italic">// Act
+</span><span style="color:#998;font-style:italic"></span>		sut.Object.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+
+		<span style="color:#998;font-style:italic">// Assert
+</span><span style="color:#998;font-style:italic"></span>		sut.Verify(<span style="color:#000;font-weight:bold">delegate</span>(IEcho echo)
+		{
+		echo.Echo(<span style="color:#d14">&#34;mike&#34;</span>);
+		});
+	}
+<span style="color:#008080">
+</span><span style="color:#008080">	[TestMethod]</span>
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToRaiseAnEvent()
+	{
+		<span style="color:#998;font-style:italic">// Arrange
+</span><span style="color:#998;font-style:italic"></span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
+		<span style="color:#458;font-weight:bold">bool</span> wasCalled = <span style="color:#000;font-weight:bold">false</span>;
+
+		sut.Object.EchoCompleted += <span style="color:#000;font-weight:bold">delegate</span>(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
+		{
+		<span style="color:#000;font-weight:bold">if</span> (sender == sut &amp;&amp; e == EventArgs.Empty) wasCalled = <span style="color:#000;font-weight:bold">true</span>;
+		};
+
+		<span style="color:#998;font-style:italic">// Act
+</span><span style="color:#998;font-style:italic"></span>		sut.Raise(<span style="color:#000;font-weight:bold">delegate</span>(IEcho echo) { echo.EchoCompleted += <span style="color:#000;font-weight:bold">null</span>; }, sut, EventArgs.Empty);
+
+		<span style="color:#998;font-style:italic">// Assert
+</span><span style="color:#998;font-style:italic"></span>		Assert.IsTrue(wasCalled);
+	}
+<span style="color:#008080">
+</span><span style="color:#008080">	[TestMethod]</span>
+<span style="color:#008080">	[ExpectedException(typeof(ArgumentException))]</span>
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToThrowAnException()
+	{
+		<span style="color:#998;font-style:italic">// Arrange
+</span><span style="color:#998;font-style:italic"></span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
+
+		sut.Setup(<span style="color:#000;font-weight:bold">delegate</span>(IEcho echo)
+		{
+		echo.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+		}).Throws&lt;argumentException&gt;();
+
+		<span style="color:#998;font-style:italic">// Act
+</span><span style="color:#998;font-style:italic"></span>		sut.Object.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+	}
+}
+</code></pre></div><p>Here is the actual code for this simplistic adapter</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Mock</span>&lt;T&gt; <span style="color:#000;font-weight:bold">where</span> T : <span style="color:#000;font-weight:bold">class</span>
+{
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">readonly</span> T mockedObject;
+
+	<span style="color:#000;font-weight:bold">public</span> Mock()
+	{
+		<span style="color:#000;font-weight:bold">this</span>.mockedObject = MockRepository.GenerateStub&lt;T&gt;();
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> T Object
+	{
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.mockedObject; }
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> Setup&lt;<span style="color:#458;font-weight:bold">object</span>, T&gt; Setup(Action&lt;T&gt; action)
+	{
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Setup&lt;<span style="color:#458;font-weight:bold">object</span>, T&gt;(RhinoMocksExtensions.Stub(<span style="color:#000;font-weight:bold">this</span>.mockedObject, action));
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> Setup&lt;R, T&gt; Setup&lt;R&gt;(Delegates.Function&lt;R, T&gt; action)
+	{
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Setup&lt;R, T&gt;(RhinoMocksExtensions.Stub(<span style="color:#000;font-weight:bold">this</span>.mockedObject, action));
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Verify(Action&lt;T&gt; action)
+	{
+		RhinoMocksExtensions.AssertWasCalled(<span style="color:#000;font-weight:bold">this</span>.mockedObject, action);
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Raise(Action&lt;T&gt; eventSubscription, <span style="color:#000;font-weight:bold">params</span> <span style="color:#458;font-weight:bold">object</span>[] args)
+	{
+		RhinoMocksExtensions.Raise(<span style="color:#000;font-weight:bold">this</span>.mockedObject, eventSubscription, args);
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> Setup&lt;R, T&gt; Throws&lt;e&gt;() <span style="color:#000;font-weight:bold">where</span> E : Exception, <span style="color:#000;font-weight:bold">new</span>()
+	{
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Setup&lt;R, T&gt;(<span style="color:#000;font-weight:bold">this</span>.options.Throw(<span style="color:#000;font-weight:bold">new</span> E()));
+	}
+}
+
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Setup</span>&lt;R, T&gt;
+{
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">readonly</span> IMethodOptions&lt;R&gt; options;
+
+	<span style="color:#000;font-weight:bold">public</span> Setup(IMethodOptions&lt;R&gt; options)
+	{
+		<span style="color:#000;font-weight:bold">this</span>.options = options;
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> Setup&lt;R, T&gt; Returns(R objToReturn)
+	{
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Setup&lt;R, T&gt;(<span style="color:#000;font-weight:bold">this</span>.options.Return(objToReturn));
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> Setup&lt;R, T&gt; Returns(Delegates.Function&lt;R, T&gt; action)
+	{
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Setup&lt;R, T&gt;(<span style="color:#000;font-weight:bold">this</span>.options.Do(action));
+	}
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 				
 

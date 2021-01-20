@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:05:50+01:00" />
+<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -32,7 +32,8 @@
 	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
 	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
 			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav></div>
+		</nav>
+	</div>
 
 	<nav class="nav">
 		<ul class="flat">
@@ -61,215 +62,934 @@
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">21</span>
-							<span class="rest">Aug 2007</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">21</span>
+										<span class="rest">Aug 2007</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2007/08/21/bending-the-code-generation-of-iextenderprovider-to-your-will/">Bending the code generation of IExtenderProvider to your will</a>
-								</h4>
-								<span class="description">
-									
-										In [Exploring CodeDomSerializer](http://www.timvw.be/exploring-codedomserializer/) i already explained how we can modify...
-									
-								</span>
+								<h1 class="title">Bending the code generation of IExtenderProvider to your will</h1>
 							</div>
 						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">17</span>
-							<span class="rest">Aug 2007</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2007/08/17/exploring-codedomserializer/">Exploring CodeDomSerializer</a>
-								</h4>
-								<span class="description">
-									
-										Sometimes we want absolute control over the code that the visual studio designer generates. Imagine that we have a UserC...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">17</span>
-							<span class="rest">Aug 2007</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2007/08/17/streamhelper/">StreamHelper</a>
-								</h4>
-								<span class="description">
-									
-										The following is an example of a classic mistake for people that read from a [Stream](http://msdn2.microsoft.com/en-us/l...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">11</span>
-							<span class="rest">Aug 2007</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2007/08/11/list-string-resources/">List string resources</a>
-								</h4>
-								<span class="description">
-									
-										Earlier today someone asked how he could list the string resources (name, value and comment) in a Resource file. Here is...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">10</span>
-							<span class="rest">Aug 2007</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2007/08/10/debugging-custom-uitypeeditors/">Debugging custom UITypeEditors</a>
-								</h4>
-								<span class="description">
-									
-										If you read this you&#39;re probably gonna think: What a moron! Anyway, i&#39;m sharing this in the hope that i&#39;ll be the last t...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">07</span>
-							<span class="rest">Aug 2007</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2007/08/07/helper-methods-for-dbproviderfactory/">Helper methods for DbProviderFactory</a>
-								</h4>
-								<span class="description">
-									
-										Here are a couple of functions that make it easier to take advantage of the DbProviderFactory to create DbConnections
+								
+						<div class="markdown">
+							<p>In <a href="http://www.timvw.be/exploring-codedomserializer/">Exploring CodeDomSerializer</a> i already explained how we can modify the code that the Visual Studio designer generates for us. With a typical <a href="http://msdn2.microsoft.com/en-us/library/system.componentmodel.iextenderprovider.aspx">IExtenderProvider</a> the designer generates an initializer, SetXXX methods and a variable declaration, which looks like</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.constantsExtenderProvider1 = <span style="color:#000;font-weight:bold">new</span> WindowsApplication1.ConstantsExtenderProvider();
 
-`...
-									
-								</span>
-							</div>
+<span style="color:#000;font-weight:bold">this</span>.constantsExtenderProvider1.SetConstants(<span style="color:#000;font-weight:bold">this</span>.button1, <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">string</span>[] {
+<span style="color:#d14">&#34;Operation1&#34;</span>,
+<span style="color:#d14">&#34;Operation5&#34;</span>});
+
+<span style="color:#000;font-weight:bold">this</span>.constantsExtenderProvider1.SetConstants(<span style="color:#000;font-weight:bold">this</span>, <span style="color:#000;font-weight:bold">null</span>);
+
+<span style="color:#000;font-weight:bold">private</span> ConstantsExtenderProvider constantsExtenderProvider1;
+</code></pre></div><p>Now, what if we&rsquo;re not happy with those generated SetXXX methods on each Component? The problem is that this code is not generated by the serializer for the ConstantsExtenderProvider but by the serializers for the Components. An easy workaround for this problem is to set the <a href="http://msdn2.microsoft.com/en-us/library/system.componentmodel.designerserializationvisibilityattribute.aspx">DesignerSerializationVisibilityAttribute</a> on the GetXXX method in our IExtenderProvider to <a href="http://msdn2.microsoft.com/en-us/library/system.componentmodel.designerserializationvisibility.aspx">Hidden</a>.</p>
+<p>With those ugly SetXXX methods out of the way it&rsquo;s up to us to do it better. We do this by implementing a custom serializer for our ConstantsExtenderProvider</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ConstantsSerializer</span>&lt;T&gt; : CodeDomSerializer
+{
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">object</span> Serialize(IDesignerSerializationManager manager, <span style="color:#458;font-weight:bold">object</span> <span style="color:#000;font-weight:bold">value</span>)
+	{
+		ConstantsExtenderProvider provider = <span style="color:#000;font-weight:bold">value</span> <span style="color:#000;font-weight:bold">as</span> ConstantsExtenderProvider;
+
+		CodeDomSerializer baseClassSerializer = manager.GetSerializer(<span style="color:#000;font-weight:bold">typeof</span>(ConstantsExtenderProvider).BaseType, <span style="color:#000;font-weight:bold">typeof</span>(CodeDomSerializer)) <span style="color:#000;font-weight:bold">as</span> CodeDomSerializer;
+		CodeStatementCollection statements = baseClassSerializer.Serialize(manager, <span style="color:#000;font-weight:bold">value</span>) <span style="color:#000;font-weight:bold">as</span> CodeStatementCollection;
+
+		IDesignerHost host = (IDesignerHost)manager.GetService(<span style="color:#000;font-weight:bold">typeof</span>(IDesignerHost));
+		ComponentCollection components = host.Container.Components;
+		<span style="color:#000;font-weight:bold">this</span>.SerializeExtender(manager, provider, components, statements);
+
+		<span style="color:#000;font-weight:bold">return</span> statements;
+	}
+
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> SerializeExtender(IDesignerSerializationManager manager, ConstantsExtenderProvider provider, ComponentCollection components, CodeStatementCollection statements)
+	{
+		<span style="color:#000;font-weight:bold">foreach</span> (IComponent component <span style="color:#000;font-weight:bold">in</span> components)
+		{
+			Control control = component <span style="color:#000;font-weight:bold">as</span> Control;
+			<span style="color:#000;font-weight:bold">if</span> (control != <span style="color:#000;font-weight:bold">null</span> &amp;&amp; (control <span style="color:#000;font-weight:bold">as</span> Form == <span style="color:#000;font-weight:bold">null</span>))
+			{
+				CodeMethodInvokeExpression methodcall = <span style="color:#000;font-weight:bold">new</span> CodeMethodInvokeExpression(<span style="color:#000;font-weight:bold">base</span>.SerializeToExpression(manager, provider), <span style="color:#d14">&#34;SetConstants&#34;</span>);
+				methodcall.Parameters.Add(<span style="color:#000;font-weight:bold">new</span> CodeFieldReferenceExpression(<span style="color:#000;font-weight:bold">new</span> CodeThisReferenceExpression(), control.Name));
+
+				<span style="color:#458;font-weight:bold">string</span>[] constants = provider.GetConstants(control);
+				<span style="color:#000;font-weight:bold">if</span> (constants != <span style="color:#000;font-weight:bold">null</span>)
+				{
+					StringBuilder sb = <span style="color:#000;font-weight:bold">new</span> StringBuilder();
+					sb.Append(<span style="color:#d14">&#34;new string[] { &#34;</span>);
+
+					<span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">string</span> constant <span style="color:#000;font-weight:bold">in</span> constants)
+					{
+						sb.Append(<span style="color:#000;font-weight:bold">typeof</span>(T).FullName);
+						sb.Append(<span style="color:#d14">&#34;.&#34;</span>);
+						sb.Append(constant);
+						sb.Append(<span style="color:#d14">&#34;, &#34;</span>);
+					}
+
+					sb.Remove(sb.Length -- <span style="color:#099">2</span>, <span style="color:#099">2</span>);
+					sb.Append(<span style="color:#d14">&#34; }&#34;</span>);
+
+					methodcall.Parameters.Add(<span style="color:#000;font-weight:bold">new</span> CodeSnippetExpression(sb.ToString()));
+				}
+				<span style="color:#000;font-weight:bold">else</span>
+				{
+					methodcall.Parameters.Add(<span style="color:#000;font-weight:bold">new</span> CodePrimitiveExpression(<span style="color:#000;font-weight:bold">null</span>));
+				}
+
+				statements.Add(methodcall);
+			}
+		}
+	}
+}
+</code></pre></div><p>And now the generated code looks like</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.constantsExtenderProvider1.SetConstants(<span style="color:#000;font-weight:bold">this</span>.button1, <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">string</span>[] { WindowsApplication1.Constants.Operation1, WindowsApplication1.Constants.Operation5 });
+</code></pre></div><p>As always, feel free to download the <a href="http://www.timvw.be/wp-content/code/csharp/ConstantsExtenderProvider.zip">ConstantsExtenderProvider</a> source.</p>
+
 						</div>
-					</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/visual-studio">Visual Studio</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">04</span>
-							<span class="rest">Aug 2007</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">17</span>
+										<span class="rest">Aug 2007</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2007/08/04/professional-sql-server-2005-reporting-services/">Professional SQL Server 2005 Reporting Services</a>
-								</h4>
-								<span class="description">
-									
-										Last couple of days i&#39;ve been reading [Professional SQL Server Reporting Services](http://www.wrox.com/WileyCDA/WroxTitl...
-									
-								</span>
+								<h1 class="title">Exploring CodeDomSerializer</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Sometimes we want absolute control over the code that the visual studio designer generates. Imagine that we have a UserControl with a Number property and instead of the default &ldquo;this.userControl1.Number = 27;&rdquo; code that the designer would generate we want it like &ldquo;this.userControl1.Number = 1 + 3 + 23&rdquo;. In order to achieve this we first have to inform the designer that we want custom serialization. This is done by adding a <a href="http://msdn2.microsoft.com/en-us/library/system.componentmodel.design.serialization.designerserializerattribute.aspx">DesignerSerializerAttribute</a> to our UserControl</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[DesignerSerializer(typeof(PrimeSerializer), typeof(CodeDomSerializer))]</span>
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">UserControl1</span> : UserControl
+{
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> number;
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> Number
+	{
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.number; }
+		<span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>.number = <span style="color:#000;font-weight:bold">value</span>; }
+	}
+
+	<span style="color:#998;font-style:italic">// ...
+</span><span style="color:#998;font-style:italic"></span>}
+</code></pre></div><p>And now it&rsquo;s time to implement the PrimeSerializer for the custom assignment code</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PrimeSerializer</span> : CodeDomSerializer
+{
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">object</span> Serialize(IDesignerSerializationManager manager, <span style="color:#458;font-weight:bold">object</span> <span style="color:#000;font-weight:bold">value</span>)
+	{
+		UserControl1 uc = <span style="color:#000;font-weight:bold">value</span> <span style="color:#000;font-weight:bold">as</span> UserControl1;
+		<span style="color:#000;font-weight:bold">if</span> (uc == <span style="color:#000;font-weight:bold">null</span>) { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">null</span>; }
+
+		<span style="color:#998;font-style:italic">// Instead of implementing all the serialization code, we&#39;ll rely on the implementation of the baseclass, namely UserControl
+</span><span style="color:#998;font-style:italic"></span>		CodeDomSerializer baseClassSerializer = manager.GetSerializer(<span style="color:#000;font-weight:bold">typeof</span>(UserControl1).BaseType, <span style="color:#000;font-weight:bold">typeof</span>(CodeDomSerializer)) <span style="color:#000;font-weight:bold">as</span> CodeDomSerializer;
+		Object codeObject = baseClassSerializer.Serialize(manager, <span style="color:#000;font-weight:bold">value</span>);
+
+		<span style="color:#998;font-style:italic">// The only thing we have to do is find the statement where the assigment to the Number property is made, and replace that...
+</span><span style="color:#998;font-style:italic"></span>		CodeStatementCollection codeStatements = codeObject <span style="color:#000;font-weight:bold">as</span> CodeStatementCollection;
+		CodeAssignStatement numberAssignmentStatement = <span style="color:#000;font-weight:bold">this</span>.FindNumberCodeStatement(codeStatements) <span style="color:#000;font-weight:bold">as</span> CodeAssignStatement;
+		numberAssignmentStatement.Right = <span style="color:#000;font-weight:bold">new</span> CodeSnippetExpression(GetNumberAsSumOfPrimes(uc.Number));
+
+		<span style="color:#000;font-weight:bold">return</span> codeObject;
+	}
+
+	<span style="color:#000;font-weight:bold">private</span> CodeStatement FindNumberCodeStatement(CodeStatementCollection codeStatements)
+	{
+		<span style="color:#000;font-weight:bold">foreach</span> (CodeStatement codeStatement <span style="color:#000;font-weight:bold">in</span> codeStatements)
+		{
+			CodeAssignStatement codeAssignment = codeStatement <span style="color:#000;font-weight:bold">as</span> CodeAssignStatement;
+			<span style="color:#000;font-weight:bold">if</span> (codeAssignment != <span style="color:#000;font-weight:bold">null</span>)
+			{
+				CodePropertyReferenceExpression left = codeAssignment.Left <span style="color:#000;font-weight:bold">as</span> CodePropertyReferenceExpression;
+				<span style="color:#000;font-weight:bold">if</span> (left != <span style="color:#000;font-weight:bold">null</span> &amp;&amp; left.PropertyName == <span style="color:#d14">&#34;Number&#34;</span>)
+				{
+					<span style="color:#000;font-weight:bold">return</span> codeStatement;
+				}
+			}
+		}
+
+		<span style="color:#000;font-weight:bold">throw</span> <span style="color:#000;font-weight:bold">new</span> Exception(<span style="color:#d14">&#34;The CodeStatement for Number was not found&#34;</span>);
+	}
+
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> GetNumberAsSumOfPrimes(<span style="color:#458;font-weight:bold">int</span> number)
+	{
+		StringBuilder sb = <span style="color:#000;font-weight:bold">new</span> StringBuilder();
+
+		<span style="color:#458;font-weight:bold">int</span>[] primes = <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">int</span>[] { <span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">3</span>, <span style="color:#099">5</span>, <span style="color:#099">7</span>, <span style="color:#099">11</span>, <span style="color:#099">13</span>, <span style="color:#099">17</span>, <span style="color:#099">19</span>, <span style="color:#099">23</span>, <span style="color:#099">29</span>, <span style="color:#099">31</span>, <span style="color:#099">37</span>, <span style="color:#099">41</span>, <span style="color:#099">43</span>, <span style="color:#099">47</span>, <span style="color:#099">53</span>, <span style="color:#099">59</span>, <span style="color:#099">61</span>, <span style="color:#099">67</span>, <span style="color:#099">71</span>, <span style="color:#099">73</span>, <span style="color:#099">79</span>, <span style="color:#099">83</span>, <span style="color:#099">89</span>, <span style="color:#099">97</span>, <span style="color:#099">101</span> };
+		<span style="color:#000;font-weight:bold">for</span> (<span style="color:#458;font-weight:bold">int</span> i = primes.Length -- <span style="color:#099">1</span>; i &gt;= <span style="color:#099">0</span> &amp;&amp; number &gt; <span style="color:#099">0</span>; --i)
+		{
+			<span style="color:#000;font-weight:bold">if</span> (primes[i] &lt;= number) 
+			{ 
+				sb.Insert(<span style="color:#099">0</span>, primes[i]); sb.Insert(<span style="color:#099">0</span>, <span style="color:#d14">&#34; + &#34;</span>); 
+				number -= primes[i]; 
+			} 
+		} 
+		<span style="color:#000;font-weight:bold">return</span> sb.ToString().Substring(<span style="color:#099">3</span>); 
+	} 
+}
+</code></pre></div><p>And now we can look at the generated code in Form1.Designer.cs to verify everything works as expected</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic">// userControl1
+</span><span style="color:#998;font-style:italic">//
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">this</span>.userControl1.BackColor = System.Drawing.Color.Maroon;
+<span style="color:#000;font-weight:bold">this</span>.userControl1.Location = <span style="color:#000;font-weight:bold">new</span> System.Drawing.Point(<span style="color:#099">50</span>, <span style="color:#099">23</span>);
+<span style="color:#000;font-weight:bold">this</span>.userControl1.Name = <span style="color:#d14">&#34;userControl11&#34;</span>;
+<span style="color:#000;font-weight:bold">this</span>.userControl1.Number = <span style="color:#099">1</span> + <span style="color:#099">3</span> + <span style="color:#099">23</span>;
+<span style="color:#000;font-weight:bold">this</span>.userControl1.Size = <span style="color:#000;font-weight:bold">new</span> System.Drawing.Size(<span style="color:#099">686</span>, <span style="color:#099">294</span>);
+<span style="color:#000;font-weight:bold">this</span>.userControl1.TabIndex = <span style="color:#099">0</span>;
+</code></pre></div><p>I&rsquo;ll leave the implementation of the Deserialize method up to you. By adding the DesignerSerializer attribute to our <a href="http://msdn2.microsoft.com/en-us/library/system.componentmodel.iextenderprovider.aspx">IExtenderProvider</a> implementations we can get full control over their code generation too 🙂</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">28</span>
-							<span class="rest">Jul 2007</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">17</span>
+										<span class="rest">Aug 2007</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2007/07/28/exploring-formatting.../">Exploring formatting...</a>
-								</h4>
-								<span class="description">
-									
-										In the documentation you can read the following for [CultureInfo](http://msdn2.microsoft.com/en-us/library/system.global...
-									
-								</span>
+								<h1 class="title">StreamHelper</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>The following is an example of a classic mistake for people that read from a <a href="http://msdn2.microsoft.com/en-us/library/system.io.stream.aspx">Stream</a></p>
+<blockquote>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+</blockquote>
+<p>Offcourse, if you look at the documentation for the <a href="http://msdn2.microsoft.com/en-us/library/system.io.stream.read.aspx">Read</a> method it clearly says that the function returns the number of bytes that were actually read. Here is a little helper function that keeps you from writing the same code over and over again</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Copy(Stream input, Stream output, <span style="color:#458;font-weight:bold">int</span> bufferSize)
+{
+	<span style="color:#458;font-weight:bold">byte</span>[] buffer = <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">byte</span>[bufferSize];
+	<span style="color:#458;font-weight:bold">int</span> bytesRead;
+
+	<span style="color:#000;font-weight:bold">while</span>((bytesRead = input.Read(buffer, <span style="color:#099">0</span>, bufferSize)) &gt; <span style="color:#099">0</span>)
+	{
+		output.Write(buffer, <span style="color:#099">0</span>, bytesRead);
+	}
+}
+</code></pre></div><p>And as usual, a little demo of it&rsquo;s use</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> DownloadFile(<span style="color:#458;font-weight:bold">string</span> url, <span style="color:#458;font-weight:bold">string</span> path)
+{
+	WebRequest req = WebRequest.Create(url);
+	WebResponse rsp = req.GetResponse();
+	<span style="color:#000;font-weight:bold">using</span> (Stream input = rsp.GetResponseStream())
+	<span style="color:#000;font-weight:bold">using</span> (Stream output = File.Open(path, FileMode.Create))
+	{
+		StreamHelper.Copy(input, output, <span style="color:#099">1024</span> * <span style="color:#099">1000</span>);
+	}
+}
+
+<span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
+{
+	DownloadFile(<span style="color:#d14">&#34;ftp://example.com/pub/test.bin&#34;</span>, <span style="color:#d14">@&#34;c:\test.bin&#34;</span>);
+
+	Console.Write(<span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
+	Console.ReadKey();
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">26</span>
-							<span class="rest">Jul 2007</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">11</span>
+										<span class="rest">Aug 2007</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2007/07/26/using-interfaces-with-drag-and-drop/">Using interfaces with Drag and Drop</a>
-								</h4>
-								<span class="description">
-									
-										Earlier today i was refactoring some graphical components. I wanted to use an interface instead of concrete implementati...
-									
-								</span>
+								<h1 class="title">List string resources</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Earlier today someone asked how he could list the string resources (name, value and comment) in a Resource file. Here is some code that generates a nice list of the information</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
+{
+	DislayResourceStrings(GetResourceStrings(<span style="color:#d14">@&#34;C:\Resource1.resx&#34;</span>));
+
+	Console.Write(<span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
+	Console.ReadKey();
+}
+
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> List&lt;resourceString&gt; GetResourceStrings(<span style="color:#458;font-weight:bold">string</span> path)
+{
+	List&lt;resourceString&gt; resourceStrings = <span style="color:#000;font-weight:bold">new</span> List&lt;resourceString&gt;();
+
+	XPathDocument doc = <span style="color:#000;font-weight:bold">new</span> XPathDocument(path);
+	<span style="color:#000;font-weight:bold">foreach</span> (XPathNavigator node <span style="color:#000;font-weight:bold">in</span> doc.CreateNavigator().Select(<span style="color:#d14">&#34;//data&#34;</span>))
+	{
+		<span style="color:#458;font-weight:bold">string</span> type = node.GetAttribute(<span style="color:#d14">&#34;type&#34;</span>, <span style="color:#458;font-weight:bold">string</span>.Empty);
+		<span style="color:#000;font-weight:bold">if</span> (type == <span style="color:#458;font-weight:bold">string</span>.Empty)
+		{
+			XPathNavigator nav;
+
+			<span style="color:#458;font-weight:bold">string</span> name = node.GetAttribute(<span style="color:#d14">&#34;name&#34;</span>, <span style="color:#458;font-weight:bold">string</span>.Empty);
+			nav = node.SelectSingleNode(<span style="color:#d14">&#34;./value&#34;</span>);
+			<span style="color:#458;font-weight:bold">string</span> <span style="color:#000;font-weight:bold">value</span> = nav != <span style="color:#000;font-weight:bold">null</span> ? nav.Value : <span style="color:#458;font-weight:bold">string</span>.Empty;
+
+			nav = node.SelectSingleNode(<span style="color:#d14">&#34;./comment&#34;</span>);
+			<span style="color:#458;font-weight:bold">string</span> comment = nav != <span style="color:#000;font-weight:bold">null</span> ? nav.Value : <span style="color:#458;font-weight:bold">string</span>.Empty;
+
+			resourceStrings.Add(<span style="color:#000;font-weight:bold">new</span> ResourceString(name, <span style="color:#000;font-weight:bold">value</span>, comment));
+		}
+	}
+
+	<span style="color:#000;font-weight:bold">return</span> resourceStrings;
+}
+
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> DisplayResourceStrings(List&lt;resourceString&gt; resourceStrings)
+{
+	<span style="color:#458;font-weight:bold">string</span> format = <span style="color:#d14">&#34;{0, -25} {1, -25} {2, -25}&#34;</span>;
+	Console.WriteLine(format, <span style="color:#d14">&#34;Name&#34;</span>, <span style="color:#d14">&#34;Value&#34;</span>, <span style="color:#d14">&#34;Comment&#34;</span>);
+	Console.WriteLine(format, <span style="color:#d14">&#34;---&#34;</span>, <span style="color:#d14">&#34;----&#34;</span>, <span style="color:#d14">&#34;-----&#34;</span>);
+
+	<span style="color:#000;font-weight:bold">foreach</span> (ResourceString resourceString <span style="color:#000;font-weight:bold">in</span> resourceStrings)
+	{
+		Console.WriteLine(format, resourceString.Name, resourceString.Value, resourceString.Comment);
+	}
+}
+
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">ResourceString</span>
+{
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Name;
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Value;
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Comment;
+
+	<span style="color:#000;font-weight:bold">public</span> ResourceString(<span style="color:#458;font-weight:bold">string</span> name, <span style="color:#458;font-weight:bold">string</span> <span style="color:#000;font-weight:bold">value</span>, <span style="color:#458;font-weight:bold">string</span> comment)
+	{
+		<span style="color:#000;font-weight:bold">this</span>.Name = name;
+		<span style="color:#000;font-weight:bold">this</span>.Value = <span style="color:#000;font-weight:bold">value</span>;
+		<span style="color:#000;font-weight:bold">this</span>.Comment = comment;
+	}
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">18</span>
-							<span class="rest">Jul 2007</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">10</span>
+										<span class="rest">Aug 2007</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2007/07/18/pondering-about-datetime-and-its-ticks.../">Pondering about DateTime and it&#39;s Ticks...</a>
-								</h4>
-								<span class="description">
-									
-										Recently someone was able to convince me that there is no problem with using [System.DateTime](http://msdn2.microsoft.co...
-									
-								</span>
+								<h1 class="title">Debugging custom UITypeEditors</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>If you read this you&rsquo;re probably gonna think: What a moron! Anyway, i&rsquo;m sharing this in the hope that i&rsquo;ll be the last to undergo the following. In order to test my custom <a href="http://msdn2.microsoft.com/en-us/library/system.drawing.design.uitypeeditor.aspx">UITypeEditor</a> i did the following</p>
+<ol>
+<li>Create a <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.usercontrol.aspx">UserControl</a></li>
+<li>Add a property to the control</li>
+<li>Add an <a href="http://msdn2.microsoft.com/en-us/library/system.componentmodel.editorattribute.aspx">Editor</a> attribute to the property</li>
+<li>Build</li>
+<li>Drag a UserControl on the designer form</li>
+<li>Test via Visual Studio&rsquo;s Property Window if the UITypeEditor works as expected</li>
+<li>Everytime i changed some code: <strong>Restart Visual Studio</strong>, load the project and repeat 6.</li>
+</ol>
+<p>A tedious task to say the least. Yesterday i figured out that i could <strong>drag a <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.propertygrid.aspx">PropertyGrid</a> on the designer form, and set it&rsquo;s SelectedObject property to a class with a property that uses the custom UITypeEditor; Instead of having to reload visual studio i can simply start a debug session, and click on the property in the PropertyGrid.</strong> Now it&rsquo;s a breeze to develop custom UITypeEditors.</p>
+<p><img src="http://www.timvw.be/wp-content/images/uitypeeditor.gif" alt=""></p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Form1_Load(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
+{
+	<span style="color:#998;font-style:italic">// display an instance of PersonEntry,
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// a class with a property that should use the custom UITypeEditor i want to test
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">this</span>.propertyGrid1.SelectedObject = <span style="color:#000;font-weight:bold">new</span> PersonEntry(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;Tim&#34;</span>, <span style="color:#d14">&#34;Van Wassenhove&#34;</span>));
+}
+
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PersonEntry</span>
+{
+	...
+
+	<span style="color:#998;font-style:italic">// instruct the PropertyGrid to use my custom PersonUITypeEditor
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">	[Editor(typeof(PersonUITypeEditor), typeof(UITypeEditor))]</span>
+	<span style="color:#000;font-weight:bold">public</span> Person Person
+	{
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.person; }
+		<span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>.person = <span style="color:#000;font-weight:bold">value</span>; }
+	}
+}
+
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PersonUITypeEditor</span> : UITypeEditor
+{
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
+	{
+		<span style="color:#000;font-weight:bold">return</span> UITypeEditorEditStyle.Modal;
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">object</span> EditValue(ITypeDescriptorContext context, IServiceProvider provider, <span style="color:#458;font-weight:bold">object</span> <span style="color:#000;font-weight:bold">value</span>)
+	{
+		Person person = <span style="color:#000;font-weight:bold">value</span> <span style="color:#000;font-weight:bold">as</span> Person;
+
+		IWindowsFormsEditorService svc = context.GetService(<span style="color:#000;font-weight:bold">typeof</span>(IWindowsFormsEditorService)) <span style="color:#000;font-weight:bold">as</span> IWindowsFormsEditorService;
+		<span style="color:#000;font-weight:bold">if</span> (svc != <span style="color:#000;font-weight:bold">null</span>)
+		{
+			<span style="color:#000;font-weight:bold">using</span> (PersonEditorForm personEditorForm = <span style="color:#000;font-weight:bold">new</span> PersonEditorForm(person))
+			{
+				<span style="color:#000;font-weight:bold">if</span> (svc.ShowDialog(personEditorForm) == DialogResult.OK)
+				{
+					<span style="color:#000;font-weight:bold">return</span> personEditorForm.Person;
+				}
+			}
+		}
+
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">value</span>;
+	}
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/visual-studio">Visual Studio</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">07</span>
+										<span class="rest">Aug 2007</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Helper methods for DbProviderFactory</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Here are a couple of functions that make it easier to take advantage of the DbProviderFactory to create DbConnections</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> DbConnection GetDbConnection(<span style="color:#458;font-weight:bold">string</span> connectionStringName)
+{
+	<span style="color:#000;font-weight:bold">return</span> GetDbConnection(ConfigurationManager.ConnectionStrings[connectionStringName]);
+}
+
+<span style="color:#000;font-weight:bold">public</span> DbConnection GetDbConnection(ConnectionStringSettings connectionStringSettings)
+{
+	<span style="color:#000;font-weight:bold">return</span> GetDbConnection(connectionStringSettings.ProviderName, connectionStringSettings.ConnectionString);
+}
+
+<span style="color:#000;font-weight:bold">public</span> DbConnection GetDbConnection(<span style="color:#458;font-weight:bold">string</span> providerInvariantName, <span style="color:#458;font-weight:bold">string</span> connectionString)
+{
+	DbConnection connection = DbProviderFactories.GetFactory(providerInvariantName).CreateConnection();
+	connection.ConnectionString = connectionString;
+	<span style="color:#000;font-weight:bold">return</span> connection;
+}
+</code></pre></div><p>Using these functions, the pattern for querying a database could be something as following:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">using</span> (DbConnection conn = GetDbConnection(<span style="color:#d14">&#34;Local_Northwind&#34;</span>))
+{
+	conn.Open();
+
+	<span style="color:#000;font-weight:bold">using</span> (DbCommand cmd = conn.CreateCommand())
+	{
+		cmd.CommandText = <span style="color:#d14">&#34;SELECT EmployeeID, FirstName, LastName FROM Employees&#34;</span>;
+		<span style="color:#000;font-weight:bold">using</span> (DbDataReader reader = cmd.ExecuteReader())
+		{
+			<span style="color:#998;font-style:italic">// process the result
+</span><span style="color:#998;font-style:italic"></span>		}
+	}
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">04</span>
+										<span class="rest">Aug 2007</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Professional SQL Server 2005 Reporting Services</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Last couple of days i&rsquo;ve been reading <a href="http://www.wrox.com/WileyCDA/WroxTitle/productCd-0764568787.html">Professional SQL Server Reporting Services</a>. Today i wanted to display some images so i decided to use the Northwind database which has an Employees table that contains photos.. I set the MIMEType to image/bmp, Source to Database and Value to =Fields!Photo.Value but i kept getting a red cross instead of the image</p>
+<p><img src="http://www.timvw.be/wp-content/images/reportingservices-01.gif" alt="image of a sql server reporting service report where an error box appears instead of the image"></p>
+<p>After a lot of searching, i found the following in <a href="http://www.sqlreportingservices.net/BookSrs2000/default.aspx">Hitchhiker&rsquo;s Guide to SQL Server 2000 Reporting Services</a>:</p>
+<blockquote>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;p&gt;
+  And yes, once i used this as value for the image, everything worked as expected:
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;img src=&quot;http://www.timvw.be/wp-content/images/reportingservices-02.gif&quot; alt=&quot;image of a sql server reporting service report where an image is correctly displayed&quot; /&gt;
+&lt;/p&gt;
+</code></pre>
+</blockquote>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/book-reviews">Book reviews</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">28</span>
+										<span class="rest">Jul 2007</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Exploring formatting...</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>In the documentation you can read the following for <a href="http://msdn2.microsoft.com/en-us/library/system.globalization.cultureinfo.aspx">CultureInfo</a></p>
+<blockquote>
+<!-- raw HTML omitted -->
+</blockquote>
+<p>First i&rsquo;ll initialize an instance of a customized CultureInfo and install it in the current thread:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">CultureInfo appCultureInfo = <span style="color:#000;font-weight:bold">new</span> CultureInfo(<span style="color:#d14">&#34;en-US&#34;</span>);
+appCultureInfo.NumberFormat.NumberDecimalSeparator = <span style="color:#d14">&#34;.&#34;</span>;
+appCultureInfo.NumberFormat.NumberGroupSeparator = <span style="color:#d14">&#34; &#34;</span>;
+appCultureInfo.NumberFormat.NumberDecimalDigits = <span style="color:#099">2</span>;
+appCultureInfo.NumberFormat.CurrencySymbol = <span style="color:#d14">&#34;€&#34;</span>;
+Thread.CurrentThread.CurrentCulture = appCultureInfo;
+</code></pre></div><p><strong>Note:</strong> The culture in Thread.CurrentThread.CurrentUICulture is only used by the Resource Manager to lookup culture-specific resources at run-time. Since we&rsquo;re not playing with resources, we don&rsquo;t have to care about this one.</p>
+<p>If you don&rsquo;t provide the desired format specifier, you will get the generic format specifier &ldquo;G&rdquo; ( Standard <a href="http://msdn2.microsoft.com/en-us/library/dwhawy9k(VS.71).aspx">Numeric</a>, <a href="http://msdn2.microsoft.com/en-us/library/az4se3k1(VS.71).aspx">DateTime</a>, <a href="http://msdn2.microsoft.com/en-us/library/c3s1ez6e(VS.71).aspx">Enumeration</a> Format Strings) And now it&rsquo;s time for a little demo</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">double</span> SomeValue
+{
+	<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">12345.6789</span>; }
+}
+
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Form1_Load(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
+{
+	label1.Text = <span style="color:#d14">&#34;default to generic format: &#34;</span> + SomeValue.ToString();
+	label2.Text = <span style="color:#d14">&#34;numeric format: &#34;</span> + SomeValue.ToString(<span style="color:#d14">&#34;N&#34;</span>);
+	label3.Text = String.Format(<span style="color:#d14">&#34;currency format: {0:C}&#34;</span>, SomeValue);
+	label4.DataBindings.Add(<span style="color:#d14">&#34;Text&#34;</span>, <span style="color:#000;font-weight:bold">this</span>, <span style="color:#d14">&#34;SomeValue&#34;</span>, <span style="color:#000;font-weight:bold">true</span>, DataSourceUpdateMode.Never, <span style="color:#458;font-weight:bold">string</span>.Empty, <span style="color:#d14">&#34;P&#34;</span>);
+
+	<span style="color:#000;font-weight:bold">this</span>.Column1.DefaultCellStyle.Format = <span style="color:#d14">&#34;E1&#34;</span>;
+	<span style="color:#000;font-weight:bold">this</span>.Column1.DataPropertyName = <span style="color:#d14">&#34;SomeValue&#34;</span>;
+	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.AutoGenerateColumns = <span style="color:#000;font-weight:bold">false</span>;
+	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataSource = <span style="color:#000;font-weight:bold">new</span> Form1[] { <span style="color:#000;font-weight:bold">this</span> };
+}
+</code></pre></div><p><img src="http://www.timvw.be/wp-content/images/formatting-01.gif" alt=""></p>
+<p>Another important interface for formatting is <a href="http://msdn2.microsoft.com/en-us/library/system.IFormattable.aspx">IFormattable</a> which provides functionality to format the value of an object into a string representation. Put simply, it allows you to define your own format specifiers. Here is an example that allows the user to build his own representation of a Person</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Person</span> : IFormattable
+{
+	<span style="color:#998;font-style:italic">// omitted the code for 4 properties: Id, Name, Title and Birthday
+</span><span style="color:#998;font-style:italic"></span>
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">string</span> ToString()
+	{
+		<span style="color:#000;font-weight:bold">return</span> ToString(<span style="color:#d14">&#34;{Id}, {Name}&#34;</span>, <span style="color:#000;font-weight:bold">null</span>);
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> ToString(<span style="color:#458;font-weight:bold">string</span> format, IFormatProvider formatProvider)
+	{
+		<span style="color:#458;font-weight:bold">string</span> actualFormat = format;
+
+		<span style="color:#458;font-weight:bold">string</span>[] replacements = <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">string</span>[] { <span style="color:#d14">&#34;Id&#34;</span>, <span style="color:#d14">&#34;Name&#34;</span>, <span style="color:#d14">&#34;Title&#34;</span>, <span style="color:#d14">&#34;Birthday&#34;</span> };
+		<span style="color:#000;font-weight:bold">for</span> (<span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">0</span>; i &lt; replacements.Length; ++i) 
+		{ 
+			actualFormat = actualFormat.Replace(replacements[i], i.ToString()); 
+		} 
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#458;font-weight:bold">string</span>.Format(actualFormat, <span style="color:#000;font-weight:bold">this</span>.id, <span style="color:#000;font-weight:bold">this</span>.name, <span style="color:#000;font-weight:bold">this</span>.title, <span style="color:#000;font-weight:bold">this</span>.birthday); 
+	} 
+} 
+
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Form1_Load(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e) 
+{ 
+	List&lt;person&gt; persons = <span style="color:#000;font-weight:bold">new</span> List&lt;person&gt;();
+	persons.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#099">1</span>, <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">1980</span>, <span style="color:#099">4</span>, <span style="color:#099">30</span>), <span style="color:#d14">&#34;Tim&#34;</span>, <span style="color:#d14">&#34;Sir&#34;</span>));
+	persons.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#099">2</span>, <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">1974</span>, <span style="color:#099">4</span>, <span style="color:#099">9</span>), <span style="color:#d14">&#34;Jenna&#34;</span>, <span style="color:#d14">&#34;Miss&#34;</span>));
+
+	<span style="color:#000;font-weight:bold">this</span>.comboBox1.FormatString = <span style="color:#d14">&#34;{Name} born on {Birthday}&#34;</span>;
+	<span style="color:#000;font-weight:bold">this</span>.comboBox1.FormattingEnabled = <span style="color:#000;font-weight:bold">true</span>;
+	<span style="color:#000;font-weight:bold">this</span>.comboBox1.DataSource = persons;
+}
+</code></pre></div><p><img src="http://www.timvw.be/wp-content/images/formatting-02.gif" alt=""></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">26</span>
+										<span class="rest">Jul 2007</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Using interfaces with Drag and Drop</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Earlier today i was refactoring some graphical components. I wanted to use an interface instead of concrete implementations for my drag and drop code&hellip; Although i was using an instance of Foo, and thus IFoo, the following code never allowed me to drop</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">interface</span> IFoo { }
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Foo</span> : IFoo { }
+
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> label1_MouseDown(<span style="color:#458;font-weight:bold">object</span> sender, MouseEventArgs e)
+{
+	<span style="color:#000;font-weight:bold">this</span>.DoDragDrop(<span style="color:#000;font-weight:bold">new</span> Foo(), DragDropEffects.All);
+}
+
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Form1_DragEnter(<span style="color:#458;font-weight:bold">object</span> sender, DragEventArgs e)
+{
+	<span style="color:#998;font-style:italic">// for an instance of Foo it returns false,
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// if you use typeof(Foo) it returns true though...
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span> (e.Data.GetDataPresent(<span style="color:#000;font-weight:bold">typeof</span>(IFoo)))
+	{
+		e.Effect = DragDropEffects.All;
+	}
+}
+</code></pre></div><p>Simply wrapping the concrete instance in a <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.dataobject(VS.80).aspx">DataObject</a> results in the desired behaviour</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> label1_MouseDown(<span style="color:#458;font-weight:bold">object</span> sender, MouseEventArgs e)
+{
+	<span style="color:#000;font-weight:bold">this</span>.DoDragDrop(<span style="color:#000;font-weight:bold">new</span> DataObject(<span style="color:#000;font-weight:bold">typeof</span>(IFoo).FullName,<span style="color:#000;font-weight:bold">new</span> Foo()), DragDropEffects.All);
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">18</span>
+										<span class="rest">Jul 2007</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Pondering about DateTime and it&#39;s Ticks...</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Recently someone was able to convince me that there is no problem with using <a href="http://msdn2.microsoft.com/en-us/library/System.Datetime.aspx">System.DateTime</a> for the storage of localtimes (even if DST is in effect), because it works with <a href="http://msdn2.microsoft.com/en-us/library/system.datetime.ticks.aspx">Ticks</a> and i bought into his base + offset story&hellip;. The following table explains his reasoning</p>
+<!-- raw HTML omitted -->
+<pre><code>&lt;th style=&quot;width: 33%&quot;&gt;
+  Localtime
+&lt;/th&gt;
+
+&lt;th style=&quot;width: 33%&quot;&gt;
+  Ticks (Localtime)
+&lt;/th&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 01:59:59
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329133&lt;b&gt;599&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 02:00:00
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329133&lt;b&gt;600&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 02:00:01
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329133&lt;b&gt;601&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 02:59:59
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329137&lt;b&gt;199&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 02:00:00
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329133&lt;b&gt;200&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 02:00:01
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329133&lt;b&gt;201&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<p>This reasoning gives you the impression that for each second <strong>1</strong>0000000 is added to the ticks.. However, this is faulty and in reality you get the following</p>
+<!-- raw HTML omitted -->
+<pre><code>&lt;th style=&quot;width: 33%&quot;&gt;
+  Localtime
+&lt;/th&gt;
+
+&lt;th style=&quot;width: 33%&quot;&gt;
+  Ticks (Localtime)
+&lt;/th&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 01:59:59
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329133&lt;b&gt;599&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 02:00:00
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329133&lt;b&gt;600&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 02:00:01
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329133&lt;b&gt;601&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 02:59:59
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329137&lt;b&gt;199&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 02:00:00
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329133&lt;span style=&quot;color: red&quot;&gt;&lt;b&gt;600&lt;/b&gt;&lt;/span&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 02:00:01
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329133&lt;b&gt;601&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<p>As you can see, instead of adding <strong>1</strong>0000000 to the ticks between 2007-10-27 00:59:59 and 01:00:00 in UTC there is a <!-- raw HTML omitted -->reduction of ticks in the localtime<!-- raw HTML omitted --> instead&hellip;. Because of this new DateTime(633291336000000000, DateTimeKind.Local) could represent both 2007-10-27 00:00:00 UTC and 2007-10-27 01:00:00 UTC&hellip; So if you want to keep out of trouble you&rsquo;d better start storing your dates as UTC&hellip; If you don&rsquo;t believe me, run the test yourself</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">List&lt;dateTime&gt; localTimes = <span style="color:#000;font-weight:bold">new</span> List&lt;dateTime&gt;();
+
+<span style="color:#998;font-style:italic">// start at 2007-10-27 23:59:59 UTC, which is 2007-28-10 01:59:59 localtime
+</span><span style="color:#998;font-style:italic"></span>DateTime utcBase = <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">10</span>, <span style="color:#099">27</span>, <span style="color:#099">23</span>, <span style="color:#099">59</span>, <span style="color:#099">59</span>, DateTimeKind.Utc);
+localTimes.Add(utcBase.ToLocalTime());
+
+<span style="color:#998;font-style:italic">// add 1 second to the base, which is 2007-28-10 02:00:00 localtime (first time)
+</span><span style="color:#998;font-style:italic"></span>localTimes.Add(utcBase.AddSeconds(<span style="color:#099">1</span>).ToLocalTime());
+
+<span style="color:#998;font-style:italic">// add 2 seconds to the base, which is 2007-28-10 02:00:01 localtime (first time)
+</span><span style="color:#998;font-style:italic"></span>localTimes.Add(utcBase.AddSeconds(<span style="color:#099">2</span>).ToLocalTime());
+
+<span style="color:#998;font-style:italic">// add 60 minutes to the base, which is 2007-28-10 02:59:59 localtime (first time)
+</span><span style="color:#998;font-style:italic"></span>localTimes.Add(utcBase.AddMinutes(<span style="color:#099">60</span>).ToLocalTime());
+
+<span style="color:#998;font-style:italic">// add 60 minutes and 1 second to the base, which is 2007-28-10 02:00:00 localtime (second time)
+</span><span style="color:#998;font-style:italic"></span>localTimes.Add(utcBase.AddMinutes(<span style="color:#099">60</span>).AddSeconds(<span style="color:#099">1</span>).ToLocalTime());
+
+<span style="color:#998;font-style:italic">// add 60 minutes and 2 second to the base, which is 2007-28-10 02:00:01 localtime (second time)
+</span><span style="color:#998;font-style:italic"></span>localTimes.Add(utcBase.AddMinutes(<span style="color:#099">60</span>).AddSeconds(<span style="color:#099">2</span>).ToLocalTime());
+
+<span style="color:#000;font-weight:bold">foreach</span> (DateTime localTime <span style="color:#000;font-weight:bold">in</span> localTimes)
+{
+	Console.WriteLine(localTime.ToString(<span style="color:#d14">&#34;yyyy-MM-dd HH:mm:ss&#34;</span>));
+	Console.WriteLine(localTime.Ticks);
+	Console.WriteLine();
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 				
 

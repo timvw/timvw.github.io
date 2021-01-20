@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:05:50+01:00" />
+<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -32,7 +32,8 @@
 	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
 	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
 			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav></div>
+		</nav>
+	</div>
 
 	<nav class="nav">
 		<ul class="flat">
@@ -61,213 +62,628 @@
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">12</span>
-							<span class="rest">Feb 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">12</span>
+										<span class="rest">Feb 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/02/12/pagination-for-all/">Pagination for all</a>
-								</h4>
-								<span class="description">
-									
-										Suppose you have a a large collection of items and you want to display them. Users don&#39;t want to see 5000 items at once....
-									
-								</span>
+								<h1 class="title">Pagination for all</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Suppose you have a a large collection of items and you want to display them. Users don&rsquo;t want to see 5000 items at once. They only want to see a couple of items and have the possibility to look at the next (or previous) couple of items. The solution for this problem is usually named pagination. You can compare this technique with <a href="http://en.wikipedia.org/paging">paging</a>. Most people seem to come up with their own (My)SQL specific implementation. Here are a couple of examples how you can use <a href="http://www.timvw.be/wp-content/code/php/pagination.txt">mine</a></p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#000;font-weight:bold">require</span>(<span style="color:#d14">&#39;http://www.timvw.be/wp-content/code/php/pagination.txt&#39;</span>);
+
+<span style="color:#998;font-style:italic">// step 1 - create pageable data: array example
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$data</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>(
+	<span style="color:#000;font-weight:bold">array</span>(<span style="color:#d14">&#39;name&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;Jameson&#39;</span>, <span style="color:#d14">&#39;surname&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;Jenna&#39;</span>),
+
+
+<span style="color:#000;font-weight:bold">array</span>(<span style="color:#d14">&#39;name&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;Banks&#39;</span>, <span style="color:#d14">&#39;surname&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;Briana&#39;</span>),
+<span style="color:#000;font-weight:bold">array</span>(<span style="color:#d14">&#39;name&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;Giovanni&#39;</span>, <span style="color:#d14">&#39;surname&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;Aria&#39;</span>),
+<span style="color:#000;font-weight:bold">array</span>(<span style="color:#d14">&#39;name&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;Rush&#39;</span>, <span style="color:#d14">&#39;surname&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;Daniella&#39;</span>),
+<span style="color:#000;font-weight:bold">array</span>(<span style="color:#d14">&#39;name&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;Flowers&#39;</span>, <span style="color:#d14">&#39;surname&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;April&#39;</span>)
+);
+<span style="color:#008080">$pageabledata</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageableArray(<span style="color:#008080">$data</span>);
+
+<span style="color:#998;font-style:italic">// step 2 -- create the pager
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$pager</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Pager(<span style="color:#008080">$pageabledata</span>);
+
+<span style="color:#998;font-style:italic">// step 3 -- create the pagewriter
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$pagewriter</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageWriter(<span style="color:#008080">$pager</span>);
+
+<span style="color:#998;font-style:italic">// step 4 -- create the paginator
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$paginator</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Paginator(<span style="color:#008080">$pagewriter</span>);
+
+<span style="color:#998;font-style:italic">// step 5 -- run the paginators
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$paginator</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">run</span>();
+
+<span style="color:#998;font-style:italic">// setp 6 -- output
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$paginator</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">output</span>();
+<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div><p>I have also provided code for situations where you want to paginate File contents, MySQL or ADODB resultsets. In that case the code for step 1 would look like</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#998;font-style:italic">// file example
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$pageabledata</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageableFile(<span style="color:#d14">&#34;/home/users/timvw/.bash_history&#34;</span>);
+
+<span style="color:#998;font-style:italic">// mysql example
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$dblink</span> <span style="color:#000;font-weight:bold">=</span> mysql_connect(<span style="color:#d14">&#39;localhost&#39;</span>, <span style="color:#d14">&#39;username&#39;</span>, <span style="color:#d14">&#39;password&#39;</span>);
+mysql_select_db(<span style="color:#d14">&#39;dbname&#39;</span>, <span style="color:#008080">$dblink</span>);
+<span style="color:#008080">$pageabledata</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageableMySQL(<span style="color:#d14">&#39;SELECT * FROM wp_posts ORDER BY 1&#39;</span>, <span style="color:#008080">$dblink</span>);
+
+<span style="color:#998;font-style:italic">// adodb example
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">require</span>(<span style="color:#d14">&#39;adodb/adodb.inc.php&#39;</span>);
+<span style="color:#008080">$db</span> <span style="color:#000;font-weight:bold">=</span> NewADOConnection(<span style="color:#d14">&#39;mysql://username:password@localhost/dbname&#39;</span>);
+<span style="color:#008080">$pageabledata</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageableADODB(<span style="color:#d14">&#39;SELECT * FROM wp_posts ORDER BY 1&#39;</span>, <span style="color:#008080">$db</span>);
+<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div><p>You will probably want to modify the code so that it generates the html you want. Here is how an example of such a change</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#d14">/**
+</span><span style="color:#d14"> * This class represents a PageJumpWriter
+</span><span style="color:#d14"> */</span>
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PageJumpWriter</span> <span style="color:#000;font-weight:bold">extends</span> PageWriter {
+        <span style="color:#d14">/**
+</span><span style="color:#d14">         * Default constructor
+</span><span style="color:#d14">         * @param $pager the pager
+</span><span style="color:#d14">         * @param $base_url the baseurl for the pager
+</span><span style="color:#d14">         * @param $page_param the name of the page parameter
+</span><span style="color:#d14">	 * @param $items_per_page_param the name of the items per page parameter
+</span><span style="color:#d14">	 * @param $params additional url parameters in the form of a name=&gt;value array
+</span><span style="color:#d14">
+</span><span style="color:#d14">
+</span><span style="color:#d14">*/</span>
+<span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">PageJumpWriter</span>(<span style="color:#000;font-weight:bold">&amp;</span><span style="color:#008080">$pager</span>, <span style="color:#008080">$base\_url</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;, </span><span style="color:#d14">$page\_param</span><span style="color:#d14"> = &#39;page&#39;, </span><span style="color:#d14">$items\_per\_page\_param</span><span style="color:#d14"> = &#39;items\_per_page&#39;, </span><span style="color:#d14">$params</span><span style="color:#d14"> = null) {
+</span><span style="color:#d14">parent::PageWriter(</span><span style="color:#d14">$pager</span><span style="color:#d14">, </span><span style="color:#d14">$base\_url</span><span style="color:#d14">, </span><span style="color:#d14">$page\_param</span><span style="color:#d14">, </span><span style="color:#d14">$items\_per\_page_param</span><span style="color:#d14">, </span><span style="color:#d14">$params</span><span style="color:#d14">);
+</span><span style="color:#d14">}
+</span><span style="color:#d14">
+</span><span style="color:#d14">/**
+</span><span style="color:#d14">* Generate html for the items pager
+</span><span style="color:#d14">* @see PageWriter#makeItemsPager
+</span><span style="color:#d14">*/
+</span><span style="color:#d14">function makeItemsPager() {
+</span><span style="color:#d14"></span><span style="color:#d14">$current_page</span><span style="color:#d14"> = </span><span style="color:#d14">$this-&gt;pager</span><span style="color:#d14">-&gt;getCurrentPage();
+</span><span style="color:#d14"></span><span style="color:#d14">$last_page</span><span style="color:#d14"> = </span><span style="color:#d14">$this-&gt;pager</span><span style="color:#d14">-&gt;getLastPage();
+</span><span style="color:#d14"></span><span style="color:#d14">$prev\_page</span><span style="color:#d14"> = </span><span style="color:#d14">$current\_page</span><span style="color:#d14"> -- 1;
+</span><span style="color:#d14"></span><span style="color:#d14">$next\_page</span><span style="color:#d14"> = </span><span style="color:#d14">$current\_page</span><span style="color:#d14"> + 1;
+</span><span style="color:#d14"></span><span style="color:#d14">$items\_per\_page</span><span style="color:#d14"> = </span><span style="color:#d14">$this-&gt;pager</span><span style="color:#d14">-&gt;getItemsPerPage();
+</span><span style="color:#d14"></span><span style="color:#d14">$html</span><span style="color:#d14"> = &#34;</span> 
+
+<span style="color:#000;font-weight:bold">&lt;</span>div class<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;itemspager&#39;</span><span style="color:#000;font-weight:bold">&gt;</span>
+  <span style="color:#d14">&#34;;&lt;br /&gt; </span><span style="color:#d14">$html</span><span style="color:#d14"> .= &#34;</span><span style="color:#000;font-weight:bold">&lt;</span>br <span style="color:#000;font-weight:bold">/&gt;</span> 
+  <span style="color:#000;font-weight:bold">&lt;</span>p<span style="color:#000;font-weight:bold">&gt;</span>
+    <span style="color:#d14">&#34;;&lt;br /&gt; </span><span style="color:#d14">$html</span><span style="color:#d14"> .= &#34;</span>
+  <span style="color:#000;font-weight:bold">&lt;/</span>p<span style="color:#000;font-weight:bold">&gt;</span>
+<span style="color:#000;font-weight:bold">&lt;/</span>div<span style="color:#000;font-weight:bold">&gt;</span>
+
+<span style="color:#d14">&#34;;
+</span><span style="color:#d14">return </span><span style="color:#d14">$html</span><span style="color:#d14">;
+</span><span style="color:#d14">}
+</span><span style="color:#d14">}
+</span><span style="color:#d14">?&gt;
+</span></code></pre></div><p>If you want to use this customized html generator you simple change the code in step 3 as following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#008080">$pagewriter2</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageJumpWriter(<span style="color:#008080">$pager2</span>);
+<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div><p>The problem with most of these paginators is that you can only use one per page. This is a serious <a href="http://en.wiktionary.org/wiki/PITA">PITA</a>. It&rsquo;s your lucky day, here is an example of two paginators that can run separately in the same page</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<span style="color:#998;font-style:italic">// step 1 - create the pageable data
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$dblink</span> <span style="color:#000;font-weight:bold">=</span> mysql_connect(<span style="color:#d14">&#39;localhost&#39;</span>, <span style="color:#d14">&#39;username&#39;</span>, <span style="color:#d14">&#39;password&#39;</span>);
+mysql_select_db(<span style="color:#d14">&#39;dbname&#39;</span>, <span style="color:#008080">$dblink</span>);
+<span style="color:#008080">$pageabledata</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageableMySQL(<span style="color:#d14">&#39;SELECT * FROM wp_posts ORDER BY 1&#39;</span>, <span style="color:#008080">$dblink</span>);
+<span style="color:#008080">$pageabledata2</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageableFile(<span style="color:#d14">&#39;/var/www/somefile.txt&#39;</span>);
+
+<span style="color:#998;font-style:italic">// step 2 - create the pagers
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$pager</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Pager(<span style="color:#008080">$pageabledata</span>);
+<span style="color:#008080">$pager2</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Pager(<span style="color:#008080">$pageabledata2</span>);
+
+<span style="color:#998;font-style:italic">// step 3 - create the pagewriters
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$pagewriter</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageWriter(<span style="color:#008080">$pager</span>);
+<span style="color:#008080">$pagewriter2</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageJumpWriter(<span style="color:#008080">$pager2</span>, <span style="color:#d14">&#39;&#39;</span>, <span style="color:#d14">&#39;page2&#39;</span>, <span style="color:#d14">&#39;items_per_page2&#39;</span>);
+
+<span style="color:#998;font-style:italic">// step 4 - create the paginators
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$paginator</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Paginator(<span style="color:#008080">$pagewriter</span>);
+<span style="color:#008080">$paginator2</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Paginator(<span style="color:#008080">$pagewriter2</span>);
+
+<span style="color:#998;font-style:italic">// step 5 - run the paginators
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$paginator</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">run</span>();
+
+
+<span style="color:#008080">$paginator2</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">run</span>();
+
+<span style="color:#998;font-style:italic">// add extra url parameters for pagewriters
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$pagewriter</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">setParameters</span>(<span style="color:#000;font-weight:bold">array</span>(
+<span style="color:#008080">$pagewriter2</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getPageParam</span>() <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#008080">$pagewriter2</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">pager</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getCurrentPage</span>(),
+<span style="color:#008080">$pagewriter2</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getItemsPerPageParam</span>() <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#008080">$pagewriter2</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">pager</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getItemsPerPage</span>()
+));
+
+<span style="color:#008080">$pagewriter2</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">setParameters</span>(<span style="color:#000;font-weight:bold">array</span>(
+<span style="color:#008080">$pagewriter</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getPageParam</span>() <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#008080">$pagewriter</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">pager</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getCurrentPage</span>(),
+<span style="color:#008080">$pagewriter</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getItemsPerPageParam</span>() <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#008080">$pagewriter</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">pager</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getItemsPerPage</span>()
+));
+
+<span style="color:#998;font-style:italic">// step 6 -- output
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$paginator</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">output</span>();
+<span style="color:#008080">$paginator2</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">output</span>();
+<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/php">PHP</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">11</span>
-							<span class="rest">Feb 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">11</span>
+										<span class="rest">Feb 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/02/11/preparing-for-my-internship/">Preparing for my internship</a>
-								</h4>
-								<span class="description">
-									
-										Only two more days before my internship starts. I&#39;m a bit nervous and excited to dive into this adventure. Today i decid...
-									
-								</span>
+								<h1 class="title">Preparing for my internship</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Only two more days before my internship starts. I&rsquo;m a bit nervous and excited to dive into this adventure. Today i decided to fresh my knowledge of (MS)-C++ a bit up. I&rsquo;ve read a tutorial on <a href="http://www.newty.de/fpt/index.html">function pointers</a> and <a href="http://msdn.microsoft.com/library/default.asp?url=../../library/en-us/vccore98/html/_core_argument_passing_and_naming_conventions.asp">naming conventions</a>. A couple of weeks ago i already had a look at <a href="http://linuxquality.sunsite.dk/articles/memberpointers/">pointers to member functions</a>.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;iostream&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span><span style="color:#999;font-weight:bold;font-style:italic"></span><span style="color:#000;font-weight:bold">using</span> <span style="color:#000;font-weight:bold">namespace</span> std;
+
+<span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">customcallback</span>() {
+	cout <span style="color:#000;font-weight:bold">&lt;&lt;</span> <span style="color:#d14">&#34;running custom callback&#34;</span> <span style="color:#000;font-weight:bold">&lt;&lt;</span> endl; 
+} 
+<span style="color:#000;font-weight:bold">typedef</span> <span style="color:#900;font-weight:bold">int</span> (<span style="color:#a61717;background-color:#e3d2d2">\</span><span style="color:#000;font-weight:bold">*</span>method)(<span style="color:#458;font-weight:bold">int</span>, <span style="color:#458;font-weight:bold">int</span>); 
+<span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">sum</span>(<span style="color:#458;font-weight:bold">int</span> a, <span style="color:#458;font-weight:bold">int</span> b) { <span style="color:#000;font-weight:bold">return</span> a <span style="color:#000;font-weight:bold">+</span> b; } 
+method <span style="color:#900;font-weight:bold">dosum</span>() { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">&amp;</span>sum; } 
+
+<span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">main</span>() { 
+	<span style="color:#458;font-weight:bold">void</span> (<span style="color:#a61717;background-color:#e3d2d2">\</span><span style="color:#000;font-weight:bold">*</span>plugin)() <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">NULL</span>; 
+	plugin <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">&amp;</span>customcallback; 
+	plugin(); 
+	method mymethod <span style="color:#000;font-weight:bold">=</span> dosum(); 
+	cout <span style="color:#000;font-weight:bold">&lt;&lt;</span> mymethod(<span style="color:#099">10</span>, <span style="color:#099">4</span>) <span style="color:#000;font-weight:bold">&lt;&lt;</span> endl; 
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>; 
+} 
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/c&#43;&#43;">C&#43;&#43;</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">06</span>
-							<span class="rest">Feb 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">06</span>
+										<span class="rest">Feb 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/02/06/gnu-screen/">GNU screen</a>
-								</h4>
-								<span class="description">
-									
-										Another tool that belongs to my favorites is [GNU Screen](http://www.gnu.org/software/screen/). A couple of years ago i ...
-									
-								</span>
+								<h1 class="title">GNU screen</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Another tool that belongs to my favorites is <a href="http://www.gnu.org/software/screen/">GNU Screen</a>. A couple of years ago i had a bad internet connection and when i was working on a remote shell i was always logged out and had to start over. I really hated that 😉 Today i don&rsquo;t have this problem anymore, but i like to keep <a href="http://www.irssi.org">Irssi</a> (an <a href="http://en.wikipedia.org/wiki/IRC">IRC</a> user-agent) running, even when i&rsquo;m not logged in. <a href="http://gentoo-wiki.com/TIP_Using_screen">TIP Using Screen</a> is an article that gives a couple of other reasons to use it and explains how it works. The default settings suck if you also use <a href="http://www.gnu.org/software/emacs/">GNU Emacs</a>. So i had to figure out a couple of keypresses. With &ldquo;cat -v&rdquo; i could easily see what those keypresses were. Here is my .screenrc file</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic">##############################################</span>
+<span style="color:#998;font-style:italic"># # Up##############################################</span>
+startup_message off
+escape ^Oo
+
+<span style="color:#0086b3">bind</span> i screen -t <span style="color:#d14">&#39;irssi&#39;</span>        <span style="color:#099">3</span> irssi
+<span style="color:#0086b3">bind</span> v screen -t <span style="color:#d14">&#39;vim&#39;</span>          <span style="color:#099">4</span> vim
+<span style="color:#0086b3">bind</span> m screen -t <span style="color:#d14">&#39;mutt&#39;</span>         <span style="color:#099">5</span> mutt
+<span style="color:#0086b3">bind</span> b screen -t <span style="color:#d14">&#39;slrn belnet&#39;</span>  <span style="color:#099">6</span> slrn -h news.belnet.be
+<span style="color:#0086b3">bind</span> r screen -t <span style="color:#d14">&#39;slrn php&#39;</span>     <span style="color:#099">7</span> slrn -h news.php.net
+<span style="color:#0086b3">bind</span> e screen -t <span style="color:#d14">&#39;elinks&#39;</span>       <span style="color:#099">8</span> elinks http://www.google.com
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/free-software">Free Software</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">06</span>
-							<span class="rest">Feb 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">06</span>
+										<span class="rest">Feb 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/02/06/gnu-sort/">GNU sort</a>
-								</h4>
-								<span class="description">
-									
-										I already wrote that [GNU Core Utilities](http://www.gnu.org/software/coreutils/) ([GNU Textutils](http://www.gnu.org/so...
-									
-								</span>
+								<h1 class="title">GNU sort</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>I already wrote that <a href="http://www.gnu.org/software/coreutils/">GNU Core Utilities</a> (<a href="http://www.gnu.org/software/textutils/textutils.html">GNU Textutils</a>) have become my favorite text processing tools. Today i wanted to sort a couple of lines using the last three numbers of each line. Here is an example</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">c:/data/backup/JA-229
+c:/data/backup/JA-221
+c:/data/backup/JA-233
+c:/data/backup/NE-046
+c:/data/backup/NE-049
+c:/data/backup/JA-217
+c:/data/backup/JA-225
+</code></pre></div><p>With the command &ldquo;sort -n -t- -k2 myfile.txt&rdquo; i quickly got what i needed.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/free-software">Free Software</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">03</span>
-							<span class="rest">Feb 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">03</span>
+										<span class="rest">Feb 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/02/03/multiple-joins-explained/">Multiple joins explained</a>
-								</h4>
-								<span class="description">
-									
-										I&#39;ll try to explain how a join on more than one table works. I&#39;ve noticed people get confused by it. Assume we have the ...
-									
-								</span>
+								<h1 class="title">Multiple joins explained</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>I&rsquo;ll try to explain how a join on more than one table works. I&rsquo;ve noticed people get confused by it. Assume we have the following tables</p>
+<ul>
+<li>newsitems(news_id,post_id)</li>
+<li>postitems(post_id,user_id,content)</li>
+<li>users(user_id,name,password)</li>
+</ul>
+<p>We want to display for each newsitem the content and the author.</p>
+<p>Our base table would be the newsitems, and then we join using the item_id. Thus the query would be</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">*</span>
+<span style="color:#000;font-weight:bold">FROM</span> newsitems
+<span style="color:#000;font-weight:bold">INNER</span> <span style="color:#000;font-weight:bold">JOIN</span> <span style="color:#000;font-weight:bold">ON</span> postitems <span style="color:#000;font-weight:bold">USING</span> (post_id)
+</code></pre></div><p>This returns a &ldquo;virtual table&rdquo; that has looks like this result(news_id,post_id,user_id,content).</p>
+<p>Now we still need to get the username, so we use our result table and perform a join on the users table. Thus the query would be</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">*</span>
+<span style="color:#000;font-weight:bold">FROM</span> <span style="color:#000;font-weight:bold">result</span>
+<span style="color:#000;font-weight:bold">INNER</span> <span style="color:#000;font-weight:bold">JOIN</span> users <span style="color:#000;font-weight:bold">USING</span> (user_id)
+</code></pre></div><p>If we combine our first two queries, we end up with this</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">*</span>
+<span style="color:#000;font-weight:bold">FROM</span> newsitems
+<span style="color:#000;font-weight:bold">INNER</span> <span style="color:#000;font-weight:bold">JOIN</span> postitems <span style="color:#000;font-weight:bold">USING</span> (post_id)
+<span style="color:#000;font-weight:bold">INNER</span> <span style="color:#000;font-weight:bold">JOIN</span> users <span style="color:#000;font-weight:bold">USING</span> (user_id)
+</code></pre></div><p>Conclusion: Look at A<em>B</em>C as (A*B)*C to easily understand multiple joins</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/sql">SQL</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">28</span>
-							<span class="rest">Jan 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">28</span>
+										<span class="rest">Jan 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/01/28/manytomany-relationships-with-java-persistence-jsr-220/">ManyToMany relationships with Java Persistence (JSR-220)</a>
-								</h4>
-								<span class="description">
-									
-										The scenario is as following: each table can have many reservations, and each reservation can span many tables. Here is ...
-									
-								</span>
+								<h1 class="title">ManyToMany relationships with Java Persistence (JSR-220)</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>The scenario is as following: each table can have many reservations, and each reservation can span many tables. Here is our first trial</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Table.java
+</span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToMany</span><span style="color:#000;font-weight:bold">(</span> 
+  targetEntity<span style="color:#000;font-weight:bold">=</span>Reservation<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span> 
+<span style="color:#000;font-weight:bold">)</span>
+<span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getReservations</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{..}</span>
+
+<span style="color:#998;font-style:italic">// Reservation.java  
+</span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToMany</span><span style="color:#000;font-weight:bold">(</span>   
+  targetEntity<span style="color:#000;font-weight:bold">=</span>Table<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span>
+<span style="color:#000;font-weight:bold">)</span>
+<span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getTables</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{..}</span>
+</code></pre></div><p>We end up with linktables tables_reservations and reservations_tables. This is not what we want. It should not be possible to remove a table when there are still reservations related to that table. We change our code so that table becomes the owner of the relationship.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Table.java
+</span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToMany</span><span style="color:#000;font-weight:bold">(</span> 
+  targetEntity<span style="color:#000;font-weight:bold">=</span>Reservation<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span> 
+  mappedBy<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;tables&#34;</span>
+<span style="color:#000;font-weight:bold">)</span> 
+<span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getReservations</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{..}</span>
+</code></pre></div><p>Allright, now we only have the linktable reservations_tables. Exactly the same as we experienced with <a href="http://www.timvw.be/onetomany-relationships-with-java-persistence-jsr220/">OneToMany</a> relationships the cascading persist works when we persist a child (reservation). If we want the cascading persist to work when we persist a parent (table) we have to make sure that the child (reservation) has the parent set. An important difference is that we can not enforce this thus i advise not to use the cascade attribute on the owner (table).</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Table.java
+</span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToMany</span><span style="color:#000;font-weight:bold">(</span>  
+  targetEntity<span style="color:#000;font-weight:bold">=</span>Reservation<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span>   
+  mappedBy<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;tables&#34;</span>
+<span style="color:#000;font-weight:bold">)</span> 
+<span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getReservations</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{..}</span>
+
+<span style="color:#998;font-style:italic">// Reservation.java
+</span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToMany</span><span style="color:#000;font-weight:bold">(</span> 
+  targetEntity<span style="color:#000;font-weight:bold">=</span>Table<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span>
+  cascade<span style="color:#000;font-weight:bold">=</span>CascadeType<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">PERSIST</span>
+<span style="color:#000;font-weight:bold">)</span>
+<span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getTables</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{..}</span>
+</code></pre></div><p>We decide to use the <a href="http://www.hibernate.org/hib_docs/annotations/reference/en/html/validator.html">Hibernate Validator</a> classes to enforce that a reservation is associated with at least one table. For some reason the SizeValidator returns true if the value is null thus we also add a NotNullValidator:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Reservation.java
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">org.hibernate.validator.*</span><span style="color:#000;font-weight:bold">;</span>
+<span style="color:#3c5d5d;font-weight:bold">@ManyToMany</span><span style="color:#000;font-weight:bold">(</span> 
+  targetEntity<span style="color:#000;font-weight:bold">=</span>Table<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span>  
+  cascade<span style="color:#000;font-weight:bold">=</span>CascadeType<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">PERSIST</span> 
+<span style="color:#000;font-weight:bold">)</span> 
+<span style="color:#3c5d5d;font-weight:bold">@NotNull</span>
+<span style="color:#3c5d5d;font-weight:bold">@Size</span><span style="color:#000;font-weight:bold">(</span>min<span style="color:#000;font-weight:bold">=</span>1<span style="color:#000;font-weight:bold">)</span>
+<span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getTables</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000;font-weight:bold">..</span> <span style="color:#000;font-weight:bold">}</span>
+</code></pre></div><p>Ok, this allows us to enforce that reservations are always associated with at least one table. We decide to allow cascading persist on the parent.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#3c5d5d;font-weight:bold">@ManyToMany</span><span style="color:#000;font-weight:bold">(</span>  
+targetEntity<span style="color:#000;font-weight:bold">=</span>Reservation<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span>  
+mappedBy<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;tables&#34;</span><span style="color:#000;font-weight:bold">,</span>   
+cascade<span style="color:#000;font-weight:bold">=</span>CascadeType<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">PERSIST</span>
+<span style="color:#000;font-weight:bold">)</span> 
+<span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getReservations</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{..}</span>
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/hibernate">Hibernate</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">25</span>
-							<span class="rest">Jan 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">25</span>
+										<span class="rest">Jan 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/01/25/onetomany-relationships-with-java-persistence-jsr-220/">OneToMany relationships with Java Persistence (JSR 220)</a>
-								</h4>
-								<span class="description">
-									
-										Let&#39;s experiment a bit with [Hibernate](http://www.hibernate.org). We want to model the tables employee and shift. Each ...
-									
-								</span>
+								<h1 class="title">OneToMany relationships with Java Persistence (JSR 220)</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Let&rsquo;s experiment a bit with <a href="http://www.hibernate.org">Hibernate</a>. We want to model the tables employee and shift. Each employee has multiple shifts (and each shift belongs to an employee). We want an employee table and a shift table (which has the employee_id as a foreign key).</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Employee.java
+</span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@OneToMany</span><span style="color:#000;font-weight:bold">(</span>targetEntity<span style="color:#000;font-weight:bold">=</span>Shift<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getShifts</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{...}</span>
+<span style="color:#998;font-style:italic">// Shift.java
+</span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToOne</span> <span style="color:#000;font-weight:bold">public</span> Employee <span style="color:#900;font-weight:bold">getEmployee</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{...}</span>
+</code></pre></div><p>The code above generates the following tables: employee, employee_shift and shift. Time to read the documentation and discover the mappedBy attribute.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Employee.java
+</span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@OneToMany</span><span style="color:#000;font-weight:bold">(</span>targetEntity<span style="color:#000;font-weight:bold">=</span>Shift<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span> mappedBy<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;employee&#34;</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getShifts</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{...}</span>
+</code></pre></div><p>Ok, now we get the tables we want. Let&rsquo;s remove an employee that has shifts referencing him. An exception is thrown because of a foreign key constraint.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Employee.java
+</span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@OneToMany</span><span style="color:#000;font-weight:bold">(</span>targetEntity<span style="color:#000;font-weight:bold">=</span>Shift<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span> mappedBy<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;employee&#34;</span><span style="color:#000;font-weight:bold">,</span> cascade<span style="color:#000;font-weight:bold">=</span>CascadeType<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">REMOVE</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getShifts</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{...}</span>
+</code></pre></div><p>Ok, now we have cascading deletes working. Let&rsquo;s try cascading inserts:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Employee.java
+</span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@OneToMany</span><span style="color:#000;font-weight:bold">(</span>targetEntity<span style="color:#000;font-weight:bold">=</span>Shift<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span> mappedBy<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;employee&#34;</span><span style="color:#000;font-weight:bold">,</span> cascade<span style="color:#000;font-weight:bold">=</span>CascadeType<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">ALL</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getShifts</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{...}</span>
+
+<span style="color:#998;font-style:italic">// Main.java
+</span><span style="color:#998;font-style:italic"></span>Employee employee <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Employee<span style="color:#000;font-weight:bold">();</span>
+Shift shift <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Shift<span style="color:#000;font-weight:bold">();</span>
+Vector shifts <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Vector<span style="color:#000;font-weight:bold">();</span>
+shifts<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">add</span><span style="color:#000;font-weight:bold">(</span>shift<span style="color:#000;font-weight:bold">);</span>
+employee<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">setShifts</span><span style="color:#000;font-weight:bold">(</span>shifts<span style="color:#000;font-weight:bold">);</span>
+em<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">persist</span><span style="color:#000;font-weight:bold">(</span>employee<span style="color:#000;font-weight:bold">);</span>
+</code></pre></div><p>With the code above the foreign key of shift will NULL instead of the employee_id. According to the documentation it is expected behaviour that cascading inserts only work when the children are saved.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Employee.java
+</span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@OneToMany</span><span style="color:#000;font-weight:bold">(</span>targetEntity<span style="color:#000;font-weight:bold">=</span>Shift<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span> mappedBy<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;employee&#34;</span><span style="color:#000;font-weight:bold">,</span> cascade<span style="color:#000;font-weight:bold">=</span>CascadeType<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">ALL</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getShifts</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{...}</span>
+<span style="color:#998;font-style:italic">// Main.java
+</span><span style="color:#998;font-style:italic"></span>Employee employee <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Employee<span style="color:#000;font-weight:bold">();</span>
+Shift shift <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Shift<span style="color:#000;font-weight:bold">();</span> 
+shift<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">setEmployee</span><span style="color:#000;font-weight:bold">(</span>employee<span style="color:#000;font-weight:bold">);</span>
+Vector shifts <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Vector<span style="color:#000;font-weight:bold">();</span>
+shifts<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">add</span><span style="color:#000;font-weight:bold">(</span>shift<span style="color:#000;font-weight:bold">);</span>
+employee<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">setShifts</span><span style="color:#000;font-weight:bold">(</span>shifts<span style="color:#000;font-weight:bold">);</span>
+em<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">persist</span><span style="color:#000;font-weight:bold">(</span>employee<span style="color:#000;font-weight:bold">);</span>
+</code></pre></div><p>It appears we can get cascading inserts to work as long as we do not forget to set the employee. We add a constraint so employee can not be null.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Shift.java
+</span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToOne</span> <span style="color:#3c5d5d;font-weight:bold">@Column</span><span style="color:#000;font-weight:bold">(</span>nullable<span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">false</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">public</span> Employee <span style="color:#900;font-weight:bold">getEmployee</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{...}</span>
+<span style="color:#998;font-style:italic">// Main.java
+</span><span style="color:#998;font-style:italic"></span>Shift shift <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Shift<span style="color:#000;font-weight:bold">();</span>
+em<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">persist</span><span style="color:#000;font-weight:bold">(</span>shift<span style="color:#000;font-weight:bold">);</span>
+</code></pre></div><p>WTF? I can persist a NULL reference anyway? The value for employee_id is allowed to be NULL? Have we found a bug? Let&rsquo;s check the documentation:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Shift.java
+</span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToOne</span> <span style="color:#3c5d5d;font-weight:bold">@JoinColumn</span><span style="color:#000;font-weight:bold">(</span>nullable<span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">false</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">public</span> Employee <span style="color:#900;font-weight:bold">getEmployee</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{...}</span>
+<span style="color:#998;font-style:italic">// Main.java
+</span><span style="color:#998;font-style:italic"></span>Shift shift <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Shift<span style="color:#000;font-weight:bold">();</span> 
+em<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">persist</span><span style="color:#000;font-weight:bold">(</span>shift<span style="color:#000;font-weight:bold">);</span>
+</code></pre></div><p>Ok, now are getting somewhere. And exception is thrown if we try to persist a shift that references to an employee that does not exist in the database yet.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Shift.java
+</span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToOne</span><span style="color:#000;font-weight:bold">(</span>cascade<span style="color:#000;font-weight:bold">=</span>CascadeType<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">PERSIST</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#3c5d5d;font-weight:bold">@JoinColumn</span><span style="color:#000;font-weight:bold">(</span>nullable<span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">false</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">public</span> Employee <span style="color:#900;font-weight:bold">getEmployee</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{...}</span>
+</code></pre></div><p>CascadeType.ALL means that i want to cascade events on ALL events. My only requirements where that i cascade on PERSIST (insert) and on REMOVE (delete). So i need to change my annotation as following:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Employee.java
+</span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@OneToMany</span><span style="color:#000;font-weight:bold">(</span>  
+  targetEntity<span style="color:#000;font-weight:bold">=</span>Shift<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span>  
+  mappedBy<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;employee&#34;</span><span style="color:#000;font-weight:bold">,</span>  
+  cascade<span style="color:#000;font-weight:bold">={</span>     
+    CascadeType<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">PERSIST</span><span style="color:#000;font-weight:bold">,</span>    
+    CascadeType<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">REMOVE</span>  
+  <span style="color:#000;font-weight:bold">}</span> 
+<span style="color:#000;font-weight:bold">)</span>
+<span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getShifts</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span><span style="color:#000;font-weight:bold">return</span> shifts<span style="color:#000;font-weight:bold">;}</span>
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/hibernate">Hibernate</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">19</span>
-							<span class="rest">Jan 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">19</span>
+										<span class="rest">Jan 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/01/19/setting-up-an-ssh-tunnel/">Setting up an SSH tunnel</a>
-								</h4>
-								<span class="description">
-									
-										On the machine example there is a ([tcp/ip](http://en.wikipedia.org/wiki/TCP/IP)) program listening on port 12345. The p...
-									
-								</span>
+								<h1 class="title">Setting up an SSH tunnel</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>On the machine example there is a (<a href="http://en.wikipedia.org/wiki/TCP/IP">tcp/ip</a>) program listening on port 12345. The protocol it talks is some <a href="http://en.wikipedia.org/wiki/Plain_text">plaintext</a> language. I want to talk with it, but i do not want others to know what i am sending to it. I am lucky enough to have remote access to that machine via <a href="http://en.wikipedia.org/wiki/Ssh">ssh</a>. I setup a tunnel with the following command</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ssh -N -L 12345:example:12345 timvw@example
+</code></pre></div><p>Now my program can connect to localhost:12345 and ssh will make sure that it ends up at example.:12345 without others being able to see the actual data. For windows users i suggest that you take a look at <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty">Plink</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/free-software">Free Software</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">18</span>
-							<span class="rest">Jan 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">18</span>
+										<span class="rest">Jan 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/01/18/accept-posted-xml-data/">Accept posted XML data</a>
-								</h4>
-								<span class="description">
-									
-										I remember that i have spent a lot of time finding something that allowed me to accept the posted XML data. The solution...
-									
-								</span>
+								<h1 class="title">Accept posted XML data</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>I remember that i have spent a lot of time finding something that allowed me to accept the posted XML data. The solution was very simple</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#008080">$data</span> <span style="color:#000;font-weight:bold">=</span> file_get_contents(<span style="color:#d14">&#34;php://input&#34;</span>);
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/php">PHP</a></li>
+										
+										<li><a href="../../tags/xml">XML</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">18</span>
-							<span class="rest">Jan 2006</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">18</span>
+										<span class="rest">Jan 2006</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2006/01/18/select-the-first-50-words-of-an-article/">Select the first 50 words of an article</a>
-								</h4>
-								<span class="description">
-									
-										I am cleaning up my code snippets and i found the following little trick in one of them that i have removed. Assuming th...
-									
-								</span>
+								<h1 class="title">Select the first 50 words of an article</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>I am cleaning up my code snippets and i found the following little trick in one of them that i have removed. Assuming that different words are separated by spaces we can use <a href="http://dev.mysql.com/doc/refman/5.0/en/string-functions.html">SUBSTRING_INDEX</a> as following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span> SUBSTRING_INDEX(body,<span style="color:#d14">&#39; &#39;</span>,<span style="color:#099">50</span>) <span style="color:#000;font-weight:bold">AS</span> dn <span style="color:#000;font-weight:bold">FROM</span> mytable
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/sql">SQL</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 				
 

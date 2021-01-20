@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:05:50+01:00" />
+<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -32,7 +32,8 @@
 	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
 	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
 			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav></div>
+		</nav>
+	</div>
 
 	<nav class="nav">
 		<ul class="flat">
@@ -61,213 +62,474 @@
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">22</span>
-							<span class="rest">Sep 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">22</span>
+										<span class="rest">Sep 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/09/22/presenting-applicationenvironment/">Presenting ApplicationEnvironment</a>
-								</h4>
-								<span class="description">
-									
-										Imagine we are an ice cream vendor. During summer months our available capacity is twice as high as in the rest of the y...
-									
-								</span>
+								<h1 class="title">Presenting ApplicationEnvironment</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Imagine we are an ice cream vendor. During summer months our available capacity is twice as high as in the rest of the year. In code this problem looks like the following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> AvailableCapacity
+{
+	<span style="color:#000;font-weight:bold">get</span>
+	{
+		DateTime now = DateTime.UtcNow;
+
+		<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">new</span> DateTime(now.Year, <span style="color:#099">6</span>, <span style="color:#099">1</span>) &lt;= now &amp;&amp; now &lt;= <span style="color:#000;font-weight:bold">new</span> DateTime(now.Year, <span style="color:#099">9</span>, <span style="color:#099">1</span>) ) { <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">10000</span>; } 
+		<span style="color:#000;font-weight:bold">else</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">5000</span>; } 
+	} 
+}
+</code></pre></div><p>This code is pretty difficult to test because it depends on DateTime.UtcNow. In order to get control over that dependency i have defined an ApplicationEnvironment and rewritten the code as following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> AvailableCapacity
+{
+	<span style="color:#000;font-weight:bold">get</span>
+	{
+		DateTime now = ApplicationEnvironment.Instance.CurrentDateTime;
+
+		<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">new</span> DateTime(now.Year, <span style="color:#099">6</span>, <span style="color:#099">1</span>) &lt;= now &amp;&amp; now &lt;= <span style="color:#000;font-weight:bold">new</span> DateTime(now.Year, <span style="color:#099">9</span>, <span style="color:#099">1</span>) ) { <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">10000</span>; } 
+		<span style="color:#000;font-weight:bold">else</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">5000</span>; } 
+	} 
+}
+</code></pre></div><p>Now i can use my <a href="http://www.timvw.be/presenting-configurationfilesession/">ConfigurationFileSession</a> to test this code</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestMethod]</span>
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldReturn10000InSummer()
+{
+	<span style="color:#000;font-weight:bold">using</span> (<span style="color:#000;font-weight:bold">new</span> ConfigurationFileSession(<span style="color:#d14">&#34;Summer.config&#34;</span>))
+	{
+		ApplicationEnvironment.Instance.Refresh();
+		Assert.AreEqual(<span style="color:#099">10000</span>, <span style="color:#000;font-weight:bold">new</span> IceCreamPlant().AvailableCapacity);
+	}
+}
+<span style="color:#008080">
+</span><span style="color:#008080">[TestMethod]</span>
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldReturn5000InWinter()
+{
+	<span style="color:#000;font-weight:bold">using</span> (<span style="color:#000;font-weight:bold">new</span> ConfigurationFileSession(<span style="color:#d14">&#34;Winter.config&#34;</span>))
+	{
+		ApplicationEnvironment.Instance.Refresh();
+		Assert.AreEqual(<span style="color:#099">5000</span>, <span style="color:#000;font-weight:bold">new</span> IceCreamPlant().AvailableCapacity);
+	}
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">22</span>
-							<span class="rest">Sep 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">22</span>
+										<span class="rest">Sep 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/09/22/presenting-configurationfilesession/">Presenting ConfigurationFileSession</a>
-								</h4>
-								<span class="description">
-									
-										Here is a little class that allows you to use different configuration files. I find it extremely useful for tests where ...
-									
-								</span>
+								<h1 class="title">Presenting ConfigurationFileSession</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Here is a little class that allows you to use different configuration files. I find it extremely useful for tests where i want to mock the values that would be retrieved via the <a href="http://msdn.microsoft.com/en-us/library/system.configuration.configurationmanager.aspx">ConfigurationManager</a>. Here are a couple of examples how it can be used</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestMethod]</span>
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldUseSystemTimeWhenNoValuesAreProvided()
+{
+	<span style="color:#000;font-weight:bold">using</span> (<span style="color:#000;font-weight:bold">new</span> ConfigurationFileSession(<span style="color:#d14">&#34;WithoutDateTimeManipulation.config&#34;</span>))
+	{
+		ApplicationEnvironment.Instance.Refresh();
+
+		DateTime now = DateTime.UtcNow;
+		TimeSpan allowedDifference = TimeSpan.FromSeconds(<span style="color:#099">1</span>);
+		TimeSpan actualDifference = ApplicationEnvironment.Instance.CurrentDateTime -- configurationNow;
+		Assert.IsTrue(actualDifference &lt; allowedDifference); 
+	} 
+} 
+<span style="color:#008080">		
+</span><span style="color:#008080">[TestMethod]</span> 
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldUseValuesAsProvided() 
+{ 
+	<span style="color:#000;font-weight:bold">using</span> (<span style="color:#000;font-weight:bold">new</span> ConfigurationFileSession(<span style="color:#d14">&#34;WithDateTimeManipulation.config&#34;</span>)) 
+	{ 
+		ApplicationEnvironment.Instance.Refresh(); 
+		DateTime now = <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2000</span>, <span style="color:#099">1</span>, <span style="color:#099">1</span>); 
+		TimeSpan allowedDifference = TimeSpan.FromSeconds(<span style="color:#099">1</span>); 
+		TimeSpan actualDifference = ApplicationEnvironment.Instance.CurrentDateTime - configurationNow; 
+		Assert.IsTrue(actualDifference &lt; allowedDifference); 
+	} 
+}
+</code></pre></div><p>Feel free to download the code from <a href="http://www.codeplex.com/BeTimvwFramework">BeTimvwFramework</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">16</span>
-							<span class="rest">Sep 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">16</span>
+										<span class="rest">Sep 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/09/16/visual-studio-2008-sp1-crashes-when-opening-viewpage-in-designer/">Visual Studio 2008 (SP1) crashes when opening ViewPage in designer</a>
-								</h4>
-								<span class="description">
-									
-										Visual Studio 2008 (SP1) crashed every time i tried to open a ViewPage with the Web Form Editor (designer). Kudos go to ...
-									
-								</span>
+								<h1 class="title">Visual Studio 2008 (SP1) crashes when opening ViewPage in designer</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Visual Studio 2008 (SP1) crashed every time i tried to open a ViewPage with the Web Form Editor (designer). Kudos go to eniac who <a href="http://haacked.com/archive/2008/09/05/mvcfutures-and-asp.net-mvc-beta.aspx">suggested</a> the removal of the <a href="http://code.msdn.microsoft.com/PowerCommands">Power Commands</a> add-in. This made the crashes disappear.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/visual-studio">Visual Studio</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">10</span>
-							<span class="rest">Sep 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">10</span>
+										<span class="rest">Sep 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/09/10/presenting-a-couple-of-custom-markupextensions/">Presenting a couple of custom MarkupExtensions</a>
-								</h4>
-								<span class="description">
-									
-										[XAML](http://en.wikipedia.org/wiki/Xaml) provides us a way to declare objects with xml. Because i don&#39;t want to clutter...
-									
-								</span>
+								<h1 class="title">Presenting a couple of custom MarkupExtensions</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p><a href="http://en.wikipedia.org/wiki/Xaml">XAML</a> provides us a way to declare objects with xml. Because i don&rsquo;t want to clutter my domain classes with attributes like <a href="http://msdn.microsoft.com/en-us/library/system.componentmodel.typeconverterattribute.aspx">TypeConverterAttribute</a>, i needed a different approach to manipulate the parsing. This is where custom <a href="http://msdn.microsoft.com/en-us/library/system.windows.markup.markupextension.aspx">MarkupExtension</a>s come to the rescue. Here is an example where i use the <a href="http://msdn.microsoft.com/en-us/library/ms752340.aspx">x:Array MarkupExtension</a> in order to load a list of Lines into my IList<!-- raw HTML omitted --> Lines property</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
+<span style="color:#000080">&lt;d:Address</span> <span style="color:#008080">xmlns:x=</span><span style="color:#d14">&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34;</span> <span style="color:#008080">xmlns:s=</span><span style="color:#d14">&#34;clr-namespace:System;assembly=mscorlib&#34;</span> <span style="color:#008080">xmlns:d=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Domain;assembly=XamlDemo&#34;</span> <span style="color:#008080">xmlns:e=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo&#34;</span><span style="color:#000080">&gt;</span>
+	<span style="color:#000080">&lt;d:Address.Lines&gt;</span>
+		<span style="color:#000080">&lt;x:Array</span> <span style="color:#008080">Type=</span><span style="color:#d14">&#34;s:String&#34;</span><span style="color:#000080">&gt;</span>
+			<span style="color:#000080">&lt;s:String&gt;</span>Ikaroslaan 21<span style="color:#000080">&lt;/s:String&gt;</span>
+			<span style="color:#000080">&lt;s:String&gt;</span>B-1930 Zaventem<span style="color:#000080">&lt;/s:String&gt;</span>
+		<span style="color:#000080">&lt;/x:Array&gt;</span>
+	<span style="color:#000080">&lt;/d:Address.Lines&gt;</span>
+<span style="color:#000080">&lt;/d:Address&gt;</span>
+</code></pre></div><p>By default all XAML documents have all the data embedded. Sometimes this is undesirable so i decided to define External and ExternalList MarkupExtensions that allow us to specify that the resource is elsewhere available. Here is an example of Jeff who has one address in a different file, Domain\Address\Leuven\Brusselsestraat_400.xaml</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
+<span style="color:#000080">&lt;d:Person</span> <span style="color:#008080">xmlns:x=</span><span style="color:#d14">&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34;</span> <span style="color:#008080">xmlns:s=</span><span style="color:#d14">&#34;clr-namespace:System;assembly=mscorlib&#34;</span> <span style="color:#008080">xmlns:d=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Domain;assembly=XamlDemo&#34;</span> <span style="color:#008080">xmlns:e=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo&#34;</span> <span style="color:#008080">Name=</span><span style="color:#d14">&#34;Jeff&#34;</span> <span style="color:#008080">Birthday=</span><span style="color:#d14">&#34;{e:DateTime 14/10/1972}&#34;</span><span style="color:#000080">&gt;</span>
+	<span style="color:#000080">&lt;d:Person.Addresses&gt;</span>
+		<span style="color:#000080">&lt;e:ExternalList</span> <span style="color:#008080">Type=</span><span style="color:#d14">&#34;XamlDemo.Domain.Address&#34;</span><span style="color:#000080">&gt;</span>
+			<span style="color:#000080">&lt;e:ExternalList.Resources&gt;</span>
+				<span style="color:#000080">&lt;x:Array</span> <span style="color:#008080">Type=</span><span style="color:#d14">&#34;s:String&#34;</span><span style="color:#000080">&gt;</span>
+					<span style="color:#000080">&lt;s:String&gt;</span>Domain.Address.Leuven.Brusselsestraat_400<span style="color:#000080">&lt;/s:String&gt;</span>
+				<span style="color:#000080">&lt;/x:Array&gt;</span>
+			<span style="color:#000080">&lt;/e:ExternalList.Resources&gt;</span>
+		<span style="color:#000080">&lt;/e:ExternalList&gt;</span>
+	<span style="color:#000080">&lt;/d:Person.Addresses&gt;</span>
+<span style="color:#000080">&lt;/d:Person&gt;</span>
+</code></pre></div><p>It is also possible to have multiple redirections. Here is an example of Tim who has two addresses defined in Domain\Address\ForPerson\Tim.xaml</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
+<span style="color:#000080">&lt;d:Person</span> <span style="color:#008080">xmlns:x=</span><span style="color:#d14">&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34;</span> <span style="color:#008080">xmlns:s=</span><span style="color:#d14">&#34;clr-namespace:System;assembly=mscorlib&#34;</span> <span style="color:#008080">xmlns:d=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Domain;assembly=XamlDemo&#34;</span> <span style="color:#008080">xmlns:e=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo&#34;</span> <span style="color:#008080">Name=</span><span style="color:#d14">&#34;Tim&#34;</span> <span style="color:#008080">Birthday=</span><span style="color:#d14">&#34;{e:DateTime 30/04/1980}&#34;</span><span style="color:#000080">&gt;</span>
+	<span style="color:#000080">&lt;d:Person.Addresses&gt;</span>
+		<span style="color:#000080">&lt;e:External</span> <span style="color:#008080">Type=</span><span style="color:#d14">&#34;XamlDemo.Domain.Address&#34;</span> <span style="color:#008080">Resource=</span><span style="color:#d14">&#34;Domain.Address.ForPerson.Tim&#34;</span> <span style="color:#000080">/&gt;</span>
+	<span style="color:#000080">&lt;/d:Person.Addresses&gt;</span>
+<span style="color:#000080">&lt;/d:Person&gt;</span>
+</code></pre></div><p>And here is the definition for Domain\Address\ForPerson\Tim.xaml</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
+<span style="color:#000080">&lt;e:ExternalList</span> <span style="color:#008080">xmlns:x=</span><span style="color:#d14">&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34;</span> <span style="color:#008080">xmlns:s=</span><span style="color:#d14">&#34;clr-namespace:System;assembly=mscorlib&#34;</span> <span style="color:#008080">xmlns:d=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Domain;assembly=XamlDemo&#34;</span> <span style="color:#008080">xmlns:e=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo&#34;</span> <span style="color:#008080">Type=</span><span style="color:#d14">&#34;XamlDemo.Domain.Address&#34;</span><span style="color:#000080">&gt;</span>
+	<span style="color:#000080">&lt;e:ExternalList.Resources&gt;</span>
+		<span style="color:#000080">&lt;x:Array</span> <span style="color:#008080">Type=</span><span style="color:#d14">&#34;s:String&#34;</span><span style="color:#000080">&gt;</span>
+			<span style="color:#000080">&lt;s:String&gt;</span>Domain.Address.Leuven.Bondgenotenlaan_14<span style="color:#000080">&lt;/s:String&gt;</span>
+			<span style="color:#000080">&lt;s:String&gt;</span>Domain.Address.Zaventem.Ikaroslaan_21<span style="color:#000080">&lt;/s:String&gt;</span>
+		<span style="color:#000080">&lt;/x:Array&gt;</span>
+	<span style="color:#000080">&lt;/e:ExternalList.Resources&gt;</span>
+<span style="color:#000080">&lt;/e:ExternalList&gt;</span>
+</code></pre></div><p>Anyway, feel free to download the sample application, <a href="http://www.timvw.be/wp-content/code/csharp/XamlDemo.zip">XamlDemo.zip</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">06</span>
-							<span class="rest">Sep 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">06</span>
+										<span class="rest">Sep 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/09/06/distributed-data-applications-with-asp.net-second-edition/">Distributed Data Applications with ASP.NET, Second Edition</a>
-								</h4>
-								<span class="description">
-									
-										Last week i finally got round to reading [Distributed Data Applications with ASP.NET, Second Edition](http://www.amazon....
-									
-								</span>
+								<h1 class="title">Distributed Data Applications with ASP.NET, Second Edition</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Last week i finally got round to reading <a href="http://www.amazon.com/gp/product/1590593189/">Distributed Data Applications with ASP.NET, Second Edition</a>. The book was written in 2004 and handles technologies like <a href="http://en.wikipedia.org/wiki/HTML_Application">HTML Applications</a> and <a href="http://en.wikipedia.org/wiki/XMLHttpRequest">XMLHttpRequest</a>. Although the book is loaded with code, it also contains plenty of reasoning behind the choice of one approach over another which made me appreciate the book. Definitely worth the 1.5 euros i paid for it.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/book-reviews">Book reviews</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">06</span>
-							<span class="rest">Sep 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">06</span>
+										<span class="rest">Sep 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/09/06/more-on-choosing-names-for-tests/">More on choosing names for tests</a>
-								</h4>
-								<span class="description">
-									
-										Choosing names with the [technique i presented yesterday](http://www.timvw.be/experimenting-with-naming-conventions-for-...
-									
-								</span>
+								<h1 class="title">More on choosing names for tests</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Choosing names with the <a href="http://www.timvw.be/experimenting-with-naming-conventions-for-unit-tests/">technique i presented yesterday</a> leads to at least one class per method. To tackle that explosion of classes i have made two decisions:</p>
+<ol>
+<li>Add a folder for each tested class, this way all the When<!-- raw HTML omitted -->ing classes are grouped.</li>
+<li>Create a single WhenUsing<!-- raw HTML omitted --> class to group simple test methods.</li>
+</ol>
+<p>Here is a screenshot to clarify the changes:</p>
+<p><img src="http://www.timvw.be/wp-content/images/unittest_naming_conventions2.gif" alt="screenshot of visual studio displaying new approach for test naming"></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/information-technology">Information Technology</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">06</span>
-							<span class="rest">Sep 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">06</span>
+										<span class="rest">Sep 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/09/06/presenting-windowsidentityhelper/">Presenting WindowsIdentityHelper</a>
-								</h4>
-								<span class="description">
-									
-										One of the difficulties of using the [WindowsIdentity](http://msdn.microsoft.com/en-us/library/system.security.principal...
-									
-								</span>
+								<h1 class="title">Presenting WindowsIdentityHelper</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>One of the difficulties of using the <a href="http://msdn.microsoft.com/en-us/library/system.security.principal.windowsidentity.aspx">WindowsIdentity</a> class is the fact that it requires a handle (<a href="http://msdn.microsoft.com/en-us/library/system.intptr.aspx">IntPtr</a>) to a Windows Security Token. Using the <a href="http://msdn.microsoft.com/en-us/library/aa378184(VS.85).aspx">LogonUser</a> functionality we can get a hold of such a handle</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[DllImport(Advapi32File, CharSet = DefaultCharSet, SetLastError = DefaultSetLastError)]</span>
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">extern</span> <span style="color:#458;font-weight:bold">bool</span> LogonUser( <span style="color:#998;font-style:italic">/* other parameters */</span>, <span style="color:#000;font-weight:bold">out</span> IntPtr userTokenHandle);
+</code></pre></div><p>The easiest way to avoid memory leaks is to implement a custom <a href="http://msdn.microsoft.com/en-us/library/system.runtime.interopservices.safehandle.aspx">SafeHandle</a></p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">SafeTokenHandle</span> : SafeHandleZeroOrMinusOneIsInvalid
+{
+	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">internal</span> SafeTokenHandle()
+	: <span style="color:#000;font-weight:bold">base</span>(<span style="color:#000;font-weight:bold">true</span>)
+	{
+	}
+
+	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">bool</span> ReleaseHandle()
+	{
+		<span style="color:#000;font-weight:bold">if</span>(!<span style="color:#000;font-weight:bold">this</span>.IsInvalid)
+		{
+			<span style="color:#000;font-weight:bold">return</span> NativeMethods.CloseHandle(<span style="color:#000;font-weight:bold">this</span>.handle);
+		}
+
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>;
+	}
+}
+</code></pre></div><p>With that SafeHandle in place we can change the signature to</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[DllImport(Advapi32File, CharSet = DefaultCharSet, SetLastError = DefaultSetLastError)]</span>
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">extern</span> <span style="color:#458;font-weight:bold">bool</span> LogonUser( <span style="color:#998;font-style:italic">/* other parameters */</span>, <span style="color:#000;font-weight:bold">out</span> SafeTokenHandle userTokenHandle);
+</code></pre></div><p>With the Be.Timvw.Framework.Security.Principal.WindowsIdentityHelper we can now easily obtain a WindowsIdentity and use it to do some impersonation</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">using(WindowsIdentityHelper windowsIdentityHelper = <span style="color:#000;font-weight:bold">new</span> WindowsIdentityHelper(username, domain, password))
+using(windowsIdentityHelper.GetWindowsIdentity().Impersonate())
+{
+	File.WriteAllText(<span style="color:#d14">@&#34;c:\temp\blah.txt&#34;</span>, <span style="color:#d14">&#34;hello there&#34;</span>);
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">05</span>
-							<span class="rest">Sep 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">05</span>
+										<span class="rest">Sep 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/09/05/experimenting-with-naming-conventions-for-unit-tests/">Experimenting with naming conventions for unit tests</a>
-								</h4>
-								<span class="description">
-									
-										To be honest, i never really took the time to think about the names of my unit tests. Although i noticed posts like [thi...
-									
-								</span>
+								<h1 class="title">Experimenting with naming conventions for unit tests</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>To be honest, i never really took the time to think about the names of my unit tests. Although i noticed posts like <a href="http://codebetter.com/blogs/david_laribee/archive/2007/12/17/approaching-bdd.aspx">this one</a> and <a href="http://elegantcode.com/2008/05/01/thanks-to-bdd/">this one</a> they never inspired me to think about it. Earlier this week, <a href="http://www.goeleven.com">Yves Goeleven</a> demonstrated the power of using <a href="http://en.wikipedia.org/wiki/Behavior_driven_development">BDD</a> inspired naming conventions and i was immediately sold. I applied the style on a couple of tests in <a href="http://www.codeplex.com/BeTimvwFramework">BeTimvwFramework</a> and i must say that i like the resulting tests:</p>
+<p><img src="http://www.timvw.be/wp-content/images/unittest_naming_conventions.gif" alt="result of applying bdd-style naming conventions on unittests"></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/information-technology">Information Technology</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">05</span>
-							<span class="rest">Sep 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">05</span>
+										<span class="rest">Sep 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/09/05/the-microsoft-certified-professional-developer-enterprise-applications-developer-on-visual-studio-2005/">The Microsoft Certified Professional Developer: Enterprise Applications Developer on Visual Studio 2005</a>
-								</h4>
-								<span class="description">
-									
-										Not that anyone should care, apart from my manager, i [posted](http://www.timvw.be/mcts/) that the only remaining exam w...
-									
-								</span>
+								<h1 class="title">The Microsoft Certified Professional Developer: Enterprise Applications Developer on Visual Studio 2005</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Not that anyone should care, apart from my manager, i <a href="http://www.timvw.be/mcts/">posted</a> that the only remaining exam was <a href="http://www.microsoft.com/learning/en/us/exams/70-549.mspx">070-549</a> PRO: Designing and Developing Enterprise Applications by Using the Microsoft .NET Framework a while ago. And this morning i passed that exam 🙂 This means that i have earned the &ldquo;<a href="http://www.microsoft.com/learning/mcp/mcpd/entapp/default.mspx">MCPD: Enterprise Applications Developer</a>&rdquo; certificate that demonstrates that i have the comprehensive skills required to build n-tier solutions that target both Web and client user experiences.</p>
+<p>At this moment i am quite involved in a couple of projects using WCF and WF thus it is quite possible that i decide to take the upgrade path to <a href="http://www.microsoft.com/learning/mcp/mcpd/vstudio/2008/default.mspx">MCPD: Enterprise Applications Developer 3.5</a> later on this year.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/awards-and-certifications">Awards and Certifications</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">01</span>
-							<span class="rest">Sep 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">01</span>
+										<span class="rest">Sep 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/09/01/presenting-assemblytypepicker/">Presenting AssemblyTypePicker</a>
-								</h4>
-								<span class="description">
-									
-										I really like the way the [Object Browser](http://msdn.microsoft.com/en-us/library/exy1facf(VS.80).aspx) makes the types...
-									
-								</span>
+								<h1 class="title">Presenting AssemblyTypePicker</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>I really like the way the <a href="http://msdn.microsoft.com/en-us/library/exy1facf(VS.80).aspx">Object Browser</a> makes the types in an assembly visible. Because i have a couple of programs that require a given type as input, i have decided to add a TypeTree control to <a href="http://www.codeplex.com/BeTimvwFramework">BeTimvwFramework</a> that mimicks the Object Browser. Here are a couple of screenshots of the control in a demo application that allows the user to generate interfaces and wrapper classes based on a selected type:</p>
+<p><img src="http://www.timvw.be/wp-content/images/codegenerator_01.gif" alt="screenshot of assemblytypepicker with no values"></p>
+<p><img src="http://www.timvw.be/wp-content/images/codegenerator_02.gif" alt="screenshot of dialog that requests the user to pick an assembly file"></p>
+<p><img src="http://www.timvw.be/wp-content/images/codegenerator_03.gif" alt="screenshot of dialog that requests the user to pick a type in the previously selected assembly"></p>
+<p>Feel free to download <a href="http://www.timvw.be/wp-content/code/csharp/CodeGenerator.zip">CodeGenerator.zip</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 				
 

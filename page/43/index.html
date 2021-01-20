@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:05:50+01:00" />
+<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -32,7 +32,8 @@
 	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
 	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
 			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav></div>
+		</nav>
+	</div>
 
 	<nav class="nav">
 		<ul class="flat">
@@ -61,222 +62,455 @@
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">08</span>
-							<span class="rest">Feb 2005</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">08</span>
+										<span class="rest">Feb 2005</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2005/02/08/getting-started-with-cvs/">Getting started with CVS</a>
-								</h4>
-								<span class="description">
-									
-										I got an e-mail that asked me how to get started with CVS as quick as possible. The first time i got lost too. So i&#39;ll g...
-									
-								</span>
+								<h1 class="title">Getting started with CVS</h1>
 							</div>
 						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">06</span>
-							<span class="rest">Feb 2005</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2005/02/06/configuring-mutt-for-gpg/">Configuring Mutt for GPG</a>
-								</h4>
-								<span class="description">
-									
-										Today i generated a [PGP](http://www.pgpi.org/) (Pretty Good Privacy) key for my e-mail address. I also configured my ma...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">02</span>
-							<span class="rest">Feb 2005</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2005/02/02/elegantly-generate-sql-queries/">Elegantly generate SQL queries</a>
-								</h4>
-								<span class="description">
-									
-										Code: [php/elegantsql.txt](/wp-content/code/php/elegantsql.txt)
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">28</span>
-							<span class="rest">Jan 2005</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2005/01/28/bypassing-url-file-access-is-disabled/">Bypassing URL file-access is disabled</a>
-								</h4>
-								<span class="description">
-									
-										For some odd reason this host has disabled URL file-access.
-  
-So i needed something simple to bypass this problem:
+								
+						<div class="markdown">
+							<p>I got an e-mail that asked me how to get started with CVS as quick as possible. The first time i got lost too. So i&rsquo;ll give a quick summary how i did it (no p-server).</p>
+<p>The repository will live on a <a href="http://www.debian.org">debian</a> machine in /home/users/timvw/services/cvs.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">timvw@debian: apt-get install cvs <span style="color:#998;font-style:italic"># get the tools</span>
+timvw@debian: cvs -d /home/users/timvw/services/cvs init <span style="color:#998;font-style:italic"># create repository</span>
+</code></pre></div><p>On my windows machine i use <a href="http://www.tortoisecvs.org">TortoiseCVS</a>. I want to make a module pecl that will contain all my <a href="http://pecl.php.net">pecl</a> related code.</p>
+<ol>
+<li>Configure TortoiseCVS to use the <a href="http://www.ssh.com">SSH.com</a> client instead of the built-in <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">Putty</a>.</li>
+</ol>
+<!-- raw HTML omitted -->
+<ol start="2">
+<li>Fill in the path to the SSH binary (tools tab).</li>
+</ol>
+<!-- raw HTML omitted -->
+<ol start="3">
+<li>Create a directory that will hold the code (i choose pecl as name).</li>
+</ol>
+<!-- raw HTML omitted -->
+<ol start="4">
+<li>Create a module (Choose the directory you created and click right).</li>
+</ol>
+<!-- raw HTML omitted -->
+<ol start="5">
+<li>Fill in the settings.</li>
+</ol>
+<!-- raw HTML omitted -->
+<ol start="6">
+<li>Hit Ok to initialise the module.</li>
+</ol>
+<!-- raw HTML omitted -->
+<ol start="7">
+<li>Create a README file and add it to the module.</li>
+</ol>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<ol start="8">
+<li>Add a comment message</li>
+</ol>
+<!-- raw HTML omitted -->
+<ol start="9">
+<li>Commit the changes</li>
+</ol>
+<!-- raw HTML omitted -->
+<ol start="10">
+<li>Update your files (Other people have commited their changes).</li>
+</ol>
+<!-- raw HTML omitted -->
+<ol start="11">
+<li>Read The Fine Manual at <a href="http://cvsbook.red-bean.com/cvsbook.html">http://cvsbook.red-bean.com/cvsbook.html</a></li>
+</ol>
 
-```...
-									
-								</span>
-							</div>
 						</div>
-					</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/free-software">Free Software</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">23</span>
-							<span class="rest">Jan 2005</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">06</span>
+										<span class="rest">Feb 2005</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2005/01/23/playing-with-xml-and-xsl/">Playing with XML and XSL</a>
-								</h4>
-								<span class="description">
-									
-										```php  
-// add stuff to an xml document in php4
-$doc = domxml_open_mem($xml);
-$root = $doc-&gt;document_element();
-$inner ...
-									
-								</span>
+								<h1 class="title">Configuring Mutt for GPG</h1>
 							</div>
 						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">20</span>
-							<span class="rest">Jan 2005</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2005/01/20/xslt-annoyances/">XSLT annoyances</a>
-								</h4>
-								<span class="description">
-									
-										Today i&#39;ve finally made the switch. My code generates [XML](http://www.w3.org/XML/) and then i translate it to [XHTML](h...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">29</span>
-							<span class="rest">Dec 2004</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2004/12/29/basic-download-script/">Basic download script</a>
-								</h4>
-								<span class="description">
-									
-										Code: [php/download.txt](/wp-content/code/php/download.txt)
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">09</span>
-							<span class="rest">Dec 2004</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2004/12/09/custom-ordering-with-mysql/">Custom ordering with MySQL</a>
-								</h4>
-								<span class="description">
-									
-										As a follow up to [Custom Ordering](http://www.timvw.be/custom-ordering) I discovered the nice [Field](http://dev.mysql....
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">08</span>
-							<span class="rest">Nov 2004</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2004/11/08/tetrinet-spectator-client/">TetriNet spectator client</a>
-								</h4>
-								<span class="description">
-									
-										I present a Spectator (Applet) for TetriNet: [JSpectator.zip](http://www.timvw.be/wp-content/code/java/JSpectator.zip).
+								
+						<div class="markdown">
+							<p>Today i generated a <a href="http://www.pgpi.org/">PGP</a> (Pretty Good Privacy) key for my e-mail address. I also configured my mailclient, <a href="http://www.mutt.org">mutt</a>, for use with <a href="http://www.gnupg.org">GnuPG</a>. I copied a sample file i found on the net but always got an error message: sh: line 1: pgpewrap: command not found. It appears that /usr/lib/mutt/ is not in the path and therefore is not found. Here is the tweaked .muttrc part:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
 
-									
-								</span>
-							</div>
 						</div>
-					</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/free-software">Free Software</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">18</span>
-							<span class="rest">Jul 2004</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">02</span>
+										<span class="rest">Feb 2005</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2004/07/18/custom-ordering/">Custom ordering</a>
-								</h4>
-								<span class="description">
-									
-										Assume we have a fruits table. And we want to select all the fruits that have a red or orange or blue color. But we want...
-									
-								</span>
+								<h1 class="title">Elegantly generate SQL queries</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Code: <a href="../../wp-content/code/php/elegantsql.txt">php/elegantsql.txt</a></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/php">PHP</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">28</span>
+										<span class="rest">Jan 2005</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Bypassing URL file-access is disabled</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>For some odd reason this host has disabled URL file-access.</p>
+<p>So i needed something simple to bypass this problem:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">fetch_url</span>(<span style="color:#008080">$url</span>)
+{     
+  <span style="color:#000;font-weight:bold">if</span> (preg_match(<span style="color:#d14">&#34;#^http://(.\*?)/(.\*)$#&#34;</span>, <span style="color:#008080">$url</span>, <span style="color:#008080">$matches</span>))    
+  {
+    <span style="color:#008080">$host</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$matches</span>[<span style="color:#099">1</span>];       
+    <span style="color:#008080">$uri</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$matches</span>[<span style="color:#099">2</span>];       
+    <span style="color:#008080">$msg</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;GET /</span><span style="color:#d14">$uri</span><span style="color:#d14"> HTTP/1.0</span><span style="color:#d14">\r\n</span><span style="color:#d14">Host: </span><span style="color:#d14">$host\r\n\r\n</span><span style="color:#d14">&#34;</span>;
+    <span style="color:#008080">$fp</span> <span style="color:#000;font-weight:bold">=</span> fsockopen(<span style="color:#008080">$host</span>, <span style="color:#099">80</span>, <span style="color:#008080">$errno</span>, <span style="color:#008080">$errstr</span>, <span style="color:#099">10</span>);
+    fwrite(<span style="color:#008080">$fp</span>, <span style="color:#008080">$msg</span>);         
+    <span style="color:#008080">$ignore</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">true</span>;        
+    <span style="color:#000;font-weight:bold">while</span> (<span style="color:#000;font-weight:bold">!</span>feof(<span style="color:#008080">$fp</span>))        
+    {            
+      <span style="color:#008080">$read</span> <span style="color:#000;font-weight:bold">=</span> fgets(<span style="color:#008080">$fp</span>, <span style="color:#099">1024</span>);
+      <span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">!</span><span style="color:#008080">$ignore</span>)            
+      {     
+        <span style="color:#008080">$contents</span> <span style="color:#000;font-weight:bold">.=</span> <span style="color:#008080">$read</span>;            
+      }
+      <span style="color:#000;font-weight:bold">if</span> (preg_match(<span style="color:#d14">&#34;^Content-Type: .*?</span><span style="color:#d14">\r\n</span><span style="color:#d14">&#34;</span>, <span style="color:#008080">$read</span>))          
+      {                
+        <span style="color:#008080">$ignore</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">false</span>;          
+      }        
+    }
+    fclose(<span style="color:#008080">$fp</span>);
+    <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$contents</span>;    
+  }
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/php">PHP</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">23</span>
+										<span class="rest">Jan 2005</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Playing with XML and XSL</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#998;font-style:italic">// add stuff to an xml document in php4
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$doc</span> <span style="color:#000;font-weight:bold">=</span> domxml_open_mem(<span style="color:#008080">$xml</span>);
+<span style="color:#008080">$root</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$doc</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">document_element</span>();
+<span style="color:#008080">$inner</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$doc</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">create_element</span>(<span style="color:#d14">&#39;inner&#39;</span>);
+<span style="color:#008080">$root</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$root</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">append_child</span>(<span style="color:#008080">$inner</span>);
+
+<span style="color:#998;font-style:italic">// add stuff to an xml document in php5
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$doc</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> DomDocument(<span style="color:#d14">&#39;1.0&#39;</span>, <span style="color:#d14">&#39;UTF-8&#39;</span>);
+<span style="color:#008080">$doc</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">loadXML</span>(<span style="color:#008080">$xml</span>);
+<span style="color:#008080">$root</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$doc</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getelementsByTagName</span>(<span style="color:#d14">&#39;resultset&#39;</span>)<span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">item</span>(<span style="color:#099">0</span>);
+<span style="color:#008080">$inner</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$doc</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">createElement</span><span style="color:#d14">&#39;inner&#39;</span>);
+<span style="color:#008080">$root</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$root</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">appendChild</span>(<span style="color:#008080">$inner</span>); 
+</code></pre></div><p><a href="http://www.w3.org/TR/xhtml1/">XHTML</a> does not allow to have an empty list, <!-- raw HTML omitted --><!-- raw HTML omitted -->. Therefore we need to test first if there are any nodes we want to put in that list. The code to do this looks like:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;xsl:for-each</span> <span style="color:#008080">select=</span><span style="color:#d14">&#34;//resultset/entity&#34;</span><span style="color:#000080">&gt;</span>
+
+  <span style="color:#000080">&lt;div</span> <span style="color:#008080">class=</span><span style="color:#d14">&#34;mainitem&#34;</span><span style="color:#000080">&gt;</span>
+    <span style="color:#000080">&lt;div</span> <span style="color:#008080">class=</span><span style="color:#d14">&#34;maintitle&#34;</span><span style="color:#000080">&gt;</span>
+      <span style="color:#000080">&lt;xsl:value-of</span> <span style="color:#008080">select=</span><span style="color:#d14">&#34;title&#34;</span><span style="color:#000080">/&gt;</span>
+    <span style="color:#000080">&lt;/div&gt;</span>
+    <span style="color:#000080">&lt;div</span> <span style="color:#008080">class=</span><span style="color:#d14">&#34;maincontent&#34;</span><span style="color:#000080">&gt;</span>
+      <span style="color:#000080">&lt;xsl:if</span> <span style="color:#008080">test=</span><span style="color:#d14">&#34;count(items/item) &gt; 0&#34;</span><span style="color:#000080">&gt;</span>
+        <span style="color:#000080">&lt;ul&gt;</span>
+          <span style="color:#000080">&lt;xsl:for-each</span> <span style="color:#008080">select=</span><span style="color:#d14">&#34;items/item&#34;</span><span style="color:#000080">&gt;</span> 
+            <span style="color:#000080">&lt;li&gt;</span>
+              <span style="color:#000080">&lt;a</span> <span style="color:#008080">href=</span><span style="color:#d14">&#34;{link}&#34;</span><span style="color:#000080">&gt;&lt;xsl:value-of</span> <span style="color:#008080">select=</span><span style="color:#d14">&#34;title&#34;</span><span style="color:#000080">/&gt;&lt;/a&gt;</span>
+            <span style="color:#000080">&lt;/li&gt;</span>
+          <span style="color:#000080">&lt;/xsl:for-each&gt;</span> 
+        <span style="color:#000080">&lt;/ul&gt;</span> 
+      <span style="color:#000080">&lt;/xsl:if&gt;</span>
+    <span style="color:#000080">&lt;/div&gt;</span>
+  <span style="color:#000080">&lt;/div&gt;</span> 
+<span style="color:#000080">&lt;/xsl:for-each&gt;</span>
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/php">PHP</a></li>
+										
+										<li><a href="../../tags/xml">XML</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">20</span>
+										<span class="rest">Jan 2005</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">XSLT annoyances</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Today i&rsquo;ve finally made the switch. My code generates <a href="http://www.w3.org/XML/">XML</a> and then i translate it to <a href="http://www.w3.org/TR/xhtml1/">XHTML</a> with <a href="http://www.w3.org/TR/xslt">XSLT</a>. However, if i write</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;textarea</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;foo&#34;</span><span style="color:#000080">&gt;&lt;/textarea&gt;</span>
+</code></pre></div><p>it will be translated to:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;textarea</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;foo&#34;</span> <span style="color:#000080">/&gt;</span>.
+</code></pre></div><p>A not so good workaround is to write: (Notice the space in the xsl:text)</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;textarea</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;foo&#34;</span><span style="color:#000080">&gt;&lt;xsl:text&gt;</span> <span style="color:#000080">&lt;/xsl:text&gt;&lt;/textarea&gt;</span>
+</code></pre></div><p>UPDATE on 2005-01-20 05:42</p>
+<p>The solution is to use html as output method instead of xml.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;xsl:output</span> <span style="color:#008080">method=</span><span style="color:#d14">&#39;html&#39;</span><span style="color:#000080">/&gt;</span>
+</code></pre></div><p>UPDATE on 2005-01-21 02:15</p>
+<p>You may also want to make sure HTML tags do not get transformed:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;xsl:value-of</span> <span style="color:#008080">select=</span><span style="color:#d14">&#34;attribute[@name=&#39;content&#39;]&#34;</span> <span style="color:#008080">disable-output-escaping=</span><span style="color:#d14">&#34;yes&#34;</span><span style="color:#000080">/&gt;</span>
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/xml">XML</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">29</span>
+										<span class="rest">Dec 2004</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Basic download script</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Code: <a href="../../wp-content/code/php/download.txt">php/download.txt</a></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/php">PHP</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">09</span>
+										<span class="rest">Dec 2004</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Custom ordering with MySQL</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>As a follow up to <a href="http://www.timvw.be/custom-ordering">Custom Ordering</a> I discovered the nice <a href="http://dev.mysql.com/doc/mysql/en/String_functions.html">Field</a> function in <a href="http://www.mysql.com">MySQL.</a> after it was mentionned on my favorite <a href="http://forums.devnetwork.net">PHP Forum</a> by <a href="http://forums.devnetwork.net/profile.php?mode=viewprofile&amp;u=7815">Weirdan</a>. It allows one to order a column on a custom order relation.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">*</span> 
+<span style="color:#000;font-weight:bold">FROM</span> foo
+<span style="color:#000;font-weight:bold">ORDER</span> <span style="color:#000;font-weight:bold">BY</span> FIELD(<span style="color:#000;font-weight:bold">column</span>, <span style="color:#d14">&#39;Z&#39;</span>, <span style="color:#d14">&#39;B&#39;</span>, <span style="color:#d14">&#39;C&#39;</span>) 
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/sql">SQL</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">08</span>
+										<span class="rest">Nov 2004</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">TetriNet spectator client</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>I present a Spectator (Applet) for TetriNet: <a href="http://www.timvw.be/wp-content/code/java/JSpectator.zip">JSpectator.zip</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/java">Java</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">18</span>
+										<span class="rest">Jul 2004</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Custom ordering</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Assume we have a fruits table. And we want to select all the fruits that have a red or orange or blue color. But we want the resultset to have first all the fruits with color=red, then the fruits with color=blue and then the fruits with color=orange. It is obvious we can not use an alphabetical order. Thus we have to introduce our own order relation.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">select</span> <span style="color:#000;font-weight:bold">*</span>
+<span style="color:#000;font-weight:bold">from</span> fruits
+<span style="color:#000;font-weight:bold">where</span> color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;red&#39;</span> <span style="color:#000;font-weight:bold">or</span> color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;blue&#39;</span> <span style="color:#000;font-weight:bold">or</span> color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;orange&#39;</span>
+<span style="color:#000;font-weight:bold">order</span> <span style="color:#000;font-weight:bold">by</span> <span style="color:#000;font-weight:bold">case</span>
+<span style="color:#000;font-weight:bold">when</span> color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;red&#39;</span> <span style="color:#000;font-weight:bold">then</span> <span style="color:#099">0</span>
+<span style="color:#000;font-weight:bold">when</span> color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;blue&#39;</span> <span style="color:#000;font-weight:bold">then</span> <span style="color:#099">1</span>
+<span style="color:#000;font-weight:bold">when</span> color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;orange&#39;</span> <span style="color:#000;font-weight:bold">then</span> <span style="color:#099">2</span>
+<span style="color:#000;font-weight:bold">end</span>
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/sql">SQL</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 				
 

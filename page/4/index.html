@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:05:50+01:00" />
+<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -32,7 +32,8 @@
 	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
 	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
 			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav></div>
+		</nav>
+	</div>
 
 	<nav class="nav">
 		<ul class="flat">
@@ -61,222 +62,533 @@
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">22</span>
-							<span class="rest">Sep 2011</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">22</span>
+										<span class="rest">Sep 2011</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2011/09/22/remove-all-access-rules-from-a-directory/">Remove all access rules from a directory</a>
-								</h4>
-								<span class="description">
-									
-										A while ago i needed to write some code that removes all (existing/inherited) access rules from a given directory. It wa...
-									
-								</span>
+								<h1 class="title">Remove all access rules from a directory</h1>
 							</div>
 						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">19</span>
-							<span class="rest">Aug 2011</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2011/08/19/use-sql-server-profiler-to-see-if-a-connection-is-pooled/">Use SQL Server Profiler to see if a connection is pooled</a>
-								</h4>
-								<span class="description">
-									
-										It took me a couple of websearches to discover how i can see in SQL Server Profiler whether or not a connection is poole...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">18</span>
-							<span class="rest">Aug 2011</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2011/08/18/sqlconnectionstringbuilder-sets-the-pooling-property-to-true-by-default/">SqlConnectionStringBuilder sets the Pooling property to true by default</a>
-								</h4>
-								<span class="description">
-									
-										Here is something that surprised me: SqlConnectionStringBuilder sets the [Pooling](http://msdn.microsoft.com/en-us/libra...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">01</span>
-							<span class="rest">Aug 2011</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2011/08/01/specialized-solution-for-aggregate-string-concatenation/">Specialized solution for aggregate string concatenation</a>
-								</h4>
-								<span class="description">
-									
-										I have noticed that most people come up with the following solution to build a string in T-SQL:
+								
+						<div class="markdown">
+							<p>A while ago i needed to write some code that removes all (existing/inherited) access rules from a given directory. It was pretty frustrating to notice that all my attempts seemed to fail (<a href="http://msdn.microsoft.com/en-us/library/system.security.accesscontrol.commonobjectsecurity.removeaccessrule.aspx">RemoveAccessRule</a>, <a href="http://msdn.microsoft.com/en-us/library/system.security.accesscontrol.objectsecurity.purgeaccessrules.aspx">PurgeAccessRule</a>, &hellip;)</p>
+<p>Finally i found that <a href="">SetAccessRuleProtection</a> was the method that i needed to invoke.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">const</span> <span style="color:#458;font-weight:bold">string</span> Folder = <span style="color:#d14">@&#34;c:\temp\secured&#34;</span>;
+<span style="color:#458;font-weight:bold">var</span> directory = <span style="color:#000;font-weight:bold">new</span> DirectoryInfo(Folder);
+<span style="color:#458;font-weight:bold">var</span> directorySecurity = directory.GetAccessControl();
+directorySecurity.SetAccessRuleProtection(<span style="color:#000;font-weight:bold">true</span>,<span style="color:#000;font-weight:bold">false</span>);
+directory.SetAccessControl(directorySecurity);
+</code></pre></div><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>There you go 😉</p>
 
-```sql
-WITH [Numbers] A...
-									
-								</span>
-							</div>
 						</div>
-					</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/c">C</a></li>
+										
+										<li><a href="../../tags/security">security</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">01</span>
-							<span class="rest">Aug 2011</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">19</span>
+										<span class="rest">Aug 2011</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2011/08/01/trygetresult/">TryGetResult</a>
-								</h4>
-								<span class="description">
-									
-										I think this entry has been in the pipeline for a couple of years now and today i have decided to finally post it 😉 I go...
-									
-								</span>
+								<h1 class="title">Use SQL Server Profiler to see if a connection is pooled</h1>
 							</div>
 						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">15</span>
-							<span class="rest">Jul 2011</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2011/07/15/launch-dtexec-from-powershell/">Launch DtExec from PowerShell</a>
-								</h4>
-								<span class="description">
-									
-										Running an SSIS package from PowerShell (using DTExec) can be as simple as:
+								
+						<div class="markdown">
+							<p>It took me a couple of websearches to discover how i can see in SQL Server Profiler whether or not a connection is pooled. Apparently you have to check &lsquo;Show all columns&rsquo; and then you can check the &lsquo;EventSubClass&rsquo; column:</p>
+<p><a href="http://www.timvw.be/wp-content/uploads/2011/08/sql_server_profiler_eventsubclass.png"><!-- raw HTML omitted --></a></p>
+<p>This is how it looks like in your trace window:</p>
+<p><a href="http://www.timvw.be/wp-content/uploads/2011/08/sql_server_profiler_eventsubclass_trace.png"><!-- raw HTML omitted --></a></p>
 
-```powershell 
-RunPackage -File &#39;C:\test.dt...
-									
-								</span>
-							</div>
 						</div>
-					</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/pooling">pooling</a></li>
+										
+										<li><a href="../../tags/profiler">profiler</a></li>
+										
+										<li><a href="../../tags/sql">SQL</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">13</span>
-							<span class="rest">Jul 2011</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">18</span>
+										<span class="rest">Aug 2011</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2011/07/13/building-a-nums-table-quickly/">Building a Nums table (quickly)</a>
-								</h4>
-								<span class="description">
-									
-										A while ago i presented my approach to generate a nums table [here](http://www.timvw.be/2010/12/11/techniques-learned-in...
-									
-								</span>
+								<h1 class="title">SqlConnectionStringBuilder sets the Pooling property to true by default</h1>
 							</div>
 						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">13</span>
-							<span class="rest">Jul 2011</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2011/07/13/using-user-defined-table-type-with-identity-column-in-ado.net/">Using User-Defined Table Type with Identity column in ADO.NET</a>
-								</h4>
-								<span class="description">
-									
-										A while ago i wanted to use a [User-Defined Table Type](http://msdn.microsoft.com/en-us/library/bb522526.aspx) to pass i...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">19</span>
-							<span class="rest">May 2011</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2011/05/19/set-variables-in-ssis-package-at-runtime/">Set variables in SSIS package at runtime</a>
-								</h4>
-								<span class="description">
-									
-										The documentation on [dtexec Utility (SSIS Tool)](http://msdn.microsoft.com/en-us/library/ms162810.aspx) says the follow...
-									
-								</span>
-							</div>
-						</div>
-					</div>
-				
-					<div class="post">
-						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">09</span>
-							<span class="rest">May 2011</span>
-								</div>
-							</div>
-							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2011/05/09/how-to-handle-short-bursts-of-work/">How to handle (short) bursts of work</a>
-								</h4>
-								<span class="description">
-									
-										Here is a summary of how businesses around me handle short bursts of work:
+								
+						<div class="markdown">
+							<p>Here is something that surprised me: SqlConnectionStringBuilder sets the <a href="http://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnectionstringbuilder.pooling.aspx">Pooling</a> property to true by default.</p>
 
-  * When i go to the doctor: 
-      * find a...
-									
-								</span>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/c">C</a></li>
+										
+										<li><a href="../../tags/t-sql">t-sql</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">01</span>
+										<span class="rest">Aug 2011</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Specialized solution for aggregate string concatenation</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>I have noticed that most people come up with the following solution to build a string in T-SQL:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">WITH</span> [Numbers] <span style="color:#000;font-weight:bold">AS</span> (	  
+	<span style="color:#000;font-weight:bold">SELECT</span> TOP(<span style="color:#099">10</span>) [n]	  
+	<span style="color:#000;font-weight:bold">FROM</span> [Nums] 
+)	  
+<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">@</span>message <span style="color:#000;font-weight:bold">=</span> COALESCE(<span style="color:#000;font-weight:bold">@</span>message, <span style="color:#d14">&#39;&#39;</span>) <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#39;&#39;</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000;font-weight:bold">CAST</span>([n] <span style="color:#000;font-weight:bold">AS</span> nvarchar(<span style="color:#099">2</span>))	  
+<span style="color:#000;font-weight:bold">FROM</span> [Numbers];
+
+<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">@</span>message <span style="color:#000;font-weight:bold">=</span> STUFF(<span style="color:#000;font-weight:bold">@</span>message, <span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#d14">&#39;&#39;</span>);
+<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">@</span>message;
+</code></pre></div><blockquote>
+<p>Important! Microsoft has no official documentation describing this aggregate concatenation
+technique that is based on the assignment SELECT syntax. The behavior described here is
+based on observation alone. The current implementation of the ConcatOrders function doesn’t
+incorporate
+an ORDER BY clause and does not guarantee the order of concatenation. According
+to a blog entry by Microsoft’s Conor Cunningham, it seems that SQL Server will respect an
+ORDER BY clause if specified (<a href="http://blogs.msdn.com/sqltips/archive/2005/07/20/441053.aspx)">http://blogs.msdn.com/sqltips/archive/2005/07/20/441053.aspx)</a>.
+Conor is a very credible source, but I should stress that besides
+this blog entry I haven’t found
+any official documentation describing how a multi-row assignment
+SELECT should behave—with
+or without an ORDER BY clause.</p>
+</blockquote>
+<p>With the aid of FOR XML PATH (as mentionned in <a href="http://www.sql.co.il/books/insidetsql2008/">Inside Microsoft SQL Server 2008: T-SQL Programming</a> we can solve this problem using a documented approach:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">WITH</span> [Numbers] <span style="color:#000;font-weight:bold">AS</span> (	  
+	<span style="color:#000;font-weight:bold">SELECT</span> TOP(<span style="color:#099">10</span>) [n]	  
+	<span style="color:#000;font-weight:bold">FROM</span> [Nums] 
+)	  
+<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">@</span>message <span style="color:#000;font-weight:bold">=</span> (<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#d14">&#39;&#39;</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000;font-weight:bold">CAST</span>([n] <span style="color:#000;font-weight:bold">AS</span> nvarchar(<span style="color:#099">2</span>)) <span style="color:#000;font-weight:bold">AS</span> [<span style="color:#0086b3">text</span>()]  
+<span style="color:#000;font-weight:bold">FROM</span> [Numbers]	  
+<span style="color:#000;font-weight:bold">FOR</span> XML PATH(<span style="color:#d14">&#39;&#39;</span>));
+
+<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">@</span>message <span style="color:#000;font-weight:bold">=</span> STUFF(<span style="color:#000;font-weight:bold">@</span>message, <span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#d14">&#39;&#39;</span>);
+<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">@</span>message;
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/t-sql">t-sql</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">01</span>
+										<span class="rest">Aug 2011</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">TryGetResult</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>I think this entry has been in the pipeline for a couple of years now and today i have decided to finally post it 😉 I got frustrated with the annoying out parameter in TryGet methods so i decided to use a different signature using TryGetResult:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">TryGetResult</span>&lt;T&gt; 
+{
+  <span style="color:#000;font-weight:bold">public</span> TryGetResult()   
+  {   
+    Success = <span style="color:#000;font-weight:bold">false</span>;  
+  }
+
+  <span style="color:#000;font-weight:bold">public</span> TryGetResult(T result)  
+  {   
+    Success = <span style="color:#000;font-weight:bold">true</span>; 
+    Result = result;  
+  }
+
+  <span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> Success { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">set</span>; }
+
+  <span style="color:#000;font-weight:bold">public</span> T Result { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">set</span>; }
+}
+</code></pre></div><p>And now your TryGet methods can have the following signature:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> TryGetResult&lt;Person&gt; TryGetPersonByName(<span style="color:#458;font-weight:bold">string</span> name) 
+{   
+  <span style="color:#998;font-style:italic">// person is not available  
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#000;font-weight:bold">if</span>(name.IsInvalidPersonName()) <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> TryGetResult();
+
+  <span style="color:#998;font-style:italic">// return the person
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> TryGetResult(<span style="color:#000;font-weight:bold">new</span> Person(name));
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/c">C</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">15</span>
+										<span class="rest">Jul 2011</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Launch DtExec from PowerShell</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Running an SSIS package from PowerShell (using DTExec) can be as simple as:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">RunPackage <span style="color:#000;font-weight:bold">-File</span> <span style="color:#d14">&#39;C:\test.dtsx&#39;</span> -DatabaseHost <span style="color:#d14">&#39;.&#39;</span> -DatabaseName <span style="color:#d14">&#39;TEST&#39;</span>;
+</code></pre></div><p>Here are the functions that make it this simple:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> GetDtExecPath {    
+  <span style="color:#008080">$DtsPath</span> = (<span style="color:#0086b3">Get-ItemProperty</span> <span style="color:#d14">&#39;HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup&#39;</span>).SQLPath;    
+  <span style="color:#008080">$DtExecPath</span> = (<span style="color:#0086b3">Resolve-Path</span> <span style="color:#d14">&#34;$DtsPath\Binn\DTExec.exe&#34;</span>);    
+  <span style="color:#008080">$DtExecPath</span>;
+}
+
+<span style="color:#000;font-weight:bold">function</span> GetDtExecPropertyPathValue() {      
+  <span style="color:#000;font-weight:bold">param</span>(
+    <span style="color:#008080">$PropertyPath</span> = <span style="color:#d14">&#39;&#39;</span>,
+    <span style="color:#008080">$Value</span> = <span style="color:#d14">&#39;&#39;</span>;
+  );
+
+  <span style="color:#d14">&#34;$PropertyPath;\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">$Value\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">&#34;</span>;
+}
+
+<span style="color:#000;font-weight:bold">function</span> RunPackage {
+      
+  <span style="color:#000;font-weight:bold">param</span>(        
+  <span style="color:#008080">$DtExecPath</span> = (GetDtExecPath),       
+  <span style="color:#008080">$File</span> = <span style="color:#d14">&#39;test.dtsx&#39;</span>  
+  );
+
+  <span style="color:#008080">$Params</span> = <span style="color:#d14">&#34;/FILE $File&#34;</span>;
+   
+  <span style="color:#000;font-weight:bold">for</span>(<span style="color:#008080">$i</span> = 0; <span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">-lt</span> <span style="color:#008080">$Args</span>.Length; <span style="color:#008080">$i</span> += 2) {       
+    <span style="color:#008080">$PropertyPath</span> = <span style="color:#008080">$Args</span>[<span style="color:#008080">$i</span>].SubString(1);       
+    <span style="color:#008080">$Value</span> = <span style="color:#008080">$Args</span>[<span style="color:#008080">$i</span>+1];       
+    <span style="color:#008080">$PropertyPathValue</span> = GetDtExecPropertyPathValue -PropertyPath <span style="color:#008080">$PropertyPath</span> -Value <span style="color:#008080">$Value</span>;       
+    <span style="color:#008080">$Params</span> += <span style="color:#d14">&#34; /SET $PropertyPathValue&#34;</span>;    
+  } 
+
+  &amp;<span style="color:#d14">&#34;$DtExecPath&#34;</span> <span style="color:#008080">$Params</span>;
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/powershell">PowerShell</a></li>
+										
+										<li><a href="../../tags/ssis">SSIS</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">13</span>
+										<span class="rest">Jul 2011</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Building a Nums table (quickly)</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>A while ago i presented my approach to generate a nums table <a href="http://www.timvw.be/2010/12/11/techniques-learned-in-sqltopia-look-ma-no-loops/">here</a>.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">DECLARE</span> <span style="color:#000;font-weight:bold">@</span><span style="color:#000;font-weight:bold">count</span> <span style="color:#0086b3">INT</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1000</span>;
+
+<span style="color:#000;font-weight:bold">WITH</span>    
+  [Nums1] <span style="color:#000;font-weight:bold">AS</span> ( <span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#099">1</span> <span style="color:#000;font-weight:bold">AS</span> [Value] <span style="color:#000;font-weight:bold">UNION</span> <span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#099">2</span> <span style="color:#000;font-weight:bold">AS</span> [Value] ) 
+, [Nums2] <span style="color:#000;font-weight:bold">AS</span> ( <span style="color:#000;font-weight:bold">SELECT</span> A.<span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> [Nums1] <span style="color:#000;font-weight:bold">AS</span> A, [Nums1] <span style="color:#000;font-weight:bold">AS</span> B, [Nums1] <span style="color:#000;font-weight:bold">AS</span> <span style="color:#000;font-weight:bold">C</span>)  
+, [Nums3] <span style="color:#000;font-weight:bold">AS</span> ( <span style="color:#000;font-weight:bold">SELECT</span> A.<span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> [Nums2] <span style="color:#000;font-weight:bold">AS</span> A, [Nums2] <span style="color:#000;font-weight:bold">AS</span> B, [Nums2] <span style="color:#000;font-weight:bold">AS</span> <span style="color:#000;font-weight:bold">C</span>)
+, [Nums4] <span style="color:#000;font-weight:bold">AS</span> ( <span style="color:#000;font-weight:bold">SELECT</span> A.<span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> [Nums3] <span style="color:#000;font-weight:bold">AS</span> A, [Nums3] <span style="color:#000;font-weight:bold">AS</span> B )
+, [Numbers] <span style="color:#000;font-weight:bold">AS</span> ( <span style="color:#000;font-weight:bold">SELECT</span> TOP(<span style="color:#000;font-weight:bold">@</span><span style="color:#000;font-weight:bold">count</span>) <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span> <span style="color:#000;font-weight:bold">+</span> ROW_NUMBER() OVER(<span style="color:#000;font-weight:bold">ORDER</span> <span style="color:#000;font-weight:bold">BY</span> [Value]) <span style="color:#000;font-weight:bold">AS</span> [Value] <span style="color:#000;font-weight:bold">FROM</span>[Nums4] )
+  
+<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> [Numbers];
+</code></pre></div><p>Because we only use this code once to fill the table we don&rsquo;t really care that it is not very fast. Today i discovered there is a way to speed it up in this wonderful book: <a href="http://oreilly.com/catalog/9780735626034/">Inside Microsoft® SQL Server® 2008: T-SQL Querying</a>:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">WITH</span>
+      
+  [Nums1] <span style="color:#000;font-weight:bold">AS</span> ( <span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#099">1</span> <span style="color:#000;font-weight:bold">AS</span> [Value] <span style="color:#000;font-weight:bold">UNION</span> <span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#099">2</span> <span style="color:#000;font-weight:bold">AS</span> [Value] )  
+, [Nums2] <span style="color:#000;font-weight:bold">AS</span> ( <span style="color:#000;font-weight:bold">SELECT</span> A.<span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> [Nums1] <span style="color:#000;font-weight:bold">AS</span> A, [Nums1] <span style="color:#000;font-weight:bold">AS</span> B, [Nums1] <span style="color:#000;font-weight:bold">AS</span> <span style="color:#000;font-weight:bold">C</span>)
+, [Nums3] <span style="color:#000;font-weight:bold">AS</span> ( <span style="color:#000;font-weight:bold">SELECT</span> A.<span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> [Nums2] <span style="color:#000;font-weight:bold">AS</span> A, [Nums2] <span style="color:#000;font-weight:bold">AS</span> B, [Nums2] <span style="color:#000;font-weight:bold">AS</span> <span style="color:#000;font-weight:bold">C</span>)
+, [Nums4] <span style="color:#000;font-weight:bold">AS</span> ( <span style="color:#000;font-weight:bold">SELECT</span> A.<span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> [Nums3] <span style="color:#000;font-weight:bold">AS</span> A, [Nums3] <span style="color:#000;font-weight:bold">AS</span> B )
+, [Numbers] <span style="color:#000;font-weight:bold">AS</span> ( <span style="color:#000;font-weight:bold">SELECT</span> TOP(<span style="color:#000;font-weight:bold">@</span><span style="color:#000;font-weight:bold">count</span>) <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span> <span style="color:#000;font-weight:bold">+</span> ROW_NUMBER() OVER(<span style="color:#000;font-weight:bold">ORDER</span> <span style="color:#000;font-weight:bold">BY</span> (<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#099">0</span>)) <span style="color:#000;font-weight:bold">AS</span> [Value] <span style="color:#000;font-weight:bold">FROM</span>[Nums4] )
+  
+<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> [Numbers];
+</code></pre></div><p>Yay for features like ORDER BY (SELECT <!-- raw HTML omitted -->).</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/sql">SQL</a></li>
+										
+										<li><a href="../../tags/t-sql">t-sql</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">13</span>
+										<span class="rest">Jul 2011</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Using User-Defined Table Type with Identity column in ADO.NET</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>A while ago i wanted to use a <a href="http://msdn.microsoft.com/en-us/library/bb522526.aspx">User-Defined Table Type</a> to pass in a set of records. Nothing special about this except that the first column of the UDTT was an Identity column:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">CREATE</span> <span style="color:#000;font-weight:bold">TYPE</span> [Star].[example] <span style="color:#000;font-weight:bold">AS</span> <span style="color:#000;font-weight:bold">TABLE</span>(  
+  [Ordinal] [<span style="color:#0086b3">int</span>] <span style="color:#000;font-weight:bold">IDENTITY</span>(<span style="color:#099">1</span>,<span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">NOT</span> <span style="color:#000;font-weight:bold">NULL</span>,  
+  [Name] [nvarchar](<span style="color:#099">200</span>) <span style="color:#000;font-weight:bold">NOT</span> <span style="color:#000;font-weight:bold">NULL</span>,
+)
+</code></pre></div><p>After finding a lot of posts saying that this is not supported a colleague of mine, <a href="http://stevehorsfield.wordpress.com/">Stephen Horsfield</a>, found a way to do it as following:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">var</span> sqlMetaData = <span style="color:#000;font-weight:bold">new</span>[] 
+{  
+  <span style="color:#000;font-weight:bold">new</span> SqlMetaData(<span style="color:#d14">&#34;Ordinal&#34;</span>, SqlDbType.Int, <span style="color:#000;font-weight:bold">true</span>, <span style="color:#000;font-weight:bold">false</span>, SortOrder.Unspecified, -<span style="color:#099">1</span>),   
+  <span style="color:#000;font-weight:bold">new</span> SqlMetaData(<span style="color:#d14">&#34;Name&#34;</span>, SqlDbType.NVarChar, <span style="color:#099">200</span>)
+};
+
+sqlRecords = <span style="color:#000;font-weight:bold">new</span> HashSet&lt;SqlDataRecord&gt;(usersToInclude.Select(user =&gt;
+{   
+  <span style="color:#458;font-weight:bold">var</span> record = <span style="color:#000;font-weight:bold">new</span> SqlDataRecord(sqlMetaData);   
+  record.SetString(<span style="color:#099">1</span>, user.Name);   
+  <span style="color:#000;font-weight:bold">return</span> record; 
+}));
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/ado.net">ado.net</a></li>
+										
+										<li><a href="../../tags/c">C</a></li>
+										
+										<li><a href="../../tags/t-sql">t-sql</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">19</span>
+										<span class="rest">May 2011</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Set variables in SSIS package at runtime</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>The documentation on <a href="http://msdn.microsoft.com/en-us/library/ms162810.aspx">dtexec Utility (SSIS Tool)</a> says the following:</p>
+<blockquote>
+<p>/Set propertyPath;value</p>
+<p>(Optional). Overrides the configuration of a variable, property, container, log provider, Foreach enumerator, or connection within a package. When this option is used, /Set changes the propertyPath argument to the value specified. Multiple /Set options can be specified.</p>
+</blockquote>
+<p>At first sight this works like a charm but as soon as your value has a space dtexec seems to get confused 🙁 It took me a couple of websearches to find a <a href="http://www.sqldev.org/sql-server-integration-services/escape-character-for-set-option-of-dtexec-34546.shtml">post that suggests the following</a>:</p>
+<blockquote>
+<p>dtexec /SET \Package.Variables[User::TheVariable].Properties[Value];''; space'';</p>
+</blockquote>
+<p>It seems that this works like a charm 🙂 Because i am lazy i wrapped this in a powershell function:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> PackageOption()
+{	  
+	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$name</span>, <span style="color:#008080">$value</span>);
+	<span style="color:#d14">&#34;$name;\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">$value\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">&#34;</span>;
+}  
+</code></pre></div><p>And now you can use it as following in your deployment script:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$TheVariableOption</span> = PackageOption -Name <span style="color:#d14">&#34;\Package.Variables[User::TheVariable].Properties[Value]&#34;</span> -Value <span style="color:#d14">&#34;some thing&#34;</span>;
+&amp;dtexec /File <span style="color:#d14">&#34;$package&#34;</span> /<span style="color:#0086b3">Set </span><span style="color:#008080">$TheVariableOption</span>;
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/powershell">PowerShell</a></li>
+										
+										<li><a href="../../tags/ssis">SSIS</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">09</span>
+										<span class="rest">May 2011</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">How to handle (short) bursts of work</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Here is a summary of how businesses around me handle short bursts of work:</p>
+<ul>
+<li>
+<p>When i go to the doctor:</p>
+<ul>
+<li>find an empty seat in the waiting room</li>
+<li>observe who&rsquo;s before me</li>
+<li>wait untill all those people have been seen by the doctor</li>
+</ul>
+</li>
+<li>
+<p>When i go to the supermarket:</p>
+<ul>
+<li>join the queue at the end</li>
+<li>wait untill al before me have been helped</li>
+</ul>
+</li>
+<li>
+<p>When i go the the bakery:</p>
+<ul>
+<li>get a number from a ticketing machine at the entrance</li>
+<li>wait untill a seller indicates he&rsquo;s willing to process my requests</li>
+</ul>
+</li>
+<li>
+<p>When i go to my car dealer:</p>
+</li>
+<li>
+<p>hand over car keys</p>
+</li>
+<li>
+<p>give my mobile phone number</p>
+</li>
+<li>
+<p>relax in the loung untill they come find me (or send me an sms)<!-- raw HTML omitted --></p>
+</li>
+</ul>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+							
+						</div></div>
 				
 				
 

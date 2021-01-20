@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:05:50+01:00" />
+<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -32,7 +32,8 @@
 	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
 	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
 			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav></div>
+		</nav>
+	</div>
 
 	<nav class="nav">
 		<ul class="flat">
@@ -61,213 +62,455 @@
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">15</span>
-							<span class="rest">Oct 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">15</span>
+										<span class="rest">Oct 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/10/15/how-does-the-controller-know-which-action-method-to-invoke/">How does the controller know which action method to invoke?</a>
-								</h4>
-								<span class="description">
-									
-										Yesterday i attended another great [VISUG](http://www.visug.be) event on ASP.NET presented by [Maarten Balliauw](http://...
-									
-								</span>
+								<h1 class="title">How does the controller know which action method to invoke?</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Yesterday i attended another great <a href="http://www.visug.be">VISUG</a> event on ASP.NET presented by <a href="http://blog.maartenballiauw.be/">Maarten Balliauw</a>. He demonstrated a custom filter but did not dig into the mechanics of action method resolving. With the aid of of the ActionName attribute we can map different methods to the same action. The following methods will all map to the same &ldquo;Detail&rdquo; action</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> ActionResult Detail(<span style="color:#458;font-weight:bold">int</span> productId) { ... }
+<span style="color:#000;font-weight:bold">public</span> ActionResult Detail(<span style="color:#458;font-weight:bold">int</span> productId, <span style="color:#458;font-weight:bold">string</span> name) { ... }
+<span style="color:#008080">[ActionName(&#34;Detail&#34;)]</span> <span style="color:#000;font-weight:bold">public</span> ActionResult DisplayDetail(<span style="color:#458;font-weight:bold">int</span> productId) { ... }
+<span style="color:#008080">[ActionName(&#34;Detail&#34;)]</span> <span style="color:#000;font-weight:bold">public</span> ActionResult ModifyDetail(<span style="color:#458;font-weight:bold">int</span> productId, <span style="color:#458;font-weight:bold">string</span> name) { ... }
+</code></pre></div><p>So how does the Controller know which method to invoke? The answer can be found in the ActionMethodSelector which tries to find the method as following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> MethodInfo FindActionMethod(ControllerContext controllerContext, <span style="color:#458;font-weight:bold">string</span> action)
+{
+	List&lt;methodInfo&gt; methodsMatchingName = GetMatchingAliasedMethods(controllerContext, action);
+	methodsMatchingName.AddRange(NonAliasedMethods[action]);
+	List&lt;methodInfo&gt; finalMethods = RunSelectionFilters(controllerContext, methodsMatchingName);
+
+	<span style="color:#000;font-weight:bold">switch</span> (finalMethods.Count)
+	{
+		<span style="color:#000;font-weight:bold">case</span> <span style="color:#099">0</span>: <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">null</span>;
+		<span style="color:#000;font-weight:bold">case</span> <span style="color:#099">1</span>: <span style="color:#000;font-weight:bold">return</span> finalMethods[<span style="color:#099">0</span>];
+		<span style="color:#000;font-weight:bold">default</span>: <span style="color:#000;font-weight:bold">throw</span> CreateAmbiguousMatchException(finalMethods, action);
+	}
+}
+</code></pre></div><p>In the RunSelectionFilters method all the found ActionSelection Attributes have their IsValidForRequest method called in the hope that only one potential method remains.</p>
+<p>The most common scenario is that we want our controller to behave depending upon the request method (POST vs GET). For this scenario there is the AcceptVerbsAttribute. eg</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[ActionName(&#34;Detail&#34;)]</span>
+<span style="color:#008080">[AcceptVerbs(&#34;GET&#34;)]</span>
+<span style="color:#000;font-weight:bold">public</span> ActionResult DisplayDetail(<span style="color:#458;font-weight:bold">int</span> productId) { ... }
+<span style="color:#008080">
+</span><span style="color:#008080">[ActionName(&#34;Detail&#34;)]</span>
+<span style="color:#008080">[AcceptVerbs(&#34;POST&#34;)]</span>
+<span style="color:#000;font-weight:bold">public</span> ActionResult ModifyDetail(<span style="color:#458;font-weight:bold">int</span> productId, <span style="color:#458;font-weight:bold">string</span> name) { ... }
+</code></pre></div><p>The implementation of the IsValidForRequest method in the AcceptVerbsAttribute is pretty simple</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">bool</span> IsValidForRequest(ControllerContext controllerContext, MethodInfo methodInfo)
+{
+	<span style="color:#000;font-weight:bold">if</span> (controllerContext == <span style="color:#000;font-weight:bold">null</span>) <span style="color:#000;font-weight:bold">throw</span> <span style="color:#000;font-weight:bold">new</span> ArgumentNullException(<span style="color:#d14">&#34;controllerContext&#34;</span>);
+
+	<span style="color:#458;font-weight:bold">string</span> incomingVerb = controllerContext.HttpContext.Request.HttpMethod;
+	<span style="color:#000;font-weight:bold">return</span> Verbs.Contains(incomingVerb, StringComparer.OrdinalIgnoreCase);
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/asp.net">ASP.NET</a></li>
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">14</span>
-							<span class="rest">Oct 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">14</span>
+										<span class="rest">Oct 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/10/14/adaptive-control-behavior-linkbutton-without-javascript/">Adaptive control behavior: LinkButton without javascript</a>
-								</h4>
-								<span class="description">
-									
-										&#39;Experiment with [Adaptive Control Behavior](http://msdn.microsoft.com/en-us/library/67276kc5.aspx)&#39; has been an item on...
-									
-								</span>
+								<h1 class="title">Adaptive control behavior: LinkButton without javascript</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>&lsquo;Experiment with <a href="http://msdn.microsoft.com/en-us/library/67276kc5.aspx">Adaptive Control Behavior</a>&rsquo; has been an item on my TO-DO list for a very long time and this weekend i finally found some time to do exactly that. Because i hate it that a <a href="http://msdn.microsoft.com/en-us/library/system.web.ui.webcontrols.linkbutton.aspx">LinkButton</a> renders as <!-- raw HTML omitted --> i decided to develop a <a href="http://msdn.microsoft.com/en-us/library/system.web.ui.adapters.controladapter.aspx">ControlAdapter</a> that makes the LinkButton work without JavaScript. While i was at it i also wrote adapters for the <a href="http://msdn.microsoft.com/en-us/library/system.web.ui.webcontrols.loginstatus(VS.80).aspx">LoginStatus</a> and <a href="http://msdn.microsoft.com/en-us/library/system.web.ui.webcontrols.login.aspx">Login</a> controls. Feel free to play with the <a href="http://www.timvw.be/wp-content/code/csharp/AdaptiveRenderingDemo.zip">Adaptive Rendering Demo</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/asp.net">ASP.NET</a></li>
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">13</span>
-							<span class="rest">Oct 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">13</span>
+										<span class="rest">Oct 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/10/13/revisited-the-int-and-string-valueobject-templates/">Revisited the int and string ValueObject templates</a>
-								</h4>
-								<span class="description">
-									
-										After reading [The Compare Contract](http://blogs.msdn.com/bclteam/archive/2008/10/06/the-compare-contract-kim-hamilton....
-									
-								</span>
+								<h1 class="title">Revisited the int and string ValueObject templates</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>After reading <a href="http://blogs.msdn.com/bclteam/archive/2008/10/06/the-compare-contract-kim-hamilton.aspx">The Compare Contract</a> last week i realized that my <a href="http://www.timvw.be/presenting-templates-for-int-and-string-valueobjects">templates for int and string ValueObjects</a> did not comply with the contract so i decided to add a unittest that reproduces the faulty behavior (and then corrected the implementation)</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestMethod]</span>
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldReturnPositiveWhenComparedWithNull()
+{
+	<span style="color:#a61717;background-color:#e3d2d2">$</span>classname<span style="color:#a61717;background-color:#e3d2d2">$</span> <span style="color:#000;font-weight:bold">value</span> = <span style="color:#000;font-weight:bold">new</span> <span style="color:#a61717;background-color:#e3d2d2">$</span>classname<span style="color:#a61717;background-color:#e3d2d2">$</span>(<span style="color:#d14">&#34;0&#34;</span>);
+	Assert.IsTrue(<span style="color:#000;font-weight:bold">value</span>.CompareTo(<span style="color:#000;font-weight:bold">null</span>) &gt; <span style="color:#099">0</span>);
+}
+</code></pre></div><p>Anyway, feel free to download the corrected <a href="http://www.timvw.be/wp-content/code/csharp/IntValueObject.zip">IntValueObject</a> and <a href="http://www.timvw.be/wp-content/code/csharp/StringValueObject.zip">StringValueObject</a> templates.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/visual-studio">Visual Studio</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">06</span>
-							<span class="rest">Oct 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">06</span>
+										<span class="rest">Oct 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/10/06/the-best-damn-windows-server-2003-book-period/">The Best Damn Windows Server 2003 Book Period</a>
-								</h4>
-								<span class="description">
-									
-										Last week i have read [The Best Damn Windows Server 2003 Book Period](http://www.amazon.com/Windows-Server-Period-Comput...
-									
-								</span>
+								<h1 class="title">The Best Damn Windows Server 2003 Book Period</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Last week i have read <a href="http://www.amazon.com/Windows-Server-Period-Computer-Security/dp/1931836124">The Best Damn Windows Server 2003 Book Period</a>. Although the book contains some interesting guidance i became annoyed with the fact that the book is overloaded with screenshots. Without those screenshots this book would contain around 250 interesting pages.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/book-reviews">Book reviews</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">27</span>
-							<span class="rest">Sep 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">27</span>
+										<span class="rest">Sep 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/09/27/experimenting-with-ndepend/">Experimenting with NDepend</a>
-								</h4>
-								<span class="description">
-									
-										Google Reader found 122 posts in my [blogroll](http://www.timvw.be/wp-links-opml.php) about [NDepend](http://www.ndepend...
-									
-								</span>
+								<h1 class="title">Experimenting with NDepend</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Google Reader found 122 posts in my <a href="http://www.timvw.be/wp-links-opml.php">blogroll</a> about <a href="http://www.ndepend.com">NDepend</a> so i happily accepted the professional license which <a href="http://codebetter.com/blogs/patricksmacchia/">Patrick Smacchia</a> (thank you) offered me earlier this week. I quickly picked the assemblies from a project that has evolved over more than 5 years (.NET 1.0, 1.1 and 2.0) and the tool generated a screen loaded with data, but i found it difficult to extract any valuable information out of the statistics. Although i found zooming in the UI impressive, i was a bit disappointed.</p>
+<p>Today i decided to start with something more sensible and created an NDepend project for the <a href="http://www.codeplex.com/BeTimvwFramework">BeTimvwFramework</a> solution. In order to add the code coverage results i first had to export them from visual studio. And then i let the analyzer do it&rsquo;s job. In the results of the default <a href="http://www.ndepend.com/CQL.htm">CQL</a> queries i found that the DateTimeHelper class was stateless, and thus could be turned into a static class. I also noticed the warning that the UnixEpoch field was public. After giving it a bit of thought i decided to leave the field public, but make it readonly. Although i have only used the tool for only an hour or so, it has already proven it&rsquo;s usefulness. More experimentation is definitely required.</p>
+<p>I will finish with a couple of feature requests:</p>
+<ul>
+<li>Automate the import of code coverage results generated by Visual Studio.</li>
+<li>Use the default browser instead of launching Internet Explorer.</li>
+</ul>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">26</span>
-							<span class="rest">Sep 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">26</span>
+										<span class="rest">Sep 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/09/26/.net-system-management-services/">.NET System Management Services</a>
-								</h4>
-								<span class="description">
-									
-										Earlier this week i finished reading [.NET System Management Services](http://www.amazon.com/System-Management-Services-...
-									
-								</span>
+								<h1 class="title">.NET System Management Services</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Earlier this week i finished reading <a href="http://www.amazon.com/System-Management-Services-Alexander-Golomshtok/dp/1590590589">.NET System Management Services</a>. Although the book was published back in 2003, it still contains a lot of useful information on using the classes in the <a href="http://msdn.microsoft.com/en-us/library/system.management.aspx">System.Management</a> namespace. I did not like the fact that the author really made the effort to explain each line of code in the book. On the other hand, the book contains a lot of useful tips that help with writing <a href="http://en.wikipedia.org/wiki/Windows_Management_Instrumentation">WMI</a> queries, generating managed classes around WMI classes (and objects) and even applications that query <a href="http://nl.wikipedia.org/wiki/Simple_Network_Management_Protocol">SNMP</a> via WMI. All in all, i can recommend the book if you are going to use the System.Management API.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/book-reviews">Book reviews</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">26</span>
-							<span class="rest">Sep 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">26</span>
+										<span class="rest">Sep 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/09/26/presenting-templates-for-int-and-string-valueobjects/">Presenting templates for int and string ValueObjects</a>
-								</h4>
-								<span class="description">
-									
-										Most [ValueObjects](http://domaindrivendesign.org/discussion/messageboardarchive/ValueObjects.html) that i have implemen...
-									
-								</span>
+								<h1 class="title">Presenting templates for int and string ValueObjects</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Most <a href="http://domaindrivendesign.org/discussion/messageboardarchive/ValueObjects.html">ValueObjects</a> that i have implemented were wrappers around an int or a string. Apart from the domain specific rules, there is a lot of repetitive work in implementing operator overloads, IEquatable<!-- raw HTML omitted -->, IComparable<!-- raw HTML omitted -->, &hellip; Thus i decided to create a couple of Item templates that generate this code (and related tests).</p>
+<p>Simply save <a href="http://www.timvw.be/wp-content/code/csharp/IntValueObject.zip">IntValueObject.zip</a> and <a href="http://www.timvw.be/wp-content/code/csharp/StringValueObject.zip">StringValueObject.zip</a> under %My Documents%\Visual Studio 2005\Templates\ItemTemplates and click on &ldquo;Add New Item&rdquo; in your project:</p>
+<p><img src="http://www.timvw.be/wp-content/images/template_add_new_item.gif" alt="screenshot of add new item dialog in visual studio"></p>
+<p>Add the bottom of the dialog you can choose one of the templates:</p>
+<p><img src="http://www.timvw.be/wp-content/images/template_my_templates.gif" alt="screenshot of add new item dialog in visual studio"></p>
+<p>Here is the result of adding an <a href="http://en.wikipedia.org/wiki/International_Standard_Book_Number">International Standard Book Number</a> class:</p>
+<p><img src="http://www.timvw.be/wp-content/images/template_isbn.gif" alt="screenshot of generated artificates for isbn"></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/visual-studio">Visual Studio</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">26</span>
-							<span class="rest">Sep 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">26</span>
+										<span class="rest">Sep 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/09/26/why-mockrepository-does-not-implement-idisposable/">Why MockRepository does not implement IDisposable</a>
-								</h4>
-								<span class="description">
-									
-										Earlier this week i was experimenting with [Rhino Mocks](http://ayende.com/projects/rhino-mocks.aspx) and i was wonderin...
-									
-								</span>
+								<h1 class="title">Why MockRepository does not implement IDisposable</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Earlier this week i was experimenting with <a href="http://ayende.com/projects/rhino-mocks.aspx">Rhino Mocks</a> and i was wondering why the MockRepository does not implement <a href="http://msdn.microsoft.com/en-us/library/system.idisposable.aspx">IDisposable</a> unlike most other mocking frameworks for .NET<!-- raw HTML omitted -->. After a bit of searching i found out that (<a href="http://groups.google.com/group/RhinoMocks/browse_thread/thread/c1a89f58d512d03e/48ca85746276c97b?lnk=gst&amp;q=idisposable+mockrepository&amp;pli=1">here</a>) originally the MockRepository did implement the interface, but that the implementation was removed because it is can be painful (hiding the original exception) when unexpected exceptions are thrown.</p>
+<p>I really like the API. Here is a simple example and notice that i did not have to provide the method name (as in the string &ldquo;GetTime&rdquo;) for the excepted calls.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestClass]</span>
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">WhenTestingApplicabilityOfContract</span>
+{
+	<span style="color:#000;font-weight:bold">private</span> MockRepository repository;
+<span style="color:#008080">
+</span><span style="color:#008080">	[TestInitialize]</span>
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> BeforeEachMethod()
+	{
+		<span style="color:#000;font-weight:bold">this</span>.repository = <span style="color:#000;font-weight:bold">new</span> MockRepository();
+	}
+<span style="color:#008080">
+</span><span style="color:#008080">	[TestCleanup]</span>
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> AfterEachMethod()
+	{
+		<span style="color:#000;font-weight:bold">this</span>.repository.VerifyAll();
+	}
+<span style="color:#008080">
+</span><span style="color:#008080">	[TestMethod]</span>
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldReturnTrueWhenTimeInPeriodOfContract()
+	{
+		ITimeProvider provider = <span style="color:#000;font-weight:bold">this</span>.repository.StrictMock&lt;itimeProvider&gt;();
+
+		using(<span style="color:#000;font-weight:bold">this</span>.repository.Record())
+		{
+			Expect.Call(provider.GetTime()).Return(<span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">01</span>, <span style="color:#099">01</span>));
+			Expect.Call(provider.GetTime()).Return(<span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2008</span>, <span style="color:#099">01</span>, <span style="color:#099">01</span>));
+			Expect.Call(provider.GetTime()).Return(<span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2009</span>, <span style="color:#099">01</span>, <span style="color:#099">01</span>));
+		}
+
+		using(<span style="color:#000;font-weight:bold">this</span>.repository.Playback())
+		{
+			Contract contract = <span style="color:#000;font-weight:bold">new</span> Contract(provider, <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2008</span>, <span style="color:#099">01</span>, <span style="color:#099">01</span>), <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2008</span>, <span style="color:#099">12</span>, <span style="color:#099">31</span>));
+
+			Assert.IsFalse(contract.IsApplicable(), <span style="color:#d14">&#34;not applicablein 2007&#34;</span>);
+			Assert.IsTrue(contract.IsApplicable(), <span style="color:#d14">&#34;applicable in 2008&#34;</span>);
+			Assert.IsFalse(contract.IsApplicable(), <span style="color:#d14">&#34;not applicable in 2009&#34;</span>);
+		}
+	}
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">23</span>
-							<span class="rest">Sep 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">23</span>
+										<span class="rest">Sep 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/09/23/refactoring-applicationenvironment/">Refactoring ApplicationEnvironment</a>
-								</h4>
-								<span class="description">
-									
-										Yesterday i blogged about an [ApplicationEnvironment](http://www.timvw.be/presenting-applicationenvironment/) which had ...
-									
-								</span>
+								<h1 class="title">Refactoring ApplicationEnvironment</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>Yesterday i blogged about an <a href="http://www.timvw.be/presenting-applicationenvironment/">ApplicationEnvironment</a> which had a dependency on the application configuration file. With my <a href="http://www.timvw.be/presenting-configurationfilesession/">ConfigurationFileSession</a> i was able to test the implementation despite that dependency. Today i modified the design a little so that i do not require the ConfigurationFileSession hack anymore.</p>
+<p>First i added an internal constructor as following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">internal</span> <span style="color:#000;font-weight:bold">protected</span> ApplicationEnvironment(DateTime instanceEpoch, DateTime applicationEpoch)
+{
+	<span style="color:#000;font-weight:bold">this</span>.instanceEpoch = instanceEpoch;
+	<span style="color:#000;font-weight:bold">this</span>.applicationEpoch = applicationEpoch;
+}
+</code></pre></div><p>Then i made the internals visible to the test project</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[assembly: InternalsVisibleTo(&#34;Be.Timvw.Framework.Domain.Tests&#34;)]</span>
+</code></pre></div><p>And finally i added a base class that takes care of the initialization and clean up as following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestInitialize]</span>
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> TestInitialize()
+{
+	<span style="color:#000;font-weight:bold">this</span>.original = ApplicationEnvironment.Instance;
+	ApplicationEnvironment.Instance = <span style="color:#000;font-weight:bold">new</span> ApplicationEnvironment(DateTime.UtcNow, <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">1998</span>, <span style="color:#099">01</span>, <span style="color:#099">01</span>));
+}
+<span style="color:#008080">
+</span><span style="color:#008080">[TestCleanup]</span>
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> TestCleanUp()
+{
+	ApplicationEnvironment.Instance = <span style="color:#000;font-weight:bold">this</span>.original;
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
-							<div class="meta">
-								<div class="date">
-									<span class="day">23</span>
-							<span class="rest">Sep 2008</span>
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">23</span>
+										<span class="rest">Sep 2008</span>
+									</div>
 								</div>
-							</div>
+							
 							<div class="matter">
-								<h4 class="title small">
-									<a href="../../2008/09/23/refactoring-effectivitymanager/">Refactoring EffectivityManager</a>
-								</h4>
-								<span class="description">
-									
-										A while ago i presented the [EffectivityManager](http://www.timvw.be/presenting-a-generic-effectivitymanager/). Having u...
-									
-								</span>
+								<h1 class="title">Refactoring EffectivityManager</h1>
 							</div>
 						</div>
-					</div>
+								
+						<div class="markdown">
+							<p>A while ago i presented the <a href="http://www.timvw.be/presenting-a-generic-effectivitymanager/">EffectivityManager</a>. Having used this class for a while i have decided to rename it to Temporal<!-- raw HTML omitted -->. The implementation of IList<!-- raw HTML omitted --> is not required anymore because a user is typically only interested in a specific effectivity, not the evolution of the effectivities.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> ITemporal&lt;T&gt;
+{
+	<span style="color:#000;font-weight:bold">void</span> Modify(T element, DateTime <span style="color:#000;font-weight:bold">from</span>);
+	IEffectivity&lt;T&gt; GetSnapshot(DateTime validityDate);
+	<span style="color:#458;font-weight:bold">bool</span> TryGetSnapshot(DateTime validityDate, <span style="color:#000;font-weight:bold">out</span> IEffectivity&lt;T&gt; effectivity);
+}
+</code></pre></div><p>In the implementation i have added a constructor that accepts a <a href="http://www.timvw.be/presenting-a-generic-discreterange/">DiscreteValuesGenerator<!-- raw HTML omitted --></a> which makes it possible to create Periods with a resolution of a day instead of seconds.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/patterns">Patterns</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 				
 
