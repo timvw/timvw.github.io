@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Here are some powershell functions (using XPath) that come in handy when working with SSIS packages:
 function FindConnectionManagerNames {	param($fileName) $xml = [xml] (Get-Content $fileName);	$ns = New-Object Xml.XmlNamespaceManager $xml.NameTable;	$ns.AddNamespace(&#34;DTS&#34;, &#34;www.microsoft.com/SqlServer/Dts&#34;);	$xml.SelectNodes(&#34;//DTS:ConnectionManager/DTS:Property[@DTS:Name=&#39;ObjectName&#39;]&#34;, $ns) | Foreach { $_.&#34;#text&#34;; } } function GetConnectionManagerConnectionString { param($fileName, $connectionManagerName) $xml = [xml] (Get-Content $fileName); $ns = New-Object Xml.XmlNamespaceManager $xml.NameTable; $ns.AddNamespace(&#34;DTS&#34;, &#34;www.microsoft.com/SqlServer/Dts&#34;); $path = &#34;//DTS:ConnectionManager[DTS:Property=&#39;$connectionManagerName&#39;]/DTS:ObjectData/DTS:ConnectionManager/DTS:Property[@DTS:Name=&#39;ConnectionString&#39;]&#34; $xml.SelectSingleNode($path, $ns).&#34;#text&#34;; } function FindVariables {	param($fileName) $xml = [xml] (Get-Content $fileName); $ns = New-Object Xml.">
 <meta itemprop="datePublished" content="2011-03-12T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-06T15:02:19+01:00" />
+<meta itemprop="dateModified" content="2021-01-20T07:05:50+01:00" />
 <meta itemprop="wordCount" content="107">
 
 
@@ -19,7 +19,7 @@ function FindConnectionManagerNames {	param($fileName) $xml = [xml] (Get-Content
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/2011/03/12/some-powershell-functions-to-work-with-ssis-packages/" />
 <meta property="article:published_time" content="2011-03-12T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-06T15:02:19+01:00" />
+<meta property="article:modified_time" content="2021-01-20T07:05:50+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Some PowerShell functions to work with SSIS packages"/>
 <meta name="twitter:description" content="Here are some powershell functions (using XPath) that come in handy when working with SSIS packages:
