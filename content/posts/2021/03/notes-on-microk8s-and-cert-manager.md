@@ -1,5 +1,5 @@
 ---
-date: 2021-01-20
+date: 2021-03-15
 title: Notes on microk8s and cert-manager
 ---
 Last couple of weeks I've been using [MicroK8s](https://microk8s.io/) for local development.
