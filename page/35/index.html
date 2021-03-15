@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,106 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">10</span>
+										<span class="rest">Sep 2006</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Using DataGridViewComboBoxColumn with Custom Objects</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Earlier today i was playing with the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.datagridview.aspx">DataGridView</a> control. I wanted to have a couple of <a href="http://msdn2.microsoft.com/en-us/library/xwx934x7.aspx">DataGridViewComboBoxColumn</a>s in order to limit the available input options for the user. The documentation clearly mentions the following</p>
+<blockquote>
+<!-- raw HTML omitted -->
+</blockquote>
+<p>Here is sample of a custom object</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Slot</span> {
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> id;
+	<span style="color:#000;font-weight:bold">private</span> DateTime dateTime;
+
+	<span style="color:#000;font-weight:bold">public</span> Slot( <span style="color:#458;font-weight:bold">int</span> id, DateTime dateTime ) {
+		<span style="color:#000;font-weight:bold">this</span>.id = id;
+		<span style="color:#000;font-weight:bold">this</span>.dateTime = dateTime;
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> Id {
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.id; }
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> DateTime DateTime {
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.dateTime; }
+	}
+}
+</code></pre></div><p>And here is the workaround for a one to one mapping</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form 
+{
+	<span style="color:#998;font-style:italic">// here we&#39;ll store the value the user selected in one of the comboboxcolumns
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">private</span> Object selectedValue;
+
+	<span style="color:#000;font-weight:bold">public</span> Form1() 
+	{
+		InitializeComponent();
+		selectedValues = <span style="color:#000;font-weight:bold">new</span> Object[<span style="color:#000;font-weight:bold">this</span>.dataGridView1.Columns.Count];
+
+		<span style="color:#998;font-style:italic">// create a couple of slots an add them to the comboboxcolumns
+</span><span style="color:#998;font-style:italic"></span>		<span style="color:#000;font-weight:bold">for</span> ( <span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">0</span>; i &lt; <span style="color:#099">10</span>; ++i ) 
+		{ 
+			Slot slot = <span style="color:#000;font-weight:bold">new</span> Slot( i, DateTime.Now.AddDays( i ) ); 
+			<span style="color:#000;font-weight:bold">this</span>.Column1.Items.Add( slot ); 
+			<span style="color:#000;font-weight:bold">this</span>.Column2.Items.Add( slot ); 
+		} 
+		<span style="color:#000;font-weight:bold">this</span>.Column1.DisplayMember = <span style="color:#d14">&#34;DateTime&#34;</span>; 
+		<span style="color:#000;font-weight:bold">this</span>.Column2.DisplayMember = <span style="color:#d14">&#34;Id&#34;</span>; 
+	} 
+	
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_CellParsing( <span style="color:#458;font-weight:bold">object</span> sender, DataGridViewCellParsingEventArgs e ) 
+	{ 
+		<span style="color:#998;font-style:italic">// lookup the selected value 
+</span><span style="color:#998;font-style:italic"></span>		e.Value = <span style="color:#000;font-weight:bold">this</span>.selectedValue; 
+		e.ParsingApplied = <span style="color:#000;font-weight:bold">true</span>; 
+	} 
+	
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing( <span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e ) 
+	{ 
+		ComboBox cb = e.Control <span style="color:#000;font-weight:bold">as</span> ComboBox; 
+		<span style="color:#000;font-weight:bold">if</span> ( cb != <span style="color:#000;font-weight:bold">null</span> ) 
+		{ 
+			cb.SelectedIndexChanged -= cb_SelectedIndexChanged; 
+			cb.SelectedIndexChanged += cb_SelectedIndexChanged; 
+		} 
+	} 
+	
+	<span style="color:#000;font-weight:bold">void</span> cb_SelectedIndexChanged(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e) 
+	{ 
+		ComboBox comboBox = sender <span style="color:#000;font-weight:bold">as</span> ComboBox; 
+		<span style="color:#000;font-weight:bold">this</span>.selectedValue = comboBox.SelectedItem; 
+	} 
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -493,45 +593,6 @@ background<span style="color:#000;font-weight:bold">-</span>color<span style="co
 									<ul class="flat">
 										
 										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">21</span>
-										<span class="rest">Aug 2006</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Experimenting with Oracle and PL/SQL</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>As i already wrote, last couple of days i&rsquo;ve been experimenting with PL/SQL. At work we use <a href="http://www.toadsoft.com/toad_oracle.htm">Toad for Oracle</a> but since <a href="http://www.toadsoft.com/">TOADSoft</a> only offers a limited freeware version i decided to write my code with <a href="http://www.vim.org">GVim</a> and use <a href="http://orafaq.com/faqplus.htm#WHAT">SQL*Plus</a> at home. Here are a couple of lines i added to my login.sql file</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">DEFINE _EDITOR<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;gvim -c &#34;set filetype=sql&#34;&#39;</span>
-<span style="color:#000;font-weight:bold">SET</span> SERVEROUTPUT <span style="color:#000;font-weight:bold">ON</span>
-<span style="color:#000;font-weight:bold">SET</span> LINESIZE <span style="color:#099">120</span>
-<span style="color:#000;font-weight:bold">SET</span> AUTOCOMMIT <span style="color:#000;font-weight:bold">OFF</span>
-<span style="color:#000;font-weight:bold">ALTER</span> <span style="color:#000;font-weight:bold">SESSION</span> <span style="color:#000;font-weight:bold">SET</span> NLS_DATE_FORMAT<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;YYYY-MM-DD&#39;</span>;
-</code></pre></div><p>In a stored procedure i created and filled an instance of NUMBER_TABLE (CREATE TYPE NUMBER_TABLE AS TABLE OF NUMBER) and my stored procedure tried to select all the rows in that table (SELECT * FROM V_NUMBER_TABLE). Apparently the engine didn&rsquo;t know this type @runtime despite the fact that i declared it in my stored procedure (V_NUMBER TABLE NUMBER_TABLE := NUMBER_TABLE();) and the engine compiled the package without errors. I got round that problem as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> (<span style="color:#000;font-weight:bold">CAST</span>(V_NUMBER_TABLE <span style="color:#000;font-weight:bold">AS</span> NUMBER_TABLE));
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/sql">SQL</a></li>
 										
 									</ul>
 								

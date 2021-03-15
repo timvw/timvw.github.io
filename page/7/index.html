@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,44 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">11</span>
+										<span class="rest">Nov 2010</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Get variable value from variable with PowerShell</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Sometimes you only know at runtime in which variable a certain value is stored. Let me clarify with an example:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$tim</span> = 30;
+<span style="color:#008080">$evy</span> = 24;
+<span style="color:#008080">$name</span> = <span style="color:#0086b3">Read-Host</span> <span style="color:#d14">&#34;Enter your name&#34;</span>;
+</code></pre></div><p>In essence, if $name equals tim we want to use $tim and if $name equals evy we want to use $evy. This can be achieved with Get-Variable:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$age</span> = <span style="color:#0086b3">Get-Variable</span> <span style="color:#008080">$name</span> -valueOnly;
+<span style="color:#0086b3">Write-Host</span> <span style="color:#d14">&#34;Your age is $age&#34;</span>;
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/powershell">PowerShell</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -494,76 +532,6 @@ WHILE <span style="color:#000;font-weight:bold">@@</span>FETCH_STATUS <span styl
 										<li><a href="../../tags/sts">sts</a></li>
 										
 										<li><a href="../../tags/wif">wif</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">25</span>
-										<span class="rest">Aug 2010</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Making the TemplateFileTask easier to use...</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>One of the disadvantages of the TemplateFile task (<a href="http://msbuildtasks.tigris.org/">msbuildtasks</a>) is the fact that it requires a lot of typing to define template values</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;ItemGroup</span> <span style="color:#008080">Condition=</span> <span style="color:#d14">&#34; &#39;$(ConfigurationEnvironment)&#39;==&#39;build&#39; &#34;</span><span style="color:#000080">&gt;</span>
-	<span style="color:#000080">&lt;Tokens</span> <span style="color:#008080">Include=</span><span style="color:#d14">&#34;a&#34;</span><span style="color:#000080">&gt;</span>
-		<span style="color:#000080">&lt;ReplacementValue&gt;</span>localhost<span style="color:#000080">&lt;/ReplacementValue&gt;</span>
-	<span style="color:#000080">&lt;/Tokens&gt;</span>
-	<span style="color:#000080">&lt;Tokens</span> <span style="color:#008080">Include=</span><span style="color:#d14">&#34;b&#34;</span><span style="color:#000080">&gt;</span>
-		<span style="color:#000080">&lt;ReplacementValue&gt;&lt;mynode/&gt;&lt;/ReplacementValue&gt;</span>
-	<span style="color:#000080">&lt;/Tokens&gt;</span>
-<span style="color:#000080">&lt;/ItemGroup&gt;</span>
-</code></pre></div><p>Here is a format proposition to make this a lot more finger friendly</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;configuration&gt;</span>
-	<span style="color:#000080">&lt;variables</span> <span style="color:#008080">env=</span><span style="color:#d14">&#34;build&#34;</span><span style="color:#000080">&gt;</span>
-		<span style="color:#000080">&lt;x</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;a&#34;</span><span style="color:#000080">&gt;</span>localhost<span style="color:#000080">&lt;/x&gt;</span>
-		<span style="color:#000080">&lt;x</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;b</span><span style="color:#000080">&gt;&lt;mynode/&gt;&lt;/x&gt;</span>
-	<span style="color:#000080">&lt;/variables&gt;</span>
-<span style="color:#000080">&lt;/configuration&gt;</span>
-</code></pre></div><p>Here is the msbuild script we need to achieve that</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;PropertyGroup&gt;</span>
-	<span style="color:#000080">&lt;ConfigurationFile&gt;</span>configuration.xml<span style="color:#000080">&lt;/ConfigurationFile&gt;</span>
-	<span style="color:#000080">&lt;ConfigurationEnvironment&gt;</span>build<span style="color:#000080">&lt;/ConfigurationEnvironment&gt;</span>
-<span style="color:#000080">&lt;/PropertyGroup&gt;</span>
-
-<span style="color:#998;font-style:italic">&lt;!-- Retreive all template values for the specific environment --&gt;</span>
-<span style="color:#000080">&lt;XmlQuery</span> <span style="color:#008080">XmlFileName=</span><span style="color:#d14">&#34;$(ConfigurationFile)&#34;</span> <span style="color:#008080">XPath =</span> <span style="color:#d14">&#34;//variables[@env=&#39;$(ConfigurationEnvironment)&#39;]/*&#34;</span><span style="color:#000080">&gt;</span>
-	<span style="color:#000080">&lt;Output</span> <span style="color:#008080">TaskParameter=</span><span style="color:#d14">&#34;Values&#34;</span> <span style="color:#008080">ItemName=</span><span style="color:#d14">&#34;Values&#34;</span> <span style="color:#000080">/&gt;</span>
-<span style="color:#000080">&lt;/XmlQuery&gt;</span>
-
-<span style="color:#000080">&lt;--</span> <span style="color:#a61717;background-color:#e3d2d2">Construct</span> <span style="color:#a61717;background-color:#e3d2d2">@Tokens</span> <span style="color:#a61717;background-color:#e3d2d2">--</span><span style="color:#000080">&gt;</span>
-<span style="color:#000080">&lt;ItemGroup&gt;</span>
-	<span style="color:#000080">&lt;Tokens</span> <span style="color:#008080">Include=</span><span style="color:#d14">&#34;%(Values.name)&#34;</span><span style="color:#000080">&gt;</span>
-		<span style="color:#000080">&lt;ReplacementValue&gt;</span>%(Values._innerxml)<span style="color:#000080">&lt;/ReplacementValue&gt;</span>
-	<span style="color:#000080">&lt;/Tokens&gt;</span>
-<span style="color:#000080">&lt;/ItemGroup&gt;</span>
-
-<span style="color:#998;font-style:italic">&lt;!-- Generate the configuration files --&gt;</span>
-<span style="color:#000080">&lt;Message</span> <span style="color:#008080">Text=</span><span style="color:#d14">&#34;Available variables:&#34;</span> <span style="color:#000080">/&gt;</span>
-<span style="color:#000080">&lt;Message</span> <span style="color:#008080">Text=</span><span style="color:#d14">&#34;====================&#34;</span> <span style="color:#000080">/&gt;</span>
-<span style="color:#000080">&lt;Message</span> <span style="color:#008080">Text=</span><span style="color:#d14">&#34;%(Tokens.Identity): %(Tokens.ReplacementValue)&#34;</span> <span style="color:#000080">/&gt;</span>
-</code></pre></div><p>Happy coding!</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/msbuild">MSBuild</a></li>
 										
 									</ul>
 								

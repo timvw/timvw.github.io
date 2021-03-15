@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,111 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">28</span>
+										<span class="rest">Jan 2010</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Presenting ValueType&lt;T&gt;</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Here is a base class for some code that i have written once too many in my life: (In case you&rsquo;re an early adaptor (.Net 4.0) you may want to use System.Tuple<!-- raw HTML omitted --> as base class)</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ValueType</span>&lt;T&gt; : IComparable, IComparable&lt;valueType&lt;T&gt;&gt;, IEquatable&lt;valueType&lt;T&gt;&gt; <span style="color:#000;font-weight:bold">where</span> T : IComparable&lt;T&gt;
+{
+	<span style="color:#000;font-weight:bold">protected</span> T Value { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">set</span>; }
+	
+	<span style="color:#000;font-weight:bold">public</span> ValueType(T <span style="color:#000;font-weight:bold">value</span>)
+	{
+		Value = <span style="color:#000;font-weight:bold">value</span>;
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">int</span> GetHashCode()
+	{
+		<span style="color:#000;font-weight:bold">return</span> Value.GetHashCode();
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">string</span> ToString()
+	{
+		<span style="color:#000;font-weight:bold">return</span> Value.ToString();
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">bool</span> Equals(<span style="color:#458;font-weight:bold">object</span> obj)
+	{
+		<span style="color:#000;font-weight:bold">return</span> Equals(obj <span style="color:#000;font-weight:bold">as</span> ValueType&lt;T&gt;);
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> Equals(ValueType&lt;T&gt; other)
+	{
+		<span style="color:#000;font-weight:bold">return</span> Compare(<span style="color:#000;font-weight:bold">this</span>, other) == <span style="color:#099">0</span>;
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> CompareTo(<span style="color:#458;font-weight:bold">object</span> obj)
+	{
+		<span style="color:#000;font-weight:bold">return</span> CompareTo(<span style="color:#000;font-weight:bold">this</span>, obj <span style="color:#000;font-weight:bold">as</span> ValueType&lt;T&gt;);
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> CompareTo(ValueType&lt;T&gt; other)
+	{
+		<span style="color:#000;font-weight:bold">return</span> Compare(<span style="color:#000;font-weight:bold">this</span>, other);
+	}
+
+	<span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">int</span> Compare(ValueType&lt;T&gt; instance1, ValueType&lt;T&gt; instance2)
+	{
+		<span style="color:#000;font-weight:bold">if</span> (ReferenceEquals(instance1, instance2)) <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+		<span style="color:#000;font-weight:bold">if</span> (ReferenceEquals(instance1, <span style="color:#000;font-weight:bold">null</span>)) <span style="color:#000;font-weight:bold">return</span> -<span style="color:#099">1</span>;
+		<span style="color:#000;font-weight:bold">if</span> (ReferenceEquals(instance2, <span style="color:#000;font-weight:bold">null</span>)) <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">1</span>;
+
+		<span style="color:#000;font-weight:bold">if</span> (ReferenceEquals(instance1.Value, instance2.Value)) <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
+		<span style="color:#000;font-weight:bold">if</span> (ReferenceEquals(instance1.Value, <span style="color:#000;font-weight:bold">null</span>)) <span style="color:#000;font-weight:bold">return</span> -<span style="color:#099">1</span>;
+		<span style="color:#000;font-weight:bold">if</span> (ReferenceEquals(instance2.Value, <span style="color:#000;font-weight:bold">null</span>)) <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">1</span>;
+
+		<span style="color:#000;font-weight:bold">return</span> instance1.Value.CompareTo(instance2.Value);
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> <span style="color:#000;font-weight:bold">operator</span> ==(ValueType&lt;T&gt; instance1, ValueType&lt;T&gt; instance2)
+	{
+		<span style="color:#000;font-weight:bold">return</span> Compare(instance1, instance2) == <span style="color:#099">0</span>;
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> <span style="color:#000;font-weight:bold">operator</span> !=(ValueType&lt;T&gt; instance1, ValueType&lt;T&gt; instance2)
+	{
+		<span style="color:#000;font-weight:bold">return</span> !(instance1 == instance2);
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> <span style="color:#000;font-weight:bold">operator</span> &lt;(ValueType&lt;T&gt; instance1, ValueType&lt;T&gt; instance2)
+	{
+		<span style="color:#000;font-weight:bold">return</span> Compare(instance1, instance2) &lt; <span style="color:#099">0</span>; 
+	} 
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> <span style="color:#000;font-weight:bold">operator</span> &gt;(ValueType&lt;T&gt; instance1, ValueType&lt;T&gt; instance2)
+	{
+		<span style="color:#000;font-weight:bold">return</span> Compare(instance1, instance2) &gt; <span style="color:#099">0</span>;
+	}
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/patterns">Patterns</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -546,50 +651,6 @@
 									<ul class="flat">
 										
 										<li><a href="../../tags/book-reviews">Book reviews</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">16</span>
-										<span class="rest">Dec 2009</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Ninject: connect an IProxyFactory component to the kernel</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Because it&rsquo;s the second time that i run into this i will post the solution here so that i (and all the other people that run into the same issue) can easily solve it next time. Anyway, i was playing with <a href="http://ninject.org/">Ninject</a> and ran into the following exception:</p>
-<blockquote>
-<p>Error activating XXX: the implementation type YYY requests static interceptors, or dynamic interceptors have been defined.</p>
-</blockquote>
-<blockquote>
-<p>In order to provide interception, you must connect an IProxyFactory component to the kernel.</p>
-</blockquote>
-<p>If you search for implementations of IProxyFactory you will find the DynamicProxy2ProxyFactory and the LinFuProxyFactory classes. But how can you tell your kernel to use them? This is pretty simple (but hard to find on the web):</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Kernel.Components.Connect&lt;iproxyFactory&gt;(<span style="color:#000;font-weight:bold">new</span> DynamicProxy2ProxyFactory());
-</code></pre></div><p>Instead of writing this code to connect the ProxyFactory implementation you can also use the XXX module (which does it for you) as following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">var</span> kernel = <span style="color:#000;font-weight:bold">new</span> StandardKernel(<span style="color:#000;font-weight:bold">new</span> DynamicProxy2Module(), <span style="color:#000;font-weight:bold">new</span> BusinessModule());
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/free-software">Free Software</a></li>
 										
 									</ul>
 								

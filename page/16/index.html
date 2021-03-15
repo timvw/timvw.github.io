@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,42 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">13</span>
+										<span class="rest">Aug 2009</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">About reading books</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>A while ago <a href="http://gabriel.lozano-moran.name/blog/PermaLink,guid,1fbcd60c-0b3e-40c2-a0e1-3f61e4f81fab.aspx">Gabriel</a> wrote the following:</p>
+<blockquote>
+<p>PS3: you can read all the books that you want, in the end to truly master .NET you need experience and more experience! Normally it would take you about 10 years of relevant experience to get to that level of expertise</p>
+</blockquote>
+<p>I agree that expertise only comes from experience but i do believe that good books can guide you to <a href="http://blogs.msdn.com/brada/archive/2003/10/02/50420.aspx">the pit of success</a> and help you recognize solutions that are doomed to fail.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/information-technology">Information Technology</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -493,54 +529,6 @@ wizardStateMachine.InState(States.Ready)
 									<ul class="flat">
 										
 										<li><a href="../../tags/information-technology">Information Technology</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">25</span>
-										<span class="rest">May 2009</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Using the Do handler for a method with out parameters</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>As you can read in <a href="http://ayende.com/Wiki/(S(mc1hst55a1303emfc34dkmyr))/Rhino+Mocks+The+Do()+Handler.ashx">the documentation</a> for Rhino Mocks:</p>
-<blockquote>
-<p>There are times when the returning a static value is not good enough for the scenario that you are testing, so for those cases, you can use the Do() handler to add custom behavior when the method is called. In general, the Do() handler simply replaces the method call. Its return value will be returned from the mocked call (as well as any exception thrown). The handler&rsquo;s signature must match the method signature, since it gets the same parameters as the call.</p>
-</blockquote>
-<p>There are quite a lot of delegates defined in Rhino.Mocks.Delegates but none of them has an output parameter so we got stuck when we tried to mock a method with the following signature:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">bool</span> TryGet(<span style="color:#458;font-weight:bold">int</span> id, <span style="color:#000;font-weight:bold">out</span> Entity entity);
-</code></pre></div><p>Luckily enough it didn&rsquo;t take too long before i realised we could simply define our own delegate:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">delegate</span> <span style="color:#458;font-weight:bold">bool</span> TryGetMethod&lt;keyType, ValueType&gt;(KeyType key, <span style="color:#000;font-weight:bold">out</span> ValueType <span style="color:#000;font-weight:bold">value</span>);
-</code></pre></div><p>And now we can easily setup a result for our method:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">myEntityRepository
-.Stub(repository =&gt; repository.TryGet(<span style="color:#099">0</span>, <span style="color:#000;font-weight:bold">out</span> myEntity);)
-.IgnoreArguments()
-.Do((TryGetMethod&lt;<span style="color:#458;font-weight:bold">int</span>, MyEntity&gt;)<span style="color:#000;font-weight:bold">delegate</span>(<span style="color:#458;font-weight:bold">int</span> id, <span style="color:#000;font-weight:bold">out</span> MyEntity entity)
-{
-entity = <span style="color:#000;font-weight:bold">new</span> MyEntity();
-<span style="color:#000;font-weight:bold">return</span> id == <span style="color:#099">1</span>;
-});
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
 										
 									</ul>
 								

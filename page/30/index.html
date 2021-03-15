@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,102 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">27</span>
+										<span class="rest">Apr 2007</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Performing long running tasks in a Windows Application</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>A while ago i blogged about <a href="http://www.timvw.be/about-thread-safe-gui/">Thread Safe UI</a>. Today someone asked the following</p>
+<blockquote>
+<!-- raw HTML omitted -->
+</blockquote>
+<p>The first thing i do is define a delegate (void Performer()) that will do the work of a long running operation. The reason i do this is because the compiler generates a class Performer that inherits from System.MulticastDelegate and exposes Begin- and EndInvoke methods.</p>
+<p><img src="http://www.timvw.be/wp-content/images/performerdelegate.gif" alt="screenshot of ildasm displaying generated performer class"></p>
+<p>Since i want to disable my form before each run of a Performer and enable it after each run i implement a method Perform as following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Perform(Performer performer, <span style="color:#458;font-weight:bold">string</span> message)
+{
+	<span style="color:#000;font-weight:bold">this</span>.PrePerform(message);
+	performer.BeginInvoke(<span style="color:#000;font-weight:bold">this</span>.PostPerform, <span style="color:#000;font-weight:bold">null</span>);
+}
+</code></pre></div><p>Now it&rsquo;s simply a matter of implemeting Pre- and PostPerform</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> PrePerform(<span style="color:#458;font-weight:bold">string</span> message)
+{
+	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.InvokeRequired)
+	{
+		<span style="color:#000;font-weight:bold">this</span>.EndInvoke(<span style="color:#000;font-weight:bold">this</span>.BeginInvoke(<span style="color:#000;font-weight:bold">new</span> MethodInvoker(<span style="color:#000;font-weight:bold">delegate</span> { <span style="color:#000;font-weight:bold">this</span>.PrePerform(message); })));
+	}
+	<span style="color:#000;font-weight:bold">else</span>
+	{
+		<span style="color:#000;font-weight:bold">this</span>.Enabled = <span style="color:#000;font-weight:bold">false</span>;
+		<span style="color:#000;font-weight:bold">this</span>.toolStripStatusLabel1.Text = message;
+		<span style="color:#000;font-weight:bold">this</span>.toolStripStatusLabel1.Visible = <span style="color:#000;font-weight:bold">true</span>;
+		<span style="color:#000;font-weight:bold">this</span>.toolStripProgressBar1.Visible = <span style="color:#000;font-weight:bold">true</span>;
+	}
+}
+
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> PostPerform(<span style="color:#458;font-weight:bold">object</span> state)
+{
+	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.InvokeRequired)
+	{
+		<span style="color:#000;font-weight:bold">this</span>.EndInvoke(<span style="color:#000;font-weight:bold">this</span>.BeginInvoke(<span style="color:#000;font-weight:bold">new</span> MethodInvoker(<span style="color:#000;font-weight:bold">delegate</span> { <span style="color:#000;font-weight:bold">this</span>.PostPerform(state); })));
+	}
+	<span style="color:#000;font-weight:bold">else</span>
+	{
+		<span style="color:#000;font-weight:bold">this</span>.toolStripProgressBar1.Visible = <span style="color:#000;font-weight:bold">false</span>;
+		<span style="color:#000;font-weight:bold">this</span>.toolStripStatusLabel1.Visible = <span style="color:#000;font-weight:bold">false</span>;
+		<span style="color:#000;font-weight:bold">this</span>.toolStripStatusLabel1.Text = <span style="color:#458;font-weight:bold">string</span>.Empty;
+		<span style="color:#000;font-weight:bold">this</span>.Enabled = <span style="color:#000;font-weight:bold">true</span>;
+	}
+}
+</code></pre></div><p>Now that we have all the infrastructure i implement an eventhandler for a button click</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> button1_Click(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
+{
+	<span style="color:#998;font-style:italic">// remove previously retrieved results
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">this</span>.UpdateResultLabel(<span style="color:#458;font-weight:bold">string</span>.Empty);
+
+	<span style="color:#000;font-weight:bold">this</span>.Perform(<span style="color:#000;font-weight:bold">delegate</span>
+	{
+		<span style="color:#998;font-style:italic">// simulate the effect of a blocking operation that takes a while to complete
+</span><span style="color:#998;font-style:italic"></span>		<span style="color:#998;font-style:italic">// eg: remoting, webrequests, database queries, ...
+</span><span style="color:#998;font-style:italic"></span>		Thread.Sleep(<span style="color:#099">5000</span>);
+
+		<span style="color:#998;font-style:italic">// display the result of the long running operation
+</span><span style="color:#998;font-style:italic"></span>		<span style="color:#000;font-weight:bold">this</span>.UpdateResultLabel(<span style="color:#d14">&#34;Value was retrieved...&#34;</span>);
+	}, <span style="color:#d14">&#34;Retrieving value...&#34;</span>);
+}
+</code></pre></div><p>Here are a couple of screenshots of the running program</p>
+<p><img src="http://www.timvw.be/wp-content/images/performerdelegate2.gif" alt="screenshot of application not doing anything"></p>
+<p><img src="http://www.timvw.be/wp-content/images/performerdelegate3.gif" alt="screenshot of application performing long running task"></p>
+<p><img src="http://www.timvw.be/wp-content/images/performerdelegate4.gif" alt="screenshot of application after completion of long running task"></p>
+<p>Feel free to download the <a href="http://www.timvw.be/wp-content/code/csharp/AsyncDemo.zip">AsyncDemo.zip</a></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -600,144 +696,6 @@
 <p><img src="http://www.timvw.be/wp-content/images/writevalueaftereventextender.gif" alt="image of the propertylist for datetimepicker"></p>
 <p>As always, feel free to download the <a href="http://www.timvw.be/wp-content/code/csharp/ExtenderProvider.zip">ExtenderProvider.zip</a>.</p>
 
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">04</span>
-										<span class="rest">Feb 2007</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Control the order of Properties in your Class</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Sometimes you want to manipulate the order in which properties are used for databinding. Eg: If you drag and drop an object datasource on a DataGridView you have no control in which order it binds the properties. Offcourse, you can order the columns by moving them around&hellip; Today someone asked the following</p>
-<blockquote>
-<!-- raw HTML omitted -->
-</blockquote>
-<p>I started with the implementation of a PropertyOrderAttribute</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[AttributeUsage(AttributeTargets.Property)]</span>
-<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PropertyOrderAttribute</span> : Attribute
-{
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> order;
-
-	<span style="color:#000;font-weight:bold">public</span> PropertyOrderAttribute(<span style="color:#458;font-weight:bold">int</span> order)
-	{
-		<span style="color:#000;font-weight:bold">this</span>.order = order;
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> Order
-	{
-		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.order; }
-	}
-}
-</code></pre></div><p>So the user can use this attribute to define the order in which the properties should appear as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Foo</span>
-{
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> id;
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">string</span> name;
-	<span style="color:#000;font-weight:bold">private</span> DateTime birthDay;
-
-	<span style="color:#000;font-weight:bold">public</span> Foo(<span style="color:#458;font-weight:bold">int</span> id, <span style="color:#458;font-weight:bold">string</span> name, DateTime birthDay)
-	{
-		<span style="color:#000;font-weight:bold">this</span>.id = id;
-		<span style="color:#000;font-weight:bold">this</span>.name = name;
-		<span style="color:#000;font-weight:bold">this</span>.birthDay = birthDay;
-	}
-<span style="color:#008080">
-</span><span style="color:#008080">	[PropertyOrder(0)]</span>
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> Id
-	{
-		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> id; }
-		<span style="color:#000;font-weight:bold">set</span> { id = <span style="color:#000;font-weight:bold">value</span>; }
-	}
-<span style="color:#008080">
-</span><span style="color:#008080">	[PropertyOrder(2)]</span>
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Name
-	{
-		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> name; }
-		<span style="color:#000;font-weight:bold">set</span> { name = <span style="color:#000;font-weight:bold">value</span>; }
-	}
-<span style="color:#008080">
-</span><span style="color:#008080">	[PropertyOrder(1)]</span>
-	<span style="color:#000;font-weight:bold">public</span> DateTime BirthDay
-	{
-		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> birthDay; }
-		<span style="color:#000;font-weight:bold">set</span> { birthDay = <span style="color:#000;font-weight:bold">value</span>; }
-	}
-}
-</code></pre></div><p>And now i implement a generic BindingList that makes use of the PropertyOrderAttributes</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PropertyOrderBindingList</span>&lt;T&gt; : BindingList&lt;T&gt;, ITypedList
-{
-	<span style="color:#000;font-weight:bold">public</span> PropertyOrderBindingList()
-	: <span style="color:#000;font-weight:bold">base</span>()
-	{ }
-
-	<span style="color:#000;font-weight:bold">public</span> PropertyDescriptorCollection GetItemProperties(PropertyDescriptor[] listAccessors)
-	{
-		PropertyDescriptorCollection typePropertiesCollection = TypeDescriptor.GetProperties(<span style="color:#000;font-weight:bold">typeof</span>(T));
-		<span style="color:#000;font-weight:bold">return</span> typePropertiesCollection.Sort(<span style="color:#000;font-weight:bold">new</span> PropertyDescriptorComparer());
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> GetListName(PropertyDescriptor[] listAccessors)
-	{
-		<span style="color:#000;font-weight:bold">return</span> <span style="color:#458;font-weight:bold">string</span>.Format(<span style="color:#d14">&#34;A list with Properties for {0}&#34;</span>, <span style="color:#000;font-weight:bold">typeof</span>(T).Name);
-	}
-}
-
-<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PropertyDescriptorComparer</span> : IComparer
-{
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> Compare(<span style="color:#458;font-weight:bold">object</span> x, <span style="color:#458;font-weight:bold">object</span> y)
-	{
-		<span style="color:#000;font-weight:bold">if</span> (x == y) <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
-		<span style="color:#000;font-weight:bold">if</span> (x == <span style="color:#000;font-weight:bold">null</span>) <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">1</span>;
-		<span style="color:#000;font-weight:bold">if</span> (y == <span style="color:#000;font-weight:bold">null</span>) <span style="color:#000;font-weight:bold">return</span> -<span style="color:#099">1</span>;
-
-		PropertyDescriptor propertyDescriptorX = x <span style="color:#000;font-weight:bold">as</span> PropertyDescriptor;
-		PropertyDescriptor propertyDescriptorY = y <span style="color:#000;font-weight:bold">as</span> PropertyDescriptor;
-
-		PropertyOrderAttribute propertyOrderAttributeX = propertyDescriptorX.Attributes[<span style="color:#000;font-weight:bold">typeof</span>(PropertyOrderAttribute)] <span style="color:#000;font-weight:bold">as</span> PropertyOrderAttribute;
-		PropertyOrderAttribute propertyOrderAttributeY = propertyDescriptorY.Attributes[<span style="color:#000;font-weight:bold">typeof</span>(PropertyOrderAttribute)] <span style="color:#000;font-weight:bold">as</span> PropertyOrderAttribute;
-
-		<span style="color:#000;font-weight:bold">if</span> (propertyOrderAttributeX == propertyOrderAttributeY) <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
-		<span style="color:#000;font-weight:bold">if</span> (propertyOrderAttributeX == <span style="color:#000;font-weight:bold">null</span>) <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">1</span>;
-		<span style="color:#000;font-weight:bold">if</span> (propertyOrderAttributeY == <span style="color:#000;font-weight:bold">null</span>) <span style="color:#000;font-weight:bold">return</span> -<span style="color:#099">1</span>;
-
-		<span style="color:#000;font-weight:bold">return</span> propertyOrderAttributeX.Order.CompareTo(propertyOrderAttributeY.Order);
-	}
-}
-</code></pre></div><p>With all this infrastructure it becomes as easy as</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> Form1()
-{
-	InitializeComponent();
-
-	PropertyOrderBindingList&lt;foo&gt; fooList = <span style="color:#000;font-weight:bold">new</span> PropertyOrderBindingList&lt;foo&gt;();
-	fooList.Add(<span style="color:#000;font-weight:bold">new</span> Foo(<span style="color:#099">1</span>, <span style="color:#d14">&#34;Timvw&#34;</span>, <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">1980</span>, <span style="color:#099">4</span>, <span style="color:#099">30</span>)));
-	fooList.Add(<span style="color:#000;font-weight:bold">new</span> Foo(<span style="color:#099">2</span>, <span style="color:#d14">&#34;Mike&#34;</span>, <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">1984</span>, <span style="color:#099">1</span>, <span style="color:#099">1</span>)));
-	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataSource = fooList;
-}
-</code></pre></div>
 						</div>
 			
 						<div class="tags">

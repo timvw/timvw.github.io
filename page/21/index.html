@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,47 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">23</span>
+										<span class="rest">Sep 2008</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Refactoring EffectivityManager</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>A while ago i presented the <a href="http://www.timvw.be/presenting-a-generic-effectivitymanager/">EffectivityManager</a>. Having used this class for a while i have decided to rename it to Temporal<!-- raw HTML omitted -->. The implementation of IList<!-- raw HTML omitted --> is not required anymore because a user is typically only interested in a specific effectivity, not the evolution of the effectivities.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> ITemporal&lt;T&gt;
+{
+	<span style="color:#000;font-weight:bold">void</span> Modify(T element, DateTime <span style="color:#000;font-weight:bold">from</span>);
+	IEffectivity&lt;T&gt; GetSnapshot(DateTime validityDate);
+	<span style="color:#458;font-weight:bold">bool</span> TryGetSnapshot(DateTime validityDate, <span style="color:#000;font-weight:bold">out</span> IEffectivity&lt;T&gt; effectivity);
+}
+</code></pre></div><p>In the implementation i have added a constructor that accepts a <a href="http://www.timvw.be/presenting-a-generic-discreterange/">DiscreteValuesGenerator<!-- raw HTML omitted --></a> which makes it possible to create Periods with a resolution of a day instead of seconds.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/patterns">Patterns</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -487,44 +528,6 @@ using(windowsIdentityHelper.GetWindowsIdentity().Impersonate())
 									<ul class="flat">
 										
 										<li><a href="../../tags/awards-and-certifications">Awards and Certifications</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">01</span>
-										<span class="rest">Sep 2008</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Presenting AssemblyTypePicker</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>I really like the way the <a href="http://msdn.microsoft.com/en-us/library/exy1facf(VS.80).aspx">Object Browser</a> makes the types in an assembly visible. Because i have a couple of programs that require a given type as input, i have decided to add a TypeTree control to <a href="http://www.codeplex.com/BeTimvwFramework">BeTimvwFramework</a> that mimicks the Object Browser. Here are a couple of screenshots of the control in a demo application that allows the user to generate interfaces and wrapper classes based on a selected type:</p>
-<p><img src="http://www.timvw.be/wp-content/images/codegenerator_01.gif" alt="screenshot of assemblytypepicker with no values"></p>
-<p><img src="http://www.timvw.be/wp-content/images/codegenerator_02.gif" alt="screenshot of dialog that requests the user to pick an assembly file"></p>
-<p><img src="http://www.timvw.be/wp-content/images/codegenerator_03.gif" alt="screenshot of dialog that requests the user to pick a type in the previously selected assembly"></p>
-<p>Feel free to download <a href="http://www.timvw.be/wp-content/code/csharp/CodeGenerator.zip">CodeGenerator.zip</a>.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
 										
 									</ul>
 								

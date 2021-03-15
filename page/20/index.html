@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,43 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">17</span>
+										<span class="rest">Oct 2008</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Refactoring Application Environment (Part 2)</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p><a href="http://lucamilan.blogspot.com/">Luca Milan</a> notified me of a design issue. Until now the ApplicationEnvironment had an Instance property as following:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> ApplicationEnvironment Instance { <span style="color:#000;font-weight:bold">get</span> { ... } }
+</code></pre></div><p>A lot of flexibility can be added by extracting an interface IApplicationEnvironment and use that as return type for the property:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> IApplicationEnvironment Instance { <span style="color:#000;font-weight:bold">get</span> { ... } }
+</code></pre></div><p>Now that we have <a href="http://www.codeplex.com/CommonServiceLocator">Common Service Locator</a> i have decided to completely remove the Instance property. Code that requires an instance of the IApplicationEnvironment will have to resolve it via the ServiceLocator:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">IApplicationEnvironment appEnv = ServiceLocator.Current.GetInstance&lt;iapplicationEnvironment&gt;();
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -465,47 +502,6 @@
 									<ul class="flat">
 										
 										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">23</span>
-										<span class="rest">Sep 2008</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Refactoring EffectivityManager</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>A while ago i presented the <a href="http://www.timvw.be/presenting-a-generic-effectivitymanager/">EffectivityManager</a>. Having used this class for a while i have decided to rename it to Temporal<!-- raw HTML omitted -->. The implementation of IList<!-- raw HTML omitted --> is not required anymore because a user is typically only interested in a specific effectivity, not the evolution of the effectivities.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> ITemporal&lt;T&gt;
-{
-	<span style="color:#000;font-weight:bold">void</span> Modify(T element, DateTime <span style="color:#000;font-weight:bold">from</span>);
-	IEffectivity&lt;T&gt; GetSnapshot(DateTime validityDate);
-	<span style="color:#458;font-weight:bold">bool</span> TryGetSnapshot(DateTime validityDate, <span style="color:#000;font-weight:bold">out</span> IEffectivity&lt;T&gt; effectivity);
-}
-</code></pre></div><p>In the implementation i have added a constructor that accepts a <a href="http://www.timvw.be/presenting-a-generic-discreterange/">DiscreteValuesGenerator<!-- raw HTML omitted --></a> which makes it possible to create Periods with a resolution of a day instead of seconds.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/patterns">Patterns</a></li>
 										
 									</ul>
 								

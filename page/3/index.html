@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,62 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">30</span>
+										<span class="rest">Jan 2014</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">A parameterized active pattern to match the first elements of an array</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Been writing code in F# for almost a year and never blogged about it. Time to change that. Earlier today someone asked the following on twitter:</p>
+<p><!-- raw HTML omitted -->Is it possible to pattern match the first part of an array in #FSharp? Something like | 1::2::3::tail but for arrays? #lazyweb<!-- raw HTML omitted --></p>
+<p>I accepted the challenge :)</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#000;font-weight:bold">let</span> <span style="color:#000;font-weight:bold">(|</span>Array<span style="color:#000;font-weight:bold">|_|)</span> pattern toMatch <span style="color:#000;font-weight:bold">=</span>      
+	<span style="color:#000;font-weight:bold">let</span> <span style="color:#008080">patternLength</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#555">Array</span>.length pattern
+	<span style="color:#000;font-weight:bold">let</span> <span style="color:#008080">toMatchLength</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#555">Array</span>.length toMatch
+	<span style="color:#000;font-weight:bold">let</span> <span style="color:#008080">tailLength</span> <span style="color:#000;font-weight:bold">=</span> toMatchLength <span style="color:#000;font-weight:bold">-</span> patternLength
+
+	<span style="color:#000;font-weight:bold">if</span> patternLength <span style="color:#000;font-weight:bold">&gt;</span> toMatchLength <span style="color:#000;font-weight:bold">then</span>
+		None
+	<span style="color:#000;font-weight:bold">else</span>
+		<span style="color:#000;font-weight:bold">let</span> <span style="color:#008080">firstElementsAreEqual</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span> 0 <span style="color:#000;font-weight:bold">..</span> <span style="color:#000;font-weight:bold">(</span>patternLength <span style="color:#000;font-weight:bold">-</span> 1<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">|&gt;</span> <span style="color:#555">Seq</span>.forall <span style="color:#000;font-weight:bold">(</span><span style="color:#000;font-weight:bold">fun</span> i <span style="color:#000;font-weight:bold">-&gt;</span> pattern<span style="color:#000;font-weight:bold">.[</span>i<span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">=</span> toMatch<span style="color:#000;font-weight:bold">.[</span>i<span style="color:#000;font-weight:bold">])</span>
+          
+		<span style="color:#000;font-weight:bold">if</span> firstElementsAreEqual <span style="color:#000;font-weight:bold">then</span>
+			Some<span style="color:#000;font-weight:bold">(</span><span style="color:#555">Array</span>.sub toMatch patternLength tailLength<span style="color:#000;font-weight:bold">)</span>
+		<span style="color:#000;font-weight:bold">else</span> 
+			None
+		
+<span style="color:#000;font-weight:bold">match</span> <span style="color:#000;font-weight:bold">[|</span>1<span style="color:#000;font-weight:bold">;</span>2<span style="color:#000;font-weight:bold">;</span>3<span style="color:#000;font-weight:bold">|]</span> <span style="color:#000;font-weight:bold">with</span>
+<span style="color:#000;font-weight:bold">|</span> Array <span style="color:#a61717;background-color:#e3d2d2">\</span><span style="color:#000;font-weight:bold">[|</span>1<span style="color:#000;font-weight:bold">|]</span> tail <span style="color:#000;font-weight:bold">-&gt;</span> sprintf <span style="color:#d14">&#34;bingo %i&#34;</span> <span style="color:#000;font-weight:bold">(</span>tail <span style="color:#000;font-weight:bold">|&gt;</span> <span style="color:#555">Array</span>.sum<span style="color:#000;font-weight:bold">)</span> <span style="color:#998;font-style:italic">// the tail is [|2;3|\]
+</span></code></pre></div><p>Or as a gist: <a href="https://gist.github.com/timvw/8717796">https://gist.github.com/timvw/8717796</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/active-pattern">Active Pattern</a></li>
+										
+										<li><a href="../../tags/fsharp">FSharp</a></li>
+										
+										<li><a href="../../tags/pattern-matching">Pattern Matching</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -428,64 +484,6 @@
 			
 						<div class="tags">
 							
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">18</span>
-										<span class="rest">Oct 2011</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Force the removal of a file with PowerShell</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Last couple of weeks I have been generating a lot of files (and restricting their ACLs) and today I decided to remove all those files. The problem is that my user account did not have permissions on those files. Here is a small script that will first take ownership of the file, then grants FullControl permissions, and finally removes the file 🙂</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> RemoveFile 
-{	  
-	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$FileName</span>)
-	
-	&amp;takeown /F <span style="color:#008080">$FileName</span>
-	<span style="color:#008080">$User</span> = <span style="color:#008080">[System.Security.Principal.WindowsIdentity]</span>::GetCurrent().User
-	<span style="color:#008080">$Acl</span> = <span style="color:#0086b3">Get-Acl</span> <span style="color:#008080">$FileName</span>	  
-	<span style="color:#008080">$Acl</span>.SetOwner(<span style="color:#008080">$User</span>)	  
-	<span style="color:#008080">$AccessRule</span> = <span style="color:#0086b3">New-Object</span> System.Security.AccessControl.FileSystemAccessRule(<span style="color:#008080">$User</span>, <span style="color:#d14">&#34;FullControl&#34;</span>, <span style="color:#d14">&#34;Allow&#34;</span>)	  
-	<span style="color:#008080">$Acl</span>.SetAccessRule(<span style="color:#008080">$AccessRule</span>)	  
-	<span style="color:#0086b3">Set-Acl</span> <span style="color:#008080">$FileName</span> <span style="color:#008080">$Acl</span>
-	<span style="color:#0086b3">Remove-Item</span> <span style="color:#008080">$FileName</span> 
-}
-
-<span style="color:#0086b3">Get-ChildItem</span> *.txt -R | % { RemoveFile <span style="color:#008080">$_</span>.FullName; }
-</code></pre></div><p><strong>Edit on 2011-10-19</strong></p>
-<p>Resetting the permissions with icacls c:\output /reset /t and then calling Remove-Item c:\output -R does the trick.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> RemoveFiles 
-{  
-	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$Directory</span>)
-
-	icacls <span style="color:#008080">$Directory</span> /reset /t 
-	<span style="color:#0086b3">Remove-Item</span> <span style="color:#008080">$Directory</span> -R 
-}
-
-RemoveFiles c:\output;
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/powershell">PowerShell</a></li>
-										
-									</ul>
 								
 							
 						</div></div>

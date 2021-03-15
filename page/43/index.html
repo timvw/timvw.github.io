@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,72 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">03</span>
+										<span class="rest">Mar 2005</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Calculating Fibonacci</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>What is a <a href="http://en.wikipedia.org/wiki/Recursion">recursive</a> function? It is a function where the value for input n is calculated as a linear combination of the previous 1, 2, &hellip;, n-1 function values. An example is the fibonacci function: f(n) = f(n-1) + f(n-2).</p>
+<p>If we program this our first code would look like:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">fibonacci</span>(<span style="color:#008080">$n</span>)
+{
+    <span style="color:#000;font-weight:bold">if</span> (<span style="color:#008080">$n</span> <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>) { <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$n</span>; } <span style="color:#000;font-weight:bold">return</span> fibonacci(<span style="color:#008080">$n</span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">+</span> fibonacci(<span style="color:#008080">$n</span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">2</span>); 
+} 
+</code></pre></div><p>It becomes clear that this is really inefficient. For example if we call fibonacci(3) the following function calls will be made:</p>
+<p>fibonacci(3)</p>
+<ul>
+<li>fibonacci(2)
+&ndash; fibonacci(1)
+&mdash; fibonacci(0)
+&ndash;fibonacci(1)</li>
+</ul>
+<p>We can optimize this function by implementing it as an iteration. We still have to calculate all the previous values, thus the time-complexity of this algorithm is O(n). Here is the code:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">fibonacci</span>(<span style="color:#008080">$n</span>)
+{ 
+  <span style="color:#000;font-weight:bold">if</span> (<span style="color:#008080">$n</span> <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>) { <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$n</span>; } 
+  <span style="color:#008080">$nmin2</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; 
+  <span style="color:#008080">$nmin1</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>; 
+  <span style="color:#008080">$result</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; 
+  <span style="color:#000;font-weight:bold">for</span> (<span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>; <span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">&lt;=</span> n; <span style="color:#000;font-weight:bold">++</span><span style="color:#008080">$i</span>) { 
+    <span style="color:#008080">$result</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$nmin1</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#008080">$nmin2</span>; 
+    <span style="color:#008080">$nmin2</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$nmin1</span>; 
+    <span style="color:#008080">$nmin1</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$result</span>; 
+  }    
+  <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$result</span>; 
+} 
+</code></pre></div><p>Time to take our math course and lookup a non-recursive function for fibonacci. Eureka, we have found one! The algorithm has constant time complexity. The proof for this function is can be found <a href="http://mathforum.org/library/drmath/view/52686.html">here</a>.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">fibonacci</span>(<span style="color:#008080">$n</span>)
+{   
+  <span style="color:#008080">$denominator</span> <span style="color:#000;font-weight:bold">=</span> pow((<span style="color:#099">1</span><span style="color:#000;font-weight:bold">+</span>sqrt(<span style="color:#099">5</span>))<span style="color:#000;font-weight:bold">/</span><span style="color:#099">2</span>, <span style="color:#008080">$n</span>) <span style="color:#000;font-weight:bold">--</span> pow((<span style="color:#099">1</span><span style="color:#000;font-weight:bold">-</span>sqrt(<span style="color:#099">5</span>))<span style="color:#000;font-weight:bold">/</span><span style="color:#099">2</span>, <span style="color:#008080">$n</span>);  
+  <span style="color:#008080">$nominator</span> <span style="color:#000;font-weight:bold">=</span> sqrt(<span style="color:#099">5</span>);
+  <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$denominator</span> <span style="color:#000;font-weight:bold">/</span> <span style="color:#008080">$nominator</span>;
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/php">PHP</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -466,46 +532,6 @@ timvw@debian: cvs -d /home/users/timvw/services/cvs init <span style="color:#998
 									<ul class="flat">
 										
 										<li><a href="../../tags/java">Java</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">18</span>
-										<span class="rest">Jul 2004</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Custom ordering</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Assume we have a fruits table. And we want to select all the fruits that have a red or orange or blue color. But we want the resultset to have first all the fruits with color=red, then the fruits with color=blue and then the fruits with color=orange. It is obvious we can not use an alphabetical order. Thus we have to introduce our own order relation.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">select</span> <span style="color:#000;font-weight:bold">*</span>
-<span style="color:#000;font-weight:bold">from</span> fruits
-<span style="color:#000;font-weight:bold">where</span> color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;red&#39;</span> <span style="color:#000;font-weight:bold">or</span> color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;blue&#39;</span> <span style="color:#000;font-weight:bold">or</span> color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;orange&#39;</span>
-<span style="color:#000;font-weight:bold">order</span> <span style="color:#000;font-weight:bold">by</span> <span style="color:#000;font-weight:bold">case</span>
-<span style="color:#000;font-weight:bold">when</span> color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;red&#39;</span> <span style="color:#000;font-weight:bold">then</span> <span style="color:#099">0</span>
-<span style="color:#000;font-weight:bold">when</span> color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;blue&#39;</span> <span style="color:#000;font-weight:bold">then</span> <span style="color:#099">1</span>
-<span style="color:#000;font-weight:bold">when</span> color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;orange&#39;</span> <span style="color:#000;font-weight:bold">then</span> <span style="color:#099">2</span>
-<span style="color:#000;font-weight:bold">end</span>
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/sql">SQL</a></li>
 										
 									</ul>
 								

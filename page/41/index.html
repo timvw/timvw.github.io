@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,52 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">06</span>
+										<span class="rest">Nov 2005</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Changing the include_path</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>PHP has a feature to change the <a href="http://www.php.net/manual/en/ini.core.php#ini.include-path">include_path</a> programatically. The problem is that the path separator is : on unix and ; on windows. Luckily there is a constant <a href="http://www.php.net/manual/en/reserved.constants.php">PATH_SEPARATOR</a> to overcome this issue. Here is how i would do it</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+ini_set(<span style="color:#d14">&#39;error_reporting&#39;</span>, <span style="color:#000;font-weight:bold">E_ALL</span>);
+ini_set(<span style="color:#d14">&#39;display_errors&#39;</span>, <span style="color:#000;font-weight:bold">TRUE</span>);
+
+<span style="color:#008080">$include_paths</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>(
+  <span style="color:#d14">&#39;.&#39;</span>,
+  <span style="color:#d14">&#39;/home/users/timvw/phpincs&#39;</span>,
+  <span style="color:#d14">&#39;/home/users/timvw/pear&#39;</span>,
+  ini_get(<span style="color:#d14">&#39;include_path&#39;</span>)
+);
+
+ini_set(<span style="color:#d14">&#39;include_path&#39;</span>, implode(PATH_SEPARATOR, <span style="color:#008080">$include_paths</span>));
+
+<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/php">PHP</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -592,38 +638,6 @@ pics[i<span style="color:#000;font-weight:bold">++</span>] <span style="color:#0
 									<ul class="flat">
 										
 										<li><a href="../../tags/java">Java</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">20</span>
-										<span class="rest">Aug 2005</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Tests if $host is a proxy server</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Code: <a href="../../wp-content/code/php/proxytester.txt">php/proxytester.txt</a></p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/php">PHP</a></li>
 										
 									</ul>
 								

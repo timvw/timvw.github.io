@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,42 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">29</span>
+										<span class="rest">Jan 2016</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">About maven dependency type &#39;bundle&#39;</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Earlier this week my build failed because maven was not able to resolve an (indirect) dependency on some package. It took me a while to notice that the dependency node in the pom file had an extra attribute: type = bundle. It only took a couple of minutes to find a good explanation <a href="http://stackoverflow.com/questions/14913615/osgi-bundle-vs-jar-dependency">here</a>. Build fixed 😉</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/maven">maven</a></li>
+										
+										<li><a href="../../tags/scala">scala</a></li>
+										
+										<li><a href="../../tags/osgi">osgi</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -515,62 +551,6 @@ cat repositories.txt | xargs -l1 git clone
 									<ul class="flat">
 										
 										<li><a href="../../tags/git-bash-awk">git bash awk</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">30</span>
-										<span class="rest">Jan 2014</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">A parameterized active pattern to match the first elements of an array</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Been writing code in F# for almost a year and never blogged about it. Time to change that. Earlier today someone asked the following on twitter:</p>
-<p><!-- raw HTML omitted -->Is it possible to pattern match the first part of an array in #FSharp? Something like | 1::2::3::tail but for arrays? #lazyweb<!-- raw HTML omitted --></p>
-<p>I accepted the challenge :)</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#000;font-weight:bold">let</span> <span style="color:#000;font-weight:bold">(|</span>Array<span style="color:#000;font-weight:bold">|_|)</span> pattern toMatch <span style="color:#000;font-weight:bold">=</span>      
-	<span style="color:#000;font-weight:bold">let</span> <span style="color:#008080">patternLength</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#555">Array</span>.length pattern
-	<span style="color:#000;font-weight:bold">let</span> <span style="color:#008080">toMatchLength</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#555">Array</span>.length toMatch
-	<span style="color:#000;font-weight:bold">let</span> <span style="color:#008080">tailLength</span> <span style="color:#000;font-weight:bold">=</span> toMatchLength <span style="color:#000;font-weight:bold">-</span> patternLength
-
-	<span style="color:#000;font-weight:bold">if</span> patternLength <span style="color:#000;font-weight:bold">&gt;</span> toMatchLength <span style="color:#000;font-weight:bold">then</span>
-		None
-	<span style="color:#000;font-weight:bold">else</span>
-		<span style="color:#000;font-weight:bold">let</span> <span style="color:#008080">firstElementsAreEqual</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span> 0 <span style="color:#000;font-weight:bold">..</span> <span style="color:#000;font-weight:bold">(</span>patternLength <span style="color:#000;font-weight:bold">-</span> 1<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">|&gt;</span> <span style="color:#555">Seq</span>.forall <span style="color:#000;font-weight:bold">(</span><span style="color:#000;font-weight:bold">fun</span> i <span style="color:#000;font-weight:bold">-&gt;</span> pattern<span style="color:#000;font-weight:bold">.[</span>i<span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">=</span> toMatch<span style="color:#000;font-weight:bold">.[</span>i<span style="color:#000;font-weight:bold">])</span>
-          
-		<span style="color:#000;font-weight:bold">if</span> firstElementsAreEqual <span style="color:#000;font-weight:bold">then</span>
-			Some<span style="color:#000;font-weight:bold">(</span><span style="color:#555">Array</span>.sub toMatch patternLength tailLength<span style="color:#000;font-weight:bold">)</span>
-		<span style="color:#000;font-weight:bold">else</span> 
-			None
-		
-<span style="color:#000;font-weight:bold">match</span> <span style="color:#000;font-weight:bold">[|</span>1<span style="color:#000;font-weight:bold">;</span>2<span style="color:#000;font-weight:bold">;</span>3<span style="color:#000;font-weight:bold">|]</span> <span style="color:#000;font-weight:bold">with</span>
-<span style="color:#000;font-weight:bold">|</span> Array <span style="color:#a61717;background-color:#e3d2d2">\</span><span style="color:#000;font-weight:bold">[|</span>1<span style="color:#000;font-weight:bold">|]</span> tail <span style="color:#000;font-weight:bold">-&gt;</span> sprintf <span style="color:#d14">&#34;bingo %i&#34;</span> <span style="color:#000;font-weight:bold">(</span>tail <span style="color:#000;font-weight:bold">|&gt;</span> <span style="color:#555">Array</span>.sum<span style="color:#000;font-weight:bold">)</span> <span style="color:#998;font-style:italic">// the tail is [|2;3|\]
-</span></code></pre></div><p>Or as a gist: <a href="https://gist.github.com/timvw/8717796">https://gist.github.com/timvw/8717796</a>.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/active-pattern">Active Pattern</a></li>
-										
-										<li><a href="../../tags/fsharp">FSharp</a></li>
-										
-										<li><a href="../../tags/pattern-matching">Pattern Matching</a></li>
 										
 									</ul>
 								

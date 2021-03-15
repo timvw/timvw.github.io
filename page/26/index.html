@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,39 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">22</span>
+										<span class="rest">Mar 2008</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Why doesn&#39;t Visual Studio display my MSBuild message texts?</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>In order to debug an <a href="http://msdn2.microsoft.com/en-us/library/wea2sca5.aspx">MSBuild</a> script i added a couple of <!-- raw HTML omitted --> tasks, but when i asked Visual Studio to Build i didn&rsquo;t get to see the output&hellip; By default Visual Studio will use &ldquo;Minimal&rdquo; as <a href="http://msdn2.microsoft.com/en-us/library/ms164311.aspx">verbosity</a> level. You can change this via Tools -&gt; Options -&gt; Projects and Solutions -&gt; Build and Run.</p>
+<p><img src="http://www.timvw.be/wp-content/images/msbuildverbosity.gif" alt="screenshot of configuration dialog in visual studio that allows the user to set the verbosity of msbuild"></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/visual-studio">Visual Studio</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -559,112 +592,6 @@ xmlWriterSettings.Encoding = Encoding.UTF8;
 										<li><a href="../../tags/csharp">CSharp</a></li>
 										
 										<li><a href="../../tags/xml">XML</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">23</span>
-										<span class="rest">Feb 2008</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Introducing DeferredExecutionHelper</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Sometimes i don&rsquo;t want a costly function to be performed unless it&rsquo;s really necessary. In Patterns of Enterprise Application Architecture it&rsquo;s described as <a href="http://www.martinfowler.com/eaaCatalog/lazyLoad.html">Lazy Load</a>. Anyway, in order to achieve that i&rsquo;ve written a wrapper for <a href="http://msdn2.microsoft.com/en-us/library/system.runtime.remoting.proxies.realproxy.aspx">RealProxy</a></p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">DeferredExecutionHelper</span>
-{
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> IList&lt;Tresult&gt; GetListHelper&lt;T, TResult&gt;(Func&lt;T, IList&lt;Tresult&gt;&gt; costlyFunction, T t)
-	{
-		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Proxy&lt;T, IList&lt;Tresult&gt;&gt;(costlyFunction, t).ResultProxy;
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> TResult GetHelper&lt;T, TResult&gt;(Func&lt;T, TResult&gt; costlyFunction, T t) <span style="color:#000;font-weight:bold">where</span> TResult : MarshalByRefObject
-	{
-		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Proxy&lt;T, TResult&gt;(costlyFunction, t).ResultProxy;
-	}
-}
-</code></pre></div><p>Here are a couple of unittests that demonstrate how the wrapper can be used for MarshalByRefObjects</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestMethod]</span>
-<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> GetHelperTestDeferredExecution()
-{
-	<span style="color:#458;font-weight:bold">string</span> expectedParameter = <span style="color:#d14">&#34;x&#34;</span>;
-	Order expectedResult = <span style="color:#000;font-weight:bold">new</span> Order(<span style="color:#099">1</span>, <span style="color:#000;font-weight:bold">new</span> List&lt;amount&gt;(<span style="color:#000;font-weight:bold">new</span> Amount[] { <span style="color:#000;font-weight:bold">new</span> Amount(<span style="color:#099">1</span>) }));
-
-	<span style="color:#998;font-style:italic">// DeferredExecutionHelper.GetHelper&lt;T, TResult&gt; where TResult : MarshalByRefObject
-</span><span style="color:#998;font-style:italic"></span>	Order actualResult = DeferredExecutionHelper.GetHelper&lt;<span style="color:#458;font-weight:bold">string</span>, Order&gt;(<span style="color:#000;font-weight:bold">delegate</span>(<span style="color:#458;font-weight:bold">string</span> actualParameter)
-	{
-		Assert.AreEqual(expectedParameter, actualParameter);
-		Assert.Fail(<span style="color:#d14">&#34;Should not perform this method.&#34;</span>);
-		<span style="color:#000;font-weight:bold">return</span> expectedResult;
-	}, expectedParameter);
-}
-<span style="color:#008080">
-</span><span style="color:#008080">[TestMethod]</span>
-<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> GetHelperTestDeferredExecutionResult()
-{
-	<span style="color:#458;font-weight:bold">string</span> expectedParameter = <span style="color:#d14">&#34;x&#34;</span>;
-	Order expectedResult = <span style="color:#000;font-weight:bold">new</span> Order(<span style="color:#099">1</span>, <span style="color:#000;font-weight:bold">new</span> List&lt;amount&gt;(<span style="color:#000;font-weight:bold">new</span> Amount[] { <span style="color:#000;font-weight:bold">new</span> Amount(<span style="color:#099">1</span>) }));
-
-	Order actualResult = DeferredExecutionHelper.GetHelper&lt;<span style="color:#458;font-weight:bold">string</span>, Order&gt;(<span style="color:#000;font-weight:bold">delegate</span>(<span style="color:#458;font-weight:bold">string</span> actualParameter)
-	{
-		Assert.AreEqual(expectedParameter, actualParameter);
-		<span style="color:#000;font-weight:bold">return</span> expectedResult;
-	}, expectedParameter);
-
-	Assert.AreEqual(expectedResult.Id, actualResult.Id);
-	Assert.AreEqual(expectedResult.Amounts, actualResult.Amounts);
-}
-</code></pre></div><p>I&rsquo;ve also added a helper method that allows you to defer execution of methods that return an IList of T. Here are some tests that demonstrate it&rsquo;s usage</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestMethod]</span>
-<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> GetListHelperTestDeferredExecution()
-{
-	<span style="color:#458;font-weight:bold">double</span> expectedParameter = <span style="color:#099">1</span>;
-	IList&lt;<span style="color:#458;font-weight:bold">int</span>&gt; expectedResult = <span style="color:#000;font-weight:bold">new</span> List&lt;<span style="color:#458;font-weight:bold">int</span>&gt;(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">int</span>[] { <span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">3</span> });
-
-	IList&lt;<span style="color:#458;font-weight:bold">int</span>&gt; actualResult = DeferredExecutionHelper.GetListHelper&lt;<span style="color:#458;font-weight:bold">double</span>, <span style="color:#458;font-weight:bold">int</span>&gt;(<span style="color:#000;font-weight:bold">delegate</span>(<span style="color:#458;font-weight:bold">double</span> actualParameter)
-	{
-		Assert.AreEqual(expectedParameter, actualParameter);
-		Assert.Fail(<span style="color:#d14">&#34;Should not perform this method.&#34;</span>);
-		<span style="color:#000;font-weight:bold">return</span> expectedResult;
-	}, expectedParameter);
-}
-<span style="color:#008080">
-</span><span style="color:#008080">[TestMethod]</span>
-<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> GetListHelperTestDeferredExecutionResult()
-{
-	<span style="color:#458;font-weight:bold">double</span> expectedParameter = <span style="color:#099">1</span>;
-	IList&lt;<span style="color:#458;font-weight:bold">int</span>&gt; expectedResult = <span style="color:#000;font-weight:bold">new</span> List&lt;<span style="color:#458;font-weight:bold">int</span>&gt;(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">int</span>[] { <span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">3</span> });
-
-	IList&lt;<span style="color:#458;font-weight:bold">int</span>&gt; actualResult = DeferredExecutionHelper.GetListHelper&lt;<span style="color:#458;font-weight:bold">double</span>, <span style="color:#458;font-weight:bold">int</span>&gt;(<span style="color:#000;font-weight:bold">delegate</span>(<span style="color:#458;font-weight:bold">double</span> actualParameter)
-	{
-		Assert.AreEqual(expectedParameter, actualParameter);
-		<span style="color:#000;font-weight:bold">return</span> expectedResult;
-	}, expectedParameter);
-
-	Assert.AreEqual(expectedResult.Count, actualResult.Count);
-	<span style="color:#000;font-weight:bold">for</span> (<span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">0</span>; i &lt; expectedResult.Count; ++i) { Assert.AreEqual(expectedResult[i], actualResult[i]); } 
-}
-</code></pre></div><p>Feel free to download <a href="http://www.timvw.be/wp-content/code/csharp/DeferredExecution.zip">DeferredExecution.zip</a></p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
 										
 									</ul>
 								

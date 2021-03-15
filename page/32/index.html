@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,85 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">08</span>
+										<span class="rest">Jan 2007</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Generating UTF-8 with System.Xml.XmlWriter</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Today i decided to experiment with <a href="http://msdn2.microsoft.com/en-us/library/system.xml.xmlwriter.aspx">XmlWriter</a>. The first i wanted to do was set the Encoding to UTF-8.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">StringBuilder stringBuilder = <span style="color:#000;font-weight:bold">new</span> StringBuilder();
+XmlWriter xmlWriter = XmlWriter.Create(stringBuilder);
+xmlWriter.Settings.Encoding = Encoding.UTF8;
+</code></pre></div><p>When i ran this code i recieved the following exception: XmlException was unhandled: The &lsquo;XmlWriterSettings.Encoding&rsquo; property is read only and cannot be set. The documentation for the <a href="http://msdn2.microsoft.com/en-us/library/system.xml.xmlwriter.settings.aspx">Settings</a> property clearly says</p>
+<blockquote>
+<!-- raw HTML omitted -->
+</blockquote>
+<p>So i wrote the following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">StringBuilder stringBuilder = <span style="color:#000;font-weight:bold">new</span> StringBuilder();
+XmlWriterSettings xmlWriterSettings = <span style="color:#000;font-weight:bold">new</span> XmlWriterSettings();
+xmlWriterSettings.Encoding = Encoding.UTF8;
+
+XmlWriter xmlWriter = XmlWriter.Create(stringBuilder, xmlWriterSettings);
+xmlWriter.WriteStartDocument();
+xmlWriter.WriteStartElement(<span style="color:#d14">&#34;root&#34;</span>, <span style="color:#d14">&#34;http://www.timvw.be/ns&#34;</span>);
+xmlWriter.WriteEndElement();
+xmlWriter.WriteEndDocument();
+xmlWriter.Flush();
+xmlWriter.Close();
+
+<span style="color:#458;font-weight:bold">string</span> xmlString = stringBuilder.ToString();
+</code></pre></div><p>As you can see: <strong><!-- raw HTML omitted --><!-- raw HTML omitted --></strong> is still not what i want. Apparently is the Encoding property ignored if the XmlWriter is not using a Stream. So here is my next attempt</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">MemoryStream memoryStream = <span style="color:#000;font-weight:bold">new</span> MemoryStream();
+<span style="color:#998;font-style:italic">// initialize xmlWriterSettings as above...
+</span><span style="color:#998;font-style:italic"></span>
+XmlWriter xmlWriter = XmlWriter.Create(memoryStream, xmlWriterSettings);
+<span style="color:#998;font-style:italic">// call the same operations on the xmlWriter as above...
+</span><span style="color:#998;font-style:italic"></span>
+<span style="color:#458;font-weight:bold">string</span> xmlString = Encoding.UTF8.GetString(memoryStream.ToArray());
+</code></pre></div><p>Ok, i&rsquo;m getting close: <strong>?<!-- raw HTML omitted --><!-- raw HTML omitted --></strong>. Luckily enough i knew that the ? (byte with value 239) at the beginning is the <a href="http://en.wikipedia.org/wiki/Byte_Order_Mark">BOM</a>. In order to get rid of that byte i had to create my own instance of <a href="http://msdn2.microsoft.com/en-us/library/system.text.utf8encoding.aspx">UTF8Encoding</a>. Finally, i can present some working code</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">MemoryStream memoryStream = <span style="color:#000;font-weight:bold">new</span> MemoryStream();
+XmlWriterSettings xmlWriterSettings = <span style="color:#000;font-weight:bold">new</span> XmlWriterSettings();
+xmlWriterSettings.Encoding = <span style="color:#000;font-weight:bold">new</span> UTF8Encoding(<span style="color:#000;font-weight:bold">false</span>);
+xmlWriterSettings.ConformanceLevel = ConformanceLevel.Document;
+xmlWriterSettings.Indent = <span style="color:#000;font-weight:bold">true</span>;
+
+XmlWriter xmlWriter = XmlWriter.Create(memoryStream, xmlWriterSettings);
+xmlWriter.WriteStartDocument();
+xmlWriter.WriteStartElement(<span style="color:#d14">&#34;root&#34;</span>, <span style="color:#d14">&#34;http://www.timvw.be/ns&#34;</span>);
+xmlWriter.WriteEndElement();
+xmlWriter.WriteEndDocument();
+xmlWriter.Flush();
+xmlWriter.Close();
+
+<span style="color:#458;font-weight:bold">string</span> xmlString = Encoding.UTF8.GetString(memoryStream.ToArray());
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/xml">XML</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -696,41 +775,6 @@
 									<ul class="flat">
 										
 										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">17</span>
-										<span class="rest">Dec 2006</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Simple OutlookBar Control</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Earlier this evening i wanted to experiment with the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.toolstrip.aspx">ToolStrip</a> class so i decided to design a simple OutlookBar Control and a demo application that uses this control. Feel free to download <a href="http://www.timvw.be/wp-content/code/csharp/OutlookBar.zip">OutlookBar.zip</a>.</p>
-<p><img src="http://www.timvw.be/wp-content/images/outlookbardemo.jpg" alt="screenshot of OutlookBar demo"></p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
 										
 									</ul>
 								

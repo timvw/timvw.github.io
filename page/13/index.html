@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,49 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">29</span>
+										<span class="rest">Oct 2009</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Presenting PathBuilder</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Currently it is annoying to build a path with <a href="http://msdn.microsoft.com/en-us/library/fyy7a5kt.aspx">Path.Combine</a></p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">var</span> home1 = Path.Combine(Path.Combine(Path.Combine(<span style="color:#d14">&#34;C&#34;</span>, <span style="color:#d14">&#34;Users&#34;</span>), <span style="color:#d14">&#34;timvw&#34;</span>), <span style="color:#d14">&#34;My Documents&#34;</span>);
+</code></pre></div><p>And here is how it can be:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">var</span> home2 = PathBuilder.Combine(<span style="color:#d14">&#34;C&#34;</span>, <span style="color:#d14">&#34;Users&#34;</span>, <span style="color:#d14">&#34;timvw&#34;</span>, <span style="color:#d14">&#34;My Documents&#34;</span>);
+</code></pre></div><p>The implementation is pretty simple:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PathBuilder</span>
+{
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> Combine(<span style="color:#000;font-weight:bold">params</span> <span style="color:#458;font-weight:bold">string</span>[] parts)
+	{
+		<span style="color:#000;font-weight:bold">return</span> parts.Aggregate((l, r) =&gt; Path.Combine(l, r));
+	}
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -613,76 +656,6 @@ Another attention point is the maintainability of this new style of programming.
 									<ul class="flat">
 										
 										<li><a href="../../tags/silverlight">Silverlight</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">10</span>
-										<span class="rest">Oct 2009</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Silverlight wishlist</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Here are the features that i would love to see in Silverlight:</p>
-<ul>
-<li>
-<p>Allow users to copy text from the UI (Or was the UX argument an excuse for playing with new toys?)</p>
-</li>
-<li>
-<p>MSTEST (I know that [Here are the features that i would love to see in Silverlight:</p>
-</li>
-<li>
-<p>Allow users to copy text from the UI (Or was the UX argument an excuse for playing with new toys?)</p>
-</li>
-<li>
-<p>MSTEST (I know that](<a href="http://code.msdn.microsoft.com/silverlightut/">http://code.msdn.microsoft.com/silverlightut/</a>) exists.)</p>
-</li>
-<li>
-<p>Triggers (including data triggers)</p>
-</li>
-<li>
-<p>Typed data templates</p>
-</li>
-<li>
-<p>Uniform XAML (WPF: &lt;Style TargetType={x:Type local:Foo}/&gt; vs Silverlight: <!-- raw HTML omitted -->)</p>
-</li>
-<li>
-<p>Uniform validation API (eg: Data Annotations has three flavors)</p>
-</li>
-<li>
-<p>XAML with less namespaces (doesn&rsquo;t really matter if you&rsquo;re a designer only type)</p>
-</li>
-<li>
-<p>Support for Desktop (&lsquo;regular&rsquo;) .NET assemblies. As long as Desktop .NET assemblies are not supported, tools that automate the process of generating a &lsquo;shadow&rsquo; .Silverlight project (eg: Prism has for each project a silverlight project that, ignoring the different assembly references, exists out of file references to the orginal project).</p>
-</li>
-<li>
-<p>UniformGrid</p>
-</li>
-</ul>
-<p>Note: This list is not exhaustive and may change in the future.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/silverlight">Silverlight</a></li>
-										
-										<li><a href="../../tags/wpf">WPF</a></li>
 										
 									</ul>
 								

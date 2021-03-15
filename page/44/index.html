@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,46 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">18</span>
+										<span class="rest">Jul 2004</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Custom ordering</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Assume we have a fruits table. And we want to select all the fruits that have a red or orange or blue color. But we want the resultset to have first all the fruits with color=red, then the fruits with color=blue and then the fruits with color=orange. It is obvious we can not use an alphabetical order. Thus we have to introduce our own order relation.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">select</span> <span style="color:#000;font-weight:bold">*</span>
+<span style="color:#000;font-weight:bold">from</span> fruits
+<span style="color:#000;font-weight:bold">where</span> color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;red&#39;</span> <span style="color:#000;font-weight:bold">or</span> color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;blue&#39;</span> <span style="color:#000;font-weight:bold">or</span> color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;orange&#39;</span>
+<span style="color:#000;font-weight:bold">order</span> <span style="color:#000;font-weight:bold">by</span> <span style="color:#000;font-weight:bold">case</span>
+<span style="color:#000;font-weight:bold">when</span> color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;red&#39;</span> <span style="color:#000;font-weight:bold">then</span> <span style="color:#099">0</span>
+<span style="color:#000;font-weight:bold">when</span> color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;blue&#39;</span> <span style="color:#000;font-weight:bold">then</span> <span style="color:#099">1</span>
+<span style="color:#000;font-weight:bold">when</span> color <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;orange&#39;</span> <span style="color:#000;font-weight:bold">then</span> <span style="color:#099">2</span>
+<span style="color:#000;font-weight:bold">end</span>
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/sql">SQL</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -453,38 +493,6 @@ mplayer <span style="color:#008080">$station</span>
 									<ul class="flat">
 										
 										<li><a href="../../tags/bash">Bash</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">18</span>
-										<span class="rest">Jun 2003</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Sokoban</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Today i finished my own version of the wellknown game Sokoban. Get <a href="http://www.timvw.be/wp-content/code/java/sokoban.zip">sokoban.zip</a> now!</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/java">Java</a></li>
 										
 									</ul>
 								

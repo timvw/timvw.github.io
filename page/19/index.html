@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,39 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">13</span>
+										<span class="rest">Feb 2009</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Microsoft .NET: Architecting Applications for the Enterprise</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Earlier this month i have read <a href="http://www.amazon.com/Microsoft%C2%AE-NET-Architecting-Applications-PRO-Developer/dp/073562609X">Microsoft .NET: Architecting Applications for the Enterprise</a>. This time i was pretty pleased to notice that the author, <a href="http://weblogs.asp.net/despos/">Dino Esposito</a>, did not fill the book with references to other books written by him. All in all the book painted a pretty accurate picture of enterprise application development that is obviously inspired by masterworks like: <a href="http://www.amazon.com/Design-Patterns-Object-Oriented-Addison-Wesley-Professional/dp/0201633612">Design Patterns: Elements of Reusable Object-Oriented Software</a>, <a href="http://www.amazon.com/Enterprise-Application-Architecture-Addison-Wesley-Signature/dp/0321127420">Patterns of Enterprise Application Architecture</a> and <a href="http://www.amazon.com/Domain-Driven-Design-Tackling-Complexity-Software/dp/0321125215">Domain-Driven Design: Tackling Complexity in the Heart of Software</a>.</p>
+<p>One remark though: I was a bit disappointed to see that the examples of unit tests used MSTEST. Why? Because it is such a broken product i find it hard to believe that for serious enterprise application development this library is actually usable.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/book-reviews">Book reviews</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -433,43 +466,6 @@
 	Console.Write(<span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
 	Console.ReadKey();
 }
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">17</span>
-										<span class="rest">Oct 2008</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Refactoring Application Environment (Part 2)</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p><a href="http://lucamilan.blogspot.com/">Luca Milan</a> notified me of a design issue. Until now the ApplicationEnvironment had an Instance property as following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> ApplicationEnvironment Instance { <span style="color:#000;font-weight:bold">get</span> { ... } }
-</code></pre></div><p>A lot of flexibility can be added by extracting an interface IApplicationEnvironment and use that as return type for the property:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> IApplicationEnvironment Instance { <span style="color:#000;font-weight:bold">get</span> { ... } }
-</code></pre></div><p>Now that we have <a href="http://www.codeplex.com/CommonServiceLocator">Common Service Locator</a> i have decided to completely remove the Instance property. Code that requires an instance of the IApplicationEnvironment will have to resolve it via the ServiceLocator:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">IApplicationEnvironment appEnv = ServiceLocator.Current.GetInstance&lt;iapplicationEnvironment&gt;();
 </code></pre></div>
 						</div>
 			

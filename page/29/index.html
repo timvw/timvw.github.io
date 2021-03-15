@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,207 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">18</span>
+										<span class="rest">Jul 2007</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Pondering about DateTime and it&#39;s Ticks...</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Recently someone was able to convince me that there is no problem with using <a href="http://msdn2.microsoft.com/en-us/library/System.Datetime.aspx">System.DateTime</a> for the storage of localtimes (even if DST is in effect), because it works with <a href="http://msdn2.microsoft.com/en-us/library/system.datetime.ticks.aspx">Ticks</a> and i bought into his base + offset story&hellip;. The following table explains his reasoning</p>
+<!-- raw HTML omitted -->
+<pre><code>&lt;th style=&quot;width: 33%&quot;&gt;
+  Localtime
+&lt;/th&gt;
+
+&lt;th style=&quot;width: 33%&quot;&gt;
+  Ticks (Localtime)
+&lt;/th&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 01:59:59
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329133&lt;b&gt;599&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 02:00:00
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329133&lt;b&gt;600&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 02:00:01
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329133&lt;b&gt;601&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 02:59:59
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329137&lt;b&gt;199&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 02:00:00
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329133&lt;b&gt;200&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 02:00:01
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329133&lt;b&gt;201&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<p>This reasoning gives you the impression that for each second <strong>1</strong>0000000 is added to the ticks.. However, this is faulty and in reality you get the following</p>
+<!-- raw HTML omitted -->
+<pre><code>&lt;th style=&quot;width: 33%&quot;&gt;
+  Localtime
+&lt;/th&gt;
+
+&lt;th style=&quot;width: 33%&quot;&gt;
+  Ticks (Localtime)
+&lt;/th&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 01:59:59
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329133&lt;b&gt;599&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 02:00:00
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329133&lt;b&gt;600&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 02:00:01
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329133&lt;b&gt;601&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 02:59:59
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329137&lt;b&gt;199&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 02:00:00
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329133&lt;span style=&quot;color: red&quot;&gt;&lt;b&gt;600&lt;/b&gt;&lt;/span&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>&lt;td&gt;
+  2007-10-28 02:00:01
+&lt;/td&gt;
+
+&lt;td&gt;
+  63329133&lt;b&gt;601&lt;/b&gt;0000000
+&lt;/td&gt;
+</code></pre>
+<!-- raw HTML omitted -->
+<p>As you can see, instead of adding <strong>1</strong>0000000 to the ticks between 2007-10-27 00:59:59 and 01:00:00 in UTC there is a <!-- raw HTML omitted -->reduction of ticks in the localtime<!-- raw HTML omitted --> instead&hellip;. Because of this new DateTime(633291336000000000, DateTimeKind.Local) could represent both 2007-10-27 00:00:00 UTC and 2007-10-27 01:00:00 UTC&hellip; So if you want to keep out of trouble you&rsquo;d better start storing your dates as UTC&hellip; If you don&rsquo;t believe me, run the test yourself</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">List&lt;dateTime&gt; localTimes = <span style="color:#000;font-weight:bold">new</span> List&lt;dateTime&gt;();
+
+<span style="color:#998;font-style:italic">// start at 2007-10-27 23:59:59 UTC, which is 2007-28-10 01:59:59 localtime
+</span><span style="color:#998;font-style:italic"></span>DateTime utcBase = <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">10</span>, <span style="color:#099">27</span>, <span style="color:#099">23</span>, <span style="color:#099">59</span>, <span style="color:#099">59</span>, DateTimeKind.Utc);
+localTimes.Add(utcBase.ToLocalTime());
+
+<span style="color:#998;font-style:italic">// add 1 second to the base, which is 2007-28-10 02:00:00 localtime (first time)
+</span><span style="color:#998;font-style:italic"></span>localTimes.Add(utcBase.AddSeconds(<span style="color:#099">1</span>).ToLocalTime());
+
+<span style="color:#998;font-style:italic">// add 2 seconds to the base, which is 2007-28-10 02:00:01 localtime (first time)
+</span><span style="color:#998;font-style:italic"></span>localTimes.Add(utcBase.AddSeconds(<span style="color:#099">2</span>).ToLocalTime());
+
+<span style="color:#998;font-style:italic">// add 60 minutes to the base, which is 2007-28-10 02:59:59 localtime (first time)
+</span><span style="color:#998;font-style:italic"></span>localTimes.Add(utcBase.AddMinutes(<span style="color:#099">60</span>).ToLocalTime());
+
+<span style="color:#998;font-style:italic">// add 60 minutes and 1 second to the base, which is 2007-28-10 02:00:00 localtime (second time)
+</span><span style="color:#998;font-style:italic"></span>localTimes.Add(utcBase.AddMinutes(<span style="color:#099">60</span>).AddSeconds(<span style="color:#099">1</span>).ToLocalTime());
+
+<span style="color:#998;font-style:italic">// add 60 minutes and 2 second to the base, which is 2007-28-10 02:00:01 localtime (second time)
+</span><span style="color:#998;font-style:italic"></span>localTimes.Add(utcBase.AddMinutes(<span style="color:#099">60</span>).AddSeconds(<span style="color:#099">2</span>).ToLocalTime());
+
+<span style="color:#000;font-weight:bold">foreach</span> (DateTime localTime <span style="color:#000;font-weight:bold">in</span> localTimes)
+{
+	Console.WriteLine(localTime.ToString(<span style="color:#d14">&#34;yyyy-MM-dd HH:mm:ss&#34;</span>));
+	Console.WriteLine(localTime.Ticks);
+	Console.WriteLine();
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -663,102 +864,6 @@ appointments.Add(<span style="color:#000;font-weight:bold">new</span> Appointmen
 <p>And at runtime it appears as following</p>
 <p><img src="http://www.timvw.be/wp-content/images/MultiPanel3.gif" alt="screenshot of MultiPanel at designtime"></p>
 <p><img src="http://www.timvw.be/wp-content/images/MultiPanel4.gif" alt="screenshot of MultiPanel at designtime"></p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">27</span>
-										<span class="rest">Apr 2007</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Performing long running tasks in a Windows Application</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>A while ago i blogged about <a href="http://www.timvw.be/about-thread-safe-gui/">Thread Safe UI</a>. Today someone asked the following</p>
-<blockquote>
-<!-- raw HTML omitted -->
-</blockquote>
-<p>The first thing i do is define a delegate (void Performer()) that will do the work of a long running operation. The reason i do this is because the compiler generates a class Performer that inherits from System.MulticastDelegate and exposes Begin- and EndInvoke methods.</p>
-<p><img src="http://www.timvw.be/wp-content/images/performerdelegate.gif" alt="screenshot of ildasm displaying generated performer class"></p>
-<p>Since i want to disable my form before each run of a Performer and enable it after each run i implement a method Perform as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Perform(Performer performer, <span style="color:#458;font-weight:bold">string</span> message)
-{
-	<span style="color:#000;font-weight:bold">this</span>.PrePerform(message);
-	performer.BeginInvoke(<span style="color:#000;font-weight:bold">this</span>.PostPerform, <span style="color:#000;font-weight:bold">null</span>);
-}
-</code></pre></div><p>Now it&rsquo;s simply a matter of implemeting Pre- and PostPerform</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> PrePerform(<span style="color:#458;font-weight:bold">string</span> message)
-{
-	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.InvokeRequired)
-	{
-		<span style="color:#000;font-weight:bold">this</span>.EndInvoke(<span style="color:#000;font-weight:bold">this</span>.BeginInvoke(<span style="color:#000;font-weight:bold">new</span> MethodInvoker(<span style="color:#000;font-weight:bold">delegate</span> { <span style="color:#000;font-weight:bold">this</span>.PrePerform(message); })));
-	}
-	<span style="color:#000;font-weight:bold">else</span>
-	{
-		<span style="color:#000;font-weight:bold">this</span>.Enabled = <span style="color:#000;font-weight:bold">false</span>;
-		<span style="color:#000;font-weight:bold">this</span>.toolStripStatusLabel1.Text = message;
-		<span style="color:#000;font-weight:bold">this</span>.toolStripStatusLabel1.Visible = <span style="color:#000;font-weight:bold">true</span>;
-		<span style="color:#000;font-weight:bold">this</span>.toolStripProgressBar1.Visible = <span style="color:#000;font-weight:bold">true</span>;
-	}
-}
-
-<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> PostPerform(<span style="color:#458;font-weight:bold">object</span> state)
-{
-	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.InvokeRequired)
-	{
-		<span style="color:#000;font-weight:bold">this</span>.EndInvoke(<span style="color:#000;font-weight:bold">this</span>.BeginInvoke(<span style="color:#000;font-weight:bold">new</span> MethodInvoker(<span style="color:#000;font-weight:bold">delegate</span> { <span style="color:#000;font-weight:bold">this</span>.PostPerform(state); })));
-	}
-	<span style="color:#000;font-weight:bold">else</span>
-	{
-		<span style="color:#000;font-weight:bold">this</span>.toolStripProgressBar1.Visible = <span style="color:#000;font-weight:bold">false</span>;
-		<span style="color:#000;font-weight:bold">this</span>.toolStripStatusLabel1.Visible = <span style="color:#000;font-weight:bold">false</span>;
-		<span style="color:#000;font-weight:bold">this</span>.toolStripStatusLabel1.Text = <span style="color:#458;font-weight:bold">string</span>.Empty;
-		<span style="color:#000;font-weight:bold">this</span>.Enabled = <span style="color:#000;font-weight:bold">true</span>;
-	}
-}
-</code></pre></div><p>Now that we have all the infrastructure i implement an eventhandler for a button click</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> button1_Click(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
-{
-	<span style="color:#998;font-style:italic">// remove previously retrieved results
-</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">this</span>.UpdateResultLabel(<span style="color:#458;font-weight:bold">string</span>.Empty);
-
-	<span style="color:#000;font-weight:bold">this</span>.Perform(<span style="color:#000;font-weight:bold">delegate</span>
-	{
-		<span style="color:#998;font-style:italic">// simulate the effect of a blocking operation that takes a while to complete
-</span><span style="color:#998;font-style:italic"></span>		<span style="color:#998;font-style:italic">// eg: remoting, webrequests, database queries, ...
-</span><span style="color:#998;font-style:italic"></span>		Thread.Sleep(<span style="color:#099">5000</span>);
-
-		<span style="color:#998;font-style:italic">// display the result of the long running operation
-</span><span style="color:#998;font-style:italic"></span>		<span style="color:#000;font-weight:bold">this</span>.UpdateResultLabel(<span style="color:#d14">&#34;Value was retrieved...&#34;</span>);
-	}, <span style="color:#d14">&#34;Retrieving value...&#34;</span>);
-}
-</code></pre></div><p>Here are a couple of screenshots of the running program</p>
-<p><img src="http://www.timvw.be/wp-content/images/performerdelegate2.gif" alt="screenshot of application not doing anything"></p>
-<p><img src="http://www.timvw.be/wp-content/images/performerdelegate3.gif" alt="screenshot of application performing long running task"></p>
-<p><img src="http://www.timvw.be/wp-content/images/performerdelegate4.gif" alt="screenshot of application after completion of long running task"></p>
-<p>Feel free to download the <a href="http://www.timvw.be/wp-content/code/csharp/AsyncDemo.zip">AsyncDemo.zip</a></p>
 
 						</div>
 			

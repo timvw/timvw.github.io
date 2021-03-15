@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,38 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">28</span>
+										<span class="rest">May 2010</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Windows Internals: Including Windows Server 2008 and Windows Vista, Fifth Edition</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Given the fact that i have been developing software for MS-Windows the last couple of years i found it important to learn a bit more about the internals of the operating systems on which my applications run so i ordered a copy of <a href="http://www.amazon.com/Windows%C2%AE-Internals-Including-Windows-PRO-Developer/dp/0735625301">Windows Internals: Including Windows Server 2008 and Windows Vista, Fifth Edition</a> back in september and learned quite a bit from the chapters that i found interesting: security, authorization, networking and analyzing crashes. I skimmed through the chapters on memory management, scheduling and file systems because they reminded me too much of Tanenbaum&rsquo;s excellent <a href="http://www.amazon.com/Modern-Operating-Systems-Andrew-Tanenbaum/dp/0136006639/ref=dp_ob_title_bk">Modern Operating Systems</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/book-reviews">Book reviews</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -701,111 +733,6 @@ client.GetMessageAsync();
 									<ul class="flat">
 										
 										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">28</span>
-										<span class="rest">Jan 2010</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Presenting ValueType&lt;T&gt;</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Here is a base class for some code that i have written once too many in my life: (In case you&rsquo;re an early adaptor (.Net 4.0) you may want to use System.Tuple<!-- raw HTML omitted --> as base class)</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ValueType</span>&lt;T&gt; : IComparable, IComparable&lt;valueType&lt;T&gt;&gt;, IEquatable&lt;valueType&lt;T&gt;&gt; <span style="color:#000;font-weight:bold">where</span> T : IComparable&lt;T&gt;
-{
-	<span style="color:#000;font-weight:bold">protected</span> T Value { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">set</span>; }
-	
-	<span style="color:#000;font-weight:bold">public</span> ValueType(T <span style="color:#000;font-weight:bold">value</span>)
-	{
-		Value = <span style="color:#000;font-weight:bold">value</span>;
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">int</span> GetHashCode()
-	{
-		<span style="color:#000;font-weight:bold">return</span> Value.GetHashCode();
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">string</span> ToString()
-	{
-		<span style="color:#000;font-weight:bold">return</span> Value.ToString();
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">bool</span> Equals(<span style="color:#458;font-weight:bold">object</span> obj)
-	{
-		<span style="color:#000;font-weight:bold">return</span> Equals(obj <span style="color:#000;font-weight:bold">as</span> ValueType&lt;T&gt;);
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> Equals(ValueType&lt;T&gt; other)
-	{
-		<span style="color:#000;font-weight:bold">return</span> Compare(<span style="color:#000;font-weight:bold">this</span>, other) == <span style="color:#099">0</span>;
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> CompareTo(<span style="color:#458;font-weight:bold">object</span> obj)
-	{
-		<span style="color:#000;font-weight:bold">return</span> CompareTo(<span style="color:#000;font-weight:bold">this</span>, obj <span style="color:#000;font-weight:bold">as</span> ValueType&lt;T&gt;);
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> CompareTo(ValueType&lt;T&gt; other)
-	{
-		<span style="color:#000;font-weight:bold">return</span> Compare(<span style="color:#000;font-weight:bold">this</span>, other);
-	}
-
-	<span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">int</span> Compare(ValueType&lt;T&gt; instance1, ValueType&lt;T&gt; instance2)
-	{
-		<span style="color:#000;font-weight:bold">if</span> (ReferenceEquals(instance1, instance2)) <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
-		<span style="color:#000;font-weight:bold">if</span> (ReferenceEquals(instance1, <span style="color:#000;font-weight:bold">null</span>)) <span style="color:#000;font-weight:bold">return</span> -<span style="color:#099">1</span>;
-		<span style="color:#000;font-weight:bold">if</span> (ReferenceEquals(instance2, <span style="color:#000;font-weight:bold">null</span>)) <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">1</span>;
-
-		<span style="color:#000;font-weight:bold">if</span> (ReferenceEquals(instance1.Value, instance2.Value)) <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
-		<span style="color:#000;font-weight:bold">if</span> (ReferenceEquals(instance1.Value, <span style="color:#000;font-weight:bold">null</span>)) <span style="color:#000;font-weight:bold">return</span> -<span style="color:#099">1</span>;
-		<span style="color:#000;font-weight:bold">if</span> (ReferenceEquals(instance2.Value, <span style="color:#000;font-weight:bold">null</span>)) <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">1</span>;
-
-		<span style="color:#000;font-weight:bold">return</span> instance1.Value.CompareTo(instance2.Value);
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> <span style="color:#000;font-weight:bold">operator</span> ==(ValueType&lt;T&gt; instance1, ValueType&lt;T&gt; instance2)
-	{
-		<span style="color:#000;font-weight:bold">return</span> Compare(instance1, instance2) == <span style="color:#099">0</span>;
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> <span style="color:#000;font-weight:bold">operator</span> !=(ValueType&lt;T&gt; instance1, ValueType&lt;T&gt; instance2)
-	{
-		<span style="color:#000;font-weight:bold">return</span> !(instance1 == instance2);
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> <span style="color:#000;font-weight:bold">operator</span> &lt;(ValueType&lt;T&gt; instance1, ValueType&lt;T&gt; instance2)
-	{
-		<span style="color:#000;font-weight:bold">return</span> Compare(instance1, instance2) &lt; <span style="color:#099">0</span>; 
-	} 
-		<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> <span style="color:#000;font-weight:bold">operator</span> &gt;(ValueType&lt;T&gt; instance1, ValueType&lt;T&gt; instance2)
-	{
-		<span style="color:#000;font-weight:bold">return</span> Compare(instance1, instance2) &gt; <span style="color:#099">0</span>;
-	}
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/patterns">Patterns</a></li>
 										
 									</ul>
 								

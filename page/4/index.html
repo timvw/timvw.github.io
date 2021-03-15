@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,64 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">18</span>
+										<span class="rest">Oct 2011</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Force the removal of a file with PowerShell</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Last couple of weeks I have been generating a lot of files (and restricting their ACLs) and today I decided to remove all those files. The problem is that my user account did not have permissions on those files. Here is a small script that will first take ownership of the file, then grants FullControl permissions, and finally removes the file 🙂</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> RemoveFile 
+{	  
+	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$FileName</span>)
+	
+	&amp;takeown /F <span style="color:#008080">$FileName</span>
+	<span style="color:#008080">$User</span> = <span style="color:#008080">[System.Security.Principal.WindowsIdentity]</span>::GetCurrent().User
+	<span style="color:#008080">$Acl</span> = <span style="color:#0086b3">Get-Acl</span> <span style="color:#008080">$FileName</span>	  
+	<span style="color:#008080">$Acl</span>.SetOwner(<span style="color:#008080">$User</span>)	  
+	<span style="color:#008080">$AccessRule</span> = <span style="color:#0086b3">New-Object</span> System.Security.AccessControl.FileSystemAccessRule(<span style="color:#008080">$User</span>, <span style="color:#d14">&#34;FullControl&#34;</span>, <span style="color:#d14">&#34;Allow&#34;</span>)	  
+	<span style="color:#008080">$Acl</span>.SetAccessRule(<span style="color:#008080">$AccessRule</span>)	  
+	<span style="color:#0086b3">Set-Acl</span> <span style="color:#008080">$FileName</span> <span style="color:#008080">$Acl</span>
+	<span style="color:#0086b3">Remove-Item</span> <span style="color:#008080">$FileName</span> 
+}
+
+<span style="color:#0086b3">Get-ChildItem</span> *.txt -R | % { RemoveFile <span style="color:#008080">$_</span>.FullName; }
+</code></pre></div><p><strong>Edit on 2011-10-19</strong></p>
+<p>Resetting the permissions with icacls c:\output /reset /t and then calling Remove-Item c:\output -R does the trick.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> RemoveFiles 
+{  
+	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$Directory</span>)
+
+	icacls <span style="color:#008080">$Directory</span> /reset /t 
+	<span style="color:#0086b3">Remove-Item</span> <span style="color:#008080">$Directory</span> -R 
+}
+
+RemoveFiles c:\output;
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/powershell">PowerShell</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -524,68 +582,6 @@ sqlRecords = <span style="color:#000;font-weight:bold">new</span> HashSet&lt;Sql
 										<li><a href="../../tags/ssis">SSIS</a></li>
 										
 									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">09</span>
-										<span class="rest">May 2011</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">How to handle (short) bursts of work</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Here is a summary of how businesses around me handle short bursts of work:</p>
-<ul>
-<li>
-<p>When i go to the doctor:</p>
-<ul>
-<li>find an empty seat in the waiting room</li>
-<li>observe who&rsquo;s before me</li>
-<li>wait untill all those people have been seen by the doctor</li>
-</ul>
-</li>
-<li>
-<p>When i go to the supermarket:</p>
-<ul>
-<li>join the queue at the end</li>
-<li>wait untill al before me have been helped</li>
-</ul>
-</li>
-<li>
-<p>When i go the the bakery:</p>
-<ul>
-<li>get a number from a ticketing machine at the entrance</li>
-<li>wait untill a seller indicates he&rsquo;s willing to process my requests</li>
-</ul>
-</li>
-<li>
-<p>When i go to my car dealer:</p>
-</li>
-<li>
-<p>hand over car keys</p>
-</li>
-<li>
-<p>give my mobile phone number</p>
-</li>
-<li>
-<p>relax in the loung untill they come find me (or send me an sms)<!-- raw HTML omitted --></p>
-</li>
-</ul>
-
-						</div>
-			
-						<div class="tags">
-							
 								
 							
 						</div></div>

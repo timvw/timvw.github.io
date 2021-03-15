@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,41 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">17</span>
+										<span class="rest">Dec 2006</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Simple OutlookBar Control</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Earlier this evening i wanted to experiment with the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.toolstrip.aspx">ToolStrip</a> class so i decided to design a simple OutlookBar Control and a demo application that uses this control. Feel free to download <a href="http://www.timvw.be/wp-content/code/csharp/OutlookBar.zip">OutlookBar.zip</a>.</p>
+<p><img src="http://www.timvw.be/wp-content/images/outlookbardemo.jpg" alt="screenshot of OutlookBar demo"></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -745,96 +780,6 @@ ID <span style="color:#000;font-weight:bold">ASC</span>;
 									<ul class="flat">
 										
 										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">08</span>
-										<span class="rest">Oct 2006</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Screenshot of DataGridViews</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>The problem with a regular screenshot is that you only get to see a part of the DataGridViews. Here&rsquo;s an example of a typical form</p>
-<p><img src="http://www.timvw.be/wp-content/images/datagridviews-with-scrollbars.jpg" alt="image of datagridview with scrollbars"></p>
-<p>Here is a snippet that makes a screenshot of the complete DataGridViews</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">List&lt;bitmap&gt; bitmaps = <span style="color:#000;font-weight:bold">new</span> List&lt;bitmap&gt;();
-Size size = <span style="color:#000;font-weight:bold">new</span> Size();
-
-<span style="color:#000;font-weight:bold">for</span> (<span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">1</span>; i &lt; <span style="color:#099">4</span>; ++i) 
-{ 
-	<span style="color:#998;font-style:italic">// lookup the datagridview 
-</span><span style="color:#998;font-style:italic"></span>	DataGridView dataGridView = (DataGridView)<span style="color:#000;font-weight:bold">this</span>.Controls[<span style="color:#d14">&#34;dataGridView&#34;</span> + i]; 
-	<span style="color:#998;font-style:italic">// maximize the datagridview size (choosing between current and preferred) 
-</span><span style="color:#998;font-style:italic"></span>	Size oldSize = dataGridView.Size; 
-	Size newSize = dataGridView.PreferredSize; 
-	<span style="color:#000;font-weight:bold">if</span> (dataGridView.Size.Width &gt; newSize.Width)
-	{
-		newSize.Width = dataGridView.Size.Width;
-	}
-
-	<span style="color:#000;font-weight:bold">if</span> (dataGridView.Size.Height &gt; newSize.Height)
-	{
-		newSize.Height = dataGridView.Size.Height;
-	}
-
-	dataGridView.Size = newSize;
-
-	<span style="color:#998;font-style:italic">// draw the datagridview into a bitmap
-</span><span style="color:#998;font-style:italic"></span>	Bitmap bitmap = <span style="color:#000;font-weight:bold">new</span> Bitmap(dataGridView.Width, dataGridView.Height);
-	dataGridView.DrawToBitmap(bitmap, <span style="color:#000;font-weight:bold">new</span> Rectangle(<span style="color:#099">0</span>, <span style="color:#099">0</span>, dataGridView.Width, dataGridView.Height));
-
-	<span style="color:#998;font-style:italic">// restore the datagridview to it&#39;s original size
-</span><span style="color:#998;font-style:italic"></span>	dataGridView.Size = oldSize;
-
-	bitmaps.Add(bitmap);
-
-	<span style="color:#998;font-style:italic">// update total bitmap size
-</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span> (newSize.Width &gt; size.Width)
-	{
-		size.Width = newSize.Width;
-	}
-	size.Height += newSize.Height;
-}
-
-<span style="color:#998;font-style:italic">// copy all the bitmaps into one large bitmap
-</span><span style="color:#998;font-style:italic"></span>Bitmap bitmapComplete = <span style="color:#000;font-weight:bold">new</span> Bitmap(size.Width, size.Height);
-Graphics g = Graphics.FromImage(bitmapComplete);
-
-<span style="color:#458;font-weight:bold">int</span> height = <span style="color:#099">0</span>;
-<span style="color:#000;font-weight:bold">for</span> (<span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">1</span>; i &lt; <span style="color:#099">4</span>; ++i) 
-{ 
-	g.DrawImageUnscaled(bitmaps[i - <span style="color:#099">1</span>], <span style="color:#099">0</span>, height); 
-	height += bitmaps[i - <span style="color:#099">1</span>].Height; 
-} 
-
-<span style="color:#998;font-style:italic">// bitmapComplete is ready for use 
-</span><span style="color:#998;font-style:italic">// eg: pictureBox1.Image = bitmapComplete 
-</span><span style="color:#998;font-style:italic">// eg: bitmapComplete.Save(@&#34;C:\screenshot.jpg&#34;, ImageFormat.Jpeg); 
-</span></code></pre></div><p><img src="http://www.timvw.be/wp-content/images/datagridviews-without-scrollbars.jpg" alt="image of generated screenshot"></p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
 										
 									</ul>
 								

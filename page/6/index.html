@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,64 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">05</span>
+										<span class="rest">Mar 2011</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Consume custom SSIS tasks without GAC installation</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>For a while i thought that in order to consume a custom SSIS task you had to install the assembly in the GAC. Now i know better 😉</p>
+<p>For the designer (BIDS) you have to copy the files to</p>
+<ul>
+<li>C:\Program Files\Microsoft SQL Server\100\DTS\Tasks</li>
+<li>C:\Program Files\Microsoft SQL Server\100\DTS\PipelineComponents</li>
+</ul>
+<p>For the runtime (BIDS) you have to copy the files to</p>
+<ul>
+<li>C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\PrivateAssemblies</li>
+</ul>
+<p>And for dtexec you have to copy the files to</p>
+<ul>
+<li>C:\Program Files\Microsoft SQL Server\100\DTS\Binn</li>
+</ul>
+<p>Here is a small powershell script that gives you the paths where you want to copy your assembly to:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#998;font-style:italic"># Lookup Tasks, PipelineComponents and DtExec paths  </span>
+<span style="color:#008080">$DtsPath</span> = (<span style="color:#0086b3">Get-ItemProperty</span> <span style="color:#d14">&#39;HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup&#39;</span>).SQLPath;
+<span style="color:#008080">$DtsTasksPath</span> = (<span style="color:#0086b3">Resolve-Path</span> <span style="color:#d14">&#34;$DtsPath\Tasks&#34;</span>);
+
+<span style="color:#008080">$DtsPipelineComponentsPath</span> = (<span style="color:#0086b3">Resolve-Path</span> <span style="color:#d14">&#34;$DtsPath\Pipelinecomponents&#34;</span>);
+<span style="color:#008080">$DtExecPath</span> = (<span style="color:#0086b3">Resolve-Path</span> <span style="color:#d14">&#34;$DtsPath\Binn&#34;</span>);
+
+<span style="color:#998;font-style:italic"># Lookup VS2008/Bids path</span>
+<span style="color:#008080">$Vs2008Path</span> = (<span style="color:#0086b3">Get-ItemProperty</span> <span style="color:#d14">&#39;HKLM:\Software\Microsoft\VisualStudio\9.0&#39;</span>).InstallDir;
+<span style="color:#008080">$Vs2008PrivateAssembliesPath</span> = (<span style="color:#0086b3">Resolve-Path</span> <span style="color:#d14">&#34;$Vs2008Path\PrivateAssemblies&#34;</span>);
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/powershell">PowerShell</a></li>
+										
+										<li><a href="../../tags/ssis">SSIS</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -598,44 +656,6 @@ Object<span style="color:#000;font-weight:bold">[]</span> pdus <span style="colo
 
 <span style="color:#998;font-style:italic"># Configure environment for VS2010  </span>
 SetVS2010;
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/powershell">PowerShell</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">11</span>
-										<span class="rest">Nov 2010</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Get variable value from variable with PowerShell</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Sometimes you only know at runtime in which variable a certain value is stored. Let me clarify with an example:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$tim</span> = 30;
-<span style="color:#008080">$evy</span> = 24;
-<span style="color:#008080">$name</span> = <span style="color:#0086b3">Read-Host</span> <span style="color:#d14">&#34;Enter your name&#34;</span>;
-</code></pre></div><p>In essence, if $name equals tim we want to use $tim and if $name equals evy we want to use $evy. This can be achieved with Get-Variable:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$age</span> = <span style="color:#0086b3">Get-Variable</span> <span style="color:#008080">$name</span> -valueOnly;
-<span style="color:#0086b3">Write-Host</span> <span style="color:#d14">&#34;Your age is $age&#34;</span>;
 </code></pre></div>
 						</div>
 			

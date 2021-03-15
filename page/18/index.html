@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-01-20T07:37:16+01:00" />
+<meta property="og:updated_time" content="2021-03-15T11:37:36+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,207 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">03</span>
+										<span class="rest">Apr 2009</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">POC: Moq API adapter for Rhino Mocks</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>One of my main concerns with third party software, and software in general, is maintainability. The Rhino Mocks project has been out there for a couple of years now and i&rsquo;m pretty confident that it won&rsquo;t go away anytime soon. The Moq project is a lot younger and will have to proove that it can stay alive&hellip;</p>
+<p>Anyway, because most people seem to digg the Moq API i have decided to write an adapter that provides the same API using Rhino Mocks. Here are some simple examples</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> IEcho
+{
+	<span style="color:#458;font-weight:bold">string</span> Echo(<span style="color:#458;font-weight:bold">string</span> input);
+}
+<span style="color:#008080">
+</span><span style="color:#008080">[TestClass]</span>
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MockTests</span>
+{
+<span style="color:#008080">	[TestMethod]</span>
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToReturnObject()
+	{
+		<span style="color:#998;font-style:italic">// Arrange
+</span><span style="color:#998;font-style:italic"></span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
+
+		<span style="color:#998;font-style:italic">// Act
+</span><span style="color:#998;font-style:italic"></span>		IEcho echo = sut.Object;
+
+		<span style="color:#998;font-style:italic">// Assert
+</span><span style="color:#998;font-style:italic"></span>		Assert.IsNotNull(echo);
+		Assert.IsInstanceOfType(echo, <span style="color:#000;font-weight:bold">typeof</span>(IEcho));
+	}
+<span style="color:#008080">
+</span><span style="color:#008080">	[TestMethod]</span>
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToSetupAnAction()
+	{
+		<span style="color:#998;font-style:italic">// Arrange
+</span><span style="color:#998;font-style:italic"></span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
+
+		sut.Setup(<span style="color:#000;font-weight:bold">delegate</span>(IEcho echo)
+		{
+		echo.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+		}).Returns(<span style="color:#d14">&#34;tim&#34;</span>);
+
+		<span style="color:#998;font-style:italic">// Act
+</span><span style="color:#998;font-style:italic"></span>		<span style="color:#458;font-weight:bold">string</span> result = sut.Object.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+
+		<span style="color:#998;font-style:italic">// Assert
+</span><span style="color:#998;font-style:italic"></span>		Assert.AreEqual(<span style="color:#d14">&#34;tim&#34;</span>, result);
+	}
+<span style="color:#008080">
+</span><span style="color:#008080">	[TestMethod]</span>
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToVerifyAnAction()
+	{
+		<span style="color:#998;font-style:italic">// Arrange
+</span><span style="color:#998;font-style:italic"></span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
+
+		<span style="color:#998;font-style:italic">// Act
+</span><span style="color:#998;font-style:italic"></span>		sut.Object.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+
+		<span style="color:#998;font-style:italic">// Assert
+</span><span style="color:#998;font-style:italic"></span>		sut.Verify(<span style="color:#000;font-weight:bold">delegate</span>(IEcho echo)
+		{
+		echo.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+		});
+	}
+<span style="color:#008080">
+</span><span style="color:#008080">	[TestMethod]</span>
+<span style="color:#008080">	[ExpectedException(typeof(ExpectationViolationException))]</span>
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToVerifyAnActionThatDidNotHappen()
+	{
+		<span style="color:#998;font-style:italic">// Arrange
+</span><span style="color:#998;font-style:italic"></span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
+
+		<span style="color:#998;font-style:italic">// Act
+</span><span style="color:#998;font-style:italic"></span>		sut.Object.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+
+		<span style="color:#998;font-style:italic">// Assert
+</span><span style="color:#998;font-style:italic"></span>		sut.Verify(<span style="color:#000;font-weight:bold">delegate</span>(IEcho echo)
+		{
+		echo.Echo(<span style="color:#d14">&#34;mike&#34;</span>);
+		});
+	}
+<span style="color:#008080">
+</span><span style="color:#008080">	[TestMethod]</span>
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToRaiseAnEvent()
+	{
+		<span style="color:#998;font-style:italic">// Arrange
+</span><span style="color:#998;font-style:italic"></span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
+		<span style="color:#458;font-weight:bold">bool</span> wasCalled = <span style="color:#000;font-weight:bold">false</span>;
+
+		sut.Object.EchoCompleted += <span style="color:#000;font-weight:bold">delegate</span>(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
+		{
+		<span style="color:#000;font-weight:bold">if</span> (sender == sut &amp;&amp; e == EventArgs.Empty) wasCalled = <span style="color:#000;font-weight:bold">true</span>;
+		};
+
+		<span style="color:#998;font-style:italic">// Act
+</span><span style="color:#998;font-style:italic"></span>		sut.Raise(<span style="color:#000;font-weight:bold">delegate</span>(IEcho echo) { echo.EchoCompleted += <span style="color:#000;font-weight:bold">null</span>; }, sut, EventArgs.Empty);
+
+		<span style="color:#998;font-style:italic">// Assert
+</span><span style="color:#998;font-style:italic"></span>		Assert.IsTrue(wasCalled);
+	}
+<span style="color:#008080">
+</span><span style="color:#008080">	[TestMethod]</span>
+<span style="color:#008080">	[ExpectedException(typeof(ArgumentException))]</span>
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToThrowAnException()
+	{
+		<span style="color:#998;font-style:italic">// Arrange
+</span><span style="color:#998;font-style:italic"></span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
+
+		sut.Setup(<span style="color:#000;font-weight:bold">delegate</span>(IEcho echo)
+		{
+		echo.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+		}).Throws&lt;argumentException&gt;();
+
+		<span style="color:#998;font-style:italic">// Act
+</span><span style="color:#998;font-style:italic"></span>		sut.Object.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+	}
+}
+</code></pre></div><p>Here is the actual code for this simplistic adapter</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Mock</span>&lt;T&gt; <span style="color:#000;font-weight:bold">where</span> T : <span style="color:#000;font-weight:bold">class</span>
+{
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">readonly</span> T mockedObject;
+
+	<span style="color:#000;font-weight:bold">public</span> Mock()
+	{
+		<span style="color:#000;font-weight:bold">this</span>.mockedObject = MockRepository.GenerateStub&lt;T&gt;();
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> T Object
+	{
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.mockedObject; }
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> Setup&lt;<span style="color:#458;font-weight:bold">object</span>, T&gt; Setup(Action&lt;T&gt; action)
+	{
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Setup&lt;<span style="color:#458;font-weight:bold">object</span>, T&gt;(RhinoMocksExtensions.Stub(<span style="color:#000;font-weight:bold">this</span>.mockedObject, action));
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> Setup&lt;R, T&gt; Setup&lt;R&gt;(Delegates.Function&lt;R, T&gt; action)
+	{
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Setup&lt;R, T&gt;(RhinoMocksExtensions.Stub(<span style="color:#000;font-weight:bold">this</span>.mockedObject, action));
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Verify(Action&lt;T&gt; action)
+	{
+		RhinoMocksExtensions.AssertWasCalled(<span style="color:#000;font-weight:bold">this</span>.mockedObject, action);
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Raise(Action&lt;T&gt; eventSubscription, <span style="color:#000;font-weight:bold">params</span> <span style="color:#458;font-weight:bold">object</span>[] args)
+	{
+		RhinoMocksExtensions.Raise(<span style="color:#000;font-weight:bold">this</span>.mockedObject, eventSubscription, args);
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> Setup&lt;R, T&gt; Throws&lt;e&gt;() <span style="color:#000;font-weight:bold">where</span> E : Exception, <span style="color:#000;font-weight:bold">new</span>()
+	{
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Setup&lt;R, T&gt;(<span style="color:#000;font-weight:bold">this</span>.options.Throw(<span style="color:#000;font-weight:bold">new</span> E()));
+	}
+}
+
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Setup</span>&lt;R, T&gt;
+{
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">readonly</span> IMethodOptions&lt;R&gt; options;
+
+	<span style="color:#000;font-weight:bold">public</span> Setup(IMethodOptions&lt;R&gt; options)
+	{
+		<span style="color:#000;font-weight:bold">this</span>.options = options;
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> Setup&lt;R, T&gt; Returns(R objToReturn)
+	{
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Setup&lt;R, T&gt;(<span style="color:#000;font-weight:bold">this</span>.options.Return(objToReturn));
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> Setup&lt;R, T&gt; Returns(Delegates.Function&lt;R, T&gt; action)
+	{
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Setup&lt;R, T&gt;(<span style="color:#000;font-weight:bold">this</span>.options.Do(action));
+	}
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -563,39 +764,6 @@ mock.Setup(foo =&gt; foo.Execute(<span style="color:#d14">&#34;ping&#34;</span>)
 
 <span style="color:#000;font-weight:bold">new</span> Fixed(<span style="color:#d14">&#34;fixed&#34;</span>).Display(); <span style="color:#998;font-style:italic">// displays &#39;fixed&#39;
 </span></code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/book-reviews">Book reviews</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">13</span>
-										<span class="rest">Feb 2009</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Microsoft .NET: Architecting Applications for the Enterprise</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Earlier this month i have read <a href="http://www.amazon.com/Microsoft%C2%AE-NET-Architecting-Applications-PRO-Developer/dp/073562609X">Microsoft .NET: Architecting Applications for the Enterprise</a>. This time i was pretty pleased to notice that the author, <a href="http://weblogs.asp.net/despos/">Dino Esposito</a>, did not fill the book with references to other books written by him. All in all the book painted a pretty accurate picture of enterprise application development that is obviously inspired by masterworks like: <a href="http://www.amazon.com/Design-Patterns-Object-Oriented-Addison-Wesley-Professional/dp/0201633612">Design Patterns: Elements of Reusable Object-Oriented Software</a>, <a href="http://www.amazon.com/Enterprise-Application-Architecture-Addison-Wesley-Signature/dp/0321127420">Patterns of Enterprise Application Architecture</a> and <a href="http://www.amazon.com/Domain-Driven-Design-Tackling-Complexity-Software/dp/0321125215">Domain-Driven Design: Tackling Complexity in the Heart of Software</a>.</p>
-<p>One remark though: I was a bit disappointed to see that the examples of unit tests used MSTEST. Why? Because it is such a broken product i find it hard to believe that for serious enterprise application development this library is actually usable.</p>
-
 						</div>
 			
 						<div class="tags">
