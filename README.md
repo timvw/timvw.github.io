@@ -15,6 +15,6 @@ Now use the fork as your them:
 git submodule add https://github.com/timvw/hugo-ink.git ./themes/ink
 ```
 
-
+.
 
 
