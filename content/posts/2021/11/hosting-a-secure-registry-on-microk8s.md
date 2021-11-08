@@ -21,7 +21,7 @@ kubectl create secret generic auth-secret --from-file=./registry-htpasswd -n reg
 
 * A TLS certificate
 
-The TLS certificate is generated using [cert-manager]. See this [post] on how to achieve that.
+The TLS certificate is generated using [cert-manager](https://cert-manager.io/docs/). See this [post](https://timvw.be/2021/03/15/notes-on-microk8s-and-cert-manager/) on how to achieve that.
 
 When all is in place you can simply kubectl apply the following:
 
