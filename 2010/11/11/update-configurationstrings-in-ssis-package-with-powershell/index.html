@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Here are some functions that allow you to update ConfigurationStrings in a SSIS package (dtsx) using PowerShell:
 function UpdateConfigurationStrings($file) { $xml = [xml] (Get-Content $file); $ns = New-Object Xml.XmlNamespaceManager $xml.NameTable; $ns.AddNamespace(&#34;DTS&#34;, &#34;www.microsoft.com/SqlServer/Dts&#34;); UpdateConfigurationNodes $xml $ns; Set-Content $file $xml.OuterXml; } function UpdateConfigurationNodes($xml, $ns) { $selectConfigurationNodes = &#34;//DTS:Configuration&#34;; $xml.SelectNodes($selectConfigurationNodes, $ns) | foreach { UpdateConfigurationNode $_ $ns; }; } function UpdateConfigurationNode($configurationNode, $ns) { $selectConfigurationString = &#34;./DTS:Property[@DTS:Name=&#39;ConfigurationString&#39;]&#34;; $configurationStringNode = $configurationNode.SelectSingleNode($selectConfigurationString, $ns); $oldConfigurationStringValue = $configurationStringNode.&#39;#text&#39;; $newConfigurationStringValue = GetNewConfigurationStringValue $oldConfigurationStringValue; $configurationStringNode.">
 <meta itemprop="datePublished" content="2010-11-11T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-11-08T15:25:16+01:00" />
+<meta itemprop="dateModified" content="2021-11-08T15:31:18+01:00" />
 <meta itemprop="wordCount" content="93">
 
 
@@ -19,7 +19,7 @@ function UpdateConfigurationStrings($file) { $xml = [xml] (Get-Content $file); $
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/2010/11/11/update-configurationstrings-in-ssis-package-with-powershell/" />
 <meta property="article:published_time" content="2010-11-11T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-11-08T15:25:16+01:00" />
+<meta property="article:modified_time" content="2021-11-08T15:31:18+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Update ConfigurationStrings in SSIS package with PowerShell"/>
 <meta name="twitter:description" content="Here are some functions that allow you to update ConfigurationStrings in a SSIS package (dtsx) using PowerShell:
