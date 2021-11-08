@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,71 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">08</span>
+										<span class="rest">Mar 2011</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Get/SetVariable value from SSIS VariableDispenser</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Here is some code that allows you to Get/Set a variable (object) value from/on the <a href="http://msdn.microsoft.com/en-us/library/microsoft.sqlserver.dts.runtime.variabledispenser.aspx">VariableDispenser</a> in an SSIS package:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> T GetVariable&lt;T&gt;(<span style="color:#000;font-weight:bold">this</span> VariableDispenser variableDispenser, <span style="color:#458;font-weight:bold">string</span> scopedVariableName)
+{
+  Variables variables = <span style="color:#000;font-weight:bold">null</span>;
+
+  <span style="color:#000;font-weight:bold">try</span>
+  {
+    variableDispenser.LockForRead(scopedVariableName);
+    variableDispenser.GetVariables(<span style="color:#000;font-weight:bold">ref</span> variables);
+    <span style="color:#000;font-weight:bold">return</span> (T)variables[<span style="color:#099">0</span>].Value;
+  }
+  <span style="color:#000;font-weight:bold">finally</span>
+  {
+    <span style="color:#000;font-weight:bold">if</span> (variables != <span style="color:#000;font-weight:bold">null</span>) variables.Unlock();
+  }
+}
+
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> SetVariable&lt;T&gt;(<span style="color:#000;font-weight:bold">this</span> VariableDispenser variableDispenser, <span style="color:#458;font-weight:bold">string</span> scopedVariableName, T <span style="color:#000;font-weight:bold">value</span>)
+{
+  Variables variables = <span style="color:#000;font-weight:bold">null</span>;
+
+  <span style="color:#000;font-weight:bold">try</span>   
+  {  
+    variableDispenser.LockForWrite(scopedVariableName);  
+    variableDispenser.GetVariables(<span style="color:#000;font-weight:bold">ref</span> variables);  
+    variables[<span style="color:#099">0</span>].Value = <span style="color:#000;font-weight:bold">value</span>;  
+  }  
+  <span style="color:#000;font-weight:bold">finally</span>  
+  {   
+    <span style="color:#000;font-weight:bold">if</span> (variables != <span style="color:#000;font-weight:bold">null</span>) variables.Unlock();  
+  }
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/c">C</a></li>
+										
+										<li><a href="../../tags/ssis">SSIS</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -623,48 +688,6 @@ Object<span style="color:#000;font-weight:bold">[]</span> pdus <span style="colo
 										<li><a href="../../tags/powershell">PowerShell</a></li>
 										
 										<li><a href="../../tags/visual-studio">Visual Studio</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">17</span>
-										<span class="rest">Nov 2010</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Load all script files at PowerShell startup</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>These days i have quite some scripts files that i want to be loaded each time i launch PowerShell. <a href="http://msdn.microsoft.com/en-us/library/bb613488%28VS.85%29.aspx">Windows PowerShell Profiles</a> teaches me where i should store my $profile. Here is what it looks like:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#998;font-style:italic"># Lookup powershell scripts location</span>
-<span style="color:#008080">$UserProfile</span> = (<span style="color:#0086b3">Get-ChildItem</span> Env<span style="color:#a61717;background-color:#e3d2d2">:</span>UserProfile).Value;
-<span style="color:#008080">$ScriptFolder</span> = <span style="color:#d14">&#34;$UserProfile\My documents\WindowsPowerShell&#34;</span>;
-
-<span style="color:#998;font-style:italic"># Source all .ps1 files in PowerShell profile folder  </span>
-<span style="color:#0086b3">Get-ChildItem</span> <span style="color:#008080">$ScriptFolder</span> -name -include <span style="color:#d14">&#39;*.ps1&#39;</span> -exclude <span style="color:#d14">&#39;profile.ps1&#39;</span>   
-| <span style="color:#000;font-weight:bold">foreach</span> { (. <span style="color:#d14">&#34;$ScriptFolder\$_&#34;</span>) };
-
-<span style="color:#998;font-style:italic"># Configure environment for VS2010  </span>
-SetVS2010;
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/powershell">PowerShell</a></li>
 										
 									</ul>
 								

@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,59 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">23</span>
+										<span class="rest">Sep 2008</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Refactoring ApplicationEnvironment</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Yesterday i blogged about an <a href="http://www.timvw.be/presenting-applicationenvironment/">ApplicationEnvironment</a> which had a dependency on the application configuration file. With my <a href="http://www.timvw.be/presenting-configurationfilesession/">ConfigurationFileSession</a> i was able to test the implementation despite that dependency. Today i modified the design a little so that i do not require the ConfigurationFileSession hack anymore.</p>
+<p>First i added an internal constructor as following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">internal</span> <span style="color:#000;font-weight:bold">protected</span> ApplicationEnvironment(DateTime instanceEpoch, DateTime applicationEpoch)
+{
+	<span style="color:#000;font-weight:bold">this</span>.instanceEpoch = instanceEpoch;
+	<span style="color:#000;font-weight:bold">this</span>.applicationEpoch = applicationEpoch;
+}
+</code></pre></div><p>Then i made the internals visible to the test project</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[assembly: InternalsVisibleTo(&#34;Be.Timvw.Framework.Domain.Tests&#34;)]</span>
+</code></pre></div><p>And finally i added a base class that takes care of the initialization and clean up as following</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestInitialize]</span>
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> TestInitialize()
+{
+	<span style="color:#000;font-weight:bold">this</span>.original = ApplicationEnvironment.Instance;
+	ApplicationEnvironment.Instance = <span style="color:#000;font-weight:bold">new</span> ApplicationEnvironment(DateTime.UtcNow, <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">1998</span>, <span style="color:#099">01</span>, <span style="color:#099">01</span>));
+}
+<span style="color:#008080">
+</span><span style="color:#008080">[TestCleanup]</span>
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> TestCleanUp()
+{
+	ApplicationEnvironment.Instance = <span style="color:#000;font-weight:bold">this</span>.original;
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -495,39 +548,6 @@ using(windowsIdentityHelper.GetWindowsIdentity().Impersonate())
 									<ul class="flat">
 										
 										<li><a href="../../tags/information-technology">Information Technology</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">05</span>
-										<span class="rest">Sep 2008</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">The Microsoft Certified Professional Developer: Enterprise Applications Developer on Visual Studio 2005</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Not that anyone should care, apart from my manager, i <a href="http://www.timvw.be/mcts/">posted</a> that the only remaining exam was <a href="http://www.microsoft.com/learning/en/us/exams/70-549.mspx">070-549</a> PRO: Designing and Developing Enterprise Applications by Using the Microsoft .NET Framework a while ago. And this morning i passed that exam 🙂 This means that i have earned the &ldquo;<a href="http://www.microsoft.com/learning/mcp/mcpd/entapp/default.mspx">MCPD: Enterprise Applications Developer</a>&rdquo; certificate that demonstrates that i have the comprehensive skills required to build n-tier solutions that target both Web and client user experiences.</p>
-<p>At this moment i am quite involved in a couple of projects using WCF and WF thus it is quite possible that i decide to take the upgrade path to <a href="http://www.microsoft.com/learning/mcp/mcpd/vstudio/2008/default.mspx">MCPD: Enterprise Applications Developer 3.5</a> later on this year.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/awards-and-certifications">Awards and Certifications</a></li>
 										
 									</ul>
 								

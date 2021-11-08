@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,50 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">12</span>
+										<span class="rest">Jun 2006</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Couple of screenshots of my graduation project</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Here are a couple of screenshots of my graduation project i&rsquo;ve been working on last couple of weeks. The GUI is built with Swing, the bussiness rules make extensive use of the Apache BeanUtils and Hibernate Validators packages and with PostgreSQL we have a solid database. Since it takes a while to load the EntityManagerFactory we&rsquo;ve added a simple splashscreen:</p>
+<p><a href="http://www.timvw.be/wp-content/images/grad01.png"><img src="http://www.timvw.be/wp-content/images/gradtn01.png" alt="splashscreen"></a></p>
+<p>The base screen displays a map with the tables in the restaurant. The color of the tables depends on the state of the visit (eg: just arrived, ordered some items, eating soup, eating dessert, paid the bill). There is also the possiblity to group tables. Offcourse you have the possibility to rearrange the tables and add/remove the maps:</p>
+<p><a href="http://www.timvw.be/wp-content/images/grad02.png"><img src="http://www.timvw.be/wp-content/images/gradtn02.png" alt="groundplan restaurant"></a></p>
+<p><a href="http://www.timvw.be/wp-content/images/grad03.png"><img src="http://www.timvw.be/wp-content/images/gradtn03.png" alt="groundplan terrace"></a></p>
+<p>As soon as the waiter has choosen a visit he can add orders via an easy to use screen. He also has the possibility to add (pre-configured and/or custom) remarks to a given order. Each order is printed on the printer of the division that is responsible for the handling for the given type of menuitems:</p>
+<p><a href="http://www.timvw.be/wp-content/images/grad04.png"><img src="http://www.timvw.be/wp-content/images/gradtn04.png" alt="order panel"></a></p>
+<p><a href="http://www.timvw.be/wp-content/images/grad05.png"><img src="http://www.timvw.be/wp-content/images/gradtn05.png" alt="remarks dialog"></a></p>
+<p>And least but not least, there is a screen that allows the waiter to generate, print and save one or more bills for each visit. If all ordered items have been paid, the visit goes into the PAID state:</p>
+<p><a href="http://www.timvw.be/wp-content/images/grad06.png"><img src="http://www.timvw.be/wp-content/images/gradtn06.png" alt="billing panel"></a></p>
+<p>Offcourse we&rsquo;ve also written list/detail panels for all the tables this restaurant uses. Here are screenshots of the list and detail panel for the menuitems:</p>
+<p><a href="http://www.timvw.be/wp-content/images/grad07.png"><img src="http://www.timvw.be/wp-content/images/gradtn07.png" alt="menuitem list"></a></p>
+<p><a href="http://www.timvw.be/wp-content/images/grad08.png"><img src="http://www.timvw.be/wp-content/images/gradtn08.png" alt="menuitem detail"></a></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/hibernate">Hibernate</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -599,40 +643,6 @@ laptime <span style="color:#0086b3">INT</span> <span style="color:#000;font-weig
 									<ul class="flat">
 										
 										<li><a href="../../tags/java">Java</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">02</span>
-										<span class="rest">Apr 2006</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Allow a form to be posted only once</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>People can fill in a form and submit it. Then they can hit their back button, and choose to submit it again. Usually the second time this form is being posted, the values in that form aren&rsquo;t valid anymore and thus corrupt the database.</p>
-<p>Most developpers i know try to work around this problem by using the header function or the html meta tags to set the expiration date. However, this solution does not only limit the usability of a site, it simply does not work for visitors that have a browser that ignores the expiration date.</p>
-<p>My solution for this problem is quite easy. For each entity in the database that can be updated by a form, we should add an attribute lastupdate. Now every time we build a form that contains data of that entity, we should also add an input of type hidden with the value of that lastupdate attribute. If the value of the lastupdate attribute in the database is more recent than the value of the posted lastupdate in the recieving script, then the posted values are invalid and this script should tell the user about this error. Offcourse, every time such an entity is updated, the lastupdate attribute of this entity should be updated too.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/php">PHP</a></li>
 										
 									</ul>
 								

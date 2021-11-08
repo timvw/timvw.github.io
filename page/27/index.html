@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,58 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">26</span>
+										<span class="rest">Feb 2008</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Writing Xml without the XmlDeclaration</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Consider the following xml file:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
+<span style="color:#998;font-style:italic">&lt;!-- some comment --&gt;</span>
+<span style="color:#000080">&lt;root&gt;</span>
+<span style="color:#000080">&lt;/root&gt;</span>
+<span style="color:#998;font-style:italic">&lt;!-- another comment --&gt;</span>
+</code></pre></div><p>If you look at the <a href="http://www.w3.org/TR/REC-xml/#sec-well-formed">Well-Formed XML Documents</a> section in the <a href="http://www.w3.org/TR/REC-xml/">XML specification</a> you see that a well-formed document is defined as:</p>
+<blockquote>
+<p>[1] document ::= <a href="http://www.w3.org/TR/REC-xml/#NT-prolog">prolog</a> <a href="http://www.w3.org/TR/REC-xml/#NT-element">element</a> <a href="http://www.w3.org/TR/REC-xml/#NT-Misc">Misc*</a></p>
+</blockquote>
+<p>Since there is only 1 root element (ever), i assumed that if you <a href="http://msdn2.microsoft.com/en-us/library/system.xml.xmldocument.load.aspx">Load</a> this file with <a href="http://msdn2.microsoft.com/en-us/library/system.xml.xmldocument.aspx">XmlDocument</a> their would be only one <a href="http://msdn2.microsoft.com/en-us/library/system.xml.xmlnode.aspx">XmlNode</a> in the document <a href="http://msdn2.microsoft.com/en-us/library/system.xml.xmlnode.childnodes.aspx">ChildNodes</a>. In reality there ChildNodes.Count returns 4.</p>
+<p>The simplest way to write this XmlDocument without the declaration would be as following:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">XmlWriterSettings xmlWriterSettings = <span style="color:#000;font-weight:bold">new</span> XmlWriterSettings();
+xmlWriterSettings.OmitXmlDeclaration = <span style="color:#000;font-weight:bold">true</span>;
+xmlWriterSettings.Encoding = Encoding.UTF8;
+<span style="color:#000;font-weight:bold">using</span> (XmlWriter writer = XmlWriter.Create(<span style="color:#d14">@&#34;result.xml&#34;</span>, xmlWriterSettings))
+{
+	xmlDoc.WriteTo(writer);
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/xml">XML</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -712,41 +764,6 @@ SoapReceivers.Add(epr, <span style="color:#000;font-weight:bold">typeof</span>(B
 										<li><a href="../../tags/csharp">CSharp</a></li>
 										
 										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">26</span>
-										<span class="rest">Aug 2007</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">ClickOnce Deployment is not user-friendly!</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Today i was experimenting with <a href="http://msdn2.microsoft.com/en-us/library/t71a733d(VS.80).aspx">ClickOnce Deployment</a>. Some people have warned for the elevation of permissions: <a href="http://www.leastprivilege.com/BewareBeAwareOfClickOnceDefaultSettings.aspx">Be aware of ClickOnce default settings</a>. What i find even more annoying is the fact that all you get to see are the following dialogs</p>
-<p><img src="http://www.timvw.be/wp-content/images/clickonce-permissions-01.gif" alt=""></p>
-<p><img src="http://www.timvw.be/wp-content/images/clickonce-permissions-02.gif" alt=""></p>
-<p>If the user has to make an informed decision about the permissions he&rsquo;s going to grant to an application he should have atleast an easily accessible dialog that displays the PermissionSet that is being request. <strong>Having to browse to the manifest file to find the PermissionSet is NOT user-friendly!</strong></p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
 										
 									</ul>
 								

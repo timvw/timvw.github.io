@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,62 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">26</span>
+										<span class="rest">Jul 2007</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Using interfaces with Drag and Drop</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Earlier today i was refactoring some graphical components. I wanted to use an interface instead of concrete implementations for my drag and drop code&hellip; Although i was using an instance of Foo, and thus IFoo, the following code never allowed me to drop</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">interface</span> IFoo { }
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Foo</span> : IFoo { }
+
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> label1_MouseDown(<span style="color:#458;font-weight:bold">object</span> sender, MouseEventArgs e)
+{
+	<span style="color:#000;font-weight:bold">this</span>.DoDragDrop(<span style="color:#000;font-weight:bold">new</span> Foo(), DragDropEffects.All);
+}
+
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Form1_DragEnter(<span style="color:#458;font-weight:bold">object</span> sender, DragEventArgs e)
+{
+	<span style="color:#998;font-style:italic">// for an instance of Foo it returns false,
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// if you use typeof(Foo) it returns true though...
+</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span> (e.Data.GetDataPresent(<span style="color:#000;font-weight:bold">typeof</span>(IFoo)))
+	{
+		e.Effect = DragDropEffects.All;
+	}
+}
+</code></pre></div><p>Simply wrapping the concrete instance in a <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.dataobject(VS.80).aspx">DataObject</a> results in the desired behaviour</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> label1_MouseDown(<span style="color:#458;font-weight:bold">object</span> sender, MouseEventArgs e)
+{
+	<span style="color:#000;font-weight:bold">this</span>.DoDragDrop(<span style="color:#000;font-weight:bold">new</span> DataObject(<span style="color:#000;font-weight:bold">typeof</span>(IFoo).FullName,<span style="color:#000;font-weight:bold">new</span> Foo()), DragDropEffects.All);
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -810,60 +866,6 @@ appointments.Add(<span style="color:#000;font-weight:bold">new</span> Appointmen
 	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.EndEdit();
 }
 </code></pre></div><p>As always, feel free to download <a href="http://www.timvw.be/wp-content/code/csharp/DataGridViewComboBoxBinding2.zip">DataGridViewComboBoxBinding2.zip</a>.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">29</span>
-										<span class="rest">Apr 2007</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Presenting the MultiPanel</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>A while ago i was thinking that i would be nice to have a control that exposes multiple designer panels, but only shows one at a time&hellip; Somewhat like a TabControl, but without the header.. Anyway, i found out (<a href="http://forums.microsoft.com/MSDN/ShowPost.aspx?PostID=1518961&amp;SiteID=1">here</a>) that a TabControl can be tweaked into that behaviour</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MultiPanel</span> : TabControl
-{
-	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">void</span> WndProc(<span style="color:#000;font-weight:bold">ref</span> Message m)
-	{
-		<span style="color:#000;font-weight:bold">if</span> (m.Msg == <span style="color:#099">0</span>x1328 &amp;&amp; !DesignMode)
-		{
-			m.Result = (IntPtr) <span style="color:#099">1</span>;
-		}
-		<span style="color:#000;font-weight:bold">else</span>
-		{
-			<span style="color:#000;font-weight:bold">base</span>.WndProc(<span style="color:#000;font-weight:bold">ref</span> m);
-		}
-	}
-}
-</code></pre></div><p>In the designer it appears as following</p>
-<p><img src="http://www.timvw.be/wp-content/images/MultiPanel1.gif" alt="screenshot of MultiPanel at designtime"></p>
-<p><img src="http://www.timvw.be/wp-content/images/MultiPanel2.gif" alt="screenshot of MultiPanel at designtime"></p>
-<p>And at runtime it appears as following</p>
-<p><img src="http://www.timvw.be/wp-content/images/MultiPanel3.gif" alt="screenshot of MultiPanel at designtime"></p>
-<p><img src="http://www.timvw.be/wp-content/images/MultiPanel4.gif" alt="screenshot of MultiPanel at designtime"></p>
 
 						</div>
 			

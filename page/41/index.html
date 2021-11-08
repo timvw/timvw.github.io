@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,56 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">14</span>
+										<span class="rest">Nov 2005</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Parsing http headers</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Today i updated my HTTP proxy a little. <a href="http://www.w3.org/Protocols/rfc2616/rfc2616.html">RFC 2616</a> describes <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2">Message Headers</a> as following:</p>
+<blockquote>
+<!-- raw HTML omitted -->
+</blockquote>
+<p>message-header = field-name &ldquo;:&rdquo; [ field-value ]
+field-name     = token
+field-value    = *( field-content | LWS )
+field-content  = &lt;the OCTETs making up the field-value and consisting of
+either *TEXT or combinations of token, separators,
+and quoted-string&gt;
+<!-- raw HTML omitted --></p>
+<blockquote>
+<!-- raw HTML omitted -->
+</blockquote>
+<p>Here is the code i used to get the field-name and field-value. Do you see the bug?</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-perl" data-lang="perl"><span style="color:#000;font-weight:bold">my</span> (<span style="color:#008080">$name</span>, <span style="color:#008080">$value</span>) <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">split</span> <span style="color:#009926">/:/</span>, <span style="color:#008080">$in</span>;
+</code></pre></div><p>Location headers look like &lsquo;header: <a href="http://www.example.com">http://www.example.com</a>&rsquo;. Now, the problem is that <a href="http://perldoc.perl.org/functions/split.html">split</a> returns a list with &lsquo;location&rsquo;, &lsquo;http&rsquo; and &lsquo;<a href="http://www.example.com">www.example.com</a>&rsquo;. Here is the solution:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-perl" data-lang="perl"><span style="color:#000;font-weight:bold">my</span> <span style="color:#008080">$in</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;location: http://www.example.com&#39;</span>;
+<span style="color:#000;font-weight:bold">my</span> (<span style="color:#008080">$name</span>, <span style="color:#008080">$value</span>) <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">split</span> <span style="color:#009926">/:/</span>, <span style="color:#008080">$in</span>, <span style="color:#099">2</span>;
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/perl">Perl</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -606,38 +656,6 @@ pics[i<span style="color:#000;font-weight:bold">++</span>] <span style="color:#0
 									<ul class="flat">
 										
 										<li><a href="../../tags/php">PHP</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">20</span>
-										<span class="rest">Aug 2005</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Telnet server</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>A telnet server that writes the content of a file to it&rsquo;s clients: <a href="http://www.timvw.be/wp-content/code/java/banner.txt">banner.txt</a>.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/java">Java</a></li>
 										
 									</ul>
 								

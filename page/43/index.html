@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,87 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">04</span>
+										<span class="rest">Mar 2005</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">More on recursion</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Yesterday i already wrote that an interative implementation for a recursive function is more efficient. And i gave you an example of the fibonacci function. Well, today i am here to present you an implementation for every recursive function.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Math</span>
+{
+  <span style="color:#998;font-style:italic">// calculate the linear combination  
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// fe:     
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// coefficients = array(1, 2, 3)   
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// values = array(4, 5, 6)     
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// returns: (1 \* 4) + (2 \* 5) + (3 * 6)
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">lc</span>(<span style="color:#008080">$coefficients</span>, <span style="color:#008080">$values</span>)     
+  {        
+    <span style="color:#000;font-weight:bold">if</span> (count(<span style="color:#008080">$coefficients</span>) <span style="color:#000;font-weight:bold">!=</span> count(<span style="color:#008080">$values</span>))        
+    {             
+      <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>;      
+    }
+
+    <span style="color:#008080">$result</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>;        
+    <span style="color:#000;font-weight:bold">for</span> (<span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; <span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">&lt;</span> count(<span style="color:#008080">$coefficients</span>); <span style="color:#000;font-weight:bold">++</span><span style="color:#008080">$i</span>)    
+    {          
+      <span style="color:#008080">$result</span> <span style="color:#000;font-weight:bold">+=</span> <span style="color:#008080">$coefficients</span>[<span style="color:#008080">$i</span>] <span style="color:#000;font-weight:bold">*</span> <span style="color:#008080">$values</span>[<span style="color:#008080">$i</span>];        
+    }         
+    <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$result</span>;     
+  }
+
+  <span style="color:#998;font-style:italic">// lookup the value for the recursive function     
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// fe:     
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// n: 3      
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// coefficients = array(a, b)    
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// initvalues = array(0, 1)     
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// returns: 2    
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// this is the same as f(n) = (a \* (n-2)) + (b \* (n-1))    
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">recursive</span>(<span style="color:#008080">$n</span>, <span style="color:#008080">$coefficients</span>, <span style="color:#008080">$initvalues</span>)    
+  {          
+    <span style="color:#000;font-weight:bold">if</span> (<span style="color:#008080">$n</span> <span style="color:#000;font-weight:bold">&lt;</span> count(<span style="color:#008080">$initvalues</span>))         
+    {             
+      <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$initvalues</span>[<span style="color:#008080">$n</span>];          
+    }
+
+    <span style="color:#000;font-weight:bold">for</span> (<span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">=</span> count(<span style="color:#008080">$initvalues</span>); <span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">&lt;=</span> <span style="color:#008080">$n</span>; <span style="color:#000;font-weight:bold">++</span><span style="color:#008080">$i</span>)        
+    {            
+      <span style="color:#008080">$result</span> <span style="color:#000;font-weight:bold">=</span> Math<span style="color:#000;font-weight:bold">::</span><span style="color:#008080">lc</span>(<span style="color:#008080">$coefficients</span>, <span style="color:#008080">$initvalues</span>);            
+      array_shift(<span style="color:#008080">$initvalues</span>);             
+      array_push(<span style="color:#008080">$initvalues</span>, <span style="color:#008080">$result</span>);        
+    }
+    <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$result</span>;    
+  }
+}
+</code></pre></div><p>As an example we use this class to calculate fibonacci(3):</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#008080">$coefficients</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>(<span style="color:#099">1</span>, <span style="color:#099">1</span>); <span style="color:#998;font-style:italic">// f(n) = (1 \* f(n-2)) + (1 \* f(n-1))
+</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$initvalues</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>(<span style="color:#099">0</span>, <span style="color:#099">1</span>); <span style="color:#998;font-style:italic">// f(0) = 0 and f(1) = 1
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">echo</span> Math<span style="color:#000;font-weight:bold">::</span><span style="color:#008080">recursive</span>(<span style="color:#099">3</span>, <span style="color:#008080">$coefficients</span>, <span style="color:#008080">$initvalues</span>);
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/php">PHP</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -500,38 +581,6 @@ timvw@debian: cvs -d /home/users/timvw/services/cvs init <span style="color:#998
 									<ul class="flat">
 										
 										<li><a href="../../tags/sql">SQL</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">08</span>
-										<span class="rest">Nov 2004</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">TetriNet spectator client</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>I present a Spectator (Applet) for TetriNet: <a href="http://www.timvw.be/wp-content/code/java/JSpectator.zip">JSpectator.zip</a>.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/java">Java</a></li>
 										
 									</ul>
 								

@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,60 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">29</span>
+										<span class="rest">Apr 2007</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Presenting the MultiPanel</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>A while ago i was thinking that i would be nice to have a control that exposes multiple designer panels, but only shows one at a time&hellip; Somewhat like a TabControl, but without the header.. Anyway, i found out (<a href="http://forums.microsoft.com/MSDN/ShowPost.aspx?PostID=1518961&amp;SiteID=1">here</a>) that a TabControl can be tweaked into that behaviour</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MultiPanel</span> : TabControl
+{
+	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">void</span> WndProc(<span style="color:#000;font-weight:bold">ref</span> Message m)
+	{
+		<span style="color:#000;font-weight:bold">if</span> (m.Msg == <span style="color:#099">0</span>x1328 &amp;&amp; !DesignMode)
+		{
+			m.Result = (IntPtr) <span style="color:#099">1</span>;
+		}
+		<span style="color:#000;font-weight:bold">else</span>
+		{
+			<span style="color:#000;font-weight:bold">base</span>.WndProc(<span style="color:#000;font-weight:bold">ref</span> m);
+		}
+	}
+}
+</code></pre></div><p>In the designer it appears as following</p>
+<p><img src="http://www.timvw.be/wp-content/images/MultiPanel1.gif" alt="screenshot of MultiPanel at designtime"></p>
+<p><img src="http://www.timvw.be/wp-content/images/MultiPanel2.gif" alt="screenshot of MultiPanel at designtime"></p>
+<p>And at runtime it appears as following</p>
+<p><img src="http://www.timvw.be/wp-content/images/MultiPanel3.gif" alt="screenshot of MultiPanel at designtime"></p>
+<p><img src="http://www.timvw.be/wp-content/images/MultiPanel4.gif" alt="screenshot of MultiPanel at designtime"></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -548,153 +602,6 @@
 </code></pre></div><p><img src="http://www.timvw.be/wp-content/images/sortablebindinglist.gif" alt="the sortablebindinglist at work"></p>
 <p>Feel free to download the source and demoproject: <a href="http://www.timvw.be/wp-content/code/csharp/SortableBindingList.zip">SortableBindingList.zip</a>.</p>
 <p><strong>Edit:</strong> You can find the latest implementation at <a href="http://www.codeplex.com/BeTimvwFramework">BeTimvwFramework</a>, a project where i will keep classes that i find interesting.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">07</span>
-										<span class="rest">Feb 2007</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Don&#39;t wait until the DateTimePicker has lost focus to write back the values</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Drag a TextBox and a DateTimePicker control on a Form and databind them to a DateTime property, eg</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form
-{
-	<span style="color:#000;font-weight:bold">public</span> Form1()
-	{
-		InitializeComponent();
-
-		SimpleObject simpleObject = <span style="color:#000;font-weight:bold">new</span> SimpleObject();
-		simpleObject.Birthday = DateTime.Now;
-
-		<span style="color:#000;font-weight:bold">this</span>.dateTimePicker1.DataBindings.Add(<span style="color:#d14">&#34;Value&#34;</span>, simpleObject, <span style="color:#d14">&#34;Birthday&#34;</span>);
-		<span style="color:#000;font-weight:bold">this</span>.textBox1.DataBindings.Add(<span style="color:#d14">&#34;Text&#34;</span>, simpleObject, <span style="color:#d14">&#34;Birthday&#34;</span>, <span style="color:#000;font-weight:bold">true</span>, DataSourceUpdateMode.OnPropertyChanged);
-	}
-}
-
-<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">SimpleObject</span> : INotifyPropertyChanged
-{
-	<span style="color:#000;font-weight:bold">private</span> DateTime birthday;
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">event</span> PropertyChangedEventHandler PropertyChanged;
-
-	<span style="color:#000;font-weight:bold">public</span> DateTime Birthday
-	{
-		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.birthday; }
-		<span style="color:#000;font-weight:bold">set</span>
-		{
-		<span style="color:#000;font-weight:bold">this</span>.birthday = <span style="color:#000;font-weight:bold">value</span>;
-		<span style="color:#000;font-weight:bold">this</span>.OnPropertyChanged(<span style="color:#d14">&#34;Birthday&#34;</span>);
-		}
-	}
-
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> OnPropertyChanged(<span style="color:#458;font-weight:bold">string</span> propertyName)
-	{
-		<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.PropertyChanged != <span style="color:#000;font-weight:bold">null</span>)
-		{
-			<span style="color:#000;font-weight:bold">this</span>.PropertyChanged(<span style="color:#000;font-weight:bold">this</span>, <span style="color:#000;font-weight:bold">new</span> PropertyChangedEventArgs(propertyName));
-		}
-	}
-}
-</code></pre></div><p>The annoying bit is that every time the user picks a datetime, he has to move the focus before the changes in the DateTimePicker control are written back to the datasource&hellip; You can circumvent this by handling the CloseUp event of the DataTimePicker as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dateTimePicker1_CloseUp(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
-{
-	DateTimePicker dateTimePicker = sender <span style="color:#000;font-weight:bold">as</span> DateTimePicker;
-	<span style="color:#000;font-weight:bold">if</span> (dateTimePicker != <span style="color:#000;font-weight:bold">null</span>)
-	{
-		<span style="color:#000;font-weight:bold">foreach</span> (Binding binding <span style="color:#000;font-weight:bold">in</span> dateTimePicker.DataBindings)
-		{
-			binding.WriteValue();
-		}
-	}
-}
-</code></pre></div><p>I think mosts users will appreciate this new behaviour 🙂 We can also apply this technique on a ComboBox (using the SelectionChangeCommitted event). Instead of manually hooking up to all these events, i&rsquo;ve implemented an IExtenderProvider that takes care of this tedious task (only showing the part for the datetimepicker)</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[ProvideProperty(&#34;WriteValuesAfterCloseUp&#34;, typeof(DateTimePicker))]</span>
-<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">WriteValueAfterEventExtender</span> : Component, IExtenderProvider
-{
-	<span style="color:#000;font-weight:bold">private</span> Dictionary&lt;dateTimePicker, <span style="color:#458;font-weight:bold">bool</span>&gt; writeValuesAfterCloseUp;
-
-	<span style="color:#000;font-weight:bold">public</span> WriteValueAfterEventExtender()
-	{
-		<span style="color:#000;font-weight:bold">this</span>.writeValuesAfterCloseUp = <span style="color:#000;font-weight:bold">new</span> Dictionary&lt;dateTimePicker, <span style="color:#458;font-weight:bold">bool</span>&gt;();
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> CanExtend(<span style="color:#458;font-weight:bold">object</span> extendee)
-	{
-		<span style="color:#000;font-weight:bold">return</span> extendee <span style="color:#000;font-weight:bold">is</span> DateTimePicker;
-	}
-<span style="color:#008080">
-</span><span style="color:#008080">	[Description(&#34;Gets a boolean indicating if the values are written to the datasource after a CloseUp event.&#34;)]</span>
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> GetWriteValuesAfterCloseUp(DateTimePicker dateTimePicker)
-	{
-		<span style="color:#458;font-weight:bold">bool</span> <span style="color:#000;font-weight:bold">value</span>;
-		<span style="color:#000;font-weight:bold">if</span> (!<span style="color:#000;font-weight:bold">this</span>.writeValuesAfterCloseUp.TryGetValue(dateTimePicker, <span style="color:#000;font-weight:bold">out</span> <span style="color:#000;font-weight:bold">value</span>))
-		{
-			<span style="color:#000;font-weight:bold">value</span> = <span style="color:#000;font-weight:bold">false</span>;
-		}
-		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">value</span>;
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> SetWriteValuesAfterCloseUp(DateTimePicker dateTimePicker, <span style="color:#458;font-weight:bold">bool</span> <span style="color:#000;font-weight:bold">value</span>)
-	{
-		<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.writeValuesAfterCloseUp.ContainsKey(dateTimePicker))
-		{
-			<span style="color:#000;font-weight:bold">this</span>.writeValuesAfterCloseUp[dateTimePicker] = <span style="color:#000;font-weight:bold">value</span>;
-		}
-		<span style="color:#000;font-weight:bold">else</span>
-		{
-			<span style="color:#000;font-weight:bold">this</span>.writeValuesAfterCloseUp.Add(dateTimePicker, <span style="color:#000;font-weight:bold">value</span>);
-		}
-
-		<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">value</span>)
-		{
-			dateTimePicker.CloseUp += <span style="color:#000;font-weight:bold">this</span>.dateTimePicker_CloseUp;
-		}
-		<span style="color:#000;font-weight:bold">else</span>
-		{
-			dateTimePicker.CloseUp -= <span style="color:#000;font-weight:bold">this</span>.dateTimePicker_CloseUp;
-		}
-	}
-
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dateTimePicker_CloseUp(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
-	{
-		DateTimePicker dateTimePicker = sender <span style="color:#000;font-weight:bold">as</span> DateTimePicker;
-		<span style="color:#000;font-weight:bold">if</span> (dateTimePicker != <span style="color:#000;font-weight:bold">null</span>)
-		{
-			<span style="color:#000;font-weight:bold">foreach</span> (Binding binding <span style="color:#000;font-weight:bold">in</span> dateTimePicker.DataBindings)
-			{
-				binding.WriteValue();
-			}
-		}
-	}
-}
-</code></pre></div><p>As soon as you drop an instance of the WriteValueAfterEditExtender component on your designer form you will see the that an extra property appears on the datetimepicker</p>
-<p><img src="http://www.timvw.be/wp-content/images/writevalueaftereventextender.gif" alt="image of the propertylist for datetimepicker"></p>
-<p>As always, feel free to download the <a href="http://www.timvw.be/wp-content/code/csharp/ExtenderProvider.zip">ExtenderProvider.zip</a>.</p>
 
 						</div>
 			

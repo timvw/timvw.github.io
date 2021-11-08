@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,142 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">10</span>
+										<span class="rest">Sep 2006</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Implementing Master/Detail for Custom Objects with DataGridViewComboBoxColumns</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Imagine you have the following two classes</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Parent</span> 
+{
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> id;
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">string</span> name;
+
+	<span style="color:#000;font-weight:bold">public</span> Parent( <span style="color:#458;font-weight:bold">int</span> id, <span style="color:#458;font-weight:bold">string</span> name ) 
+	{
+		<span style="color:#000;font-weight:bold">this</span>.id = id;
+		<span style="color:#000;font-weight:bold">this</span>.name = name;
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> Id 
+	{
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.id; }
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Name 
+	{
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.name; }
+	}
+}
+
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Child</span> : Parent 
+{
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> parentId;
+
+	<span style="color:#000;font-weight:bold">public</span> Child( <span style="color:#458;font-weight:bold">int</span> id, <span style="color:#458;font-weight:bold">int</span> parentId, <span style="color:#458;font-weight:bold">string</span> name ) : <span style="color:#000;font-weight:bold">base</span>( id, name ) 
+	{
+		<span style="color:#000;font-weight:bold">this</span>.parentId = parentId;
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> ParentId 
+	{
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.parentId; }
+	}
+}
+</code></pre></div><p>In the first ComboBoxColumn you display a list of possible Parents. In the second ComboBoxColumn you display Children, but only those that belong to the Chosen Parent. Here is how it goes</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form 
+{
+	<span style="color:#000;font-weight:bold">private</span> Object selectedValue;
+
+	<span style="color:#000;font-weight:bold">public</span> Form1() 
+	{
+		InitializeComponent();
+
+		<span style="color:#998;font-style:italic">// Add a couple of Parents
+</span><span style="color:#998;font-style:italic"></span>		<span style="color:#000;font-weight:bold">for</span> ( <span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">0</span>; i &lt; <span style="color:#099">3</span>; ++i ) 
+		{ 
+			Parent parent = <span style="color:#000;font-weight:bold">new</span> Parent( i, String.Format( <span style="color:#d14">&#34;Parent{0:00}&#34;</span>, i ) ); 
+			<span style="color:#000;font-weight:bold">this</span>.Column1.Items.Add( parent ); 
+			<span style="color:#998;font-style:italic">// Add a couple of Children to each parent 
+</span><span style="color:#998;font-style:italic"></span>			<span style="color:#000;font-weight:bold">for</span> ( <span style="color:#458;font-weight:bold">int</span> j = <span style="color:#099">0</span>; j &lt; <span style="color:#099">5</span>; ++j ) 
+			{ 
+				Child child = <span style="color:#000;font-weight:bold">new</span> Child( j, i, String.Format( <span style="color:#d14">&#34;Child{0:00}&#34;</span>, i * <span style="color:#099">10</span> + j ) ); 
+				<span style="color:#000;font-weight:bold">this</span>.Column2.Items.Add( child ); 
+			} 
+		} 
+		<span style="color:#000;font-weight:bold">this</span>.Column1.DisplayMember = <span style="color:#d14">&#34;Name&#34;</span>; 
+		<span style="color:#000;font-weight:bold">this</span>.Column2.DisplayMember = <span style="color:#d14">&#34;Name&#34;</span>; 
+	} 
+	
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_CellParsing( <span style="color:#458;font-weight:bold">object</span> sender, DataGridViewCellParsingEventArgs e ) 
+	{ 
+		e.Value = <span style="color:#000;font-weight:bold">this</span>.selectedValue; 
+		e.ParsingApplied = <span style="color:#000;font-weight:bold">true</span>; 
+	} 
+	
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing( <span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e ) 
+	{ 
+		ComboBox cb = e.Control <span style="color:#000;font-weight:bold">as</span> ComboBox; 
+		<span style="color:#000;font-weight:bold">if</span> ( cb != <span style="color:#000;font-weight:bold">null</span> ) 
+		{ 
+			<span style="color:#998;font-style:italic">// remove all the children that do not belong to the choosen parent 
+</span><span style="color:#998;font-style:italic"></span>			<span style="color:#458;font-weight:bold">int</span> currentColumnIndex = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.CurrentCell.ColumnIndex; 
+			<span style="color:#000;font-weight:bold">if</span> ( currentColumnIndex == <span style="color:#099">1</span> ) 
+			{ 
+				cb.Items.Clear(); 
+				<span style="color:#458;font-weight:bold">int</span> currentRowIndex = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.CurrentCell.RowIndex; 
+				Object currentCellValue = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.Rows[currentRowIndex].Cells[<span style="color:#099">0</span>].Value; 
+				<span style="color:#000;font-weight:bold">if</span> ( currentCellValue != <span style="color:#000;font-weight:bold">null</span> ) 
+				{ 
+					<span style="color:#458;font-weight:bold">int</span> parentId = ( (Parent)currentCellValue ).Id; 
+					<span style="color:#000;font-weight:bold">foreach</span> ( Child child <span style="color:#000;font-weight:bold">in</span> <span style="color:#000;font-weight:bold">this</span>.Column2.Items ) 
+					{ 
+						<span style="color:#000;font-weight:bold">if</span> ( child.ParentId == parentId ) 
+						{ 
+							cb.Items.Add( child ); 
+						} 
+					} 
+				} 
+			} 
+			cb.SelectedIndexChanged -= cb_SelectedIndexChanged; 
+			cb.SelectedIndexChanged += cb_SelectedIndexChanged; 
+		} 
+		
+		<span style="color:#000;font-weight:bold">void</span> cb_SelectedIndexChanged(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e) 
+		{ 
+			ComboBox comboBox = sender <span style="color:#000;font-weight:bold">as</span> ComboBox; 
+			<span style="color:#000;font-weight:bold">this</span>.selectedValue = comboBox.SelectedItem; 
+		} 
+	}
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -535,64 +671,6 @@ background<span style="color:#000;font-weight:bold">-</span>color<span style="co
 									<ul class="flat">
 										
 										<li><a href="../../tags/sql">SQL</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">26</span>
-										<span class="rest">Aug 2006</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Unable to enlist in a distributed transaction</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Earlier today we were confronted with the following <a href="http://msdn2.microsoft.com/en-US/library/system.data.oracleclient.oracleexception.aspx">OracleException</a>: <strong>Unable to enlist in a distributed transaction</strong>. Our code (and accompanying tests) had been running fine for the last two weeks thus we expected there was a problem with the database. A member of the DBA team assurred us there was nothing wrong with the database. Finally we discovered that we had created a circular reference and thus the program ended up in an endless loop (well untill the database decided it had been enough anyway :p). Here is a simplified version of the problem</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> DoA() 
-{
-	<span style="color:#000;font-weight:bold">using</span> (TransactionScope scope = <span style="color:#000;font-weight:bold">new</span> TransactionScope()) 
-	{
-		<span style="color:#000;font-weight:bold">using</span> (OracleConnection con = <span style="color:#000;font-weight:bold">new</span> OracleConnection(connectionString)) 
-		{
-			con.Open();
-			DoB();
-			scope.Complete();
-		}
-	}
-}
-
-<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> DoB() 
-{
-	<span style="color:#000;font-weight:bold">using</span> (TransactionScope scope = <span style="color:#000;font-weight:bold">new</span> TransactionScope()) 
-	{
-		<span style="color:#000;font-weight:bold">using</span> (OracleConnection con = <span style="color:#000;font-weight:bold">new</span> OracleConnection(connectionString)) 
-		{
-			con.Open();
-			DoA();
-			scope.Complete();
-		}
-	}
-}
-</code></pre></div><p>Without the use of <a href="http://msdn2.microsoft.com/en-us/library/system.transactions.transactionscope.aspx">TransactionScope</a> this results in a <strong>Connection request timed out</strong> exception.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
 										
 									</ul>
 								

@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,57 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">19</span>
+										<span class="rest">May 2011</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Set variables in SSIS package at runtime</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>The documentation on <a href="http://msdn.microsoft.com/en-us/library/ms162810.aspx">dtexec Utility (SSIS Tool)</a> says the following:</p>
+<blockquote>
+<p>/Set propertyPath;value</p>
+<p>(Optional). Overrides the configuration of a variable, property, container, log provider, Foreach enumerator, or connection within a package. When this option is used, /Set changes the propertyPath argument to the value specified. Multiple /Set options can be specified.</p>
+</blockquote>
+<p>At first sight this works like a charm but as soon as your value has a space dtexec seems to get confused 🙁 It took me a couple of websearches to find a <a href="http://www.sqldev.org/sql-server-integration-services/escape-character-for-set-option-of-dtexec-34546.shtml">post that suggests the following</a>:</p>
+<blockquote>
+<p>dtexec /SET \Package.Variables[User::TheVariable].Properties[Value];''; space'';</p>
+</blockquote>
+<p>It seems that this works like a charm 🙂 Because i am lazy i wrapped this in a powershell function:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> PackageOption()
+{	  
+	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$name</span>, <span style="color:#008080">$value</span>);
+	<span style="color:#d14">&#34;$name;\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">$value\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">&#34;</span>;
+}  
+</code></pre></div><p>And now you can use it as following in your deployment script:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$TheVariableOption</span> = PackageOption -Name <span style="color:#d14">&#34;\Package.Variables[User::TheVariable].Properties[Value]&#34;</span> -Value <span style="color:#d14">&#34;some thing&#34;</span>;
+&amp;dtexec /File <span style="color:#d14">&#34;$package&#34;</span> /<span style="color:#0086b3">Set </span><span style="color:#008080">$TheVariableOption</span>;
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/powershell">PowerShell</a></li>
+										
+										<li><a href="../../tags/ssis">SSIS</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -553,71 +604,6 @@ git-tfs checkin -m <span style="color:#d14">&#34;</span><span style="color:#0080
 										<li><a href="../../tags/git">git</a></li>
 										
 										<li><a href="../../tags/winmerge">winmerge</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">08</span>
-										<span class="rest">Mar 2011</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Get/SetVariable value from SSIS VariableDispenser</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Here is some code that allows you to Get/Set a variable (object) value from/on the <a href="http://msdn.microsoft.com/en-us/library/microsoft.sqlserver.dts.runtime.variabledispenser.aspx">VariableDispenser</a> in an SSIS package:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> T GetVariable&lt;T&gt;(<span style="color:#000;font-weight:bold">this</span> VariableDispenser variableDispenser, <span style="color:#458;font-weight:bold">string</span> scopedVariableName)
-{
-  Variables variables = <span style="color:#000;font-weight:bold">null</span>;
-
-  <span style="color:#000;font-weight:bold">try</span>
-  {
-    variableDispenser.LockForRead(scopedVariableName);
-    variableDispenser.GetVariables(<span style="color:#000;font-weight:bold">ref</span> variables);
-    <span style="color:#000;font-weight:bold">return</span> (T)variables[<span style="color:#099">0</span>].Value;
-  }
-  <span style="color:#000;font-weight:bold">finally</span>
-  {
-    <span style="color:#000;font-weight:bold">if</span> (variables != <span style="color:#000;font-weight:bold">null</span>) variables.Unlock();
-  }
-}
-
-<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> SetVariable&lt;T&gt;(<span style="color:#000;font-weight:bold">this</span> VariableDispenser variableDispenser, <span style="color:#458;font-weight:bold">string</span> scopedVariableName, T <span style="color:#000;font-weight:bold">value</span>)
-{
-  Variables variables = <span style="color:#000;font-weight:bold">null</span>;
-
-  <span style="color:#000;font-weight:bold">try</span>   
-  {  
-    variableDispenser.LockForWrite(scopedVariableName);  
-    variableDispenser.GetVariables(<span style="color:#000;font-weight:bold">ref</span> variables);  
-    variables[<span style="color:#099">0</span>].Value = <span style="color:#000;font-weight:bold">value</span>;  
-  }  
-  <span style="color:#000;font-weight:bold">finally</span>  
-  {   
-    <span style="color:#000;font-weight:bold">if</span> (variables != <span style="color:#000;font-weight:bold">null</span>) variables.Unlock();  
-  }
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/c">C</a></li>
-										
-										<li><a href="../../tags/ssis">SSIS</a></li>
 										
 									</ul>
 								

@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,61 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">22</span>
+										<span class="rest">Mar 2008</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Easily switching between configuration files with MSBuild</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>A couple of days ago i wrote about <a href="http://www.timvw.be/easily-switching-between-appconfig-files-with-msbuild/">Easily switching between App.Config files with MSBuild</a>. Christophe Gijbels, a fellow <a href="http://www.compuware.be/root/Careers/index.asp">compuwarrior</a>, pointed out that developers usually need to copy more than a single App.Config file&hellip; I would propose to add a Folder for each Customer that contains all the specific configuration files. Eg</p>
+<p><img src="http://www.timvw.be/wp-content/images/customerconfigurations.gif" alt="screenshot of solution explorer with proposed folder structures"></p>
+<p>Now i have to configure MSBuild so that the right files are copied into the <a href="http://msdn2.microsoft.com/en-us/library/bb629394.aspx">OutDir</a>:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#998;font-style:italic">&lt;!-- Define the CustomerPath depending on the choosen Configuration --&gt;</span>
+<span style="color:#000080">&lt;propertyGroup</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34; $(Configuration) == &#39;Customer1 Debug&#39; &#34;</span><span style="color:#000080">&gt;</span> 
+	<span style="color:#000080">&lt;customerPath&gt;</span>Customer1<span style="color:#000080">&lt;/customerPath&gt;</span> 
+<span style="color:#000080">&lt;/propertyGroup&gt;</span> 
+<span style="color:#000080">&lt;propertyGroup</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34; $(Configuration) == &#39;Customer2 Debug&#39; &#34;</span><span style="color:#000080">&gt;</span> 
+	<span style="color:#000080">&lt;customerPath&gt;</span>Customer2<span style="color:#000080">&lt;/customerPath&gt;</span> 
+<span style="color:#000080">&lt;/propertyGroup&gt;</span> 
+
+<span style="color:#998;font-style:italic">&lt;!-- Define AppConfig in the CustomerPath  --&gt;</span>
+<span style="color:#000080">&lt;propertyGroup&gt;</span>
+	<span style="color:#000080">&lt;appConfig&gt;</span>$(CustomerPath)\App.config<span style="color:#000080">&lt;/appConfig&gt;</span> 
+<span style="color:#000080">&lt;/propertyGroup&gt;</span> 
+
+<span style="color:#998;font-style:italic">&lt;!-- Find all files in CustomerPath, excluding AppConfig --&gt;</span>
+<span style="color:#000080">&lt;itemGroup&gt;</span>
+	<span style="color:#000080">&lt;customerFiles</span> <span style="color:#008080">Include=</span><span style="color:#d14">&#34;$(CustomerPath)\*.*&#34;</span> <span style="color:#008080">Exclude=</span><span style="color:#d14">&#34;$(CustomerPath)\App.config&#34;</span> <span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;/itemGroup&gt;</span>
+
+<span style="color:#000080">&lt;target</span> <span style="color:#008080">Name=</span><span style="color:#d14">&#34;AfterBuild&#34;</span><span style="color:#000080">&gt;</span>
+	<span style="color:#000080">&lt;copy</span> <span style="color:#008080">SourceFiles=</span><span style="color:#d14">&#34;@(CustomerFiles)&#34;</span> <span style="color:#008080">DestinationFolder=</span><span style="color:#d14">&#34;$(OutDir)&#34;</span> <span style="color:#008080">SkipUnchangedFiles=</span><span style="color:#d14">&#34;true&#34;</span><span style="color:#000080">/&gt;</span>
+<span style="color:#000080">&lt;/target&gt;</span>
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/visual-studio">Visual Studio</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -540,58 +595,6 @@ Notifier.Instance.Enable();
 									<ul class="flat">
 										
 										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">26</span>
-										<span class="rest">Feb 2008</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Writing Xml without the XmlDeclaration</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Consider the following xml file:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
-<span style="color:#998;font-style:italic">&lt;!-- some comment --&gt;</span>
-<span style="color:#000080">&lt;root&gt;</span>
-<span style="color:#000080">&lt;/root&gt;</span>
-<span style="color:#998;font-style:italic">&lt;!-- another comment --&gt;</span>
-</code></pre></div><p>If you look at the <a href="http://www.w3.org/TR/REC-xml/#sec-well-formed">Well-Formed XML Documents</a> section in the <a href="http://www.w3.org/TR/REC-xml/">XML specification</a> you see that a well-formed document is defined as:</p>
-<blockquote>
-<p>[1] document ::= <a href="http://www.w3.org/TR/REC-xml/#NT-prolog">prolog</a> <a href="http://www.w3.org/TR/REC-xml/#NT-element">element</a> <a href="http://www.w3.org/TR/REC-xml/#NT-Misc">Misc*</a></p>
-</blockquote>
-<p>Since there is only 1 root element (ever), i assumed that if you <a href="http://msdn2.microsoft.com/en-us/library/system.xml.xmldocument.load.aspx">Load</a> this file with <a href="http://msdn2.microsoft.com/en-us/library/system.xml.xmldocument.aspx">XmlDocument</a> their would be only one <a href="http://msdn2.microsoft.com/en-us/library/system.xml.xmlnode.aspx">XmlNode</a> in the document <a href="http://msdn2.microsoft.com/en-us/library/system.xml.xmlnode.childnodes.aspx">ChildNodes</a>. In reality there ChildNodes.Count returns 4.</p>
-<p>The simplest way to write this XmlDocument without the declaration would be as following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">XmlWriterSettings xmlWriterSettings = <span style="color:#000;font-weight:bold">new</span> XmlWriterSettings();
-xmlWriterSettings.OmitXmlDeclaration = <span style="color:#000;font-weight:bold">true</span>;
-xmlWriterSettings.Encoding = Encoding.UTF8;
-<span style="color:#000;font-weight:bold">using</span> (XmlWriter writer = XmlWriter.Create(<span style="color:#d14">@&#34;result.xml&#34;</span>, xmlWriterSettings))
-{
-	xmlDoc.WriteTo(writer);
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/xml">XML</a></li>
 										
 									</ul>
 								

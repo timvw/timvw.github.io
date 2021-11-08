@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,95 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">18</span>
+										<span class="rest">Dec 2006</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Looking up the MediaType of a given Logical Drive</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Earlier today i saw someone asking how he could find out the MediaType of a given logical drive. The easy solution would be to iterate over <a href="http://msdn2.microsoft.com/en-us/library/system.io.driveinfo.getdrives.aspx">DriveInfo.GetDrives</a> and pick the one you are looking for&hellip; Anyway, i thought it would be nice to experiment with <a href="http://msdn.microsoft.com/library/default.asp?url=../../library/en-us/wmisdk/wmi/wmi_start_page.asp">WMI</a> so i wrote a little function that uses <a href="http://msdn.microsoft.com/library/default.asp?url=../../library/en-us/wmisdk/wmi/Win32_LogicalDisk.asp">Win32_LogicalDisk</a> to look the MediaType up</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
+{
+	<span style="color:#458;font-weight:bold">char</span>[] driveLetters = <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">char</span>[] { <span style="color:#d14">&#39;a&#39;</span>, <span style="color:#d14">&#39;c&#39;</span>, <span style="color:#d14">&#39;d&#39;</span>, <span style="color:#d14">&#39;e&#39;</span> };
+	<span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">char</span> driveLetter <span style="color:#000;font-weight:bold">in</span> driveLetters)
+	{
+		<span style="color:#000;font-weight:bold">try</span>
+		{
+			Console.WriteLine(<span style="color:#d14">&#34;Drive {0} is a {1}&#34;</span>, driveLetter, GetMediaType(driveLetter));
+		}
+		<span style="color:#000;font-weight:bold">catch</span> (ManagementException)
+		{
+			Console.WriteLine(<span style="color:#d14">&#34;Drive {0} was not found&#34;</span>, driveLetter);
+		}
+	}
+
+	Console.WriteLine(<span style="color:#d14">&#34;Press any key to continue...&#34;</span>);
+	Console.ReadKey();
+}
+
+<span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> GetMediaType(<span style="color:#458;font-weight:bold">char</span> driveLetter)
+{
+	ManagementObject disk = <span style="color:#000;font-weight:bold">new</span> ManagementObject(<span style="color:#d14">&#34;win32_logicaldisk.deviceid=\&#34;&#34;</span> + driveLetter + <span style="color:#d14">&#34;:\&#34;&#34;</span>);
+	disk.Get();
+	<span style="color:#000;font-weight:bold">return</span> GetMediaMeaning((<span style="color:#458;font-weight:bold">uint</span>)disk[<span style="color:#d14">&#34;MediaType&#34;</span>]);
+}
+
+<span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> GetMediaMeaning(<span style="color:#458;font-weight:bold">uint</span> mediaType)
+{
+	Dictionary&lt;<span style="color:#458;font-weight:bold">uint</span>, <span style="color:#458;font-weight:bold">string</span>&gt; mediaTypes = <span style="color:#000;font-weight:bold">new</span> Dictionary&lt;<span style="color:#458;font-weight:bold">uint</span>, <span style="color:#458;font-weight:bold">string</span>&gt;();
+	mediaTypes.Add(<span style="color:#099">0</span>, <span style="color:#d14">&#34;Unknown Format&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">1</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 1.2Mb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">2</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 1.44Mb -512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">3</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 2.88Mb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">4</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 20.8Mb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">5</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 720Kb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">6</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 360Kb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">7</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 320Kb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">8</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 320Kb -- 1024bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">9</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 180Kb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">10</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 160Kb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">11</span>, <span style="color:#d14">&#34;Removable media other than floppy&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">12</span>, <span style="color:#d14">&#34;Fixed hard disk media&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">13</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 120Mb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">14</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 640Kb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">15</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 640Kb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">16</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 720Kb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">17</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 1.2Mb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">18</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 1.23Mb -- 1024bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">19</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 1.23Mb -- 1024bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">20</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 128Mb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">21</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 230Mb -- 512bytes/sector&#34;</span>);
+	mediaTypes.Add(<span style="color:#099">22</span>, <span style="color:#d14">&#34;8-Inch Floppy Disk -- 256Kb -- 128bytes/sector&#34;</span>);
+
+	<span style="color:#458;font-weight:bold">string</span> meaning = <span style="color:#d14">&#34;Unknown format&#34;</span>;
+	mediaTypes.TryGetValue(mediaType, <span style="color:#000;font-weight:bold">out</span> meaning);
+	<span style="color:#000;font-weight:bold">return</span> meaning;
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -702,84 +791,6 @@ ID <span style="color:#000;font-weight:bold">ASC</span>;
 									<ul class="flat">
 										
 										<li><a href="../../tags/sql">SQL</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">12</span>
-										<span class="rest">Oct 2006</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Updating the Internet Options / Lan Settings</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>A while ago i wrote that i had created two .reg files to update my Internet Options / Lan Settings (<a href="http://www.timvw.be/automating-the-configuration-of-internet-options-and-lan-settings/">Automating the configuration of Internet Options / Lan Settings</a>). Yesterday i build a little Windows Service that automates this completely. With <a href="http://windowssdk.msdn.microsoft.com/en-gb/library/aa366329.aspx">NotifyAddrChange</a> i am notified whenever a change occurs in the table that maps IPv4 addresses to interfaces</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[DllImport(&#34;iphlpapi.dll&#34;, CharSet = CharSet.Ansi)]</span>
-<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">extern</span> <span style="color:#458;font-weight:bold">int</span> NotifyAddrChange(<span style="color:#000;font-weight:bold">ref</span> IntPtr handle, IntPtr overlapped);
-</code></pre></div><p>The main loop of the service looks like this</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">while</span> (<span style="color:#000;font-weight:bold">this</span>.isRunning)
-{
-	IntPtr handle = IntPtr.Zero;
-	NotifyAddrChange(<span style="color:#000;font-weight:bold">ref</span> handle, IntPtr.Zero);
-	UpdateRegistry();
-}
-</code></pre></div><p>Whenever i&rsquo;m connected to the LAN at work i want to use a proxy. Here&rsquo;s the code that takes care of this</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> UpdateRegistry()
-{
-	RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(<span style="color:#d14">@&#34;Software\Microsoft\Windows\CurrentVersion\Internet Settings&#34;</span>, <span style="color:#000;font-weight:bold">true</span>);
-	<span style="color:#000;font-weight:bold">if</span> (IsInWorkLan())
-	{
-		registryKey.SetValue(<span style="color:#d14">&#34;AutoConfigURL&#34;</span>, <span style="color:#d14">&#34;http://123.456.789.0&#34;</span>);
-	}
-	<span style="color:#000;font-weight:bold">else</span>
-	{
-		registryKey.DeleteValue(<span style="color:#d14">&#34;AutoConfigURL&#34;</span>, <span style="color:#000;font-weight:bold">false</span>);
-	}
-}
-</code></pre></div><p>Figuring out whether i&rsquo;m connected to the LAN at work is pretty simple. As soon as i have an IPAddress that looks like 192.168.X.Y i&rsquo;m connected. Here&rsquo;s how i translated this into code</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> IsInWorkLan()
-{
-	<span style="color:#000;font-weight:bold">foreach</span> (IPAddress ipAddress <span style="color:#000;font-weight:bold">in</span> Dns.GetHostAddresses(Dns.GetHostName()))
-	{
-		<span style="color:#000;font-weight:bold">if</span> (IsInWorkLan(ipAddress))
-		{
-			<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>;
-		}
-	}
-
-	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>;
-}
-
-<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> IsInWorkLan(IPAddress ipAddress)
-{
-	<span style="color:#458;font-weight:bold">byte</span>[] bytes = ipAddress.GetAddressBytes();
-	<span style="color:#000;font-weight:bold">if</span> ((<span style="color:#458;font-weight:bold">int</span>)bytes[<span style="color:#099">0</span>] == <span style="color:#099">192</span> &amp;&amp; (<span style="color:#458;font-weight:bold">int</span>)bytes[<span style="color:#099">1</span>] == <span style="color:#099">168</span>)
-	{
-		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>;
-	}
-
-	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>;
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
 										
 									</ul>
 								

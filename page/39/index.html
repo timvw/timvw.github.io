@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,59 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">25</span>
+										<span class="rest">Feb 2006</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Access a control by name</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>I know a mathematician that can do magic with stats. That&rsquo;s also the reason why he works at <a href="http://epp.eurostat.cec.eu.int/portal/page?_pageid=1090,30070682,1090_33076576&amp;_dad=portal&amp;_schema=PORTAL">Eurostat</a>. He&rsquo;s automating a lot of his work by programming in <a href="http://msdn.microsoft.com/isv/technology/vba/default.aspx">Visual Basic for Applications</a>. He asked me if i wanted to look at his code because he had the feeling there was a smell. Here are a couple lines</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vb" data-lang="vb"><span style="color:#000;font-weight:bold">With</span> SomeForm
+.txtJanvier60.Value <span style="color:#000;font-weight:bold">=</span> vaData1(1, 2)
+.txtFevrier60.Value <span style="color:#000;font-weight:bold">=</span> vaData1(1, 3)
+.txtJanvier61.Value <span style="color:#000;font-weight:bold">=</span> vaData1(1, 2)
+.txtFevrier61.Value <span style="color:#000;font-weight:bold">=</span> vaData1(1, 3)
+...
+.txtJanvier70.Value <span style="color:#000;font-weight:bold">=</span> vaData1(1, 2)
+.txtFevrier70.Value <span style="color:#000;font-weight:bold">=</span> vaData1(1, 3)
+<span style="color:#000;font-weight:bold">End</span> <span style="color:#000;font-weight:bold">With</span>
+</code></pre></div><p>It took me 5 minutes to search the web and change his code as following:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vb" data-lang="vb"><span style="color:#000;font-weight:bold">Dim</span> months(1) <span style="color:#000;font-weight:bold">as</span> <span style="color:#458;font-weight:bold">String</span>
+months(0) <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;Janvier&#34;</span>
+months(1) <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;Fevrier&#34;</span>
+
+<span style="color:#000;font-weight:bold">With</span> SomeForm
+<span style="color:#000;font-weight:bold">For</span> i <span style="color:#000;font-weight:bold">=</span> 60 <span style="color:#000;font-weight:bold">to</span> 70
+<span style="color:#000;font-weight:bold">For</span> j <span style="color:#000;font-weight:bold">=</span> 0 <span style="color:#000;font-weight:bold">to</span> UBound(months)
+.Controls(<span style="color:#d14">&#34;txt&#34;</span> <span style="color:#000;font-weight:bold">&amp;</span> months(j) <span style="color:#000;font-weight:bold">&amp;</span> <span style="color:#000;font-weight:bold">CStr</span>(i)).Value <span style="color:#000;font-weight:bold">=</span> vaData1(1, j <span style="color:#000;font-weight:bold">+</span> 2)
+<span style="color:#000;font-weight:bold">Next</span> j
+<span style="color:#000;font-weight:bold">Next</span> i
+<span style="color:#000;font-weight:bold">End</span> <span style="color:#000;font-weight:bold">With</span>
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/visual-basic">Visual Basic</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -656,41 +709,6 @@ em<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">
 									<ul class="flat">
 										
 										<li><a href="../../tags/free-software">Free Software</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">18</span>
-										<span class="rest">Jan 2006</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Accept posted XML data</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>I remember that i have spent a lot of time finding something that allowed me to accept the posted XML data. The solution was very simple</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#008080">$data</span> <span style="color:#000;font-weight:bold">=</span> file_get_contents(<span style="color:#d14">&#34;php://input&#34;</span>);
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/php">PHP</a></li>
-										
-										<li><a href="../../tags/xml">XML</a></li>
 										
 									</ul>
 								

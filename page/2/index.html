@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,51 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">01</span>
+										<span class="rest">Oct 2016</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Docker toolbox to the rescue</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>With the help of <a href="https://www.docker.com/products/docker-toolbox">Docker Toolbox</a> a lot of apps become easily available&hellip;</p>
+<p>By default volumes can only be mapped on folders under the user home directory.</p>
+<p>Here is how to enable mapping of the entire c-drive</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-weight:bold;font-style:italic">#!/bin/sh
+</span><span style="color:#999;font-weight:bold;font-style:italic"></span><span style="color:#998;font-style:italic"># script to expose c-drive to docker vm and docker containers</span>
+<span style="color:#998;font-style:italic">#</span>
+<span style="color:#998;font-style:italic"># stop the docker vm</span>
+docker-machine stop default
+<span style="color:#998;font-style:italic"># share your windows c-drive with the docker (host) vm</span>
+/c/Program<span style="color:#d14">\ </span>Files/Oracle/VirtualBox/VBoxManage.exe sharedfolder add default --name C_DRIVE --hostpath c:/
+<span style="color:#998;font-style:italic"># start the docker (host) vm</span>
+docker-machine start default
+<span style="color:#998;font-style:italic"># mount the c-drive in the docker (host) vm</span>
+docker-machine ssh default <span style="color:#d14">&#39;sudo chown docker /var/lib/boot2docker/profile &amp;&amp; echo mount -t vboxsf C_DRIVE /c &gt;&gt; /var/lib/boot2docker/profile&#39;</span>
+</code></pre></div><p>Examples</p>
+<p>Amazon ECS (EC2 Container Service) cli tools</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -i -t -v <span style="color:#d14">&#34;//c/Users/timvw/.aws:/root/.aws&#34;</span> timvw/docker-aws
+</code></pre></div><p>Jekyll (Yes, you can make it <a href="https://jekyllrb.com/docs/windows/">work on windows</a> but why bother?)</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -i -t -v <span style="color:#d14">&#34;//c/src/timvw.github.io:/opt/webiste&#34;</span> timvw/docker-jekyll
+jekyll server --incremental --watch --force_polling
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -513,44 +558,6 @@ Unzip (<span style="color:#0086b3">Get-Item</span> (<span style="color:#0086b3">
 									<ul class="flat">
 										
 										<li><a href="../../tags/c">C</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">23</span>
-										<span class="rest">Apr 2014</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Clone all your repositories on another machine</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Recently I was configuring a new machine (God, i love <a href="https://chocolatey.org/">Chocolatey</a>) and I wanted to take all the repositories I have under c:/src and clone them on my new machine. Here is how i did that:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic"># write all remote fetch locations into repositories.txt  </span>
-find /c/src -type d -mindepth <span style="color:#099">1</span> -maxdepth <span style="color:#099">1</span> -exec git -work-tree<span style="color:#000;font-weight:bold">={}</span> -git-dir<span style="color:#000;font-weight:bold">={}</span>/.git remote -v <span style="color:#d14">\;</span> | grep fetch | awk <span style="color:#d14">&#39;{print $2}&#39;</span> &gt; repositories.txt
-
-<span style="color:#998;font-style:italic"># clone each repository  </span>
-cat repositories.txt | xargs -l1 git clone
-</code></pre></div><p>Or as a gist: <a href="https://gist.github.com/timvw/11208834">https://gist.github.com/timvw/11208834</a>.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/git-bash-awk">git bash awk</a></li>
 										
 									</ul>
 								

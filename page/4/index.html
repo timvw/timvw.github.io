@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,51 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">28</span>
+										<span class="rest">Oct 2011</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Say no to primitives in your API.. and make your software more explicit</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>A while ago I wrote some code like this:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> ICanBroadcast
+{ 
+  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Broadcast(<span style="color:#458;font-weight:bold">string</span> message) { ... }  
+  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Broadcast(<span style="color:#458;font-weight:bold">string</span> message, <span style="color:#458;font-weight:bold">string</span> author) { ... }
+}
+</code></pre></div><p>A bit later the requirements changed and from now on it was required to specify the topic:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> ICanBroadcast  
+{
+  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Broadcast(<span style="color:#458;font-weight:bold">string</span> message, <span style="color:#458;font-weight:bold">string</span> topic) { ... }  
+  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Broadcast(<span style="color:#458;font-weight:bold">string</span> message, <span style="color:#458;font-weight:bold">string</span> author, <span style="color:#458;font-weight:bold">string</span> topic) { ... } 
+}
+</code></pre></div><p>In case you were using Broadcast(string message) the compiler would rightfully inform you that no such method exists. In case you were using Broadcast(string message, string author) the compiler does not catch the error and incorrectly uses the author as topic. I can only hope that you have a suite of tests that makes you notice that something is wrong when you upgrade to my latest release.</p>
+<p>Let&rsquo;s make the difference between an Author and a Topic more explicit (to our API consumers and the compiler) by creating explicit types to represent the concepts:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> ICanBroadcast 
+{  
+  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Broadcast(Message message, Topic topic) { ... } 
+  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Broadcast(Message message, Author author, Topic topic) { ... }  
+} 
+</code></pre></div><p>The joy of using a typed language 😉</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -529,57 +574,6 @@ sqlRecords = <span style="color:#000;font-weight:bold">new</span> HashSet&lt;Sql
 										<li><a href="../../tags/c">C</a></li>
 										
 										<li><a href="../../tags/t-sql">t-sql</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">19</span>
-										<span class="rest">May 2011</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Set variables in SSIS package at runtime</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>The documentation on <a href="http://msdn.microsoft.com/en-us/library/ms162810.aspx">dtexec Utility (SSIS Tool)</a> says the following:</p>
-<blockquote>
-<p>/Set propertyPath;value</p>
-<p>(Optional). Overrides the configuration of a variable, property, container, log provider, Foreach enumerator, or connection within a package. When this option is used, /Set changes the propertyPath argument to the value specified. Multiple /Set options can be specified.</p>
-</blockquote>
-<p>At first sight this works like a charm but as soon as your value has a space dtexec seems to get confused 🙁 It took me a couple of websearches to find a <a href="http://www.sqldev.org/sql-server-integration-services/escape-character-for-set-option-of-dtexec-34546.shtml">post that suggests the following</a>:</p>
-<blockquote>
-<p>dtexec /SET \Package.Variables[User::TheVariable].Properties[Value];''; space'';</p>
-</blockquote>
-<p>It seems that this works like a charm 🙂 Because i am lazy i wrapped this in a powershell function:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> PackageOption()
-{	  
-	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$name</span>, <span style="color:#008080">$value</span>);
-	<span style="color:#d14">&#34;$name;\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">$value\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">&#34;</span>;
-}  
-</code></pre></div><p>And now you can use it as following in your deployment script:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$TheVariableOption</span> = PackageOption -Name <span style="color:#d14">&#34;\Package.Variables[User::TheVariable].Properties[Value]&#34;</span> -Value <span style="color:#d14">&#34;some thing&#34;</span>;
-&amp;dtexec /File <span style="color:#d14">&#34;$package&#34;</span> /<span style="color:#0086b3">Set </span><span style="color:#008080">$TheVariableOption</span>;
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/powershell">PowerShell</a></li>
-										
-										<li><a href="../../tags/ssis">SSIS</a></li>
 										
 									</ul>
 								

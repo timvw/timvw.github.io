@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,48 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">02</span>
+										<span class="rest">Feb 2010</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Verify that a X509Certificate can be used for key exchange</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Here is another method that earned it&rsquo;s place in my ever growing toolbox:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> CanDoKeyExchange(<span style="color:#000;font-weight:bold">this</span> X509Certificate2 certificate)
+{
+	<span style="color:#000;font-weight:bold">if</span> (!certificate.HasPrivateKey) <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>;
+
+	<span style="color:#458;font-weight:bold">var</span> privateKey = certificate.PrivateKey <span style="color:#000;font-weight:bold">as</span> RSACryptoServiceProvider;
+	<span style="color:#000;font-weight:bold">if</span> (privateKey == <span style="color:#000;font-weight:bold">null</span>) <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>;
+
+	<span style="color:#458;font-weight:bold">var</span> canDoKeyExchange = privateKey.CspKeyContainerInfo.KeyNumber == KeyNumber.Exchange;
+	<span style="color:#000;font-weight:bold">return</span> canDoKeyExchange;
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -618,39 +660,6 @@
 										<li><a href="../../tags/csharp">CSharp</a></li>
 										
 										<li><a href="../../tags/patterns">Patterns</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">27</span>
-										<span class="rest">Dec 2009</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Refactoring to Patterns</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Earlier this month i ordered my copy of <a href="http://www.amazon.com/Refactoring-Patterns-Joshua-Kerievsky/dp/0321213351">Refactoring to Patterns</a>. This books has two parts: the first part describes patterns and code smells (anti-patterns) and the second part is a catalog of refactorings. The first part is not bad, but i appreciated the second part much more. I did not read the book from front to cover and skipped the &lsquo;mechanics&rsquo; sections (abstract steps to take in order to accomplish a particular refactoring). I focussed on the &lsquo;example&rsquo; sections instead which demonstrate the application of the previously mentionned mechanics.</p>
-<p>During the reading of this book i had a couple of &lsquo;aha&rsquo; moments which gave me the feeling that i understood (appreciated) a certain pattern better. All in all a good book to read.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/book-reviews">Book reviews</a></li>
 										
 									</ul>
 								

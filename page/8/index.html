@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,96 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">05</span>
+										<span class="rest">Sep 2010</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">WIF: Change STS per request</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Here is some code that will redirect unauthenticated users to their respective STS (Eg: A user visiting ~/CompanyA/Default.aspx will be asked to authenticate at the STS linked to CompanyA.</p>
+<p>Notice that in the enterprise you typically have multiple applications that require this kind of behavior, so you would solve this by establishing trust between your app(s) and your STS + establish trust between your STS and the client STSes.)</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Global</span> : HttpApplication
+{
+	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">void</span> wSFederationAuthenticationModule_RedirectingToIdentityProvider(<span style="color:#458;font-weight:bold">object</span> sender, RedirectingToIdentityProviderEventArgs e)
+	{
+		e.Cancel = <span style="color:#000;font-weight:bold">true</span>;
+		RedirectToCompanySts();
+	}
+
+	<span style="color:#000;font-weight:bold">void</span> RedirectToCompanySts()
+	{
+		<span style="color:#458;font-weight:bold">var</span> httpContext = HttpContext.Current;
+		<span style="color:#458;font-weight:bold">var</span> rawUrl = httpContext.Request.RawUrl;
+
+		<span style="color:#458;font-weight:bold">var</span> returnUrl = rawUrl;
+		<span style="color:#458;font-weight:bold">var</span> companyName = ExtractCompanyName(rawUrl);
+		<span style="color:#458;font-weight:bold">var</span> companySts = GetCompanySts(companyName);
+		<span style="color:#458;font-weight:bold">var</span> realm = GetRealm(companyName);
+		<span style="color:#458;font-weight:bold">var</span> redirectUrl = GetRedirectUrl(companySts, realm, returnUrl);
+
+		httpContext.Response.Redirect(redirectUrl, <span style="color:#000;font-weight:bold">false</span>);
+		httpContext.ApplicationInstance.CompleteRequest();
+	}
+
+	<span style="color:#458;font-weight:bold">string</span> ExtractCompanyName(<span style="color:#458;font-weight:bold">string</span> rawUrl)
+	{
+		<span style="color:#458;font-weight:bold">var</span> regex = <span style="color:#d14">@&#34;~/(.\*?)/.\*&#34;</span>;
+		<span style="color:#458;font-weight:bold">var</span> relativeUrl = VirtualPathUtility.ToAppRelative(rawUrl);
+		<span style="color:#458;font-weight:bold">var</span> match = Regex.Match(relativeUrl, regex);
+		<span style="color:#000;font-weight:bold">return</span> match.Success ? match.Groups[<span style="color:#099">1</span>].Value : <span style="color:#d14">&#34;&#34;</span>;
+	}
+
+	<span style="color:#458;font-weight:bold">string</span> GetCompanySts(<span style="color:#458;font-weight:bold">string</span> companyName)
+	{
+		<span style="color:#000;font-weight:bold">if</span> (companyName == <span style="color:#d14">&#34;CompanyA&#34;</span>) <span style="color:#000;font-weight:bold">return</span> <span style="color:#d14">@&#34;http://localhost/STS2Site&#34;</span>;
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#d14">@&#34;http://localhost/STSSite&#34;</span>;
+	}
+
+	<span style="color:#458;font-weight:bold">string</span> GetRealm(<span style="color:#458;font-weight:bold">string</span> companyName)
+	{
+		<span style="color:#458;font-weight:bold">var</span> realm = <span style="color:#d14">@&#34;http://localhost/RPSite/&#34;</span>;
+		<span style="color:#000;font-weight:bold">if</span> (!<span style="color:#458;font-weight:bold">string</span>.IsNullOrEmpty(companyName)) realm += companyName +<span style="color:#d14">&#34;/&#34;</span>;
+		<span style="color:#000;font-weight:bold">return</span> realm;
+	}
+
+	<span style="color:#458;font-weight:bold">string</span> GetRedirectUrl(<span style="color:#458;font-weight:bold">string</span> companySts, <span style="color:#458;font-weight:bold">string</span> realm, <span style="color:#458;font-weight:bold">string</span> returnUrl)
+	{
+		<span style="color:#458;font-weight:bold">var</span> signInRequestMessage = <span style="color:#000;font-weight:bold">new</span> SignInRequestMessage(<span style="color:#000;font-weight:bold">new</span> Uri(companySts), realm)
+		{
+			Context = returnUrl,
+			HomeRealm = <span style="color:#d14">&#34;timvw&#34;</span>
+		};
+
+		<span style="color:#000;font-weight:bold">return</span> signInRequestMessage.WriteQueryString();
+	}
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/sts">sts</a></li>
+										
+										<li><a href="../../tags/wif">wif</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -423,38 +513,6 @@ Assert.IsFalse(fruit.CanBeAssignedTo(banana));
 								
 						<div class="markdown">
 							<p>A while ago i noticed that <a href="http://davybrion.com/blog/2010/01/highly-recommended-book-debug-it/">Davy Brion</a> recommended <a href="http://pragprog.com/titles/pbdp/debug-it">Debug It!: Find, Repair, and Prevent Bugs in Your Code</a> so i decided to give it a read. Although i really liked the suggested process for investigating bugs where you have absolutely no clue of what is going on, i am not convinced that this is a must read book.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/book-reviews">Book reviews</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">20</span>
-										<span class="rest">Jul 2010</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Implementing Lean Software Development: From Concept to Cash</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Not going to waste time re-iterating what&rsquo;s in the book because you can find that here: <a href="http://www.poppendieck.com/ilsd.htm">Implementing Lean Software Development: From Concept to Cash</a>. Just make sure that you get your copy and read it from beginning to end. Afterwards you may want to hand it over to your manager 😉</p>
 
 						</div>
 			

@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,84 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">12</span>
+										<span class="rest">Oct 2006</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Updating the Internet Options / Lan Settings</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>A while ago i wrote that i had created two .reg files to update my Internet Options / Lan Settings (<a href="http://www.timvw.be/automating-the-configuration-of-internet-options-and-lan-settings/">Automating the configuration of Internet Options / Lan Settings</a>). Yesterday i build a little Windows Service that automates this completely. With <a href="http://windowssdk.msdn.microsoft.com/en-gb/library/aa366329.aspx">NotifyAddrChange</a> i am notified whenever a change occurs in the table that maps IPv4 addresses to interfaces</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[DllImport(&#34;iphlpapi.dll&#34;, CharSet = CharSet.Ansi)]</span>
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">extern</span> <span style="color:#458;font-weight:bold">int</span> NotifyAddrChange(<span style="color:#000;font-weight:bold">ref</span> IntPtr handle, IntPtr overlapped);
+</code></pre></div><p>The main loop of the service looks like this</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">while</span> (<span style="color:#000;font-weight:bold">this</span>.isRunning)
+{
+	IntPtr handle = IntPtr.Zero;
+	NotifyAddrChange(<span style="color:#000;font-weight:bold">ref</span> handle, IntPtr.Zero);
+	UpdateRegistry();
+}
+</code></pre></div><p>Whenever i&rsquo;m connected to the LAN at work i want to use a proxy. Here&rsquo;s the code that takes care of this</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> UpdateRegistry()
+{
+	RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(<span style="color:#d14">@&#34;Software\Microsoft\Windows\CurrentVersion\Internet Settings&#34;</span>, <span style="color:#000;font-weight:bold">true</span>);
+	<span style="color:#000;font-weight:bold">if</span> (IsInWorkLan())
+	{
+		registryKey.SetValue(<span style="color:#d14">&#34;AutoConfigURL&#34;</span>, <span style="color:#d14">&#34;http://123.456.789.0&#34;</span>);
+	}
+	<span style="color:#000;font-weight:bold">else</span>
+	{
+		registryKey.DeleteValue(<span style="color:#d14">&#34;AutoConfigURL&#34;</span>, <span style="color:#000;font-weight:bold">false</span>);
+	}
+}
+</code></pre></div><p>Figuring out whether i&rsquo;m connected to the LAN at work is pretty simple. As soon as i have an IPAddress that looks like 192.168.X.Y i&rsquo;m connected. Here&rsquo;s how i translated this into code</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> IsInWorkLan()
+{
+	<span style="color:#000;font-weight:bold">foreach</span> (IPAddress ipAddress <span style="color:#000;font-weight:bold">in</span> Dns.GetHostAddresses(Dns.GetHostName()))
+	{
+		<span style="color:#000;font-weight:bold">if</span> (IsInWorkLan(ipAddress))
+		{
+			<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>;
+		}
+	}
+
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>;
+}
+
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> IsInWorkLan(IPAddress ipAddress)
+{
+	<span style="color:#458;font-weight:bold">byte</span>[] bytes = ipAddress.GetAddressBytes();
+	<span style="color:#000;font-weight:bold">if</span> ((<span style="color:#458;font-weight:bold">int</span>)bytes[<span style="color:#099">0</span>] == <span style="color:#099">192</span> &amp;&amp; (<span style="color:#458;font-weight:bold">int</span>)bytes[<span style="color:#099">1</span>] == <span style="color:#099">168</span>)
+	{
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>;
+	}
+
+	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>;
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -510,142 +588,6 @@ Graphics g = Graphics.FromImage(bitmapComplete);
 <span style="color:#000;font-weight:bold">this</span>.dataGridView1.Columns.AddRange( columns ); 
 </code></pre></div><p>This code works but the AddRange call took about 15 seconds to complete. With the aid of a collegue and <a href="http://www.aisto.com/roeder/dotnet/">Reflector</a> i set the ColumnHeadersHeightSize to DisableResizing. This reduced the calltime to less than 0.5 seconds 🙂</p>
 
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">10</span>
-										<span class="rest">Sep 2006</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Implementing Master/Detail for Custom Objects with DataGridViewComboBoxColumns</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Imagine you have the following two classes</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Parent</span> 
-{
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> id;
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">string</span> name;
-
-	<span style="color:#000;font-weight:bold">public</span> Parent( <span style="color:#458;font-weight:bold">int</span> id, <span style="color:#458;font-weight:bold">string</span> name ) 
-	{
-		<span style="color:#000;font-weight:bold">this</span>.id = id;
-		<span style="color:#000;font-weight:bold">this</span>.name = name;
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> Id 
-	{
-		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.id; }
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Name 
-	{
-		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.name; }
-	}
-}
-
-<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Child</span> : Parent 
-{
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> parentId;
-
-	<span style="color:#000;font-weight:bold">public</span> Child( <span style="color:#458;font-weight:bold">int</span> id, <span style="color:#458;font-weight:bold">int</span> parentId, <span style="color:#458;font-weight:bold">string</span> name ) : <span style="color:#000;font-weight:bold">base</span>( id, name ) 
-	{
-		<span style="color:#000;font-weight:bold">this</span>.parentId = parentId;
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> ParentId 
-	{
-		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.parentId; }
-	}
-}
-</code></pre></div><p>In the first ComboBoxColumn you display a list of possible Parents. In the second ComboBoxColumn you display Children, but only those that belong to the Chosen Parent. Here is how it goes</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form 
-{
-	<span style="color:#000;font-weight:bold">private</span> Object selectedValue;
-
-	<span style="color:#000;font-weight:bold">public</span> Form1() 
-	{
-		InitializeComponent();
-
-		<span style="color:#998;font-style:italic">// Add a couple of Parents
-</span><span style="color:#998;font-style:italic"></span>		<span style="color:#000;font-weight:bold">for</span> ( <span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">0</span>; i &lt; <span style="color:#099">3</span>; ++i ) 
-		{ 
-			Parent parent = <span style="color:#000;font-weight:bold">new</span> Parent( i, String.Format( <span style="color:#d14">&#34;Parent{0:00}&#34;</span>, i ) ); 
-			<span style="color:#000;font-weight:bold">this</span>.Column1.Items.Add( parent ); 
-			<span style="color:#998;font-style:italic">// Add a couple of Children to each parent 
-</span><span style="color:#998;font-style:italic"></span>			<span style="color:#000;font-weight:bold">for</span> ( <span style="color:#458;font-weight:bold">int</span> j = <span style="color:#099">0</span>; j &lt; <span style="color:#099">5</span>; ++j ) 
-			{ 
-				Child child = <span style="color:#000;font-weight:bold">new</span> Child( j, i, String.Format( <span style="color:#d14">&#34;Child{0:00}&#34;</span>, i * <span style="color:#099">10</span> + j ) ); 
-				<span style="color:#000;font-weight:bold">this</span>.Column2.Items.Add( child ); 
-			} 
-		} 
-		<span style="color:#000;font-weight:bold">this</span>.Column1.DisplayMember = <span style="color:#d14">&#34;Name&#34;</span>; 
-		<span style="color:#000;font-weight:bold">this</span>.Column2.DisplayMember = <span style="color:#d14">&#34;Name&#34;</span>; 
-	} 
-	
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_CellParsing( <span style="color:#458;font-weight:bold">object</span> sender, DataGridViewCellParsingEventArgs e ) 
-	{ 
-		e.Value = <span style="color:#000;font-weight:bold">this</span>.selectedValue; 
-		e.ParsingApplied = <span style="color:#000;font-weight:bold">true</span>; 
-	} 
-	
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing( <span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e ) 
-	{ 
-		ComboBox cb = e.Control <span style="color:#000;font-weight:bold">as</span> ComboBox; 
-		<span style="color:#000;font-weight:bold">if</span> ( cb != <span style="color:#000;font-weight:bold">null</span> ) 
-		{ 
-			<span style="color:#998;font-style:italic">// remove all the children that do not belong to the choosen parent 
-</span><span style="color:#998;font-style:italic"></span>			<span style="color:#458;font-weight:bold">int</span> currentColumnIndex = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.CurrentCell.ColumnIndex; 
-			<span style="color:#000;font-weight:bold">if</span> ( currentColumnIndex == <span style="color:#099">1</span> ) 
-			{ 
-				cb.Items.Clear(); 
-				<span style="color:#458;font-weight:bold">int</span> currentRowIndex = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.CurrentCell.RowIndex; 
-				Object currentCellValue = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.Rows[currentRowIndex].Cells[<span style="color:#099">0</span>].Value; 
-				<span style="color:#000;font-weight:bold">if</span> ( currentCellValue != <span style="color:#000;font-weight:bold">null</span> ) 
-				{ 
-					<span style="color:#458;font-weight:bold">int</span> parentId = ( (Parent)currentCellValue ).Id; 
-					<span style="color:#000;font-weight:bold">foreach</span> ( Child child <span style="color:#000;font-weight:bold">in</span> <span style="color:#000;font-weight:bold">this</span>.Column2.Items ) 
-					{ 
-						<span style="color:#000;font-weight:bold">if</span> ( child.ParentId == parentId ) 
-						{ 
-							cb.Items.Add( child ); 
-						} 
-					} 
-				} 
-			} 
-			cb.SelectedIndexChanged -= cb_SelectedIndexChanged; 
-			cb.SelectedIndexChanged += cb_SelectedIndexChanged; 
-		} 
-		
-		<span style="color:#000;font-weight:bold">void</span> cb_SelectedIndexChanged(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e) 
-		{ 
-			ComboBox comboBox = sender <span style="color:#000;font-weight:bold">as</span> ComboBox; 
-			<span style="color:#000;font-weight:bold">this</span>.selectedValue = comboBox.SelectedItem; 
-		} 
-	}
-}
-</code></pre></div>
 						</div>
 			
 						<div class="tags">

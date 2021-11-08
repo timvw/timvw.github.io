@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,41 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">26</span>
+										<span class="rest">Aug 2007</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">ClickOnce Deployment is not user-friendly!</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Today i was experimenting with <a href="http://msdn2.microsoft.com/en-us/library/t71a733d(VS.80).aspx">ClickOnce Deployment</a>. Some people have warned for the elevation of permissions: <a href="http://www.leastprivilege.com/BewareBeAwareOfClickOnceDefaultSettings.aspx">Be aware of ClickOnce default settings</a>. What i find even more annoying is the fact that all you get to see are the following dialogs</p>
+<p><img src="http://www.timvw.be/wp-content/images/clickonce-permissions-01.gif" alt=""></p>
+<p><img src="http://www.timvw.be/wp-content/images/clickonce-permissions-02.gif" alt=""></p>
+<p>If the user has to make an informed decision about the permissions he&rsquo;s going to grant to an application he should have atleast an easily accessible dialog that displays the PermissionSet that is being request. <strong>Having to browse to the manifest file to find the PermissionSet is NOT user-friendly!</strong></p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -751,62 +786,6 @@ Thread.CurrentThread.CurrentCulture = appCultureInfo;
 }
 </code></pre></div><p><img src="http://www.timvw.be/wp-content/images/formatting-02.gif" alt=""></p>
 
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">26</span>
-										<span class="rest">Jul 2007</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Using interfaces with Drag and Drop</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Earlier today i was refactoring some graphical components. I wanted to use an interface instead of concrete implementations for my drag and drop code&hellip; Although i was using an instance of Foo, and thus IFoo, the following code never allowed me to drop</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">interface</span> IFoo { }
-<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Foo</span> : IFoo { }
-
-<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> label1_MouseDown(<span style="color:#458;font-weight:bold">object</span> sender, MouseEventArgs e)
-{
-	<span style="color:#000;font-weight:bold">this</span>.DoDragDrop(<span style="color:#000;font-weight:bold">new</span> Foo(), DragDropEffects.All);
-}
-
-<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Form1_DragEnter(<span style="color:#458;font-weight:bold">object</span> sender, DragEventArgs e)
-{
-	<span style="color:#998;font-style:italic">// for an instance of Foo it returns false,
-</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// if you use typeof(Foo) it returns true though...
-</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span> (e.Data.GetDataPresent(<span style="color:#000;font-weight:bold">typeof</span>(IFoo)))
-	{
-		e.Effect = DragDropEffects.All;
-	}
-}
-</code></pre></div><p>Simply wrapping the concrete instance in a <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.dataobject(VS.80).aspx">DataObject</a> results in the desired behaviour</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> label1_MouseDown(<span style="color:#458;font-weight:bold">object</span> sender, MouseEventArgs e)
-{
-	<span style="color:#000;font-weight:bold">this</span>.DoDragDrop(<span style="color:#000;font-weight:bold">new</span> DataObject(<span style="color:#000;font-weight:bold">typeof</span>(IFoo).FullName,<span style="color:#000;font-weight:bold">new</span> Foo()), DragDropEffects.All);
-}
-</code></pre></div>
 						</div>
 			
 						<div class="tags">

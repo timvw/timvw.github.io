@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,70 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">29</span>
+										<span class="rest">Sep 2009</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Brad Abrams and extension methods to the rescue..</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Currently i am implementing <a href="http://en.wikipedia.org/wiki/Sokoban">Sokoban</a> and i was pondering which methods i should add to my Cell class:</p>
+<ul>
+<li>bool HoldsWall</li>
+<li>bool HoldsBox</li>
+<li>bool HoldsPlayer</li>
+</ul>
+<p>Or</p>
+<ul>
+<li>bool HoldsPieceOfType(Type type)</li>
+</ul>
+<p>Which option should i choose? With the aid of extension methods (in the same namespace) i can have them both:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">namespace</span> <span style="color:#555">Sokoban.Domain</span>
+{
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ExtensionMethods</span>
+	{
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> HoldsBox(<span style="color:#000;font-weight:bold">this</span> Cell cell)
+		{
+			<span style="color:#000;font-weight:bold">return</span> cell.HoldsPieceOfType(<span style="color:#000;font-weight:bold">typeof</span>(Box));
+		}
+
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> HoldsPlayer(<span style="color:#000;font-weight:bold">this</span> Cell cell)
+		{
+			<span style="color:#000;font-weight:bold">return</span> cell.HoldsPieceOfType(<span style="color:#000;font-weight:bold">typeof</span>(Player));
+		}
+
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> HoldsWall(<span style="color:#000;font-weight:bold">this</span> Cell cell)
+		{
+			<span style="color:#000;font-weight:bold">return</span> cell.HoldsPieceOfType(<span style="color:#000;font-weight:bold">typeof</span>(Wall));
+		}
+	}
+}
+</code></pre></div><p>In case you don&rsquo;t like this solution, blame <a href="http://blogs.msdn.com/brada/">Brad Abrams</a> who inspired me to implement it this way with his session at <a href="http://www.visug.be">Visug</a> yesterday.</p>
+<p><strong>Remark:</strong> Because the possible pieces in Sokoban are very well known (the game/requirements are not going to change) thus one should choose the first option (No extension methods required.)</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -503,44 +567,6 @@ controlStateMachine.WhenStateChangesTo(DisplayAndEditStates.Edit)
 .TheOnlyVisibleControlsAre(buttonSave, buttonCancel);
 }
 </code></pre></div><p>As always, here is the source: <a href="http://www.timvw.be/wp-content/code/csharp/ControlStateMachine.cs.txt">ControlStateMachine</a> and <a href="http://www.timvw.be/wp-content/code/csharp/WhenChangingState.cs.txt">WhenChangingState</a>.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">15</span>
-										<span class="rest">Aug 2009</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Presenting ControlChanges</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Because i noticed that i kept writing the same operations on control over and over again i decided to capture them in a couple of functions. I presume most of you have done this already. Here is the list of operations:</p>
-<p><img src="http://www.timvw.be/wp-content/images/controlchanges.cd.png" alt="screenshot of a class diagram with the following operations: MakeVisible, MakeInvisible and TheOnlyVisibleControlsAre."></p>
-<p>In case it is not clear what these methods should do i have defined the following specifications for them:</p>
-<p><img src="http://www.timvw.be/wp-content/images/controlchanges.specs.png" alt="screenshot of requirements list for controlchanges."></p>
-<p>Get the code here: <a href="http://www.timvw.be/wp-content/code/csharp/ControlChanges.cs.txt">ControlChanges</a> and <a href="http://www.timvw.be/wp-content/code/csharp/WhenExecutingControlChanges.cs.txt">WhenExecutingControlChanges</a>. Stay tuned for more!</p>
 
 						</div>
 			

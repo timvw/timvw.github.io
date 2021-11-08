@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,170 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">08</span>
+										<span class="rest">Nov 2021</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Hosting a secure registry on microk8s</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>The documentation for microk8s seems to suggest that there is a built-in registry that can be used, but not in a secure way.</p>
+<p>In essence, you need to <a href="https://docs.docker.com/registry/configuration">configure</a> the following:</p>
+<ul>
+<li>Storage</li>
+</ul>
+<p>For storage I will assume that the local filesystem is sufficient (or that you have a safety net, such as NFS backing it up, in place).</p>
+<ul>
+<li>Authentication</li>
+</ul>
+<p>For authentication I use create a secret which contains a htpasswd file, here is how you can generate this:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run --rm --entrypoint htpasswd registry:2.6.2 -Bbn username password &gt; ./registry-htpasswd
+kubectl create secret generic auth-secret --from-file<span style="color:#000;font-weight:bold">=</span>./registry-htpasswd -n registry
+</code></pre></div><ul>
+<li>A TLS certificate</li>
+</ul>
+<p>The TLS certificate is generated using [cert-manager]. See this [post] on how to achieve that.</p>
+<p>When all is in place you can simply kubectl apply the following:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>v1<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>Namespace<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000080">metadata</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000080">labels</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000080">app</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#555">---</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>apps/v1<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>Deployment<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000080">metadata</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000080">namespace</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000080">labels</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000080">app</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000080">spec</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000080">replicas</span>:<span style="color:#bbb"> </span><span style="color:#099">1</span><span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000080">selector</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000080">matchLabels</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">      </span><span style="color:#000080">app</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000080">template</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000080">metadata</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">      </span><span style="color:#000080">labels</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000080">app</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000080">spec</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">      </span><span style="color:#000080">containers</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">      </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000080">image</span>:<span style="color:#bbb"> </span>registry:2.6.2<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000080">ports</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>- <span style="color:#000080">containerPort</span>:<span style="color:#bbb"> </span><span style="color:#099">5000</span><span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000080">volumeMounts</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>repo-vol<span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#000080">mountPath</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;/var/lib/registry&#34;</span><span style="color:#bbb">
+</span><span style="color:#bbb">        </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>certs-vol<span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#000080">mountPath</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;/certs&#34;</span><span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#000080">readOnly</span>:<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">true</span><span style="color:#bbb">
+</span><span style="color:#bbb">        </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>auth-vol<span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#000080">mountPath</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;/auth&#34;</span><span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#000080">readOnly</span>:<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">true</span><span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000080">env</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>REGISTRY_AUTH<span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#000080">value</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;htpasswd&#34;</span><span style="color:#bbb">
+</span><span style="color:#bbb">        </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>REGISTRY_AUTH_HTPASSWD_REALM<span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#000080">value</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;Registry Realm&#34;</span><span style="color:#bbb">
+</span><span style="color:#bbb">        </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>REGISTRY_AUTH_HTPASSWD_PATH<span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#000080">value</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;/auth/registry-htpasswd&#34;</span><span style="color:#bbb">
+</span><span style="color:#bbb">        </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>REGISTRY_HTTP_TLS_CERTIFICATE<span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#000080">value</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;/certs/tls.crt&#34;</span><span style="color:#bbb">
+</span><span style="color:#bbb">        </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>REGISTRY_HTTP_TLS_KEY<span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#000080">value</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;/certs/tls.key&#34;</span><span style="color:#bbb">
+</span><span style="color:#bbb">      </span><span style="color:#000080">volumes</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">      </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>repo-vol<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000080">hostPath</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#998;font-style:italic"># directory location on host</span><span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#000080">path</span>:<span style="color:#bbb"> </span>/home/timvw/registry<span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#998;font-style:italic"># this field is optional</span><span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#000080">type</span>:<span style="color:#bbb"> </span>Directory<span style="color:#bbb">
+</span><span style="color:#bbb">      </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>certs-vol<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000080">secret</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#000080">secretName</span>:<span style="color:#bbb"> </span>registry-tls-secret<span style="color:#bbb">
+</span><span style="color:#bbb">      </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>auth-vol<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000080">secret</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#000080">secretName</span>:<span style="color:#bbb"> </span>auth-secret<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#555">---</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>v1<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>Service<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000080">metadata</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>docker-registry<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000080">namespace</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000080">spec</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000080">selector</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000080">app</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000080">ports</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>- <span style="color:#000080">port</span>:<span style="color:#bbb"> </span><span style="color:#099">5000</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000080">targetPort</span>:<span style="color:#bbb"> </span><span style="color:#099">5000</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#555">---</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>networking.k8s.io/v1<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>Ingress<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000080">metadata</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000080">namespace</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000080">labels</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000080">app</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000080">annotations</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000080">cert-manager.io/cluster-issuer</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;letsencrypt-prod&#34;</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000080">nginx.ingress.kubernetes.io/backend-protocol</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;HTTPS&#34;</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000080">nginx.ingress.kubernetes.io/proxy-body-size</span>:<span style="color:#bbb"> </span>1024m<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000080">spec</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000080">tls</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>- <span style="color:#000080">hosts</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>- registry.apps.timvw.be<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000080">secretName</span>:<span style="color:#bbb"> </span>registry-tls-secret<span style="color:#bbb">
+</span><span style="color:#bbb">  </span><span style="color:#000080">rules</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">  </span>- <span style="color:#000080">host</span>:<span style="color:#bbb"> </span>registry.apps.timvw.be<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000080">http</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">      </span><span style="color:#000080">paths</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">      </span>- <span style="color:#000080">path</span>:<span style="color:#bbb"> </span>/<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000080">pathType</span>:<span style="color:#bbb"> </span>Prefix<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000080">backend</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">          </span><span style="color:#000080">service</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">            </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>docker-registry<span style="color:#bbb">
+</span><span style="color:#bbb">            </span><span style="color:#000080">port</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">              </span><span style="color:#000080">number</span>:<span style="color:#bbb"> </span><span style="color:#099">5000</span><span style="color:#bbb">   
+</span></code></pre></div><p>Once everything is in place you can test the registry by running:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker login registry.apps.timvw.be
+</code></pre></div><p>In order to use this registry in your cluster you need to have a <a href="https://kubernetes.io/docs/concepts/configuration/secret/">secret</a> in the namespace where the pods are created with the following:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create secret docker-registry regcred -n demo <span style="color:#d14">\
+</span><span style="color:#d14"></span>  --docker-server<span style="color:#000;font-weight:bold">=</span>registry.apps.timvw.be <span style="color:#d14">\
+</span><span style="color:#d14"></span>  --docker-username<span style="color:#000;font-weight:bold">=</span>username <span style="color:#d14">\
+</span><span style="color:#d14"></span>  --docker-password<span style="color:#000;font-weight:bold">=</span>password <span style="color:#d14">\
+</span><span style="color:#d14"></span>  --docker-email<span style="color:#000;font-weight:bold">=</span>test@example.com
+</code></pre></div><p>Now you can create a deployment using this secret and referencing images on the registry:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#555">---</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>apps/v1<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>Deployment<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#555">...</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#000080">spec</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">      </span><span style="color:#000080">imagePullSecrets</span>:<span style="color:#bbb">
+</span><span style="color:#bbb">      </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>regcred     <span style="color:#bbb">
+</span><span style="color:#bbb">      </span><span style="color:#000080">containers</span>:<span style="color:#bbb">      
+</span><span style="color:#bbb">      </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>demo<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#000080">image</span>:<span style="color:#bbb"> </span>registry.apps.timvw.be/demo:1.2.3 <span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#555">...</span><span style="color:#bbb">
+</span></code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -544,51 +708,6 @@ The nice thing is that you now can use flatMap instead of filter + map:</p>
 <p>Most posts have been migrated pretty well but I do not feel like bothering with them anymore.
 In fact, some of them have become irrelevant, some of them are just wrong and others only attract spammers. In summary: they are not worth my time anymore. In case you really loved them, you can still send a pull-request :P</p>
 
-						</div>
-			
-						<div class="tags">
-							
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">01</span>
-										<span class="rest">Oct 2016</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Docker toolbox to the rescue</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>With the help of <a href="https://www.docker.com/products/docker-toolbox">Docker Toolbox</a> a lot of apps become easily available&hellip;</p>
-<p>By default volumes can only be mapped on folders under the user home directory.</p>
-<p>Here is how to enable mapping of the entire c-drive</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-weight:bold;font-style:italic">#!/bin/sh
-</span><span style="color:#999;font-weight:bold;font-style:italic"></span><span style="color:#998;font-style:italic"># script to expose c-drive to docker vm and docker containers</span>
-<span style="color:#998;font-style:italic">#</span>
-<span style="color:#998;font-style:italic"># stop the docker vm</span>
-docker-machine stop default
-<span style="color:#998;font-style:italic"># share your windows c-drive with the docker (host) vm</span>
-/c/Program<span style="color:#d14">\ </span>Files/Oracle/VirtualBox/VBoxManage.exe sharedfolder add default --name C_DRIVE --hostpath c:/
-<span style="color:#998;font-style:italic"># start the docker (host) vm</span>
-docker-machine start default
-<span style="color:#998;font-style:italic"># mount the c-drive in the docker (host) vm</span>
-docker-machine ssh default <span style="color:#d14">&#39;sudo chown docker /var/lib/boot2docker/profile &amp;&amp; echo mount -t vboxsf C_DRIVE /c &gt;&gt; /var/lib/boot2docker/profile&#39;</span>
-</code></pre></div><p>Examples</p>
-<p>Amazon ECS (EC2 Container Service) cli tools</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -i -t -v <span style="color:#d14">&#34;//c/Users/timvw/.aws:/root/.aws&#34;</span> timvw/docker-aws
-</code></pre></div><p>Jekyll (Yes, you can make it <a href="https://jekyllrb.com/docs/windows/">work on windows</a> but why bother?)</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -i -t -v <span style="color:#d14">&#34;//c/src/timvw.github.io:/opt/webiste&#34;</span> timvw/docker-jekyll
-jekyll server --incremental --watch --force_polling
-</code></pre></div>
 						</div>
 			
 						<div class="tags">

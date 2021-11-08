@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,98 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">22</span>
+										<span class="rest">Oct 2008</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Query a specific Google Calendar</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Despite the multiple copies of the <a href="http://code.google.com/apis/calendar/developers_guide_dotnet.html">API Developer&rsquo;s Guide: .NET</a> i found i was unable to find how i should query a specific calendar (not the default). Anyway, it can be done by using the CalendarEntry.Content.BaseUri as the query uri. Here is an example</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">CalendarHelper</span>
+{
+	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">const</span> <span style="color:#458;font-weight:bold">string</span> OwnedCalendarsUrl = <span style="color:#d14">&#34;http://www.google.com/calendar/feeds/default/owncalendars/full&#34;</span>;
+
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">readonly</span> CalendarService svc;
+
+	<span style="color:#000;font-weight:bold">public</span> CalendarHelper(<span style="color:#458;font-weight:bold">string</span> username, <span style="color:#458;font-weight:bold">string</span> password)
+	{
+		<span style="color:#000;font-weight:bold">this</span>.svc = <span style="color:#000;font-weight:bold">new</span> CalendarService(<span style="color:#d14">&#34;demo&#34;</span>);
+		<span style="color:#000;font-weight:bold">this</span>.svc.setUserCredentials(username, password);
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> IEnumerable&lt;calendarEntry&gt; FindOwnedCalendars()
+	{
+		CalendarQuery query = <span style="color:#000;font-weight:bold">new</span> CalendarQuery(OwnedCalendarsUrl);
+		CalendarFeed result = <span style="color:#000;font-weight:bold">this</span>.svc.Query(query);
+		<span style="color:#000;font-weight:bold">foreach</span> (CalendarEntry entry <span style="color:#000;font-weight:bold">in</span> result.Entries) <span style="color:#000;font-weight:bold">yield</span> <span style="color:#000;font-weight:bold">return</span> entry;
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> CalendarEntry GetCalendar(<span style="color:#458;font-weight:bold">string</span> name)
+	{
+		<span style="color:#000;font-weight:bold">return</span> (
+			<span style="color:#000;font-weight:bold">from</span> calendar <span style="color:#000;font-weight:bold">in</span> <span style="color:#000;font-weight:bold">this</span>.FindOwnedCalendars()
+			<span style="color:#000;font-weight:bold">where</span> calendar.Title.Text == name
+			<span style="color:#000;font-weight:bold">select</span> calendar).SingleOrDefault();
+	}
+
+	<span style="color:#000;font-weight:bold">public</span> IEnumerable&lt;atomEntry&gt; FindEvents(CalendarEntry calendar, DateTime begin, DateTime end)
+	{
+		EventQuery myQuery = <span style="color:#000;font-weight:bold">new</span> EventQuery(calendar.Content.AbsoluteUri);
+		myQuery.StartTime = begin;
+		myQuery.EndTime = end;
+		EventFeed result = <span style="color:#000;font-weight:bold">this</span>.svc.Query(myQuery);
+		<span style="color:#000;font-weight:bold">for</span> (<span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">0</span>; i &lt; result.Entries.Count; ++i) <span style="color:#000;font-weight:bold">yield</span> <span style="color:#000;font-weight:bold">return</span> result.Entries[i]; 
+	} 
+} 
+
+<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main() 
+{ 
+	CalendarHelper helper = <span style="color:#000;font-weight:bold">new</span> CalendarHelper(<span style="color:#d14">&#34;user@gmail.com&#34;</span>, <span style="color:#d14">&#34;xxx&#34;</span>); 
+	DateTime begin = <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2008</span>, <span style="color:#099">1</span>, <span style="color:#099">1</span>); 
+	DateTime end= <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2009</span>, <span style="color:#099">12</span>, <span style="color:#099">31</span>); 
+	IEnumerable&lt;calendarEntry&gt; calendars = helper.FindOwnedCalendars();
+	
+	<span style="color:#000;font-weight:bold">foreach</span> (CalendarEntry calendar <span style="color:#000;font-weight:bold">in</span> calendars)
+	{
+		Console.WriteLine(calendar.Title.Text);
+
+		IEnumerable&lt;atomEntry&gt; calendarEvents = helper.FindEvents(calendar, begin, end);
+		<span style="color:#000;font-weight:bold">foreach</span>(AtomEntry calendarEvent <span style="color:#000;font-weight:bold">in</span> calendarEvents)
+		{
+			Console.WriteLine(<span style="color:#d14">&#34;{0}: {1}&#34;</span>, calendarEvent.Updated, calendarEvent.Title.Text);
+		}
+
+		Console.WriteLine();
+	}
+
+	Console.Write(<span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
+	Console.ReadKey();
+}
+</code></pre></div>
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -439,59 +531,6 @@
 			Assert.IsFalse(contract.IsApplicable(), <span style="color:#d14">&#34;not applicable in 2009&#34;</span>);
 		}
 	}
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">23</span>
-										<span class="rest">Sep 2008</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Refactoring ApplicationEnvironment</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Yesterday i blogged about an <a href="http://www.timvw.be/presenting-applicationenvironment/">ApplicationEnvironment</a> which had a dependency on the application configuration file. With my <a href="http://www.timvw.be/presenting-configurationfilesession/">ConfigurationFileSession</a> i was able to test the implementation despite that dependency. Today i modified the design a little so that i do not require the ConfigurationFileSession hack anymore.</p>
-<p>First i added an internal constructor as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">internal</span> <span style="color:#000;font-weight:bold">protected</span> ApplicationEnvironment(DateTime instanceEpoch, DateTime applicationEpoch)
-{
-	<span style="color:#000;font-weight:bold">this</span>.instanceEpoch = instanceEpoch;
-	<span style="color:#000;font-weight:bold">this</span>.applicationEpoch = applicationEpoch;
-}
-</code></pre></div><p>Then i made the internals visible to the test project</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[assembly: InternalsVisibleTo(&#34;Be.Timvw.Framework.Domain.Tests&#34;)]</span>
-</code></pre></div><p>And finally i added a base class that takes care of the initialization and clean up as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestInitialize]</span>
-<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> TestInitialize()
-{
-	<span style="color:#000;font-weight:bold">this</span>.original = ApplicationEnvironment.Instance;
-	ApplicationEnvironment.Instance = <span style="color:#000;font-weight:bold">new</span> ApplicationEnvironment(DateTime.UtcNow, <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">1998</span>, <span style="color:#099">01</span>, <span style="color:#099">01</span>));
-}
-<span style="color:#008080">
-</span><span style="color:#008080">[TestCleanup]</span>
-<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> TestCleanUp()
-{
-	ApplicationEnvironment.Instance = <span style="color:#000;font-weight:bold">this</span>.original;
 }
 </code></pre></div>
 						</div>

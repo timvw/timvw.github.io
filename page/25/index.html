@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,38 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">26</span>
+										<span class="rest">Jun 2008</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">MCTS&#43;&#43;</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Today i passed Exam <a href="http://www.microsoft.com/learning/en/us/exams/70-529.mspx">70-529</a> and thus became a <a href="http://www.microsoft.com/learning/mcp/mcts/distapps/default.mspx">MCTS: .NET Framework 2.0 Distributed Applications</a>. This means that there is only one exam left, <a href="http://www.microsoft.com/learning/en/us/exams/70-549.mspx">70-549</a>, in order to become a <a href="http://www.microsoft.com/learning/mcp/mcpd/entapp/default.mspx">MCPD: Enterprise Applications Developer on Visual Studio 2005</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/awards-and-certifications">Awards and Certifications</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -440,61 +472,6 @@ nmake -f ms<span style="color:#d14">\n</span>tdll.mak install
 									<ul class="flat">
 										
 										<li><a href="../../tags/free-software">Free Software</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">22</span>
-										<span class="rest">Mar 2008</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Easily switching between configuration files with MSBuild</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>A couple of days ago i wrote about <a href="http://www.timvw.be/easily-switching-between-appconfig-files-with-msbuild/">Easily switching between App.Config files with MSBuild</a>. Christophe Gijbels, a fellow <a href="http://www.compuware.be/root/Careers/index.asp">compuwarrior</a>, pointed out that developers usually need to copy more than a single App.Config file&hellip; I would propose to add a Folder for each Customer that contains all the specific configuration files. Eg</p>
-<p><img src="http://www.timvw.be/wp-content/images/customerconfigurations.gif" alt="screenshot of solution explorer with proposed folder structures"></p>
-<p>Now i have to configure MSBuild so that the right files are copied into the <a href="http://msdn2.microsoft.com/en-us/library/bb629394.aspx">OutDir</a>:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#998;font-style:italic">&lt;!-- Define the CustomerPath depending on the choosen Configuration --&gt;</span>
-<span style="color:#000080">&lt;propertyGroup</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34; $(Configuration) == &#39;Customer1 Debug&#39; &#34;</span><span style="color:#000080">&gt;</span> 
-	<span style="color:#000080">&lt;customerPath&gt;</span>Customer1<span style="color:#000080">&lt;/customerPath&gt;</span> 
-<span style="color:#000080">&lt;/propertyGroup&gt;</span> 
-<span style="color:#000080">&lt;propertyGroup</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34; $(Configuration) == &#39;Customer2 Debug&#39; &#34;</span><span style="color:#000080">&gt;</span> 
-	<span style="color:#000080">&lt;customerPath&gt;</span>Customer2<span style="color:#000080">&lt;/customerPath&gt;</span> 
-<span style="color:#000080">&lt;/propertyGroup&gt;</span> 
-
-<span style="color:#998;font-style:italic">&lt;!-- Define AppConfig in the CustomerPath  --&gt;</span>
-<span style="color:#000080">&lt;propertyGroup&gt;</span>
-	<span style="color:#000080">&lt;appConfig&gt;</span>$(CustomerPath)\App.config<span style="color:#000080">&lt;/appConfig&gt;</span> 
-<span style="color:#000080">&lt;/propertyGroup&gt;</span> 
-
-<span style="color:#998;font-style:italic">&lt;!-- Find all files in CustomerPath, excluding AppConfig --&gt;</span>
-<span style="color:#000080">&lt;itemGroup&gt;</span>
-	<span style="color:#000080">&lt;customerFiles</span> <span style="color:#008080">Include=</span><span style="color:#d14">&#34;$(CustomerPath)\*.*&#34;</span> <span style="color:#008080">Exclude=</span><span style="color:#d14">&#34;$(CustomerPath)\App.config&#34;</span> <span style="color:#000080">/&gt;</span>
-<span style="color:#000080">&lt;/itemGroup&gt;</span>
-
-<span style="color:#000080">&lt;target</span> <span style="color:#008080">Name=</span><span style="color:#d14">&#34;AfterBuild&#34;</span><span style="color:#000080">&gt;</span>
-	<span style="color:#000080">&lt;copy</span> <span style="color:#008080">SourceFiles=</span><span style="color:#d14">&#34;@(CustomerFiles)&#34;</span> <span style="color:#008080">DestinationFolder=</span><span style="color:#d14">&#34;$(OutDir)&#34;</span> <span style="color:#008080">SkipUnchangedFiles=</span><span style="color:#d14">&#34;true&#34;</span><span style="color:#000080">/&gt;</span>
-<span style="color:#000080">&lt;/target&gt;</span>
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/visual-studio">Visual Studio</a></li>
 										
 									</ul>
 								

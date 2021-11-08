@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,44 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">23</span>
+										<span class="rest">Apr 2014</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Clone all your repositories on another machine</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Recently I was configuring a new machine (God, i love <a href="https://chocolatey.org/">Chocolatey</a>) and I wanted to take all the repositories I have under c:/src and clone them on my new machine. Here is how i did that:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic"># write all remote fetch locations into repositories.txt  </span>
+find /c/src -type d -mindepth <span style="color:#099">1</span> -maxdepth <span style="color:#099">1</span> -exec git -work-tree<span style="color:#000;font-weight:bold">={}</span> -git-dir<span style="color:#000;font-weight:bold">={}</span>/.git remote -v <span style="color:#d14">\;</span> | grep fetch | awk <span style="color:#d14">&#39;{print $2}&#39;</span> &gt; repositories.txt
+
+<span style="color:#998;font-style:italic"># clone each repository  </span>
+cat repositories.txt | xargs -l1 git clone
+</code></pre></div><p>Or as a gist: <a href="https://gist.github.com/timvw/11208834">https://gist.github.com/timvw/11208834</a>.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/git-bash-awk">git bash awk</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -439,51 +477,6 @@
 										<li><a href="../../tags/t-sql">t-sql</a></li>
 										
 									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">28</span>
-										<span class="rest">Oct 2011</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Say no to primitives in your API.. and make your software more explicit</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>A while ago I wrote some code like this:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> ICanBroadcast
-{ 
-  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Broadcast(<span style="color:#458;font-weight:bold">string</span> message) { ... }  
-  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Broadcast(<span style="color:#458;font-weight:bold">string</span> message, <span style="color:#458;font-weight:bold">string</span> author) { ... }
-}
-</code></pre></div><p>A bit later the requirements changed and from now on it was required to specify the topic:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> ICanBroadcast  
-{
-  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Broadcast(<span style="color:#458;font-weight:bold">string</span> message, <span style="color:#458;font-weight:bold">string</span> topic) { ... }  
-  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Broadcast(<span style="color:#458;font-weight:bold">string</span> message, <span style="color:#458;font-weight:bold">string</span> author, <span style="color:#458;font-weight:bold">string</span> topic) { ... } 
-}
-</code></pre></div><p>In case you were using Broadcast(string message) the compiler would rightfully inform you that no such method exists. In case you were using Broadcast(string message, string author) the compiler does not catch the error and incorrectly uses the author as topic. I can only hope that you have a suite of tests that makes you notice that something is wrong when you upgrade to my latest release.</p>
-<p>Let&rsquo;s make the difference between an Author and a Topic more explicit (to our API consumers and the compiler) by creating explicit types to represent the concepts:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> ICanBroadcast 
-{  
-  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Broadcast(Message message, Topic topic) { ... } 
-  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Broadcast(Message message, Author author, Topic topic) { ... }  
-} 
-</code></pre></div><p>The joy of using a typed language 😉</p>
-
-						</div>
-			
-						<div class="tags">
-							
 								
 							
 						</div></div>

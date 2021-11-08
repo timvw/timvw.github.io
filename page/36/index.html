@@ -11,7 +11,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-05-03T07:23:13+02:00" />
+<meta property="og:updated_time" content="2021-11-08T15:25:16+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -59,6 +59,64 @@
 			<div class="posts">
 				
 				
+				
+					<div class="post">
+						<div class="post-header">
+							
+								<div class="meta">
+									<div class="date">
+										<span class="day">26</span>
+										<span class="rest">Aug 2006</span>
+									</div>
+								</div>
+							
+							<div class="matter">
+								<h1 class="title">Unable to enlist in a distributed transaction</h1>
+							</div>
+						</div>
+								
+						<div class="markdown">
+							<p>Earlier today we were confronted with the following <a href="http://msdn2.microsoft.com/en-US/library/system.data.oracleclient.oracleexception.aspx">OracleException</a>: <strong>Unable to enlist in a distributed transaction</strong>. Our code (and accompanying tests) had been running fine for the last two weeks thus we expected there was a problem with the database. A member of the DBA team assurred us there was nothing wrong with the database. Finally we discovered that we had created a circular reference and thus the program ended up in an endless loop (well untill the database decided it had been enough anyway :p). Here is a simplified version of the problem</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> DoA() 
+{
+	<span style="color:#000;font-weight:bold">using</span> (TransactionScope scope = <span style="color:#000;font-weight:bold">new</span> TransactionScope()) 
+	{
+		<span style="color:#000;font-weight:bold">using</span> (OracleConnection con = <span style="color:#000;font-weight:bold">new</span> OracleConnection(connectionString)) 
+		{
+			con.Open();
+			DoB();
+			scope.Complete();
+		}
+	}
+}
+
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> DoB() 
+{
+	<span style="color:#000;font-weight:bold">using</span> (TransactionScope scope = <span style="color:#000;font-weight:bold">new</span> TransactionScope()) 
+	{
+		<span style="color:#000;font-weight:bold">using</span> (OracleConnection con = <span style="color:#000;font-weight:bold">new</span> OracleConnection(connectionString)) 
+		{
+			con.Open();
+			DoA();
+			scope.Complete();
+		}
+	}
+}
+</code></pre></div><p>Without the use of <a href="http://msdn2.microsoft.com/en-us/library/system.transactions.transactionscope.aspx">TransactionScope</a> this results in a <strong>Connection request timed out</strong> exception.</p>
+
+						</div>
+			
+						<div class="tags">
+							
+								
+									<ul class="flat">
+										
+										<li><a href="../../tags/csharp">CSharp</a></li>
+										
+									</ul>
+								
+							
+						</div></div>
 				
 					<div class="post">
 						<div class="post-header">
@@ -411,50 +469,6 @@ colAttrs<span style="color:#000;font-weight:bold">.</span><span style="color:#00
 									<ul class="flat">
 										
 										<li><a href="../../tags/java">Java</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">12</span>
-										<span class="rest">Jun 2006</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Couple of screenshots of my graduation project</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Here are a couple of screenshots of my graduation project i&rsquo;ve been working on last couple of weeks. The GUI is built with Swing, the bussiness rules make extensive use of the Apache BeanUtils and Hibernate Validators packages and with PostgreSQL we have a solid database. Since it takes a while to load the EntityManagerFactory we&rsquo;ve added a simple splashscreen:</p>
-<p><a href="http://www.timvw.be/wp-content/images/grad01.png"><img src="http://www.timvw.be/wp-content/images/gradtn01.png" alt="splashscreen"></a></p>
-<p>The base screen displays a map with the tables in the restaurant. The color of the tables depends on the state of the visit (eg: just arrived, ordered some items, eating soup, eating dessert, paid the bill). There is also the possiblity to group tables. Offcourse you have the possibility to rearrange the tables and add/remove the maps:</p>
-<p><a href="http://www.timvw.be/wp-content/images/grad02.png"><img src="http://www.timvw.be/wp-content/images/gradtn02.png" alt="groundplan restaurant"></a></p>
-<p><a href="http://www.timvw.be/wp-content/images/grad03.png"><img src="http://www.timvw.be/wp-content/images/gradtn03.png" alt="groundplan terrace"></a></p>
-<p>As soon as the waiter has choosen a visit he can add orders via an easy to use screen. He also has the possibility to add (pre-configured and/or custom) remarks to a given order. Each order is printed on the printer of the division that is responsible for the handling for the given type of menuitems:</p>
-<p><a href="http://www.timvw.be/wp-content/images/grad04.png"><img src="http://www.timvw.be/wp-content/images/gradtn04.png" alt="order panel"></a></p>
-<p><a href="http://www.timvw.be/wp-content/images/grad05.png"><img src="http://www.timvw.be/wp-content/images/gradtn05.png" alt="remarks dialog"></a></p>
-<p>And least but not least, there is a screen that allows the waiter to generate, print and save one or more bills for each visit. If all ordered items have been paid, the visit goes into the PAID state:</p>
-<p><a href="http://www.timvw.be/wp-content/images/grad06.png"><img src="http://www.timvw.be/wp-content/images/gradtn06.png" alt="billing panel"></a></p>
-<p>Offcourse we&rsquo;ve also written list/detail panels for all the tables this restaurant uses. Here are screenshots of the list and detail panel for the menuitems:</p>
-<p><a href="http://www.timvw.be/wp-content/images/grad07.png"><img src="http://www.timvw.be/wp-content/images/gradtn07.png" alt="menuitem list"></a></p>
-<p><a href="http://www.timvw.be/wp-content/images/grad08.png"><img src="http://www.timvw.be/wp-content/images/gradtn08.png" alt="menuitem detail"></a></p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/hibernate">Hibernate</a></li>
 										
 									</ul>
 								
