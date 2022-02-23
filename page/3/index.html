@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.92.2" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Tim Van Wassenhove - Passionate geek, interested in Technology. Proud father of two </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://timvw.be/feed.xml" title="Tim Van Wassenhove" />
 	<meta itemprop="name" content="Tim Van Wassenhove">
-<meta itemprop="description" content="">
-<meta property="og:title" content="Tim Van Wassenhove" />
+<meta itemprop="description" content=""><meta property="og:title" content="Tim Van Wassenhove" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-11-08T15:31:18+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -77,7 +76,7 @@
 								
 						<div class="markdown">
 							<p>Recently I was configuring a new machine (God, i love <a href="https://chocolatey.org/">Chocolatey</a>) and I wanted to take all the repositories I have under c:/src and clone them on my new machine. Here is how i did that:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic"># write all remote fetch locations into repositories.txt  </span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic"># write all remote fetch locations into repositories.txt  </span>
 find /c/src -type d -mindepth <span style="color:#099">1</span> -maxdepth <span style="color:#099">1</span> -exec git -work-tree<span style="color:#000;font-weight:bold">={}</span> -git-dir<span style="color:#000;font-weight:bold">={}</span>/.git remote -v <span style="color:#d14">\;</span> | grep fetch | awk <span style="color:#d14">&#39;{print $2}&#39;</span> &gt; repositories.txt
 
 <span style="color:#998;font-style:italic"># clone each repository  </span>
@@ -117,7 +116,7 @@ cat repositories.txt | xargs -l1 git clone
 							<p>Been writing code in F# for almost a year and never blogged about it. Time to change that. Earlier today someone asked the following on twitter:</p>
 <p><!-- raw HTML omitted -->Is it possible to pattern match the first part of an array in #FSharp? Something like | 1::2::3::tail but for arrays? #lazyweb<!-- raw HTML omitted --></p>
 <p>I accepted the challenge :)</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#000;font-weight:bold">let</span> <span style="color:#000;font-weight:bold">(|</span>Array<span style="color:#000;font-weight:bold">|_|)</span> pattern toMatch <span style="color:#000;font-weight:bold">=</span>      
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#000;font-weight:bold">let</span> <span style="color:#000;font-weight:bold">(|</span>Array<span style="color:#000;font-weight:bold">|_|)</span> pattern toMatch <span style="color:#000;font-weight:bold">=</span>      
 	<span style="color:#000;font-weight:bold">let</span> <span style="color:#008080">patternLength</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#555">Array</span>.length pattern
 	<span style="color:#000;font-weight:bold">let</span> <span style="color:#008080">toMatchLength</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#555">Array</span>.length toMatch
 	<span style="color:#000;font-weight:bold">let</span> <span style="color:#008080">tailLength</span> <span style="color:#000;font-weight:bold">=</span> toMatchLength <span style="color:#000;font-weight:bold">-</span> patternLength
@@ -197,7 +196,7 @@ cat repositories.txt | xargs -l1 git clone
 								
 						<div class="markdown">
 							<p>A while ago I was quite surprised to see that the following query returns 1 instead of 0:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">COUNT</span>(<span style="color:#000;font-weight:bold">*</span>) <span style="color:#000;font-weight:bold">WHERE</span> N<span style="color:#d14">&#39;Tim&#39;</span> <span style="color:#000;font-weight:bold">=</span> N<span style="color:#d14">&#39;Tim &#39;</span>; <span style="color:#998;font-style:italic">-- notice the trailing space
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">COUNT</span>(<span style="color:#000;font-weight:bold">*</span>)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>N<span style="color:#d14">&#39;Tim&#39;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>N<span style="color:#d14">&#39;Tim &#39;</span>;<span style="color:#bbb"> </span><span style="color:#998;font-style:italic">-- notice the trailing space
 </span></code></pre></div><p>Apparently this is just standard behaviour. Here is an extract from <a href="http://www.andrew.cmu.edu/user/shadow/sql/sql1992.txt">sql1992.txt</a> (Section 8.2 Paragraph 3):</p>
 <!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
@@ -237,22 +236,22 @@ cat repositories.txt | xargs -l1 git clone
 								
 						<div class="markdown">
 							<p>Lately I had the pleasure to investigate <a href="http://technet.microsoft.com/en-us/library/aa174903(v=sql.80).aspx">collations</a> and here is a sample query that demonstrates how a collation impacts the behaviour of a query:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">WITH</span> [Words] <span style="color:#000;font-weight:bold">AS</span> (
-	<span style="color:#000;font-weight:bold">SELECT</span> N<span style="color:#d14">&#39;Een&#39;</span> <span style="color:#000;font-weight:bold">AS</span> [word]  
-	<span style="color:#000;font-weight:bold">UNION</span> <span style="color:#000;font-weight:bold">ALL</span>  
-	<span style="color:#000;font-weight:bold">SELECT</span> N<span style="color:#d14">&#39;Eèn&#39;</span>	  
-	<span style="color:#000;font-weight:bold">UNION</span> <span style="color:#000;font-weight:bold">ALL</span>
-	<span style="color:#000;font-weight:bold">SELECT</span> N<span style="color:#d14">&#39;EEN&#39;</span>
-)
-<span style="color:#000;font-weight:bold">SELECT</span> [word]	  
-<span style="color:#000;font-weight:bold">FROM</span> [Words]  
-<span style="color:#000;font-weight:bold">WHERE</span> [word]	  
-<span style="color:#998;font-style:italic">--COLLATE Latin1_General_CS_AS -- returns Een
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">WITH</span><span style="color:#bbb"> </span>[Words]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>(<span style="color:#bbb">
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>N<span style="color:#d14">&#39;Een&#39;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>[word]<span style="color:#bbb">  
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">UNION</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ALL</span><span style="color:#bbb">  
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>N<span style="color:#d14">&#39;Eèn&#39;</span><span style="color:#bbb">	  
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">UNION</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ALL</span><span style="color:#bbb">
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>N<span style="color:#d14">&#39;EEN&#39;</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>)<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>[word]<span style="color:#bbb">	  
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[Words]<span style="color:#bbb">  
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>[word]<span style="color:#bbb">	  
+</span><span style="color:#bbb"></span><span style="color:#998;font-style:italic">--COLLATE Latin1_General_CS_AS -- returns Een
 </span><span style="color:#998;font-style:italic">--COLLATE Latin1_General_CI_AI -- returns Een, Eèn and EEN
 </span><span style="color:#998;font-style:italic">--COLLATE LAtin1_General_CI_AS -- returns Een and EEN
-</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">COLLATE</span> Latin1_General_CS_AI <span style="color:#998;font-style:italic">-- returns Een and Eèn
-</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">=</span> N<span style="color:#d14">&#39;Een&#39;</span>;
-</code></pre></div>
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">COLLATE</span><span style="color:#bbb"> </span>Latin1_General_CS_AI<span style="color:#bbb"> </span><span style="color:#998;font-style:italic">-- returns Een and Eèn
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>N<span style="color:#d14">&#39;Een&#39;</span>;<span style="color:#bbb">
+</span></code></pre></div>
 						</div>
 			
 						<div class="tags">
@@ -286,7 +285,7 @@ cat repositories.txt | xargs -l1 git clone
 								
 						<div class="markdown">
 							<p>Copying all mp3 files from my Music folder to a USB drive is pretty easy on my Macbook:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">find Music -name *.mp3 -exec cp <span style="color:#000;font-weight:bold">{}</span> /Volumes/SANDISK <span style="color:#d14">\;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">find Music -name *.mp3 -exec cp <span style="color:#000;font-weight:bold">{}</span> /Volumes/SANDISK <span style="color:#d14">\;</span>
 </code></pre></div>
 						</div>
 			
@@ -384,7 +383,7 @@ cat repositories.txt | xargs -l1 git clone
 								
 						<div class="markdown">
 							<p>One of my favorite powershell commands when cleaning up:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$RootFolder</span> = <span style="color:#d14">&#39;C:\tfs&#39;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$RootFolder</span> = <span style="color:#d14">&#39;C:\tfs&#39;</span>
 <span style="color:#0086b3">Get-ChildItem</span> <span style="color:#008080">$RootFolder</span> bin -Recurse | <span style="color:#0086b3">Remove-Item</span> -Recurse
 <span style="color:#0086b3">Get-ChildItem</span> <span style="color:#008080">$RootFolder</span> obj -Recurse | <span style="color:#0086b3">Remove-Item</span> -Recurse
 </code></pre></div>
@@ -420,51 +419,51 @@ cat repositories.txt | xargs -l1 git clone
 						<div class="markdown">
 							<p>Earlier this week some colleague had been assigned a maintenance task and asked me how I would solve it. Every customer is permitted to have an amount of publications. All excess publications should be removed from the system (only the n most recent ones are permitted to remain on the system).</p>
 <p>Here is an example of the Customer table:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">CREATE</span> <span style="color:#000;font-weight:bold">TABLE</span> [dbo].[Customer](  
-	[CustomerId] [<span style="color:#0086b3">int</span>] <span style="color:#000;font-weight:bold">IDENTITY</span>(<span style="color:#099">1</span>,<span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">NOT</span> <span style="color:#000;font-weight:bold">NULL</span>, 
-	[CustomerName] [nvarchar](<span style="color:#099">50</span>) <span style="color:#000;font-weight:bold">NOT</span> <span style="color:#000;font-weight:bold">NULL</span>,  
-	[PermittedPublications] [<span style="color:#0086b3">int</span>] <span style="color:#000;font-weight:bold">NOT</span> <span style="color:#000;font-weight:bold">NULL</span>
-);
-
-<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> [dbo].[Customer]		  
-	([CustomerName], [PermittedPublications])
-<span style="color:#000;font-weight:bold">VALUES</span>
-	(<span style="color:#d14">&#39;timvw&#39;</span>, <span style="color:#099">2</span>),		  
-	(<span style="color:#d14">&#39;mike&#39;</span>, <span style="color:#099">3</span>);
-</code></pre></div><p>An example of the customer publications table:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">CREATE</span> <span style="color:#000;font-weight:bold">TABLE</span> [dbo].[Publication](	  
-	[PublicationId] [<span style="color:#0086b3">int</span>] <span style="color:#000;font-weight:bold">IDENTITY</span>(<span style="color:#099">1</span>,<span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">NOT</span> <span style="color:#000;font-weight:bold">NULL</span>,	  
-	[CustomerId] [<span style="color:#0086b3">int</span>] <span style="color:#000;font-weight:bold">NOT</span> <span style="color:#000;font-weight:bold">NULL</span>,	  
-	[PublicationName] [nvarchar](<span style="color:#099">50</span>) <span style="color:#000;font-weight:bold">NOT</span> <span style="color:#000;font-weight:bold">NULL</span>,	  
-	[PublicationTime] [datetime2] <span style="color:#000;font-weight:bold">NOT</span> <span style="color:#000;font-weight:bold">NULL</span>
-);
-
-<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> [dbo].[Publication]
-  	([CustomerId], [PublicationName],[PublicationTime])
-<span style="color:#000;font-weight:bold">VALUES</span>
-	((<span style="color:#000;font-weight:bold">SELECT</span> [CustomerId] <span style="color:#000;font-weight:bold">FROM</span> [dbo].[Customer] <span style="color:#000;font-weight:bold">WHERE</span> [CustomerName] <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;timvw&#39;</span>), <span style="color:#d14">&#39;tim pub1&#39;</span>, SYSUTCDATETIME()),		  
-	((<span style="color:#000;font-weight:bold">SELECT</span> [CustomerId] <span style="color:#000;font-weight:bold">FROM</span> [dbo].[Customer] <span style="color:#000;font-weight:bold">WHERE</span> [CustomerName] <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;timvw&#39;</span>), <span style="color:#d14">&#39;tim pub2&#39;</span>, SYSUTCDATETIME()),		  
-	((<span style="color:#000;font-weight:bold">SELECT</span> [CustomerId] <span style="color:#000;font-weight:bold">FROM</span> [dbo].[Customer] <span style="color:#000;font-weight:bold">WHERE</span> [CustomerName] <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;timvw&#39;</span>), <span style="color:#d14">&#39;tim pub&#39;</span>, SYSUTCDATETIME()),
-	((<span style="color:#000;font-weight:bold">SELECT</span> [CustomerId] <span style="color:#000;font-weight:bold">FROM</span> [dbo].[Customer] <span style="color:#000;font-weight:bold">WHERE</span> [CustomerName] <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;timvw&#39;</span>), <span style="color:#d14">&#39;tim pub4&#39;</span>, SYSUTCDATETIME()),
-	((<span style="color:#000;font-weight:bold">SELECT</span> [CustomerId] <span style="color:#000;font-weight:bold">FROM</span> [dbo].[Customer] <span style="color:#000;font-weight:bold">WHERE</span> [CustomerName] <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;mike&#39;</span>), <span style="color:#d14">&#39;mike pub1&#39;</span>, SYSUTCDATETIME()),
-	((<span style="color:#000;font-weight:bold">SELECT</span> [CustomerId] <span style="color:#000;font-weight:bold">FROM</span> [dbo].[Customer] <span style="color:#000;font-weight:bold">WHERE</span> [CustomerName] <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;mike&#39;</span>), <span style="color:#d14">&#39;mike pub2&#39;</span>, SYSUTCDATETIME()); 
-</code></pre></div><p>My colleague was keen on using some cursor logic, but I demonstrated him how a set-based alternative:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">WITH</span> [RankedPublication] <span style="color:#000;font-weight:bold">AS</span> (	  
-	<span style="color:#000;font-weight:bold">SELECT</span> [CustomerId]
-		,[PublicationId]
-		,[PublicationName]
-		,[PublicationTime]
-		,ROW_NUMBER() OVER(PARTITION <span style="color:#000;font-weight:bold">BY</span> [CustomerId] <span style="color:#000;font-weight:bold">ORDER</span> <span style="color:#000;font-weight:bold">BY</span> [PublicationTime]) <span style="color:#000;font-weight:bold">AS</span> [PublicationRank]
-	<span style="color:#000;font-weight:bold">FROM</span> [dbo].[Publication]
-), [ExcessPublication] <span style="color:#000;font-weight:bold">AS</span> (	  
-	<span style="color:#000;font-weight:bold">SELECT</span> [PublicationId]	  
-	<span style="color:#000;font-weight:bold">FROM</span> [RankedPublication]	  
-	<span style="color:#000;font-weight:bold">INNER</span> <span style="color:#000;font-weight:bold">JOIN</span> [dbo].[Customer] <span style="color:#000;font-weight:bold">ON</span> [Customer].[CustomerId] <span style="color:#000;font-weight:bold">=</span> [RankedPublication].[CustomerId]	  
-	<span style="color:#000;font-weight:bold">WHERE</span> [PublicationRank] <span style="color:#000;font-weight:bold">&gt;</span> [Customer].[PermittedPublications]
-)
-<span style="color:#000;font-weight:bold">DELETE</span> <span style="color:#000;font-weight:bold">FROM</span> [dbo].[Publication]	  
-<span style="color:#000;font-weight:bold">WHERE</span> [PublicationId] <span style="color:#000;font-weight:bold">IN</span> (<span style="color:#000;font-weight:bold">SELECT</span> [PublicationId] <span style="color:#000;font-weight:bold">FROM</span> [ExcessPublication]);
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">CREATE</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">TABLE</span><span style="color:#bbb"> </span>[dbo].[Customer](<span style="color:#bbb">  
+</span><span style="color:#bbb">	</span>[CustomerId]<span style="color:#bbb"> </span>[<span style="color:#0086b3">int</span>]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IDENTITY</span>(<span style="color:#099">1</span>,<span style="color:#099">1</span>)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NOT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span>,<span style="color:#bbb"> 
+</span><span style="color:#bbb">	</span>[CustomerName]<span style="color:#bbb"> </span>[nvarchar](<span style="color:#099">50</span>)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NOT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span>,<span style="color:#bbb">  
+</span><span style="color:#bbb">	</span>[PermittedPublications]<span style="color:#bbb"> </span>[<span style="color:#0086b3">int</span>]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NOT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>);<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INSERT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INTO</span><span style="color:#bbb"> </span>[dbo].[Customer]<span style="color:#bbb">		  
+</span><span style="color:#bbb">	</span>([CustomerName],<span style="color:#bbb"> </span>[PermittedPublications])<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">VALUES</span><span style="color:#bbb">
+</span><span style="color:#bbb">	</span>(<span style="color:#d14">&#39;timvw&#39;</span>,<span style="color:#bbb"> </span><span style="color:#099">2</span>),<span style="color:#bbb">		  
+</span><span style="color:#bbb">	</span>(<span style="color:#d14">&#39;mike&#39;</span>,<span style="color:#bbb"> </span><span style="color:#099">3</span>);<span style="color:#bbb">
+</span></code></pre></div><p>An example of the customer publications table:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">CREATE</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">TABLE</span><span style="color:#bbb"> </span>[dbo].[Publication](<span style="color:#bbb">	  
+</span><span style="color:#bbb">	</span>[PublicationId]<span style="color:#bbb"> </span>[<span style="color:#0086b3">int</span>]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IDENTITY</span>(<span style="color:#099">1</span>,<span style="color:#099">1</span>)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NOT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span>,<span style="color:#bbb">	  
+</span><span style="color:#bbb">	</span>[CustomerId]<span style="color:#bbb"> </span>[<span style="color:#0086b3">int</span>]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NOT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span>,<span style="color:#bbb">	  
+</span><span style="color:#bbb">	</span>[PublicationName]<span style="color:#bbb"> </span>[nvarchar](<span style="color:#099">50</span>)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NOT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span>,<span style="color:#bbb">	  
+</span><span style="color:#bbb">	</span>[PublicationTime]<span style="color:#bbb"> </span>[datetime2]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NOT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>);<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INSERT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INTO</span><span style="color:#bbb"> </span>[dbo].[Publication]<span style="color:#bbb">
+</span><span style="color:#bbb">  	</span>([CustomerId],<span style="color:#bbb"> </span>[PublicationName],[PublicationTime])<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">VALUES</span><span style="color:#bbb">
+</span><span style="color:#bbb">	</span>((<span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>[CustomerId]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[dbo].[Customer]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>[CustomerName]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span><span style="color:#d14">&#39;timvw&#39;</span>),<span style="color:#bbb"> </span><span style="color:#d14">&#39;tim pub1&#39;</span>,<span style="color:#bbb"> </span>SYSUTCDATETIME()),<span style="color:#bbb">		  
+</span><span style="color:#bbb">	</span>((<span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>[CustomerId]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[dbo].[Customer]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>[CustomerName]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span><span style="color:#d14">&#39;timvw&#39;</span>),<span style="color:#bbb"> </span><span style="color:#d14">&#39;tim pub2&#39;</span>,<span style="color:#bbb"> </span>SYSUTCDATETIME()),<span style="color:#bbb">		  
+</span><span style="color:#bbb">	</span>((<span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>[CustomerId]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[dbo].[Customer]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>[CustomerName]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span><span style="color:#d14">&#39;timvw&#39;</span>),<span style="color:#bbb"> </span><span style="color:#d14">&#39;tim pub&#39;</span>,<span style="color:#bbb"> </span>SYSUTCDATETIME()),<span style="color:#bbb">
+</span><span style="color:#bbb">	</span>((<span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>[CustomerId]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[dbo].[Customer]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>[CustomerName]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span><span style="color:#d14">&#39;timvw&#39;</span>),<span style="color:#bbb"> </span><span style="color:#d14">&#39;tim pub4&#39;</span>,<span style="color:#bbb"> </span>SYSUTCDATETIME()),<span style="color:#bbb">
+</span><span style="color:#bbb">	</span>((<span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>[CustomerId]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[dbo].[Customer]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>[CustomerName]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span><span style="color:#d14">&#39;mike&#39;</span>),<span style="color:#bbb"> </span><span style="color:#d14">&#39;mike pub1&#39;</span>,<span style="color:#bbb"> </span>SYSUTCDATETIME()),<span style="color:#bbb">
+</span><span style="color:#bbb">	</span>((<span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>[CustomerId]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[dbo].[Customer]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>[CustomerName]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span><span style="color:#d14">&#39;mike&#39;</span>),<span style="color:#bbb"> </span><span style="color:#d14">&#39;mike pub2&#39;</span>,<span style="color:#bbb"> </span>SYSUTCDATETIME());<span style="color:#bbb"> 
+</span></code></pre></div><p>My colleague was keen on using some cursor logic, but I demonstrated him how a set-based alternative:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">WITH</span><span style="color:#bbb"> </span>[RankedPublication]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>(<span style="color:#bbb">	  
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>[CustomerId]<span style="color:#bbb">
+</span><span style="color:#bbb">		</span>,[PublicationId]<span style="color:#bbb">
+</span><span style="color:#bbb">		</span>,[PublicationName]<span style="color:#bbb">
+</span><span style="color:#bbb">		</span>,[PublicationTime]<span style="color:#bbb">
+</span><span style="color:#bbb">		</span>,ROW_NUMBER()<span style="color:#bbb"> </span>OVER(PARTITION<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">BY</span><span style="color:#bbb"> </span>[CustomerId]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ORDER</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">BY</span><span style="color:#bbb"> </span>[PublicationTime])<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>[PublicationRank]<span style="color:#bbb">
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[dbo].[Publication]<span style="color:#bbb">
+</span><span style="color:#bbb"></span>),<span style="color:#bbb"> </span>[ExcessPublication]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>(<span style="color:#bbb">	  
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>[PublicationId]<span style="color:#bbb">	  
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[RankedPublication]<span style="color:#bbb">	  
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">INNER</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">JOIN</span><span style="color:#bbb"> </span>[dbo].[Customer]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ON</span><span style="color:#bbb"> </span>[Customer].[CustomerId]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>[RankedPublication].[CustomerId]<span style="color:#bbb">	  
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>[PublicationRank]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">&gt;</span><span style="color:#bbb"> </span>[Customer].[PermittedPublications]<span style="color:#bbb">
+</span><span style="color:#bbb"></span>)<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">DELETE</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[dbo].[Publication]<span style="color:#bbb">	  
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>[PublicationId]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IN</span><span style="color:#bbb"> </span>(<span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>[PublicationId]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[ExcessPublication]);<span style="color:#bbb">
+</span></code></pre></div>
 						</div>
 			
 						<div class="tags">
@@ -502,7 +501,7 @@ cat repositories.txt | xargs -l1 git clone
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

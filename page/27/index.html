@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.92.2" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Tim Van Wassenhove - Passionate geek, interested in Technology. Proud father of two </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://timvw.be/feed.xml" title="Tim Van Wassenhove" />
 	<meta itemprop="name" content="Tim Van Wassenhove">
-<meta itemprop="description" content="">
-<meta property="og:title" content="Tim Van Wassenhove" />
+<meta itemprop="description" content=""><meta property="og:title" content="Tim Van Wassenhove" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-11-08T15:31:18+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -77,7 +76,7 @@
 								
 						<div class="markdown">
 							<p>Consider the following xml file:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
 <span style="color:#998;font-style:italic">&lt;!-- some comment --&gt;</span>
 <span style="color:#000080">&lt;root&gt;</span>
 <span style="color:#000080">&lt;/root&gt;</span>
@@ -88,7 +87,7 @@
 </blockquote>
 <p>Since there is only 1 root element (ever), i assumed that if you <a href="http://msdn2.microsoft.com/en-us/library/system.xml.xmldocument.load.aspx">Load</a> this file with <a href="http://msdn2.microsoft.com/en-us/library/system.xml.xmldocument.aspx">XmlDocument</a> their would be only one <a href="http://msdn2.microsoft.com/en-us/library/system.xml.xmlnode.aspx">XmlNode</a> in the document <a href="http://msdn2.microsoft.com/en-us/library/system.xml.xmlnode.childnodes.aspx">ChildNodes</a>. In reality there ChildNodes.Count returns 4.</p>
 <p>The simplest way to write this XmlDocument without the declaration would be as following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">XmlWriterSettings xmlWriterSettings = <span style="color:#000;font-weight:bold">new</span> XmlWriterSettings();
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">XmlWriterSettings xmlWriterSettings = <span style="color:#000;font-weight:bold">new</span> XmlWriterSettings();
 xmlWriterSettings.OmitXmlDeclaration = <span style="color:#000;font-weight:bold">true</span>;
 xmlWriterSettings.Encoding = Encoding.UTF8;
 <span style="color:#000;font-weight:bold">using</span> (XmlWriter writer = XmlWriter.Create(<span style="color:#d14">@&#34;result.xml&#34;</span>, xmlWriterSettings))
@@ -129,7 +128,7 @@ xmlWriterSettings.Encoding = Encoding.UTF8;
 								
 						<div class="markdown">
 							<p>Sometimes i don&rsquo;t want a costly function to be performed unless it&rsquo;s really necessary. In Patterns of Enterprise Application Architecture it&rsquo;s described as <a href="http://www.martinfowler.com/eaaCatalog/lazyLoad.html">Lazy Load</a>. Anyway, in order to achieve that i&rsquo;ve written a wrapper for <a href="http://msdn2.microsoft.com/en-us/library/system.runtime.remoting.proxies.realproxy.aspx">RealProxy</a></p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">DeferredExecutionHelper</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">DeferredExecutionHelper</span>
 {
 	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> IList&lt;Tresult&gt; GetListHelper&lt;T, TResult&gt;(Func&lt;T, IList&lt;Tresult&gt;&gt; costlyFunction, T t)
 	{
@@ -142,7 +141,7 @@ xmlWriterSettings.Encoding = Encoding.UTF8;
 	}
 }
 </code></pre></div><p>Here are a couple of unittests that demonstrate how the wrapper can be used for MarshalByRefObjects</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestMethod]</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestMethod]</span>
 <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> GetHelperTestDeferredExecution()
 {
 	<span style="color:#458;font-weight:bold">string</span> expectedParameter = <span style="color:#d14">&#34;x&#34;</span>;
@@ -173,7 +172,7 @@ xmlWriterSettings.Encoding = Encoding.UTF8;
 	Assert.AreEqual(expectedResult.Amounts, actualResult.Amounts);
 }
 </code></pre></div><p>I&rsquo;ve also added a helper method that allows you to defer execution of methods that return an IList of T. Here are some tests that demonstrate it&rsquo;s usage</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestMethod]</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestMethod]</span>
 <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> GetListHelperTestDeferredExecution()
 {
 	<span style="color:#458;font-weight:bold">double</span> expectedParameter = <span style="color:#099">1</span>;
@@ -321,7 +320,7 @@ Resources1.notaculture.resx =&gt; RootNamespace.Resources1.notaculture =&gt; Bui
 								
 						<div class="markdown">
 							<p>A while ago i <a href="http://www.timvw.be/programming-the-csproj-file/">posted some code that allows you to update the Assembly references</a>. Here is some code that uses the <a href="http://msdn2.microsoft.com/en-us/library/bb130146(VS.80).aspx">Team Foundation Server SDK</a> that checks the csproj files out and updates their references. Afterwards it&rsquo;s possible to check the modified csproj files in with a reference to a WorkItem (or to undo the checkout in case no modifications were made).</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main()
 {
 	<span style="color:#458;font-weight:bold">string</span> tfsServerName = <span style="color:#d14">&#34;tfsrtm08&#34;</span>;
 	<span style="color:#458;font-weight:bold">string</span> projectsPath = <span style="color:#d14">@&#34;D:\Projects&#34;</span>;
@@ -416,7 +415,7 @@ Resources1.notaculture.resx =&gt; RootNamespace.Resources1.notaculture =&gt; Bui
 								
 						<div class="markdown">
 							<p>Imagine that you have a couple of project files that reference framework libraries that are on a buildserver. Upgrading to a newer version requires that you update all the references&hellip; I wrote some wrapper classes (<a href="http://www.timvw.be/wp-content/code/csharp/ProjectFile.txt">ProjectFile</a>, <a href="http://www.timvw.be/wp-content/code/csharp/AssemblyReference.txt">AssemblyReference</a>) that make this tedious task a breeze. Here is an example of their usage</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">string</span> path = <span style="color:#d14">&#34;D:\\Projects\\MyProject&#34;</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">string</span> path = <span style="color:#d14">&#34;D:\\Projects\\MyProject&#34;</span>;
 <span style="color:#458;font-weight:bold">string</span>[] projectFileNames = ProjectFile.Find(path);
 <span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">string</span> projectFileName <span style="color:#000;font-weight:bold">in</span> projectFileNames)
 {
@@ -475,7 +474,7 @@ Resources1.notaculture.resx =&gt; RootNamespace.Resources1.notaculture =&gt; Bui
 								
 						<div class="markdown">
 							<p>Earlier today i wrote ManagedIpHelper, a wrapper for <a href="http://msdn2.microsoft.com/en-us/library/aa366073.aspx">IP Helper API</a> it&rsquo;s <a href="http://msdn2.microsoft.com/en-us/library/aa365928.aspx">GetExtendedTcpTable</a>. Using this wrapper i could easily create my own version of netstat.exe. The following code generates the same output (but much faster) than &ldquo;netstat.exe -anvbp tcp&rdquo;</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
 {
 	Console.WriteLine(<span style="color:#d14">&#34;Active Connections&#34;</span>);
 	Console.WriteLine();
@@ -540,7 +539,7 @@ Resources1.notaculture.resx =&gt; RootNamespace.Resources1.notaculture =&gt; Bui
 								
 						<div class="markdown">
 							<p>Apart from Microsoft.SqlServerCe.Client.SqlCeClientFactory in Microsoft.SqlServerCe.Client (an undocumented and unsupported library) there is no DbProviderFactory for System.Data.SqlServerCe. Today i decided to write a SqlCeClientFactory</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">SqlCeClientFactory</span> : DbProviderFactory
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">SqlCeClientFactory</span> : DbProviderFactory
 {
 	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">readonly</span> SqlCeClientFactory Instance = <span style="color:#000;font-weight:bold">new</span> SqlCeClientFactory();
 
@@ -570,7 +569,7 @@ Resources1.notaculture.resx =&gt; RootNamespace.Resources1.notaculture =&gt; Bui
 	}
 }
 </code></pre></div><p>As you can see, the implementation is trivial, so i still wonder why microsoft didn&rsquo;t provide it. Anyway, here is how our App.config would look like if we wanted to register and use the SqlCeClientFactory (we could also install the assembly in the GAC and edit machine.config so that all applications can take advantage of it)</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;configuration&gt;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;configuration&gt;</span>
 	<span style="color:#000080">&lt;connectionStrings&gt;</span>
 		<span style="color:#000080">&lt;add</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;localdb&#34;</span> <span style="color:#008080">providerName=</span><span style="color:#d14">&#34;System.Data.SqlServerCe&#34;</span> <span style="color:#008080">connectionString=</span><span style="color:#d14">&#34;Data Source=&#39;localdb.sdf&#39;;&#34;</span><span style="color:#000080">/&gt;</span>
 	<span style="color:#000080">&lt;/connectionStrings&gt;</span>
@@ -581,7 +580,7 @@ Resources1.notaculture.resx =&gt; RootNamespace.Resources1.notaculture =&gt; Bui
 	<span style="color:#000080">&lt;/system.data&gt;</span>
 <span style="color:#000080">&lt;/configuration&gt;</span>
 </code></pre></div><p>And now we can use the <a href="http://www.timvw.be/helper-methods-for-dbconnection/">DbConnectionHelper</a> to create a DbConnection and do some work</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
 {
 	<span style="color:#000;font-weight:bold">using</span> (DbConnection conn = DbConnectionHelper.GetConnection(<span style="color:#d14">&#34;localdb&#34;</span>))
 	{
@@ -629,12 +628,12 @@ Resources1.notaculture.resx =&gt; RootNamespace.Resources1.notaculture =&gt; Bui
 <!-- raw HTML omitted -->
 </blockquote>
 <p>My first attempt was to simulate the problem. I added an entry in my hosts file so that example.com resolves to 192.168.10.1 (My machine&rsquo;s IP address) and wrote the following code</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">EndpointReference epr = <span style="color:#000;font-weight:bold">new</span> EndpointReference(<span style="color:#000;font-weight:bold">new</span> Uri(<span style="color:#d14">&#34;soap.tcp://example.com:9090/BookService&#34;</span>));
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">EndpointReference epr = <span style="color:#000;font-weight:bold">new</span> EndpointReference(<span style="color:#000;font-weight:bold">new</span> Uri(<span style="color:#d14">&#34;soap.tcp://example.com:9090/BookService&#34;</span>));
 SoapReceivers.Add(epr, <span style="color:#000;font-weight:bold">typeof</span>(BookService));
 </code></pre></div><p>When i tried to run this code i received an ArgumentException: &ldquo;WSE813: The following transport address could not be mapped to a local network interface: soap.tcp://example.com:9090/BookService&rdquo;. My intuition said that i should help the infrastructure a little</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">EndpointReference epr = <span style="color:#000;font-weight:bold">new</span> EndpointReference(<span style="color:#000;font-weight:bold">new</span> Uri(<span style="color:#d14">&#34;soap.tcp://192.168.10.1:9090/BookService&#34;</span>));
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">EndpointReference epr = <span style="color:#000;font-weight:bold">new</span> EndpointReference(<span style="color:#000;font-weight:bold">new</span> Uri(<span style="color:#d14">&#34;soap.tcp://192.168.10.1:9090/BookService&#34;</span>));
 </code></pre></div><p>The application started fine this time, but when i used wsewsdl3.exe to generate the proxy i received the following error: Destination Unreachable. Anyway, after a lot of experimenting i found that the following method allows me to generate a proxy using the DNS name</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> EndpointReference GetEndpointReference(<span style="color:#458;font-weight:bold">string</span> host, <span style="color:#458;font-weight:bold">int</span> port, <span style="color:#458;font-weight:bold">string</span> path)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> EndpointReference GetEndpointReference(<span style="color:#458;font-weight:bold">string</span> host, <span style="color:#458;font-weight:bold">int</span> port, <span style="color:#458;font-weight:bold">string</span> path)
 {
 	<span style="color:#998;font-style:italic">// we happy:
 </span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// for the Address part we use the DNS name
@@ -690,7 +689,7 @@ SoapReceivers.Add(epr, <span style="color:#000;font-weight:bold">typeof</span>(B
 								
 						<div class="markdown">
 							<p>Today we ran into a nasty problem with <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.datetimepickerformat.aspx">DateTimePickerFormat</a>.Custom. We allow the user to input a month/date with a DateTimePicker as following (nothing fancy)</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Form1_Load(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Form1_Load(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
 {
 	<span style="color:#000;font-weight:bold">this</span>.dateTimePicker1.Value = <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">8</span>, <span style="color:#099">31</span>);
 	<span style="color:#000;font-weight:bold">this</span>.dateTimePicker1.Format = DateTimePickerFormat.Custom;
@@ -698,7 +697,7 @@ SoapReceivers.Add(epr, <span style="color:#000;font-weight:bold">typeof</span>(B
 }
 </code></pre></div><p>Now, change to 09/2007 and notice that you get an Exception, because the control tries to create an unrepresentable new DateTime(2007, 8+1, 31). Thus, if you&rsquo;re going to use the DateTimePicker for MM/yyyy input make sure to set it&rsquo;s value to a DateTimeTime with a day component that exists for all months/years (thus a value between 1 and 28).</p>
 <p><strong>Addendum:</strong> As usual, super moderator and MVP <a href="https://mvp.support.microsoft.com/default.aspx/profile=6c93adc6-026f-42bf-823c-8e65ca732af2">Hans Passant</a> provided a nice workaround for the problem:)</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MonthPicker</span> : DateTimePicker 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MonthPicker</span> : DateTimePicker 
 {
 	<span style="color:#000;font-weight:bold">public</span> MonthPicker() 
 	{
@@ -710,7 +709,7 @@ SoapReceivers.Add(epr, <span style="color:#000;font-weight:bold">typeof</span>(B
 	
 	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">void</span> WndProc(<span style="color:#000;font-weight:bold">ref</span> Message m) 
 	{
-		<span style="color:#000;font-weight:bold">if</span> (m.Msg == <span style="color:#099">0</span>x204e) 
+		<span style="color:#000;font-weight:bold">if</span> (m.Msg == <span style="color:#099">0x204e</span>) 
 		{
 			NMHDR hdr = (NMHDR)m.GetLParam(<span style="color:#000;font-weight:bold">typeof</span>(NMHDR));
 				<span style="color:#000;font-weight:bold">if</span> (hdr.code == -<span style="color:#099">759</span>) 
@@ -791,7 +790,7 @@ SoapReceivers.Add(epr, <span style="color:#000;font-weight:bold">typeof</span>(B
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

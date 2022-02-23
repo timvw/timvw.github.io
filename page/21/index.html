@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.92.2" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Tim Van Wassenhove - Passionate geek, interested in Technology. Proud father of two </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://timvw.be/feed.xml" title="Tim Van Wassenhove" />
 	<meta itemprop="name" content="Tim Van Wassenhove">
-<meta itemprop="description" content="">
-<meta property="og:title" content="Tim Van Wassenhove" />
+<meta itemprop="description" content=""><meta property="og:title" content="Tim Van Wassenhove" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-11-08T15:31:18+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -78,15 +77,15 @@
 						<div class="markdown">
 							<p>Yesterday i blogged about an <a href="http://www.timvw.be/presenting-applicationenvironment/">ApplicationEnvironment</a> which had a dependency on the application configuration file. With my <a href="http://www.timvw.be/presenting-configurationfilesession/">ConfigurationFileSession</a> i was able to test the implementation despite that dependency. Today i modified the design a little so that i do not require the ConfigurationFileSession hack anymore.</p>
 <p>First i added an internal constructor as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">internal</span> <span style="color:#000;font-weight:bold">protected</span> ApplicationEnvironment(DateTime instanceEpoch, DateTime applicationEpoch)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">internal</span> <span style="color:#000;font-weight:bold">protected</span> ApplicationEnvironment(DateTime instanceEpoch, DateTime applicationEpoch)
 {
 	<span style="color:#000;font-weight:bold">this</span>.instanceEpoch = instanceEpoch;
 	<span style="color:#000;font-weight:bold">this</span>.applicationEpoch = applicationEpoch;
 }
 </code></pre></div><p>Then i made the internals visible to the test project</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[assembly: InternalsVisibleTo(&#34;Be.Timvw.Framework.Domain.Tests&#34;)]</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[assembly: InternalsVisibleTo(&#34;Be.Timvw.Framework.Domain.Tests&#34;)]</span>
 </code></pre></div><p>And finally i added a base class that takes care of the initialization and clean up as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestInitialize]</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestInitialize]</span>
 <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> TestInitialize()
 {
 	<span style="color:#000;font-weight:bold">this</span>.original = ApplicationEnvironment.Instance;
@@ -130,7 +129,7 @@
 								
 						<div class="markdown">
 							<p>A while ago i presented the <a href="http://www.timvw.be/presenting-a-generic-effectivitymanager/">EffectivityManager</a>. Having used this class for a while i have decided to rename it to Temporal<!-- raw HTML omitted -->. The implementation of IList<!-- raw HTML omitted --> is not required anymore because a user is typically only interested in a specific effectivity, not the evolution of the effectivities.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> ITemporal&lt;T&gt;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> ITemporal&lt;T&gt;
 {
 	<span style="color:#000;font-weight:bold">void</span> Modify(T element, DateTime <span style="color:#000;font-weight:bold">from</span>);
 	IEffectivity&lt;T&gt; GetSnapshot(DateTime validityDate);
@@ -171,7 +170,7 @@
 								
 						<div class="markdown">
 							<p>Imagine we are an ice cream vendor. During summer months our available capacity is twice as high as in the rest of the year. In code this problem looks like the following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> AvailableCapacity
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> AvailableCapacity
 {
 	<span style="color:#000;font-weight:bold">get</span>
 	{
@@ -182,7 +181,7 @@
 	} 
 }
 </code></pre></div><p>This code is pretty difficult to test because it depends on DateTime.UtcNow. In order to get control over that dependency i have defined an ApplicationEnvironment and rewritten the code as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> AvailableCapacity
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> AvailableCapacity
 {
 	<span style="color:#000;font-weight:bold">get</span>
 	{
@@ -193,7 +192,7 @@
 	} 
 }
 </code></pre></div><p>Now i can use my <a href="http://www.timvw.be/presenting-configurationfilesession/">ConfigurationFileSession</a> to test this code</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestMethod]</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestMethod]</span>
 <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldReturn10000InSummer()
 {
 	<span style="color:#000;font-weight:bold">using</span> (<span style="color:#000;font-weight:bold">new</span> ConfigurationFileSession(<span style="color:#d14">&#34;Summer.config&#34;</span>))
@@ -244,7 +243,7 @@
 								
 						<div class="markdown">
 							<p>Here is a little class that allows you to use different configuration files. I find it extremely useful for tests where i want to mock the values that would be retrieved via the <a href="http://msdn.microsoft.com/en-us/library/system.configuration.configurationmanager.aspx">ConfigurationManager</a>. Here are a couple of examples how it can be used</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestMethod]</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestMethod]</span>
 <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldUseSystemTimeWhenNoValuesAreProvided()
 {
 	<span style="color:#000;font-weight:bold">using</span> (<span style="color:#000;font-weight:bold">new</span> ConfigurationFileSession(<span style="color:#d14">&#34;WithoutDateTimeManipulation.config&#34;</span>))
@@ -335,7 +334,7 @@
 								
 						<div class="markdown">
 							<p><a href="http://en.wikipedia.org/wiki/Xaml">XAML</a> provides us a way to declare objects with xml. Because i don&rsquo;t want to clutter my domain classes with attributes like <a href="http://msdn.microsoft.com/en-us/library/system.componentmodel.typeconverterattribute.aspx">TypeConverterAttribute</a>, i needed a different approach to manipulate the parsing. This is where custom <a href="http://msdn.microsoft.com/en-us/library/system.windows.markup.markupextension.aspx">MarkupExtension</a>s come to the rescue. Here is an example where i use the <a href="http://msdn.microsoft.com/en-us/library/ms752340.aspx">x:Array MarkupExtension</a> in order to load a list of Lines into my IList<!-- raw HTML omitted --> Lines property</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
 <span style="color:#000080">&lt;d:Address</span> <span style="color:#008080">xmlns:x=</span><span style="color:#d14">&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34;</span> <span style="color:#008080">xmlns:s=</span><span style="color:#d14">&#34;clr-namespace:System;assembly=mscorlib&#34;</span> <span style="color:#008080">xmlns:d=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Domain;assembly=XamlDemo&#34;</span> <span style="color:#008080">xmlns:e=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo&#34;</span><span style="color:#000080">&gt;</span>
 	<span style="color:#000080">&lt;d:Address.Lines&gt;</span>
 		<span style="color:#000080">&lt;x:Array</span> <span style="color:#008080">Type=</span><span style="color:#d14">&#34;s:String&#34;</span><span style="color:#000080">&gt;</span>
@@ -345,7 +344,7 @@
 	<span style="color:#000080">&lt;/d:Address.Lines&gt;</span>
 <span style="color:#000080">&lt;/d:Address&gt;</span>
 </code></pre></div><p>By default all XAML documents have all the data embedded. Sometimes this is undesirable so i decided to define External and ExternalList MarkupExtensions that allow us to specify that the resource is elsewhere available. Here is an example of Jeff who has one address in a different file, Domain\Address\Leuven\Brusselsestraat_400.xaml</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
 <span style="color:#000080">&lt;d:Person</span> <span style="color:#008080">xmlns:x=</span><span style="color:#d14">&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34;</span> <span style="color:#008080">xmlns:s=</span><span style="color:#d14">&#34;clr-namespace:System;assembly=mscorlib&#34;</span> <span style="color:#008080">xmlns:d=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Domain;assembly=XamlDemo&#34;</span> <span style="color:#008080">xmlns:e=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo&#34;</span> <span style="color:#008080">Name=</span><span style="color:#d14">&#34;Jeff&#34;</span> <span style="color:#008080">Birthday=</span><span style="color:#d14">&#34;{e:DateTime 14/10/1972}&#34;</span><span style="color:#000080">&gt;</span>
 	<span style="color:#000080">&lt;d:Person.Addresses&gt;</span>
 		<span style="color:#000080">&lt;e:ExternalList</span> <span style="color:#008080">Type=</span><span style="color:#d14">&#34;XamlDemo.Domain.Address&#34;</span><span style="color:#000080">&gt;</span>
@@ -358,14 +357,14 @@
 	<span style="color:#000080">&lt;/d:Person.Addresses&gt;</span>
 <span style="color:#000080">&lt;/d:Person&gt;</span>
 </code></pre></div><p>It is also possible to have multiple redirections. Here is an example of Tim who has two addresses defined in Domain\Address\ForPerson\Tim.xaml</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
 <span style="color:#000080">&lt;d:Person</span> <span style="color:#008080">xmlns:x=</span><span style="color:#d14">&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34;</span> <span style="color:#008080">xmlns:s=</span><span style="color:#d14">&#34;clr-namespace:System;assembly=mscorlib&#34;</span> <span style="color:#008080">xmlns:d=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Domain;assembly=XamlDemo&#34;</span> <span style="color:#008080">xmlns:e=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo&#34;</span> <span style="color:#008080">Name=</span><span style="color:#d14">&#34;Tim&#34;</span> <span style="color:#008080">Birthday=</span><span style="color:#d14">&#34;{e:DateTime 30/04/1980}&#34;</span><span style="color:#000080">&gt;</span>
 	<span style="color:#000080">&lt;d:Person.Addresses&gt;</span>
 		<span style="color:#000080">&lt;e:External</span> <span style="color:#008080">Type=</span><span style="color:#d14">&#34;XamlDemo.Domain.Address&#34;</span> <span style="color:#008080">Resource=</span><span style="color:#d14">&#34;Domain.Address.ForPerson.Tim&#34;</span> <span style="color:#000080">/&gt;</span>
 	<span style="color:#000080">&lt;/d:Person.Addresses&gt;</span>
 <span style="color:#000080">&lt;/d:Person&gt;</span>
 </code></pre></div><p>And here is the definition for Domain\Address\ForPerson\Tim.xaml</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
 <span style="color:#000080">&lt;e:ExternalList</span> <span style="color:#008080">xmlns:x=</span><span style="color:#d14">&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34;</span> <span style="color:#008080">xmlns:s=</span><span style="color:#d14">&#34;clr-namespace:System;assembly=mscorlib&#34;</span> <span style="color:#008080">xmlns:d=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Domain;assembly=XamlDemo&#34;</span> <span style="color:#008080">xmlns:e=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo&#34;</span> <span style="color:#008080">Type=</span><span style="color:#d14">&#34;XamlDemo.Domain.Address&#34;</span><span style="color:#000080">&gt;</span>
 	<span style="color:#000080">&lt;e:ExternalList.Resources&gt;</span>
 		<span style="color:#000080">&lt;x:Array</span> <span style="color:#008080">Type=</span><span style="color:#d14">&#34;s:String&#34;</span><span style="color:#000080">&gt;</span>
@@ -477,10 +476,10 @@
 								
 						<div class="markdown">
 							<p>One of the difficulties of using the <a href="http://msdn.microsoft.com/en-us/library/system.security.principal.windowsidentity.aspx">WindowsIdentity</a> class is the fact that it requires a handle (<a href="http://msdn.microsoft.com/en-us/library/system.intptr.aspx">IntPtr</a>) to a Windows Security Token. Using the <a href="http://msdn.microsoft.com/en-us/library/aa378184(VS.85).aspx">LogonUser</a> functionality we can get a hold of such a handle</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[DllImport(Advapi32File, CharSet = DefaultCharSet, SetLastError = DefaultSetLastError)]</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[DllImport(Advapi32File, CharSet = DefaultCharSet, SetLastError = DefaultSetLastError)]</span>
 <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">extern</span> <span style="color:#458;font-weight:bold">bool</span> LogonUser( <span style="color:#998;font-style:italic">/* other parameters */</span>, <span style="color:#000;font-weight:bold">out</span> IntPtr userTokenHandle);
 </code></pre></div><p>The easiest way to avoid memory leaks is to implement a custom <a href="http://msdn.microsoft.com/en-us/library/system.runtime.interopservices.safehandle.aspx">SafeHandle</a></p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">SafeTokenHandle</span> : SafeHandleZeroOrMinusOneIsInvalid
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">SafeTokenHandle</span> : SafeHandleZeroOrMinusOneIsInvalid
 {
 	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">internal</span> SafeTokenHandle()
 	: <span style="color:#000;font-weight:bold">base</span>(<span style="color:#000;font-weight:bold">true</span>)
@@ -498,10 +497,10 @@
 	}
 }
 </code></pre></div><p>With that SafeHandle in place we can change the signature to</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[DllImport(Advapi32File, CharSet = DefaultCharSet, SetLastError = DefaultSetLastError)]</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[DllImport(Advapi32File, CharSet = DefaultCharSet, SetLastError = DefaultSetLastError)]</span>
 <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">extern</span> <span style="color:#458;font-weight:bold">bool</span> LogonUser( <span style="color:#998;font-style:italic">/* other parameters */</span>, <span style="color:#000;font-weight:bold">out</span> SafeTokenHandle userTokenHandle);
 </code></pre></div><p>With the Be.Timvw.Framework.Security.Principal.WindowsIdentityHelper we can now easily obtain a WindowsIdentity and use it to do some impersonation</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">using(WindowsIdentityHelper windowsIdentityHelper = <span style="color:#000;font-weight:bold">new</span> WindowsIdentityHelper(username, domain, password))
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">using(WindowsIdentityHelper windowsIdentityHelper = <span style="color:#000;font-weight:bold">new</span> WindowsIdentityHelper(username, domain, password))
 using(windowsIdentityHelper.GetWindowsIdentity().Impersonate())
 {
 	File.WriteAllText(<span style="color:#d14">@&#34;c:\temp\blah.txt&#34;</span>, <span style="color:#d14">&#34;hello there&#34;</span>);
@@ -575,7 +574,7 @@ using(windowsIdentityHelper.GetWindowsIdentity().Impersonate())
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

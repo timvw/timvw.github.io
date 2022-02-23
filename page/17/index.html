@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.92.2" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Tim Van Wassenhove - Passionate geek, interested in Technology. Proud father of two </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://timvw.be/feed.xml" title="Tim Van Wassenhove" />
 	<meta itemprop="name" content="Tim Van Wassenhove">
-<meta itemprop="description" content="">
-<meta property="og:title" content="Tim Van Wassenhove" />
+<meta itemprop="description" content=""><meta property="og:title" content="Tim Van Wassenhove" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-11-08T15:31:18+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -115,11 +114,11 @@
 <p>There are times when the returning a static value is not good enough for the scenario that you are testing, so for those cases, you can use the Do() handler to add custom behavior when the method is called. In general, the Do() handler simply replaces the method call. Its return value will be returned from the mocked call (as well as any exception thrown). The handler&rsquo;s signature must match the method signature, since it gets the same parameters as the call.</p>
 </blockquote>
 <p>There are quite a lot of delegates defined in Rhino.Mocks.Delegates but none of them has an output parameter so we got stuck when we tried to mock a method with the following signature:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">bool</span> TryGet(<span style="color:#458;font-weight:bold">int</span> id, <span style="color:#000;font-weight:bold">out</span> Entity entity);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">bool</span> TryGet(<span style="color:#458;font-weight:bold">int</span> id, <span style="color:#000;font-weight:bold">out</span> Entity entity);
 </code></pre></div><p>Luckily enough it didn&rsquo;t take too long before i realised we could simply define our own delegate:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">delegate</span> <span style="color:#458;font-weight:bold">bool</span> TryGetMethod&lt;keyType, ValueType&gt;(KeyType key, <span style="color:#000;font-weight:bold">out</span> ValueType <span style="color:#000;font-weight:bold">value</span>);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">delegate</span> <span style="color:#458;font-weight:bold">bool</span> TryGetMethod&lt;keyType, ValueType&gt;(KeyType key, <span style="color:#000;font-weight:bold">out</span> ValueType <span style="color:#000;font-weight:bold">value</span>);
 </code></pre></div><p>And now we can easily setup a result for our method:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">myEntityRepository
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">myEntityRepository
 .Stub(repository =&gt; repository.TryGet(<span style="color:#099">0</span>, <span style="color:#000;font-weight:bold">out</span> myEntity);)
 .IgnoreArguments()
 .Do((TryGetMethod&lt;<span style="color:#458;font-weight:bold">int</span>, MyEntity&gt;)<span style="color:#000;font-weight:bold">delegate</span>(<span style="color:#458;font-weight:bold">int</span> id, <span style="color:#000;font-weight:bold">out</span> MyEntity entity)
@@ -163,7 +162,7 @@ entity = <span style="color:#000;font-weight:bold">new</span> MyEntity();
 <p>In a typical Stopwatch scenario, you call the Start method, then eventually call the Stop method, and then you check elapsed time using the Elapsed property.</p>
 </blockquote>
 <p>I find it a shame that they didn&rsquo;t provide a method that covers this particular scenario so i did it myself</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Stopwatch</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Stopwatch</span>
 {
 	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> TimeSpan Measure(<span style="color:#000;font-weight:bold">this</span> Action action)
 	{
@@ -175,7 +174,7 @@ entity = <span style="color:#000;font-weight:bold">new</span> MyEntity();
 	}
 }
 </code></pre></div><p>Consuming this method is as simple as</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">var</span> duration = Stopwatch.Measure(() =&gt; FindElement(<span style="color:#099">10000</span>));
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">var</span> duration = Stopwatch.Measure(() =&gt; FindElement(<span style="color:#099">10000</span>));
 Console.WriteLine(<span style="color:#d14">&#34;It took {0:0} seconds.&#34;</span>, duration.TotalSeconds);
 </code></pre></div>
 						</div>
@@ -441,7 +440,7 @@ Console.WriteLine(<span style="color:#d14">&#34;It took {0:0} seconds.&#34;</spa
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

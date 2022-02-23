@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.92.2" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Tim Van Wassenhove - Passionate geek, interested in Technology. Proud father of two </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://timvw.be/feed.xml" title="Tim Van Wassenhove" />
 	<meta itemprop="name" content="Tim Van Wassenhove">
-<meta itemprop="description" content="">
-<meta property="og:title" content="Tim Van Wassenhove" />
+<meta itemprop="description" content=""><meta property="og:title" content="Tim Van Wassenhove" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-11-08T15:31:18+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -77,17 +76,17 @@
 								
 						<div class="markdown">
 							<p>A while ago i wrote that i had created two .reg files to update my Internet Options / Lan Settings (<a href="http://www.timvw.be/automating-the-configuration-of-internet-options-and-lan-settings/">Automating the configuration of Internet Options / Lan Settings</a>). Yesterday i build a little Windows Service that automates this completely. With <a href="http://windowssdk.msdn.microsoft.com/en-gb/library/aa366329.aspx">NotifyAddrChange</a> i am notified whenever a change occurs in the table that maps IPv4 addresses to interfaces</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[DllImport(&#34;iphlpapi.dll&#34;, CharSet = CharSet.Ansi)]</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[DllImport(&#34;iphlpapi.dll&#34;, CharSet = CharSet.Ansi)]</span>
 <span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">extern</span> <span style="color:#458;font-weight:bold">int</span> NotifyAddrChange(<span style="color:#000;font-weight:bold">ref</span> IntPtr handle, IntPtr overlapped);
 </code></pre></div><p>The main loop of the service looks like this</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">while</span> (<span style="color:#000;font-weight:bold">this</span>.isRunning)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">while</span> (<span style="color:#000;font-weight:bold">this</span>.isRunning)
 {
 	IntPtr handle = IntPtr.Zero;
 	NotifyAddrChange(<span style="color:#000;font-weight:bold">ref</span> handle, IntPtr.Zero);
 	UpdateRegistry();
 }
 </code></pre></div><p>Whenever i&rsquo;m connected to the LAN at work i want to use a proxy. Here&rsquo;s the code that takes care of this</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> UpdateRegistry()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> UpdateRegistry()
 {
 	RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(<span style="color:#d14">@&#34;Software\Microsoft\Windows\CurrentVersion\Internet Settings&#34;</span>, <span style="color:#000;font-weight:bold">true</span>);
 	<span style="color:#000;font-weight:bold">if</span> (IsInWorkLan())
@@ -100,7 +99,7 @@
 	}
 }
 </code></pre></div><p>Figuring out whether i&rsquo;m connected to the LAN at work is pretty simple. As soon as i have an IPAddress that looks like 192.168.X.Y i&rsquo;m connected. Here&rsquo;s how i translated this into code</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> IsInWorkLan()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> IsInWorkLan()
 {
 	<span style="color:#000;font-weight:bold">foreach</span> (IPAddress ipAddress <span style="color:#000;font-weight:bold">in</span> Dns.GetHostAddresses(Dns.GetHostName()))
 	{
@@ -157,7 +156,7 @@
 							<p>The problem with a regular screenshot is that you only get to see a part of the DataGridViews. Here&rsquo;s an example of a typical form</p>
 <p><img src="http://www.timvw.be/wp-content/images/datagridviews-with-scrollbars.jpg" alt="image of datagridview with scrollbars"></p>
 <p>Here is a snippet that makes a screenshot of the complete DataGridViews</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">List&lt;bitmap&gt; bitmaps = <span style="color:#000;font-weight:bold">new</span> List&lt;bitmap&gt;();
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">List&lt;bitmap&gt; bitmaps = <span style="color:#000;font-weight:bold">new</span> List&lt;bitmap&gt;();
 Size size = <span style="color:#000;font-weight:bold">new</span> Size();
 
 <span style="color:#000;font-weight:bold">for</span> (<span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">1</span>; i &lt; <span style="color:#099">4</span>; ++i) 
@@ -277,7 +276,7 @@ Graphics g = Graphics.FromImage(bitmapComplete);
 								
 						<div class="markdown">
 							<p>Here are a couple of functions that allow you to convert from <a href="http://en.wikipedia.org/wiki/Unixtime">UnixTime</a> to <a href="http://msdn2.microsoft.com/en-us/library/system.datetime.aspx">DateTime</a> and back</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Util</span> {
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Util</span> {
 	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> DateTime UnixTime
 	{
 		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">1970</span>, <span style="color:#099">1</span>, <span style="color:#099">1</span>); }
@@ -358,7 +357,7 @@ Graphics g = Graphics.FromImage(bitmapComplete);
 								
 						<div class="markdown">
 							<p>Suppose you add a couple of buttons to a panel as shown below. What do you think the message in the MessageBoxes will be?</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form 
 {
 	<span style="color:#000;font-weight:bold">public</span> Form1() 
 	{
@@ -414,7 +413,7 @@ Graphics g = Graphics.FromImage(bitmapComplete);
 								
 						<div class="markdown">
 							<p>Earlier this week i found that when a <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.datagridview.aspx">DataGridView</a> has it&rsquo;s <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.datagridview.editmode.aspx">EditMode</a> property set to <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.datagridvieweditmode.aspx">EditOnEnter</a> the user cannot select an entire row by clicking on the row header. This prevents the user from being able to delete a row. A couple of websearches later i found a <a href="http://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=98504">bugreport</a> but the proposed workarounds didn&rsquo;t work for me 🙁 Here is a workaround that does work for me</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_MouseClick( <span style="color:#458;font-weight:bold">object</span> sender, MouseEventArgs e ) 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_MouseClick( <span style="color:#458;font-weight:bold">object</span> sender, MouseEventArgs e ) 
 {
 	DataGridView.HitTestInfo hitInfo = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.HitTest(e.X, e.Y);
 	<span style="color:#000;font-weight:bold">if</span>( hitInfo.Type == DataGridViewHitTestType.RowHeader ) 
@@ -461,7 +460,7 @@ Graphics g = Graphics.FromImage(bitmapComplete);
 								
 						<div class="markdown">
 							<p>Here is a bit of sample code that allows you to drag and drop a cellvalue in a DataGridView (don&rsquo;t forget to set the AllowDrop property of the DataGridView to true). Notice that you need to translate the X and Y properties of the DragEventArgs first (unlike the X and Y properties of the MouseEventArgs)</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_MouseDown( <span style="color:#458;font-weight:bold">object</span> sender, MouseEventArgs e )
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_MouseDown( <span style="color:#458;font-weight:bold">object</span> sender, MouseEventArgs e )
 {
 	DataGridView.HitTestInfo info = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.HitTest( e.X, e.Y );
 	<span style="color:#000;font-weight:bold">if</span> ( info.RowIndex != -<span style="color:#099">1</span> &amp;&amp; info.ColumnIndex != -<span style="color:#099">1</span> )
@@ -568,9 +567,9 @@ Graphics g = Graphics.FromImage(bitmapComplete);
 								
 						<div class="markdown">
 							<p>Last couple of days i&rsquo;ve been trying to add a couple (750+) columns into a DataGridView. Initially i tried the following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.dataGridView1.ColumnCount = <span style="color:#099">750</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.dataGridView1.ColumnCount = <span style="color:#099">750</span>;
 </code></pre></div><p>The code above results in the following error: <strong>Sum of the columns' FillWeight values cannot exceed 65535.</strong> Then i tried the following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">DataGridViewColumn[] columns = <span style="color:#000;font-weight:bold">new</span> DataGridViewColumn[<span style="color:#099">750</span>];
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">DataGridViewColumn[] columns = <span style="color:#000;font-weight:bold">new</span> DataGridViewColumn[<span style="color:#099">750</span>];
 <span style="color:#000;font-weight:bold">for</span> ( <span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">0</span>; i &lt; columns.Length; ++i ) 
 { 
 	DataGridViewColumn column = <span style="color:#000;font-weight:bold">new</span> DataGridViewColumn(); 
@@ -579,7 +578,7 @@ Graphics g = Graphics.FromImage(bitmapComplete);
 } 
 <span style="color:#000;font-weight:bold">this</span>.dataGridView1.Columns.AddRange( columns );
 </code></pre></div><p>This results in the following error: <strong>At least one of the DataGridView control&rsquo;s columns has no cell template.</strong> Thus i tried the following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">DataGridViewColumn[] columns = <span style="color:#000;font-weight:bold">new</span> DataGridViewColumn[<span style="color:#099">750</span>];
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">DataGridViewColumn[] columns = <span style="color:#000;font-weight:bold">new</span> DataGridViewColumn[<span style="color:#099">750</span>];
 <span style="color:#000;font-weight:bold">for</span> ( <span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">0</span>; i &lt; columns.Length; ++i ) 
 { 
 	DataGridViewColumn column = <span style="color:#000;font-weight:bold">new</span> DataGridViewTextBoxColumn(); 
@@ -625,7 +624,7 @@ Graphics g = Graphics.FromImage(bitmapComplete);
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

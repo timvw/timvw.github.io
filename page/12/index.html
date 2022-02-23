@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.92.2" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Tim Van Wassenhove - Passionate geek, interested in Technology. Proud father of two </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://timvw.be/feed.xml" title="Tim Van Wassenhove" />
 	<meta itemprop="name" content="Tim Van Wassenhove">
-<meta itemprop="description" content="">
-<meta property="og:title" content="Tim Van Wassenhove" />
+<meta itemprop="description" content=""><meta property="og:title" content="Tim Van Wassenhove" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-11-08T15:31:18+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -117,9 +116,9 @@
 <p>In order to provide interception, you must connect an IProxyFactory component to the kernel.</p>
 </blockquote>
 <p>If you search for implementations of IProxyFactory you will find the DynamicProxy2ProxyFactory and the LinFuProxyFactory classes. But how can you tell your kernel to use them? This is pretty simple (but hard to find on the web):</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Kernel.Components.Connect&lt;iproxyFactory&gt;(<span style="color:#000;font-weight:bold">new</span> DynamicProxy2ProxyFactory());
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Kernel.Components.Connect&lt;iproxyFactory&gt;(<span style="color:#000;font-weight:bold">new</span> DynamicProxy2ProxyFactory());
 </code></pre></div><p>Instead of writing this code to connect the ProxyFactory implementation you can also use the XXX module (which does it for you) as following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">var</span> kernel = <span style="color:#000;font-weight:bold">new</span> StandardKernel(<span style="color:#000;font-weight:bold">new</span> DynamicProxy2Module(), <span style="color:#000;font-weight:bold">new</span> BusinessModule());
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">var</span> kernel = <span style="color:#000;font-weight:bold">new</span> StandardKernel(<span style="color:#000;font-weight:bold">new</span> DynamicProxy2Module(), <span style="color:#000;font-weight:bold">new</span> BusinessModule());
 </code></pre></div>
 						</div>
 			
@@ -219,28 +218,28 @@
 								
 						<div class="markdown">
 							<p>Here is another problem i&rsquo;ve seen people solve once too many: Append one array to another. STOP. Revisit the problem. Can&rsquo;t you simply use List<!-- raw HTML omitted --> and move on to solving actual business problems? In case you really can&rsquo;t get rid of the arrays read the following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Given()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Given()
 {
 	source = <span style="color:#000;font-weight:bold">new</span>[] { SourceElement };
 	destination = <span style="color:#000;font-weight:bold">new</span>[] { DestinationElement };
 }
 </code></pre></div><p>and</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">When()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">When()
 {
 	source.AppendTo(<span style="color:#000;font-weight:bold">ref</span> destination);
 }
 </code></pre></div><p>and</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">ThenTheDestinationShouldStillHaveTheDestinationElement()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">ThenTheDestinationShouldStillHaveTheDestinationElement()
 {
 	Assert.AreEqual(DestinationElement, destination[<span style="color:#099">0</span>]);
 }
 </code></pre></div><p>and</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">ThenTheDestinationShouldHaveBeenExtendedWithTheSourceElement()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">ThenTheDestinationShouldHaveBeenExtendedWithTheSourceElement()
 {
 	Assert.AreEqual(SourceElement, destination[<span style="color:#099">1</span>]);
 }
 </code></pre></div><p>And here is the code which satisfies the requirements</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Extensions</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Extensions</span>
 {
 	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> AppendTo&lt;t&gt;(<span style="color:#000;font-weight:bold">this</span> T[] sourceArray, <span style="color:#000;font-weight:bold">ref</span> T[] destinationArray)
 	{
@@ -286,7 +285,7 @@
 								
 						<div class="markdown">
 							<p>If you have decided that your WebControl requires to maintain it&rsquo;s state you will want to figure out how to implement Control state. Most examples on the web will then create an array of objects and then hardcode the indices to find stuff back&hellip; Simply define a serializable inner class and use that instead of the &lsquo;magic array object&rsquo;. Eg</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">SilverlightHost</span> : WebControl
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">SilverlightHost</span> : WebControl
 {
 <span style="color:#008080">	[Serializable]</span>
 	<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">State</span>
@@ -395,7 +394,7 @@
 								
 						<div class="markdown">
 							<p>Here are a couple of methods that are missing on <a href="http://msdn.microsoft.com/en-us/library/ms668604.aspx">ObservableCollection<!-- raw HTML omitted --></a></p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ObservableCollectionExtensions</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ObservableCollectionExtensions</span>
 {
 	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> AddRange&lt;T&gt;(<span style="color:#000;font-weight:bold">this</span> ObservableCollection&lt;T&gt; observableCollection, IEnumerable&lt;T&gt; elements)
 	{
@@ -445,7 +444,7 @@
 								
 						<div class="markdown">
 							<p>Earlier today i decided to add &lsquo;Filtering&rsquo; to my SortableBindingList. This resulted in writing a <a href="http://www.timvw.be/wp-content/code/csharp/FilterList.txt">FilterList</a> class. This class can be easily used as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">void</span> textBoxFilter_KeyUp(<span style="color:#458;font-weight:bold">object</span> sender, KeyEventArgs e)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">void</span> textBoxFilter_KeyUp(<span style="color:#458;font-weight:bold">object</span> sender, KeyEventArgs e)
 {
 	<span style="color:#458;font-weight:bold">var</span> filterChars = <span style="color:#000;font-weight:bold">this</span>.textBoxFilter.Text.ToLower();
 	<span style="color:#000;font-weight:bold">this</span>.Filter(filterChars);
@@ -492,12 +491,12 @@
 								
 						<div class="markdown">
 							<p>Virtually every Silverlight application will fetch resources at one point or another. In case you&rsquo;re using the <a href="http://msdn.microsoft.com/en-us/library/system.net.webclient(VS.95).aspx">WebClient</a> you have probably written the following in your xxxCompletedEventHandler</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">if</span> (e.Error != <span style="color:#000;font-weight:bold">null</span> &amp;&amp; !e.Cancelled)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">if</span> (e.Error != <span style="color:#000;font-weight:bold">null</span> &amp;&amp; !e.Cancelled)
 {
 	<span style="color:#998;font-style:italic">// do something with the result
 </span><span style="color:#998;font-style:italic"></span>}
 </code></pre></div><p>Anyway, i don&rsquo;t like repetition so i captured the conditions in a method:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ExtensionMethods</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ExtensionMethods</span>
 {
 	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> HasResult(<span style="color:#000;font-weight:bold">this</span> AsyncCompletedEventArgs e)
 	{
@@ -507,7 +506,7 @@
 	}
 }
 </code></pre></div><p>And now we can write our code as:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">if</span> (e.HasResult())
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">if</span> (e.HasResult())
 {
 	<span style="color:#998;font-style:italic">// do something with the result
 </span><span style="color:#998;font-style:italic"></span>}
@@ -548,7 +547,7 @@
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

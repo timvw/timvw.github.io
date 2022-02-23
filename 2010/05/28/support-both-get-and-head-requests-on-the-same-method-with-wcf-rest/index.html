@@ -6,22 +6,18 @@
 	<meta itemprop="name" content="Support both GET and HEAD requests on the same method with WCF REST">
 <meta itemprop="description" content="A while ago i had to modify an existing WCF REST service which was being consumed by BITS. Apparently the implementation has changed in Windows7 in such a way that the BITS client first makes a HEAD request to discover the file size.
 The following attempts did not work
-// A method can not have both WebGet and WebInvoke attributes [OperationContract] [WebGet] [WebInvoke(Method=&#34;HEAD&#34;)] public Stream Download(string token) { } and">
-<meta itemprop="datePublished" content="2010-05-28T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-11-08T15:31:18+01:00" />
+// A method can not have both WebGet and WebInvoke attributes [OperationContract] [WebGet] [WebInvoke(Method=&#34;HEAD&#34;)] public Stream Download(string token) { } and"><meta itemprop="datePublished" content="2010-05-28T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-02-23T13:00:13+01:00" />
 <meta itemprop="wordCount" content="137">
-
-
-
-<meta itemprop="keywords" content="CSharp," />
-<meta property="og:title" content="Support both GET and HEAD requests on the same method with WCF REST" />
+<meta itemprop="keywords" content="CSharp," /><meta property="og:title" content="Support both GET and HEAD requests on the same method with WCF REST" />
 <meta property="og:description" content="A while ago i had to modify an existing WCF REST service which was being consumed by BITS. Apparently the implementation has changed in Windows7 in such a way that the BITS client first makes a HEAD request to discover the file size.
 The following attempts did not work
 // A method can not have both WebGet and WebInvoke attributes [OperationContract] [WebGet] [WebInvoke(Method=&#34;HEAD&#34;)] public Stream Download(string token) { } and" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2010/05/28/support-both-get-and-head-requests-on-the-same-method-with-wcf-rest/" />
+<meta property="og:url" content="https://timvw.be/2010/05/28/support-both-get-and-head-requests-on-the-same-method-with-wcf-rest/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2010-05-28T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-11-08T15:31:18+01:00" />
+<meta property="article:modified_time" content="2022-02-23T13:00:13+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Support both GET and HEAD requests on the same method with WCF REST"/>
 <meta name="twitter:description" content="A while ago i had to modify an existing WCF REST service which was being consumed by BITS. Apparently the implementation has changed in Windows7 in such a way that the BITS client first makes a HEAD request to discover the file size.
@@ -85,19 +81,19 @@ The following attempts did not work
 			<div class="markdown">
 				<p>A while ago i had to modify an existing <a href="http://msdn.microsoft.com/en-us/netframework/cc950529.aspx">WCF REST</a> service which was being consumed by <a href="http://en.wikipedia.org/wiki/Background_Intelligent_Transfer_Service">BITS</a>. Apparently the implementation has changed in Windows7 in such a way that the BITS client first makes a HEAD request to discover the file size.</p>
 <p>The following attempts did not work</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// A method can not have both WebGet and WebInvoke attributes
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// A method can not have both WebGet and WebInvoke attributes
 </span><span style="color:#998;font-style:italic"></span><span style="color:#008080">[OperationContract]</span>
 <span style="color:#008080">[WebGet]</span>
 <span style="color:#008080">[WebInvoke(Method=&#34;HEAD&#34;)]</span>
 <span style="color:#000;font-weight:bold">public</span> Stream Download(<span style="color:#458;font-weight:bold">string</span> token) { }
 </code></pre></div><p>and</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// A method can not have multiple WebInvoke attributes
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// A method can not have multiple WebInvoke attributes
 </span><span style="color:#998;font-style:italic"></span><span style="color:#008080">[OperationContract]</span>
 <span style="color:#008080">[WebInvoke(Method=&#34;GET&#34;)]</span>
 <span style="color:#008080">[WebInvoke(&#34;HEAD&#34;)]</span>
 <span style="color:#000;font-weight:bold">public</span> Stream Download(<span style="color:#458;font-weight:bold">string</span> token) { }
 </code></pre></div><p>The trick is to use * as Method and handle the method related logic in your code</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[OperationContract]</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[OperationContract]</span>
 <span style="color:#008080">[WebInvoke(Method=&#34;*&#34;)]</span>
 <span style="color:#000;font-weight:bold">public</span> Stream Download(<span style="color:#458;font-weight:bold">string</span> token)
 {
@@ -123,7 +119,7 @@ The following attempts did not work
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

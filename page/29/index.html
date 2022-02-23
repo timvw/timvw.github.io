@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.92.2" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Tim Van Wassenhove - Passionate geek, interested in Technology. Proud father of two </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://timvw.be/feed.xml" title="Tim Van Wassenhove" />
 	<meta itemprop="name" content="Tim Van Wassenhove">
-<meta itemprop="description" content="">
-<meta property="og:title" content="Tim Van Wassenhove" />
+<meta itemprop="description" content=""><meta property="og:title" content="Tim Van Wassenhove" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-11-08T15:31:18+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -77,7 +76,7 @@
 								
 						<div class="markdown">
 							<p>Earlier today i was refactoring some graphical components. I wanted to use an interface instead of concrete implementations for my drag and drop code&hellip; Although i was using an instance of Foo, and thus IFoo, the following code never allowed me to drop</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">interface</span> IFoo { }
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">interface</span> IFoo { }
 <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Foo</span> : IFoo { }
 
 <span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> label1_MouseDown(<span style="color:#458;font-weight:bold">object</span> sender, MouseEventArgs e)
@@ -95,7 +94,7 @@
 	}
 }
 </code></pre></div><p>Simply wrapping the concrete instance in a <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.dataobject(VS.80).aspx">DataObject</a> results in the desired behaviour</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> label1_MouseDown(<span style="color:#458;font-weight:bold">object</span> sender, MouseEventArgs e)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> label1_MouseDown(<span style="color:#458;font-weight:bold">object</span> sender, MouseEventArgs e)
 {
 	<span style="color:#000;font-weight:bold">this</span>.DoDragDrop(<span style="color:#000;font-weight:bold">new</span> DataObject(<span style="color:#000;font-weight:bold">typeof</span>(IFoo).FullName,<span style="color:#000;font-weight:bold">new</span> Foo()), DragDropEffects.All);
 }
@@ -275,7 +274,7 @@
 </code></pre>
 <!-- raw HTML omitted -->
 <p>As you can see, instead of adding <strong>1</strong>0000000 to the ticks between 2007-10-27 00:59:59 and 01:00:00 in UTC there is a <!-- raw HTML omitted -->reduction of ticks in the localtime<!-- raw HTML omitted --> instead&hellip;. Because of this new DateTime(633291336000000000, DateTimeKind.Local) could represent both 2007-10-27 00:00:00 UTC and 2007-10-27 01:00:00 UTC&hellip; So if you want to keep out of trouble you&rsquo;d better start storing your dates as UTC&hellip; If you don&rsquo;t believe me, run the test yourself</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">List&lt;dateTime&gt; localTimes = <span style="color:#000;font-weight:bold">new</span> List&lt;dateTime&gt;();
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">List&lt;dateTime&gt; localTimes = <span style="color:#000;font-weight:bold">new</span> List&lt;dateTime&gt;();
 
 <span style="color:#998;font-style:italic">// start at 2007-10-27 23:59:59 UTC, which is 2007-28-10 01:59:59 localtime
 </span><span style="color:#998;font-style:italic"></span>DateTime utcBase = <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">10</span>, <span style="color:#099">27</span>, <span style="color:#099">23</span>, <span style="color:#099">59</span>, <span style="color:#099">59</span>, DateTimeKind.Utc);
@@ -334,10 +333,10 @@ localTimes.Add(utcBase.ToLocalTime());
 								
 						<div class="markdown">
 							<p>Imagine that you have a table with a column of the type DATETIME. You&rsquo;ve been storing data as localtime and after a while you need to convert these datetimes to UTC. Here&rsquo;s a possible approach</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">UPDATE</span> events <span style="color:#000;font-weight:bold">SET</span> <span style="color:#000;font-weight:bold">start</span> <span style="color:#000;font-weight:bold">=</span> SYS_EXTRACT_UTC(FROM_TZ(<span style="color:#000;font-weight:bold">start</span>, <span style="color:#d14">&#39;Europe/Brussels&#39;</span>));
-</code></pre></div><p>You get a more generic variant using the AT TIME ZONE clause</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">UPDATE</span> events <span style="color:#000;font-weight:bold">SET</span> <span style="color:#000;font-weight:bold">start</span> <span style="color:#000;font-weight:bold">=</span> FROM_TZ(<span style="color:#000;font-weight:bold">start</span>, <span style="color:#d14">&#39;Europe/Brussels&#39;</span>) <span style="color:#000;font-weight:bold">AT</span> TIME <span style="color:#000;font-weight:bold">ZONE</span> <span style="color:#d14">&#39;America/Denver&#39;</span>;
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">UPDATE</span><span style="color:#bbb"> </span>events<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SET</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">start</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>SYS_EXTRACT_UTC(FROM_TZ(<span style="color:#000;font-weight:bold">start</span>,<span style="color:#bbb"> </span><span style="color:#d14">&#39;Europe/Brussels&#39;</span>));<span style="color:#bbb">
+</span></code></pre></div><p>You get a more generic variant using the AT TIME ZONE clause</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">UPDATE</span><span style="color:#bbb"> </span>events<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SET</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">start</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>FROM_TZ(<span style="color:#000;font-weight:bold">start</span>,<span style="color:#bbb"> </span><span style="color:#d14">&#39;Europe/Brussels&#39;</span>)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AT</span><span style="color:#bbb"> </span>TIME<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ZONE</span><span style="color:#bbb"> </span><span style="color:#d14">&#39;America/Denver&#39;</span>;<span style="color:#bbb">
+</span></code></pre></div>
 						</div>
 			
 						<div class="tags">
@@ -371,7 +370,7 @@ localTimes.Add(utcBase.ToLocalTime());
 							<p>Yesterday i visited an evening session about authentication and authorization at <a href="http://www.compuware.be">Compuware</a> (Yes, i&rsquo;ve got interesting collegues that are willing to share their knowledige). Anyway, i left the meeting with a couple of questions</p>
 <p><strong>How does System.Security.Principal.PrincipalPolicy work under <a href="http://www.mono-project.com/Main_Page">Mono</a>?</strong></p>
 <p>Well, NoPrincipal and UnauthenticatedPrincipal behave exactly the same way as they do in the Microsoft implementation. For the WindowsPrincipal the unix groups are used to determine the result of IsInRole. eg</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">//lists the groups the user timvw is part of:
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">//lists the groups the user timvw is part of:
 </span><span style="color:#998;font-style:italic">//timvw@debian:~$ groups
 </span><span style="color:#998;font-style:italic">//timvw dialout cdrom floppy audio video plugdev
 </span><span style="color:#998;font-style:italic"></span>
@@ -392,7 +391,7 @@ IPrincipal principal = Thread.CurrentPrincipal;
 <p>A bit of research learned me that BeginInvoke and Thread.Start copy the Thread.CurrentPrincipal into the new thread and that ThreadPool.QueueUserWorkItem and System.Threading.Timer don&rsquo;t copy the Thread.CurrentPrincipal.</p>
 <p><strong>How can i use the <a href="http://blogs.msdn.com/azman/">Authorization Manager</a> without Windows Identity?</strong></p>
 <p>A possible solution would be the following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> GetSid()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> GetSid()
 {
 	<span style="color:#998;font-style:italic">// modify this so that it contains an application and user id
 </span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#d14">&#34;S-1-9-1-1&#34;</span>;
@@ -467,12 +466,12 @@ IPrincipal principal = Thread.CurrentPrincipal;
 								
 						<div class="markdown">
 							<p>Earlier today someone posted the following code</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">float</span> a = <span style="color:#099">0.12f</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">float</span> a = <span style="color:#099">0.12f</span>;
 <span style="color:#458;font-weight:bold">float</span> b = a * <span style="color:#099">100f</span>;
 Console.WriteLine((<span style="color:#458;font-weight:bold">int</span>) b); <span style="color:#998;font-style:italic">// prints 12
 </span><span style="color:#998;font-style:italic"></span>Console.WriteLine((<span style="color:#458;font-weight:bold">int</span>)(a * <span style="color:#099">100f</span>)); <span style="color:#998;font-style:italic">// prints 11 !!!!!!!!
 </span></code></pre></div><p>An (extensive) explanation for this strange behaviour can be found at <a href="http://blogs.msdn.com/davidnotario/archive/2005/08/08/449092.aspx">CLR and floating point: Some answers to common questions</a>&hellip; A possible way to force the compiler and runtime to get rid of the additional precision would be the following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Console.WriteLine((<span style="color:#458;font-weight:bold">int</span>)(<span style="color:#458;font-weight:bold">float</span>)(a * <span style="color:#099">100f</span>));
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Console.WriteLine((<span style="color:#458;font-weight:bold">int</span>)(<span style="color:#458;font-weight:bold">float</span>)(a * <span style="color:#099">100f</span>));
 </code></pre></div>
 						</div>
 			
@@ -505,7 +504,7 @@ Console.WriteLine((<span style="color:#458;font-weight:bold">int</span>) b); <sp
 								
 						<div class="markdown">
 							<p>I found out that the sorting didn&rsquo;t work for &lsquo;Expression&rsquo; properties. My first thought was to add another switch to the logic of the already existing code</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">object</span> value1 = t1;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">object</span> value1 = t1;
 <span style="color:#458;font-weight:bold">object</span> value2 = t2;
 
 <span style="color:#000;font-weight:bold">if</span> (prop.Name.StartsWith(<span style="color:#d14">&#34;||&#34;</span>))
@@ -523,10 +522,10 @@ Console.WriteLine((<span style="color:#458;font-weight:bold">int</span>) b); <sp
 	}
 }
 </code></pre></div><p>Since i already have a PropertyDescriptor it seems a lot smarter to use it&rsquo;s GetValue instead</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">object</span> value1 = prop.GetValue(t1);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">object</span> value1 = prop.GetValue(t1);
 <span style="color:#458;font-weight:bold">object</span> value2 = prop.GetValue(t2);
 </code></pre></div><p>At <a href="http://blog.developpez.com/index.php?blog=121&amp;title=typedlistalt_tagt&amp;more=1&amp;c=1&amp;tb=1&amp;pb=1">Matthieu MEZIL</a>&rsquo;s blog i found a suggestion to use <a href="http://msdn2.microsoft.com/en-us/library/cfttsh47(VS.80).aspx">Comparer<!-- raw HTML omitted --></a>. This allowed me to reduce</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">IComparable comparable = value1 <span style="color:#000;font-weight:bold">as</span> IComparable;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">IComparable comparable = value1 <span style="color:#000;font-weight:bold">as</span> IComparable;
 <span style="color:#000;font-weight:bold">if</span> (comparable != <span style="color:#000;font-weight:bold">null</span>)
 {
 	<span style="color:#000;font-weight:bold">return</span> reverse * comparable.CompareTo(value2);
@@ -544,7 +543,7 @@ Console.WriteLine((<span style="color:#458;font-weight:bold">int</span>) b); <sp
 	}
 }
 </code></pre></div><p>with</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Notice that this requires that atleast value1 or value2 are an instance of a type that implements IComparable
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Notice that this requires that atleast value1 or value2 are an instance of a type that implements IComparable
 </span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">return</span> reverse * Comparer.Default.Compare(value1, value2);
 </code></pre></div><p>Feel free to get yet another version of <a href="http://www.timvw.be/wp-content/code/csharp/TypedList.zip">TypedList.zip</a>.</p>
 
@@ -617,13 +616,13 @@ Console.WriteLine((<span style="color:#458;font-weight:bold">int</span>) b); <sp
 								
 						<div class="markdown">
 							<p>A couple of days ago i presented you the <a href="http://www.timvw.be/presenting-the-typedlistt/">TypedList</a> which supports navigation through subproperties. Another common feature request is the possibility to add a column that has a value based on other values in the row (like a DataColumn with it&rsquo;s Expression property set). With the plumbing code i&rsquo;ve written it&rsquo;s as simple as implementing the following interface</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> IExpressionProvider&lt;componentType, PropertyType&gt;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> IExpressionProvider&lt;componentType, PropertyType&gt;
 {
 	<span style="color:#458;font-weight:bold">string</span> Name { <span style="color:#000;font-weight:bold">get</span>; }
 	PropertyType GetValue(ComponentType component);
 }
 </code></pre></div><p>An example implementation could be an expression that represents the duration of an Appointment</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">DurationExpressionProvider</span> : IExpressionProvider&lt;appointment, TimeSpan&gt;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">DurationExpressionProvider</span> : IExpressionProvider&lt;appointment, TimeSpan&gt;
 {
 	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Name { <span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#d14">&#34;||Duration&#34;</span>; } }
 
@@ -633,7 +632,7 @@ Console.WriteLine((<span style="color:#458;font-weight:bold">int</span>) b); <sp
 	}
 }
 </code></pre></div><p>I&rsquo;ve changed the constructor of TypedList a bit so that it accepts an enumeration of PropertyDescriptors. In my example you can initialise the list as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">List&lt;propertyDescriptor&gt; propertyDescriptors = <span style="color:#000;font-weight:bold">new</span> List&lt;propertyDescriptor&gt;();
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">List&lt;propertyDescriptor&gt; propertyDescriptors = <span style="color:#000;font-weight:bold">new</span> List&lt;propertyDescriptor&gt;();
 
 <span style="color:#998;font-style:italic">// create the subpropertydescriptors
 </span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">string</span>[] propertyNames = <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">string</span>[] { <span style="color:#d14">&#34;Patient.Name&#34;</span>, <span style="color:#d14">&#34;Patient.Address.Municipality&#34;</span>, <span style="color:#d14">&#34;DateTimeRange.Start&#34;</span>, <span style="color:#d14">&#34;DateTimeRange.End&#34;</span> };
@@ -686,14 +685,14 @@ TypedBindingList&lt;appointment&gt; appointments = <span style="color:#000;font-
 <p>We would like to create an overview of the appointments using a datagridview</p>
 <p><img src="http://www.timvw.be/wp-content/images/typedlist-2.gif" alt="screenshot of wanted ui"></p>
 <p>I drag a datagridview on the designer form, add columns, and then i set the datapropertynames as following: (Notice how i use a . to navigate the relations)</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.dataGridView1.AutoGenerateColumns = <span style="color:#000;font-weight:bold">false</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.dataGridView1.AutoGenerateColumns = <span style="color:#000;font-weight:bold">false</span>;
 <span style="color:#000;font-weight:bold">this</span>.ColumnId.DataPropertyName = <span style="color:#d14">&#34;Id&#34;</span>;
 <span style="color:#000;font-weight:bold">this</span>.ColumnPatient.DataPropertyName = <span style="color:#d14">&#34;Patient.Name&#34;</span>;
 <span style="color:#000;font-weight:bold">this</span>.ColumnMunicipality.DataPropertyName = <span style="color:#d14">&#34;Patient.Address.Municipality&#34;</span>;
 <span style="color:#000;font-weight:bold">this</span>.ColumnStart.DataPropertyName = <span style="color:#d14">&#34;DateTimeRange.Start&#34;</span>;
 <span style="color:#000;font-weight:bold">this</span>.ColumnEnd.DataPropertyName = <span style="color:#d14">&#34;DateTimeRange.End&#34;</span>;
 </code></pre></div><p>First we need to implement a method that allows us to find a PropertyInfo for the given property name</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> PropertyInfo Resolve(<span style="color:#458;font-weight:bold">string</span> propertyName)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> PropertyInfo Resolve(<span style="color:#458;font-weight:bold">string</span> propertyName)
 {
 	Type t = <span style="color:#000;font-weight:bold">typeof</span>(T);
 	PropertyInfo propertyInfo = <span style="color:#000;font-weight:bold">null</span>;
@@ -716,7 +715,7 @@ TypedBindingList&lt;appointment&gt; appointments = <span style="color:#000;font-
 	<span style="color:#000;font-weight:bold">return</span> propertyInfo; 
 }
 </code></pre></div><p>Now we are ready to implement the ITypedList.GetItemProperties method in our TypedList</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> PropertyDescriptorCollection GetItemProperties(PropertyDescriptor[] listAccessors)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> PropertyDescriptorCollection GetItemProperties(PropertyDescriptor[] listAccessors)
 {
 	PropertyDescriptorCollection propertyDescriptors = <span style="color:#000;font-weight:bold">new</span> PropertyDescriptorCollection(listAccessors);
 
@@ -735,7 +734,7 @@ TypedBindingList&lt;appointment&gt; appointments = <span style="color:#000;font-
 	<span style="color:#000;font-weight:bold">return</span> propertyDescriptors;
 }
 </code></pre></div><p>Using this class is as simple as</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// create a TypedList that holds Appointments
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// create a TypedList that holds Appointments
 </span><span style="color:#998;font-style:italic"></span>TypedBindingList&lt;appointment&gt; appointments = <span style="color:#000;font-weight:bold">new</span> TypedBindingList&lt;appointment&gt;(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">string</span>[] { <span style="color:#d14">&#34;Patient.Name&#34;</span>, <span style="color:#d14">&#34;Patient.Address.Municipality&#34;</span>, <span style="color:#d14">&#34;DateTimeRange.Start&#34;</span>, <span style="color:#d14">&#34;DateTimeRange.End&#34;</span> });
 
 <span style="color:#998;font-style:italic">// Initialise two patients
@@ -791,7 +790,7 @@ appointments.Add(<span style="color:#000;font-weight:bold">new</span> Appointmen
 <p>I&rsquo;ll start with creating a DataSet, add two DataTables, and create a relation on PersonType.Id (int32). In the designer this looks like</p>
 <p><img src="http://www.timvw.be/wp-content/images/databind-dataset1.gif" alt="screenshot of dataset designer displaying person and persontype"></p>
 <p>Next i create a DataSetDac that will return an instance of a Filled PersonDataSet (In real life you would probably use a TableAdapter and get the data from a database) The code is as simple as</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> PersonsDataSet Find()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> PersonsDataSet Find()
 {
 	PersonsDataSet personsDataSet = <span style="color:#000;font-weight:bold">new</span> PersonsDataSet();
 
@@ -809,7 +808,7 @@ appointments.Add(<span style="color:#000;font-weight:bold">new</span> Appointmen
 	<span style="color:#000;font-weight:bold">return</span> personsDataSet;
 }
 </code></pre></div><p>And now comes the important stuff: Bind the data to the DataGridView and DataGridViewComboBoxColumn</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> Form1()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> Form1()
 {
 	InitializeComponent();
 
@@ -828,7 +827,7 @@ appointments.Add(<span style="color:#000;font-weight:bold">new</span> Appointmen
 	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataSource = bindingSource;
 }
 </code></pre></div><p>Geeks are doomed to stay Geeks forever. When you try change a Person that is a Geek, the values in ComboBox should be limited to Geek and (None). The following code takes care of that</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing(<span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing(<span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e)
 {
 	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.dataGridView1.CurrentCell.ColumnIndex == <span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.Index)
 	{
@@ -904,7 +903,7 @@ appointments.Add(<span style="color:#000;font-weight:bold">new</span> Appointmen
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

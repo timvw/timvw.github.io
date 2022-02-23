@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.92.2" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Tim Van Wassenhove - Passionate geek, interested in Technology. Proud father of two </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://timvw.be/feed.xml" title="Tim Van Wassenhove" />
 	<meta itemprop="name" content="Tim Van Wassenhove">
-<meta itemprop="description" content="">
-<meta property="og:title" content="Tim Van Wassenhove" />
+<meta itemprop="description" content=""><meta property="og:title" content="Tim Van Wassenhove" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-11-08T15:31:18+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -77,7 +76,7 @@
 								
 						<div class="markdown">
 							<p>I find it frustrating that data binding does not really support Nullable<!-- raw HTML omitted -->. Anyway, it&rsquo;s relatively easy to workaround this shortcoming</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form
 {
 	<span style="color:#000;font-weight:bold">private</span> MyDataSource myDataSource;
 
@@ -113,12 +112,12 @@
 
 <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MyDataSource</span>
 {
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">double?</span> _double;
+	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">double?</span> <span style="color:#099">_d</span>ouble;
 
 	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">double?</span> Double
 	{
-		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>._double; }
-		<span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>._double = <span style="color:#000;font-weight:bold">value</span>; }
+		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.<span style="color:#099">_d</span>ouble; }
+		<span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>.<span style="color:#099">_d</span>ouble = <span style="color:#000;font-weight:bold">value</span>; }
 	}
 }
 </code></pre></div><p><img src="http://www.timvw.be/wp-content/images/databind-nullabletext1.gif" alt="screenshot of double value in textbox"></p>
@@ -157,7 +156,7 @@
 								
 						<div class="markdown">
 							<p>Today i decided to experiment with <a href="http://msdn2.microsoft.com/en-us/library/system.xml.xmlwriter.aspx">XmlWriter</a>. The first i wanted to do was set the Encoding to UTF-8.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">StringBuilder stringBuilder = <span style="color:#000;font-weight:bold">new</span> StringBuilder();
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">StringBuilder stringBuilder = <span style="color:#000;font-weight:bold">new</span> StringBuilder();
 XmlWriter xmlWriter = XmlWriter.Create(stringBuilder);
 xmlWriter.Settings.Encoding = Encoding.UTF8;
 </code></pre></div><p>When i ran this code i recieved the following exception: XmlException was unhandled: The &lsquo;XmlWriterSettings.Encoding&rsquo; property is read only and cannot be set. The documentation for the <a href="http://msdn2.microsoft.com/en-us/library/system.xml.xmlwriter.settings.aspx">Settings</a> property clearly says</p>
@@ -165,7 +164,7 @@ xmlWriter.Settings.Encoding = Encoding.UTF8;
 <!-- raw HTML omitted -->
 </blockquote>
 <p>So i wrote the following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">StringBuilder stringBuilder = <span style="color:#000;font-weight:bold">new</span> StringBuilder();
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">StringBuilder stringBuilder = <span style="color:#000;font-weight:bold">new</span> StringBuilder();
 XmlWriterSettings xmlWriterSettings = <span style="color:#000;font-weight:bold">new</span> XmlWriterSettings();
 xmlWriterSettings.Encoding = Encoding.UTF8;
 
@@ -179,7 +178,7 @@ xmlWriter.Close();
 
 <span style="color:#458;font-weight:bold">string</span> xmlString = stringBuilder.ToString();
 </code></pre></div><p>As you can see: <strong><!-- raw HTML omitted --><!-- raw HTML omitted --></strong> is still not what i want. Apparently is the Encoding property ignored if the XmlWriter is not using a Stream. So here is my next attempt</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">MemoryStream memoryStream = <span style="color:#000;font-weight:bold">new</span> MemoryStream();
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">MemoryStream memoryStream = <span style="color:#000;font-weight:bold">new</span> MemoryStream();
 <span style="color:#998;font-style:italic">// initialize xmlWriterSettings as above...
 </span><span style="color:#998;font-style:italic"></span>
 XmlWriter xmlWriter = XmlWriter.Create(memoryStream, xmlWriterSettings);
@@ -187,7 +186,7 @@ XmlWriter xmlWriter = XmlWriter.Create(memoryStream, xmlWriterSettings);
 </span><span style="color:#998;font-style:italic"></span>
 <span style="color:#458;font-weight:bold">string</span> xmlString = Encoding.UTF8.GetString(memoryStream.ToArray());
 </code></pre></div><p>Ok, i&rsquo;m getting close: <strong>?<!-- raw HTML omitted --><!-- raw HTML omitted --></strong>. Luckily enough i knew that the ? (byte with value 239) at the beginning is the <a href="http://en.wikipedia.org/wiki/Byte_Order_Mark">BOM</a>. In order to get rid of that byte i had to create my own instance of <a href="http://msdn2.microsoft.com/en-us/library/system.text.utf8encoding.aspx">UTF8Encoding</a>. Finally, i can present some working code</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">MemoryStream memoryStream = <span style="color:#000;font-weight:bold">new</span> MemoryStream();
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">MemoryStream memoryStream = <span style="color:#000;font-weight:bold">new</span> MemoryStream();
 XmlWriterSettings xmlWriterSettings = <span style="color:#000;font-weight:bold">new</span> XmlWriterSettings();
 xmlWriterSettings.Encoding = <span style="color:#000;font-weight:bold">new</span> UTF8Encoding(<span style="color:#000;font-weight:bold">false</span>);
 xmlWriterSettings.ConformanceLevel = ConformanceLevel.Document;
@@ -275,7 +274,7 @@ xmlWriter.Close();
 							<p><img src="http://www.timvw.be/wp-content/images/disabled-tabcontrol-1.gif" alt="screenshot of tabcontrol with disabled tabpages"></p>
 <p><img src="http://www.timvw.be/wp-content/images/disabled-tabcontrol-2.gif" alt="screenshot of tabcontrol with disabled tabpages"></p>
 <p>Apparently <a href="http://www.microsoft.com">Microsoft</a> choose not to implement support for disabled <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.tabpage.aspx">TabPage</a>s. The reason seems to be that it&rsquo;s against their <a href="http://msdn2.microsoft.com/en-us/library/aa511493.aspx">Guidelines for Tabs</a>. Let&rsquo;s ignore the guideline and implement the support anyway. First we set the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.tabcontrol.drawmode.aspx">DrawMode</a> property of the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.tabcontrol.aspx">TabControl</a> to <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.tabdrawmode.aspx">OwnerDrawFixed</a>. Next we add an eventhandler for the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.tabcontrol.drawitem.aspx">DrawItem</a> Event</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> tabControl1_DrawItem(<span style="color:#458;font-weight:bold">object</span> sender, DrawItemEventArgs e)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> tabControl1_DrawItem(<span style="color:#458;font-weight:bold">object</span> sender, DrawItemEventArgs e)
 {
 	TabControl tabControl = sender <span style="color:#000;font-weight:bold">as</span> TabControl;
 	TabPage tabPage = tabControl.TabPages[e.Index];
@@ -318,7 +317,7 @@ xmlWriter.Close();
 	e.Graphics.ResetTransform();
 }
 </code></pre></div><p>And we handle the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.tabcontrol.selecting.aspx">Selecting</a> Event as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> tabControl1_Selecting(<span style="color:#458;font-weight:bold">object</span> sender, TabControlCancelEventArgs e)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> tabControl1_Selecting(<span style="color:#458;font-weight:bold">object</span> sender, TabControlCancelEventArgs e)
 {
 	<span style="color:#000;font-weight:bold">if</span> (!e.TabPage.Enabled)
 	{
@@ -326,7 +325,7 @@ xmlWriter.Close();
 	}
 }
 </code></pre></div><p>This works pretty fine, but we still have to make sure that the TabPages are Invalidated when the users changes their <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.control.enabled.aspx">Enabled</a> property. We do this by attaching and detaching an eventhandler for their <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.control.enabledchanged.aspx">EnabledChanged</a> Event when they&rsquo;re <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.control.controladded.aspx">added</a> and <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.control.controlremoved.aspx">removed</a>.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> tabControl1_ControlAdded(<span style="color:#458;font-weight:bold">object</span> sender, ControlEventArgs e)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> tabControl1_ControlAdded(<span style="color:#458;font-weight:bold">object</span> sender, ControlEventArgs e)
 {
 	TabPage tabPage = sender <span style="color:#000;font-weight:bold">as</span> TabPage;
 	<span style="color:#000;font-weight:bold">if</span> (tabPage != <span style="color:#000;font-weight:bold">null</span>)
@@ -390,7 +389,7 @@ xmlWriter.Close();
 <p><img src="http://www.timvw.be/wp-content/images/dgv-ds-2.gif" alt="screenshot of first datagridview"></p>
 <p>If we look at the DGV it becomes clear that each row exists out of a Label, values for Q1 to Q4 and the sum of those values. If we translate this to code we end up with something like: <a href="http://www.timvw.be/wp-content/code/csharp/SalesRow.txt">SalesRow</a></p>
 <p>I&rsquo;ve implemented <a href="http://msdn2.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged.aspx">INotifyPropertyChanged</a> because i want the DGV to request and display the updated Year value when one of the quarterly values changes. Configure the Columns to use these properties as DataPropertyName and add a couple of SalesRow instances to a <a href="http://msdn2.microsoft.com/en-us/library/ms132679.aspx">BindingList</a> that we use as DataSource for the DGV.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> Form1()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> Form1()
 {
 	InitializeComponent();
 
@@ -413,7 +412,7 @@ xmlWriter.Close();
 <p><img src="http://www.timvw.be/wp-content/images/dgv-ds-3.gif" alt="screenshot of datagridview with rows for regions."></p>
 <p>In order to calculate the GLOBAL values we inherit from the SalesRow class and override the implementation for the Q1, Q2, Q3, Q4 and Year properties: <a href="http://www.timvw.be/wp-content/code/csharp/GlobalSalesRow.txt">GlobalSalesRow</a>.</p>
 <p>Finally we can wrap everyting in a <a href="http://www.timvw.be/wp-content/code/csharp/SalesRows.txt">SalesRows</a> class to represent our Data. Hooking this code up is as easy as</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> Form1()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> Form1()
 {
 	InitializeComponent();
 
@@ -472,7 +471,7 @@ xmlWriter.Close();
 								
 						<div class="markdown">
 							<p>A while ago i discovered the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.control.drawtobitmap.aspx">DrawToBitmap</a> method on the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.control.aspx">Control</a> class. The availability of this method makes it relatively easy to implement a <a href="http://msdn2.microsoft.com/en-us/library/system.drawing.printing.printpageeventhandler.aspx">PrintPageEventHandler</a> for the <a href="http://msdn2.microsoft.com/en-us/library/system.drawing.printing.printdocument.aspx">PrintDocument</a> class. Here is an example implementation that prints a DataGridView</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> buttonPrint_Click(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> buttonPrint_Click(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
 {
 	<span style="color:#000;font-weight:bold">this</span>.printDocument1.Print();
 }
@@ -502,7 +501,7 @@ xmlWriter.Close();
 	++<span style="color:#000;font-weight:bold">this</span>.currentPage; 
 }
 </code></pre></div><p>Now that you understand the main idea, let&rsquo;s wrap it in a class and make it reusable: <a href="http://www.timvw.be/wp-content/code/csharp/ResizedControlPrintPageEventHandler.txt">ResizedControlPrintPageEventHandler</a>. Using this class is as simple as</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Initialise a controlPrintPageEventHandler and register the PrintPage method...
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Initialise a controlPrintPageEventHandler and register the PrintPage method...
 </span><span style="color:#998;font-style:italic"></span>ResizedControlPrintPageEventHandler resizedControlPrintPageEventHandler = <span style="color:#000;font-weight:bold">new</span> ResizedControlPrintPageEventHandler(<span style="color:#000;font-weight:bold">this</span>.dataGridView1);
 <span style="color:#000;font-weight:bold">this</span>.printDocument1.PrintPage += resizedControlPrintPageEventHandler.PrintPage;
 
@@ -556,7 +555,7 @@ xmlWriter.Close();
 								
 						<div class="markdown">
 							<p>Earlier this week i decided to experiment with the <a href="http://be2.php.net/manual/en/function.filter-input.php">Filter</a> functions. Here&rsquo;s an example that illustrates why i think the API needs to be improved</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
 <span style="color:#008080">$isgoodapi</span> <span style="color:#000;font-weight:bold">=</span> filter_input(INPUT_GET, <span style="color:#d14">&#39;isgoodapi&#39;</span>, FILTER_VALIDATE_BOOLEAN);
 
 <span style="color:#000;font-weight:bold">if</span> (is_null(<span style="color:#008080">$isgoodapi</span>)) {
@@ -601,7 +600,7 @@ xmlWriter.Close();
 								
 						<div class="markdown">
 							<p>Today i wanted to experiment with <a href="http://msdn2.microsoft.com/en-us/library/system.codedom.aspx">System.CodeDom</a>. This little program requests the user to input names for a namespace, class and method. It also asks the user to input the code that should go into the method body. Then it generates an assembly (test.dll) and creates a new appdomain in which the assembly is loaded&hellip; Finally it initializes an instance of the created class and calls the method&hellip;</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
 {
 	<span style="color:#458;font-weight:bold">string</span> loopEnd = <span style="color:#d14">&#34;&#34;</span>;
 	<span style="color:#000;font-weight:bold">while</span> (loopEnd != <span style="color:#d14">&#34;X&#34;</span>)
@@ -700,7 +699,7 @@ xmlWriter.Close();
 								
 						<div class="markdown">
 							<p>Earlier today i saw someone that wanted to know how to drag and drop Microsoft Office Outlook Contacts on his winform (and get the data of the contact). Here are the few lines of code that do what he asked for</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// in the constructor of the form (or in the InitializeComponent method if you set it via the Designer)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// in the constructor of the form (or in the InitializeComponent method if you set it via the Designer)
 </span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">this</span>.AllowDrop = <span style="color:#000;font-weight:bold">true</span>;
 
 <span style="color:#998;font-style:italic">// handle the DragOver event
@@ -793,7 +792,7 @@ xmlWriter.Close();
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

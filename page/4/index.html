@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.92.2" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Tim Van Wassenhove - Passionate geek, interested in Technology. Proud father of two </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://timvw.be/feed.xml" title="Tim Van Wassenhove" />
 	<meta itemprop="name" content="Tim Van Wassenhove">
-<meta itemprop="description" content="">
-<meta property="og:title" content="Tim Van Wassenhove" />
+<meta itemprop="description" content=""><meta property="og:title" content="Tim Van Wassenhove" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-11-08T15:31:18+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -77,20 +76,20 @@
 								
 						<div class="markdown">
 							<p>A while ago I wrote some code like this:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> ICanBroadcast
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> ICanBroadcast
 { 
   <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Broadcast(<span style="color:#458;font-weight:bold">string</span> message) { ... }  
   <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Broadcast(<span style="color:#458;font-weight:bold">string</span> message, <span style="color:#458;font-weight:bold">string</span> author) { ... }
 }
 </code></pre></div><p>A bit later the requirements changed and from now on it was required to specify the topic:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> ICanBroadcast  
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> ICanBroadcast  
 {
   <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Broadcast(<span style="color:#458;font-weight:bold">string</span> message, <span style="color:#458;font-weight:bold">string</span> topic) { ... }  
   <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Broadcast(<span style="color:#458;font-weight:bold">string</span> message, <span style="color:#458;font-weight:bold">string</span> author, <span style="color:#458;font-weight:bold">string</span> topic) { ... } 
 }
 </code></pre></div><p>In case you were using Broadcast(string message) the compiler would rightfully inform you that no such method exists. In case you were using Broadcast(string message, string author) the compiler does not catch the error and incorrectly uses the author as topic. I can only hope that you have a suite of tests that makes you notice that something is wrong when you upgrade to my latest release.</p>
 <p>Let&rsquo;s make the difference between an Author and a Topic more explicit (to our API consumers and the compiler) by creating explicit types to represent the concepts:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> ICanBroadcast 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> ICanBroadcast 
 {  
   <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Broadcast(Message message, Topic topic) { ... } 
   <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Broadcast(Message message, Author author, Topic topic) { ... }  
@@ -122,7 +121,7 @@
 								
 						<div class="markdown">
 							<p>Last couple of weeks I have been generating a lot of files (and restricting their ACLs) and today I decided to remove all those files. The problem is that my user account did not have permissions on those files. Here is a small script that will first take ownership of the file, then grants FullControl permissions, and finally removes the file 🙂</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> RemoveFile 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> RemoveFile 
 {	  
 	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$FileName</span>)
 	
@@ -139,7 +138,7 @@
 <span style="color:#0086b3">Get-ChildItem</span> *.txt -R | % { RemoveFile <span style="color:#008080">$_</span>.FullName; }
 </code></pre></div><p><strong>Edit on 2011-10-19</strong></p>
 <p>Resetting the permissions with icacls c:\output /reset /t and then calling Remove-Item c:\output -R does the trick.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> RemoveFiles 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> RemoveFiles 
 {  
 	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$Directory</span>)
 
@@ -181,7 +180,7 @@ RemoveFiles c:\output;
 						<div class="markdown">
 							<p>A while ago i needed to write some code that removes all (existing/inherited) access rules from a given directory. It was pretty frustrating to notice that all my attempts seemed to fail (<a href="http://msdn.microsoft.com/en-us/library/system.security.accesscontrol.commonobjectsecurity.removeaccessrule.aspx">RemoveAccessRule</a>, <a href="http://msdn.microsoft.com/en-us/library/system.security.accesscontrol.objectsecurity.purgeaccessrules.aspx">PurgeAccessRule</a>, &hellip;)</p>
 <p>Finally i found that <a href="">SetAccessRuleProtection</a> was the method that i needed to invoke.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">const</span> <span style="color:#458;font-weight:bold">string</span> Folder = <span style="color:#d14">@&#34;c:\temp\secured&#34;</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">const</span> <span style="color:#458;font-weight:bold">string</span> Folder = <span style="color:#d14">@&#34;c:\temp\secured&#34;</span>;
 <span style="color:#458;font-weight:bold">var</span> directory = <span style="color:#000;font-weight:bold">new</span> DirectoryInfo(Folder);
 <span style="color:#458;font-weight:bold">var</span> directorySecurity = directory.GetAccessControl();
 directorySecurity.SetAccessRuleProtection(<span style="color:#000;font-weight:bold">true</span>,<span style="color:#000;font-weight:bold">false</span>);
@@ -296,16 +295,16 @@ directory.SetAccessControl(directorySecurity);
 								
 						<div class="markdown">
 							<p>I have noticed that most people come up with the following solution to build a string in T-SQL:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">WITH</span> [Numbers] <span style="color:#000;font-weight:bold">AS</span> (	  
-	<span style="color:#000;font-weight:bold">SELECT</span> TOP(<span style="color:#099">10</span>) [n]	  
-	<span style="color:#000;font-weight:bold">FROM</span> [Nums] 
-)	  
-<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">@</span>message <span style="color:#000;font-weight:bold">=</span> COALESCE(<span style="color:#000;font-weight:bold">@</span>message, <span style="color:#d14">&#39;&#39;</span>) <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#39;&#39;</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000;font-weight:bold">CAST</span>([n] <span style="color:#000;font-weight:bold">AS</span> nvarchar(<span style="color:#099">2</span>))	  
-<span style="color:#000;font-weight:bold">FROM</span> [Numbers];
-
-<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">@</span>message <span style="color:#000;font-weight:bold">=</span> STUFF(<span style="color:#000;font-weight:bold">@</span>message, <span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#d14">&#39;&#39;</span>);
-<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">@</span>message;
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">WITH</span><span style="color:#bbb"> </span>[Numbers]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>(<span style="color:#bbb">	  
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>TOP(<span style="color:#099">10</span>)<span style="color:#bbb"> </span>[n]<span style="color:#bbb">	  
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[Nums]<span style="color:#bbb"> 
+</span><span style="color:#bbb"></span>)<span style="color:#bbb">	  
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">@</span>message<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>COALESCE(<span style="color:#000;font-weight:bold">@</span>message,<span style="color:#bbb"> </span><span style="color:#d14">&#39;&#39;</span>)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">+</span><span style="color:#bbb"> </span><span style="color:#d14">&#39;&#39;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">+</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">CAST</span>([n]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>nvarchar(<span style="color:#099">2</span>))<span style="color:#bbb">	  
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[Numbers];<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">@</span>message<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>STUFF(<span style="color:#000;font-weight:bold">@</span>message,<span style="color:#bbb"> </span><span style="color:#099">1</span>,<span style="color:#bbb"> </span><span style="color:#099">2</span>,<span style="color:#bbb"> </span><span style="color:#d14">&#39;&#39;</span>);<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">@</span>message;<span style="color:#bbb">
+</span></code></pre></div><blockquote>
 <p>Important! Microsoft has no official documentation describing this aggregate concatenation
 technique that is based on the assignment SELECT syntax. The behavior described here is
 based on observation alone. The current implementation of the ConcatOrders function doesn’t
@@ -320,17 +319,17 @@ SELECT should behave—with
 or without an ORDER BY clause.</p>
 </blockquote>
 <p>With the aid of FOR XML PATH (as mentionned in <a href="http://www.sql.co.il/books/insidetsql2008/">Inside Microsoft SQL Server 2008: T-SQL Programming</a> we can solve this problem using a documented approach:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">WITH</span> [Numbers] <span style="color:#000;font-weight:bold">AS</span> (	  
-	<span style="color:#000;font-weight:bold">SELECT</span> TOP(<span style="color:#099">10</span>) [n]	  
-	<span style="color:#000;font-weight:bold">FROM</span> [Nums] 
-)	  
-<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">@</span>message <span style="color:#000;font-weight:bold">=</span> (<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#d14">&#39;&#39;</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000;font-weight:bold">CAST</span>([n] <span style="color:#000;font-weight:bold">AS</span> nvarchar(<span style="color:#099">2</span>)) <span style="color:#000;font-weight:bold">AS</span> [<span style="color:#0086b3">text</span>()]  
-<span style="color:#000;font-weight:bold">FROM</span> [Numbers]	  
-<span style="color:#000;font-weight:bold">FOR</span> XML PATH(<span style="color:#d14">&#39;&#39;</span>));
-
-<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">@</span>message <span style="color:#000;font-weight:bold">=</span> STUFF(<span style="color:#000;font-weight:bold">@</span>message, <span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#d14">&#39;&#39;</span>);
-<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">@</span>message;
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">WITH</span><span style="color:#bbb"> </span>[Numbers]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>(<span style="color:#bbb">	  
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>TOP(<span style="color:#099">10</span>)<span style="color:#bbb"> </span>[n]<span style="color:#bbb">	  
+</span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[Nums]<span style="color:#bbb"> 
+</span><span style="color:#bbb"></span>)<span style="color:#bbb">	  
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">@</span>message<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>(<span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#d14">&#39;&#39;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">+</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">CAST</span>([n]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>nvarchar(<span style="color:#099">2</span>))<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>[<span style="color:#0086b3">text</span>()]<span style="color:#bbb">  
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[Numbers]<span style="color:#bbb">	  
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">FOR</span><span style="color:#bbb"> </span>XML<span style="color:#bbb"> </span>PATH(<span style="color:#d14">&#39;&#39;</span>));<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">@</span>message<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>STUFF(<span style="color:#000;font-weight:bold">@</span>message,<span style="color:#bbb"> </span><span style="color:#099">1</span>,<span style="color:#bbb"> </span><span style="color:#099">2</span>,<span style="color:#bbb"> </span><span style="color:#d14">&#39;&#39;</span>);<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">@</span>message;<span style="color:#bbb">
+</span></code></pre></div>
 						</div>
 			
 						<div class="tags">
@@ -362,7 +361,7 @@ or without an ORDER BY clause.</p>
 								
 						<div class="markdown">
 							<p>I think this entry has been in the pipeline for a couple of years now and today i have decided to finally post it 😉 I got frustrated with the annoying out parameter in TryGet methods so i decided to use a different signature using TryGetResult:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">TryGetResult</span>&lt;T&gt; 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">TryGetResult</span>&lt;T&gt; 
 {
   <span style="color:#000;font-weight:bold">public</span> TryGetResult()   
   {   
@@ -380,7 +379,7 @@ or without an ORDER BY clause.</p>
   <span style="color:#000;font-weight:bold">public</span> T Result { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">set</span>; }
 }
 </code></pre></div><p>And now your TryGet methods can have the following signature:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> TryGetResult&lt;Person&gt; TryGetPersonByName(<span style="color:#458;font-weight:bold">string</span> name) 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> TryGetResult&lt;Person&gt; TryGetPersonByName(<span style="color:#458;font-weight:bold">string</span> name) 
 {   
   <span style="color:#998;font-style:italic">// person is not available  
 </span><span style="color:#998;font-style:italic"></span>  <span style="color:#000;font-weight:bold">if</span>(name.IsInvalidPersonName()) <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> TryGetResult();
@@ -420,9 +419,9 @@ or without an ORDER BY clause.</p>
 								
 						<div class="markdown">
 							<p>Running an SSIS package from PowerShell (using DTExec) can be as simple as:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">RunPackage <span style="color:#000;font-weight:bold">-File</span> <span style="color:#d14">&#39;C:\test.dtsx&#39;</span> -DatabaseHost <span style="color:#d14">&#39;.&#39;</span> -DatabaseName <span style="color:#d14">&#39;TEST&#39;</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">RunPackage <span style="color:#000;font-weight:bold">-File</span> <span style="color:#d14">&#39;C:\test.dtsx&#39;</span> -DatabaseHost <span style="color:#d14">&#39;.&#39;</span> -DatabaseName <span style="color:#d14">&#39;TEST&#39;</span>;
 </code></pre></div><p>Here are the functions that make it this simple:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> GetDtExecPath {    
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> GetDtExecPath {    
   <span style="color:#008080">$DtsPath</span> = (<span style="color:#0086b3">Get-ItemProperty</span> <span style="color:#d14">&#39;HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server\100\DTS\Setup&#39;</span>).SQLPath;    
   <span style="color:#008080">$DtExecPath</span> = (<span style="color:#0086b3">Resolve-Path</span> <span style="color:#d14">&#34;$DtsPath\Binn\DTExec.exe&#34;</span>);    
   <span style="color:#008080">$DtExecPath</span>;
@@ -489,27 +488,27 @@ or without an ORDER BY clause.</p>
 								
 						<div class="markdown">
 							<p>A while ago i presented my approach to generate a nums table <a href="http://www.timvw.be/2010/12/11/techniques-learned-in-sqltopia-look-ma-no-loops/">here</a>.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">DECLARE</span> <span style="color:#000;font-weight:bold">@</span><span style="color:#000;font-weight:bold">count</span> <span style="color:#0086b3">INT</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1000</span>;
-
-<span style="color:#000;font-weight:bold">WITH</span>    
-  [Nums1] <span style="color:#000;font-weight:bold">AS</span> ( <span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#099">1</span> <span style="color:#000;font-weight:bold">AS</span> [Value] <span style="color:#000;font-weight:bold">UNION</span> <span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#099">2</span> <span style="color:#000;font-weight:bold">AS</span> [Value] ) 
-, [Nums2] <span style="color:#000;font-weight:bold">AS</span> ( <span style="color:#000;font-weight:bold">SELECT</span> A.<span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> [Nums1] <span style="color:#000;font-weight:bold">AS</span> A, [Nums1] <span style="color:#000;font-weight:bold">AS</span> B, [Nums1] <span style="color:#000;font-weight:bold">AS</span> <span style="color:#000;font-weight:bold">C</span>)  
-, [Nums3] <span style="color:#000;font-weight:bold">AS</span> ( <span style="color:#000;font-weight:bold">SELECT</span> A.<span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> [Nums2] <span style="color:#000;font-weight:bold">AS</span> A, [Nums2] <span style="color:#000;font-weight:bold">AS</span> B, [Nums2] <span style="color:#000;font-weight:bold">AS</span> <span style="color:#000;font-weight:bold">C</span>)
-, [Nums4] <span style="color:#000;font-weight:bold">AS</span> ( <span style="color:#000;font-weight:bold">SELECT</span> A.<span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> [Nums3] <span style="color:#000;font-weight:bold">AS</span> A, [Nums3] <span style="color:#000;font-weight:bold">AS</span> B )
-, [Numbers] <span style="color:#000;font-weight:bold">AS</span> ( <span style="color:#000;font-weight:bold">SELECT</span> TOP(<span style="color:#000;font-weight:bold">@</span><span style="color:#000;font-weight:bold">count</span>) <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span> <span style="color:#000;font-weight:bold">+</span> ROW_NUMBER() OVER(<span style="color:#000;font-weight:bold">ORDER</span> <span style="color:#000;font-weight:bold">BY</span> [Value]) <span style="color:#000;font-weight:bold">AS</span> [Value] <span style="color:#000;font-weight:bold">FROM</span>[Nums4] )
-  
-<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> [Numbers];
-</code></pre></div><p>Because we only use this code once to fill the table we don&rsquo;t really care that it is not very fast. Today i discovered there is a way to speed it up in this wonderful book: <a href="http://oreilly.com/catalog/9780735626034/">Inside Microsoft® SQL Server® 2008: T-SQL Querying</a>:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">WITH</span>
-      
-  [Nums1] <span style="color:#000;font-weight:bold">AS</span> ( <span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#099">1</span> <span style="color:#000;font-weight:bold">AS</span> [Value] <span style="color:#000;font-weight:bold">UNION</span> <span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#099">2</span> <span style="color:#000;font-weight:bold">AS</span> [Value] )  
-, [Nums2] <span style="color:#000;font-weight:bold">AS</span> ( <span style="color:#000;font-weight:bold">SELECT</span> A.<span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> [Nums1] <span style="color:#000;font-weight:bold">AS</span> A, [Nums1] <span style="color:#000;font-weight:bold">AS</span> B, [Nums1] <span style="color:#000;font-weight:bold">AS</span> <span style="color:#000;font-weight:bold">C</span>)
-, [Nums3] <span style="color:#000;font-weight:bold">AS</span> ( <span style="color:#000;font-weight:bold">SELECT</span> A.<span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> [Nums2] <span style="color:#000;font-weight:bold">AS</span> A, [Nums2] <span style="color:#000;font-weight:bold">AS</span> B, [Nums2] <span style="color:#000;font-weight:bold">AS</span> <span style="color:#000;font-weight:bold">C</span>)
-, [Nums4] <span style="color:#000;font-weight:bold">AS</span> ( <span style="color:#000;font-weight:bold">SELECT</span> A.<span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> [Nums3] <span style="color:#000;font-weight:bold">AS</span> A, [Nums3] <span style="color:#000;font-weight:bold">AS</span> B )
-, [Numbers] <span style="color:#000;font-weight:bold">AS</span> ( <span style="color:#000;font-weight:bold">SELECT</span> TOP(<span style="color:#000;font-weight:bold">@</span><span style="color:#000;font-weight:bold">count</span>) <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span> <span style="color:#000;font-weight:bold">+</span> ROW_NUMBER() OVER(<span style="color:#000;font-weight:bold">ORDER</span> <span style="color:#000;font-weight:bold">BY</span> (<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#099">0</span>)) <span style="color:#000;font-weight:bold">AS</span> [Value] <span style="color:#000;font-weight:bold">FROM</span>[Nums4] )
-  
-<span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> [Numbers];
-</code></pre></div><p>Yay for features like ORDER BY (SELECT <!-- raw HTML omitted -->).</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">DECLARE</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">@</span><span style="color:#000;font-weight:bold">count</span><span style="color:#bbb"> </span><span style="color:#0086b3">INT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span><span style="color:#099">1000</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">WITH</span><span style="color:#bbb">    
+</span><span style="color:#bbb">  </span>[Nums1]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>(<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>[Value]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">UNION</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#099">2</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>[Value]<span style="color:#bbb"> </span>)<span style="color:#bbb"> 
+</span><span style="color:#bbb"></span>,<span style="color:#bbb"> </span>[Nums2]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>(<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>A.<span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[Nums1]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>A,<span style="color:#bbb"> </span>[Nums1]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>B,<span style="color:#bbb"> </span>[Nums1]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">C</span>)<span style="color:#bbb">  
+</span><span style="color:#bbb"></span>,<span style="color:#bbb"> </span>[Nums3]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>(<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>A.<span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[Nums2]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>A,<span style="color:#bbb"> </span>[Nums2]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>B,<span style="color:#bbb"> </span>[Nums2]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">C</span>)<span style="color:#bbb">
+</span><span style="color:#bbb"></span>,<span style="color:#bbb"> </span>[Nums4]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>(<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>A.<span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[Nums3]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>A,<span style="color:#bbb"> </span>[Nums3]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>B<span style="color:#bbb"> </span>)<span style="color:#bbb">
+</span><span style="color:#bbb"></span>,<span style="color:#bbb"> </span>[Numbers]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>(<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>TOP(<span style="color:#000;font-weight:bold">@</span><span style="color:#000;font-weight:bold">count</span>)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">+</span><span style="color:#bbb"> </span>ROW_NUMBER()<span style="color:#bbb"> </span>OVER(<span style="color:#000;font-weight:bold">ORDER</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">BY</span><span style="color:#bbb"> </span>[Value])<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>[Value]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span>[Nums4]<span style="color:#bbb"> </span>)<span style="color:#bbb">
+</span><span style="color:#bbb">  
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[Numbers];<span style="color:#bbb">
+</span></code></pre></div><p>Because we only use this code once to fill the table we don&rsquo;t really care that it is not very fast. Today i discovered there is a way to speed it up in this wonderful book: <a href="http://oreilly.com/catalog/9780735626034/">Inside Microsoft® SQL Server® 2008: T-SQL Querying</a>:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">WITH</span><span style="color:#bbb">
+</span><span style="color:#bbb">      
+</span><span style="color:#bbb">  </span>[Nums1]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>(<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>[Value]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">UNION</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#099">2</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>[Value]<span style="color:#bbb"> </span>)<span style="color:#bbb">  
+</span><span style="color:#bbb"></span>,<span style="color:#bbb"> </span>[Nums2]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>(<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>A.<span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[Nums1]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>A,<span style="color:#bbb"> </span>[Nums1]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>B,<span style="color:#bbb"> </span>[Nums1]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">C</span>)<span style="color:#bbb">
+</span><span style="color:#bbb"></span>,<span style="color:#bbb"> </span>[Nums3]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>(<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>A.<span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[Nums2]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>A,<span style="color:#bbb"> </span>[Nums2]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>B,<span style="color:#bbb"> </span>[Nums2]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">C</span>)<span style="color:#bbb">
+</span><span style="color:#bbb"></span>,<span style="color:#bbb"> </span>[Nums4]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>(<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>A.<span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[Nums3]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>A,<span style="color:#bbb"> </span>[Nums3]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>B<span style="color:#bbb"> </span>)<span style="color:#bbb">
+</span><span style="color:#bbb"></span>,<span style="color:#bbb"> </span>[Numbers]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>(<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>TOP(<span style="color:#000;font-weight:bold">@</span><span style="color:#000;font-weight:bold">count</span>)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">+</span><span style="color:#bbb"> </span>ROW_NUMBER()<span style="color:#bbb"> </span>OVER(<span style="color:#000;font-weight:bold">ORDER</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">BY</span><span style="color:#bbb"> </span>(<span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#099">0</span>))<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>[Value]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span>[Nums4]<span style="color:#bbb"> </span>)<span style="color:#bbb">
+</span><span style="color:#bbb">  
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[Numbers];<span style="color:#bbb">
+</span></code></pre></div><p>Yay for features like ORDER BY (SELECT <!-- raw HTML omitted -->).</p>
 
 						</div>
 			
@@ -544,12 +543,12 @@ or without an ORDER BY clause.</p>
 								
 						<div class="markdown">
 							<p>A while ago i wanted to use a <a href="http://msdn.microsoft.com/en-us/library/bb522526.aspx">User-Defined Table Type</a> to pass in a set of records. Nothing special about this except that the first column of the UDTT was an Identity column:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">CREATE</span> <span style="color:#000;font-weight:bold">TYPE</span> [Star].[example] <span style="color:#000;font-weight:bold">AS</span> <span style="color:#000;font-weight:bold">TABLE</span>(  
-  [Ordinal] [<span style="color:#0086b3">int</span>] <span style="color:#000;font-weight:bold">IDENTITY</span>(<span style="color:#099">1</span>,<span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">NOT</span> <span style="color:#000;font-weight:bold">NULL</span>,  
-  [Name] [nvarchar](<span style="color:#099">200</span>) <span style="color:#000;font-weight:bold">NOT</span> <span style="color:#000;font-weight:bold">NULL</span>,
-)
-</code></pre></div><p>After finding a lot of posts saying that this is not supported a colleague of mine, <a href="http://stevehorsfield.wordpress.com/">Stephen Horsfield</a>, found a way to do it as following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">var</span> sqlMetaData = <span style="color:#000;font-weight:bold">new</span>[] 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">CREATE</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">TYPE</span><span style="color:#bbb"> </span>[Star].[example]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">TABLE</span>(<span style="color:#bbb">  
+</span><span style="color:#bbb">  </span>[Ordinal]<span style="color:#bbb"> </span>[<span style="color:#0086b3">int</span>]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IDENTITY</span>(<span style="color:#099">1</span>,<span style="color:#099">1</span>)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NOT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span>,<span style="color:#bbb">  
+</span><span style="color:#bbb">  </span>[Name]<span style="color:#bbb"> </span>[nvarchar](<span style="color:#099">200</span>)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NOT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>)<span style="color:#bbb">
+</span></code></pre></div><p>After finding a lot of posts saying that this is not supported a colleague of mine, <a href="http://stevehorsfield.wordpress.com/">Stephen Horsfield</a>, found a way to do it as following:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">var</span> sqlMetaData = <span style="color:#000;font-weight:bold">new</span>[] 
 {  
   <span style="color:#000;font-weight:bold">new</span> SqlMetaData(<span style="color:#d14">&#34;Ordinal&#34;</span>, SqlDbType.Int, <span style="color:#000;font-weight:bold">true</span>, <span style="color:#000;font-weight:bold">false</span>, SortOrder.Unspecified, -<span style="color:#099">1</span>),   
   <span style="color:#000;font-weight:bold">new</span> SqlMetaData(<span style="color:#d14">&#34;Name&#34;</span>, SqlDbType.NVarChar, <span style="color:#099">200</span>)
@@ -601,7 +600,7 @@ sqlRecords = <span style="color:#000;font-weight:bold">new</span> HashSet&lt;Sql
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

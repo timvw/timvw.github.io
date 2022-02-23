@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.92.2" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Tim Van Wassenhove - Passionate geek, interested in Technology. Proud father of two </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://timvw.be/feed.xml" title="Tim Van Wassenhove" />
 	<meta itemprop="name" content="Tim Van Wassenhove">
-<meta itemprop="description" content="">
-<meta property="og:title" content="Tim Van Wassenhove" />
+<meta itemprop="description" content=""><meta property="og:title" content="Tim Van Wassenhove" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-11-08T15:31:18+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -77,7 +76,7 @@
 								
 						<div class="markdown">
 							<p>Earlier today we were confronted with the following <a href="http://msdn2.microsoft.com/en-US/library/system.data.oracleclient.oracleexception.aspx">OracleException</a>: <strong>Unable to enlist in a distributed transaction</strong>. Our code (and accompanying tests) had been running fine for the last two weeks thus we expected there was a problem with the database. A member of the DBA team assurred us there was nothing wrong with the database. Finally we discovered that we had created a circular reference and thus the program ended up in an endless loop (well untill the database decided it had been enough anyway :p). Here is a simplified version of the problem</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> DoA() 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> DoA() 
 {
 	<span style="color:#000;font-weight:bold">using</span> (TransactionScope scope = <span style="color:#000;font-weight:bold">new</span> TransactionScope()) 
 	{
@@ -135,14 +134,14 @@
 								
 						<div class="markdown">
 							<p>As i already wrote, last couple of days i&rsquo;ve been experimenting with PL/SQL. At work we use <a href="http://www.toadsoft.com/toad_oracle.htm">Toad for Oracle</a> but since <a href="http://www.toadsoft.com/">TOADSoft</a> only offers a limited freeware version i decided to write my code with <a href="http://www.vim.org">GVim</a> and use <a href="http://orafaq.com/faqplus.htm#WHAT">SQL*Plus</a> at home. Here are a couple of lines i added to my login.sql file</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">DEFINE _EDITOR<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;gvim -c &#34;set filetype=sql&#34;&#39;</span>
-<span style="color:#000;font-weight:bold">SET</span> SERVEROUTPUT <span style="color:#000;font-weight:bold">ON</span>
-<span style="color:#000;font-weight:bold">SET</span> LINESIZE <span style="color:#099">120</span>
-<span style="color:#000;font-weight:bold">SET</span> AUTOCOMMIT <span style="color:#000;font-weight:bold">OFF</span>
-<span style="color:#000;font-weight:bold">ALTER</span> <span style="color:#000;font-weight:bold">SESSION</span> <span style="color:#000;font-weight:bold">SET</span> NLS_DATE_FORMAT<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;YYYY-MM-DD&#39;</span>;
-</code></pre></div><p>In a stored procedure i created and filled an instance of NUMBER_TABLE (CREATE TYPE NUMBER_TABLE AS TABLE OF NUMBER) and my stored procedure tried to select all the rows in that table (SELECT * FROM V_NUMBER_TABLE). Apparently the engine didn&rsquo;t know this type @runtime despite the fact that i declared it in my stored procedure (V_NUMBER TABLE NUMBER_TABLE := NUMBER_TABLE();) and the engine compiled the package without errors. I got round that problem as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">FROM</span> (<span style="color:#000;font-weight:bold">CAST</span>(V_NUMBER_TABLE <span style="color:#000;font-weight:bold">AS</span> NUMBER_TABLE));
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">DEFINE<span style="color:#bbb"> </span>_EDITOR<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;gvim -c &#34;set filetype=sql&#34;&#39;</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SET</span><span style="color:#bbb"> </span>SERVEROUTPUT<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ON</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SET</span><span style="color:#bbb"> </span>LINESIZE<span style="color:#bbb"> </span><span style="color:#099">120</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SET</span><span style="color:#bbb"> </span>AUTOCOMMIT<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">OFF</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">ALTER</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SESSION</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SET</span><span style="color:#bbb"> </span>NLS_DATE_FORMAT<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;YYYY-MM-DD&#39;</span>;<span style="color:#bbb">
+</span></code></pre></div><p>In a stored procedure i created and filled an instance of NUMBER_TABLE (CREATE TYPE NUMBER_TABLE AS TABLE OF NUMBER) and my stored procedure tried to select all the rows in that table (SELECT * FROM V_NUMBER_TABLE). Apparently the engine didn&rsquo;t know this type @runtime despite the fact that i declared it in my stored procedure (V_NUMBER TABLE NUMBER_TABLE := NUMBER_TABLE();) and the engine compiled the package without errors. I got round that problem as following</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>(<span style="color:#000;font-weight:bold">CAST</span>(V_NUMBER_TABLE<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>NUMBER_TABLE));<span style="color:#bbb">
+</span></code></pre></div>
 						</div>
 			
 						<div class="tags">
@@ -208,7 +207,7 @@
 								
 						<div class="markdown">
 							<p>When i write Console Applications i find myself to write the following two lines quite often</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Console.Write(<span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Console.Write(<span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
 Console.ReadKey();
 </code></pre></div><p>As you already know i&rsquo;m lazy so i decided to write an <a href="http://msdn2.microsoft.com/en-us/library/ms165392.aspx">IntelliSense Code Snippet</a>. When i type &ldquo;pau&rdquo; Intellisense show the following:</p>
 <p><img src="http://www.timvw.be/wp-content/images/intellisense-drop-down-list.jpg" alt="Intellisense drop down list"></p>
@@ -250,7 +249,7 @@ Console.ReadKey();
 								
 						<div class="markdown">
 							<p>When i started working (already 3 weeks ago) i recieved a laptop. Friday i discovered that this laptop has a <a href="http://en.wikipedia.org/wiki/Smartcard">Smart card</a> reader and i wanted to experiment with it. I thought it would be nice if i could read the data on my <a href="http://eid.belgium.be/">eID</a>. Apart from <a href="http://download.microsoft.com/download/4/f/d/4fd49a94-8772-4bd0-88ca-bf46e2d029fc/WHITEPAPERS/Accessing%20the%20eID%20Middleware%20from%20.NET%20(Version%201.0).doc">Accessing the eID Middleware from .NET (Version 1.0)</a> i couldn&rsquo;t find much information. I decided to use the document as the basis for my own libeid wrapper. With the Simple (Wrapper API) reading data becomes extremely easy</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">using</span> <span style="color:#555">eID.Simple</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">using</span> <span style="color:#555">eID.Simple</span>;
 
 Reader reader = Reader.GetReader();
 pictureBox.Image = reader.GetImage();
@@ -324,7 +323,7 @@ dateTimePickerBirthdate.Value = reader.GetBirthdate();
 								
 						<div class="markdown">
 							<p>Earlier today i decided to toy around with my webcam. A couple of websearches later i ended up at <a href="http://msdn.microsoft.com/library/default.asp?url=../../library/en-us/wia/wia/overviews/startpage.asp">WIA (Windows Image Acquisition)</a>. I found a couple of articles (eg: <a href="http://msdn.microsoft.com/coding4fun/someassemblyrequired/lookatme/default.aspx">here</a> and <a href="http://blogs.msdn.com/robburke/archive/2005/09/21/472541.aspx">here</a>) that showed how to capture images. I wanted to display the caputered image in a <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.picturebox.aspx">PictureBox</a>. Unfortunately everybody seems to save the WIA.ImageFile to a file and then load the imagefile into a PictureBox. It&rsquo;s obvious that i don&rsquo;t want to save the image into a file first. Here is my workaround</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Load the ImageFile into a PictureBox
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Load the ImageFile into a PictureBox
 </span><span style="color:#998;font-style:italic"></span>pbImage.Image = Image.FromStream(<span style="color:#000;font-weight:bold">new</span> MemorySteam((<span style="color:#458;font-weight:bold">byte</span>[]) imgf.FileData.get_BinaryData()));
 </code></pre></div>
 						</div>
@@ -394,7 +393,7 @@ dateTimePickerBirthdate.Value = reader.GetBirthdate();
 								
 						<div class="markdown">
 							<p>For my graduation project i needed a component that could display a list of <a href="http://java.sun.com/j2ee/tutorial/1_3-fcs/doc/EJBConcepts4.html">Entity Beans</a>. I found that <a href="http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/JTable.html">JTable</a> is such a component and with the help of custom <a href="http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/table/TableCellRenderer.html">TableCellRenderer</a> and <a href="http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/table/TableCellEditor.html">TableCellEditor</a> components i was able to customize the rendering to my needs. In order to get the data into the JTable i implemented a custom <a href="http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/table/TableModel.html">TableModel</a>, namely <a href="http://www.timvw.be/wp-content/code/java/EntityTableModel.java.txt">EntityTableModel</a>. Now i can easily generate a JTable that displays Entity Beans</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// fetch the elements we want to display
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// fetch the elements we want to display
 </span><span style="color:#998;font-style:italic"></span>Object<span style="color:#000;font-weight:bold">[]</span> elements <span style="color:#000;font-weight:bold">=</span> employeeController
 	<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getEntityManager</span><span style="color:#000;font-weight:bold">()</span>
 	<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">createNamedQuery</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;findEmployees&#34;</span><span style="color:#000;font-weight:bold">)</span>
@@ -496,7 +495,7 @@ colAttrs<span style="color:#000;font-weight:bold">.</span><span style="color:#00
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

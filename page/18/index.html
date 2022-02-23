@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.92.2" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Tim Van Wassenhove - Passionate geek, interested in Technology. Proud father of two </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://timvw.be/feed.xml" title="Tim Van Wassenhove" />
 	<meta itemprop="name" content="Tim Van Wassenhove">
-<meta itemprop="description" content="">
-<meta property="og:title" content="Tim Van Wassenhove" />
+<meta itemprop="description" content=""><meta property="og:title" content="Tim Van Wassenhove" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-11-08T15:31:18+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -110,7 +109,7 @@
 						<div class="markdown">
 							<p>One of my main concerns with third party software, and software in general, is maintainability. The Rhino Mocks project has been out there for a couple of years now and i&rsquo;m pretty confident that it won&rsquo;t go away anytime soon. The Moq project is a lot younger and will have to proove that it can stay alive&hellip;</p>
 <p>Anyway, because most people seem to digg the Moq API i have decided to write an adapter that provides the same API using Rhino Mocks. Here are some simple examples</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> IEcho
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> IEcho
 {
 	<span style="color:#458;font-weight:bold">string</span> Echo(<span style="color:#458;font-weight:bold">string</span> input);
 }
@@ -219,7 +218,7 @@
 	}
 }
 </code></pre></div><p>Here is the actual code for this simplistic adapter</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Mock</span>&lt;T&gt; <span style="color:#000;font-weight:bold">where</span> T : <span style="color:#000;font-weight:bold">class</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Mock</span>&lt;T&gt; <span style="color:#000;font-weight:bold">where</span> T : <span style="color:#000;font-weight:bold">class</span>
 {
 	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">readonly</span> T mockedObject;
 
@@ -342,7 +341,7 @@
 								
 						<div class="markdown">
 							<p>Here is an example that demonstrates how strick mocks lead to overspecification. Imagine that we are creating a simple screen in a <a href="http://martinfowler.com/eaaDev/PassiveScreen.html">Passive View</a> architecture. The first feature that we implement is displaying the message &ldquo;edit&rdquo; when the user clicks the edit button</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[Fact]</span> <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldDisplayEditClickMessage()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[Fact]</span> <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldDisplayEditClickMessage()
 {
 	<span style="color:#998;font-style:italic">// Establish context
 </span><span style="color:#998;font-style:italic"></span>	MockRepository mockRepository = <span style="color:#000;font-weight:bold">new</span> MockRepository();
@@ -368,7 +367,7 @@
 }
 </code></pre></div><p><img src="http://www.timvw.be/wp-content/images/overspecification-01.PNG" alt="screenshot of test runner with all tests passing"></p>
 <p>And now we add the feature that displays the message &ldquo;save&rdquo; whenever the user clicks on the save button</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[Fact]</span> <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldDisplaySaveClickMessage()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[Fact]</span> <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldDisplaySaveClickMessage()
 {
 	<span style="color:#998;font-style:italic">// Establish context
 </span><span style="color:#998;font-style:italic"></span>	MockRepository mockRepository = <span style="color:#000;font-weight:bold">new</span> MockRepository();
@@ -435,62 +434,62 @@
 <ul>
 <li>Creating instances</li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Rhino  
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Rhino  
 </span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">var</span> productDetailView = MockRepository.GenerateStub&lt;iproductDetailView&gt;();
 </code></pre></div><p>vs</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Moq
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Moq
 </span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">var</span> productDetailViewMock = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iproductDetailView&gt;();
 </code></pre></div><ul>
 <li>Setting up results</li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Rhino Mocks
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Rhino Mocks
 </span><span style="color:#998;font-style:italic"></span>productRepository
     .Stub(repository =&gt; repository.GetCategory(<span style="color:#099">0</span>)).IgnoreArguments()
     .Do((Delegates.Function&lt;icategory, <span style="color:#458;font-weight:bold">int</span>&gt;)(categoryId =&gt; <span style="color:#000;font-weight:bold">return</span> category;));
 </code></pre></div><p>vs</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Moq
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Moq
 </span><span style="color:#998;font-style:italic"></span>productRepositoryMock    
     .Setup(repository =&gt; repository.GetCategory(It.IsAny&lt;<span style="color:#458;font-weight:bold">int</span>&gt;())) 
     .Returns&lt;<span style="color:#458;font-weight:bold">int</span>&gt;(categoryId =&gt; <span style="color:#000;font-weight:bold">return</span> category.Object;});
 </code></pre></div><ul>
 <li>Consuming the mocked objects</li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Rhino Mocks
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Rhino Mocks
 </span><span style="color:#998;font-style:italic">// Nothing to do
 </span></code></pre></div><p>vs</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Moq  
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Moq  
 </span><span style="color:#998;font-style:italic">// Nothing to do
 </span></code></pre></div><ul>
 <li>Raising events</li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Rhino Mocks
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Rhino Mocks
 </span><span style="color:#998;font-style:italic"></span>productDetailView.Raise(view =&gt; view.EditClick += <span style="color:#000;font-weight:bold">null</span>).Raise(sender, EventArgs.Empty);
 </code></pre></div><p>vs</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Moq  
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Moq  
 </span><span style="color:#998;font-style:italic"></span>productDetailViewMock.Raise(view =&gt; view.EditClick += <span style="color:#000;font-weight:bold">null</span>, sender, EventArgs.Empty);
 </code></pre></div><ul>
 <li>Verifying that a method was invoked</li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Rhino Mocks -- Odd that i&#39;m asserting on a Stub.
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Rhino Mocks -- Odd that i&#39;m asserting on a Stub.
 </span><span style="color:#998;font-style:italic"></span>productRepository.AssertWasCalled(    
     repository =&gt; repository.FindCategories(
     Arg&lt;ispecification&lt;icategory&gt;&gt;.Matches(Is.TypeOf(<span style="color:#000;font-weight:bold">typeof</span>(All&lt;icategory&gt;)))));
 </code></pre></div><p>vs</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Moq
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Moq
 </span><span style="color:#998;font-style:italic"></span>productRepositoryMock.Verify(    
     repository =&gt; repository.FindCategories(
 		It.Is&lt;ispecification&lt;icategory&gt;&gt;(specification =&gt; specification.GetType() == <span style="color:#000;font-weight:bold">typeof</span>(All&lt;icategory&gt;))));
 </code></pre></div><ul>
 <li>Override a result</li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Rhino Mocks  
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Rhino Mocks  
 </span><span style="color:#998;font-style:italic"></span>productDetailView.BackToRecord();
     
 productDetailView    
     .Stub(view =&gt; view.CategoryId)
     .Returns(<span style="color:#099">2</span>);
 </code></pre></div><p>vs</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Moq  
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Moq  
 </span><span style="color:#998;font-style:italic"></span>productDetailViewMock
     .Setup(view =&gt; view.CategoryId).Returns(<span style="color:#099">2</span>);
 </code></pre></div><p><strong>Editted code to take advantage of the new AAA syntax that comes with Rhino Mocks 3.5 If only someone could show me how i can override a Stubbed result&hellip;</strong></p>
@@ -538,35 +537,35 @@ productDetailView
 <li>It should not be possible to edit the quote</li>
 </ul>
 <p>Now we translate these requirements in <a href="http://www.timvw.be/wp-content/code/csharp/Code-01.txt">code</a>. Because it is too expensive to test with actual Windows resources I have decided to use a mock object that mimics the actual resource. This is done in the Given method which arranges the context in which we want to verify the behavior:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iquoteFormView&gt;();
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iquoteFormView&gt;();
 <span style="color:#998;font-style:italic">// The mimicked view object is available via the Object property
 </span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">this</span>.sut = <span style="color:#000;font-weight:bold">new</span> QuoteFormPresenter(<span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock.Object);
 </code></pre></div><p>The When method is used to invoke the behavior that we want to verify. In the situation where the user launches the application this means raising the Load event:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock.Raise(view =&gt; view.Load += <span style="color:#000;font-weight:bold">null</span>, <span style="color:#000;font-weight:bold">null</span>, EventArgs.Empty);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock.Raise(view =&gt; view.Load += <span style="color:#000;font-weight:bold">null</span>, <span style="color:#000;font-weight:bold">null</span>, EventArgs.Empty);
 </code></pre></div><p>We can verify that a certain method has been called as following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock.Verify(view =&gt; view.MakeEditButtonVisible(<span style="color:#000;font-weight:bold">true</span>));
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock.Verify(view =&gt; view.MakeEditButtonVisible(<span style="color:#000;font-weight:bold">true</span>));
 </code></pre></div><p>In situations where we don’t have the exact parameters for the method that should be invoked we can use the <a href="http://api.moq.me/html/FBE0FFA5.htm">It</a> class to describe those parameters:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock.Verify(view =&gt; view.DisplayQuote(It.IsAny&lt;<span style="color:#458;font-weight:bold">string</span>&gt;()));
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock.Verify(view =&gt; view.DisplayQuote(It.IsAny&lt;<span style="color:#458;font-weight:bold">string</span>&gt;()));
 </code></pre></div><p>We repeat this process of defining and implementing the requirements for the other interactions we want to describe. We end up with a set of requirements that looks like this:</p>
 <p><img src="http://www.timvw.be/wp-content/images/QuoteOfTheDay-03.jpg" alt="screenshot of test manager"></p>
 <p>In case the user clicked the Cancel button we want to verify that the updated quote is not displayed:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock.Verify(view =&gt; view.DisplayQuote(It.IsAny&lt;<span style="color:#458;font-weight:bold">string</span>&gt;()), Times.Never());
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock.Verify(view =&gt; view.DisplayQuote(It.IsAny&lt;<span style="color:#458;font-weight:bold">string</span>&gt;()), Times.Never());
 </code></pre></div><p>In case the user clicked the OK button we have to ensure a context where an updated quote is available. This is achieved by adding the following in our Given method:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock
 .Setup(view =&gt; view.UpdatedQuote)
 .Returns(<span style="color:#000;font-weight:bold">this</span>.updatedQuote);
 </code></pre></div><p>Now we can verify that the updated quote is displayed:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock.Verify(view =&gt; view.DisplayQuote(<span style="color:#000;font-weight:bold">this</span>.updatedQuote));
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock.Verify(view =&gt; view.DisplayQuote(<span style="color:#000;font-weight:bold">this</span>.updatedQuote));
 </code></pre></div><p>Virtually every application interacts with a database and the same is true for our application. Just like we abstracted our view, we decide to abstract our quote resource too. In case the user clicked the OK button we want to verify that the resource was instructed to update the quote.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">var</span> quote = <span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock.Object.UpdatedQuote;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">var</span> quote = <span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock.Object.UpdatedQuote;
 <span style="color:#000;font-weight:bold">this</span>.quoteResourceMock.Verify(resource =&gt; resource.Update(quote));
 </code></pre></div><p>In case the quote resource fails we would like to display an error message. To achieve this we create a new test that establishes a context where the quote resource throws an exception when it is asked to update a quote as following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">base</span>.Given();
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">base</span>.Given();
 <span style="color:#000;font-weight:bold">base</span>.quoteResourceMock
 .Setup(resource =&gt; resource.Update(It.IsAny&lt;<span style="color:#458;font-weight:bold">string</span>&gt;()))
 .Throws(<span style="color:#000;font-weight:bold">new</span> ApplicationException(<span style="color:#d14">&#34;Resource is unavailable.&#34;</span>));
 </code></pre></div><p>Sometimes we want to determine what should happen based on the parameters that are provided. In that case we can provide the Returns function a delegate:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">base</span>.quoteResourceMock
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">base</span>.quoteResourceMock
 .Setup(resource =&gt; resource.Update(It.IsAny&lt;<span style="color:#458;font-weight:bold">string</span>&gt;()))
 .Returns&lt;<span style="color:#458;font-weight:bold">string</span>&gt;(quote =&gt;
 {
@@ -640,7 +639,7 @@ productDetailView
 								
 						<div class="markdown">
 							<p>In the <a href="http://code.google.com/p/moq/wiki/QuickStart">Quickstart</a> guide we find an example that shows us how to setup a different return value for each invocation as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// returning different values on each invocation
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// returning different values on each invocation
 </span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">var</span> mock = <span style="color:#000;font-weight:bold">new</span> Mock&lt;ifoo&gt;();
 <span style="color:#458;font-weight:bold">var</span> calls = <span style="color:#099">0</span>;
 mock.Setup(foo =&gt; foo.Execute(<span style="color:#d14">&#34;ping&#34;</span>))
@@ -649,7 +648,7 @@ mock.Setup(foo =&gt; foo.Execute(<span style="color:#d14">&#34;ping&#34;</span>)
 <span style="color:#998;font-style:italic">// returns 0 on first invocation, 1 on the next, and so on
 </span><span style="color:#998;font-style:italic"></span>Console.WriteLine(mock.Object.Execute(<span style="color:#d14">&#34;ping&#34;</span>));
 </code></pre></div><p>In <a href="http://www.madprops.org/blog/moq-triqs-successive-expectations/">Moq Triqs &ndash; Successive Expectations</a> i found inspiration to implement an extension method that allows me to define an expectation that calls a set of successive functions</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MoqExtensions</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MoqExtensions</span>
 {
 	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> IReturnsResult&lt;tmock&gt; ReturnsInOrder&lt;tmock, TResult&gt;(<span style="color:#000;font-weight:bold">this</span> ISetup&lt;tmock, TResult&gt; setup, <span style="color:#000;font-weight:bold">params</span> Func&lt;tresult&gt;[] valueFunctions) <span style="color:#000;font-weight:bold">where</span> TMock : <span style="color:#000;font-weight:bold">class</span>
 	{
@@ -658,7 +657,7 @@ mock.Setup(foo =&gt; foo.Execute(<span style="color:#d14">&#34;ping&#34;</span>)
 	}
 }
 </code></pre></div><p>This allows me to define a set of functions that i want to be called for each successive call</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">WhenSettingUpOrderedExpectationFunctions</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">WhenSettingUpOrderedExpectationFunctions</span>
 {
 	<span style="color:#000;font-weight:bold">interface</span> ICategory { <span style="color:#458;font-weight:bold">int</span> Id { <span style="color:#000;font-weight:bold">get</span>; } }
 <span style="color:#008080">
@@ -709,9 +708,9 @@ mock.Setup(foo =&gt; foo.Execute(<span style="color:#d14">&#34;ping&#34;</span>)
 								
 						<div class="markdown">
 							<p>For a couple of days now i&rsquo;ve been pondering about posting something about my love for <a href="http://www.gnu.org/software/textutils/">GNU text-utilities</a> but never got round to it. A couple of minutes ago i read Phil Windley&rsquo;s <a href="http://www.windley.com/archives/2009/03/using_grep_and_find.shtml">Using Grep and Find</a> post so here is a one-liner that shows how you can add a reference to a msbuild target file to all csproj files in a given folder:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">find -name *.csproj -exec sed -i -e <span style="color:#d14">&#39;#^&lt;/project&gt;$# &lt;import Project=&#34;X:\\BuildTasks\\Corp.targets&#34; /&gt;\r\n&lt;/project&gt;&#39;</span> <span style="color:#000;font-weight:bold">{}</span> <span style="color:#d14">\;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">find -name *.csproj -exec sed -i -e <span style="color:#d14">&#39;#^&lt;/project&gt;$# &lt;import Project=&#34;X:\\BuildTasks\\Corp.targets&#34; /&gt;\r\n&lt;/project&gt;&#39;</span> <span style="color:#000;font-weight:bold">{}</span> <span style="color:#d14">\;</span>
 </code></pre></div><p>Or if you are frustrated with System.Diagnostics.CodeAnalysis.SuppressMessageAttributes and want to remove them from all your cs files:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">find -name <span style="color:#d14">\*</span>.cs -exed sed -r -i -e <span style="color:#d14">&#39;s#\[.\*?SuppressMessage.*?\]##&#39;</span> <span style="color:#000;font-weight:bold">{}</span> <span style="color:#d14">\&#34;</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">find -name <span style="color:#d14">\*</span>.cs -exed sed -r -i -e <span style="color:#d14">&#39;s#\[.\*?SuppressMessage.*?\]##&#39;</span> <span style="color:#000;font-weight:bold">{}</span> <span style="color:#d14">\&#34;</span>;
 </code></pre></div>
 						</div>
 			
@@ -782,7 +781,7 @@ mock.Setup(foo =&gt; foo.Execute(<span style="color:#d14">&#34;ping&#34;</span>)
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

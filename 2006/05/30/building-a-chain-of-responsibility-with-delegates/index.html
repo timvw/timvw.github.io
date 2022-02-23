@@ -5,21 +5,17 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Building a chain of responsibility with delegates - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta itemprop="name" content="Building a chain of responsibility with delegates">
 <meta itemprop="description" content="Imagine that you have to write a function that verifies if there is a license available for a given clientID. Suppose that there are a couple of possibilities to find an available license. Your code would probably look like the following
-// This code verifies if the client with the given clientID is licensed // returns the licenseID or 0 if no license is available public Int32 IsLicensed(Int32 clientID) { int result = 0; // verify if there is already a license &#39;assigned&#39; to the client 	result = IsAssigned(clientID); if (result == 0) { // find a dedicated license (license that is bound to the given client) 	result = IsDedicated(clientID); if (result == 0) { // find a nondedicated license (license that can be used by any client) 	result = IsNonDedicated(clientID); } } return result; } It&rsquo;s obvious that this structures becomes more complex as the number of possible ways to get a license grows.">
-<meta itemprop="datePublished" content="2006-05-30T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-11-08T15:31:18+01:00" />
+// This code verifies if the client with the given clientID is licensed // returns the licenseID or 0 if no license is available public Int32 IsLicensed(Int32 clientID) { int result = 0; // verify if there is already a license &#39;assigned&#39; to the client 	result = IsAssigned(clientID); if (result == 0) { // find a dedicated license (license that is bound to the given client) 	result = IsDedicated(clientID); if (result == 0) { // find a nondedicated license (license that can be used by any client) 	result = IsNonDedicated(clientID); } } return result; } It&rsquo;s obvious that this structures becomes more complex as the number of possible ways to get a license grows."><meta itemprop="datePublished" content="2006-05-30T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-02-23T13:00:13+01:00" />
 <meta itemprop="wordCount" content="332">
-
-
-
-<meta itemprop="keywords" content="CSharp," />
-<meta property="og:title" content="Building a chain of responsibility with delegates" />
+<meta itemprop="keywords" content="CSharp," /><meta property="og:title" content="Building a chain of responsibility with delegates" />
 <meta property="og:description" content="Imagine that you have to write a function that verifies if there is a license available for a given clientID. Suppose that there are a couple of possibilities to find an available license. Your code would probably look like the following
 // This code verifies if the client with the given clientID is licensed // returns the licenseID or 0 if no license is available public Int32 IsLicensed(Int32 clientID) { int result = 0; // verify if there is already a license &#39;assigned&#39; to the client 	result = IsAssigned(clientID); if (result == 0) { // find a dedicated license (license that is bound to the given client) 	result = IsDedicated(clientID); if (result == 0) { // find a nondedicated license (license that can be used by any client) 	result = IsNonDedicated(clientID); } } return result; } It&rsquo;s obvious that this structures becomes more complex as the number of possible ways to get a license grows." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2006/05/30/building-a-chain-of-responsibility-with-delegates/" />
+<meta property="og:url" content="https://timvw.be/2006/05/30/building-a-chain-of-responsibility-with-delegates/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2006-05-30T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-11-08T15:31:18+01:00" />
+<meta property="article:modified_time" content="2022-02-23T13:00:13+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Building a chain of responsibility with delegates"/>
 <meta name="twitter:description" content="Imagine that you have to write a function that verifies if there is a license available for a given clientID. Suppose that there are a couple of possibilities to find an available license. Your code would probably look like the following
@@ -81,7 +77,7 @@
 					
 			<div class="markdown">
 				<p>Imagine that you have to write a function that verifies if there is a license available for a given clientID. Suppose that there are a couple of possibilities to find an available license. Your code would probably look like the following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// This code verifies if the client with the given clientID is licensed
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// This code verifies if the client with the given clientID is licensed
 </span><span style="color:#998;font-style:italic">// returns the licenseID or 0 if no license is available
 </span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">public</span> Int32 IsLicensed(Int32 clientID) 
 {
@@ -105,7 +101,7 @@
 	<span style="color:#000;font-weight:bold">return</span> result;
 }
 </code></pre></div><p>It&rsquo;s obvious that this structures becomes more complex as the number of possible ways to get a license grows. If you look a while at the structure you&rsquo;ll notice a pattern: each function (IsAssigned, IsDedicated, IsNonDedicted) verifies if there is a license availble. If the function didn&rsquo;t find a license the next function is performed. If you translate this to OO you would end up with something similar to the following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// this methods tries to find an available license for the given clientID
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// this methods tries to find an available license for the given clientID
 </span><span style="color:#998;font-style:italic">// returns the licenseID or 0 if no license was found
 </span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">delegate</span> Int32 FindLicenseMethod(Int32 clientID);
 
@@ -166,7 +162,7 @@
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

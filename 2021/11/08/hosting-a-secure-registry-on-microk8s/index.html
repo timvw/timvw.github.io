@@ -7,23 +7,19 @@
 <meta itemprop="description" content="The documentation for microk8s seems to suggest that there is a built-in registry that can be used, but not in a secure way.
 In essence, you need to configure the following:
  Storage  For storage I will assume that the local filesystem is sufficient (or that you have a safety net, such as NFS backing it up, in place).
- Authentication  For authentication I use create a secret which contains a htpasswd file, here is how you can generate this:">
-<meta itemprop="datePublished" content="2021-11-08T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-11-08T15:31:18+01:00" />
+ Authentication  For authentication I use create a secret which contains a htpasswd file, here is how you can generate this:"><meta itemprop="datePublished" content="2021-11-08T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-02-23T13:00:13+01:00" />
 <meta itemprop="wordCount" content="230">
-
-
-
-<meta itemprop="keywords" content="" />
-<meta property="og:title" content="Hosting a secure registry on microk8s" />
+<meta itemprop="keywords" content="" /><meta property="og:title" content="Hosting a secure registry on microk8s" />
 <meta property="og:description" content="The documentation for microk8s seems to suggest that there is a built-in registry that can be used, but not in a secure way.
 In essence, you need to configure the following:
  Storage  For storage I will assume that the local filesystem is sufficient (or that you have a safety net, such as NFS backing it up, in place).
  Authentication  For authentication I use create a secret which contains a htpasswd file, here is how you can generate this:" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2021/11/08/hosting-a-secure-registry-on-microk8s/" />
+<meta property="og:url" content="https://timvw.be/2021/11/08/hosting-a-secure-registry-on-microk8s/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-11-08T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-11-08T15:31:18+01:00" />
+<meta property="article:modified_time" content="2022-02-23T13:00:13+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Hosting a secure registry on microk8s"/>
 <meta name="twitter:description" content="The documentation for microk8s seems to suggest that there is a built-in registry that can be used, but not in a secure way.
@@ -96,14 +92,14 @@ In essence, you need to configure the following:
 <li>Authentication</li>
 </ul>
 <p>For authentication I use create a secret which contains a htpasswd file, here is how you can generate this:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run --rm --entrypoint htpasswd registry:2.6.2 -Bbn username password &gt; ./registry-htpasswd
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run --rm --entrypoint htpasswd registry:2.6.2 -Bbn username password &gt; ./registry-htpasswd
 kubectl create secret generic auth-secret --from-file<span style="color:#000;font-weight:bold">=</span>./registry-htpasswd -n registry
 </code></pre></div><ul>
 <li>A TLS certificate</li>
 </ul>
 <p>The TLS certificate is generated using <a href="https://cert-manager.io/docs/">cert-manager</a>. See this <a href="https://timvw.be/2021/03/15/notes-on-microk8s-and-cert-manager/">post</a> on how to achieve that.</p>
 <p>When all is in place you can simply kubectl apply the following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>v1<span style="color:#bbb">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>v1<span style="color:#bbb">
 </span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>Namespace<span style="color:#bbb">
 </span><span style="color:#bbb"></span><span style="color:#000080">metadata</span>:<span style="color:#bbb">
 </span><span style="color:#bbb">  </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
@@ -206,15 +202,15 @@ kubectl create secret generic auth-secret --from-file<span style="color:#000;fon
 </span><span style="color:#bbb">            </span><span style="color:#000080">port</span>:<span style="color:#bbb">
 </span><span style="color:#bbb">              </span><span style="color:#000080">number</span>:<span style="color:#bbb"> </span><span style="color:#099">5000</span><span style="color:#bbb">   
 </span></code></pre></div><p>Once everything is in place you can test the registry by running:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker login registry.apps.timvw.be
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker login registry.apps.timvw.be
 </code></pre></div><p>In order to use this registry in your cluster you need to have a <a href="https://kubernetes.io/docs/concepts/configuration/secret/">secret</a> in the namespace where the pods are created with the following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create secret docker-registry regcred -n demo <span style="color:#d14">\
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create secret docker-registry regcred -n demo <span style="color:#d14">\
 </span><span style="color:#d14"></span>  --docker-server<span style="color:#000;font-weight:bold">=</span>registry.apps.timvw.be <span style="color:#d14">\
 </span><span style="color:#d14"></span>  --docker-username<span style="color:#000;font-weight:bold">=</span>username <span style="color:#d14">\
 </span><span style="color:#d14"></span>  --docker-password<span style="color:#000;font-weight:bold">=</span>password <span style="color:#d14">\
 </span><span style="color:#d14"></span>  --docker-email<span style="color:#000;font-weight:bold">=</span>test@example.com
 </code></pre></div><p>Now you can create a deployment using this secret and referencing images on the registry:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#555">---</span><span style="color:#bbb">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#555">---</span><span style="color:#bbb">
 </span><span style="color:#bbb"></span><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>apps/v1<span style="color:#bbb">
 </span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>Deployment<span style="color:#bbb">
 </span><span style="color:#bbb"></span><span style="color:#555">...</span><span style="color:#bbb">
@@ -236,7 +232,7 @@ kubectl create secret generic auth-secret --from-file<span style="color:#000;fon
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

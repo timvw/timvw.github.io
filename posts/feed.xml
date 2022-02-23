@@ -260,7 +260,7 @@ let (|Array|_|) pattern toMatch = let patternLength = Array.length pattern let t
       
       <guid>https://timvw.be/2013/04/27/the-curious-case-of-trailing-spaces-in-sql/</guid>
       <description>A while ago I was quite surprised to see that the following query returns 1 instead of 0:
-SELECT COUNT(*) WHERE N&amp;#39;Tim&amp;#39; = N&amp;#39;Tim &amp;#39;; -- notice the trailing space Apparently this is just standard behaviour. Here is an extract from sql1992.txt (Section 8.2 Paragraph 3):</description>
+SELECTCOUNT(*)WHEREN&amp;#39;Tim&amp;#39;=N&amp;#39;Tim &amp;#39;;-- notice the trailing space Apparently this is just standard behaviour. Here is an extract from sql1992.txt (Section 8.2 Paragraph 3):</description>
     </item>
     
     <item>
@@ -270,7 +270,7 @@ SELECT COUNT(*) WHERE N&amp;#39;Tim&amp;#39; = N&amp;#39;Tim &amp;#39;; -- notic
       
       <guid>https://timvw.be/2012/10/18/sample-query-to-demonstrate-influence-of-collation-in-sql-server/</guid>
       <description>Lately I had the pleasure to investigate collations and here is a sample query that demonstrates how a collation impacts the behaviour of a query:
-WITH [Words] AS ( SELECT N&amp;#39;Een&amp;#39; AS [word] UNION ALL SELECT N&amp;#39;Eèn&amp;#39;	UNION ALL SELECT N&amp;#39;EEN&amp;#39; ) SELECT [word]	FROM [Words] WHERE [word]	--COLLATE Latin1_General_CS_AS -- returns Een --COLLATE Latin1_General_CI_AI -- returns Een, Eèn and EEN --COLLATE LAtin1_General_CI_AS -- returns Een and EEN COLLATE Latin1_General_CS_AI -- returns Een and Eèn = N&amp;#39;Een&amp;#39;; </description>
+WITH[Words]AS(SELECTN&amp;#39;Een&amp;#39;AS[word]UNIONALLSELECTN&amp;#39;Eèn&amp;#39;UNIONALLSELECTN&amp;#39;EEN&amp;#39;)SELECT[word]FROM[Words]WHERE[word]--COLLATE Latin1_General_CS_AS -- returns Een --COLLATE Latin1_General_CI_AI -- returns Een, Eèn and EEN --COLLATE LAtin1_General_CI_AS -- returns Een and EEN COLLATELatin1_General_CS_AI-- returns Een and Eèn =N&amp;#39;Een&amp;#39;;</description>
     </item>
     
     <item>
@@ -320,7 +320,8 @@ $RootFolder = &amp;#39;C:\tfs&amp;#39; Get-ChildItem $RootFolder bin -Recurse | 
       <guid>https://timvw.be/2012/03/27/an-example-of-common-table-expression-and-window-function-usage.../</guid>
       <description>Earlier this week some colleague had been assigned a maintenance task and asked me how I would solve it. Every customer is permitted to have an amount of publications. All excess publications should be removed from the system (only the n most recent ones are permitted to remain on the system).
 Here is an example of the Customer table:
-CREATE TABLE [dbo].[Customer]( [CustomerId] [int] IDENTITY(1,1) NOT NULL, [CustomerName] [nvarchar](50) NOT NULL, [PermittedPublications] [int] NOT NULL ); INSERT INTO [dbo].</description>
+CREATETABLE[dbo].[Customer]([CustomerId][int]IDENTITY(1,1)NOTNULL,[CustomerName][nvarchar](50)NOTNULL,[PermittedPublications][int]NOTNULL);INSERTINTO[dbo].[Customer]([CustomerName],[PermittedPublications])VALUES(&amp;#39;timvw&amp;#39;,2),(&amp;#39;mike&amp;#39;,3);An example of the customer publications table:
+CREATETABLE[dbo].[Publication]([PublicationId][int]IDENTITY(1,1)NOTNULL,[CustomerId][int]NOTNULL,[PublicationName][nvarchar](50)NOTNULL,[PublicationTime][datetime2]NOTNULL);INSERTINTO[dbo].[Publication]([CustomerId],[PublicationName],[PublicationTime])VALUES((SELECT[CustomerId]FROM[dbo].[Customer]WHERE[CustomerName]=&amp;#39;timvw&amp;#39;),&amp;#39;tim pub1&amp;#39;,SYSUTCDATETIME()),((SELECT[CustomerId]FROM[dbo].[Customer]WHERE[CustomerName]=&amp;#39;timvw&amp;#39;),&amp;#39;tim pub2&amp;#39;,SYSUTCDATETIME()),((SELECT[CustomerId]FROM[dbo].[Customer]WHERE[CustomerName]=&amp;#39;timvw&amp;#39;),&amp;#39;tim pub&amp;#39;,SYSUTCDATETIME()),((SELECT[CustomerId]FROM[dbo].[Customer]WHERE[CustomerName]=&amp;#39;timvw&amp;#39;),&amp;#39;tim pub4&amp;#39;,SYSUTCDATETIME()),((SELECT[CustomerId]FROM[dbo].</description>
     </item>
     
     <item>
@@ -382,7 +383,7 @@ This is how it looks like in your trace window:</description>
       
       <guid>https://timvw.be/2011/08/01/specialized-solution-for-aggregate-string-concatenation/</guid>
       <description>I have noticed that most people come up with the following solution to build a string in T-SQL:
-WITH [Numbers] AS (	SELECT TOP(10) [n]	FROM [Nums] )	SELECT @message = COALESCE(@message, &amp;#39;&amp;#39;) + &amp;#39;&amp;#39; + CAST([n] AS nvarchar(2))	FROM [Numbers]; SELECT @message = STUFF(@message, 1, 2, &amp;#39;&amp;#39;); SELECT @message;  Important! Microsoft has no official documentation describing this aggregate concatenation technique that is based on the assignment SELECT syntax. The behavior described here is based on observation alone.</description>
+WITH[Numbers]AS(SELECTTOP(10)[n]FROM[Nums])SELECT@message=COALESCE(@message,&amp;#39;&amp;#39;)+&amp;#39;&amp;#39;+CAST([n]ASnvarchar(2))FROM[Numbers];SELECT@message=STUFF(@message,1,2,&amp;#39;&amp;#39;);SELECT@message; Important! Microsoft has no official documentation describing this aggregate concatenation technique that is based on the assignment SELECT syntax. The behavior described here is based on observation alone. The current implementation of the ConcatOrders function doesn’t incorporate an ORDER BY clause and does not guarantee the order of concatenation. According to a blog entry by Microsoft’s Conor Cunningham, it seems that SQL Server will respect an ORDER BY clause if specified (http://blogs.</description>
     </item>
     
     <item>
@@ -413,7 +414,8 @@ function GetDtExecPath { $DtsPath = (Get-ItemProperty &amp;#39;HKLM:\SOFTWARE\Mi
       
       <guid>https://timvw.be/2011/07/13/building-a-nums-table-quickly/</guid>
       <description>A while ago i presented my approach to generate a nums table here.
-DECLARE @count INT = 1000; WITH [Nums1] AS ( SELECT 1 AS [Value] UNION SELECT 2 AS [Value] ) , [Nums2] AS ( SELECT A.* FROM [Nums1] AS A, [Nums1] AS B, [Nums1] AS C) , [Nums3] AS ( SELECT A.* FROM [Nums2] AS A, [Nums2] AS B, [Nums2] AS C) , [Nums4] AS ( SELECT A.* FROM [Nums3] AS A, [Nums3] AS B ) , [Numbers] AS ( SELECT TOP(@count) -1 + ROW_NUMBER() OVER(ORDER BY [Value]) AS [Value] FROM[Nums4] ) SELECT * FROM [Numbers]; Because we only use this code once to fill the table we don&amp;rsquo;t really care that it is not very fast.</description>
+DECLARE@countINT=1000;WITH[Nums1]AS(SELECT1AS[Value]UNIONSELECT2AS[Value]),[Nums2]AS(SELECTA.*FROM[Nums1]ASA,[Nums1]ASB,[Nums1]ASC),[Nums3]AS(SELECTA.*FROM[Nums2]ASA,[Nums2]ASB,[Nums2]ASC),[Nums4]AS(SELECTA.*FROM[Nums3]ASA,[Nums3]ASB),[Numbers]AS(SELECTTOP(@count)-1+ROW_NUMBER()OVER(ORDERBY[Value])AS[Value]FROM[Nums4])SELECT*FROM[Numbers];Because we only use this code once to fill the table we don&amp;rsquo;t really care that it is not very fast. Today i discovered there is a way to speed it up in this wonderful book: Inside Microsoft® SQL Server® 2008: T-SQL Querying:
+WITH[Nums1]AS(SELECT1AS[Value]UNIONSELECT2AS[Value]),[Nums2]AS(SELECTA.*FROM[Nums1]ASA,[Nums1]ASB,[Nums1]ASC),[Nums3]AS(SELECTA.*FROM[Nums2]ASA,[Nums2]ASB,[Nums2]ASC),[Nums4]AS(SELECTA.*FROM[Nums3]ASA,[Nums3]ASB),[Numbers]AS(SELECTTOP(@count)-1+ROW_NUMBER()OVER(ORDERBY(SELECT0))AS[Value]FROM[Nums4])SELECT*FROM[Numbers];Yay for features like ORDER BY (SELECT ).</description>
     </item>
     
     <item>
@@ -423,7 +425,8 @@ DECLARE @count INT = 1000; WITH [Nums1] AS ( SELECT 1 AS [Value] UNION SELECT 2 
       
       <guid>https://timvw.be/2011/07/13/using-user-defined-table-type-with-identity-column-in-ado.net/</guid>
       <description>A while ago i wanted to use a User-Defined Table Type to pass in a set of records. Nothing special about this except that the first column of the UDTT was an Identity column:
-CREATE TYPE [Star].[example] AS TABLE( [Ordinal] [int] IDENTITY(1,1) NOT NULL, [Name] [nvarchar](200) NOT NULL, ) After finding a lot of posts saying that this is not supported a colleague of mine, Stephen Horsfield, found a way to do it as following:</description>
+CREATETYPE[Star].[example]ASTABLE([Ordinal][int]IDENTITY(1,1)NOTNULL,[Name][nvarchar](200)NOTNULL,)After finding a lot of posts saying that this is not supported a colleague of mine, Stephen Horsfield, found a way to do it as following:
+var sqlMetaData = new[] { new SqlMetaData(&amp;#34;Ordinal&amp;#34;, SqlDbType.Int, true, false, SortOrder.</description>
     </item>
     
     <item>
@@ -618,7 +621,7 @@ Let me explain with an example: The boss comes in and asks for a report that con
       
       <guid>https://timvw.be/2010/12/10/exploring-window-functions/</guid>
       <description>Here is a sample query that allows you to explore the behavior of various aggregate window functions:
-WITH [Nums1] AS ( SELECT 1 AS [Value] UNION SELECT 2 AS [Value] ) , [Nums2] AS ( SELECT A.* FROM [Nums1] AS A, [Nums1] AS B, [Nums1] AS C) , [Nums3] AS ( SELECT A.* FROM [Nums2] AS A, [Nums2] AS B, [Nums2] AS C) , [Nums4] AS ( SELECT A.* FROM [Nums3] AS A, [Nums3] AS B ) -- Build numbers from 1 to 1000 , [Numbers] AS ( SELECT TOP(1000) ROW_NUMBER() OVER(ORDER BY [Value]) AS [Value] FROM[Nums4] ) SELECT [Value] , ROW_NUMBER() OVER(PARTITION BY [Value] / 100 ORDER BY [Value] % 10) AS [RowNumber] , RANK() OVER(PARTITION BY [Value] / 100 ORDER BY [Value] % 10) AS [Rank] , DENSE_RANK() OVER (PARTITION BY [Value] / 100 ORDER BY [Value] % 10) AS [DenseRank] , NTILE(4) OVER (PARTITION BY [Value] / 100 ORDER BY [Value] % 10) AS [Tile100] FROM [Numbers] ORDER BY [Value]; </description>
+WITH[Nums1]AS(SELECT1AS[Value]UNIONSELECT2AS[Value]),[Nums2]AS(SELECTA.*FROM[Nums1]ASA,[Nums1]ASB,[Nums1]ASC),[Nums3]AS(SELECTA.*FROM[Nums2]ASA,[Nums2]ASB,[Nums2]ASC),[Nums4]AS(SELECTA.*FROM[Nums3]ASA,[Nums3]ASB)-- Build numbers from 1 to 1000 ,[Numbers]AS(SELECTTOP(1000)ROW_NUMBER()OVER(ORDERBY[Value])AS[Value]FROM[Nums4])SELECT[Value],ROW_NUMBER()OVER(PARTITIONBY[Value]/100ORDERBY[Value]%10)AS[RowNumber],RANK()OVER(PARTITIONBY[Value]/100ORDERBY[Value]%10)AS[Rank],DENSE_RANK()OVER(PARTITIONBY[Value]/100ORDERBY[Value]%10)AS[DenseRank],NTILE(4)OVER(PARTITIONBY[Value]/100ORDERBY[Value]%10)AS[Tile100]FROM[Numbers]ORDERBY[Value];</description>
     </item>
     
     <item>
@@ -730,7 +733,7 @@ dir c:\code | foreach { tortoiseproc /command:update /closeonend:1 /path:$($_.</
       
       <guid>https://timvw.be/2010/09/07/t-sql-remove-all-rows-from-all-tables-in-your-schema/</guid>
       <description>Sometimes i want to quickly clean up a database and start from fresh. Here is a small script that does exactly that.. (I just run the script a couple of times, untill no affected rows remain&amp;hellip; Far more efficient than figuring out which constraints exist, building up a dependency tree, and cleanly deleting all rows):
--- Remove all rows from all tables DECLARE @tableName VARCHAR(255) DECLARE tableNames CURSOR FOR SELECT name FROM sys.</description>
+-- Remove all rows from all tables DECLARE@tableNameVARCHAR(255)DECLAREtableNamesCURSORFORSELECTnameFROMsys.Tables;OPENtableNamesFETCHNEXTFROMtableNamesINTO@tableNameWHILE@@FETCH_STATUS=0BEGINEXEC(&amp;#39;DELETE FROM [&amp;#39;+@tableName+&amp;#39;]&amp;#39;)FETCHNEXTFROMtableNamesINTO@tableNameENDCLOSEtableNamesDEALLOCATEtableNames</description>
     </item>
     
     <item>
@@ -2854,8 +2857,7 @@ interface IFoo { } class Foo : IFoo { } private void label1_MouseDown(object sen
       
       <guid>https://timvw.be/2007/07/17/update-from-localtime-to-utc-or-any-other-timezone-with-oracle/</guid>
       <description>Imagine that you have a table with a column of the type DATETIME. You&amp;rsquo;ve been storing data as localtime and after a while you need to convert these datetimes to UTC. Here&amp;rsquo;s a possible approach
-UPDATE events SET start = SYS_EXTRACT_UTC(FROM_TZ(start, &amp;#39;Europe/Brussels&amp;#39;)); You get a more generic variant using the AT TIME ZONE clause
-UPDATE events SET start = FROM_TZ(start, &amp;#39;Europe/Brussels&amp;#39;) AT TIME ZONE &amp;#39;America/Denver&amp;#39;; </description>
+UPDATEeventsSETstart=SYS_EXTRACT_UTC(FROM_TZ(start,&amp;#39;Europe/Brussels&amp;#39;));You get a more generic variant using the AT TIME ZONE clause</description>
     </item>
     
     <item>
@@ -3008,7 +3010,7 @@ public class LoggingSink : IMessageSink { ... public IMessage SyncProcessMessage
       <guid>https://timvw.be/2007/03/24/simulate-autoincrement/</guid>
       <description>Earlier today someone asked the following
   Here is a possible answer: (Don&amp;rsquo;t forget to wrap these queries in a transaction if your MySQL Engine supports it)
--- Some demo tables (and data) -- CREATE TABLE table1 (id INT(10), name VARCHAR(20), PRIMARY KEY(id)); -- CREATE TABLE table2 (id INT(10), name VARCHAR(20), PRIMARY KEY(id)); -- INSERT INTO table1 VALUES (1, &amp;#34;tim&amp;#34;), (2, &amp;#34;mike&amp;#34;);  SET @id := (SELECT MAX(id) + 1 FROM table2); INSERT INTO table2 SELECT @id := @id + 1, table1.</description>
+-- Some demo tables (and data) -- CREATE TABLE table1 (id INT(10), name VARCHAR(20), PRIMARY KEY(id)); -- CREATE TABLE table2 (id INT(10), name VARCHAR(20), PRIMARY KEY(id)); -- INSERT INTO table1 VALUES (1, &amp;#34;tim&amp;#34;), (2, &amp;#34;mike&amp;#34;); SET@id:=(SELECTMAX(id)+1FROMtable2);INSERTINTOtable2SELECT@id:=@id+1,table1.</description>
     </item>
     
     <item>
@@ -3320,7 +3322,8 @@ using( DirectoryEntry directoryEntry = new DirectoryEntry() ) { using( Directory
       
       <guid>https://timvw.be/2006/10/23/using-a-collection-as-parameter-for-a-stored-procedure/</guid>
       <description>Sometimes you want to select rows where a value is in a specific collection. Here&amp;rsquo;s an example that show how you can select all the rows in the TEST table with an id of 1, 2 or 3. First we create an SQL type to contain a list of numbers
-CREATE TYPE LIST_NUMBER AS TABLE OF NUMBER(10); / Next thing to do is add a custom type and function header to the package specification</description>
+CREATETYPELIST_NUMBERASTABLEOFNUMBER(10);/Next thing to do is add a custom type and function header to the package specification
+PACKAGETIMVW.TESTPACKAGEASTYPECRSR_REFISREFCURSOR;TYPEARR\_IDSISTABLEOFTEST.TEST\_ID%TypeINDEXBYBINARY_INTEGER;PROCEDUREGET_TESTS(P_IDSINARR_IDS,P_CURSOROUTCRSR_REF);END;And offcourse we have to implement the function in the body</description>
     </item>
     
     <item>
@@ -3330,7 +3333,8 @@ CREATE TYPE LIST_NUMBER AS TABLE OF NUMBER(10); / Next thing to do is add a cust
       
       <guid>https://timvw.be/2006/10/22/searching-made-easy/</guid>
       <description>Very often i have to write queries that return all the rows where one or more columns match a specific value. If i add for every column the condition &amp;lsquo;P_COLUMN IS NULL OR COLUMN = P_COLUMN&amp;rsquo; to the WHERE clause i only have to write one query. Here&amp;rsquo;s an example of such a query
-PROCEDURE FIND_TESTS ( P_ID IN TEST.ID%Type, P_TITLE IN TEST.TITLE%Type, P_TYPE_CODE IN TEST.TYPE_CODE%Type, P_CURSOR OUT CURSOR REF ) AS BEGIN OPEN P_CURSOR FOR SELECT ID, TITLE, TYPE_CODE FROM TEST WHERE (P_ID IS NULL OR ID = P_ID) AND (P_TITLE IS NULL OR TITLE LIKE P_TITLE) AND (P_TYPE_CODE IS NULL OR TYPE_CODE LIKE P_TYPE_CODE) ORDER BY ID ASC; END; A couple of examples how you can use this query</description>
+PROCEDUREFIND_TESTS(P_IDINTEST.ID%Type,P_TITLEINTEST.TITLE%Type,P_TYPE_CODEINTEST.TYPE_CODE%Type,P_CURSOROUTCURSORREF)ASBEGINOPENP_CURSORFORSELECTID,TITLE,TYPE_CODEFROMTESTWHERE(P_IDISNULLORID=P_ID)AND(P_TITLEISNULLORTITLELIKEP_TITLE)AND(P_TYPE_CODEISNULLORTYPE_CODELIKEP_TYPE_CODE)ORDERBYIDASC;END;A couple of examples how you can use this query
+using (OracleConnection conn = new OracleConnection(&amp;#34;User Id=u;password=p;Data Source=ORCL&amp;#34;)) { conn.</description>
     </item>
     
     <item>
@@ -3551,7 +3555,7 @@ body { background-color: &amp;lt;?php echo &amp;#39;yellow&amp;#39;; ?&amp;gt;; 
       
       <guid>https://timvw.be/2006/08/21/experimenting-with-oracle-and-pl/sql/</guid>
       <description>As i already wrote, last couple of days i&amp;rsquo;ve been experimenting with PL/SQL. At work we use Toad for Oracle but since TOADSoft only offers a limited freeware version i decided to write my code with GVim and use SQL*Plus at home. Here are a couple of lines i added to my login.sql file
-DEFINE _EDITOR=&amp;#39;gvim -c &amp;#34;set filetype=sql&amp;#34;&amp;#39; SET SERVEROUTPUT ON SET LINESIZE 120 SET AUTOCOMMIT OFF ALTER SESSION SET NLS_DATE_FORMAT=&amp;#39;YYYY-MM-DD&amp;#39;; In a stored procedure i created and filled an instance of NUMBER_TABLE (CREATE TYPE NUMBER_TABLE AS TABLE OF NUMBER) and my stored procedure tried to select all the rows in that table (SELECT * FROM V_NUMBER_TABLE).</description>
+DEFINE_EDITOR=&amp;#39;gvim -c &amp;#34;set filetype=sql&amp;#34;&amp;#39;SETSERVEROUTPUTONSETLINESIZE120SETAUTOCOMMITOFFALTERSESSIONSETNLS_DATE_FORMAT=&amp;#39;YYYY-MM-DD&amp;#39;;In a stored procedure i created and filled an instance of NUMBER_TABLE (CREATE TYPE NUMBER_TABLE AS TABLE OF NUMBER) and my stored procedure tried to select all the rows in that table (SELECT * FROM V_NUMBER_TABLE).</description>
     </item>
     
     <item>
@@ -3713,7 +3717,7 @@ public class SimpleSerializer&amp;lt;t&amp;gt; { public String Serialize(T o) { 
       
       <guid>https://timvw.be/2006/04/14/select-best-3-laptimes-for-each-player/</guid>
       <description>Imagine that you have a schema where you store all the times a player needed to complete a parcours. A possible schema could be (postgresql)
-CREATE TABLE laptimes ( lap_id SERIAL NOT NULL, player_id INT NOT NULL, laptime INT NOT NULL, PRIMARY KEY (lap_id) ); INSERT INTO laptimes (player_id, laptime) VALUES (1, 250); INSERT INTO laptimes (player_id, laptime) VALUES (1, 450); INSERT INTO laptimes (player_id, laptime) VALUES (1, 350); INSERT INTO laptimes (player_id, laptime) VALUES (1, 300); INSERT INTO laptimes (player_id, laptime) VALUES (1, 327); INSERT INTO laptimes (player_id, laptime) VALUES (2, 327); INSERT INTO laptimes (player_id, laptime) VALUES (2, 249); INSERT INTO laptimes (player_id, laptime) VALUES (2, 123); INSERT INTO laptimes (player_id, laptime) VALUES (2, 489); INSERT INTO laptimes (player_id, laptime) VALUES (2, 158); INSERT INTO laptimes (player_id, laptime) VALUES (3, 158); INSERT INTO laptimes (player_id, laptime) VALUES (3, 120); INSERT INTO laptimes (player_id, laptime) VALUES (3, 190); INSERT INTO laptimes (player_id, laptime) VALUES (4, 600); Now imagine that you want to display the best 3 results for each player.</description>
+CREATETABLElaptimes(lap_idSERIALNOTNULL,player_idINTNOTNULL,laptimeINTNOTNULL,PRIMARYKEY(lap_id));INSERTINTOlaptimes(player_id,laptime)VALUES(1,250);INSERTINTOlaptimes(player_id,laptime)VALUES(1,450);INSERTINTOlaptimes(player_id,laptime)VALUES(1,350);INSERTINTOlaptimes(player_id,laptime)VALUES(1,300);INSERTINTOlaptimes(player_id,laptime)VALUES(1,327);INSERTINTOlaptimes(player_id,laptime)VALUES(2,327);INSERTINTOlaptimes(player_id,laptime)VALUES(2,249);INSERTINTOlaptimes(player_id,laptime)VALUES(2,123);INSERTINTOlaptimes(player_id,laptime)VALUES(2,489);INSERTINTOlaptimes(player_id,laptime)VALUES(2,158);INSERTINTOlaptimes(player_id,laptime)VALUES(3,158);INSERTINTOlaptimes(player_id,laptime)VALUES(3,120);INSERTINTOlaptimes(player_id,laptime)VALUES(3,190);INSERTINTOlaptimes(player_id,laptime)VALUES(4,600);Now imagine that you want to display the best 3 results for each player. Here&amp;rsquo;s how</description>
     </item>
     
     <item>
@@ -3907,7 +3911,7 @@ c:/data/backup/JA-229 c:/data/backup/JA-221 c:/data/backup/JA-233 c:/data/backup
       <description>I&amp;rsquo;ll try to explain how a join on more than one table works. I&amp;rsquo;ve noticed people get confused by it. Assume we have the following tables
  newsitems(news_id,post_id) postitems(post_id,user_id,content) users(user_id,name,password)  We want to display for each newsitem the content and the author.
 Our base table would be the newsitems, and then we join using the item_id. Thus the query would be
-SELECT * FROM newsitems INNER JOIN ON postitems USING (post_id) This returns a &amp;ldquo;virtual table&amp;rdquo; that has looks like this result(news_id,post_id,user_id,content).</description>
+SELECT*FROMnewsitemsINNERJOINONpostitemsUSING(post_id)This returns a &amp;ldquo;virtual table&amp;rdquo; that has looks like this result(news_id,post_id,user_id,content).</description>
     </item>
     
     <item>
@@ -3957,7 +3961,7 @@ $data = file_get_contents(&amp;#34;php://input&amp;#34;); </description>
       
       <guid>https://timvw.be/2006/01/18/select-the-first-50-words-of-an-article/</guid>
       <description>I am cleaning up my code snippets and i found the following little trick in one of them that i have removed. Assuming that different words are separated by spaces we can use SUBSTRING_INDEX as following
-SELECT SUBSTRING_INDEX(body,&amp;#39; &amp;#39;,50) AS dn FROM mytable </description>
+SELECTSUBSTRING_INDEX(body,&amp;#39; &amp;#39;,50)ASdnFROMmytable</description>
     </item>
     
     <item>
@@ -4344,8 +4348,7 @@ The solution is to use html as output method instead of xml.
       <pubDate>Thu, 09 Dec 2004 00:00:00 +0000</pubDate>
       
       <guid>https://timvw.be/2004/12/09/custom-ordering-with-mysql/</guid>
-      <description>As a follow up to Custom Ordering I discovered the nice Field function in MySQL. after it was mentionned on my favorite PHP Forum by Weirdan. It allows one to order a column on a custom order relation.
-SELECT * FROM foo ORDER BY FIELD(column, &amp;#39;Z&amp;#39;, &amp;#39;B&amp;#39;, &amp;#39;C&amp;#39;) </description>
+      <description>As a follow up to Custom Ordering I discovered the nice Field function in MySQL. after it was mentionned on my favorite PHP Forum by Weirdan. It allows one to order a column on a custom order relation.</description>
     </item>
     
     <item>
@@ -4363,8 +4366,7 @@ SELECT * FROM foo ORDER BY FIELD(column, &amp;#39;Z&amp;#39;, &amp;#39;B&amp;#39
       <pubDate>Sun, 18 Jul 2004 00:00:00 +0000</pubDate>
       
       <guid>https://timvw.be/2004/07/18/custom-ordering/</guid>
-      <description>Assume we have a fruits table. And we want to select all the fruits that have a red or orange or blue color. But we want the resultset to have first all the fruits with color=red, then the fruits with color=blue and then the fruits with color=orange. It is obvious we can not use an alphabetical order. Thus we have to introduce our own order relation.
-select * from fruits where color = &amp;#39;red&amp;#39; or color = &amp;#39;blue&amp;#39; or color = &amp;#39;orange&amp;#39; order by case when color = &amp;#39;red&amp;#39; then 0 when color = &amp;#39;blue&amp;#39; then 1 when color = &amp;#39;orange&amp;#39; then 2 end </description>
+      <description>Assume we have a fruits table. And we want to select all the fruits that have a red or orange or blue color. But we want the resultset to have first all the fruits with color=red, then the fruits with color=blue and then the fruits with color=orange. It is obvious we can not use an alphabetical order. Thus we have to introduce our own order relation.</description>
     </item>
     
     <item>

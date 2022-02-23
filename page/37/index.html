@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.92.2" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Tim Van Wassenhove - Passionate geek, interested in Technology. Proud father of two </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://timvw.be/feed.xml" title="Tim Van Wassenhove" />
 	<meta itemprop="name" content="Tim Van Wassenhove">
-<meta itemprop="description" content="">
-<meta property="og:title" content="Tim Van Wassenhove" />
+<meta itemprop="description" content=""><meta property="og:title" content="Tim Van Wassenhove" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-11-08T15:31:18+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -121,7 +120,7 @@
 								
 						<div class="markdown">
 							<p>Yesterday i&rsquo;ve been experimenting with <a href="http://java.sun.com/printing/">Printing on the Java Platform</a>. I needed to generate a printout of ordered menuitems on the default printer. It took a while before i found out there is translation needed between the coordinates of the <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/awt/Graphics.html">Graphics</a> device and the <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/awt/print/PageFormat.html">PageFormat</a>. Here is my <a href="http://www.timvw.be/wp-content/code/java/LinesPrinter.java.txt">LinesPrinter</a>. Here is an example of how you can use the class</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">ArrayList<span style="color:#000;font-weight:bold">&lt;</span>string<span style="color:#000;font-weight:bold">&gt;</span> lines <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> ArrayList<span style="color:#000;font-weight:bold">&lt;</span>string<span style="color:#000;font-weight:bold">&gt;();</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">ArrayList<span style="color:#000;font-weight:bold">&lt;</span>string<span style="color:#000;font-weight:bold">&gt;</span> lines <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> ArrayList<span style="color:#000;font-weight:bold">&lt;</span>string<span style="color:#000;font-weight:bold">&gt;();</span>
 
 StringBuffer buf <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> StringBuffer<span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;De RegaPan\t&#34;</span><span style="color:#000;font-weight:bold">);</span>
 buf<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">append</span><span style="color:#000;font-weight:bold">(</span>DateFormat<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getDateTimeInstance</span><span style="color:#000;font-weight:bold">().</span><span style="color:#008080">format</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000;font-weight:bold">new</span> Date<span style="color:#000;font-weight:bold">()));</span>
@@ -178,7 +177,7 @@ LinesPrinter<span style="color:#000;font-weight:bold">.</span><span style="color
 								
 						<div class="markdown">
 							<p>Imagine that you have to write a function that verifies if there is a license available for a given clientID. Suppose that there are a couple of possibilities to find an available license. Your code would probably look like the following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// This code verifies if the client with the given clientID is licensed
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// This code verifies if the client with the given clientID is licensed
 </span><span style="color:#998;font-style:italic">// returns the licenseID or 0 if no license is available
 </span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">public</span> Int32 IsLicensed(Int32 clientID) 
 {
@@ -202,7 +201,7 @@ LinesPrinter<span style="color:#000;font-weight:bold">.</span><span style="color
 	<span style="color:#000;font-weight:bold">return</span> result;
 }
 </code></pre></div><p>It&rsquo;s obvious that this structures becomes more complex as the number of possible ways to get a license grows. If you look a while at the structure you&rsquo;ll notice a pattern: each function (IsAssigned, IsDedicated, IsNonDedicted) verifies if there is a license availble. If the function didn&rsquo;t find a license the next function is performed. If you translate this to OO you would end up with something similar to the following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// this methods tries to find an available license for the given clientID
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// this methods tries to find an available license for the given clientID
 </span><span style="color:#998;font-style:italic">// returns the licenseID or 0 if no license was found
 </span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">delegate</span> Int32 FindLicenseMethod(Int32 clientID);
 
@@ -288,7 +287,7 @@ LinesPrinter<span style="color:#000;font-weight:bold">.</span><span style="color
 <p>$ sudo ln -s 1.0 2.0</p>
 </blockquote>
 <p>There is only one error, and it&rsquo;s in the <a href="en.wikipedia.org/wiki/PEBKAC">PEBKAC</a> category. I can understand that the author couldn&rsquo;t find the TargetFrameworkVersion tag in his project file and generated 2.0 code. What i don&rsquo;t understand is that he didn&rsquo;t notice the <a href="http://www.mono-project.com/Downloads">Other Downloads</a> section and that there are <a href="http://www.debian.org">Debian</a> packages available with support for the 2.0 runtime. Ok, apt-get might complain about the packages and you would have to add a key to your keyring as following before you can install the packages</p>
-<pre><code class="language-dos" data-lang="dos">gpg --recv-keys 7127E5ABEEF946C8
+<pre tabindex="0"><code class="language-dos" data-lang="dos">gpg --recv-keys 7127E5ABEEF946C8
 gpg --armor --export 7127E5ABEEF946C8 | apt-key add --
 </code></pre><p>How hard is that?</p>
 
@@ -323,7 +322,7 @@ gpg --armor --export 7127E5ABEEF946C8 | apt-key add --
 								
 						<div class="markdown">
 							<p>Imagine that you&rsquo;ve got an extensive codebase using WIN32/MFC and don&rsquo;t want to give that up but on the other hand you&rsquo;d like to take advantage of DOTNET classes then here&rsquo;s a simple solution: First we write an Interface and an Implementation with C# as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> IQuoteClient {
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> IQuoteClient {
 	String getQuote();
 	Boolean setQuote(String quote);
 }
@@ -336,14 +335,14 @@ gpg --armor --export 7127E5ABEEF946C8 | apt-key add --
 }
 </code></pre></div><p>Go the project Properties and check the &ldquo;Make assembly COM-Visible&rdquo; box which you find in the Application tab, Assembly Information. Then you go to the Build tab and check &ldquo;Register for COM interop&rdquo; box and at the Signing tab you check the &ldquo;Sign the assembly&rdquo; box and assign a key. Build the project.</p>
 <p>Now we have to extract a typelibrary, register the typelibrary and install it in the global assembly cache. Open a Visual Studio 2005 Command Prompt and go to your project\bin\Debug directory. Type the following commands</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tlbexp QuoteClient.dll
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tlbexp QuoteClient.dll
 regasm QuoteClient.dll /tlb:QuoteClient.tlb
 gacutil /i QuoteClient.dll
 </code></pre></div><p>Now you can import the classes in this assembly from your WIN32 application as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#999;font-weight:bold;font-style:italic">#import &#34;C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\mscorlib.tlb&#34;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#999;font-weight:bold;font-style:italic">#import &#34;C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\mscorlib.tlb&#34;
 </span><span style="color:#999;font-weight:bold;font-style:italic">#import &#34;D:\projects\Test\QuoteClient\bin\Debug\ClientLibrary.tlb&#34; no_namespace named_guids
 </span></code></pre></div><p>And you can use them just like any other COM component</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">CoInitialize(<span style="color:#0086b3">NULL</span>);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">CoInitialize(<span style="color:#0086b3">NULL</span>);
 
 IQuoteClient <span style="color:#000;font-weight:bold">*</span>qc <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">NULL</span>;
 HRESULT hr <span style="color:#000;font-weight:bold">=</span> CoCreateInstance(
@@ -392,7 +391,7 @@ CoUninitialize();
 								
 						<div class="markdown">
 							<p>Here is a simple generic class that allows you to serialize classes (well, their public members) into XML and deserialize the XML to objects again. Make sure the class (or struct) has a parameterless constructor and that all the members that you want to serialize are public. Here is the code</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">SimpleSerializer</span>&lt;t&gt;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">SimpleSerializer</span>&lt;t&gt;
 {
 	<span style="color:#000;font-weight:bold">public</span> String Serialize(T o)
 	{
@@ -414,7 +413,7 @@ CoUninitialize();
 	}
 }
 </code></pre></div><p>Here is a simple example of a class that will be serialized</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">Person</span> 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">Person</span> 
 {
 	<span style="color:#000;font-weight:bold">public</span> String firstname;
 	<span style="color:#000;font-weight:bold">public</span> String lastname;
@@ -426,7 +425,7 @@ CoUninitialize();
 	}
 }
 </code></pre></div><p>And finally, a simple console application that demonstrates how it works:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Program</span> 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Program</span> 
 {
 	<span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
 	{
@@ -529,42 +528,42 @@ CoUninitialize();
 								
 						<div class="markdown">
 							<p>Imagine that you have a schema where you store all the times a player needed to complete a parcours. A possible schema could be (<a href="http://www.postgresql.org">postgresql</a>)</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">CREATE</span> <span style="color:#000;font-weight:bold">TABLE</span> laptimes (
-lap_id <span style="color:#0086b3">SERIAL</span> <span style="color:#000;font-weight:bold">NOT</span> <span style="color:#000;font-weight:bold">NULL</span>,
-player_id <span style="color:#0086b3">INT</span> <span style="color:#000;font-weight:bold">NOT</span> <span style="color:#000;font-weight:bold">NULL</span>,
-laptime <span style="color:#0086b3">INT</span> <span style="color:#000;font-weight:bold">NOT</span> <span style="color:#000;font-weight:bold">NULL</span>,
-<span style="color:#000;font-weight:bold">PRIMARY</span> <span style="color:#000;font-weight:bold">KEY</span> (lap_id)
-);
-
-<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">1</span>, <span style="color:#099">250</span>);
-<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">1</span>, <span style="color:#099">450</span>);
-<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">1</span>, <span style="color:#099">350</span>);
-<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">1</span>, <span style="color:#099">300</span>);
-<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">1</span>, <span style="color:#099">327</span>);
-
-<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">2</span>, <span style="color:#099">327</span>);
-<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">2</span>, <span style="color:#099">249</span>);
-<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">2</span>, <span style="color:#099">123</span>);
-<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">2</span>, <span style="color:#099">489</span>);
-<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">2</span>, <span style="color:#099">158</span>);
-
-<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">3</span>, <span style="color:#099">158</span>);
-<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">3</span>, <span style="color:#099">120</span>);
-<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">3</span>, <span style="color:#099">190</span>);
-
-<span style="color:#000;font-weight:bold">INSERT</span> <span style="color:#000;font-weight:bold">INTO</span> laptimes (player_id, laptime) <span style="color:#000;font-weight:bold">VALUES</span> (<span style="color:#099">4</span>, <span style="color:#099">600</span>);
-</code></pre></div><p>Now imagine that you want to display the best 3 results for each player. Here&rsquo;s how</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">*</span>
-<span style="color:#000;font-weight:bold">FROM</span> laptimes <span style="color:#000;font-weight:bold">AS</span> l1
-<span style="color:#000;font-weight:bold">WHERE</span> lap_id <span style="color:#000;font-weight:bold">IN</span> (
-<span style="color:#000;font-weight:bold">SELECT</span> lap_id
-<span style="color:#000;font-weight:bold">FROM</span> laptimes <span style="color:#000;font-weight:bold">AS</span> l2
-<span style="color:#000;font-weight:bold">WHERE</span> l1.player<span style="color:#a61717;background-color:#e3d2d2">\</span>_id <span style="color:#000;font-weight:bold">=</span> l2.player<span style="color:#a61717;background-color:#e3d2d2">\</span>_id
-<span style="color:#000;font-weight:bold">ORDER</span> <span style="color:#000;font-weight:bold">BY</span> laptime <span style="color:#000;font-weight:bold">ASC</span>
-<span style="color:#000;font-weight:bold">LIMIT</span> <span style="color:#099">3</span>
-)
-<span style="color:#000;font-weight:bold">ORDER</span> <span style="color:#000;font-weight:bold">BY</span> player_id <span style="color:#000;font-weight:bold">ASC</span>, laptime <span style="color:#000;font-weight:bold">ASC</span>;
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">CREATE</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">TABLE</span><span style="color:#bbb"> </span>laptimes<span style="color:#bbb"> </span>(<span style="color:#bbb">
+</span><span style="color:#bbb"></span>lap_id<span style="color:#bbb"> </span><span style="color:#0086b3">SERIAL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NOT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>player_id<span style="color:#bbb"> </span><span style="color:#0086b3">INT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NOT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>laptime<span style="color:#bbb"> </span><span style="color:#0086b3">INT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NOT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">KEY</span><span style="color:#bbb"> </span>(lap_id)<span style="color:#bbb">
+</span><span style="color:#bbb"></span>);<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INSERT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INTO</span><span style="color:#bbb"> </span>laptimes<span style="color:#bbb"> </span>(player_id,<span style="color:#bbb"> </span>laptime)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">VALUES</span><span style="color:#bbb"> </span>(<span style="color:#099">1</span>,<span style="color:#bbb"> </span><span style="color:#099">250</span>);<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INSERT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INTO</span><span style="color:#bbb"> </span>laptimes<span style="color:#bbb"> </span>(player_id,<span style="color:#bbb"> </span>laptime)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">VALUES</span><span style="color:#bbb"> </span>(<span style="color:#099">1</span>,<span style="color:#bbb"> </span><span style="color:#099">450</span>);<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INSERT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INTO</span><span style="color:#bbb"> </span>laptimes<span style="color:#bbb"> </span>(player_id,<span style="color:#bbb"> </span>laptime)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">VALUES</span><span style="color:#bbb"> </span>(<span style="color:#099">1</span>,<span style="color:#bbb"> </span><span style="color:#099">350</span>);<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INSERT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INTO</span><span style="color:#bbb"> </span>laptimes<span style="color:#bbb"> </span>(player_id,<span style="color:#bbb"> </span>laptime)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">VALUES</span><span style="color:#bbb"> </span>(<span style="color:#099">1</span>,<span style="color:#bbb"> </span><span style="color:#099">300</span>);<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INSERT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INTO</span><span style="color:#bbb"> </span>laptimes<span style="color:#bbb"> </span>(player_id,<span style="color:#bbb"> </span>laptime)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">VALUES</span><span style="color:#bbb"> </span>(<span style="color:#099">1</span>,<span style="color:#bbb"> </span><span style="color:#099">327</span>);<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INSERT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INTO</span><span style="color:#bbb"> </span>laptimes<span style="color:#bbb"> </span>(player_id,<span style="color:#bbb"> </span>laptime)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">VALUES</span><span style="color:#bbb"> </span>(<span style="color:#099">2</span>,<span style="color:#bbb"> </span><span style="color:#099">327</span>);<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INSERT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INTO</span><span style="color:#bbb"> </span>laptimes<span style="color:#bbb"> </span>(player_id,<span style="color:#bbb"> </span>laptime)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">VALUES</span><span style="color:#bbb"> </span>(<span style="color:#099">2</span>,<span style="color:#bbb"> </span><span style="color:#099">249</span>);<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INSERT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INTO</span><span style="color:#bbb"> </span>laptimes<span style="color:#bbb"> </span>(player_id,<span style="color:#bbb"> </span>laptime)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">VALUES</span><span style="color:#bbb"> </span>(<span style="color:#099">2</span>,<span style="color:#bbb"> </span><span style="color:#099">123</span>);<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INSERT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INTO</span><span style="color:#bbb"> </span>laptimes<span style="color:#bbb"> </span>(player_id,<span style="color:#bbb"> </span>laptime)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">VALUES</span><span style="color:#bbb"> </span>(<span style="color:#099">2</span>,<span style="color:#bbb"> </span><span style="color:#099">489</span>);<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INSERT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INTO</span><span style="color:#bbb"> </span>laptimes<span style="color:#bbb"> </span>(player_id,<span style="color:#bbb"> </span>laptime)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">VALUES</span><span style="color:#bbb"> </span>(<span style="color:#099">2</span>,<span style="color:#bbb"> </span><span style="color:#099">158</span>);<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INSERT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INTO</span><span style="color:#bbb"> </span>laptimes<span style="color:#bbb"> </span>(player_id,<span style="color:#bbb"> </span>laptime)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">VALUES</span><span style="color:#bbb"> </span>(<span style="color:#099">3</span>,<span style="color:#bbb"> </span><span style="color:#099">158</span>);<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INSERT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INTO</span><span style="color:#bbb"> </span>laptimes<span style="color:#bbb"> </span>(player_id,<span style="color:#bbb"> </span>laptime)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">VALUES</span><span style="color:#bbb"> </span>(<span style="color:#099">3</span>,<span style="color:#bbb"> </span><span style="color:#099">120</span>);<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INSERT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INTO</span><span style="color:#bbb"> </span>laptimes<span style="color:#bbb"> </span>(player_id,<span style="color:#bbb"> </span>laptime)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">VALUES</span><span style="color:#bbb"> </span>(<span style="color:#099">3</span>,<span style="color:#bbb"> </span><span style="color:#099">190</span>);<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INSERT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INTO</span><span style="color:#bbb"> </span>laptimes<span style="color:#bbb"> </span>(player_id,<span style="color:#bbb"> </span>laptime)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">VALUES</span><span style="color:#bbb"> </span>(<span style="color:#099">4</span>,<span style="color:#bbb"> </span><span style="color:#099">600</span>);<span style="color:#bbb">
+</span></code></pre></div><p>Now imagine that you want to display the best 3 results for each player. Here&rsquo;s how</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>laptimes<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>l1<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>lap_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IN</span><span style="color:#bbb"> </span>(<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>lap_id<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>laptimes<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>l2<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>l1.player<span style="color:#a61717;background-color:#e3d2d2">\</span>_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>l2.player<span style="color:#a61717;background-color:#e3d2d2">\</span>_id<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">ORDER</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">BY</span><span style="color:#bbb"> </span>laptime<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ASC</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">LIMIT</span><span style="color:#bbb"> </span><span style="color:#099">3</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>)<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">ORDER</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">BY</span><span style="color:#bbb"> </span>player_id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ASC</span>,<span style="color:#bbb"> </span>laptime<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ASC</span>;<span style="color:#bbb">
+</span></code></pre></div>
 						</div>
 			
 						<div class="tags">
@@ -596,11 +595,11 @@ laptime <span style="color:#0086b3">INT</span> <span style="color:#000;font-weig
 								
 						<div class="markdown">
 							<p>Imagine that you have a function that expects a reference to a function. Here is an example of such a function</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#000;font-weight:bold">function</span> bar(fn) { fn(); }
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#000;font-weight:bold">function</span> bar(fn) { fn(); }
 </code></pre></div><p>Now imagine that the function that you want to pass to bar accepts a parameter. Here is an example of such a function</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#000;font-weight:bold">function</span> foo(arg) { alert(arg); }
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#000;font-weight:bold">function</span> foo(arg) { alert(arg); }
 </code></pre></div><p>With the help of a closure this is no problem</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">bar(<span style="color:#000;font-weight:bold">function</span> e() { foo(<span style="color:#d14">&#39;hello&#39;</span>); });
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">bar(<span style="color:#000;font-weight:bold">function</span> e() { foo(<span style="color:#d14">&#39;hello&#39;</span>); });
 </code></pre></div><p>PS: <a href="http://forums.devnetwork.net/viewtopic.php?t=46561">Kudos</a> go to <a href="http://forums.devnetwork.net/profile.php?mode=viewprofile&amp;u=7815">Weirdan</a> for providing the solution to this problem.</p>
 
 						</div>
@@ -670,7 +669,7 @@ laptime <span style="color:#0086b3">INT</span> <span style="color:#000;font-weig
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

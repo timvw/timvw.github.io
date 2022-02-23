@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.92.2" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Tim Van Wassenhove - Passionate geek, interested in Technology. Proud father of two </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://timvw.be/feed.xml" title="Tim Van Wassenhove" />
 	<meta itemprop="name" content="Tim Van Wassenhove">
-<meta itemprop="description" content="">
-<meta property="og:title" content="Tim Van Wassenhove" />
+<meta itemprop="description" content=""><meta property="og:title" content="Tim Van Wassenhove" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-11-08T15:31:18+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -77,7 +76,7 @@
 								
 						<div class="markdown">
 							<p>Drag a TextBox and a DateTimePicker control on a Form and databind them to a DateTime property, eg</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form
 {
 	<span style="color:#000;font-weight:bold">public</span> Form1()
 	{
@@ -116,7 +115,7 @@
 	}
 }
 </code></pre></div><p>The annoying bit is that every time the user picks a datetime, he has to move the focus before the changes in the DateTimePicker control are written back to the datasource&hellip; You can circumvent this by handling the CloseUp event of the DataTimePicker as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dateTimePicker1_CloseUp(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dateTimePicker1_CloseUp(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
 {
 	DateTimePicker dateTimePicker = sender <span style="color:#000;font-weight:bold">as</span> DateTimePicker;
 	<span style="color:#000;font-weight:bold">if</span> (dateTimePicker != <span style="color:#000;font-weight:bold">null</span>)
@@ -128,7 +127,7 @@
 	}
 }
 </code></pre></div><p>I think mosts users will appreciate this new behaviour 🙂 We can also apply this technique on a ComboBox (using the SelectionChangeCommitted event). Instead of manually hooking up to all these events, i&rsquo;ve implemented an IExtenderProvider that takes care of this tedious task (only showing the part for the datetimepicker)</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[ProvideProperty(&#34;WriteValuesAfterCloseUp&#34;, typeof(DateTimePicker))]</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[ProvideProperty(&#34;WriteValuesAfterCloseUp&#34;, typeof(DateTimePicker))]</span>
 <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">WriteValueAfterEventExtender</span> : Component, IExtenderProvider
 {
 	<span style="color:#000;font-weight:bold">private</span> Dictionary&lt;dateTimePicker, <span style="color:#458;font-weight:bold">bool</span>&gt; writeValuesAfterCloseUp;
@@ -228,7 +227,7 @@
 <!-- raw HTML omitted -->
 </blockquote>
 <p>I started with the implementation of a PropertyOrderAttribute</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[AttributeUsage(AttributeTargets.Property)]</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[AttributeUsage(AttributeTargets.Property)]</span>
 <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PropertyOrderAttribute</span> : Attribute
 {
 	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> order;
@@ -244,7 +243,7 @@
 	}
 }
 </code></pre></div><p>So the user can use this attribute to define the order in which the properties should appear as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Foo</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Foo</span>
 {
 	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> id;
 	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">string</span> name;
@@ -279,7 +278,7 @@
 	}
 }
 </code></pre></div><p>And now i implement a generic BindingList that makes use of the PropertyOrderAttributes</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PropertyOrderBindingList</span>&lt;T&gt; : BindingList&lt;T&gt;, ITypedList
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PropertyOrderBindingList</span>&lt;T&gt; : BindingList&lt;T&gt;, ITypedList
 {
 	<span style="color:#000;font-weight:bold">public</span> PropertyOrderBindingList()
 	: <span style="color:#000;font-weight:bold">base</span>()
@@ -319,7 +318,7 @@
 	}
 }
 </code></pre></div><p>With all this infrastructure it becomes as easy as</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> Form1()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> Form1()
 {
 	InitializeComponent();
 
@@ -431,7 +430,7 @@
 								
 						<div class="markdown">
 							<p>If you&rsquo;re writing windows applications you&rsquo;ll most certainly recognize the following piece of code</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">delegate</span> <span style="color:#000;font-weight:bold">void</span> UpdateIntResultDelegate(<span style="color:#458;font-weight:bold">int</span> result);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">delegate</span> <span style="color:#000;font-weight:bold">void</span> UpdateIntResultDelegate(<span style="color:#458;font-weight:bold">int</span> result);
 
 <span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> UpdateIntResult(<span style="color:#458;font-weight:bold">int</span> result)
 {
@@ -451,9 +450,9 @@
 		<span style="color:#000;font-weight:bold">this</span>.myDataSource.StringResult = result;
 }
 </code></pre></div><p>Today i was fed up with defining all these Delegates.. So i decided to define a generic delegate instead</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">delegate</span> <span style="color:#000;font-weight:bold">void</span> Delegate&lt;t&gt;(T t);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">delegate</span> <span style="color:#000;font-weight:bold">void</span> Delegate&lt;t&gt;(T t);
 </code></pre></div><p>And now i can reuse this Delegate for my two update methods</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> UpdateIntResult(<span style="color:#458;font-weight:bold">int</span> result)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> UpdateIntResult(<span style="color:#458;font-weight:bold">int</span> result)
 {
 	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.labelIntResult.InvokeRequired)
 		<span style="color:#000;font-weight:bold">this</span>.labelIntResult.Invoke(<span style="color:#000;font-weight:bold">new</span> Delegate&lt;<span style="color:#458;font-weight:bold">int</span>&gt;(<span style="color:#000;font-weight:bold">this</span>.UpdateIntResult), result);
@@ -469,7 +468,7 @@
 		<span style="color:#000;font-weight:bold">this</span>.myDataSource.StringResult = result;
 }
 </code></pre></div><p>Apparently (and not surprisingly) i&rsquo;m not the first to come up with this idea, a little websearch for &lsquo;Generic Delegate&rsquo; learned me that <a href="http://weblogs.asp.net/rosherove/default.aspx">Roy Osherove</a> blogged about it in: <a href="http://weblogs.asp.net/rosherove/archive/2006/03/01/439309.aspx">The 3 ways to create a Thread-Safe GUI with .NET 2.0, with one clear winner</a>. After reading the article i decided to take the following approach (The call to UpdateIntResult is type-safe, it only calls Invoke when it&rsquo;s required and no duplication)</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">void</span> UpdateIntResult(<span style="color:#458;font-weight:bold">int</span> result)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">void</span> UpdateIntResult(<span style="color:#458;font-weight:bold">int</span> result)
 {
 	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.labelIntResult.InvokeRequired)
 	{
@@ -514,7 +513,7 @@
 								
 						<div class="markdown">
 							<p>I still remember one of the first tasks during my internship (At a software shop that still used Visual Studio 6 as development environment) last year: Develop a GUI application using .Net that allows the user to manipulate data stored in a binary file which was generated by c/c++ program. As a newcomer to C# programming i just couldn&rsquo;t find the right attributes to <a href="http://msdn2.microsoft.com/en-us/library/04fy9ya1.aspx">Marshal</a> the following structs</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">test1</span> {
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">test1</span> {
 	<span style="color:#458;font-weight:bold">char</span> name[<span style="color:#099">9</span>];
 	<span style="color:#458;font-weight:bold">int</span> score;
 };
@@ -523,7 +522,7 @@
 	test1 items[<span style="color:#099">10</span>];
 }
 </code></pre></div><p>After a couple of days they wanted me to deliver a product, so i decided to stop experimenting and wrote the application in C++ (<a href="http://www.timvw.be/reading-unmanaged-structs-with-net/">Example</a>). Since i don&rsquo;t like unanswered questions, i decided to give it another try this afternoon&hellip; It didn&rsquo;t take long to come up with the following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[StructLayout(LayoutKind.Sequential, CharSet=CharSet.Ansi, Pack=4)]</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[StructLayout(LayoutKind.Sequential, CharSet=CharSet.Ansi, Pack=4)]</span>
 <span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">Test1</span>
 {
 <span style="color:#008080">	[MarshalAs(UnmanagedType.ByValTStr, SizeConst=9)]</span>
@@ -604,7 +603,7 @@
 								
 						<div class="markdown">
 							<p>Let&rsquo;s start with a simple example: Each Person has a Name (string) and PersonTypeCode (an Enumerated value) property. We drag a DataGridView on the designer form and add two columns (DataGridViewComboBoxColumn for the PersonTypeCode property). And then we hook up the Bindingsource as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form
 {
 	<span style="color:#000;font-weight:bold">public</span> Form1()
 	{
@@ -663,7 +662,7 @@
 </code></pre></div><p>If we run this code we run in the following error:</p>
 <p><img src="http://www.timvw.be/wp-content/images/databind-datagridviewcomboboxcolumn-1.gif" alt="DataGridViewComboBoxCell value is not valid."></p>
 <p>Always make sure the DataGridViewComboxColumn knows about all the possible values (<a href="http://www.timvw.be/implementing-masterdetail-for-custom-objects-with-datagridviewcomboboxcolumns/">Add them via the Items property</a> or use databinding). Let&rsquo;s extend our Form1 class as following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> Form1()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> Form1()
 {
 InitializeComponent();
 
@@ -689,7 +688,7 @@ bindingList.Add(personTypeCode);
 </code></pre></div><p>Allright, here is a screenshot of our first working version:</p>
 <p><img src="http://www.timvw.be/wp-content/images/databind-datagridviewcomboboxcolumn-2.gif" alt="datagridviewcomboboxcolumn with enumerated values"></p>
 <p>Instead of displaying the bare enum values we want to display a nice label. In order to achieve this we define a class PersonType to hold both the PersonTypeCode and the label:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PersonType</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PersonType</span>
 {
 <span style="color:#000;font-weight:bold">private</span> PersonTypeCode personTypeCode;
 <span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">string</span> label;
@@ -713,7 +712,7 @@ bindingList.Add(personTypeCode);
 }
 }
 </code></pre></div><p>We modify our code so that this new PersonType class is used for the ComboBoxColumn:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> Form1()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> Form1()
 {
 InitializeComponent();
 
@@ -739,7 +738,7 @@ bindingList.Add(<span style="color:#000;font-weight:bold">new</span> PersonType(
 }
 </code></pre></div><p><img src="http://www.timvw.be/wp-content/images/databind-datagridviewcomboboxcolumn-3.gif" alt="datagridviewcomboboxcolumn with nice labels."></p>
 <p>Great! Now we&rsquo;ll add some functionality that limits the possible values in the ComboBoxColumn basesd on the Name (I already demonstrated this technique <a href="http://www.timvw.be/implementing-masterdetail-for-custom-objects-with-datagridviewcomboboxcolumns/">here</a>). Simply handle the EditingControlShowing Event on the DataGridView as following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing(<span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing(<span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e)
 {
 BindingSource bindingSource = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataSource <span style="color:#000;font-weight:bold">as</span> BindingSource;
 Person person = bindingSource.Current <span style="color:#000;font-weight:bold">as</span> Person;
@@ -766,7 +765,7 @@ bindingList.RemoveAt(<span style="color:#099">1</span>);
 </code></pre></div><p>If you open the combox for &ldquo;Timvw&rdquo; you see that you can only choose &ldquo;A geeky person&rdquo;:</p>
 <p><img src="http://www.timvw.be/wp-content/images/databind-datagridviewcomboboxcolumn-4.gif" alt="datagridviewcomboboxcolumn with limited options."></p>
 <p>Instead of using an enum we could have used a regular class too. The key is to override the Equals method:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PersonTypeCode</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PersonTypeCode</span>
 {
 <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> PersonTypeCode Geek
 {
@@ -821,7 +820,7 @@ bindingList.RemoveAt(<span style="color:#099">1</span>);
 <span style="color:#000;font-weight:bold">return</span> bindingList;
 }
 </code></pre></div><p>And now you&rsquo;re thinking: But i want the user to not select a PersonTypeCode (null). We&rsquo;ll represent that with an empty string &ldquo;&quot;:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> BindingList&lt;person&gt; FindPersons()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> BindingList&lt;person&gt; FindPersons()
 {
 BindingList&lt;person&gt; bindingList = <span style="color:#000;font-weight:bold">new</span> BindingList&lt;person&gt;();
 bindingList.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;Timvw&#34;</span>, PersonTypeCode.Geek));
@@ -858,7 +857,7 @@ bindingList.RemoveAt(<span style="color:#099">1</span>);
 }
 </code></pre></div><p><img src="http://www.timvw.be/wp-content/images/databind-datagridviewcomboboxcolumn-5.gif" alt="datagridviewcomboboxcolumn with null option."></p>
 <p>When the user starts editing the record, the combobox will choose the first item in the list (A geeky person). Now we change this behaviour so that the actual PersonTypeCode is selected:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing(<span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing(<span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e)
 {
 <span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.dataGridView1.CurrentCell.ColumnIndex == <span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.Index)
 {
@@ -880,7 +879,7 @@ comboBox.SelectedValue = <span style="color:#458;font-weight:bold">string</span>
 }
 </code></pre></div><p><img src="http://www.timvw.be/wp-content/images/databind-datagridviewcomboboxcolumn-6.gif" alt="datagridviewcomboboxcolumn with selected item."></p>
 <p>In order to make the DataGridView more usable we set the EditMode property to EditOnEnter. Selected values in the ComboBox are only commited when the user leaves the current cell. Handling the SelectionChangeCommited event on the ComboBox allows us to commit that value without requiring the user to leave the current cell:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing(<span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing(<span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e)
 {
 <span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.dataGridView1.CurrentCell.ColumnIndex == <span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.Index)
 {
@@ -943,7 +942,7 @@ comboBox.SelectionChangeCommitted += <span style="color:#000;font-weight:bold">t
 								
 						<div class="markdown">
 							<p>Under the assumption that making sequential WebRequests is slower than making them in parallel i wrote a little program that returns the HTTP status code for each URI in a list. Because the number of WaitHandles on a system is limited to 64 and i would have been required to hack around this limitation i decided to use ThreadPool instead&hellip;</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">using</span> <span style="color:#555">System</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">using</span> <span style="color:#555">System</span>;
 <span style="color:#000;font-weight:bold">using</span> <span style="color:#555">System.Collections.Generic</span>;
 <span style="color:#000;font-weight:bold">using</span> <span style="color:#555">System.Text</span>;
 <span style="color:#000;font-weight:bold">using</span> <span style="color:#555">System.Threading</span>;
@@ -1092,7 +1091,7 @@ comboBox.SelectionChangeCommitted += <span style="color:#000;font-weight:bold">t
 <!-- raw HTML omitted -->
 </blockquote>
 <p>Using the Visibile property of the DataGridViewColumn makes this a no-brainer. Let&rsquo;s take the <a href="http://www.timvw.be/developing-a-datasource-for-your-datagridview/">Databound DataGridView</a> and implement functionality to hide/unhide the quarterly results. All you have to do is add a DataGridViewButtonColumn and handle the DataGridView CellClick event as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_CellClick(<span style="color:#458;font-weight:bold">object</span> sender, DataGridViewCellEventArgs e)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_CellClick(<span style="color:#458;font-weight:bold">object</span> sender, DataGridViewCellEventArgs e)
 {
 	<span style="color:#000;font-weight:bold">if</span> (e.ColumnIndex == <span style="color:#000;font-weight:bold">this</span>.ColumnButton.Index)
 	{
@@ -1142,7 +1141,7 @@ comboBox.SelectionChangeCommitted += <span style="color:#000;font-weight:bold">t
 								
 						<div class="markdown">
 							<p>Last couple of months i&rsquo;ve been experimenting with <a href="http://msdn2.microsoft.com/en-us/library/kwdt6w2k.aspx">Remoting</a>. Here is a class that helps a client to acquire proxies to an endpoint served by the requested well-known object</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">RemotingHelper</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">RemotingHelper</span>
 {
 	<span style="color:#000;font-weight:bold">static</span> RemotingHelper()
 	{
@@ -1169,7 +1168,7 @@ comboBox.SelectionChangeCommitted += <span style="color:#000;font-weight:bold">t
 	}
 }
 </code></pre></div><p>Getting a proxy is as easy as (Presuming that you&rsquo;ve configured the system.runtime.remoting in your App.config)</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">IContract contract = RemotingHelper.GetService&lt;icontract&gt;();
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">IContract contract = RemotingHelper.GetService&lt;icontract&gt;();
 </code></pre></div>
 						</div>
 			
@@ -1206,7 +1205,7 @@ comboBox.SelectionChangeCommitted += <span style="color:#000;font-weight:bold">t
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

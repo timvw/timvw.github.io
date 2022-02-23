@@ -7,23 +7,19 @@
 <meta itemprop="description" content="WordPress uses GNU gettext, as explained in Translating WordPress and Writing a Plugin, for localization. I decided that my plugins should support l10n too. Here is how i realised it:
 I started with defining the WPLANG constant in my wp-config.php:
 define (&#39;WPLANG&#39;, &#39;en_EN&#39;); Then i changed the beginning of my localized plugin as following:
-&lt;?php /* Plugin Name: WP-SpamFilter Version: 0.4 Plugin URI: http://timvw.madoka.be/?p=533 Description: Mark the new comment as spam if the sender is in the spammers list.">
-<meta itemprop="datePublished" content="2006-03-19T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-11-08T15:31:18+01:00" />
+&lt;?php /* Plugin Name: WP-SpamFilter Version: 0.4 Plugin URI: http://timvw.madoka.be/?p=533 Description: Mark the new comment as spam if the sender is in the spammers list."><meta itemprop="datePublished" content="2006-03-19T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-02-23T13:00:13+01:00" />
 <meta itemprop="wordCount" content="270">
-
-
-
-<meta itemprop="keywords" content="WordPress," />
-<meta property="og:title" content="Adding support for localization to a WordPress plugin" />
+<meta itemprop="keywords" content="WordPress," /><meta property="og:title" content="Adding support for localization to a WordPress plugin" />
 <meta property="og:description" content="WordPress uses GNU gettext, as explained in Translating WordPress and Writing a Plugin, for localization. I decided that my plugins should support l10n too. Here is how i realised it:
 I started with defining the WPLANG constant in my wp-config.php:
 define (&#39;WPLANG&#39;, &#39;en_EN&#39;); Then i changed the beginning of my localized plugin as following:
 &lt;?php /* Plugin Name: WP-SpamFilter Version: 0.4 Plugin URI: http://timvw.madoka.be/?p=533 Description: Mark the new comment as spam if the sender is in the spammers list." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2006/03/19/adding-support-for-localization-to-a-wordpress-plugin/" />
+<meta property="og:url" content="https://timvw.be/2006/03/19/adding-support-for-localization-to-a-wordpress-plugin/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2006-03-19T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-11-08T15:31:18+01:00" />
+<meta property="article:modified_time" content="2022-02-23T13:00:13+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Adding support for localization to a WordPress plugin"/>
 <meta name="twitter:description" content="WordPress uses GNU gettext, as explained in Translating WordPress and Writing a Plugin, for localization. I decided that my plugins should support l10n too. Here is how i realised it:
@@ -88,9 +84,9 @@ define (&#39;WPLANG&#39;, &#39;en_EN&#39;); Then i changed the beginning of my l
 			<div class="markdown">
 				<p>WordPress uses <a href="http://www.gnu.org/software/gettext/">GNU gettext</a>, as explained in <a href="http://codex.wordpress.org/Localizing_WordPress">Translating WordPress</a> and <a href="http://codex.wordpress.org/Writing_a_Plugin">Writing a Plugin</a>, for <a href="http://en.wikipedia.org/wiki/Software_localization">localization</a>. I decided that my plugins should support l10n too. Here is how i realised it:</p>
 <p>I started with defining the WPLANG constant in my wp-config.php:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">define (<span style="color:#d14">&#39;WPLANG&#39;</span>, <span style="color:#d14">&#39;en_EN&#39;</span>);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">define (<span style="color:#d14">&#39;WPLANG&#39;</span>, <span style="color:#d14">&#39;en_EN&#39;</span>);
 </code></pre></div><p>Then i changed the beginning of my localized plugin as following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
 <span style="color:#998;font-style:italic">/*
 </span><span style="color:#998;font-style:italic">Plugin Name: WP-SpamFilter
 </span><span style="color:#998;font-style:italic">Version: 0.4
@@ -110,22 +106,22 @@ define (&#39;WPLANG&#39;, &#39;en_EN&#39;); Then i changed the beginning of my l
 load_plugin_textdomain(<span style="color:#d14">&#39;wp_spamfilter&#39;</span>, <span style="color:#d14">&#39;wp-content/plugins/wp-spamfilter&#39;</span>);
 </code></pre></div><p>In wp-includes/wp-l10n.php you see that the result of this call is that the locale and the path are used to determine the mo-file to be loaded. Because this function uses ABSPATH it&rsquo;s impossible to use dirname(<strong>FILE</strong>) as path parameter</p>
 <p>The _e($string, $domain) function echos a localized string and the __($string, $domain) function returns a localized string that you can use in function calls etc&hellip; Below you can see an example of the original version and the updated version with localization support:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">
 <span style="color:#998;font-style:italic">## some string
 </span><span style="color:#998;font-style:italic"></span>
 <span style="color:#000;font-weight:bold">&lt;?</span>php <span style="color:#000;font-weight:bold">echo</span>(<span style="color:#d14">&#39;some other string&#39;</span>); <span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
 </span><span style="color:#a61717;background-color:#e3d2d2">
 </span><span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div><div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">
+</span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">
 <span style="color:#998;font-style:italic">## &lt;?php _e(&#39;some string&#39;, &#39;wp_spamfilter&#39;); ?&gt;
 </span><span style="color:#998;font-style:italic"></span>
 <span style="color:#000;font-weight:bold">&lt;?</span>php <span style="color:#000;font-weight:bold">echo</span>(__(<span style="color:#d14">&#39;some other string&#39;</span>, <span style="color:#d14">&#39;wp_spamfilter&#39;</span>)); <span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
 </span><span style="color:#a61717;background-color:#e3d2d2">
 </span><span style="color:#a61717;background-color:#e3d2d2">
 </span></code></pre></div><p>Then i used xgettext to extract all the strings that should be localized into wp_spamfilter-en_eN.po:</p>
-<pre><code class="language-dos" data-lang="dos">xgettext --keyword=__ --keyword=_e --default-domain=wordpress --language=php *.php --output=wp_spamfilter-en_EN.po
+<pre tabindex="0"><code class="language-dos" data-lang="dos">xgettext --keyword=__ --keyword=_e --default-domain=wordpress --language=php *.php --output=wp_spamfilter-en_EN.po
 </code></pre><p>After that i editted the po file and i compiled a mo file with it using msgfmt:</p>
-<pre><code class="language-dos" data-lang="dos">msgfmt wp_spamfilter-en_eN.po -o wp_spamfilter-en_eN.mo
+<pre tabindex="0"><code class="language-dos" data-lang="dos">msgfmt wp_spamfilter-en_eN.po -o wp_spamfilter-en_eN.mo
 </code></pre><p>Once i had made sure that wp_spamfilter-en_eN.mo was readable by my webserver i was ready.</p>
 
 			</div>
@@ -144,7 +140,7 @@ load_plugin_textdomain(<span style="color:#d14">&#39;wp_spamfilter&#39;</span>, 
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

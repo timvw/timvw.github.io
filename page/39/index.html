@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.92.2" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Tim Van Wassenhove - Passionate geek, interested in Technology. Proud father of two </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://timvw.be/feed.xml" title="Tim Van Wassenhove" />
 	<meta itemprop="name" content="Tim Van Wassenhove">
-<meta itemprop="description" content="">
-<meta property="og:title" content="Tim Van Wassenhove" />
+<meta itemprop="description" content=""><meta property="og:title" content="Tim Van Wassenhove" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-11-08T15:31:18+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -77,7 +76,7 @@
 								
 						<div class="markdown">
 							<p>I know a mathematician that can do magic with stats. That&rsquo;s also the reason why he works at <a href="http://epp.eurostat.cec.eu.int/portal/page?_pageid=1090,30070682,1090_33076576&amp;_dad=portal&amp;_schema=PORTAL">Eurostat</a>. He&rsquo;s automating a lot of his work by programming in <a href="http://msdn.microsoft.com/isv/technology/vba/default.aspx">Visual Basic for Applications</a>. He asked me if i wanted to look at his code because he had the feeling there was a smell. Here are a couple lines</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vb" data-lang="vb"><span style="color:#000;font-weight:bold">With</span> SomeForm
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vb" data-lang="vb"><span style="color:#000;font-weight:bold">With</span> SomeForm
 .txtJanvier60.Value <span style="color:#000;font-weight:bold">=</span> vaData1(1, 2)
 .txtFevrier60.Value <span style="color:#000;font-weight:bold">=</span> vaData1(1, 3)
 .txtJanvier61.Value <span style="color:#000;font-weight:bold">=</span> vaData1(1, 2)
@@ -87,7 +86,7 @@
 .txtFevrier70.Value <span style="color:#000;font-weight:bold">=</span> vaData1(1, 3)
 <span style="color:#000;font-weight:bold">End</span> <span style="color:#000;font-weight:bold">With</span>
 </code></pre></div><p>It took me 5 minutes to search the web and change his code as following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vb" data-lang="vb"><span style="color:#000;font-weight:bold">Dim</span> months(1) <span style="color:#000;font-weight:bold">as</span> <span style="color:#458;font-weight:bold">String</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vb" data-lang="vb"><span style="color:#000;font-weight:bold">Dim</span> months(1) <span style="color:#000;font-weight:bold">as</span> <span style="color:#458;font-weight:bold">String</span>
 months(0) <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;Janvier&#34;</span>
 months(1) <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;Fevrier&#34;</span>
 
@@ -130,12 +129,12 @@ months(1) <span style="color:#000;font-weight:bold">=</span> <span style="color:
 								
 						<div class="markdown">
 							<p>Today i was experimenting with a couple of windows controls. For some reason i wasn&rsquo;t able to remove the selected items from a <a href="http://msdn.microsoft.com/library/default.asp?url=../../library/en-us/cpref/html/frlrfsystemwindowsformslistboxmemberstopic.asp">ListBox</a>. Here is the code that didn&rsquo;t work</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vbnet" data-lang="vbnet"><span style="color:#000;font-weight:bold">For</span> <span style="color:#000;font-weight:bold">Each</span> index <span style="color:#000;font-weight:bold">As</span> <span style="color:#458;font-weight:bold">Integer</span> <span style="color:#000;font-weight:bold">=</span> ListBox1.SelectedIndices
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vbnet" data-lang="vbnet"><span style="color:#000;font-weight:bold">For</span> <span style="color:#000;font-weight:bold">Each</span> index <span style="color:#000;font-weight:bold">As</span> <span style="color:#458;font-weight:bold">Integer</span> <span style="color:#000;font-weight:bold">=</span> ListBox1.SelectedIndices
 	ListBox2.Items.Add(ListBox1.Items(index))
 	ListBox1.Items.Remove(index)
 <span style="color:#000;font-weight:bold">End</span> <span style="color:#000;font-weight:bold">For</span>
 </code></pre></div><p>The problem is that when you remove an item from the collection the indices change. Here is a possible solution</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vbnet" data-lang="vbnet"><span style="color:#000;font-weight:bold">Dim</span> index <span style="color:#000;font-weight:bold">As</span> <span style="color:#458;font-weight:bold">Integer</span> <span style="color:#000;font-weight:bold">=</span> ListBox1.SelectedIndex
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vbnet" data-lang="vbnet"><span style="color:#000;font-weight:bold">Dim</span> index <span style="color:#000;font-weight:bold">As</span> <span style="color:#458;font-weight:bold">Integer</span> <span style="color:#000;font-weight:bold">=</span> ListBox1.SelectedIndex
 <span style="color:#000;font-weight:bold">While</span> index <span style="color:#000;font-weight:bold">&lt;&gt;</span> <span style="color:#000;font-weight:bold">-</span>1
 	ListBox2.Items.Add(ListBox1.Items(index))
 	ListBox1.Items.Remove(index)
@@ -175,7 +174,7 @@ months(1) <span style="color:#000;font-weight:bold">=</span> <span style="color:
 								
 						<div class="markdown">
 							<p>Suppose you have a a large collection of items and you want to display them. Users don&rsquo;t want to see 5000 items at once. They only want to see a couple of items and have the possibility to look at the next (or previous) couple of items. The solution for this problem is usually named pagination. You can compare this technique with <a href="http://en.wikipedia.org/paging">paging</a>. Most people seem to come up with their own (My)SQL specific implementation. Here are a couple of examples how you can use <a href="http://www.timvw.be/wp-content/code/php/pagination.txt">mine</a></p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
 <span style="color:#000;font-weight:bold">require</span>(<span style="color:#d14">&#39;http://www.timvw.be/wp-content/code/php/pagination.txt&#39;</span>);
 
 <span style="color:#998;font-style:italic">// step 1 - create pageable data: array example
@@ -206,7 +205,7 @@ months(1) <span style="color:#000;font-weight:bold">=</span> <span style="color:
 </span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$paginator</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">output</span>();
 <span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
 </span></code></pre></div><p>I have also provided code for situations where you want to paginate File contents, MySQL or ADODB resultsets. In that case the code for step 1 would look like</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
 <span style="color:#998;font-style:italic">// file example
 </span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$pageabledata</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageableFile(<span style="color:#d14">&#34;/home/users/timvw/.bash_history&#34;</span>);
 
@@ -221,7 +220,7 @@ mysql_select_db(<span style="color:#d14">&#39;dbname&#39;</span>, <span style="c
 <span style="color:#008080">$pageabledata</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageableADODB(<span style="color:#d14">&#39;SELECT * FROM wp_posts ORDER BY 1&#39;</span>, <span style="color:#008080">$db</span>);
 <span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
 </span></code></pre></div><p>You will probably want to modify the code so that it generates the html you want. Here is how an example of such a change</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
 <span style="color:#d14">/**
 </span><span style="color:#d14"> * This class represents a PageJumpWriter
 </span><span style="color:#d14"> */</span>
@@ -265,11 +264,11 @@ mysql_select_db(<span style="color:#d14">&#39;dbname&#39;</span>, <span style="c
 </span><span style="color:#d14">}
 </span><span style="color:#d14">?&gt;
 </span></code></pre></div><p>If you want to use this customized html generator you simple change the code in step 3 as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
 <span style="color:#008080">$pagewriter2</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PageJumpWriter(<span style="color:#008080">$pager2</span>);
 <span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
 </span></code></pre></div><p>The problem with most of these paginators is that you can only use one per page. This is a serious <a href="http://en.wiktionary.org/wiki/PITA">PITA</a>. It&rsquo;s your lucky day, here is an example of two paginators that can run separately in the same page</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
 <span style="color:#998;font-style:italic">// step 1 - create the pageable data
 </span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$dblink</span> <span style="color:#000;font-weight:bold">=</span> mysql_connect(<span style="color:#d14">&#39;localhost&#39;</span>, <span style="color:#d14">&#39;username&#39;</span>, <span style="color:#d14">&#39;password&#39;</span>);
 mysql_select_db(<span style="color:#d14">&#39;dbname&#39;</span>, <span style="color:#008080">$dblink</span>);
@@ -341,7 +340,7 @@ mysql_select_db(<span style="color:#d14">&#39;dbname&#39;</span>, <span style="c
 								
 						<div class="markdown">
 							<p>Only two more days before my internship starts. I&rsquo;m a bit nervous and excited to dive into this adventure. Today i decided to fresh my knowledge of (MS)-C++ a bit up. I&rsquo;ve read a tutorial on <a href="http://www.newty.de/fpt/index.html">function pointers</a> and <a href="http://msdn.microsoft.com/library/default.asp?url=../../library/en-us/vccore98/html/_core_argument_passing_and_naming_conventions.asp">naming conventions</a>. A couple of weeks ago i already had a look at <a href="http://linuxquality.sunsite.dk/articles/memberpointers/">pointers to member functions</a>.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;iostream&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;iostream&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
 </span><span style="color:#999;font-weight:bold;font-style:italic"></span><span style="color:#000;font-weight:bold">using</span> <span style="color:#000;font-weight:bold">namespace</span> std;
 
 <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">customcallback</span>() {
@@ -391,7 +390,7 @@ method <span style="color:#900;font-weight:bold">dosum</span>() { <span style="c
 								
 						<div class="markdown">
 							<p>Another tool that belongs to my favorites is <a href="http://www.gnu.org/software/screen/">GNU Screen</a>. A couple of years ago i had a bad internet connection and when i was working on a remote shell i was always logged out and had to start over. I really hated that 😉 Today i don&rsquo;t have this problem anymore, but i like to keep <a href="http://www.irssi.org">Irssi</a> (an <a href="http://en.wikipedia.org/wiki/IRC">IRC</a> user-agent) running, even when i&rsquo;m not logged in. <a href="http://gentoo-wiki.com/TIP_Using_screen">TIP Using Screen</a> is an article that gives a couple of other reasons to use it and explains how it works. The default settings suck if you also use <a href="http://www.gnu.org/software/emacs/">GNU Emacs</a>. So i had to figure out a couple of keypresses. With &ldquo;cat -v&rdquo; i could easily see what those keypresses were. Here is my .screenrc file</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic">##############################################</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic">##############################################</span>
 <span style="color:#998;font-style:italic"># # Up##############################################</span>
 startup_message off
 escape ^Oo
@@ -434,7 +433,7 @@ escape ^Oo
 								
 						<div class="markdown">
 							<p>I already wrote that <a href="http://www.gnu.org/software/coreutils/">GNU Core Utilities</a> (<a href="http://www.gnu.org/software/textutils/textutils.html">GNU Textutils</a>) have become my favorite text processing tools. Today i wanted to sort a couple of lines using the last three numbers of each line. Here is an example</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">c:/data/backup/JA-229
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">c:/data/backup/JA-229
 c:/data/backup/JA-221
 c:/data/backup/JA-233
 c:/data/backup/NE-046
@@ -481,20 +480,20 @@ c:/data/backup/JA-225
 </ul>
 <p>We want to display for each newsitem the content and the author.</p>
 <p>Our base table would be the newsitems, and then we join using the item_id. Thus the query would be</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">*</span>
-<span style="color:#000;font-weight:bold">FROM</span> newsitems
-<span style="color:#000;font-weight:bold">INNER</span> <span style="color:#000;font-weight:bold">JOIN</span> <span style="color:#000;font-weight:bold">ON</span> postitems <span style="color:#000;font-weight:bold">USING</span> (post_id)
-</code></pre></div><p>This returns a &ldquo;virtual table&rdquo; that has looks like this result(news_id,post_id,user_id,content).</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>newsitems<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INNER</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">JOIN</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ON</span><span style="color:#bbb"> </span>postitems<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">USING</span><span style="color:#bbb"> </span>(post_id)<span style="color:#bbb">
+</span></code></pre></div><p>This returns a &ldquo;virtual table&rdquo; that has looks like this result(news_id,post_id,user_id,content).</p>
 <p>Now we still need to get the username, so we use our result table and perform a join on the users table. Thus the query would be</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">*</span>
-<span style="color:#000;font-weight:bold">FROM</span> <span style="color:#000;font-weight:bold">result</span>
-<span style="color:#000;font-weight:bold">INNER</span> <span style="color:#000;font-weight:bold">JOIN</span> users <span style="color:#000;font-weight:bold">USING</span> (user_id)
-</code></pre></div><p>If we combine our first two queries, we end up with this</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span> <span style="color:#000;font-weight:bold">*</span>
-<span style="color:#000;font-weight:bold">FROM</span> newsitems
-<span style="color:#000;font-weight:bold">INNER</span> <span style="color:#000;font-weight:bold">JOIN</span> postitems <span style="color:#000;font-weight:bold">USING</span> (post_id)
-<span style="color:#000;font-weight:bold">INNER</span> <span style="color:#000;font-weight:bold">JOIN</span> users <span style="color:#000;font-weight:bold">USING</span> (user_id)
-</code></pre></div><p>Conclusion: Look at A<em>B</em>C as (A*B)*C to easily understand multiple joins</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">result</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INNER</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">JOIN</span><span style="color:#bbb"> </span>users<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">USING</span><span style="color:#bbb"> </span>(user_id)<span style="color:#bbb">
+</span></code></pre></div><p>If we combine our first two queries, we end up with this</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>newsitems<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INNER</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">JOIN</span><span style="color:#bbb"> </span>postitems<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">USING</span><span style="color:#bbb"> </span>(post_id)<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INNER</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">JOIN</span><span style="color:#bbb"> </span>users<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">USING</span><span style="color:#bbb"> </span>(user_id)<span style="color:#bbb">
+</span></code></pre></div><p>Conclusion: Look at A<em>B</em>C as (A*B)*C to easily understand multiple joins</p>
 
 						</div>
 			
@@ -527,7 +526,7 @@ c:/data/backup/JA-225
 								
 						<div class="markdown">
 							<p>The scenario is as following: each table can have many reservations, and each reservation can span many tables. Here is our first trial</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Table.java
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Table.java
 </span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToMany</span><span style="color:#000;font-weight:bold">(</span> 
   targetEntity<span style="color:#000;font-weight:bold">=</span>Reservation<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span> 
 <span style="color:#000;font-weight:bold">)</span>
@@ -539,14 +538,14 @@ c:/data/backup/JA-225
 <span style="color:#000;font-weight:bold">)</span>
 <span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getTables</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{..}</span>
 </code></pre></div><p>We end up with linktables tables_reservations and reservations_tables. This is not what we want. It should not be possible to remove a table when there are still reservations related to that table. We change our code so that table becomes the owner of the relationship.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Table.java
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Table.java
 </span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToMany</span><span style="color:#000;font-weight:bold">(</span> 
   targetEntity<span style="color:#000;font-weight:bold">=</span>Reservation<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span> 
   mappedBy<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;tables&#34;</span>
 <span style="color:#000;font-weight:bold">)</span> 
 <span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getReservations</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{..}</span>
 </code></pre></div><p>Allright, now we only have the linktable reservations_tables. Exactly the same as we experienced with <a href="http://www.timvw.be/onetomany-relationships-with-java-persistence-jsr220/">OneToMany</a> relationships the cascading persist works when we persist a child (reservation). If we want the cascading persist to work when we persist a parent (table) we have to make sure that the child (reservation) has the parent set. An important difference is that we can not enforce this thus i advise not to use the cascade attribute on the owner (table).</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Table.java
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Table.java
 </span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToMany</span><span style="color:#000;font-weight:bold">(</span>  
   targetEntity<span style="color:#000;font-weight:bold">=</span>Reservation<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span>   
   mappedBy<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;tables&#34;</span>
@@ -560,7 +559,7 @@ c:/data/backup/JA-225
 <span style="color:#000;font-weight:bold">)</span>
 <span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getTables</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{..}</span>
 </code></pre></div><p>We decide to use the <a href="http://www.hibernate.org/hib_docs/annotations/reference/en/html/validator.html">Hibernate Validator</a> classes to enforce that a reservation is associated with at least one table. For some reason the SizeValidator returns true if the value is null thus we also add a NotNullValidator:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Reservation.java
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Reservation.java
 </span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">org.hibernate.validator.*</span><span style="color:#000;font-weight:bold">;</span>
 <span style="color:#3c5d5d;font-weight:bold">@ManyToMany</span><span style="color:#000;font-weight:bold">(</span> 
   targetEntity<span style="color:#000;font-weight:bold">=</span>Table<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span>  
@@ -570,7 +569,7 @@ c:/data/backup/JA-225
 <span style="color:#3c5d5d;font-weight:bold">@Size</span><span style="color:#000;font-weight:bold">(</span>min<span style="color:#000;font-weight:bold">=</span>1<span style="color:#000;font-weight:bold">)</span>
 <span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getTables</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000;font-weight:bold">..</span> <span style="color:#000;font-weight:bold">}</span>
 </code></pre></div><p>Ok, this allows us to enforce that reservations are always associated with at least one table. We decide to allow cascading persist on the parent.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#3c5d5d;font-weight:bold">@ManyToMany</span><span style="color:#000;font-weight:bold">(</span>  
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#3c5d5d;font-weight:bold">@ManyToMany</span><span style="color:#000;font-weight:bold">(</span>  
 targetEntity<span style="color:#000;font-weight:bold">=</span>Reservation<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span>  
 mappedBy<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;tables&#34;</span><span style="color:#000;font-weight:bold">,</span>   
 cascade<span style="color:#000;font-weight:bold">=</span>CascadeType<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">PERSIST</span>
@@ -608,18 +607,18 @@ cascade<span style="color:#000;font-weight:bold">=</span>CascadeType<span style=
 								
 						<div class="markdown">
 							<p>Let&rsquo;s experiment a bit with <a href="http://www.hibernate.org">Hibernate</a>. We want to model the tables employee and shift. Each employee has multiple shifts (and each shift belongs to an employee). We want an employee table and a shift table (which has the employee_id as a foreign key).</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Employee.java
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Employee.java
 </span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@OneToMany</span><span style="color:#000;font-weight:bold">(</span>targetEntity<span style="color:#000;font-weight:bold">=</span>Shift<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getShifts</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{...}</span>
 <span style="color:#998;font-style:italic">// Shift.java
 </span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToOne</span> <span style="color:#000;font-weight:bold">public</span> Employee <span style="color:#900;font-weight:bold">getEmployee</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{...}</span>
 </code></pre></div><p>The code above generates the following tables: employee, employee_shift and shift. Time to read the documentation and discover the mappedBy attribute.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Employee.java
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Employee.java
 </span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@OneToMany</span><span style="color:#000;font-weight:bold">(</span>targetEntity<span style="color:#000;font-weight:bold">=</span>Shift<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span> mappedBy<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;employee&#34;</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getShifts</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{...}</span>
 </code></pre></div><p>Ok, now we get the tables we want. Let&rsquo;s remove an employee that has shifts referencing him. An exception is thrown because of a foreign key constraint.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Employee.java
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Employee.java
 </span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@OneToMany</span><span style="color:#000;font-weight:bold">(</span>targetEntity<span style="color:#000;font-weight:bold">=</span>Shift<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span> mappedBy<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;employee&#34;</span><span style="color:#000;font-weight:bold">,</span> cascade<span style="color:#000;font-weight:bold">=</span>CascadeType<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">REMOVE</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getShifts</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{...}</span>
 </code></pre></div><p>Ok, now we have cascading deletes working. Let&rsquo;s try cascading inserts:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Employee.java
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Employee.java
 </span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@OneToMany</span><span style="color:#000;font-weight:bold">(</span>targetEntity<span style="color:#000;font-weight:bold">=</span>Shift<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span> mappedBy<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;employee&#34;</span><span style="color:#000;font-weight:bold">,</span> cascade<span style="color:#000;font-weight:bold">=</span>CascadeType<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">ALL</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getShifts</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{...}</span>
 
 <span style="color:#998;font-style:italic">// Main.java
@@ -630,7 +629,7 @@ shifts<span style="color:#000;font-weight:bold">.</span><span style="color:#0080
 employee<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">setShifts</span><span style="color:#000;font-weight:bold">(</span>shifts<span style="color:#000;font-weight:bold">);</span>
 em<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">persist</span><span style="color:#000;font-weight:bold">(</span>employee<span style="color:#000;font-weight:bold">);</span>
 </code></pre></div><p>With the code above the foreign key of shift will NULL instead of the employee_id. According to the documentation it is expected behaviour that cascading inserts only work when the children are saved.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Employee.java
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Employee.java
 </span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@OneToMany</span><span style="color:#000;font-weight:bold">(</span>targetEntity<span style="color:#000;font-weight:bold">=</span>Shift<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span> mappedBy<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;employee&#34;</span><span style="color:#000;font-weight:bold">,</span> cascade<span style="color:#000;font-weight:bold">=</span>CascadeType<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">ALL</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">public</span> List <span style="color:#900;font-weight:bold">getShifts</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{...}</span>
 <span style="color:#998;font-style:italic">// Main.java
 </span><span style="color:#998;font-style:italic"></span>Employee employee <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Employee<span style="color:#000;font-weight:bold">();</span>
@@ -641,22 +640,22 @@ shifts<span style="color:#000;font-weight:bold">.</span><span style="color:#0080
 employee<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">setShifts</span><span style="color:#000;font-weight:bold">(</span>shifts<span style="color:#000;font-weight:bold">);</span>
 em<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">persist</span><span style="color:#000;font-weight:bold">(</span>employee<span style="color:#000;font-weight:bold">);</span>
 </code></pre></div><p>It appears we can get cascading inserts to work as long as we do not forget to set the employee. We add a constraint so employee can not be null.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Shift.java
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Shift.java
 </span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToOne</span> <span style="color:#3c5d5d;font-weight:bold">@Column</span><span style="color:#000;font-weight:bold">(</span>nullable<span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">false</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">public</span> Employee <span style="color:#900;font-weight:bold">getEmployee</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{...}</span>
 <span style="color:#998;font-style:italic">// Main.java
 </span><span style="color:#998;font-style:italic"></span>Shift shift <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Shift<span style="color:#000;font-weight:bold">();</span>
 em<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">persist</span><span style="color:#000;font-weight:bold">(</span>shift<span style="color:#000;font-weight:bold">);</span>
 </code></pre></div><p>WTF? I can persist a NULL reference anyway? The value for employee_id is allowed to be NULL? Have we found a bug? Let&rsquo;s check the documentation:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Shift.java
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Shift.java
 </span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToOne</span> <span style="color:#3c5d5d;font-weight:bold">@JoinColumn</span><span style="color:#000;font-weight:bold">(</span>nullable<span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">false</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">public</span> Employee <span style="color:#900;font-weight:bold">getEmployee</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{...}</span>
 <span style="color:#998;font-style:italic">// Main.java
 </span><span style="color:#998;font-style:italic"></span>Shift shift <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Shift<span style="color:#000;font-weight:bold">();</span> 
 em<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">persist</span><span style="color:#000;font-weight:bold">(</span>shift<span style="color:#000;font-weight:bold">);</span>
 </code></pre></div><p>Ok, now are getting somewhere. And exception is thrown if we try to persist a shift that references to an employee that does not exist in the database yet.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Shift.java
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Shift.java
 </span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@ManyToOne</span><span style="color:#000;font-weight:bold">(</span>cascade<span style="color:#000;font-weight:bold">=</span>CascadeType<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">PERSIST</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#3c5d5d;font-weight:bold">@JoinColumn</span><span style="color:#000;font-weight:bold">(</span>nullable<span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">false</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">public</span> Employee <span style="color:#900;font-weight:bold">getEmployee</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{...}</span>
 </code></pre></div><p>CascadeType.ALL means that i want to cascade events on ALL events. My only requirements where that i cascade on PERSIST (insert) and on REMOVE (delete). So i need to change my annotation as following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Employee.java
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// Employee.java
 </span><span style="color:#998;font-style:italic"></span><span style="color:#3c5d5d;font-weight:bold">@OneToMany</span><span style="color:#000;font-weight:bold">(</span>  
   targetEntity<span style="color:#000;font-weight:bold">=</span>Shift<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">class</span><span style="color:#000;font-weight:bold">,</span>  
   mappedBy<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;employee&#34;</span><span style="color:#000;font-weight:bold">,</span>  
@@ -698,7 +697,7 @@ em<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">
 								
 						<div class="markdown">
 							<p>On the machine example there is a (<a href="http://en.wikipedia.org/wiki/TCP/IP">tcp/ip</a>) program listening on port 12345. The protocol it talks is some <a href="http://en.wikipedia.org/wiki/Plain_text">plaintext</a> language. I want to talk with it, but i do not want others to know what i am sending to it. I am lucky enough to have remote access to that machine via <a href="http://en.wikipedia.org/wiki/Ssh">ssh</a>. I setup a tunnel with the following command</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ssh -N -L 12345:example:12345 timvw@example
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ssh -N -L 12345:example:12345 timvw@example
 </code></pre></div><p>Now my program can connect to localhost:12345 and ssh will make sure that it ends up at example.:12345 without others being able to see the actual data. For windows users i suggest that you take a look at <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty">Plink</a>.</p>
 
 						</div>
@@ -736,7 +735,7 @@ em<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

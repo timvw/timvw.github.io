@@ -5,21 +5,17 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Separation of concerns: Behavior = Trigger &#43; TriggerAction - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta itemprop="name" content="Separation of concerns: Behavior = Trigger &#43; TriggerAction">
 <meta itemprop="description" content="If you look at my KeyBehavior you notice that it is doing two things: register for events so that the behavior can be triggered and handle the actual command invocation. In order to enhance reuse we can refactor this KeyBehavior in a KeyTrigger and an InvokeCommandAction. Well, we&rsquo;re not going to do that, because they exist already in the silverlight sdk.
-A shortcoming of the InvokeCommandAction is that it can only invoke commands on the FrameworkElement itself, thus we write a custom implementation that finds commands on the DataContext instead">
-<meta itemprop="datePublished" content="2009-10-19T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-11-08T15:31:18+01:00" />
+A shortcoming of the InvokeCommandAction is that it can only invoke commands on the FrameworkElement itself, thus we write a custom implementation that finds commands on the DataContext instead"><meta itemprop="datePublished" content="2009-10-19T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-02-23T13:00:13+01:00" />
 <meta itemprop="wordCount" content="203">
-
-
-
-<meta itemprop="keywords" content="CSharp,Silverlight," />
-<meta property="og:title" content="Separation of concerns: Behavior = Trigger &#43; TriggerAction" />
+<meta itemprop="keywords" content="CSharp,Silverlight," /><meta property="og:title" content="Separation of concerns: Behavior = Trigger &#43; TriggerAction" />
 <meta property="og:description" content="If you look at my KeyBehavior you notice that it is doing two things: register for events so that the behavior can be triggered and handle the actual command invocation. In order to enhance reuse we can refactor this KeyBehavior in a KeyTrigger and an InvokeCommandAction. Well, we&rsquo;re not going to do that, because they exist already in the silverlight sdk.
 A shortcoming of the InvokeCommandAction is that it can only invoke commands on the FrameworkElement itself, thus we write a custom implementation that finds commands on the DataContext instead" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2009/10/19/separation-of-concerns-behavior-trigger-triggeraction/" />
+<meta property="og:url" content="https://timvw.be/2009/10/19/separation-of-concerns-behavior-trigger-triggeraction/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2009-10-19T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-11-08T15:31:18+01:00" />
+<meta property="article:modified_time" content="2022-02-23T13:00:13+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Separation of concerns: Behavior = Trigger &#43; TriggerAction"/>
 <meta name="twitter:description" content="If you look at my KeyBehavior you notice that it is doing two things: register for events so that the behavior can be triggered and handle the actual command invocation. In order to enhance reuse we can refactor this KeyBehavior in a KeyTrigger and an InvokeCommandAction. Well, we&rsquo;re not going to do that, because they exist already in the silverlight sdk.
@@ -82,7 +78,7 @@ A shortcoming of the InvokeCommandAction is that it can only invoke commands on 
 			<div class="markdown">
 				<p>If you look at my <a href="http://www.timvw.be/true-keybehavior-with-system-windows-interactivity-behavior/">KeyBehavior</a> you notice that it is doing two things: register for events so that the behavior can be triggered and handle the actual command invocation. In order to enhance reuse we can refactor this KeyBehavior in a KeyTrigger and an InvokeCommandAction. Well, we&rsquo;re not going to do that, because they exist already in the silverlight sdk.</p>
 <p>A shortcoming of the InvokeCommandAction is that it can only invoke commands on the FrameworkElement itself, thus we write a custom implementation that finds commands on the DataContext instead</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">InvokeCommandAction</span> : TriggerAction&lt;frameworkElement&gt;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">InvokeCommandAction</span> : TriggerAction&lt;frameworkElement&gt;
 {
 	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> CommandName { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">set</span>; }
 
@@ -103,7 +99,7 @@ A shortcoming of the InvokeCommandAction is that it can only invoke commands on 
 <p>All we have to do is choose the Key and Command to invoke</p>
 <p><img src="http://www.timvw.be/wp-content/images/InvokeCommandAction_SetProperties.png" alt="setting properties for action in blend"></p>
 <p>In XAML this looks like</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;interactivity:Interaction.Triggers&gt;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;interactivity:Interaction.Triggers&gt;</span>
 	<span style="color:#000080">&lt;ii:KeyTrigger</span> <span style="color:#008080">Key=</span><span style="color:#d14">&#34;Right&#34;</span><span style="color:#000080">&gt;</span>
 		<span style="color:#000080">&lt;inf:InvokeCommandAction</span> <span style="color:#008080">CommandName=</span><span style="color:#d14">&#34;PlayerRight&#34;</span><span style="color:#000080">/&gt;</span>
 	<span style="color:#000080">&lt;/ii:KeyTrigger&gt;</span>
@@ -137,7 +133,7 @@ A shortcoming of the InvokeCommandAction is that it can only invoke commands on 
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

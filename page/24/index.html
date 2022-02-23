@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.92.2" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Tim Van Wassenhove - Passionate geek, interested in Technology. Proud father of two </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://timvw.be/feed.xml" title="Tim Van Wassenhove" />
 	<meta itemprop="name" content="Tim Van Wassenhove">
-<meta itemprop="description" content="">
-<meta property="og:title" content="Tim Van Wassenhove" />
+<meta itemprop="description" content=""><meta property="og:title" content="Tim Van Wassenhove" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-11-08T15:31:18+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -77,7 +76,7 @@
 								
 						<div class="markdown">
 							<p>I noticed (eg: <a href="http://derek-says.blogspot.com/2008/08/generic-collections-and-inheritance.html">here</a>) that i&rsquo;m not the only one that has experienced some annoyances when working with generics. Here are a couple of methods that i find extremely helpful when i&rsquo;m working with <a href="http://msdn.microsoft.com/en-us/library/9eekhta0.aspx">IEnumerable<!-- raw HTML omitted --></a>:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">IEnumerable&lt;tbase&gt; Convert&lt;tderived, TBase&gt;(IEnumerable&lt;tderived&gt; enumerable) <span style="color:#000;font-weight:bold">where</span> TDerived : TBase;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">IEnumerable&lt;tbase&gt; Convert&lt;tderived, TBase&gt;(IEnumerable&lt;tderived&gt; enumerable) <span style="color:#000;font-weight:bold">where</span> TDerived : TBase;
 IEnumerable&lt;t&gt; Convert&lt;t&gt;(IEnumerable enumerable);
 <span style="color:#458;font-weight:bold">bool</span> HaveSameElements&lt;t&gt;(IEnumerable&lt;t&gt; enumerable1, IEnumerable&lt;t&gt; enumerable2, Func&lt;<span style="color:#458;font-weight:bold">bool</span>, T, T&gt; areEqual);
 <span style="color:#458;font-weight:bold">bool</span> HaveSameElements(IEnumerable enumerable1, IEnumerable enumerable2, Func&lt;<span style="color:#458;font-weight:bold">bool</span>, <span style="color:#458;font-weight:bold">object</span>, <span style="color:#458;font-weight:bold">object</span>&gt; areEqual);
@@ -148,7 +147,7 @@ IEnumerable&lt;t&gt; Convert&lt;t&gt;(IEnumerable enumerable);
 						<div class="markdown">
 							<p>I&rsquo;m in the progress of adding classes that i find interesting to the <a href="http://www.codeplex.com/BeTimvwFramework">BeTimvwFramework</a> project. The original implementation of my <a href="http://www.timvw.be/presenting-the-sortablebindinglistt/">SortableBindingList<!-- raw HTML omitted --></a> relied on <a href="http://msdn.microsoft.com/en-us/library/system.icomparable.aspx">IComparable</a> to implement ApplySortCore(PropertyDescriptor property, ListSortDirection direction). I received some good feedback and <a href="http://www.timvw.be/improvements-for-the-sortablebindinglist-and-typedlist/">blogged about those improvements</a>.</p>
 <p>Because some of my classes only implement <a href="http://msdn.microsoft.com/en-us/library/4d7sx9hd.aspx">IComparable<!-- raw HTML omitted --></a> i needed support for this too. My first thought was to use Comparer<!-- raw HTML omitted --></p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">IComparer comparer = Comparer&lt;t&gt;.Default;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">IComparer comparer = Comparer&lt;t&gt;.Default;
 itemsList.Sort(<span style="color:#000;font-weight:bold">delegate</span>(T t1, T t2)
 {
 	<span style="color:#458;font-weight:bold">object</span> property1 = prop.GetValue(t1);
@@ -156,10 +155,10 @@ itemsList.Sort(<span style="color:#000;font-weight:bold">delegate</span>(T t1, T
 	<span style="color:#000;font-weight:bold">return</span> reverse * comparer.Compare(property1, property2);
 });
 </code></pre></div><p>Obviously that didn&rsquo;t work. The problem is that i received the default Comparer for T, instead of the Comparer for the type of the property. Anyway, with a bit of reflection i got access to that Comparer</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Type comparablePropertyType = <span style="color:#000;font-weight:bold">typeof</span>(Comparer&lt;&gt;).MakeGenericType(property.PropertyType);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Type comparablePropertyType = <span style="color:#000;font-weight:bold">typeof</span>(Comparer&lt;&gt;).MakeGenericType(property.PropertyType);
 IComparer comparer = (IComparer)comparablePropertyType.InvokeMember(<span style="color:#d14">&#34;Default&#34;</span>, BindingFlags.Static | BindingFlags.GetProperty | BindingFlags.Public, <span style="color:#000;font-weight:bold">null</span>, <span style="color:#000;font-weight:bold">null</span>, <span style="color:#000;font-weight:bold">null</span>);
 </code></pre></div><p>After a bit of refactoring i ended up with a PropertyComparer<!-- raw HTML omitted --> which allowed me to implement the sorting as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Type propertyType = property.PropertyType;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Type propertyType = property.PropertyType;
 
 <span style="color:#998;font-style:italic">// this cache minimizes the cost of reflection in the PropertyComparer constructor
 </span><span style="color:#998;font-style:italic"></span>PropertyComparer&lt;t&gt; comparer;
@@ -175,7 +174,7 @@ IComparer comparer = (IComparer)comparablePropertyType.InvokeMember(<span style=
 
 itemsList.Sort(comparer);
 </code></pre></div><p>In order to write unittests, i needed a way to get instances of a <a href="http://msdn.microsoft.com/en-us/library/system.componentmodel.propertydescriptor.aspx">PropertyDescriptor</a>. This was achieved by using the <a href="http://msdn.microsoft.com/en-us/library/system.componentmodel.typedescriptor_methods.aspx">TypeDescriptor</a> as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">PropertyDescriptor GetPropertyDescriptor(<span style="color:#458;font-weight:bold">object</span> component, <span style="color:#458;font-weight:bold">string</span> propertyName)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">PropertyDescriptor GetPropertyDescriptor(<span style="color:#458;font-weight:bold">object</span> component, <span style="color:#458;font-weight:bold">string</span> propertyName)
 {
 	PropertyDescriptorCollection propertyDescriptors = TypeDescriptor.GetProperties(component);
 	<span style="color:#000;font-weight:bold">foreach</span> (PropertyDescriptor propertyDescriptor <span style="color:#000;font-weight:bold">in</span> propertyDescriptors)
@@ -228,13 +227,13 @@ itemsList.Sort(comparer);
 <blockquote>
 <p>Another alternative (probably the best) way is to let NHibernate load all of the mapping files contained in an Assembly:</p>
 </blockquote>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Configuration cfg = <span style="color:#000;font-weight:bold">new</span> Configuration(); 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Configuration cfg = <span style="color:#000;font-weight:bold">new</span> Configuration(); 
 cfg.AddAssembly( <span style="color:#d14">&#34;NHibernate.Auction&#34;</span> );
 </code></pre></div><p>Whenever i tried that code i received an InvalidOperationException: Could not find the dialect in the configuration. In order to make the configuration work the way i prefer you have to do the following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Configuration cfg = <span style="color:#000;font-weight:bold">new</span> Configuration().Configure();
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Configuration cfg = <span style="color:#000;font-weight:bold">new</span> Configuration().Configure();
 cfg.AddAssembly(<span style="color:#000;font-weight:bold">typeof</span>(MyRepository).Assembly);
 </code></pre></div><p>Another attention point is the fact that i believe that all connectionStrings belong in App.Config. This can be realised by using the connection.connection_string_name attribute</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
 <span style="color:#000080">&lt;hibernate-configuration</span> <span style="color:#008080">xmlns=</span><span style="color:#d14">&#34;urn:nhibernate-configuration-2.2&#34;</span><span style="color:#000080">&gt;</span>
 	<span style="color:#000080">&lt;session-factory&gt;</span> 
 		<span style="color:#000080">&lt;property</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;connection.provider&#34;</span><span style="color:#000080">&gt;</span>NHibernate.Connection.DriverConnectionProvider<span style="color:#000080">&lt;/property&gt;</span>
@@ -309,7 +308,7 @@ cfg.AddAssembly(<span style="color:#000;font-weight:bold">typeof</span>(MyReposi
 								
 						<div class="markdown">
 							<p>A couple of days ago i mentionned <a href="http://www.goeleven.com">Yves Goeleven&rsquo;s blog</a> as a reference for solutions using <a href="http://en.wikipedia.org/wiki/Domain-driven_design">DDD</a> principles. Let&rsquo;s have a look at his implementation of the AndSpecification and OrSpecification in <a href="http://www.goeleven.com/blog/entryDetail.aspx?entry=57">Design Patterns &ndash; The Specification Pattern &ndash; Part I</a></p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">AndSpecification</span>&lt;T&gt; : CompositeSpecification&lt;T&gt;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">AndSpecification</span>&lt;T&gt; : CompositeSpecification&lt;T&gt;
 {
 	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">bool</span> IsSatisfiedBy(T candidate)
 	{
@@ -335,9 +334,9 @@ cfg.AddAssembly(<span style="color:#000;font-weight:bold">typeof</span>(MyReposi
 	}
 }
 </code></pre></div><p>I believe that it would be better if the implementations had the same lazy evaluation behaviour as the C# &amp;&amp; and || operators. Eg: in C# one can write (a &amp;&amp; b) and if a evaluates to false, then b is not evaluated anymore. Consider the following code</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">if</span> (person != <span style="color:#000;font-weight:bold">null</span> &amp;&amp; person.Age &gt; <span style="color:#099">18</span>) { }
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">if</span> (person != <span style="color:#000;font-weight:bold">null</span> &amp;&amp; person.Age &gt; <span style="color:#099">18</span>) { }
 </code></pre></div><p>Let&rsquo;s rewrite that same code using Specifications</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">NotNullSpecification</span>&lt;T&gt; : ISpecification&lt;T&gt; <span style="color:#000;font-weight:bold">where</span> T : <span style="color:#000;font-weight:bold">class</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">NotNullSpecification</span>&lt;T&gt; : ISpecification&lt;T&gt; <span style="color:#000;font-weight:bold">where</span> T : <span style="color:#000;font-weight:bold">class</span>
 {
 	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> IsSatisfiedBy(T item)
 	{
@@ -367,7 +366,7 @@ cfg.AddAssembly(<span style="color:#000;font-weight:bold">typeof</span>(MyReposi
 	}
 }
 </code></pre></div><p>Using the mentionned AndSpecification implementation the following unittest will fail</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestMethod]</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[TestMethod]</span>
 <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> TestPersonNotNullAndOlderThan18Specification()
 {
 	Person person = <span style="color:#000;font-weight:bold">null</span>;
@@ -376,7 +375,7 @@ cfg.AddAssembly(<span style="color:#000;font-weight:bold">typeof</span>(MyReposi
 	Assert.IsFalse(specification.IsSatisfiedBy(person));
 }
 </code></pre></div><p>In order to make that test pass we could rewrite the specifications as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">abstract</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">CompositeSpecification</span>&lt;T&gt; : ISpecification&lt;T&gt;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">abstract</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">CompositeSpecification</span>&lt;T&gt; : ISpecification&lt;T&gt;
 {
 	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">readonly</span> IEnumerable&lt;ispecification&lt;T&gt;&gt; specifications;
 
@@ -504,7 +503,7 @@ cfg.AddAssembly(<span style="color:#000;font-weight:bold">typeof</span>(MyReposi
 								
 						<div class="markdown">
 							<p>Let me start with a real world example demonstrating the usefulness of a generic DiscreteValuesRange. Imagine that i run a grid computing business and my clients want to book capacity on the grid for a given period. Before their booking is approved, i have to verify that the client has contracts that allow him to use the system for each day of the booking period. Usually, such a check is implemented as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">bool</span> CheckEachDayIsCovered(Booking booking, Client client)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">bool</span> CheckEachDayIsCovered(Booking booking, Client client)
 {
 	DateRange periodToCheck = booking.Period;
 	DateTime endOfTime = <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">9999</span>, <span style="color:#099">12</span>, <span style="color:#099">31</span>);
@@ -536,18 +535,18 @@ cfg.AddAssembly(<span style="color:#000;font-weight:bold">typeof</span>(MyReposi
 	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>; 
 }
 </code></pre></div><p>After a while clients want to buy licenses for only a couple of hours instead of a full day. I realise that my check can remain the same, but that the concept &ldquo;EndOfTime&rdquo; has become DateTime(9999, 12, 31, 23, 59, 59) and that i can advance only an hour instead of a day. Since i want to reuse my code i define the IDiscreteValueProvider<!-- raw HTML omitted --> interface (See <a href="http://en.wikipedia.org/wiki/Discrete_space">Discrete Space</a>)</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">interface</span> IDiscreteValuesProvider&lt;T&gt;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">interface</span> IDiscreteValuesProvider&lt;T&gt;
 {
 	T GetNextValue(T <span style="color:#000;font-weight:bold">value</span>);
 	T MaxValue { <span style="color:#000;font-weight:bold">get</span>; }
 }
 </code></pre></div><p>After this i&rsquo;m able to implement a DiscreteValuesRange<!-- raw HTML omitted --> that implements the following interface (See: <a href="http://www.timvw.be/presenting-a-generic-range/">Generic Range</a>)</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">interface</span> IDiscreteValuesRange&lt;T&gt; : IRange&lt;T&gt;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">interface</span> IDiscreteValuesRange&lt;T&gt; : IRange&lt;T&gt;
 {
 	<span style="color:#458;font-weight:bold">bool</span> IsCoveredByRanges(IEnumerable&lt;idiscreteValuesRange&lt;T&gt;&gt; ranges);
 }
 </code></pre></div><p>Now, with all this infrastructure i can rewrite my original method as following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">bool</span> CheckEachDayIsCovered(Booking booking, Client client)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">bool</span> CheckEachDayIsCovered(Booking booking, Client client)
 {
 	<span style="color:#000;font-weight:bold">return</span> booking.Period.IsCoveredByRanges(client.GetContractPeriods());
 }
@@ -598,7 +597,7 @@ cfg.AddAssembly(<span style="color:#000;font-weight:bold">typeof</span>(MyReposi
 							<p>Very often i need to encode/decode the contents of my Clipboard so i decided to write a little tray application to help me</p>
 <p><img src="http://www.timvw.be/wp-content/images/htmlclipboard.gif" alt="screenshot of htmlclipboard tray application"></p>
 <p>With the aid of <a href="http://msdn.microsoft.com/en-us/library/system.windows.forms.clipboard.aspx">Clipboard</a> and <a href="http://msdn.microsoft.com/en-us/library/system.web.httputility.aspx">HttpUtility</a> this is quite easy to implement</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> toolStripMenuItemDecode_Click(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> toolStripMenuItemDecode_Click(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
 {
 	<span style="color:#458;font-weight:bold">string</span> original = Clipboard.GetText();
 	<span style="color:#458;font-weight:bold">string</span> decodedHtml = HttpUtility.HtmlDecode(original);
@@ -644,7 +643,7 @@ cfg.AddAssembly(<span style="color:#000;font-weight:bold">typeof</span>(MyReposi
 								
 						<div class="markdown">
 							<p>I always seem to forget about the mechanics of implementing a Callback method that can be used in the <a href="http://msdn.microsoft.com/en-us/library/ms228963(VS.80).aspx">Asynchronous Programming Model (APM)</a>. So here is a simple example in C# 3.0 using the <a href="http://msdn.microsoft.com/en-us/library/bb549151.aspx">Func&lt;T, TResult&gt;</a> delegate</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Program</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Program</span>
 {
 	<span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
 	{
@@ -711,7 +710,7 @@ cfg.AddAssembly(<span style="color:#000;font-weight:bold">typeof</span>(MyReposi
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

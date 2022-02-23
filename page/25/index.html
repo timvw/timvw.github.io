@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.92.2" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Tim Van Wassenhove - Passionate geek, interested in Technology. Proud father of two </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://timvw.be/feed.xml" title="Tim Van Wassenhove" />
 	<meta itemprop="name" content="Tim Van Wassenhove">
-<meta itemprop="description" content="">
-<meta property="og:title" content="Tim Van Wassenhove" />
+<meta itemprop="description" content=""><meta property="og:title" content="Tim Van Wassenhove" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-11-08T15:31:18+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -111,7 +110,7 @@
 							<p>A couple of days ago i didn&rsquo;t have a binary version of <a href="http://www.openssl.org">OpenSSL</a> around so i decided to use <a href="http://msdn.microsoft.com/en-us/library/bfsktky3(VS.80).aspx">Makecert.exe</a>. I generated a couple of test certificates and started playing around with them.</p>
 <p>Whenever i tried to decrypt an instance of <a href="http://msdn.microsoft.com/en-us/library/system.security.cryptography.xml.encryptedxml(VS.80).aspx">EncryptedXml</a> a <a href="http://msdn.microsoft.com/en-us/library/system.security.cryptography.cryptographicexception.aspx">CryptographicException</a> (&ldquo;Bad Key.&quot;) was thrown and when i tried to use a <a href="http://msdn.microsoft.com/en-us/library/aa529579.aspx">mutualCertificate11Security</a> assertion (<a href="http://msdn.microsoft.com/en-us/library/aa139619.aspx">WSE 3.0</a>) the same CryptographicException (&ldquo;WSE600: Unable to unwrap a symmetric key using the private key of an X.509 certificate. Please check if the account &lsquo;ASPNET&rsquo; has permissions to read the private key of certificate with subject name&hellip; &ldquo;) was thrown.</p>
 <p>The problem is that by default, makecert.exe generates a key type that is suited for signature. If you want to use the key for other purposes than signing (eg: SSL authentication) you have to use the -sky exchange option. The following commands made my problems disappear:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">makecert -n <span style="color:#d14">&#34;CN=Client&#34;</span> -pe -ss My -sr CurrentUser -sky exchange client.cer
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">makecert -n <span style="color:#d14">&#34;CN=Client&#34;</span> -pe -ss My -sr CurrentUser -sky exchange client.cer
 makecert -n <span style="color:#d14">&#34;CN=Host&#34;</span> -pe -ss My -sr LocalMachine -sky exchange host.cer
 </code></pre></div>
 						</div>
@@ -178,7 +177,7 @@ makecert -n <span style="color:#d14">&#34;CN=Host&#34;</span> -pe -ss My -sr Loc
 						<div class="markdown">
 							<p>Earlier today someone asked me how to generate a List with all the properties (and their respective value) that an object has. With C# 2.0 i would have created a class to represent a single element, PropertyRow, with a Name and a Value property and a class that is IEnumerable<!-- raw HTML omitted --> to hold all PropertyRows.</p>
 <p>With C# 3.0 we can take advantage of <a href="http://msdn.microsoft.com/en-us/library/bb397696.aspx">anonymous types</a> and the code we have to write is fairly minimal</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Person angelina = <span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;Angelina&#34;</span>, <span style="color:#d14">&#34;Jolie&#34;</span>, <span style="color:#d14">&#34;0275198123&#34;</span>, <span style="color:#d14">&#34;CloseToMe blv 12&#34;</span>);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Person angelina = <span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;Angelina&#34;</span>, <span style="color:#d14">&#34;Jolie&#34;</span>, <span style="color:#d14">&#34;0275198123&#34;</span>, <span style="color:#d14">&#34;CloseToMe blv 12&#34;</span>);
 
 <span style="color:#458;font-weight:bold">var</span> propertyRows =
 	<span style="color:#000;font-weight:bold">from</span> propertyInfo <span style="color:#000;font-weight:bold">in</span> angelina.GetType().GetProperties()
@@ -255,7 +254,7 @@ bs.DataSource = propertyRows;
 								
 						<div class="markdown">
 							<p>Earlier this week i&rsquo;ve been experimenting with the <a href="http://msdn.microsoft.com/en-us/sync/default.aspx">Microsoft Sync Framework</a>. In a typical n-tier architecture the client can&rsquo;t access the remote database directly but uses a proxy instead. The available [Earlier this week i&rsquo;ve been experimenting with the <a href="http://msdn.microsoft.com/en-us/sync/default.aspx">Microsoft Sync Framework</a>. In a typical n-tier architecture the client can&rsquo;t access the remote database directly but uses a proxy instead. The available](<a href="http://msdn.microsoft.com/en-us/library/microsoft.synchronization.data.serversyncproviderproxy(SQL.100).aspx">http://msdn.microsoft.com/en-us/library/microsoft.synchronization.data.serversyncproviderproxy(SQL.100).aspx</a>) has only one constructor which accepts an object. With reflector i found out that the proxy simply uses reflection to call some methods. Here are a couple of helper classes that help you prevent runtime errors due to this approach</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[ServiceContract(Namespace = &#34;http://www.timvw.be/Synchronization&#34;)]</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[ServiceContract(Namespace = &#34;http://www.timvw.be/Synchronization&#34;)]</span>
 <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> IServerSyncProvider
 {
 <span style="color:#008080">	[OperationContract]</span>
@@ -280,7 +279,7 @@ bs.DataSource = propertyRows;
 		}
 }
 </code></pre></div><p>And now you can easily consume a ServerSyncProviderProxy as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">SyncAgent syncAgent = <span style="color:#000;font-weight:bold">new</span> SyncAgent();
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">SyncAgent syncAgent = <span style="color:#000;font-weight:bold">new</span> SyncAgent();
 EndpointAddress address = <span style="color:#000;font-weight:bold">new</span> EndpointAddress(<span style="color:#d14">&#34;http://somewhere/Be.Timvw.Demo.Host/ServerSyncProvider.svc&#34;</span>);
 BasicHttpBinding binding = <span style="color:#000;font-weight:bold">new</span> BasicHttpBinding();
 ChannelFactory&lt;iserverSyncProvider&gt; factory = <span style="color:#000;font-weight:bold">new</span> ChannelFactory&lt;iserverSyncProvider&gt;(binding, address);
@@ -318,7 +317,7 @@ syncAgent.RemoteProvider = <span style="color:#000;font-weight:bold">new</span> 
 								
 						<div class="markdown">
 							<p>Very often we have to manage objects and their changes over time. Usually we implement this by adding a <a href="http://www.timvw.be/presenting-a-generic-range/">Range<!-- raw HTML omitted --></a> to the data. <a href="http://martinfowler.com/">Martin Fowler</a> has a name for this pattern: <a href="http://martinfowler.com/ap2/effectivity.html">Effectivity</a> and i have an implementation for the following interface</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> IEffectivity&lt;T&gt; : IComparable&lt;ieffectivity&lt;T&gt;&gt;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> IEffectivity&lt;T&gt; : IComparable&lt;ieffectivity&lt;T&gt;&gt;
 {
 	T Element { <span style="color:#000;font-weight:bold">get</span>; }
 	IRange&lt;dateTime&gt; ValidityPeriod { <span style="color:#000;font-weight:bold">get</span>; }
@@ -357,7 +356,7 @@ syncAgent.RemoteProvider = <span style="color:#000;font-weight:bold">new</span> 
 								
 						<div class="markdown">
 							<p>I&rsquo;ve already presented a <a href="http://www.timvw.be/presenting-a-generic-effectivity/">Generic Effectivity</a>. Offcourse, managing all these effectivities (versions of data) can be handled in a generic way too. A bit of experience mixed with <a href="http://martinfowler.com/ap2/timeNarrative.html">Patterns for things that change with time</a> allowed me to come up with the following interface</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> IEffectivityManager&lt;T&gt; : IList&lt;ieffectivity&lt;T&gt;&gt;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> IEffectivityManager&lt;T&gt; : IList&lt;ieffectivity&lt;T&gt;&gt;
 {
 	IEffectivity&lt;T&gt; Add(T t, DateTime begin);
 	IEffectivity&lt;T&gt; GetSnapshot(DateTime validityDate);
@@ -396,7 +395,7 @@ syncAgent.RemoteProvider = <span style="color:#000;font-weight:bold">new</span> 
 								
 						<div class="markdown">
 							<p>Quite often i&rsquo;m writing code that compares one value against a range of other values. Most implementations compare the value against the boundaries (smallest and largest in the collection of other values). Having written this sort of code way too much i&rsquo;ve decided to generalize the problem and distill an interface</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> IRange&lt;T&gt;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> IRange&lt;T&gt;
 {
 	T Begin { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">set</span>; }
 	T End { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">set</span>; }
@@ -437,7 +436,7 @@ syncAgent.RemoteProvider = <span style="color:#000;font-weight:bold">new</span> 
 								
 						<div class="markdown">
 							<p>These days building <a href="http://www.openssl.org">OpenSSL</a> with Visual Studio 2008 has become really easy. I don&rsquo;t like to edit .cnf files so i decided to patch the code a little so that the default configuration file becomes openssl.config</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">string</span> basePath = <span style="color:#d14">@&#34;C:\src\openssl-0.9.8g&#34;</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">string</span> basePath = <span style="color:#d14">@&#34;C:\src\openssl-0.9.8g&#34;</span>;
 
 <span style="color:#458;font-weight:bold">string</span> originalConfigfile = <span style="color:#d14">&#34;openssl.cnf&#34;</span>;
 <span style="color:#458;font-weight:bold">string</span> updatedConfigfile = <span style="color:#d14">&#34;openssl.config&#34;</span>;
@@ -453,11 +452,11 @@ syncAgent.RemoteProvider = <span style="color:#000;font-weight:bold">new</span> 
 
 File.WriteAllText(basePath + <span style="color:#d14">@&#34;\apps\&#34;</span> + updatedConfigfile, File.ReadAllText(basePath + <span style="color:#d14">@&#34;\apps\&#34;</span> + originalConfigfile));
 </code></pre></div><p>Open a Visual Studio 2008 Command prompt and add references to the <a href="http://blogs.msdn.com/windowssdk">Microsoft SDK</a> as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">SET <span style="color:#008080">PATH</span><span style="color:#000;font-weight:bold">=</span>%PATH%;C:<span style="color:#d14">\P</span>rogram Files<span style="color:#d14">\M</span>icrosoft SDKs<span style="color:#d14">\W</span>indows<span style="color:#d14">\v</span>6.0A<span style="color:#d14">\b</span>in
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">SET <span style="color:#008080">PATH</span><span style="color:#000;font-weight:bold">=</span>%PATH%;C:<span style="color:#d14">\P</span>rogram Files<span style="color:#d14">\M</span>icrosoft SDKs<span style="color:#d14">\W</span>indows<span style="color:#d14">\v</span>6.0A<span style="color:#d14">\b</span>in
 SET <span style="color:#008080">LIB</span><span style="color:#000;font-weight:bold">=</span>%LIB%;C:<span style="color:#d14">\P</span>rogram Files<span style="color:#d14">\M</span>icrosoft SDKs<span style="color:#d14">\W</span>indows<span style="color:#d14">\v</span>6.0A<span style="color:#d14">\L</span>ib
 SET <span style="color:#008080">INCLUDE</span><span style="color:#000;font-weight:bold">=</span>%INCLUDE%;C:<span style="color:#d14">\P</span>rogram Files<span style="color:#d14">\M</span>icrosoft SDKs<span style="color:#d14">\W</span>indows<span style="color:#d14">\v</span>6.0A<span style="color:#d14">\I</span>nclude
 </code></pre></div><p>Now we simply have to follow the tasks listed in INSTALL.W32:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">perl Configure VC-WIN32 --prefix<span style="color:#000;font-weight:bold">=</span>c:/openssl
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">perl Configure VC-WIN32 --prefix<span style="color:#000;font-weight:bold">=</span>c:/openssl
 ms<span style="color:#d14">\d</span>o_masm
 nmake -f ms<span style="color:#d14">\n</span>tdll.mak
 nmake -f ms<span style="color:#d14">\n</span>tdll.mak <span style="color:#0086b3">test</span>
@@ -499,7 +498,7 @@ nmake -f ms<span style="color:#d14">\n</span>tdll.mak install
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

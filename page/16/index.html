@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.92.2" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Tim Van Wassenhove - Passionate geek, interested in Technology. Proud father of two </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://timvw.be/feed.xml" title="Tim Van Wassenhove" />
 	<meta itemprop="name" content="Tim Van Wassenhove">
-<meta itemprop="description" content="">
-<meta property="og:title" content="Tim Van Wassenhove" />
+<meta itemprop="description" content=""><meta property="og:title" content="Tim Van Wassenhove" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-11-08T15:31:18+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -183,7 +182,7 @@
 								
 						<div class="markdown">
 							<p>A long time ago i read <a href="http://codebetter.com/blogs/jeremy.miller/archive/2007/07/25/the-build-your-own-cab-series-table-of-contents.aspx">Build your own CAB series</a> and recently i noticed that there is a wiki: <a href="http://www.jeremydmiller.com/ppatterns/Default.aspx?Page=MainPage&amp;AspxAutoDetectCookieSupport=1">Presentation Patterns Wiki!</a> and it inspired me to experiment with state machines. Here are a couple of examples:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">controlStateMachine = <span style="color:#000;font-weight:bold">new</span> ControlStateMachine&lt;states&gt;(<span style="color:#000;font-weight:bold">this</span>);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">controlStateMachine = <span style="color:#000;font-weight:bold">new</span> ControlStateMachine&lt;states&gt;(<span style="color:#000;font-weight:bold">this</span>);
 
 controlStateMachine.AfterEachStateChange()
 .Do(MakeRelevantButtonsVisible);
@@ -198,7 +197,7 @@ controlStateMachine.WhenStateChangesTo(States.RetrievingCustomerInformation)
 controlStateMachine.WhenStateChangesTo(States.Ready)
 .MakeInvisible(customerInput1);
 </code></pre></div><p>And here is another example:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">wizardStateMachine = <span style="color:#000;font-weight:bold">new</span> WizardStateMachine&lt;states&gt;(controlStateMachine);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">wizardStateMachine = <span style="color:#000;font-weight:bold">new</span> WizardStateMachine&lt;states&gt;(controlStateMachine);
 
 wizardStateMachine.InState(States.RetrievingSubscriptionPeriod)
 .OnCommand(WizardCommands.Next)
@@ -318,11 +317,11 @@ wizardStateMachine.InState(States.Ready)
 <p>Modules have explicit boundaries, typically by subsystem or feature. Having these boundaries makes it easier for separate teams to develop modules. On large applications, teams may be organized by cross-cutting capabilities in addition to being organized by a specific subsystem or feature. For example, there may be a team assigned to shared components of the application, such as the shell or the common infrastructure module.</p>
 </blockquote>
 <p>The Modularity quick start solution uses the DirectoryModuleCatalog to discover modules. The module projects have a build event that copy their output to a single Modules folder</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">xcopy &#34;$(TargetDir)*.*&#34; &#34;$(SolutionDir)DirectoryLookupModularity\$(OutDir)Modules\&#34; /Y
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">xcopy &#34;$(TargetDir)*.*&#34; &#34;$(SolutionDir)DirectoryLookupModularity\$(OutDir)Modules\&#34; /Y
 </code></pre></div><p>This means that if two modules output a file with the same name, one of the two will get lost :(. In order to avoid this we create a directory per module</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">xcopy &#34;$(TargetDir)*.*&#34; &#34;$(SolutionDir)DirectoryLookupModularity\$(OutDir)Modules\$(TargetName)\&#34; /Y
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">xcopy &#34;$(TargetDir)*.*&#34; &#34;$(SolutionDir)DirectoryLookupModularity\$(OutDir)Modules\$(TargetName)\&#34; /Y
 </code></pre></div><p>To make this work we have to modify the catalog a little</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">void</span> InnerLoad()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">void</span> InnerLoad()
 {
 	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#458;font-weight:bold">string</span>.IsNullOrEmpty(<span style="color:#000;font-weight:bold">this</span>.ModulePath))
 		<span style="color:#000;font-weight:bold">throw</span> <span style="color:#000;font-weight:bold">new</span> InvalidOperationException(Resources.ModulePathCannotBeNullOrEmpty);
@@ -382,7 +381,7 @@ wizardStateMachine.InState(States.Ready)
 								
 						<div class="markdown">
 							<p>Consider the following classes: an abstract Account and a concrete SavingAccount</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">abstract</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Account</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">abstract</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Account</span>
 {
 	<span style="color:#458;font-weight:bold">int</span> Id { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">set</span>; }
 	<span style="color:#458;font-weight:bold">int</span> CustomerId { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">set</span>; }
@@ -398,7 +397,7 @@ wizardStateMachine.InState(States.Ready)
 </code></pre></div><p>And this is the schema on which we want to map these classes</p>
 <p><img src="http://www.timvw.be/wp-content/images/accounts_schema.png" alt="screenshot of accounts schema"></p>
 <p>We define a <a href="http://fluentnhibernate.org/">Fluent</a> NHibernate mapping as following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">AccountMap</span> : ClassMap&lt;account&gt;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">AccountMap</span> : ClassMap&lt;account&gt;
 {
 	<span style="color:#000;font-weight:bold">public</span> AccountMap()
 	{
@@ -420,7 +419,7 @@ wizardStateMachine.InState(States.Ready)
 </code></pre></div><p>As soon as we try to use this mapping we run into an &ldquo;Could not find a setter for property &lsquo;Type&rsquo; in class &lsquo;Banking.Domain.CheckingAccount&rdquo; exception. A quick look with reflector teaches us there are a couple of strategies, but none of them suits our needs.</p>
 <p><img src="http://www.timvw.be/wp-content/images/accounts_property_accessors.png" alt="screenshot of available property accessors in NHibernate assembly"></p>
 <p>Thus we decide to implement a custom PropertyAccessor as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ReadOnlyProperty</span> : IPropertyAccessor
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ReadOnlyProperty</span> : IPropertyAccessor
 {
 	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> CanAccessTroughReflectionOptimizer
 	{
@@ -448,7 +447,7 @@ wizardStateMachine.InState(States.Ready)
 	}
 }
 </code></pre></div><p>And now we can instruct NHibernate to use our custom PropertyAccessor as following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> AccountMap()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> AccountMap()
 {
 	...
 	Map(a =&gt; a.Type).Access.Using&lt;readOnlyProperty&gt;().ColumnName(<span style="color:#d14">&#34;account_type&#34;</span>);
@@ -560,7 +559,7 @@ wizardStateMachine.InState(States.Ready)
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

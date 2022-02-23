@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.92.2" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Tim Van Wassenhove - Passionate geek, interested in Technology. Proud father of two </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://timvw.be/feed.xml" title="Tim Van Wassenhove" />
 	<meta itemprop="name" content="Tim Van Wassenhove">
-<meta itemprop="description" content="">
-<meta property="og:title" content="Tim Van Wassenhove" />
+<meta itemprop="description" content=""><meta property="og:title" content="Tim Van Wassenhove" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-11-08T15:31:18+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -148,7 +147,7 @@
 								
 						<div class="markdown">
 							<p>Being bored of writing code to raise an event, i have added an EventHandlerHelper to <a href="http://www.codeplex.com/BeTimvwFramework">BeTimvwFramework</a>.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">EventHandlerHelper</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">EventHandlerHelper</span>
 {
 <span style="color:#008080">	[MethodImpl(MethodImplOptions.NoInlining)]</span>
 	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Raise&lt;T&gt;(EventHandler&lt;T&gt; handler, <span style="color:#458;font-weight:bold">object</span> sender, T e) <span style="color:#000;font-weight:bold">where</span> T : EventArgs
@@ -191,7 +190,7 @@
 								
 						<div class="markdown">
 							<p>Because i believe in the <a href="http://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a> principle i decided to add a generic ItemEventArgs class to <a href="http://www.codeplex.com/BeTimvwFramework">BeTimvwFramework</a></p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ItemEventArgs</span>&lt;T&gt; : EventArgs
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ItemEventArgs</span>&lt;T&gt; : EventArgs
 {
 	<span style="color:#000;font-weight:bold">private</span> T item;
 
@@ -238,7 +237,7 @@
 								
 						<div class="markdown">
 							<p>What good is a <a href="http://www.timvw.be/presenting-timeotpclient/">TimeOTP</a> client if you don&rsquo;t have anything to use it with? Last week i have implemented a <a href="http://msdn.microsoft.com/en-us/library/system.web.security.membershipprovider.aspx">MembershipProvider</a> that uses <a href="http://www.timvw.be/presenting-hmac-based-otp-and-time-based-otp/">Time-based One-Time Password</a> to validate the user credentials. Basically, it is a wrapper around an existing MembershipProvider, you get to choose which one via the providerType attribute in the configuration, and requires that it can access the password of users. Here is an example configuration that relies on the SqlMembershipProvider</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34;?&gt;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34;?&gt;</span>
 <span style="color:#000080">&lt;configuration&gt;</span>
 	<span style="color:#000080">&lt;connectionStrings&gt;</span>
 		<span style="color:#000080">&lt;add</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;MyDatabase&#34;</span> <span style="color:#008080">connectionString=</span><span style="color:#d14">&#34;xxxxx&#34;</span> <span style="color:#008080">providerName=</span><span style="color:#d14">&#34;System.Data.SqlClient&#34;</span><span style="color:#000080">/&gt;</span>
@@ -358,7 +357,7 @@
 								
 						<div class="markdown">
 							<p>A <a href="http://msdn.microsoft.com/en-us/library/system.timespan.aspx">TimeSpan</a> is a structure that represents a time interval or a duration. To make the everything as clear as possible, a well designed system should not only know the quantity, but also the unit of that quantity. In order to create a TimeSpan that represents the right value, you will probably use one of the <a href="http://msdn.microsoft.com/en-us/library/system.timespan_methods.aspx">FromXXX (Hours, Days, Minutes, Seconds) methods</a> as following</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">double</span> <span style="color:#000;font-weight:bold">value</span> = <span style="color:#099">1</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">double</span> <span style="color:#000;font-weight:bold">value</span> = <span style="color:#099">1</span>;
 <span style="color:#458;font-weight:bold">string</span> unit = <span style="color:#d14">&#34;Day&#34;</span>;
 
 TimeSpan actual;
@@ -372,7 +371,7 @@ TimeSpan actual;
 }
 <span style="color:#998;font-style:italic">// more else if statements...
 </span></code></pre></div><p>After a while you get bored of writing that same if-else (or switch) construct and you end up wishing for something like</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">double</span> <span style="color:#000;font-weight:bold">value</span> = <span style="color:#099">1</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">double</span> <span style="color:#000;font-weight:bold">value</span> = <span style="color:#099">1</span>;
 <span style="color:#458;font-weight:bold">string</span> unit = <span style="color:#d14">&#34;Day&#34;</span>;
 
 TimeUnit timeUnit = EnumHelper.Parse&lt;timeUnit&gt;(unit);
@@ -478,7 +477,7 @@ TimeSpan actual = TimeSpanHelper.Create(<span style="color:#000;font-weight:bold
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.92.2" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Tim Van Wassenhove - Passionate geek, interested in Technology. Proud father of two </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://timvw.be/feed.xml" title="Tim Van Wassenhove" />
 	<meta itemprop="name" content="Tim Van Wassenhove">
-<meta itemprop="description" content="">
-<meta property="og:title" content="Tim Van Wassenhove" />
+<meta itemprop="description" content=""><meta property="og:title" content="Tim Van Wassenhove" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-11-08T15:31:18+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -86,13 +85,13 @@
 <p>dtexec /SET \Package.Variables[User::TheVariable].Properties[Value];''; space'';</p>
 </blockquote>
 <p>It seems that this works like a charm 🙂 Because i am lazy i wrapped this in a powershell function:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> PackageOption()
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> PackageOption()
 {	  
 	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$name</span>, <span style="color:#008080">$value</span>);
 	<span style="color:#d14">&#34;$name;\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">$value\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">&#34;</span>;
 }  
 </code></pre></div><p>And now you can use it as following in your deployment script:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$TheVariableOption</span> = PackageOption -Name <span style="color:#d14">&#34;\Package.Variables[User::TheVariable].Properties[Value]&#34;</span> -Value <span style="color:#d14">&#34;some thing&#34;</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$TheVariableOption</span> = PackageOption -Name <span style="color:#d14">&#34;\Package.Variables[User::TheVariable].Properties[Value]&#34;</span> -Value <span style="color:#d14">&#34;some thing&#34;</span>;
 &amp;dtexec /File <span style="color:#d14">&#34;$package&#34;</span> /<span style="color:#0086b3">Set </span><span style="color:#008080">$TheVariableOption</span>;
 </code></pre></div>
 						</div>
@@ -190,7 +189,7 @@
 								
 						<div class="markdown">
 							<p>Here is a quick snippet that demonstrates how you can invoke a parametrized stored procedure with PowerShell:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$CreateTraceCommand</span> = <span style="color:#008080">$SqlConnection</span>.CreateCommand();
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$CreateTraceCommand</span> = <span style="color:#008080">$SqlConnection</span>.CreateCommand();
 <span style="color:#008080">$CreateTraceCommand</span>.CommandType = <span style="color:#008080">[System.Data.CommandType]</span> <span style="color:#d14">&#34;StoredProcedure&#34;</span>;
 <span style="color:#008080">$CreateTraceCommand</span>.CommandText = <span style="color:#d14">&#34;sp_trace_create&#34;</span>;
 <span style="color:#008080">$TraceIdParameter</span> = <span style="color:#008080">$CreateTraceCommand</span>.Parameters.Add(<span style="color:#d14">&#34;@traceid&#34;</span>, <span style="color:#008080">[System.Data.SqlDbType]</span> <span style="color:#d14">&#34;Int&#34;</span>);
@@ -246,7 +245,7 @@
 <li>Turn volume up: [Ctrl] + [Alt] + [Up]</li>
 <li>Turn volume down: [Ctrl] + [Alt] + [Down]</li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">^!right::
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">^!right::
 DetectHiddenWindows , On
 ControlSend , ahk_parent, ^<span style="color:#000;font-weight:bold">{</span>right<span style="color:#000;font-weight:bold">}</span>, iTunes ahk_class iTunes 
 DetectHiddenWindows , Off
@@ -386,11 +385,11 @@ DetectHiddenWindows , Off
 								
 						<div class="markdown">
 							<p>Earlier this week i tried to run a command on a remote computer but it did not seem to work:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$name</span> = <span style="color:#d14">&#39;tim&#39;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$name</span> = <span style="color:#d14">&#39;tim&#39;</span>
 <span style="color:#008080">$computer</span> = <span style="color:#d14">&#39;localhost&#39;</span>
 <span style="color:#0086b3">Invoke-Command</span> -ComputerName <span style="color:#008080">$computer</span> -ScriptBlock { <span style="color:#0086b3">Write-Host</span> <span style="color:#d14">&#34;Hello $name&#34;</span> }
 </code></pre></div><p>Because powershell serialises the { Write-Host &ldquo;Hello $name&rdquo; } as a string this ends up at the remote computer as { Write-Host &ldquo;Hello $null&rdquo; }. In order to send our &ldquo;dynamic&quot;command string over the wire we have to make sure it is serialised correctly:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$scriptBlock</span> = <span style="color:#008080">$executioncontext</span>.InvokeCommand.NewScriptBlock(<span style="color:#d14">&#34;Write-Host \</span><span style="color:#d14">`&#34;</span><span style="color:#d14">Hello $name\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">&#34;</span>);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#008080">$scriptBlock</span> = <span style="color:#008080">$executioncontext</span>.InvokeCommand.NewScriptBlock(<span style="color:#d14">&#34;Write-Host \</span><span style="color:#d14">`&#34;</span><span style="color:#d14">Hello $name\</span><span style="color:#d14">`&#34;</span><span style="color:#d14">&#34;</span>);
 <span style="color:#0086b3">Invoke-Command</span> -ComputerName <span style="color:#008080">$computer</span> -ScriptBlock <span style="color:#008080">$scriptBlock</span>;
 </code></pre></div>
 						</div>
@@ -424,7 +423,7 @@ DetectHiddenWindows , Off
 								
 						<div class="markdown">
 							<p>Here are some powershell functions (using XPath) that come in handy when working with SSIS packages:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> FindConnectionManagerNames {	  
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#000;font-weight:bold">function</span> FindConnectionManagerNames {	  
 	<span style="color:#000;font-weight:bold">param</span>(<span style="color:#008080">$fileName</span>)
 
 	<span style="color:#008080">$xml</span> = <span style="color:#008080">[xml]</span> (<span style="color:#0086b3">Get-Content</span> <span style="color:#008080">$fileName</span>);	  
@@ -498,13 +497,13 @@ DetectHiddenWindows , Off
 						<div class="markdown">
 							<p>Here are some tips that i want to share with fellow .Net developers that use git on cygwin.</p>
 <p>First of all i defined some aliases in my ~/.bashrc:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic"># open explorer in the current working directory </span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic"># open explorer in the current working directory </span>
 <span style="color:#0086b3">alias</span> <span style="color:#008080">explorer</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;explorer.exe &#34;\`cygpath -aw \&#34;$PWD\&#34;\`&#34;&#39;</span>
 
 <span style="color:#998;font-style:italic"># invoke MSBuild</span>
 <span style="color:#0086b3">alias</span> <span style="color:#008080">msbuild</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;/cygdrive/c/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe&amp;&#39;</span>
 </code></pre></div><p>Because i do not like the TFS source control story i use <a href="https://github.com/spraints/git-tfs">git-tfs</a>. As a .Net developer you want to add the following to your .git/info/exclude file:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic">#OS junk files</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic">#OS junk files</span>
 <span style="color:#000;font-weight:bold">[</span>Tt<span style="color:#000;font-weight:bold">]</span>humbs.db
 *.DS_Store
 <span style="color:#998;font-style:italic">#Visual Studio files  </span>
@@ -542,7 +541,7 @@ _ReSharper*/
 <span style="color:#998;font-style:italic">#Subversion files </span>
 .svn
 </code></pre></div><p>Whenever i work online i usually run these two commands consecutively: git -a -m &lsquo;commit message&rsquo; and git-tfs checkin -m &lsquo;commit message&rsquo;. Here is a small ~/bin/commit script that combines these:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-weight:bold;font-style:italic">#!/bin/bash
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-weight:bold;font-style:italic">#!/bin/bash
 </span><span style="color:#999;font-weight:bold;font-style:italic"></span>git commit -a -m <span style="color:#d14">&#34;</span><span style="color:#008080">$1</span><span style="color:#d14">&#34;</span>;
 git-tfs checkin -m <span style="color:#d14">&#34;</span><span style="color:#008080">$1</span><span style="color:#d14">&#34;</span>;
 </code></pre></div>
@@ -582,13 +581,13 @@ git-tfs checkin -m <span style="color:#d14">&#34;</span><span style="color:#0080
 						<div class="markdown">
 							<p>Last couple of weeks i have been using <a href="http://git-scm.com/">Git</a> on <a href="http://www.cygwin.com">cygwin</a> and i got very satisfying results out of it. One thing that i wanted to tweak was the ability to use <a href="http://winmerge.org/">WinMerge</a> to compare files. Here is how i do it:</p>
 <p>Here is my ~/.gitconfig:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#000;font-weight:bold">[</span>user<span style="color:#000;font-weight:bold">]</span>	  
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#000;font-weight:bold">[</span>user<span style="color:#000;font-weight:bold">]</span>	  
 <span style="color:#008080">name</span> <span style="color:#000;font-weight:bold">=</span> Tim Van Wassenhove	  
 <span style="color:#008080">email</span> <span style="color:#000;font-weight:bold">=</span> git@timvw.be
 <span style="color:#000;font-weight:bold">[</span>diff<span style="color:#000;font-weight:bold">]</span>
 <span style="color:#008080">external</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;~/bin/git-diff-wrapper.sh&#34;</span>
 </code></pre></div><p>Here is my ~/bin/git-diff-wrapper.sh (it uses <a href="http://www.cygwin.com/cygwin-ug-net/using-utils.html">cygpath</a> to translate the paths):</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-weight:bold;font-style:italic">#!/bin/sh
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-weight:bold;font-style:italic">#!/bin/sh
 </span><span style="color:#999;font-weight:bold;font-style:italic"></span><span style="color:#d14">&#34;/cygdrive/c/Program Files/WinMerge/WinMergeU.EXE&#34;</span> /e /ub /dl other /dr <span style="color:#0086b3">local</span> <span style="color:#d14">&#34;\`cygpath -aw </span><span style="color:#008080">$1</span><span style="color:#d14">\`&#34;</span> <span style="color:#d14">&#34;\`cygpath -aw </span><span style="color:#008080">$2</span><span style="color:#d14">\`&#34;</span> <span style="color:#d14">&#34;\`cygpath -aw </span><span style="color:#008080">$5</span><span style="color:#d14">\`&#34;</span>
 </code></pre></div><p>And now we are good to go 😉</p>
 
@@ -631,7 +630,7 @@ git-tfs checkin -m <span style="color:#d14">&#34;</span><span style="color:#0080
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

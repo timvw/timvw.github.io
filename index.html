@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
+	<meta name="generator" content="Hugo 0.92.2" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Tim Van Wassenhove - Passionate geek, interested in Technology. Proud father of two </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="alternate" type="application/rss+xml" href="https://timvw.be/feed.xml" title="Tim Van Wassenhove" />
 	<meta itemprop="name" content="Tim Van Wassenhove">
-<meta itemprop="description" content="">
-<meta property="og:title" content="Tim Van Wassenhove" />
+<meta itemprop="description" content=""><meta property="og:title" content="Tim Van Wassenhove" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://timvw.be/" />
-<meta property="og:updated_time" content="2021-11-08T15:31:18+01:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tim Van Wassenhove"/>
 <meta name="twitter:description" content=""/>
@@ -86,14 +85,14 @@
 <li>Authentication</li>
 </ul>
 <p>For authentication I use create a secret which contains a htpasswd file, here is how you can generate this:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run --rm --entrypoint htpasswd registry:2.6.2 -Bbn username password &gt; ./registry-htpasswd
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run --rm --entrypoint htpasswd registry:2.6.2 -Bbn username password &gt; ./registry-htpasswd
 kubectl create secret generic auth-secret --from-file<span style="color:#000;font-weight:bold">=</span>./registry-htpasswd -n registry
 </code></pre></div><ul>
 <li>A TLS certificate</li>
 </ul>
 <p>The TLS certificate is generated using <a href="https://cert-manager.io/docs/">cert-manager</a>. See this <a href="https://timvw.be/2021/03/15/notes-on-microk8s-and-cert-manager/">post</a> on how to achieve that.</p>
 <p>When all is in place you can simply kubectl apply the following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>v1<span style="color:#bbb">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>v1<span style="color:#bbb">
 </span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>Namespace<span style="color:#bbb">
 </span><span style="color:#bbb"></span><span style="color:#000080">metadata</span>:<span style="color:#bbb">
 </span><span style="color:#bbb">  </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
@@ -196,15 +195,15 @@ kubectl create secret generic auth-secret --from-file<span style="color:#000;fon
 </span><span style="color:#bbb">            </span><span style="color:#000080">port</span>:<span style="color:#bbb">
 </span><span style="color:#bbb">              </span><span style="color:#000080">number</span>:<span style="color:#bbb"> </span><span style="color:#099">5000</span><span style="color:#bbb">   
 </span></code></pre></div><p>Once everything is in place you can test the registry by running:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker login registry.apps.timvw.be
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker login registry.apps.timvw.be
 </code></pre></div><p>In order to use this registry in your cluster you need to have a <a href="https://kubernetes.io/docs/concepts/configuration/secret/">secret</a> in the namespace where the pods are created with the following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create secret docker-registry regcred -n demo <span style="color:#d14">\
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create secret docker-registry regcred -n demo <span style="color:#d14">\
 </span><span style="color:#d14"></span>  --docker-server<span style="color:#000;font-weight:bold">=</span>registry.apps.timvw.be <span style="color:#d14">\
 </span><span style="color:#d14"></span>  --docker-username<span style="color:#000;font-weight:bold">=</span>username <span style="color:#d14">\
 </span><span style="color:#d14"></span>  --docker-password<span style="color:#000;font-weight:bold">=</span>password <span style="color:#d14">\
 </span><span style="color:#d14"></span>  --docker-email<span style="color:#000;font-weight:bold">=</span>test@example.com
 </code></pre></div><p>Now you can create a deployment using this secret and referencing images on the registry:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#555">---</span><span style="color:#bbb">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#555">---</span><span style="color:#bbb">
 </span><span style="color:#bbb"></span><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>apps/v1<span style="color:#bbb">
 </span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>Deployment<span style="color:#bbb">
 </span><span style="color:#bbb"></span><span style="color:#555">...</span><span style="color:#bbb">
@@ -242,11 +241,11 @@ kubectl create secret generic auth-secret --from-file<span style="color:#000;fon
 						<div class="markdown">
 							<p>Last couple of weeks I&rsquo;ve been using <a href="https://microk8s.io/">MicroK8s</a> for local development.</p>
 <p>Installing current version of <a href="https://cert-manager.io/docs/">cert-manager</a> just worked by following the <a href="https://cert-manager.io/docs/installation/kubernetes/">installation instructions</a>:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.2.0/cert-manager.yaml
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.2.0/cert-manager.yaml
 </code></pre></div><p>Then I enabled the <a href="https://microk8s.io/docs/addon-ingress">ingress addon</a>:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">microk8s.enable ingress
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">microk8s.enable ingress
 </code></pre></div><p>Configuring <a href="https://letsencrypt.org/">Let&rsquo;s Encrypt</a> required some deviations from the <a href="https://cert-manager.io/docs/configuration/acme/">documentation</a>. Only resources of type ClusterIssuer and public as ingress class seem to work:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>cert-manager.io/v1<span style="color:#bbb">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>cert-manager.io/v1<span style="color:#bbb">
 </span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>ClusterIssuer<span style="color:#bbb">
 </span><span style="color:#bbb"></span><span style="color:#000080">metadata</span>:<span style="color:#bbb">
 </span><span style="color:#bbb">  </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>letsencrypt-staging<span style="color:#bbb">
@@ -282,10 +281,10 @@ kubectl create secret generic auth-secret --from-file<span style="color:#000;fon
 <li>&hellip;</li>
 </ul>
 <p>Here are some helpful commands:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl logs -f -n cert-manager -f <span style="color:#008080">app</span><span style="color:#000;font-weight:bold">=</span>cert-manager
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl logs -f -n cert-manager -f <span style="color:#008080">app</span><span style="color:#000;font-weight:bold">=</span>cert-manager
 kubectl get ingress
 </code></pre></div><p>Then I noticed that acme-staging-v02.api.letsencrypt.org could not be resolved by the cert-manager pods (trying to resolve from 127.0.0.1:53), thus I also enabled the dns addon and restarted the pods (by deleting them)</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">microk8s.enable dns
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">microk8s.enable dns
 kubectl delete pod -n cert-manager -l <span style="color:#008080">app</span><span style="color:#000;font-weight:bold">=</span>cert-manager
 </code></pre></div><p>And then all was fine. Eg: <a href="https://strava.apps.timvw.be">https://strava.apps.timvw.be</a> just works :)</p>
 
@@ -373,12 +372,12 @@ but the applications are in the form of <a href="https://opencontainers.org/">co
 								
 						<div class="markdown">
 							<p>When you have limited access (eg: only a specific <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/">namespace</a> (~ <a href="https://docs.openshift.com/enterprise/3.0/architecture/core_concepts/projects_and_users.html#:~:text=A%20Kubernetes%20namespace%20provides%20a,provide%20a%20unique%20scope%20for%3A&amp;text=The%20ability%20to%20limit%20community%20resource%20consumption.">openshift project</a>) on a kubernetes cluster you may not be able to run kubectl cluster-info.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  ~ kubectl cluster-info
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  ~ kubectl cluster-info
 
 To further debug and diagnose cluster problems, use <span style="color:#d14">&#39;kubectl cluster-info dump&#39;</span>.
 Error from server <span style="color:#000;font-weight:bold">(</span>Forbidden<span style="color:#000;font-weight:bold">)</span>: services is forbidden: User <span style="color:#d14">&#34;timvw&#34;</span> cannot list resource <span style="color:#d14">&#34;services&#34;</span> in API group <span style="color:#d14">&#34;&#34;</span> in the namespace <span style="color:#d14">&#34;kube-system&#34;</span>
 </code></pre></div><p>As soon as you run the command in your namespace  it will work:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  ~ kubectl cluster-info -n spark
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  ~ kubectl cluster-info -n spark
 Kubernetes master is running at https://api.customer.example:443
 
 To further debug and diagnose cluster problems, use <span style="color:#d14">&#39;kubectl cluster-info dump&#39;</span>.
@@ -408,7 +407,7 @@ To further debug and diagnose cluster problems, use <span style="color:#d14">&#3
 								
 						<div class="markdown">
 							<p>In a <a href="https://timvw.be/2020/02/10/terraform-azure-k8s-nginx-letsencrypt.html">previous</a> post I demonstrated how easy it has become to deploy a webapplications with an HTTPS backend on Kubernetes and Azure. Let&rsquo;s expand this cluster with a node pool that is backed by <a href="https://azure.microsoft.com/en-us/pricing/spot/">spot</a> instances:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">resource &#34;azurerm_kubernetes_cluster_node_pool&#34; &#34;spot&#34; {<span style="color:#bbb">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">resource &#34;azurerm_kubernetes_cluster_node_pool&#34; &#34;spot&#34; {<span style="color:#bbb">
 </span><span style="color:#bbb">    </span>name                  = &#34;spot&#34;<span style="color:#bbb">
 </span><span style="color:#bbb">    </span>kubernetes_cluster_id = azurerm_kubernetes_cluster.k8s.id<span style="color:#bbb">
 </span><span style="color:#bbb">    </span>vm_size         = &#34;standard_D2s_v4&#34;<span style="color:#bbb">
@@ -427,7 +426,7 @@ To further debug and diagnose cluster problems, use <span style="color:#d14">&#3
 </span></code></pre></div><p>The nodes in this pool will be <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/">tainted</a> with kubernetes.azure.com/scalesetpriority=spot:NoSchedule.</p>
 <p>For a pod to land on a node in this pool you will have to specify a toleration. Here is how you would do this in <a href="https://spark.apache.org/">Apache Spark</a>:</p>
 <p>First create a pod.yml file in which you specify the toleration:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>v1<span style="color:#bbb">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>v1<span style="color:#bbb">
 </span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>Pod<span style="color:#bbb">
 </span><span style="color:#bbb"></span><span style="color:#000080">metadata</span>:<span style="color:#bbb">
 </span><span style="color:#bbb">  </span><span style="color:#000080">annotations</span>:<span style="color:#bbb">
@@ -439,7 +438,7 @@ To further debug and diagnose cluster problems, use <span style="color:#d14">&#3
 </span><span style="color:#bbb">    </span><span style="color:#000080">value</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;spot&#34;</span><span style="color:#bbb">
 </span><span style="color:#bbb">    </span><span style="color:#000080">effect</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;NoSchedule&#34;</span><span style="color:#bbb">
 </span></code></pre></div><p>And now you can submit the app</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./bin/spark-submit <span style="color:#d14">\
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./bin/spark-submit <span style="color:#d14">\
 </span><span style="color:#d14"></span>  --master k8s://<span style="color:#008080">$KUBERNETES_MASTER_API</span> <span style="color:#d14">\
 </span><span style="color:#d14"></span>  --deploy-mode cluster <span style="color:#d14">\
 </span><span style="color:#d14"></span>  --name spark-pi <span style="color:#d14">\
@@ -477,16 +476,16 @@ To further debug and diagnose cluster problems, use <span style="color:#d14">&#3
 						<div class="markdown">
 							<p>In my <a href="https://timvw.be/2020/02/10/terraform-azure-k8s-nginx-letsencrypt.html">previous</a> post I demonstrated how easy it has become to deploy a webapplications with an HTTPS backend on Kubernetes and Azure. In this post I demonstrate the same but on AWS.</p>
 <p>In order to follow along you should clone the sample code from this <a href="https://github.com/timvw/sample-terraform-aws-k8s-nginx-letsencrypt">repository</a>:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/timvw/sample-terraform-aws-k8s-nginx-letsencrypt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/timvw/sample-terraform-aws-k8s-nginx-letsencrypt
 </code></pre></div><p>First <a href="hhttps://www.terraform.io/docs/providers/aws/index.html">configure the aws access_key and secret_key for Terraform</a>:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#0086b3">export</span> <span style="color:#008080">AWS_ACCESS_KEY</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;XXXXXXXXXXXXXXXXXX&#34;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#0086b3">export</span> <span style="color:#008080">AWS_ACCESS_KEY</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;XXXXXXXXXXXXXXXXXX&#34;</span>
 <span style="color:#0086b3">export</span> <span style="color:#008080">AWS_SECRET_KEY</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;XXXXXXXXXXXXXXXXXX&#34;</span>
 <span style="color:#0086b3">export</span> <span style="color:#008080">AWS_DEFAULT_REGION</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;eu-west-1&#34;</span>
 </code></pre></div><p>With all this configuration in place we can instruct Terraform to create the kubernetes cluster:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">terraform init
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">terraform init
 terraform apply -auto-approve
 </code></pre></div><p>After a couple (~15) of minutes your cluster will be ready. Importing the credentials into your ~/.kube/config can be done as following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aws eks --region <span style="color:#008080">$AWS_DEFAULT_REGION</span> update-kubeconfig --name demo
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aws eks --region <span style="color:#008080">$AWS_DEFAULT_REGION</span> update-kubeconfig --name demo
 </code></pre></div><p>There are some differences with AKS:</p>
 <ul>
 <li>
@@ -498,26 +497,26 @@ terraform apply -auto-approve
 </ul>
 <p>Another remark: In case you try to create a <a href="https://www.terraform.io/docs/providers/aws/r/eks_fargate_profile.html">Fargate profile</a> and it fails you should verify that you are doing it in a <a href="https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/">supported region</a>.</p>
 <p>Now it is time to <a href="https://kubernetes.github.io/ingress-nginx/deploy/">deploy the NGINX Ingress Controller</a>. We also need to apply the <a href="https://kubernetes.github.io/ingress-nginx/deploy/#aws">aws specific</a> additions:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.29.0/deploy/static/mandatory.yaml
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.29.0/deploy/static/mandatory.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.29.0/deploy/static/provider/aws/service-l4.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.29.0/deploy/static/provider/aws/patch-configmap-l4.yaml
 </code></pre></div><p>Deploying the NGINX Ingress Controller results in the creation of a loadbalancer and a public ip. Here is how you can fetch that address:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aws elb describe-load-balancers | jq -r <span style="color:#d14">&#39;.LoadBalancerDescriptions[].DNSName&#39;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aws elb describe-load-balancers | jq -r <span style="color:#d14">&#39;.LoadBalancerDescriptions[].DNSName&#39;</span>
 </code></pre></div><p>In this example we want to access our applications as <a href="https://XXX.aws.icteam.be">https://XXX.aws.icteam.be</a>.
 We achieve this by adding an A-record (the azure public ip address) pointing to *.aws.icteam.be</p>
 <p>For the HTTPS part we <a href="https://cert-manager.io/docs/installation/kubernetes/">install cert-manager</a> and use <a href="https://letsencrypt.org/">Let&rsquo;s Encrypt</a> to provide certificates:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply --validate<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">false</span> -f https://github.com/jetstack/cert-manager/releases/download/v0.13.0/cert-manager.yaml
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply --validate<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">false</span> -f https://github.com/jetstack/cert-manager/releases/download/v0.13.0/cert-manager.yaml
 kubectl apply -f letsencrypt.yaml
 </code></pre></div><p>With all this infrastructure in place we can deploy a sample application:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create deployment hello-node --image<span style="color:#000;font-weight:bold">=</span>gcr.io/hello-minikube-zero-install/hello-node
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create deployment hello-node --image<span style="color:#000;font-weight:bold">=</span>gcr.io/hello-minikube-zero-install/hello-node
 kubectl expose deployment hello-node --port<span style="color:#000;font-weight:bold">=</span><span style="color:#099">8080</span>
 kubectl apply -f hello-node-ingress.yaml 
 </code></pre></div><p>Or we can <a href="https://docs.aws.amazon.com/eks/latest/userguide/dashboard-tutorial.html">deploy</a> and expose the kubernetes dashboard:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
 kubectl apply -f dashboard-sa.yaml
 kubectl apply -f dashboard-ingress.yaml
 </code></pre></div><p>You can fetch the token as following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl -n kube-system describe secret <span style="color:#000;font-weight:bold">$(</span>kubectl -n kube-system get secret | grep eks-admin | awk <span style="color:#d14">&#39;{print $1}&#39;</span><span style="color:#000;font-weight:bold">)</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl -n kube-system describe secret <span style="color:#000;font-weight:bold">$(</span>kubectl -n kube-system get secret | grep eks-admin | awk <span style="color:#d14">&#39;{print $1}&#39;</span><span style="color:#000;font-weight:bold">)</span>
 </code></pre></div>
 						</div>
 			
@@ -545,41 +544,41 @@ kubectl apply -f dashboard-ingress.yaml
 						<div class="markdown">
 							<p>In this post I demonstrate how easy it has become to create a kubernetes cluster which serves webapplications over HTTPS.</p>
 <p>In order to follow along you should clone the sample code from this <a href="https://github.com/timvw/sample-terraform-azure-k8s-nginx-letsencrypt">repository</a>:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/timvw/sample-terraform-azure-k8s-nginx-letsencrypt
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/timvw/sample-terraform-azure-k8s-nginx-letsencrypt
 </code></pre></div><p>First <a href="https://www.terraform.io/docs/providers/azurerm/guides/service_principal_client_secret.html">configure the azure service principal for Terraform</a>:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#0086b3">export</span> <span style="color:#008080">ARM_CLIENT_ID</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#0086b3">export</span> <span style="color:#008080">ARM_CLIENT_ID</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34;</span>
 <span style="color:#0086b3">export</span> <span style="color:#008080">ARM_CLIENT_SECRET</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34;</span>
 <span style="color:#0086b3">export</span> <span style="color:#008080">ARM_SUBSCRIPTION_ID</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34;</span>
 <span style="color:#0086b3">export</span> <span style="color:#008080">ARM_TENANT_ID</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34;</span>
 </code></pre></div><p>The resources in this example depend on the following variables: client_id, client_secret, aks_service_principal_app_id and aks_service_principal_client_secret. One way to configure them is by exporting their values as a TF_VAR_xxx:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#0086b3">export</span> <span style="color:#008080">TF_VAR_client_id</span><span style="color:#000;font-weight:bold">=</span><span style="color:#008080">$ARM_CLIENT_ID</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#0086b3">export</span> <span style="color:#008080">TF_VAR_client_id</span><span style="color:#000;font-weight:bold">=</span><span style="color:#008080">$ARM_CLIENT_ID</span>
 <span style="color:#0086b3">export</span> <span style="color:#008080">TF_VAR_client_secret</span><span style="color:#000;font-weight:bold">=</span><span style="color:#008080">$ARM_CLIENT_SECRET</span>
 <span style="color:#0086b3">export</span> <span style="color:#008080">TF_VAR_aks_service_principal_app_id</span><span style="color:#000;font-weight:bold">=</span><span style="color:#008080">$ARM_CLIENT_ID</span>
 <span style="color:#0086b3">export</span> <span style="color:#008080">TF_VAR_aks_service_principal_client_secret</span><span style="color:#000;font-weight:bold">=</span><span style="color:#008080">$ARM_CLIENT_SECRET</span>
 </code></pre></div><p>With all this configuration in place we can instruct Terraform to create the kubernetes cluster:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">terraform init
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">terraform init
 terraform apply -auto-approve
 </code></pre></div><p>After a couple (~10) of minutes your cluster will be ready. Importing the credentials into your ~/.kube/config can be done as following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">az aks get-credentials --resource-group k8s-test --name kaz
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">az aks get-credentials --resource-group k8s-test --name kaz
 </code></pre></div><p><a href="https://github.com/ahmetb/kubectx">kubectx</a> is an awesome tool that allows you to easily switch between contexts.</p>
 <p>Now it is time to <a href="https://kubernetes.github.io/ingress-nginx/deploy/">deploy the NGINX Ingress Controller</a>. We also need to apply the <a href="https://kubernetes.github.io/ingress-nginx/deploy/#azure">azure specific</a> additions:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.28.0/deploy/static/mandatory.yaml
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.28.0/deploy/static/mandatory.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.28.0/deploy/static/provider/cloud-generic.yaml
 </code></pre></div><p>Deploying the NGINX Ingress Controller results in the creation of a loadbalancer and a public ip. Here is how you can fetch that address:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">az network public-ip list | grep -Po <span style="color:#d14">&#39;(?&lt;=&#34;ipAddress&#34;: &#34;)([^&#34;]*)&#39;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">az network public-ip list | grep -Po <span style="color:#d14">&#39;(?&lt;=&#34;ipAddress&#34;: &#34;)([^&#34;]*)&#39;</span>
 </code></pre></div><p>In this example we want to access our applications as <a href="https://XXX.apps.icteam.be">https://XXX.apps.icteam.be</a>.
 We achieve this by adding an A-record (the azure public ip address) pointing to *.apps.icteam.be</p>
 <p>For the HTTPS part we <a href="https://cert-manager.io/docs/installation/kubernetes/">install cert-manager</a> and use <a href="https://letsencrypt.org/">Let&rsquo;s Encrypt</a> to provide certificates:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.13.0/cert-manager.yaml
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.13.0/cert-manager.yaml
 kubectl apply -f letsencrypt.yaml 
 </code></pre></div><p>With all this infrastructure in place we can deploy a sample application:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create deployment hello-node --image<span style="color:#000;font-weight:bold">=</span>gcr.io/hello-minikube-zero-install/hello-node
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create deployment hello-node --image<span style="color:#000;font-weight:bold">=</span>gcr.io/hello-minikube-zero-install/hello-node
 kubectl expose deployment hello-node --port<span style="color:#000;font-weight:bold">=</span><span style="color:#099">8080</span>
 kubectl apply -f ingress.yaml
 </code></pre></div><p>Now we can access our application:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl -v https://hello-node.apps.icteam.be
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl -v https://hello-node.apps.icteam.be
 </code></pre></div><p>Here are some useful commands to help with debugging:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic"># get some cluster info</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic"># get some cluster info</span>
 kubectl cluster-info
 kubectl proxy
 
@@ -590,9 +589,9 @@ kubectl logs -n ingress-nginx deployment/nginx-ingress-controller -f
 kubectl scale deployment -n ingress-nginx --replicas<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span> nginx-ingress-controller
 kubectl scale deployment -n ingress-nginx --replicas<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span> nginx-ingress-controller
 </code></pre></div><p>Remove the hello-node application (pods/deployment/service/ingress):</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl delete all -l <span style="color:#008080">app</span><span style="color:#000;font-weight:bold">=</span>hello-node
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl delete all -l <span style="color:#008080">app</span><span style="color:#000;font-weight:bold">=</span>hello-node
 </code></pre></div><p>Finally you want to remove everything:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">terraform destroy -auto-approve
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">terraform destroy -auto-approve
 </code></pre></div>
 						</div>
 			
@@ -647,7 +646,7 @@ kubectl scale deployment -n ingress-nginx --replicas<span style="color:#000;font
 								
 						<div class="markdown">
 							<p>A typical <a href="http://spark.apache.org/">Apache Spark</a> application using RDD api starts as following:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#000;font-weight:bold">val</span> lines <span style="color:#000;font-weight:bold">=</span> sc<span style="color:#000;font-weight:bold">.</span>textFile<span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;/path/to/data&#34;</span><span style="color:#000;font-weight:bold">)</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#000;font-weight:bold">val</span> lines <span style="color:#000;font-weight:bold">=</span> sc<span style="color:#000;font-weight:bold">.</span>textFile<span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;/path/to/data&#34;</span><span style="color:#000;font-weight:bold">)</span>
 <span style="color:#000;font-weight:bold">val</span> records <span style="color:#000;font-weight:bold">=</span> lines<span style="color:#000;font-weight:bold">.</span>map<span style="color:#000;font-weight:bold">(</span>parseLineToRecord<span style="color:#000;font-weight:bold">)</span>
 
 <span style="color:#000;font-weight:bold">case</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Record</span><span style="color:#000;font-weight:bold">(...)</span>
@@ -658,7 +657,7 @@ kubectl scale deployment -n ingress-nginx --replicas<span style="color:#000;font
   <span style="color:#458;font-weight:bold">Record</span><span style="color:#000;font-weight:bold">(..)</span>
 <span style="color:#000;font-weight:bold">}</span>
 </code></pre></div><p>In case of bad records you very often want to discard the unparseable lines:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#000;font-weight:bold">def</span> parseLineToRecordOption<span style="color:#000;font-weight:bold">(</span>line<span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">String</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#458;font-weight:bold">Option</span><span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">Record</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">{</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#000;font-weight:bold">def</span> parseLineToRecordOption<span style="color:#000;font-weight:bold">(</span>line<span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">String</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#458;font-weight:bold">Option</span><span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">Record</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">{</span>
   <span style="color:#000;font-weight:bold">try</span> <span style="color:#000;font-weight:bold">{</span>
     <span style="color:#000;font-weight:bold">...</span>
     <span style="color:#458;font-weight:bold">Some</span><span style="color:#000;font-weight:bold">(</span><span style="color:#458;font-weight:bold">Record</span><span style="color:#000;font-weight:bold">(..))</span>
@@ -670,9 +669,9 @@ kubectl scale deployment -n ingress-nginx --replicas<span style="color:#000;font
 <span style="color:#000;font-weight:bold">val</span> records <span style="color:#000;font-weight:bold">=</span> lines<span style="color:#000;font-weight:bold">.</span>map<span style="color:#000;font-weight:bold">(</span>parseLineToRecordOption<span style="color:#000;font-weight:bold">).</span>filter<span style="color:#000;font-weight:bold">(</span>x <span style="color:#000;font-weight:bold">=&gt;</span> x<span style="color:#000;font-weight:bold">.</span>isDefined<span style="color:#000;font-weight:bold">).</span>map<span style="color:#000;font-weight:bold">(</span>x <span style="color:#000;font-weight:bold">=&gt;</span> x<span style="color:#000;font-weight:bold">.</span>get<span style="color:#000;font-weight:bold">)</span>
 </code></pre></div><p>And then you discover that you there is an <a href="https://github.com/scala/scala/blob/2.12.x/src/library/scala/Option.scala">implicit conversion from Option[T] to Iterable[T]</a>.
 The nice thing is that you now can use flatMap instead of filter + map:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#000;font-weight:bold">val</span> records <span style="color:#000;font-weight:bold">=</span> lines<span style="color:#000;font-weight:bold">.</span>flatMap<span style="color:#000;font-weight:bold">(</span>parseLineToRecordOption<span style="color:#000;font-weight:bold">)</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#000;font-weight:bold">val</span> records <span style="color:#000;font-weight:bold">=</span> lines<span style="color:#000;font-weight:bold">.</span>flatMap<span style="color:#000;font-weight:bold">(</span>parseLineToRecordOption<span style="color:#000;font-weight:bold">)</span>
 </code></pre></div><p>Strangely enough there is no such implicit conversion for a Try[T] so we convert to Option first:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#000;font-weight:bold">def</span> tryParseLineToRecordOption<span style="color:#000;font-weight:bold">(</span>line<span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">String</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">Try</span><span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">Record</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">=</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#000;font-weight:bold">def</span> tryParseLineToRecordOption<span style="color:#000;font-weight:bold">(</span>line<span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">String</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">Try</span><span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">Record</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">=</span>
   <span style="color:#458;font-weight:bold">Try</span> <span style="color:#000;font-weight:bold">{</span>
     <span style="color:#000;font-weight:bold">...</span>
     <span style="color:#458;font-weight:bold">Some</span><span style="color:#000;font-weight:bold">(</span><span style="color:#458;font-weight:bold">Record</span><span style="color:#000;font-weight:bold">(..))</span>
@@ -735,7 +734,7 @@ In fact, some of them have become irrelevant, some of them are just wrong and ot
 	</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>2021  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 
