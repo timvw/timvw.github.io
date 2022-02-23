@@ -1,184 +1,150 @@
-<!DOCTYPE html>
-<html>
+<!doctype html><html>
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Using a collection as parameter for a stored procedure - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Using a collection as parameter for a stored procedure">
-<meta itemprop="description" content="Sometimes you want to select rows where a value is in a specific collection. Here&rsquo;s an example that show how you can select all the rows in the TEST table with an id of 1, 2 or 3. First we create an SQL type to contain a list of numbers
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge"><title>Using a collection as parameter for a stored procedure - Tim Van Wassenhove</title><meta name=viewport content="width=device-width,initial-scale=1">
+<meta itemprop=name content="Using a collection as parameter for a stored procedure">
+<meta itemprop=description content="Sometimes you want to select rows where a value is in a specific collection. Here&rsquo;s an example that show how you can select all the rows in the TEST table with an id of 1, 2 or 3. First we create an SQL type to contain a list of numbers
 CREATETYPELIST_NUMBERASTABLEOFNUMBER(10);/Next thing to do is add a custom type and function header to the package specification
-PACKAGETIMVW.TESTPACKAGEASTYPECRSR_REFISREFCURSOR;TYPEARR\_IDSISTABLEOFTEST.TEST\_ID%TypeINDEXBYBINARY_INTEGER;PROCEDUREGET_TESTS(P_IDSINARR_IDS,P_CURSOROUTCRSR_REF);END;And offcourse we have to implement the function in the body"><meta itemprop="datePublished" content="2006-10-23T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2022-02-23T13:48:49+01:00" />
-<meta itemprop="wordCount" content="146">
-<meta itemprop="keywords" content="CSharp,SQL," /><meta property="og:title" content="Using a collection as parameter for a stored procedure" />
+PACKAGETIMVW.TESTPACKAGEASTYPECRSR_REFISREFCURSOR;TYPEARR\_IDSISTABLEOFTEST.TEST\_ID%TypeINDEXBYBINARY_INTEGER;PROCEDUREGET_TESTS(P_IDSINARR_IDS,P_CURSOROUTCRSR_REF);END;And offcourse we have to implement the function in the body"><meta itemprop=datePublished content="2006-10-23T00:00:00+00:00">
+<meta itemprop=dateModified content="2021-01-04T22:47:36+01:00">
+<meta itemprop=wordCount content="146">
+<meta itemprop=keywords content="CSharp,SQL,"><meta property="og:title" content="Using a collection as parameter for a stored procedure">
 <meta property="og:description" content="Sometimes you want to select rows where a value is in a specific collection. Here&rsquo;s an example that show how you can select all the rows in the TEST table with an id of 1, 2 or 3. First we create an SQL type to contain a list of numbers
 CREATETYPELIST_NUMBERASTABLEOFNUMBER(10);/Next thing to do is add a custom type and function header to the package specification
-PACKAGETIMVW.TESTPACKAGEASTYPECRSR_REFISREFCURSOR;TYPEARR\_IDSISTABLEOFTEST.TEST\_ID%TypeINDEXBYBINARY_INTEGER;PROCEDUREGET_TESTS(P_IDSINARR_IDS,P_CURSOROUTCRSR_REF);END;And offcourse we have to implement the function in the body" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2006/10/23/using-a-collection-as-parameter-for-a-stored-procedure/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2006-10-23T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-02-23T13:48:49+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Using a collection as parameter for a stored procedure"/>
-<meta name="twitter:description" content="Sometimes you want to select rows where a value is in a specific collection. Here&rsquo;s an example that show how you can select all the rows in the TEST table with an id of 1, 2 or 3. First we create an SQL type to contain a list of numbers
+PACKAGETIMVW.TESTPACKAGEASTYPECRSR_REFISREFCURSOR;TYPEARR\_IDSISTABLEOFTEST.TEST\_ID%TypeINDEXBYBINARY_INTEGER;PROCEDUREGET_TESTS(P_IDSINARR_IDS,P_CURSOROUTCRSR_REF);END;And offcourse we have to implement the function in the body">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://timvw.be/2006/10/23/using-a-collection-as-parameter-for-a-stored-procedure/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2006-10-23T00:00:00+00:00">
+<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Using a collection as parameter for a stored procedure">
+<meta name=twitter:description content="Sometimes you want to select rows where a value is in a specific collection. Here&rsquo;s an example that show how you can select all the rows in the TEST table with an id of 1, 2 or 3. First we create an SQL type to contain a list of numbers
 CREATETYPELIST_NUMBERASTABLEOFNUMBER(10);/Next thing to do is add a custom type and function header to the package specification
-PACKAGETIMVW.TESTPACKAGEASTYPECRSR_REFISREFCURSOR;TYPEARR\_IDSISTABLEOFTEST.TEST\_ID%TypeINDEXBYBINARY_INTEGER;PROCEDUREGET_TESTS(P_IDSINARR_IDS,P_CURSOROUTCRSR_REF);END;And offcourse we have to implement the function in the body"/>
-<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
-
-        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
-
-	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-		<script src="https://timvw.be/js/main.js"></script>
+PACKAGETIMVW.TESTPACKAGEASTYPECRSR_REFISREFCURSOR;TYPEARR\_IDSISTABLEOFTEST.TEST\_ID%TypeINDEXBYBINARY_INTEGER;PROCEDUREGET_TESTS(P_IDSINARR_IDS,P_CURSOROUTCRSR_REF);END;And offcourse we have to implement the function in the body">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700" rel=stylesheet type=text/css>
+<link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/normalize.css>
+<link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/main.css>
+<link id=dark-scheme rel=stylesheet type=text/css href=https://timvw.be/css/dark.css>
+<script src=https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js></script>
+<script src=https://timvw.be/js/main.js></script>
 </head>
-
 <body>
-	<div class="container wrapper">
-		<div class="header">
-	
-	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
-	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
-			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav>
-	</div>
-
-	<nav class="nav">
-		<ul class="flat">
-			
-			<li>
-				<a href="../../../../">Home</a>
-			</li>
-			
-			<li>
-				<a href="../../../../posts">All posts</a>
-			</li>
-			
-			<li>
-				<a href="../../../../tags">Tags</a>
-			</li>
-			
-		</ul>
-	</nav>
+<div class="container wrapper">
+<div class=header>
+<h1 class=site-title><a href=https://timvw.be/>Tim Van Wassenhove</a></h1>
+<div class=site-description><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+<ul class=flat><li><a href=https://twitter.com/timvw title=Twitter><i data-feather=twitter></i></a></li><li><a href=https://github.com/timvw title=Github><i data-feather=github></i></a></li><li><a href=https://www.linkedin.com/in/timvanwassenhove title=Linkedin><i data-feather=linkedin></i></a></li><li><a href=https://timvw.be/feed.xml title=RSS><i data-feather=rss></i></a></li></ul>
+</nav>
 </div>
-
-
-		<div class="post">
-			<div class="post-header">
-				
-					<div class="meta">
-						<div class="date">
-							<span class="day">23</span>
-							<span class="rest">Oct 2006</span>
-						</div>
-					</div>
-				
-				<div class="matter">
-					<h1 class="title">Using a collection as parameter for a stored procedure</h1>
-				</div>
-			</div>
-					
-			<div class="markdown">
-				<p>Sometimes you want to select rows where a value is in a specific collection. Here&rsquo;s an example that show how you can select all the rows in the TEST table with an id of 1, 2 or 3. First we create an SQL type to contain a list of numbers</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">CREATE</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">TYPE</span><span style="color:#bbb"> </span>LIST_NUMBER<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">TABLE</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">OF</span><span style="color:#bbb"> </span><span style="color:#0086b3">NUMBER</span>(<span style="color:#099">10</span>);<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">/</span><span style="color:#bbb">
+<nav class=nav>
+<ul class=flat>
+<li>
+<a href=../../../../>Home</a>
+</li>
+<li>
+<a href=../../../../posts>All posts</a>
+</li>
+<li>
+<a href=../../../../tags>Tags</a>
+</li>
+</ul>
+</nav>
+</div>
+<div class=post>
+<div class=post-header>
+<div class=meta>
+<div class=date>
+<span class=day>23</span>
+<span class=rest>Oct 2006</span>
+</div>
+</div>
+<div class=matter>
+<h1 class=title>Using a collection as parameter for a stored procedure</h1>
+</div>
+</div>
+<div class=markdown>
+<p>Sometimes you want to select rows where a value is in a specific collection. Here&rsquo;s an example that show how you can select all the rows in the TEST table with an id of 1, 2 or 3. First we create an SQL type to contain a list of numbers</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#000;font-weight:700>CREATE</span><span style=color:#bbb> </span><span style=color:#000;font-weight:700>TYPE</span><span style=color:#bbb> </span>LIST_NUMBER<span style=color:#bbb> </span><span style=color:#000;font-weight:700>AS</span><span style=color:#bbb> </span><span style=color:#000;font-weight:700>TABLE</span><span style=color:#bbb> </span><span style=color:#000;font-weight:700>OF</span><span style=color:#bbb> </span><span style=color:#0086b3>NUMBER</span>(<span style=color:#099>10</span>);<span style=color:#bbb>
+</span><span style=color:#bbb></span><span style=color:#000;font-weight:700>/</span><span style=color:#bbb>
 </span></code></pre></div><p>Next thing to do is add a custom type and function header to the package specification</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">PACKAGE<span style="color:#bbb"> </span>TIMVW.TESTPACKAGE<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">TYPE</span><span style="color:#bbb"> </span>CRSR_REF<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IS</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">REF</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">CURSOR</span>;<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">TYPE</span><span style="color:#bbb"> </span>ARR<span style="color:#a61717;background-color:#e3d2d2">\</span>_IDS<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IS</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">TABLE</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">OF</span><span style="color:#bbb"> </span>TEST.TEST<span style="color:#a61717;background-color:#e3d2d2">\</span>_ID<span style="color:#000;font-weight:bold">%</span><span style="color:#000;font-weight:bold">Type</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INDEX</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">BY</span><span style="color:#bbb"> </span>BINARY_INTEGER;<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">PROCEDURE</span><span style="color:#bbb"> </span>GET_TESTS<span style="color:#bbb">
-</span><span style="color:#bbb"></span>(<span style="color:#bbb">
-</span><span style="color:#bbb"></span>P_IDS<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IN</span><span style="color:#bbb"> </span>ARR_IDS,<span style="color:#bbb">
-</span><span style="color:#bbb"></span>P_CURSOR<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">OUT</span><span style="color:#bbb"> </span>CRSR_REF<span style="color:#bbb">
-</span><span style="color:#bbb"></span>);<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">END</span>;<span style="color:#bbb">
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql>PACKAGE<span style=color:#bbb> </span>TIMVW.TESTPACKAGE<span style=color:#bbb> </span><span style=color:#000;font-weight:700>AS</span><span style=color:#bbb>
+</span><span style=color:#bbb>
+</span><span style=color:#bbb></span><span style=color:#000;font-weight:700>TYPE</span><span style=color:#bbb> </span>CRSR_REF<span style=color:#bbb> </span><span style=color:#000;font-weight:700>IS</span><span style=color:#bbb> </span><span style=color:#000;font-weight:700>REF</span><span style=color:#bbb> </span><span style=color:#000;font-weight:700>CURSOR</span>;<span style=color:#bbb>
+</span><span style=color:#bbb></span><span style=color:#000;font-weight:700>TYPE</span><span style=color:#bbb> </span>ARR<span style=color:#a61717;background-color:#e3d2d2>\</span>_IDS<span style=color:#bbb> </span><span style=color:#000;font-weight:700>IS</span><span style=color:#bbb> </span><span style=color:#000;font-weight:700>TABLE</span><span style=color:#bbb> </span><span style=color:#000;font-weight:700>OF</span><span style=color:#bbb> </span>TEST.TEST<span style=color:#a61717;background-color:#e3d2d2>\</span>_ID<span style=color:#000;font-weight:700>%</span><span style=color:#000;font-weight:700>Type</span><span style=color:#bbb> </span><span style=color:#000;font-weight:700>INDEX</span><span style=color:#bbb> </span><span style=color:#000;font-weight:700>BY</span><span style=color:#bbb> </span>BINARY_INTEGER;<span style=color:#bbb>
+</span><span style=color:#bbb>
+</span><span style=color:#bbb></span><span style=color:#000;font-weight:700>PROCEDURE</span><span style=color:#bbb> </span>GET_TESTS<span style=color:#bbb>
+</span><span style=color:#bbb></span>(<span style=color:#bbb>
+</span><span style=color:#bbb></span>P_IDS<span style=color:#bbb> </span><span style=color:#000;font-weight:700>IN</span><span style=color:#bbb> </span>ARR_IDS,<span style=color:#bbb>
+</span><span style=color:#bbb></span>P_CURSOR<span style=color:#bbb> </span><span style=color:#000;font-weight:700>OUT</span><span style=color:#bbb> </span>CRSR_REF<span style=color:#bbb>
+</span><span style=color:#bbb></span>);<span style=color:#bbb>
+</span><span style=color:#bbb></span><span style=color:#000;font-weight:700>END</span>;<span style=color:#bbb>
 </span></code></pre></div><p>And offcourse we have to implement the function in the body</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">PROCEDURE</span><span style="color:#bbb"> </span>GET_TESTS<span style="color:#bbb">
-</span><span style="color:#bbb"></span>(<span style="color:#bbb">
-</span><span style="color:#bbb"></span>P_IDS<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IN</span><span style="color:#bbb"> </span>ARR_IDS,<span style="color:#bbb">
-</span><span style="color:#bbb"></span>P_CURSOR<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">OUT</span><span style="color:#bbb"> </span>CRSR_REF<span style="color:#bbb">
-</span><span style="color:#bbb"></span>)<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>V_IDS<span style="color:#bbb"> </span>LIST_NUMBER<span style="color:#bbb"> </span>:<span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>LIST_NUMBER();<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">BEGIN</span><span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>V_IDS.EXTEND(P_IDS.<span style="color:#000;font-weight:bold">COUNT</span>);<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">FOR</span><span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IN</span><span style="color:#bbb"> </span>P_IDS.<span style="color:#000;font-weight:bold">FIRST</span><span style="color:#bbb"> </span>..<span style="color:#bbb"> </span>P_IDS.<span style="color:#000;font-weight:bold">LAST</span><span style="color:#bbb"> </span>LOOP<span style="color:#bbb">
-</span><span style="color:#bbb">	</span>V_IDS(i)<span style="color:#bbb"> </span>:<span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>P_IDS(i);<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">END</span><span style="color:#bbb"> </span>LOOP;<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">OPEN</span><span style="color:#bbb"> </span>P_CURSOR<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FOR</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>TEST.TEST_ID,<span style="color:#bbb">
-</span><span style="color:#bbb"></span>TEST.NAME,<span style="color:#bbb">
-</span><span style="color:#bbb"></span>TEST.TYPE_CODE<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>TEST<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>TEST_ID<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IN</span><span style="color:#bbb"> </span>(<span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">TABLE</span>(V_IDS))<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">ORDER</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">BY</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>TEST.TEST_ID<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ASC</span>;<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">END</span>;<span style="color:#bbb">
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#000;font-weight:700>PROCEDURE</span><span style=color:#bbb> </span>GET_TESTS<span style=color:#bbb>
+</span><span style=color:#bbb></span>(<span style=color:#bbb>
+</span><span style=color:#bbb></span>P_IDS<span style=color:#bbb> </span><span style=color:#000;font-weight:700>IN</span><span style=color:#bbb> </span>ARR_IDS,<span style=color:#bbb>
+</span><span style=color:#bbb></span>P_CURSOR<span style=color:#bbb> </span><span style=color:#000;font-weight:700>OUT</span><span style=color:#bbb> </span>CRSR_REF<span style=color:#bbb>
+</span><span style=color:#bbb></span>)<span style=color:#bbb>
+</span><span style=color:#bbb>
+</span><span style=color:#bbb></span><span style=color:#000;font-weight:700>AS</span><span style=color:#bbb>
+</span><span style=color:#bbb>
+</span><span style=color:#bbb></span>V_IDS<span style=color:#bbb> </span>LIST_NUMBER<span style=color:#bbb> </span>:<span style=color:#000;font-weight:700>=</span><span style=color:#bbb> </span>LIST_NUMBER();<span style=color:#bbb>
+</span><span style=color:#bbb>
+</span><span style=color:#bbb></span><span style=color:#000;font-weight:700>BEGIN</span><span style=color:#bbb>
+</span><span style=color:#bbb>
+</span><span style=color:#bbb></span>V_IDS.EXTEND(P_IDS.<span style=color:#000;font-weight:700>COUNT</span>);<span style=color:#bbb>
+</span><span style=color:#bbb></span><span style=color:#000;font-weight:700>FOR</span><span style=color:#bbb> </span>i<span style=color:#bbb> </span><span style=color:#000;font-weight:700>IN</span><span style=color:#bbb> </span>P_IDS.<span style=color:#000;font-weight:700>FIRST</span><span style=color:#bbb> </span>..<span style=color:#bbb> </span>P_IDS.<span style=color:#000;font-weight:700>LAST</span><span style=color:#bbb> </span>LOOP<span style=color:#bbb>
+</span><span style=color:#bbb>	</span>V_IDS(i)<span style=color:#bbb> </span>:<span style=color:#000;font-weight:700>=</span><span style=color:#bbb> </span>P_IDS(i);<span style=color:#bbb>
+</span><span style=color:#bbb></span><span style=color:#000;font-weight:700>END</span><span style=color:#bbb> </span>LOOP;<span style=color:#bbb>
+</span><span style=color:#bbb>
+</span><span style=color:#bbb></span><span style=color:#000;font-weight:700>OPEN</span><span style=color:#bbb> </span>P_CURSOR<span style=color:#bbb> </span><span style=color:#000;font-weight:700>FOR</span><span style=color:#bbb>
+</span><span style=color:#bbb></span><span style=color:#000;font-weight:700>SELECT</span><span style=color:#bbb>
+</span><span style=color:#bbb></span>TEST.TEST_ID,<span style=color:#bbb>
+</span><span style=color:#bbb></span>TEST.NAME,<span style=color:#bbb>
+</span><span style=color:#bbb></span>TEST.TYPE_CODE<span style=color:#bbb>
+</span><span style=color:#bbb></span><span style=color:#000;font-weight:700>FROM</span><span style=color:#bbb>
+</span><span style=color:#bbb></span>TEST<span style=color:#bbb>
+</span><span style=color:#bbb></span><span style=color:#000;font-weight:700>WHERE</span><span style=color:#bbb>
+</span><span style=color:#bbb></span>TEST_ID<span style=color:#bbb> </span><span style=color:#000;font-weight:700>IN</span><span style=color:#bbb> </span>(<span style=color:#000;font-weight:700>SELECT</span><span style=color:#bbb> </span><span style=color:#000;font-weight:700>*</span><span style=color:#bbb> </span><span style=color:#000;font-weight:700>FROM</span><span style=color:#bbb> </span><span style=color:#000;font-weight:700>TABLE</span>(V_IDS))<span style=color:#bbb>
+</span><span style=color:#bbb></span><span style=color:#000;font-weight:700>ORDER</span><span style=color:#bbb> </span><span style=color:#000;font-weight:700>BY</span><span style=color:#bbb>
+</span><span style=color:#bbb></span>TEST.TEST_ID<span style=color:#bbb> </span><span style=color:#000;font-weight:700>ASC</span>;<span style=color:#bbb>
+</span><span style=color:#bbb></span><span style=color:#000;font-weight:700>END</span>;<span style=color:#bbb>
 </span></code></pre></div><p>Now that we have done all this we can consume the function from our client code</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">using</span> (OracleConnection conn = <span style="color:#000;font-weight:bold">new</span> OracleConnection(<span style="color:#d14">&#34;User Id=u;password=p;Data Source=ORCL&#34;</span>))
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=color:#000;font-weight:700>using</span> (OracleConnection conn = <span style=color:#000;font-weight:700>new</span> OracleConnection(<span style=color:#d14>&#34;User Id=u;password=p;Data Source=ORCL&#34;</span>))
 {
 	conn.Open();
 
 	OracleCommand command = conn.CreateCommand();
 	command.CommandType = CommandType.StoredProcedure;
 
-	command.CommandText = <span style="color:#d14">&#34;TIMVW.TESTPACKAGE.GET_TESTS&#34;</span>;
-	command.Parameters.Add(<span style="color:#d14">&#34;P_IDS&#34;</span>, OracleDbType.Int32, <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">int</span>[] { <span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">3</span> }, ParameterDirection.Input);
-	command.Parameters[<span style="color:#d14">&#34;P_IDS&#34;</span>].CollectionType = OracleCollectionType.PLSQLAssociativeArray;
-	command.Parameters.Add(<span style="color:#d14">&#34;P_CURSOR&#34;</span>, OracleDbType.RefCursor, ParameterDirection.Output);
+	command.CommandText = <span style=color:#d14>&#34;TIMVW.TESTPACKAGE.GET_TESTS&#34;</span>;
+	command.Parameters.Add(<span style=color:#d14>&#34;P_IDS&#34;</span>, OracleDbType.Int32, <span style=color:#000;font-weight:700>new</span> <span style=color:#458;font-weight:700>int</span>[] { <span style=color:#099>1</span>, <span style=color:#099>2</span>, <span style=color:#099>3</span> }, ParameterDirection.Input);
+	command.Parameters[<span style=color:#d14>&#34;P_IDS&#34;</span>].CollectionType = OracleCollectionType.PLSQLAssociativeArray;
+	command.Parameters.Add(<span style=color:#d14>&#34;P_CURSOR&#34;</span>, OracleDbType.RefCursor, ParameterDirection.Output);
 
 	OracleDataReader reader = command.ExecuteReader();
-	<span style="color:#000;font-weight:bold">while</span> (reader.Read())
+	<span style=color:#000;font-weight:700>while</span> (reader.Read())
 	{
-		Console.WriteLine(<span style="color:#d14">&#34;test 	}
-</span><span style="color:#d14"></span>
-	Console.Write(<span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
+		Console.WriteLine(<span style=color:#d14>&#34;test 	}
+</span><span style=color:#d14></span>
+	Console.Write(<span style=color:#d14>&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
 	Console.ReadKey();
 }
 </code></pre></div>
-			</div>
-
-			<div class="tags">
-				
-					
-						<ul class="flat">
-							
-							<li><a href="../../../../tags/csharp">CSharp</a></li>
-							
-							<li><a href="../../../../tags/sql">SQL</a></li>
-							
-						</ul>
-					
-				
-			</div></div>
-	</div>
-	<div class="footer wrapper">
-	<nav class="nav">
-		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
-	</nav>
 </div>
-
-
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'G-9DP4SV12YW', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+<div class=tags>
+<ul class=flat>
+<li><a href=../../../../tags/csharp>CSharp</a></li>
+<li><a href=../../../../tags/sql>SQL</a></li>
+</ul>
+</div></div>
+</div>
+<div class="footer wrapper">
+<nav class=nav>
+<div>2022 <a href=https://github.com/knadh/hugo-ink>Ink</a> theme on <a href=https://gohugo.io>Hugo</a></div>
+</nav>
+</div>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','G-9DP4SV12YW','auto'),ga('send','pageview'))</script>
+<script async src=https://www.google-analytics.com/analytics.js></script>
 <script>feather.replace()</script>
 </body>
 </html>

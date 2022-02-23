@@ -1,126 +1,92 @@
-<!DOCTYPE html>
-<html>
+<!doctype html><html>
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Enumerate all properties and their value of an object - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Enumerate all properties and their value of an object">
-<meta itemprop="description" content="Earlier today someone asked me how to generate a List with all the properties (and their respective value) that an object has. With C# 2.0 i would have created a class to represent a single element, PropertyRow, with a Name and a Value property and a class that is IEnumerableto hold all PropertyRows.
-With C# 3.0 we can take advantage of anonymous types and the code we have to write is fairly minimal"><meta itemprop="datePublished" content="2008-06-14T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2022-02-23T13:48:49+01:00" />
-<meta itemprop="wordCount" content="144">
-<meta itemprop="keywords" content="CSharp," /><meta property="og:title" content="Enumerate all properties and their value of an object" />
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge"><title>Enumerate all properties and their value of an object - Tim Van Wassenhove</title><meta name=viewport content="width=device-width,initial-scale=1">
+<meta itemprop=name content="Enumerate all properties and their value of an object">
+<meta itemprop=description content="Earlier today someone asked me how to generate a List with all the properties (and their respective value) that an object has. With C# 2.0 i would have created a class to represent a single element, PropertyRow, with a Name and a Value property and a class that is IEnumerableto hold all PropertyRows.
+With C# 3.0 we can take advantage of anonymous types and the code we have to write is fairly minimal"><meta itemprop=datePublished content="2008-06-14T00:00:00+00:00">
+<meta itemprop=dateModified content="2021-01-04T22:47:36+01:00">
+<meta itemprop=wordCount content="144">
+<meta itemprop=keywords content="CSharp,"><meta property="og:title" content="Enumerate all properties and their value of an object">
 <meta property="og:description" content="Earlier today someone asked me how to generate a List with all the properties (and their respective value) that an object has. With C# 2.0 i would have created a class to represent a single element, PropertyRow, with a Name and a Value property and a class that is IEnumerableto hold all PropertyRows.
-With C# 3.0 we can take advantage of anonymous types and the code we have to write is fairly minimal" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2008/06/14/enumerate-all-properties-and-their-value-of-an-object/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2008-06-14T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-02-23T13:48:49+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Enumerate all properties and their value of an object"/>
-<meta name="twitter:description" content="Earlier today someone asked me how to generate a List with all the properties (and their respective value) that an object has. With C# 2.0 i would have created a class to represent a single element, PropertyRow, with a Name and a Value property and a class that is IEnumerableto hold all PropertyRows.
-With C# 3.0 we can take advantage of anonymous types and the code we have to write is fairly minimal"/>
-<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
-
-        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
-
-	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-		<script src="https://timvw.be/js/main.js"></script>
+With C# 3.0 we can take advantage of anonymous types and the code we have to write is fairly minimal">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://timvw.be/2008/06/14/enumerate-all-properties-and-their-value-of-an-object/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2008-06-14T00:00:00+00:00">
+<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Enumerate all properties and their value of an object">
+<meta name=twitter:description content="Earlier today someone asked me how to generate a List with all the properties (and their respective value) that an object has. With C# 2.0 i would have created a class to represent a single element, PropertyRow, with a Name and a Value property and a class that is IEnumerableto hold all PropertyRows.
+With C# 3.0 we can take advantage of anonymous types and the code we have to write is fairly minimal">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700" rel=stylesheet type=text/css>
+<link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/normalize.css>
+<link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/main.css>
+<link id=dark-scheme rel=stylesheet type=text/css href=https://timvw.be/css/dark.css>
+<script src=https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js></script>
+<script src=https://timvw.be/js/main.js></script>
 </head>
-
 <body>
-	<div class="container wrapper">
-		<div class="header">
-	
-	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
-	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
-			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav>
-	</div>
-
-	<nav class="nav">
-		<ul class="flat">
-			
-			<li>
-				<a href="../../../../">Home</a>
-			</li>
-			
-			<li>
-				<a href="../../../../posts">All posts</a>
-			</li>
-			
-			<li>
-				<a href="../../../../tags">Tags</a>
-			</li>
-			
-		</ul>
-	</nav>
+<div class="container wrapper">
+<div class=header>
+<h1 class=site-title><a href=https://timvw.be/>Tim Van Wassenhove</a></h1>
+<div class=site-description><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+<ul class=flat><li><a href=https://twitter.com/timvw title=Twitter><i data-feather=twitter></i></a></li><li><a href=https://github.com/timvw title=Github><i data-feather=github></i></a></li><li><a href=https://www.linkedin.com/in/timvanwassenhove title=Linkedin><i data-feather=linkedin></i></a></li><li><a href=https://timvw.be/feed.xml title=RSS><i data-feather=rss></i></a></li></ul>
+</nav>
 </div>
+<nav class=nav>
+<ul class=flat>
+<li>
+<a href=../../../../>Home</a>
+</li>
+<li>
+<a href=../../../../posts>All posts</a>
+</li>
+<li>
+<a href=../../../../tags>Tags</a>
+</li>
+</ul>
+</nav>
+</div>
+<div class=post>
+<div class=post-header>
+<div class=meta>
+<div class=date>
+<span class=day>14</span>
+<span class=rest>Jun 2008</span>
+</div>
+</div>
+<div class=matter>
+<h1 class=title>Enumerate all properties and their value of an object</h1>
+</div>
+</div>
+<div class=markdown>
+<p>Earlier today someone asked me how to generate a List with all the properties (and their respective value) that an object has. With C# 2.0 i would have created a class to represent a single element, PropertyRow, with a Name and a Value property and a class that is IEnumerable to hold all PropertyRows.</p>
+<p>With C# 3.0 we can take advantage of <a href=http://msdn.microsoft.com/en-us/library/bb397696.aspx>anonymous types</a> and the code we have to write is fairly minimal</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp>Person angelina = <span style=color:#000;font-weight:700>new</span> Person(<span style=color:#d14>&#34;Angelina&#34;</span>, <span style=color:#d14>&#34;Jolie&#34;</span>, <span style=color:#d14>&#34;0275198123&#34;</span>, <span style=color:#d14>&#34;CloseToMe blv 12&#34;</span>);
 
+<span style=color:#458;font-weight:700>var</span> propertyRows =
+	<span style=color:#000;font-weight:700>from</span> propertyInfo <span style=color:#000;font-weight:700>in</span> angelina.GetType().GetProperties()
+	<span style=color:#000;font-weight:700>select</span> <span style=color:#000;font-weight:700>new</span> { Name = propertyInfo.Name, Value = propertyInfo.GetValue(angelina, <span style=color:#000;font-weight:700>null</span>) };
 
-		<div class="post">
-			<div class="post-header">
-				
-					<div class="meta">
-						<div class="date">
-							<span class="day">14</span>
-							<span class="rest">Jun 2008</span>
-						</div>
-					</div>
-				
-				<div class="matter">
-					<h1 class="title">Enumerate all properties and their value of an object</h1>
-				</div>
-			</div>
-					
-			<div class="markdown">
-				<p>Earlier today someone asked me how to generate a List with all the properties (and their respective value) that an object has. With C# 2.0 i would have created a class to represent a single element, PropertyRow, with a Name and a Value property and a class that is IEnumerable<!-- raw HTML omitted --> to hold all PropertyRows.</p>
-<p>With C# 3.0 we can take advantage of <a href="http://msdn.microsoft.com/en-us/library/bb397696.aspx">anonymous types</a> and the code we have to write is fairly minimal</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Person angelina = <span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;Angelina&#34;</span>, <span style="color:#d14">&#34;Jolie&#34;</span>, <span style="color:#d14">&#34;0275198123&#34;</span>, <span style="color:#d14">&#34;CloseToMe blv 12&#34;</span>);
-
-<span style="color:#458;font-weight:bold">var</span> propertyRows =
-	<span style="color:#000;font-weight:bold">from</span> propertyInfo <span style="color:#000;font-weight:bold">in</span> angelina.GetType().GetProperties()
-	<span style="color:#000;font-weight:bold">select</span> <span style="color:#000;font-weight:bold">new</span> { Name = propertyInfo.Name, Value = propertyInfo.GetValue(angelina, <span style="color:#000;font-weight:bold">null</span>) };
-
-BindingSource bs = <span style="color:#000;font-weight:bold">new</span> BindingSource();
+BindingSource bs = <span style=color:#000;font-weight:700>new</span> BindingSource();
 bs.DataSource = propertyRows;
 
-<span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataSource = bs;
+<span style=color:#000;font-weight:700>this</span>.dataGridView1.DataSource = bs;
 </code></pre></div><p>Just as with anonymous delegates, as soon as you notice that you define the same anonymous class more than once, you may want to consider to take it out of the anonymousity.</p>
-
-			</div>
-
-			<div class="tags">
-				
-					
-						<ul class="flat">
-							
-							<li><a href="../../../../tags/csharp">CSharp</a></li>
-							
-						</ul>
-					
-				
-			</div></div>
-	</div>
-	<div class="footer wrapper">
-	<nav class="nav">
-		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
-	</nav>
 </div>
-
-
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'G-9DP4SV12YW', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+<div class=tags>
+<ul class=flat>
+<li><a href=../../../../tags/csharp>CSharp</a></li>
+</ul>
+</div></div>
+</div>
+<div class="footer wrapper">
+<nav class=nav>
+<div>2022 <a href=https://github.com/knadh/hugo-ink>Ink</a> theme on <a href=https://gohugo.io>Hugo</a></div>
+</nav>
+</div>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','G-9DP4SV12YW','auto'),ga('send','pageview'))</script>
+<script async src=https://www.google-analytics.com/analytics.js></script>
 <script>feather.replace()</script>
 </body>
 </html>

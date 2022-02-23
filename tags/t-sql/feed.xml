@@ -1,84 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>t-sql on Tim Van Wassenhove</title>
-    <link>https://timvw.be/tags/t-sql/</link>
-    <description>Recent content in t-sql on Tim Van Wassenhove</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Sat, 27 Apr 2013 00:00:00 +0000</lastBuildDate><atom:link href="https://timvw.be/tags/t-sql/feed.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>The curious case of trailing spaces in SQL</title>
-      <link>https://timvw.be/2013/04/27/the-curious-case-of-trailing-spaces-in-sql/</link>
-      <pubDate>Sat, 27 Apr 2013 00:00:00 +0000</pubDate>
-      
-      <guid>https://timvw.be/2013/04/27/the-curious-case-of-trailing-spaces-in-sql/</guid>
-      <description>A while ago I was quite surprised to see that the following query returns 1 instead of 0:
-SELECTCOUNT(*)WHEREN&amp;#39;Tim&amp;#39;=N&amp;#39;Tim &amp;#39;;-- notice the trailing space Apparently this is just standard behaviour. Here is an extract from sql1992.txt (Section 8.2 Paragraph 3):</description>
-    </item>
-    
-    <item>
-      <title>An example of Common Table Expression and Window function usage...</title>
-      <link>https://timvw.be/2012/03/27/an-example-of-common-table-expression-and-window-function-usage.../</link>
-      <pubDate>Tue, 27 Mar 2012 00:00:00 +0000</pubDate>
-      
-      <guid>https://timvw.be/2012/03/27/an-example-of-common-table-expression-and-window-function-usage.../</guid>
-      <description>Earlier this week some colleague had been assigned a maintenance task and asked me how I would solve it. Every customer is permitted to have an amount of publications. All excess publications should be removed from the system (only the n most recent ones are permitted to remain on the system).
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>t-sql on Tim Van Wassenhove</title><link>https://timvw.be/tags/t-sql/</link><description>Recent content in t-sql on Tim Van Wassenhove</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 27 Apr 2013 00:00:00 +0000</lastBuildDate><atom:link href="https://timvw.be/tags/t-sql/feed.xml" rel="self" type="application/rss+xml"/><item><title>The curious case of trailing spaces in SQL</title><link>https://timvw.be/2013/04/27/the-curious-case-of-trailing-spaces-in-sql/</link><pubDate>Sat, 27 Apr 2013 00:00:00 +0000</pubDate><guid>https://timvw.be/2013/04/27/the-curious-case-of-trailing-spaces-in-sql/</guid><description>A while ago I was quite surprised to see that the following query returns 1 instead of 0:
+SELECTCOUNT(*)WHEREN&amp;#39;Tim&amp;#39;=N&amp;#39;Tim &amp;#39;;-- notice the trailing space Apparently this is just standard behaviour. Here is an extract from sql1992.txt (Section 8.2 Paragraph 3):</description></item><item><title>An example of Common Table Expression and Window function usage...</title><link>https://timvw.be/2012/03/27/an-example-of-common-table-expression-and-window-function-usage.../</link><pubDate>Tue, 27 Mar 2012 00:00:00 +0000</pubDate><guid>https://timvw.be/2012/03/27/an-example-of-common-table-expression-and-window-function-usage.../</guid><description>Earlier this week some colleague had been assigned a maintenance task and asked me how I would solve it. Every customer is permitted to have an amount of publications. All excess publications should be removed from the system (only the n most recent ones are permitted to remain on the system).
 Here is an example of the Customer table:
 CREATETABLE[dbo].[Customer]([CustomerId][int]IDENTITY(1,1)NOTNULL,[CustomerName][nvarchar](50)NOTNULL,[PermittedPublications][int]NOTNULL);INSERTINTO[dbo].[Customer]([CustomerName],[PermittedPublications])VALUES(&amp;#39;timvw&amp;#39;,2),(&amp;#39;mike&amp;#39;,3);An example of the customer publications table:
-CREATETABLE[dbo].[Publication]([PublicationId][int]IDENTITY(1,1)NOTNULL,[CustomerId][int]NOTNULL,[PublicationName][nvarchar](50)NOTNULL,[PublicationTime][datetime2]NOTNULL);INSERTINTO[dbo].[Publication]([CustomerId],[PublicationName],[PublicationTime])VALUES((SELECT[CustomerId]FROM[dbo].[Customer]WHERE[CustomerName]=&amp;#39;timvw&amp;#39;),&amp;#39;tim pub1&amp;#39;,SYSUTCDATETIME()),((SELECT[CustomerId]FROM[dbo].[Customer]WHERE[CustomerName]=&amp;#39;timvw&amp;#39;),&amp;#39;tim pub2&amp;#39;,SYSUTCDATETIME()),((SELECT[CustomerId]FROM[dbo].[Customer]WHERE[CustomerName]=&amp;#39;timvw&amp;#39;),&amp;#39;tim pub&amp;#39;,SYSUTCDATETIME()),((SELECT[CustomerId]FROM[dbo].[Customer]WHERE[CustomerName]=&amp;#39;timvw&amp;#39;),&amp;#39;tim pub4&amp;#39;,SYSUTCDATETIME()),((SELECT[CustomerId]FROM[dbo].</description>
-    </item>
-    
-    <item>
-      <title>SqlConnectionStringBuilder sets the Pooling property to true by default</title>
-      <link>https://timvw.be/2011/08/18/sqlconnectionstringbuilder-sets-the-pooling-property-to-true-by-default/</link>
-      <pubDate>Thu, 18 Aug 2011 00:00:00 +0000</pubDate>
-      
-      <guid>https://timvw.be/2011/08/18/sqlconnectionstringbuilder-sets-the-pooling-property-to-true-by-default/</guid>
-      <description>Here is something that surprised me: SqlConnectionStringBuilder sets the Pooling property to true by default.</description>
-    </item>
-    
-    <item>
-      <title>Specialized solution for aggregate string concatenation</title>
-      <link>https://timvw.be/2011/08/01/specialized-solution-for-aggregate-string-concatenation/</link>
-      <pubDate>Mon, 01 Aug 2011 00:00:00 +0000</pubDate>
-      
-      <guid>https://timvw.be/2011/08/01/specialized-solution-for-aggregate-string-concatenation/</guid>
-      <description>I have noticed that most people come up with the following solution to build a string in T-SQL:
-WITH[Numbers]AS(SELECTTOP(10)[n]FROM[Nums])SELECT@message=COALESCE(@message,&amp;#39;&amp;#39;)+&amp;#39;&amp;#39;+CAST([n]ASnvarchar(2))FROM[Numbers];SELECT@message=STUFF(@message,1,2,&amp;#39;&amp;#39;);SELECT@message; Important! Microsoft has no official documentation describing this aggregate concatenation technique that is based on the assignment SELECT syntax. The behavior described here is based on observation alone. The current implementation of the ConcatOrders function doesn’t incorporate an ORDER BY clause and does not guarantee the order of concatenation. According to a blog entry by Microsoft’s Conor Cunningham, it seems that SQL Server will respect an ORDER BY clause if specified (http://blogs.</description>
-    </item>
-    
-    <item>
-      <title>Building a Nums table (quickly)</title>
-      <link>https://timvw.be/2011/07/13/building-a-nums-table-quickly/</link>
-      <pubDate>Wed, 13 Jul 2011 00:00:00 +0000</pubDate>
-      
-      <guid>https://timvw.be/2011/07/13/building-a-nums-table-quickly/</guid>
-      <description>A while ago i presented my approach to generate a nums table here.
+CREATETABLE[dbo].[Publication]([PublicationId][int]IDENTITY(1,1)NOTNULL,[CustomerId][int]NOTNULL,[PublicationName][nvarchar](50)NOTNULL,[PublicationTime][datetime2]NOTNULL);INSERTINTO[dbo].[Publication]([CustomerId],[PublicationName],[PublicationTime])VALUES((SELECT[CustomerId]FROM[dbo].[Customer]WHERE[CustomerName]=&amp;#39;timvw&amp;#39;),&amp;#39;tim pub1&amp;#39;,SYSUTCDATETIME()),((SELECT[CustomerId]FROM[dbo].[Customer]WHERE[CustomerName]=&amp;#39;timvw&amp;#39;),&amp;#39;tim pub2&amp;#39;,SYSUTCDATETIME()),((SELECT[CustomerId]FROM[dbo].[Customer]WHERE[CustomerName]=&amp;#39;timvw&amp;#39;),&amp;#39;tim pub&amp;#39;,SYSUTCDATETIME()),((SELECT[CustomerId]FROM[dbo].[Customer]WHERE[CustomerName]=&amp;#39;timvw&amp;#39;),&amp;#39;tim pub4&amp;#39;,SYSUTCDATETIME()),((SELECT[CustomerId]FROM[dbo].</description></item><item><title>SqlConnectionStringBuilder sets the Pooling property to true by default</title><link>https://timvw.be/2011/08/18/sqlconnectionstringbuilder-sets-the-pooling-property-to-true-by-default/</link><pubDate>Thu, 18 Aug 2011 00:00:00 +0000</pubDate><guid>https://timvw.be/2011/08/18/sqlconnectionstringbuilder-sets-the-pooling-property-to-true-by-default/</guid><description>Here is something that surprised me: SqlConnectionStringBuilder sets the Pooling property to true by default.</description></item><item><title>Specialized solution for aggregate string concatenation</title><link>https://timvw.be/2011/08/01/specialized-solution-for-aggregate-string-concatenation/</link><pubDate>Mon, 01 Aug 2011 00:00:00 +0000</pubDate><guid>https://timvw.be/2011/08/01/specialized-solution-for-aggregate-string-concatenation/</guid><description>I have noticed that most people come up with the following solution to build a string in T-SQL:
+WITH[Numbers]AS(SELECTTOP(10)[n]FROM[Nums])SELECT@message=COALESCE(@message,&amp;#39;&amp;#39;)+&amp;#39;&amp;#39;+CAST([n]ASnvarchar(2))FROM[Numbers];SELECT@message=STUFF(@message,1,2,&amp;#39;&amp;#39;);SELECT@message; Important! Microsoft has no official documentation describing this aggregate concatenation technique that is based on the assignment SELECT syntax. The behavior described here is based on observation alone. The current implementation of the ConcatOrders function doesn’t incorporate an ORDER BY clause and does not guarantee the order of concatenation. According to a blog entry by Microsoft’s Conor Cunningham, it seems that SQL Server will respect an ORDER BY clause if specified (http://blogs.</description></item><item><title>Building a Nums table (quickly)</title><link>https://timvw.be/2011/07/13/building-a-nums-table-quickly/</link><pubDate>Wed, 13 Jul 2011 00:00:00 +0000</pubDate><guid>https://timvw.be/2011/07/13/building-a-nums-table-quickly/</guid><description>A while ago i presented my approach to generate a nums table here.
 DECLARE@countINT=1000;WITH[Nums1]AS(SELECT1AS[Value]UNIONSELECT2AS[Value]),[Nums2]AS(SELECTA.*FROM[Nums1]ASA,[Nums1]ASB,[Nums1]ASC),[Nums3]AS(SELECTA.*FROM[Nums2]ASA,[Nums2]ASB,[Nums2]ASC),[Nums4]AS(SELECTA.*FROM[Nums3]ASA,[Nums3]ASB),[Numbers]AS(SELECTTOP(@count)-1+ROW_NUMBER()OVER(ORDERBY[Value])AS[Value]FROM[Nums4])SELECT*FROM[Numbers];Because we only use this code once to fill the table we don&amp;rsquo;t really care that it is not very fast. Today i discovered there is a way to speed it up in this wonderful book: Inside Microsoft® SQL Server® 2008: T-SQL Querying:
-WITH[Nums1]AS(SELECT1AS[Value]UNIONSELECT2AS[Value]),[Nums2]AS(SELECTA.*FROM[Nums1]ASA,[Nums1]ASB,[Nums1]ASC),[Nums3]AS(SELECTA.*FROM[Nums2]ASA,[Nums2]ASB,[Nums2]ASC),[Nums4]AS(SELECTA.*FROM[Nums3]ASA,[Nums3]ASB),[Numbers]AS(SELECTTOP(@count)-1+ROW_NUMBER()OVER(ORDERBY(SELECT0))AS[Value]FROM[Nums4])SELECT*FROM[Numbers];Yay for features like ORDER BY (SELECT ).</description>
-    </item>
-    
-    <item>
-      <title>Using User-Defined Table Type with Identity column in ADO.NET</title>
-      <link>https://timvw.be/2011/07/13/using-user-defined-table-type-with-identity-column-in-ado.net/</link>
-      <pubDate>Wed, 13 Jul 2011 00:00:00 +0000</pubDate>
-      
-      <guid>https://timvw.be/2011/07/13/using-user-defined-table-type-with-identity-column-in-ado.net/</guid>
-      <description>A while ago i wanted to use a User-Defined Table Type to pass in a set of records. Nothing special about this except that the first column of the UDTT was an Identity column:
+WITH[Nums1]AS(SELECT1AS[Value]UNIONSELECT2AS[Value]),[Nums2]AS(SELECTA.*FROM[Nums1]ASA,[Nums1]ASB,[Nums1]ASC),[Nums3]AS(SELECTA.*FROM[Nums2]ASA,[Nums2]ASB,[Nums2]ASC),[Nums4]AS(SELECTA.*FROM[Nums3]ASA,[Nums3]ASB),[Numbers]AS(SELECTTOP(@count)-1+ROW_NUMBER()OVER(ORDERBY(SELECT0))AS[Value]FROM[Nums4])SELECT*FROM[Numbers];Yay for features like ORDER BY (SELECT ).</description></item><item><title>Using User-Defined Table Type with Identity column in ADO.NET</title><link>https://timvw.be/2011/07/13/using-user-defined-table-type-with-identity-column-in-ado.net/</link><pubDate>Wed, 13 Jul 2011 00:00:00 +0000</pubDate><guid>https://timvw.be/2011/07/13/using-user-defined-table-type-with-identity-column-in-ado.net/</guid><description>A while ago i wanted to use a User-Defined Table Type to pass in a set of records. Nothing special about this except that the first column of the UDTT was an Identity column:
 CREATETYPE[Star].[example]ASTABLE([Ordinal][int]IDENTITY(1,1)NOTNULL,[Name][nvarchar](200)NOTNULL,)After finding a lot of posts saying that this is not supported a colleague of mine, Stephen Horsfield, found a way to do it as following:
-var sqlMetaData = new[] { new SqlMetaData(&amp;#34;Ordinal&amp;#34;, SqlDbType.Int, true, false, SortOrder.</description>
-    </item>
-    
-    <item>
-      <title>T-SQL: Remove all rows from all tables in your schema</title>
-      <link>https://timvw.be/2010/09/07/t-sql-remove-all-rows-from-all-tables-in-your-schema/</link>
-      <pubDate>Tue, 07 Sep 2010 00:00:00 +0000</pubDate>
-      
-      <guid>https://timvw.be/2010/09/07/t-sql-remove-all-rows-from-all-tables-in-your-schema/</guid>
-      <description>Sometimes i want to quickly clean up a database and start from fresh. Here is a small script that does exactly that.. (I just run the script a couple of times, untill no affected rows remain&amp;hellip; Far more efficient than figuring out which constraints exist, building up a dependency tree, and cleanly deleting all rows):
--- Remove all rows from all tables DECLARE@tableNameVARCHAR(255)DECLAREtableNamesCURSORFORSELECTnameFROMsys.Tables;OPENtableNamesFETCHNEXTFROMtableNamesINTO@tableNameWHILE@@FETCH_STATUS=0BEGINEXEC(&amp;#39;DELETE FROM [&amp;#39;+@tableName+&amp;#39;]&amp;#39;)FETCHNEXTFROMtableNamesINTO@tableNameENDCLOSEtableNamesDEALLOCATEtableNames</description>
-    </item>
-    
-  </channel>
-</rss>
+var sqlMetaData = new[] { new SqlMetaData(&amp;#34;Ordinal&amp;#34;, SqlDbType.Int, true, false, SortOrder.</description></item><item><title>T-SQL: Remove all rows from all tables in your schema</title><link>https://timvw.be/2010/09/07/t-sql-remove-all-rows-from-all-tables-in-your-schema/</link><pubDate>Tue, 07 Sep 2010 00:00:00 +0000</pubDate><guid>https://timvw.be/2010/09/07/t-sql-remove-all-rows-from-all-tables-in-your-schema/</guid><description>Sometimes i want to quickly clean up a database and start from fresh. Here is a small script that does exactly that.. (I just run the script a couple of times, untill no affected rows remain&amp;hellip; Far more efficient than figuring out which constraints exist, building up a dependency tree, and cleanly deleting all rows):
+-- Remove all rows from all tables DECLARE@tableNameVARCHAR(255)DECLAREtableNamesCURSORFORSELECTnameFROMsys.Tables;OPENtableNamesFETCHNEXTFROMtableNamesINTO@tableNameWHILE@@FETCH_STATUS=0BEGINEXEC(&amp;#39;DELETE FROM [&amp;#39;+@tableName+&amp;#39;]&amp;#39;)FETCHNEXTFROMtableNamesINTO@tableNameENDCLOSEtableNamesDEALLOCATEtableNames</description></item></channel></rss>

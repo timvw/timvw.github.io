@@ -1,86 +1,70 @@
-<!DOCTYPE html>
-<html>
+<!doctype html><html>
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Experimenting with ControlStateMachine and Fluent interfaces - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Experimenting with ControlStateMachine and Fluent interfaces">
-<meta itemprop="description" content="A long time ago i read Build your own CAB series and recently i noticed that there is a wiki: Presentation Patterns Wiki! and it inspired me to experiment with state machines. Here are a couple of examples:
-controlStateMachine = new ControlStateMachine&lt;states&gt;(this); controlStateMachine.AfterEachStateChange() .Do(MakeRelevantButtonsVisible); controlStateMachine.WhenStateChangesTo(States.RetrievingSubscriptionPeriod) .TheOnlyVisibleControlsAre(flowLayoutPanel1, datePicker1); controlStateMachine.WhenStateChangesTo(States.RetrievingCustomerInformation) .MakeVisible(customerInput1) .Do(() =&gt; customerInput1.Dock = DockStyle.Fill); controlStateMachine.WhenStateChangesTo(States.Ready) .MakeInvisible(customerInput1); And here is another example:
-wizardStateMachine = new WizardStateMachine&lt;states&gt;(controlStateMachine); wizardStateMachine.InState(States.RetrievingSubscriptionPeriod) .OnCommand(WizardCommands.Next) .TransitionTo(States.RetrievingCustomerInformation); wizardStateMachine.InState(States.RetrievingCustomerInformation) .OnCommand(WizardCommands.Back) ."><meta itemprop="datePublished" content="2009-08-13T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2022-02-23T13:48:49+01:00" />
-<meta itemprop="wordCount" content="97">
-<meta itemprop="keywords" content="CSharp,Patterns,Windows Forms," /><meta property="og:title" content="Experimenting with ControlStateMachine and Fluent interfaces" />
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge"><title>Experimenting with ControlStateMachine and Fluent interfaces - Tim Van Wassenhove</title><meta name=viewport content="width=device-width,initial-scale=1">
+<meta itemprop=name content="Experimenting with ControlStateMachine and Fluent interfaces">
+<meta itemprop=description content="A long time ago i read Build your own CAB series and recently i noticed that there is a wiki: Presentation Patterns Wiki! and it inspired me to experiment with state machines. Here are a couple of examples:
+controlStateMachine = new ControlStateMachine<states>(this); controlStateMachine.AfterEachStateChange() .Do(MakeRelevantButtonsVisible); controlStateMachine.WhenStateChangesTo(States.RetrievingSubscriptionPeriod) .TheOnlyVisibleControlsAre(flowLayoutPanel1, datePicker1); controlStateMachine.WhenStateChangesTo(States.RetrievingCustomerInformation) .MakeVisible(customerInput1) .Do(() => customerInput1.Dock = DockStyle.Fill); controlStateMachine.WhenStateChangesTo(States.Ready) .MakeInvisible(customerInput1); And here is another example:
+wizardStateMachine = new WizardStateMachine<states>(controlStateMachine); wizardStateMachine.InState(States.RetrievingSubscriptionPeriod) .OnCommand(WizardCommands.Next) .TransitionTo(States.RetrievingCustomerInformation); wizardStateMachine.InState(States.RetrievingCustomerInformation) .OnCommand(WizardCommands.Back) ."><meta itemprop=datePublished content="2009-08-13T00:00:00+00:00">
+<meta itemprop=dateModified content="2021-01-04T22:47:36+01:00">
+<meta itemprop=wordCount content="97">
+<meta itemprop=keywords content="CSharp,Patterns,Windows Forms,"><meta property="og:title" content="Experimenting with ControlStateMachine and Fluent interfaces">
 <meta property="og:description" content="A long time ago i read Build your own CAB series and recently i noticed that there is a wiki: Presentation Patterns Wiki! and it inspired me to experiment with state machines. Here are a couple of examples:
-controlStateMachine = new ControlStateMachine&lt;states&gt;(this); controlStateMachine.AfterEachStateChange() .Do(MakeRelevantButtonsVisible); controlStateMachine.WhenStateChangesTo(States.RetrievingSubscriptionPeriod) .TheOnlyVisibleControlsAre(flowLayoutPanel1, datePicker1); controlStateMachine.WhenStateChangesTo(States.RetrievingCustomerInformation) .MakeVisible(customerInput1) .Do(() =&gt; customerInput1.Dock = DockStyle.Fill); controlStateMachine.WhenStateChangesTo(States.Ready) .MakeInvisible(customerInput1); And here is another example:
-wizardStateMachine = new WizardStateMachine&lt;states&gt;(controlStateMachine); wizardStateMachine.InState(States.RetrievingSubscriptionPeriod) .OnCommand(WizardCommands.Next) .TransitionTo(States.RetrievingCustomerInformation); wizardStateMachine.InState(States.RetrievingCustomerInformation) .OnCommand(WizardCommands.Back) ." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2009/08/13/experimenting-with-controlstatemachine-and-fluent-interfaces/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2009-08-13T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-02-23T13:48:49+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Experimenting with ControlStateMachine and Fluent interfaces"/>
-<meta name="twitter:description" content="A long time ago i read Build your own CAB series and recently i noticed that there is a wiki: Presentation Patterns Wiki! and it inspired me to experiment with state machines. Here are a couple of examples:
-controlStateMachine = new ControlStateMachine&lt;states&gt;(this); controlStateMachine.AfterEachStateChange() .Do(MakeRelevantButtonsVisible); controlStateMachine.WhenStateChangesTo(States.RetrievingSubscriptionPeriod) .TheOnlyVisibleControlsAre(flowLayoutPanel1, datePicker1); controlStateMachine.WhenStateChangesTo(States.RetrievingCustomerInformation) .MakeVisible(customerInput1) .Do(() =&gt; customerInput1.Dock = DockStyle.Fill); controlStateMachine.WhenStateChangesTo(States.Ready) .MakeInvisible(customerInput1); And here is another example:
-wizardStateMachine = new WizardStateMachine&lt;states&gt;(controlStateMachine); wizardStateMachine.InState(States.RetrievingSubscriptionPeriod) .OnCommand(WizardCommands.Next) .TransitionTo(States.RetrievingCustomerInformation); wizardStateMachine.InState(States.RetrievingCustomerInformation) .OnCommand(WizardCommands.Back) ."/>
-<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
-
-        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
-
-	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-		<script src="https://timvw.be/js/main.js"></script>
+controlStateMachine = new ControlStateMachine<states>(this); controlStateMachine.AfterEachStateChange() .Do(MakeRelevantButtonsVisible); controlStateMachine.WhenStateChangesTo(States.RetrievingSubscriptionPeriod) .TheOnlyVisibleControlsAre(flowLayoutPanel1, datePicker1); controlStateMachine.WhenStateChangesTo(States.RetrievingCustomerInformation) .MakeVisible(customerInput1) .Do(() => customerInput1.Dock = DockStyle.Fill); controlStateMachine.WhenStateChangesTo(States.Ready) .MakeInvisible(customerInput1); And here is another example:
+wizardStateMachine = new WizardStateMachine<states>(controlStateMachine); wizardStateMachine.InState(States.RetrievingSubscriptionPeriod) .OnCommand(WizardCommands.Next) .TransitionTo(States.RetrievingCustomerInformation); wizardStateMachine.InState(States.RetrievingCustomerInformation) .OnCommand(WizardCommands.Back) .">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://timvw.be/2009/08/13/experimenting-with-controlstatemachine-and-fluent-interfaces/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2009-08-13T00:00:00+00:00">
+<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Experimenting with ControlStateMachine and Fluent interfaces">
+<meta name=twitter:description content="A long time ago i read Build your own CAB series and recently i noticed that there is a wiki: Presentation Patterns Wiki! and it inspired me to experiment with state machines. Here are a couple of examples:
+controlStateMachine = new ControlStateMachine<states>(this); controlStateMachine.AfterEachStateChange() .Do(MakeRelevantButtonsVisible); controlStateMachine.WhenStateChangesTo(States.RetrievingSubscriptionPeriod) .TheOnlyVisibleControlsAre(flowLayoutPanel1, datePicker1); controlStateMachine.WhenStateChangesTo(States.RetrievingCustomerInformation) .MakeVisible(customerInput1) .Do(() => customerInput1.Dock = DockStyle.Fill); controlStateMachine.WhenStateChangesTo(States.Ready) .MakeInvisible(customerInput1); And here is another example:
+wizardStateMachine = new WizardStateMachine<states>(controlStateMachine); wizardStateMachine.InState(States.RetrievingSubscriptionPeriod) .OnCommand(WizardCommands.Next) .TransitionTo(States.RetrievingCustomerInformation); wizardStateMachine.InState(States.RetrievingCustomerInformation) .OnCommand(WizardCommands.Back) .">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700" rel=stylesheet type=text/css>
+<link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/normalize.css>
+<link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/main.css>
+<link id=dark-scheme rel=stylesheet type=text/css href=https://timvw.be/css/dark.css>
+<script src=https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js></script>
+<script src=https://timvw.be/js/main.js></script>
 </head>
-
 <body>
-	<div class="container wrapper">
-		<div class="header">
-	
-	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
-	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
-			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav>
-	</div>
-
-	<nav class="nav">
-		<ul class="flat">
-			
-			<li>
-				<a href="../../../../">Home</a>
-			</li>
-			
-			<li>
-				<a href="../../../../posts">All posts</a>
-			</li>
-			
-			<li>
-				<a href="../../../../tags">Tags</a>
-			</li>
-			
-		</ul>
-	</nav>
+<div class="container wrapper">
+<div class=header>
+<h1 class=site-title><a href=https://timvw.be/>Tim Van Wassenhove</a></h1>
+<div class=site-description><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+<ul class=flat><li><a href=https://twitter.com/timvw title=Twitter><i data-feather=twitter></i></a></li><li><a href=https://github.com/timvw title=Github><i data-feather=github></i></a></li><li><a href=https://www.linkedin.com/in/timvanwassenhove title=Linkedin><i data-feather=linkedin></i></a></li><li><a href=https://timvw.be/feed.xml title=RSS><i data-feather=rss></i></a></li></ul>
+</nav>
 </div>
-
-
-		<div class="post">
-			<div class="post-header">
-				
-					<div class="meta">
-						<div class="date">
-							<span class="day">13</span>
-							<span class="rest">Aug 2009</span>
-						</div>
-					</div>
-				
-				<div class="matter">
-					<h1 class="title">Experimenting with ControlStateMachine and Fluent interfaces</h1>
-				</div>
-			</div>
-					
-			<div class="markdown">
-				<p>A long time ago i read <a href="http://codebetter.com/blogs/jeremy.miller/archive/2007/07/25/the-build-your-own-cab-series-table-of-contents.aspx">Build your own CAB series</a> and recently i noticed that there is a wiki: <a href="http://www.jeremydmiller.com/ppatterns/Default.aspx?Page=MainPage&amp;AspxAutoDetectCookieSupport=1">Presentation Patterns Wiki!</a> and it inspired me to experiment with state machines. Here are a couple of examples:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">controlStateMachine = <span style="color:#000;font-weight:bold">new</span> ControlStateMachine&lt;states&gt;(<span style="color:#000;font-weight:bold">this</span>);
+<nav class=nav>
+<ul class=flat>
+<li>
+<a href=../../../../>Home</a>
+</li>
+<li>
+<a href=../../../../posts>All posts</a>
+</li>
+<li>
+<a href=../../../../tags>Tags</a>
+</li>
+</ul>
+</nav>
+</div>
+<div class=post>
+<div class=post-header>
+<div class=meta>
+<div class=date>
+<span class=day>13</span>
+<span class=rest>Aug 2009</span>
+</div>
+</div>
+<div class=matter>
+<h1 class=title>Experimenting with ControlStateMachine and Fluent interfaces</h1>
+</div>
+</div>
+<div class=markdown>
+<p>A long time ago i read <a href=http://codebetter.com/blogs/jeremy.miller/archive/2007/07/25/the-build-your-own-cab-series-table-of-contents.aspx>Build your own CAB series</a> and recently i noticed that there is a wiki: <a href="http://www.jeremydmiller.com/ppatterns/Default.aspx?Page=MainPage&AspxAutoDetectCookieSupport=1">Presentation Patterns Wiki!</a> and it inspired me to experiment with state machines. Here are a couple of examples:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp>controlStateMachine = <span style=color:#000;font-weight:700>new</span> ControlStateMachine&lt;states&gt;(<span style=color:#000;font-weight:700>this</span>);
 
 controlStateMachine.AfterEachStateChange()
 .Do(MakeRelevantButtonsVisible);
@@ -95,7 +79,7 @@ controlStateMachine.WhenStateChangesTo(States.RetrievingCustomerInformation)
 controlStateMachine.WhenStateChangesTo(States.Ready)
 .MakeInvisible(customerInput1);
 </code></pre></div><p>And here is another example:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">wizardStateMachine = <span style="color:#000;font-weight:bold">new</span> WizardStateMachine&lt;states&gt;(controlStateMachine);
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp>wizardStateMachine = <span style=color:#000;font-weight:700>new</span> WizardStateMachine&lt;states&gt;(controlStateMachine);
 
 wizardStateMachine.InState(States.RetrievingSubscriptionPeriod)
 .OnCommand(WizardCommands.Next)
@@ -109,44 +93,24 @@ wizardStateMachine.InState(States.RetrievingCustomerInformation)
 
 wizardStateMachine.InState(States.Ready)
 .OnCommand(WizardCommands.New)
-.Do(() =&gt; MessageBox.Show(<span style="color:#d14">&#34;Currently not supported&#34;</span>));
+.Do(() =&gt; MessageBox.Show(<span style=color:#d14>&#34;Currently not supported&#34;</span>));
 </code></pre></div><p>Stay tuned for future posts where i describe the problem space that have lead to this API.</p>
-
-			</div>
-
-			<div class="tags">
-				
-					
-						<ul class="flat">
-							
-							<li><a href="../../../../tags/csharp">CSharp</a></li>
-							
-							<li><a href="../../../../tags/patterns">Patterns</a></li>
-							
-							<li><a href="../../../../tags/windows-forms">Windows Forms</a></li>
-							
-						</ul>
-					
-				
-			</div></div>
-	</div>
-	<div class="footer wrapper">
-	<nav class="nav">
-		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
-	</nav>
 </div>
-
-
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'G-9DP4SV12YW', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+<div class=tags>
+<ul class=flat>
+<li><a href=../../../../tags/csharp>CSharp</a></li>
+<li><a href=../../../../tags/patterns>Patterns</a></li>
+<li><a href=../../../../tags/windows-forms>Windows Forms</a></li>
+</ul>
+</div></div>
+</div>
+<div class="footer wrapper">
+<nav class=nav>
+<div>2022 <a href=https://github.com/knadh/hugo-ink>Ink</a> theme on <a href=https://gohugo.io>Hugo</a></div>
+</nav>
+</div>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','G-9DP4SV12YW','auto'),ga('send','pageview'))</script>
+<script async src=https://www.google-analytics.com/analytics.js></script>
 <script>feather.replace()</script>
 </body>
 </html>

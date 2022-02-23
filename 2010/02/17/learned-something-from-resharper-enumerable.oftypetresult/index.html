@@ -1,127 +1,93 @@
-<!DOCTYPE html>
-<html>
+<!doctype html><html>
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Learned something from Resharper: Enumerable.OfType&lt;TResult&gt; - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Learned something from Resharper: Enumerable.OfType&lt;TResult&gt;">
-<meta itemprop="description" content="A couple of weeks ago i discovered Enumerable.OfType when i let Resharper rewrite my code as a Linq statement. Here is the original code:
-var selectedPersons = new List&lt;personSelectItem&gt;(); foreach(var selectedItem in selectedItems) { var selectedPerson = selectedItem as PersonSelectItem; if (selectedPerson == null) continue; selectedPersons.Add(selectedPerson); } And here is how it looks after the rewrite:
-var selectedPersons = selectedItems.OfType&lt;personSelectItem&gt;().ToList(); Yup, the Resharper license was definitely worth it&rsquo;s money."><meta itemprop="datePublished" content="2010-02-17T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2022-02-23T13:48:49+01:00" />
-<meta itemprop="wordCount" content="69">
-<meta itemprop="keywords" content="CSharp," /><meta property="og:title" content="Learned something from Resharper: Enumerable.OfType&lt;TResult&gt;" />
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge"><title>Learned something from Resharper: Enumerable.OfType&lt;TResult> - Tim Van Wassenhove</title><meta name=viewport content="width=device-width,initial-scale=1">
+<meta itemprop=name content="Learned something from Resharper: Enumerable.OfType<TResult>">
+<meta itemprop=description content="A couple of weeks ago i discovered Enumerable.OfType when i let Resharper rewrite my code as a Linq statement. Here is the original code:
+var selectedPersons = new List<personSelectItem>(); foreach(var selectedItem in selectedItems) { var selectedPerson = selectedItem as PersonSelectItem; if (selectedPerson == null) continue; selectedPersons.Add(selectedPerson); } And here is how it looks after the rewrite:
+var selectedPersons = selectedItems.OfType<personSelectItem>().ToList(); Yup, the Resharper license was definitely worth it&rsquo;s money."><meta itemprop=datePublished content="2010-02-17T00:00:00+00:00">
+<meta itemprop=dateModified content="2021-01-04T22:47:36+01:00">
+<meta itemprop=wordCount content="69">
+<meta itemprop=keywords content="CSharp,"><meta property="og:title" content="Learned something from Resharper: Enumerable.OfType<TResult>">
 <meta property="og:description" content="A couple of weeks ago i discovered Enumerable.OfType when i let Resharper rewrite my code as a Linq statement. Here is the original code:
-var selectedPersons = new List&lt;personSelectItem&gt;(); foreach(var selectedItem in selectedItems) { var selectedPerson = selectedItem as PersonSelectItem; if (selectedPerson == null) continue; selectedPersons.Add(selectedPerson); } And here is how it looks after the rewrite:
-var selectedPersons = selectedItems.OfType&lt;personSelectItem&gt;().ToList(); Yup, the Resharper license was definitely worth it&rsquo;s money." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2010/02/17/learned-something-from-resharper-enumerable.oftypetresult/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2010-02-17T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-02-23T13:48:49+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Learned something from Resharper: Enumerable.OfType&lt;TResult&gt;"/>
-<meta name="twitter:description" content="A couple of weeks ago i discovered Enumerable.OfType when i let Resharper rewrite my code as a Linq statement. Here is the original code:
-var selectedPersons = new List&lt;personSelectItem&gt;(); foreach(var selectedItem in selectedItems) { var selectedPerson = selectedItem as PersonSelectItem; if (selectedPerson == null) continue; selectedPersons.Add(selectedPerson); } And here is how it looks after the rewrite:
-var selectedPersons = selectedItems.OfType&lt;personSelectItem&gt;().ToList(); Yup, the Resharper license was definitely worth it&rsquo;s money."/>
-<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
-
-        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
-
-	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-		<script src="https://timvw.be/js/main.js"></script>
+var selectedPersons = new List<personSelectItem>(); foreach(var selectedItem in selectedItems) { var selectedPerson = selectedItem as PersonSelectItem; if (selectedPerson == null) continue; selectedPersons.Add(selectedPerson); } And here is how it looks after the rewrite:
+var selectedPersons = selectedItems.OfType<personSelectItem>().ToList(); Yup, the Resharper license was definitely worth it&rsquo;s money.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://timvw.be/2010/02/17/learned-something-from-resharper-enumerable.oftypetresult/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2010-02-17T00:00:00+00:00">
+<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Learned something from Resharper: Enumerable.OfType<TResult>">
+<meta name=twitter:description content="A couple of weeks ago i discovered Enumerable.OfType when i let Resharper rewrite my code as a Linq statement. Here is the original code:
+var selectedPersons = new List<personSelectItem>(); foreach(var selectedItem in selectedItems) { var selectedPerson = selectedItem as PersonSelectItem; if (selectedPerson == null) continue; selectedPersons.Add(selectedPerson); } And here is how it looks after the rewrite:
+var selectedPersons = selectedItems.OfType<personSelectItem>().ToList(); Yup, the Resharper license was definitely worth it&rsquo;s money.">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700" rel=stylesheet type=text/css>
+<link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/normalize.css>
+<link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/main.css>
+<link id=dark-scheme rel=stylesheet type=text/css href=https://timvw.be/css/dark.css>
+<script src=https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js></script>
+<script src=https://timvw.be/js/main.js></script>
 </head>
-
 <body>
-	<div class="container wrapper">
-		<div class="header">
-	
-	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
-	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
-			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav>
-	</div>
-
-	<nav class="nav">
-		<ul class="flat">
-			
-			<li>
-				<a href="../../../../">Home</a>
-			</li>
-			
-			<li>
-				<a href="../../../../posts">All posts</a>
-			</li>
-			
-			<li>
-				<a href="../../../../tags">Tags</a>
-			</li>
-			
-		</ul>
-	</nav>
+<div class="container wrapper">
+<div class=header>
+<h1 class=site-title><a href=https://timvw.be/>Tim Van Wassenhove</a></h1>
+<div class=site-description><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+<ul class=flat><li><a href=https://twitter.com/timvw title=Twitter><i data-feather=twitter></i></a></li><li><a href=https://github.com/timvw title=Github><i data-feather=github></i></a></li><li><a href=https://www.linkedin.com/in/timvanwassenhove title=Linkedin><i data-feather=linkedin></i></a></li><li><a href=https://timvw.be/feed.xml title=RSS><i data-feather=rss></i></a></li></ul>
+</nav>
 </div>
-
-
-		<div class="post">
-			<div class="post-header">
-				
-					<div class="meta">
-						<div class="date">
-							<span class="day">17</span>
-							<span class="rest">Feb 2010</span>
-						</div>
-					</div>
-				
-				<div class="matter">
-					<h1 class="title">Learned something from Resharper: Enumerable.OfType&lt;TResult&gt;</h1>
-				</div>
-			</div>
-					
-			<div class="markdown">
-				<p>A couple of weeks ago i discovered <a href="http://msdn.microsoft.com/en-us/library/bb360913.aspx">Enumerable.OfType<!-- raw HTML omitted --></a> when i let Resharper rewrite my code as a Linq statement. Here is the original code:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">var</span> selectedPersons = <span style="color:#000;font-weight:bold">new</span> List&lt;personSelectItem&gt;();
-<span style="color:#000;font-weight:bold">foreach</span>(<span style="color:#458;font-weight:bold">var</span> selectedItem <span style="color:#000;font-weight:bold">in</span> selectedItems)
+<nav class=nav>
+<ul class=flat>
+<li>
+<a href=../../../../>Home</a>
+</li>
+<li>
+<a href=../../../../posts>All posts</a>
+</li>
+<li>
+<a href=../../../../tags>Tags</a>
+</li>
+</ul>
+</nav>
+</div>
+<div class=post>
+<div class=post-header>
+<div class=meta>
+<div class=date>
+<span class=day>17</span>
+<span class=rest>Feb 2010</span>
+</div>
+</div>
+<div class=matter>
+<h1 class=title>Learned something from Resharper: Enumerable.OfType&lt;TResult></h1>
+</div>
+</div>
+<div class=markdown>
+<p>A couple of weeks ago i discovered <a href=http://msdn.microsoft.com/en-us/library/bb360913.aspx>Enumerable.OfType</a> when i let Resharper rewrite my code as a Linq statement. Here is the original code:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=color:#458;font-weight:700>var</span> selectedPersons = <span style=color:#000;font-weight:700>new</span> List&lt;personSelectItem&gt;();
+<span style=color:#000;font-weight:700>foreach</span>(<span style=color:#458;font-weight:700>var</span> selectedItem <span style=color:#000;font-weight:700>in</span> selectedItems)
 {
-	<span style="color:#458;font-weight:bold">var</span> selectedPerson = selectedItem <span style="color:#000;font-weight:bold">as</span> PersonSelectItem;
-	<span style="color:#000;font-weight:bold">if</span> (selectedPerson == <span style="color:#000;font-weight:bold">null</span>) <span style="color:#000;font-weight:bold">continue</span>;
+	<span style=color:#458;font-weight:700>var</span> selectedPerson = selectedItem <span style=color:#000;font-weight:700>as</span> PersonSelectItem;
+	<span style=color:#000;font-weight:700>if</span> (selectedPerson == <span style=color:#000;font-weight:700>null</span>) <span style=color:#000;font-weight:700>continue</span>;
 	selectedPersons.Add(selectedPerson);
 }
 </code></pre></div><p>And here is how it looks after the rewrite:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">var</span> selectedPersons = selectedItems.OfType&lt;personSelectItem&gt;().ToList();
-</code></pre></div><p>Yup, the <a href="http://www.jetbrains.com/resharper/">Resharper</a> license was definitely worth it&rsquo;s money.</p>
-
-			</div>
-
-			<div class="tags">
-				
-					
-						<ul class="flat">
-							
-							<li><a href="../../../../tags/csharp">CSharp</a></li>
-							
-						</ul>
-					
-				
-			</div></div>
-	</div>
-	<div class="footer wrapper">
-	<nav class="nav">
-		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
-	</nav>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=color:#458;font-weight:700>var</span> selectedPersons = selectedItems.OfType&lt;personSelectItem&gt;().ToList();
+</code></pre></div><p>Yup, the <a href=http://www.jetbrains.com/resharper/>Resharper</a> license was definitely worth it&rsquo;s money.</p>
 </div>
-
-
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'G-9DP4SV12YW', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+<div class=tags>
+<ul class=flat>
+<li><a href=../../../../tags/csharp>CSharp</a></li>
+</ul>
+</div></div>
+</div>
+<div class="footer wrapper">
+<nav class=nav>
+<div>2022 <a href=https://github.com/knadh/hugo-ink>Ink</a> theme on <a href=https://gohugo.io>Hugo</a></div>
+</nav>
+</div>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','G-9DP4SV12YW','auto'),ga('send','pageview'))</script>
+<script async src=https://www.google-analytics.com/analytics.js></script>
 <script>feather.replace()</script>
 </body>
 </html>

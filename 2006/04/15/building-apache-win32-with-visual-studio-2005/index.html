@@ -1,136 +1,102 @@
-<!DOCTYPE html>
-<html>
+<!doctype html><html>
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Building apache-win32 with Visual Studio 2005 - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Building apache-win32 with Visual Studio 2005">
-<meta itemprop="description" content="Today i decided to build apache-win32. Here&rsquo;s how i did it:
- Download Apache httpd-2.2.0-win32-src-rev2.zip. Unzip and read README.TXT, INSTALL.TXT and docs/manual/platform/win_compiling.html.en Save awk95.exe as awk.exe in a directory that&rsquo;s in your %PATH%. Open Apache.dsw with VS2005 and choose &ldquo;Yes To All&rdquo; to convert the project. Uncheck abs, mod_deflate and mod_ssl in the the configuration form via Build -&gt; Configuration Manager. Choose InstallBin, click right and Set as StartUp Project. Open InstallBin/Makefile."><meta itemprop="datePublished" content="2006-04-15T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2022-02-23T13:48:49+01:00" />
-<meta itemprop="wordCount" content="259">
-<meta itemprop="keywords" content="Free Software," /><meta property="og:title" content="Building apache-win32 with Visual Studio 2005" />
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge"><title>Building apache-win32 with Visual Studio 2005 - Tim Van Wassenhove</title><meta name=viewport content="width=device-width,initial-scale=1">
+<meta itemprop=name content="Building apache-win32 with Visual Studio 2005">
+<meta itemprop=description content="Today i decided to build apache-win32. Here&rsquo;s how i did it:
+ Download Apache httpd-2.2.0-win32-src-rev2.zip. Unzip and read README.TXT, INSTALL.TXT and docs/manual/platform/win_compiling.html.en Save awk95.exe as awk.exe in a directory that&rsquo;s in your %PATH%. Open Apache.dsw with VS2005 and choose &ldquo;Yes To All&rdquo; to convert the project. Uncheck abs, mod_deflate and mod_ssl in the the configuration form via Build -> Configuration Manager. Choose InstallBin, click right and Set as StartUp Project. Open InstallBin/Makefile."><meta itemprop=datePublished content="2006-04-15T00:00:00+00:00">
+<meta itemprop=dateModified content="2021-01-04T22:47:36+01:00">
+<meta itemprop=wordCount content="259">
+<meta itemprop=keywords content="Free Software,"><meta property="og:title" content="Building apache-win32 with Visual Studio 2005">
 <meta property="og:description" content="Today i decided to build apache-win32. Here&rsquo;s how i did it:
- Download Apache httpd-2.2.0-win32-src-rev2.zip. Unzip and read README.TXT, INSTALL.TXT and docs/manual/platform/win_compiling.html.en Save awk95.exe as awk.exe in a directory that&rsquo;s in your %PATH%. Open Apache.dsw with VS2005 and choose &ldquo;Yes To All&rdquo; to convert the project. Uncheck abs, mod_deflate and mod_ssl in the the configuration form via Build -&gt; Configuration Manager. Choose InstallBin, click right and Set as StartUp Project. Open InstallBin/Makefile." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2006/04/15/building-apache-win32-with-visual-studio-2005/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2006-04-15T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-02-23T13:48:49+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Building apache-win32 with Visual Studio 2005"/>
-<meta name="twitter:description" content="Today i decided to build apache-win32. Here&rsquo;s how i did it:
- Download Apache httpd-2.2.0-win32-src-rev2.zip. Unzip and read README.TXT, INSTALL.TXT and docs/manual/platform/win_compiling.html.en Save awk95.exe as awk.exe in a directory that&rsquo;s in your %PATH%. Open Apache.dsw with VS2005 and choose &ldquo;Yes To All&rdquo; to convert the project. Uncheck abs, mod_deflate and mod_ssl in the the configuration form via Build -&gt; Configuration Manager. Choose InstallBin, click right and Set as StartUp Project. Open InstallBin/Makefile."/>
-<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
-
-        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
-
-	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-		<script src="https://timvw.be/js/main.js"></script>
+ Download Apache httpd-2.2.0-win32-src-rev2.zip. Unzip and read README.TXT, INSTALL.TXT and docs/manual/platform/win_compiling.html.en Save awk95.exe as awk.exe in a directory that&rsquo;s in your %PATH%. Open Apache.dsw with VS2005 and choose &ldquo;Yes To All&rdquo; to convert the project. Uncheck abs, mod_deflate and mod_ssl in the the configuration form via Build -> Configuration Manager. Choose InstallBin, click right and Set as StartUp Project. Open InstallBin/Makefile.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://timvw.be/2006/04/15/building-apache-win32-with-visual-studio-2005/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2006-04-15T00:00:00+00:00">
+<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Building apache-win32 with Visual Studio 2005">
+<meta name=twitter:description content="Today i decided to build apache-win32. Here&rsquo;s how i did it:
+ Download Apache httpd-2.2.0-win32-src-rev2.zip. Unzip and read README.TXT, INSTALL.TXT and docs/manual/platform/win_compiling.html.en Save awk95.exe as awk.exe in a directory that&rsquo;s in your %PATH%. Open Apache.dsw with VS2005 and choose &ldquo;Yes To All&rdquo; to convert the project. Uncheck abs, mod_deflate and mod_ssl in the the configuration form via Build -> Configuration Manager. Choose InstallBin, click right and Set as StartUp Project. Open InstallBin/Makefile.">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700" rel=stylesheet type=text/css>
+<link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/normalize.css>
+<link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/main.css>
+<link id=dark-scheme rel=stylesheet type=text/css href=https://timvw.be/css/dark.css>
+<script src=https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js></script>
+<script src=https://timvw.be/js/main.js></script>
 </head>
-
 <body>
-	<div class="container wrapper">
-		<div class="header">
-	
-	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
-	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
-			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav>
-	</div>
-
-	<nav class="nav">
-		<ul class="flat">
-			
-			<li>
-				<a href="../../../../">Home</a>
-			</li>
-			
-			<li>
-				<a href="../../../../posts">All posts</a>
-			</li>
-			
-			<li>
-				<a href="../../../../tags">Tags</a>
-			</li>
-			
-		</ul>
-	</nav>
+<div class="container wrapper">
+<div class=header>
+<h1 class=site-title><a href=https://timvw.be/>Tim Van Wassenhove</a></h1>
+<div class=site-description><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+<ul class=flat><li><a href=https://twitter.com/timvw title=Twitter><i data-feather=twitter></i></a></li><li><a href=https://github.com/timvw title=Github><i data-feather=github></i></a></li><li><a href=https://www.linkedin.com/in/timvanwassenhove title=Linkedin><i data-feather=linkedin></i></a></li><li><a href=https://timvw.be/feed.xml title=RSS><i data-feather=rss></i></a></li></ul>
+</nav>
 </div>
-
-
-		<div class="post">
-			<div class="post-header">
-				
-					<div class="meta">
-						<div class="date">
-							<span class="day">15</span>
-							<span class="rest">Apr 2006</span>
-						</div>
-					</div>
-				
-				<div class="matter">
-					<h1 class="title">Building apache-win32 with Visual Studio 2005</h1>
-				</div>
-			</div>
-					
-			<div class="markdown">
-				<p>Today i decided to build apache-win32. Here&rsquo;s how i did it:</p>
+<nav class=nav>
+<ul class=flat>
+<li>
+<a href=../../../../>Home</a>
+</li>
+<li>
+<a href=../../../../posts>All posts</a>
+</li>
+<li>
+<a href=../../../../tags>Tags</a>
+</li>
+</ul>
+</nav>
+</div>
+<div class=post>
+<div class=post-header>
+<div class=meta>
+<div class=date>
+<span class=day>15</span>
+<span class=rest>Apr 2006</span>
+</div>
+</div>
+<div class=matter>
+<h1 class=title>Building apache-win32 with Visual Studio 2005</h1>
+</div>
+</div>
+<div class=markdown>
+<p>Today i decided to build apache-win32. Here&rsquo;s how i did it:</p>
 <ul>
-<li>Download Apache <a href="http://apache.be.proserve.nl/httpd/httpd-2.2.0-win32-src-rev2.zip">httpd-2.2.0-win32-src-rev2.zip</a>.</li>
+<li>Download Apache <a href=http://apache.be.proserve.nl/httpd/httpd-2.2.0-win32-src-rev2.zip>httpd-2.2.0-win32-src-rev2.zip</a>.</li>
 <li>Unzip and read README.TXT, INSTALL.TXT and docs/manual/platform/win_compiling.html.en</li>
-<li>Save <a href="http://cm.bell-labs.com/cm/cs/who/bwk/awk95.exe">awk95.exe</a> as awk.exe in a directory that&rsquo;s in your %PATH%.</li>
+<li>Save <a href=http://cm.bell-labs.com/cm/cs/who/bwk/awk95.exe>awk95.exe</a> as awk.exe in a directory that&rsquo;s in your %PATH%.</li>
 <li>Open Apache.dsw with VS2005 and choose &ldquo;Yes To All&rdquo; to convert the project.</li>
-<li>Uncheck abs, mod_deflate and mod_ssl in the the configuration form via Build -&gt; Configuration Manager.</li>
+<li>Uncheck abs, mod_deflate and mod_ssl in the the configuration form via Build -> Configuration Manager.</li>
 <li>Choose InstallBin, click right and Set as StartUp Project.</li>
 <li>Open InstallBin/Makefile.win and remove the lines 129, 130, 131, 133, 134, 135 and 136.</li>
 <li>Start debugging (F5). Stop debugging and end the httpd.exe process via your Task Manager.</li>
-<li>Download and extract <a href="http://www.zlib.net/zlib-1.2.3.tar.bz2">zlib-1.2.3.tar.bz2</a> into srclib/zlib.</li>
+<li>Download and extract <a href=http://www.zlib.net/zlib-1.2.3.tar.bz2>zlib-1.2.3.tar.bz2</a> into srclib/zlib.</li>
 <li>Prepend &ldquo;dword ptr&rdquo; to the second argument of the movd instructions on lines647, 649, 663 and 720 in srclib/zlib/contrib/masmx86/inffas32.asm</li>
 <li>Open srclib/zlib/projects/visualc6/zlib.dsp, choose the zlib project in the solution explorer. Choose &ldquo;LIB ASM Release&rdquo; in the configuration explorer and build zlib.</li>
 <li>Copy srclib/zlib/projects/visualc6/Win32_LIB_ASM_Release/zlib.lib to srclib/zlib.</li>
-<li>Check the mod_deflate in the configuration form via Build -&gt; Configuration Manager.</li>
+<li>Check the mod_deflate in the configuration form via Build -> Configuration Manager.</li>
 <li>Choose the mod_deflate project in the solution explorer and build it.</li>
-<li>The original <a href="http://www.openssl.org/source/openssl-0.9.8a.tar.gz">openssl-0.9.8a.tar.gz</a> doesn&rsquo;t compile with Visual Studio 2005 but someone has already made a <a href="http://bbdev.fluffy.co.uk/svn/box/chris/win32/support/openssl-0.9.8a-win32fix.patch">patch</a>. Download <a href="http://bbdev.fluffy.co.uk/svn/box/chris/win32/support/openssl-0.9.8a-vc2005.zip">openssl-0.9.8a-vc2005.zip</a> and extract it into srclib/openssl.</li>
+<li>The original <a href=http://www.openssl.org/source/openssl-0.9.8a.tar.gz>openssl-0.9.8a.tar.gz</a> doesn&rsquo;t compile with Visual Studio 2005 but someone has already made a <a href=http://bbdev.fluffy.co.uk/svn/box/chris/win32/support/openssl-0.9.8a-win32fix.patch>patch</a>. Download <a href=http://bbdev.fluffy.co.uk/svn/box/chris/win32/support/openssl-0.9.8a-vc2005.zip>openssl-0.9.8a-vc2005.zip</a> and extract it into srclib/openssl.</li>
 <li>Open a Visual Studio 2005 Command Prompt and cd to the openssl directory and run: &ldquo;perl Configure VC-WIN32&rdquo; (don&rsquo;t close this prompt yet).</li>
-<li>Insert before line 61 in srclib/openssl/ms/do_masm.bat the following line: &ldquo;perl util\mk1mf.pl debug dll VC-WIN32 &gt; ms\ntdll-dbg.mak&rdquo;. Now run: &ldquo;ms\do_masm&rdquo; and &ldquo;nmake -f ms\ntdll-dbg.mak&rdquo;.</li>
-<li>Check the abs and mod_ssl project in the configuration from via Build -&gt; Configuration Manager.</li>
+<li>Insert before line 61 in srclib/openssl/ms/do_masm.bat the following line: &ldquo;perl util\mk1mf.pl debug dll VC-WIN32 > ms\ntdll-dbg.mak&rdquo;. Now run: &ldquo;ms\do_masm&rdquo; and &ldquo;nmake -f ms\ntdll-dbg.mak&rdquo;.</li>
+<li>Check the abs and mod_ssl project in the configuration from via Build -> Configuration Manager.</li>
 <li>Build the two projects.</li>
 <li>Done!</li>
 </ul>
-
-			</div>
-
-			<div class="tags">
-				
-					
-						<ul class="flat">
-							
-							<li><a href="../../../../tags/free-software">Free Software</a></li>
-							
-						</ul>
-					
-				
-			</div></div>
-	</div>
-	<div class="footer wrapper">
-	<nav class="nav">
-		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
-	</nav>
 </div>
-
-
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'G-9DP4SV12YW', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+<div class=tags>
+<ul class=flat>
+<li><a href=../../../../tags/free-software>Free Software</a></li>
+</ul>
+</div></div>
+</div>
+<div class="footer wrapper">
+<nav class=nav>
+<div>2022 <a href=https://github.com/knadh/hugo-ink>Ink</a> theme on <a href=https://gohugo.io>Hugo</a></div>
+</nav>
+</div>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','G-9DP4SV12YW','auto'),ga('send','pageview'))</script>
+<script async src=https://www.google-analytics.com/analytics.js></script>
 <script>feather.replace()</script>
 </body>
 </html>

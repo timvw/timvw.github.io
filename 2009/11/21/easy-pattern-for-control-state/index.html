@@ -1,154 +1,120 @@
-<!DOCTYPE html>
-<html>
+<!doctype html><html>
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Easy pattern for Control state - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Easy pattern for Control state">
-<meta itemprop="description" content="If you have decided that your WebControl requires to maintain it&rsquo;s state you will want to figure out how to implement Control state. Most examples on the web will then create an array of objects and then hardcode the indices to find stuff back&hellip; Simply define a serializable inner class and use that instead of the &lsquo;magic array object&rsquo;. Eg
-class SilverlightHost : WebControl { [Serializable] class State { public object BaseState { get; set; } public string SilverlightUrl { get; set; } public string SilverlightErrorHandlerUrl { get; set; } public Dictionary&lt;string, string&gt; Parameters { get; set; } } protected override void OnInit(EventArgs e) { base."><meta itemprop="datePublished" content="2009-11-21T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2022-02-23T13:48:49+01:00" />
-<meta itemprop="wordCount" content="157">
-<meta itemprop="keywords" content="ASP.NET,CSharp," /><meta property="og:title" content="Easy pattern for Control state" />
-<meta property="og:description" content="If you have decided that your WebControl requires to maintain it&rsquo;s state you will want to figure out how to implement Control state. Most examples on the web will then create an array of objects and then hardcode the indices to find stuff back&hellip; Simply define a serializable inner class and use that instead of the &lsquo;magic array object&rsquo;. Eg
-class SilverlightHost : WebControl { [Serializable] class State { public object BaseState { get; set; } public string SilverlightUrl { get; set; } public string SilverlightErrorHandlerUrl { get; set; } public Dictionary&lt;string, string&gt; Parameters { get; set; } } protected override void OnInit(EventArgs e) { base." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2009/11/21/easy-pattern-for-control-state/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2009-11-21T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-02-23T13:48:49+01:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Easy pattern for Control state"/>
-<meta name="twitter:description" content="If you have decided that your WebControl requires to maintain it&rsquo;s state you will want to figure out how to implement Control state. Most examples on the web will then create an array of objects and then hardcode the indices to find stuff back&hellip; Simply define a serializable inner class and use that instead of the &lsquo;magic array object&rsquo;. Eg
-class SilverlightHost : WebControl { [Serializable] class State { public object BaseState { get; set; } public string SilverlightUrl { get; set; } public string SilverlightErrorHandlerUrl { get; set; } public Dictionary&lt;string, string&gt; Parameters { get; set; } } protected override void OnInit(EventArgs e) { base."/>
-<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
-
-        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
-
-	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-		<script src="https://timvw.be/js/main.js"></script>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge"><title>Easy pattern for Control state - Tim Van Wassenhove</title><meta name=viewport content="width=device-width,initial-scale=1">
+<meta itemprop=name content="Easy pattern for Control state">
+<meta itemprop=description content="If you have decided that your WebControl requires to maintain it&rsquo;s state you will want to figure out how to implement Control state. Most examples on the web will then create an array of objects and then hardcode the indices to find stuff back&mldr; Simply define a serializable inner class and use that instead of the &lsquo;magic array object&rsquo;. Eg
+class SilverlightHost : WebControl { [Serializable] class State { public object BaseState { get; set; } public string SilverlightUrl { get; set; } public string SilverlightErrorHandlerUrl { get; set; } public Dictionary<string, string> Parameters { get; set; } } protected override void OnInit(EventArgs e) { base."><meta itemprop=datePublished content="2009-11-21T00:00:00+00:00">
+<meta itemprop=dateModified content="2021-01-04T22:47:36+01:00">
+<meta itemprop=wordCount content="157">
+<meta itemprop=keywords content="ASP.NET,CSharp,"><meta property="og:title" content="Easy pattern for Control state">
+<meta property="og:description" content="If you have decided that your WebControl requires to maintain it&rsquo;s state you will want to figure out how to implement Control state. Most examples on the web will then create an array of objects and then hardcode the indices to find stuff back&mldr; Simply define a serializable inner class and use that instead of the &lsquo;magic array object&rsquo;. Eg
+class SilverlightHost : WebControl { [Serializable] class State { public object BaseState { get; set; } public string SilverlightUrl { get; set; } public string SilverlightErrorHandlerUrl { get; set; } public Dictionary<string, string> Parameters { get; set; } } protected override void OnInit(EventArgs e) { base.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://timvw.be/2009/11/21/easy-pattern-for-control-state/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2009-11-21T00:00:00+00:00">
+<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Easy pattern for Control state">
+<meta name=twitter:description content="If you have decided that your WebControl requires to maintain it&rsquo;s state you will want to figure out how to implement Control state. Most examples on the web will then create an array of objects and then hardcode the indices to find stuff back&mldr; Simply define a serializable inner class and use that instead of the &lsquo;magic array object&rsquo;. Eg
+class SilverlightHost : WebControl { [Serializable] class State { public object BaseState { get; set; } public string SilverlightUrl { get; set; } public string SilverlightErrorHandlerUrl { get; set; } public Dictionary<string, string> Parameters { get; set; } } protected override void OnInit(EventArgs e) { base.">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700" rel=stylesheet type=text/css>
+<link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/normalize.css>
+<link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/main.css>
+<link id=dark-scheme rel=stylesheet type=text/css href=https://timvw.be/css/dark.css>
+<script src=https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js></script>
+<script src=https://timvw.be/js/main.js></script>
 </head>
-
 <body>
-	<div class="container wrapper">
-		<div class="header">
-	
-	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
-	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
-			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li></ul>
-		</nav>
-	</div>
-
-	<nav class="nav">
-		<ul class="flat">
-			
-			<li>
-				<a href="../../../../">Home</a>
-			</li>
-			
-			<li>
-				<a href="../../../../posts">All posts</a>
-			</li>
-			
-			<li>
-				<a href="../../../../tags">Tags</a>
-			</li>
-			
-		</ul>
-	</nav>
+<div class="container wrapper">
+<div class=header>
+<h1 class=site-title><a href=https://timvw.be/>Tim Van Wassenhove</a></h1>
+<div class=site-description><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+<ul class=flat><li><a href=https://twitter.com/timvw title=Twitter><i data-feather=twitter></i></a></li><li><a href=https://github.com/timvw title=Github><i data-feather=github></i></a></li><li><a href=https://www.linkedin.com/in/timvanwassenhove title=Linkedin><i data-feather=linkedin></i></a></li><li><a href=https://timvw.be/feed.xml title=RSS><i data-feather=rss></i></a></li></ul>
+</nav>
 </div>
-
-
-		<div class="post">
-			<div class="post-header">
-				
-					<div class="meta">
-						<div class="date">
-							<span class="day">21</span>
-							<span class="rest">Nov 2009</span>
-						</div>
-					</div>
-				
-				<div class="matter">
-					<h1 class="title">Easy pattern for Control state</h1>
-				</div>
-			</div>
-					
-			<div class="markdown">
-				<p>If you have decided that your WebControl requires to maintain it&rsquo;s state you will want to figure out how to implement Control state. Most examples on the web will then create an array of objects and then hardcode the indices to find stuff back&hellip; Simply define a serializable inner class and use that instead of the &lsquo;magic array object&rsquo;. Eg</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">SilverlightHost</span> : WebControl
+<nav class=nav>
+<ul class=flat>
+<li>
+<a href=../../../../>Home</a>
+</li>
+<li>
+<a href=../../../../posts>All posts</a>
+</li>
+<li>
+<a href=../../../../tags>Tags</a>
+</li>
+</ul>
+</nav>
+</div>
+<div class=post>
+<div class=post-header>
+<div class=meta>
+<div class=date>
+<span class=day>21</span>
+<span class=rest>Nov 2009</span>
+</div>
+</div>
+<div class=matter>
+<h1 class=title>Easy pattern for Control state</h1>
+</div>
+</div>
+<div class=markdown>
+<p>If you have decided that your WebControl requires to maintain it&rsquo;s state you will want to figure out how to implement Control state. Most examples on the web will then create an array of objects and then hardcode the indices to find stuff back&mldr; Simply define a serializable inner class and use that instead of the &lsquo;magic array object&rsquo;. Eg</p>
+<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=color:#000;font-weight:700>class</span> <span style=color:#458;font-weight:700>SilverlightHost</span> : WebControl
 {
-<span style="color:#008080">	[Serializable]</span>
-	<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">State</span>
+<span style=color:teal>	[Serializable]</span>
+	<span style=color:#000;font-weight:700>class</span> <span style=color:#458;font-weight:700>State</span>
 	{
-		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">object</span> BaseState { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">set</span>; }
-		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> SilverlightUrl { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">set</span>; }
-		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> SilverlightErrorHandlerUrl { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">set</span>; }
-		<span style="color:#000;font-weight:bold">public</span> Dictionary&lt;<span style="color:#458;font-weight:bold">string</span>, <span style="color:#458;font-weight:bold">string</span>&gt; Parameters { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">set</span>; }
+		<span style=color:#000;font-weight:700>public</span> <span style=color:#458;font-weight:700>object</span> BaseState { <span style=color:#000;font-weight:700>get</span>; <span style=color:#000;font-weight:700>set</span>; }
+		<span style=color:#000;font-weight:700>public</span> <span style=color:#458;font-weight:700>string</span> SilverlightUrl { <span style=color:#000;font-weight:700>get</span>; <span style=color:#000;font-weight:700>set</span>; }
+		<span style=color:#000;font-weight:700>public</span> <span style=color:#458;font-weight:700>string</span> SilverlightErrorHandlerUrl { <span style=color:#000;font-weight:700>get</span>; <span style=color:#000;font-weight:700>set</span>; }
+		<span style=color:#000;font-weight:700>public</span> Dictionary&lt;<span style=color:#458;font-weight:700>string</span>, <span style=color:#458;font-weight:700>string</span>&gt; Parameters { <span style=color:#000;font-weight:700>get</span>; <span style=color:#000;font-weight:700>set</span>; }
 	}
 
-	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">void</span> OnInit(EventArgs e)
+	<span style=color:#000;font-weight:700>protected</span> <span style=color:#000;font-weight:700>override</span> <span style=color:#000;font-weight:700>void</span> OnInit(EventArgs e)
 	{
-		<span style="color:#000;font-weight:bold">base</span>.OnInit(e);
-		Page.RegisterRequiresControlState(<span style="color:#000;font-weight:bold">this</span>);
+		<span style=color:#000;font-weight:700>base</span>.OnInit(e);
+		Page.RegisterRequiresControlState(<span style=color:#000;font-weight:700>this</span>);
 	}
 
-	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">object</span> SaveControlState()
+	<span style=color:#000;font-weight:700>protected</span> <span style=color:#000;font-weight:700>override</span> <span style=color:#458;font-weight:700>object</span> SaveControlState()
 	{
-		<span style="color:#458;font-weight:bold">var</span> state = <span style="color:#000;font-weight:bold">new</span> State
+		<span style=color:#458;font-weight:700>var</span> state = <span style=color:#000;font-weight:700>new</span> State
 		{
-			BaseState = <span style="color:#000;font-weight:bold">base</span>.SaveControlState(),
+			BaseState = <span style=color:#000;font-weight:700>base</span>.SaveControlState(),
 			SilverlightUrl = SilverlightUrl,
 			SilverlightErrorHandlerUrl = SilverlightErrorHandlerUrl,
 			Parameters = parameters
 		};
-		<span style="color:#000;font-weight:bold">return</span> state;
+		<span style=color:#000;font-weight:700>return</span> state;
 	}
 
-	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">void</span> LoadControlState(<span style="color:#458;font-weight:bold">object</span> savedState)
+	<span style=color:#000;font-weight:700>protected</span> <span style=color:#000;font-weight:700>override</span> <span style=color:#000;font-weight:700>void</span> LoadControlState(<span style=color:#458;font-weight:700>object</span> savedState)
 	{
-		<span style="color:#458;font-weight:bold">var</span> state = (State)savedState;
+		<span style=color:#458;font-weight:700>var</span> state = (State)savedState;
 		SilverlightUrl = state.SilverlightUrl;
 		SilverlightErrorHandlerUrl = state.SilverlightErrorHandlerUrl;
 		parameters = state.Parameters;
-		<span style="color:#000;font-weight:bold">base</span>.LoadControlState(state.BaseState);
+		<span style=color:#000;font-weight:700>base</span>.LoadControlState(state.BaseState);
 	}
 }
 </code></pre></div>
-			</div>
-
-			<div class="tags">
-				
-					
-						<ul class="flat">
-							
-							<li><a href="../../../../tags/asp.net">ASP.NET</a></li>
-							
-							<li><a href="../../../../tags/csharp">CSharp</a></li>
-							
-						</ul>
-					
-				
-			</div></div>
-	</div>
-	<div class="footer wrapper">
-	<nav class="nav">
-		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
-	</nav>
 </div>
-
-
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'G-9DP4SV12YW', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+<div class=tags>
+<ul class=flat>
+<li><a href=../../../../tags/asp.net>ASP.NET</a></li>
+<li><a href=../../../../tags/csharp>CSharp</a></li>
+</ul>
+</div></div>
+</div>
+<div class="footer wrapper">
+<nav class=nav>
+<div>2022 <a href=https://github.com/knadh/hugo-ink>Ink</a> theme on <a href=https://gohugo.io>Hugo</a></div>
+</nav>
+</div>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','G-9DP4SV12YW','auto'),ga('send','pageview'))</script>
+<script async src=https://www.google-analytics.com/analytics.js></script>
 <script>feather.replace()</script>
 </body>
 </html>
