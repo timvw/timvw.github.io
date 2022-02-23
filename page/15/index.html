@@ -61,527 +61,221 @@
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">29</span>
-										<span class="rest">Sep 2009</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">29</span>
+							<span class="rest">Sep 2009</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Brad Abrams and extension methods to the rescue..</h1>
+								<h4 class="title small">
+									<a href="../../2009/09/29/brad-abrams-and-extension-methods-to-the-rescue../">Brad Abrams and extension methods to the rescue..</a>
+								</h4>
+								<span class="description">
+									
+										Currently i am implementing [Sokoban](http://en.wikipedia.org/wiki/Sokoban) and i was pondering which methods i should a...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Currently i am implementing <a href="http://en.wikipedia.org/wiki/Sokoban">Sokoban</a> and i was pondering which methods i should add to my Cell class:</p>
-<ul>
-<li>bool HoldsWall</li>
-<li>bool HoldsBox</li>
-<li>bool HoldsPlayer</li>
-</ul>
-<p>Or</p>
-<ul>
-<li>bool HoldsPieceOfType(Type type)</li>
-</ul>
-<p>Which option should i choose? With the aid of extension methods (in the same namespace) i can have them both:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">namespace</span> <span style="color:#555">Sokoban.Domain</span>
-{
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ExtensionMethods</span>
-	{
-		<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> HoldsBox(<span style="color:#000;font-weight:bold">this</span> Cell cell)
-		{
-			<span style="color:#000;font-weight:bold">return</span> cell.HoldsPieceOfType(<span style="color:#000;font-weight:bold">typeof</span>(Box));
-		}
-
-		<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> HoldsPlayer(<span style="color:#000;font-weight:bold">this</span> Cell cell)
-		{
-			<span style="color:#000;font-weight:bold">return</span> cell.HoldsPieceOfType(<span style="color:#000;font-weight:bold">typeof</span>(Player));
-		}
-
-		<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> HoldsWall(<span style="color:#000;font-weight:bold">this</span> Cell cell)
-		{
-			<span style="color:#000;font-weight:bold">return</span> cell.HoldsPieceOfType(<span style="color:#000;font-weight:bold">typeof</span>(Wall));
-		}
-	}
-}
-</code></pre></div><p>In case you don&rsquo;t like this solution, blame <a href="http://blogs.msdn.com/brada/">Brad Abrams</a> who inspired me to implement it this way with his session at <a href="http://www.visug.be">Visug</a> yesterday.</p>
-<p><strong>Remark:</strong> Because the possible pieces in Sokoban are very well known (the game/requirements are not going to change) thus one should choose the first option (No extension methods required.)</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">29</span>
-										<span class="rest">Sep 2009</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">29</span>
+							<span class="rest">Sep 2009</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Improve readability with LINQ</h1>
+								<h4 class="title small">
+									<a href="../../2009/09/29/improve-readability-with-linq/">Improve readability with LINQ</a>
+								</h4>
+								<span class="description">
+									
+										At first i was not very fond of LINQ but it seems that i am finally convinced that LINQ may improve readability:
+
+```csh...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>At first i was not very fond of LINQ but it seems that i am finally convinced that LINQ may improve readability:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">bool</span> IsCompleted()
-{
-	<span style="color:#458;font-weight:bold">var</span> boxesNotOnGoal = <span style="color:#000;font-weight:bold">from</span> cell <span style="color:#000;font-weight:bold">in</span> Cells
-	<span style="color:#000;font-weight:bold">where</span> cell.HoldsBox() &amp;&amp; !cell.IsGoal()
-	<span style="color:#000;font-weight:bold">select</span> cell.Piece;
-
-	<span style="color:#000;font-weight:bold">return</span> boxesNotOnGoal.Any();
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">18</span>
-										<span class="rest">Sep 2009</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">18</span>
+							<span class="rest">Sep 2009</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Tim.TransitionTo(&#34;MCPD: Enterprise Application Developer 3.5&#34;)</h1>
+								<h4 class="title small">
+									<a href="../../2009/09/18/tim.transitiontomcpd-enterprise-application-developer-3.5/">Tim.TransitionTo(&#34;MCPD: Enterprise Application Developer 3.5&#34;)</a>
+								</h4>
+								<span class="description">
+									
+										I figured that it might help convince people that i stay up to date with current technology so i decided to take (and pa...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>I figured that it might help convince people that i stay up to date with current technology so i decided to take (and pass) the following exams: <a href="http://www.microsoft.com/learning/en/us/exam.aspx?ID=70-568&amp;locale=en-us">70-568</a> and <a href="http://www.microsoft.com/learning/en/us/exam.aspx?ID=70-569&amp;locale=en-us">70-569</a>. This means that i have now earned the following credentials:</p>
-<ul>
-<li>MCPD: Enterprise Application Development 3.5</li>
-<li>MCTS: .NET Framework 3.5, Windows Forms Applications</li>
-<li>MCTS: .NET Framework 3.5, ASP.NET Applications</li>
-<li>MCTS: .NET Framework 3.5, Windows Communication Foundation Applications</li>
-<li>MCTS: .NET Framework 3.5, ADO.NET Applications</li>
-</ul>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/awards-and-certifications">Awards and Certifications</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">11</span>
-										<span class="rest">Sep 2009</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">11</span>
+							<span class="rest">Sep 2009</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">About under construction pages</h1>
+								<h4 class="title small">
+									<a href="../../2009/09/11/about-under-construction-pages/">About under construction pages</a>
+								</h4>
+								<span class="description">
+									
+										Why do people visit a website? To find information. Thus, when you publish a page to announce that the information is no...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Why do people visit a website? To find information. Thus, when you publish a page to announce that the information is not there (yet) you are wasting your visitors time. Instead of creating the actual content you wasted time while your were creating an under construction page. A loss-loss situation instead of a win-win one.</p>
-<p>Admitted, in some cases it can be helpful to give your visitors an idea of what they can expect (eg: links to articles that are not written yet appear in red in the <a href="http://www.jeremydmiller.com/ppatterns/Default.aspx?Page=MainPage&amp;AspxAutoDetectCookieSupport=1">Presentation Patterns wiki</a>), but <strong>in general: Under construction pages stink</strong>. And here is someone who shares that feeling: <a href="http://www.cs.utah.edu/~gk/atwork/">This icon says more about me than it does about my web page</a>.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/information-technology">Information Technology</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">11</span>
-										<span class="rest">Sep 2009</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">11</span>
+							<span class="rest">Sep 2009</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Instruct T4 to use C# v3.5</h1>
+								<h4 class="title small">
+									<a href="../../2009/09/11/instruct-t4-to-use-c#-v3.5/">Instruct T4 to use C# v3.5</a>
+								</h4>
+								<span class="description">
+									
+										Consider this simple T4 template:
+
+```xml
+&lt;# for (var i = 0; i &lt; 10; &#43;&#43;i) { WriteLine(&#34;hello&#34;); } #&gt;
+```
+
+Trying to buil...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Consider this simple T4 template:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#a61717;background-color:#e3d2d2">&lt;</span># for (var i = 0; i <span style="color:#000080">&lt; 10</span><span style="color:#a61717;background-color:#e3d2d2">;</span> <span style="color:#a61717;background-color:#e3d2d2">++i)</span> <span style="color:#a61717;background-color:#e3d2d2">{</span> <span style="color:#a61717;background-color:#e3d2d2">WriteLine(&#34;hello&#34;);</span> <span style="color:#a61717;background-color:#e3d2d2">}</span> <span style="color:#a61717;background-color:#e3d2d2">#</span><span style="color:#000080">&gt;</span>
-</code></pre></div><p>Trying to build the project results in a compilation error because &lsquo;var&rsquo; is an unknown type. A bit of research learned me that i should instruct the processor to use a specific c# version like this:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#a61717;background-color:#e3d2d2">&lt;</span>#@ template language=&#34;C#v3.5&#34; inherits=&#34;Microsoft.VisualStudio.TextTemplating.VSHost.ModelingTextTransformation&#34; #&gt;
-<span style="color:#a61717;background-color:#e3d2d2">&lt;</span># for (var i = 0; i <span style="color:#000080">&lt; 10</span><span style="color:#a61717;background-color:#e3d2d2">;</span> <span style="color:#a61717;background-color:#e3d2d2">++i)</span> <span style="color:#a61717;background-color:#e3d2d2">{</span> <span style="color:#a61717;background-color:#e3d2d2">WriteLine(&#34;hello&#34;);</span> <span style="color:#a61717;background-color:#e3d2d2">}</span> <span style="color:#a61717;background-color:#e3d2d2">#</span><span style="color:#000080">&gt;</span>
-</code></pre></div><p>Problem solved 🙂</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/visual-basic">Visual Basic</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">29</span>
-										<span class="rest">Aug 2009</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">29</span>
+							<span class="rest">Aug 2009</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Advertising on this blog</h1>
+								<h4 class="title small">
+									<a href="../../2009/08/29/advertising-on-this-blog/">Advertising on this blog</a>
+								</h4>
+								<span class="description">
+									
+										If you are an [Adblock Plus](http://adblockplus.org/en/) user like me it is very likely that you have not noticed that i...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>If you are an <a href="http://adblockplus.org/en/">Adblock Plus</a> user like me it is very likely that you have not noticed that i added Google Ads to this blog a month or two ago. Given that the total earnings are less than 5$ i have decided to remove them.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/events">Events</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">28</span>
-										<span class="rest">Aug 2009</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">28</span>
+							<span class="rest">Aug 2009</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Extension methods to improve readability</h1>
+								<h4 class="title small">
+									<a href="../../2009/08/28/extension-methods-to-improve-readability/">Extension methods to improve readability</a>
+								</h4>
+								<span class="description">
+									
+										A common reason to take advantage of extension methods is to enhance readability (think fluent interfaces). My team uses...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>A common reason to take advantage of extension methods is to enhance readability (think fluent interfaces). My team uses the <a href="http://en.wikipedia.org/wiki/Specification_pattern">specification pattern</a> regularly and in case a requirement says something like &ldquo;if the player has reached level 10 a message should be displayed&rdquo; they would implement it as</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">new</span> HasReachedLevel(<span style="color:#099">10</span>).IsSatisfiedBy(player))
-{
-	view.DisplayMessage(<span style="color:#d14">&#34;Congratulations! You have reached level 10.&#34;</span>);
-}
-</code></pre></div><p>Pretty good but did you notice that they changed the order of player and level in their (code) story? With the aid of an extension method we can express this requirement as</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">if</span> (player.Satisfies(<span style="color:#000;font-weight:bold">new</span> HasReachedLevel(<span style="color:#099">10</span>)))
-{
-	view.DisplayMessage(<span style="color:#d14">&#34;Congratulations! You have reached level 10.&#34;</span>);
-}
-</code></pre></div><p>Here is the extension method that allows you to express the requirement in this way</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> Satisfies&lt;t&gt;(<span style="color:#000;font-weight:bold">this</span> T candidate, ISpecification&lt;t&gt; specification)
-{
-	<span style="color:#000;font-weight:bold">return</span> specification.IsSatisfiedBy(candidate);
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/patterns">Patterns</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">17</span>
-										<span class="rest">Aug 2009</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">17</span>
+							<span class="rest">Aug 2009</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">About the design of a fluent interface</h1>
+								<h4 class="title small">
+									<a href="../../2009/08/17/about-the-design-of-a-fluent-interface/">About the design of a fluent interface</a>
+								</h4>
+								<span class="description">
+									
+										Now that i have [presented a simple ControlStateMachine]() i can raise the bar a little. A statemachine that handles com...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Now that i have <a href="">presented a simple ControlStateMachine</a> i can raise the bar a little. A statemachine that handles commands. Here is how a developer should be able to initialize this machine:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">sut.WhenIn(States.Loading)
-.On(Commands.Next)
-.Do(() =&gt; Console.WriteLine(<span style="color:#d14">&#34;got next command while loading...&#34;</span>))
-.Do(() =&gt; Console.WriteLine(<span style="color:#d14">&#34;doing it again...&#34;</span>))
-.On(Commands.Previous)
-.Do(() =&gt; Console.WriteLine(<span style="color:#d14">&#34;got previous command while loading...&#34;</span>));
-
-sut.WhenIn(States.Ready)
-.On(Commands.Previous)
-.Do(() =&gt; Console.WriteLine(<span style="color:#d14">&#34;got previous command while ready...&#34;</span>));
-</code></pre></div><p>So how should we define our methods to accomplish this initialization style? Let&rsquo;s begin with identifying the methods we need.</p>
-<ul>
-<li>WhenIn(TSTate state)</li>
-<li>On(TCommand command)</li>
-<li>Do(Action action)</li>
-</ul>
-<p>Next thing to do is analyze in which sequence these methods can be called:</p>
-<!-- raw HTML omitted -->
-<pre><code>&lt;th style=&quot;width: 100px&quot;&gt;
-  WhenIn
-&lt;/th&gt;
-
-&lt;th style=&quot;width: 100px&quot;&gt;
-  On
-&lt;/th&gt;
-
-&lt;th style=&quot;width: 100px&quot;&gt;
-  Do
-&lt;/th&gt;
-</code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<pre><code>&lt;td&gt;
-&lt;/td&gt;
-
-&lt;td&gt;
-  X
-&lt;/td&gt;
-
-&lt;td&gt;
-&lt;/td&gt;
-</code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<pre><code>&lt;td&gt;
-&lt;/td&gt;
-
-&lt;td&gt;
-&lt;/td&gt;
-
-&lt;td&gt;
-  X
-&lt;/td&gt;
-</code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<pre><code>&lt;td&gt;
-&lt;/td&gt;
-
-&lt;td&gt;
-  X
-&lt;/td&gt;
-
-&lt;td&gt;
-  X
-&lt;/td&gt;
-</code></pre>
-<!-- raw HTML omitted -->
-<p>Ok, now that we have clarified the requirements a little we can start working on a solution. Let&rsquo;s start with defining an interface for each of the methods:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">interface</span> IChooseState&lt;tstate, TCommand&gt; { Q1 WhenIn(TState state); }
-<span style="color:#000;font-weight:bold">interface</span> IChooseCommand&lt;tstate, TCommand&gt; { Q2 On(TCommand command); }
-<span style="color:#000;font-weight:bold">interface</span> IChooseAction&lt;tstate, TCommand&gt; { Q3 Do(Action action); }
-</code></pre></div><p>From WhenIn we need to be able to call On. Thus Q1 = IChooseCommand&lt;TState, TCommand&gt;. Q2 is also easily solved because from On we only have to be able to call Do, thus Q2 = IChooseAction&lt;TState, TCommand&gt;.</p>
-<p>From Do we should be able to call both On and Do. We can do that by defining another interface which has both methods:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">interface</span> IChooseCommandAndAction&lt;tstate, TCommand&gt; : IChooseCommand&lt;tstate, TCommand&gt;, IChooseAction&lt;tstate, TCommand&gt; { }
-</code></pre></div><p>Now that we have found answers for Q1, Q2 and Q3 we can define the API for initializing our StateMachine as following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">IChooseCommand&lt;tstate, TCommand&gt; WhenIn(TState state);
-IChooseAction&lt;tstate, TCommand&gt; On(TCommand command);
-IChooseCommandAndAction&lt;tstate, TCommand&gt; Do(Action action);
-</code></pre></div><p>Now tell me about your strategy for implementing a fluent interface!</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/visual-studio">Visual Studio</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">17</span>
-										<span class="rest">Aug 2009</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">17</span>
+							<span class="rest">Aug 2009</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">About the implementation of a fluent interface</h1>
+								<h4 class="title small">
+									<a href="../../2009/08/17/about-the-implementation-of-a-fluent-interface/">About the implementation of a fluent interface</a>
+								</h4>
+								<span class="description">
+									
+										Now that i have [defined my API for initialization](http://www.timvw.be/about-the-design-of-a-fluent-interface/) it is t...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Now that i have <a href="http://www.timvw.be/about-the-design-of-a-fluent-interface/">defined my API for initialization</a> it is time to implement it. Inspired by the Moq.Language and Moq.Language.Flow namespaces in <a href="http://code.google.com/p/moq/">Moq</a> i have decided to define my interfaces in a separate namespace: Infrastructure.StateMachineLanguage.</p>
-<p>Ever since i have read <a href="http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">Clean code</a> i feel the need to write classes that do one thing (and one thing only) so i came up with the following classes</p>
-<ul>
-<li>something to store commands per state, CommandsForState</li>
-<li>something to store actions per command, ActionsForCommand</li>
-</ul>
-<p>For the implementation of the IChooseCommandAndAction interface i have decided to create a class that falls back on my classes that handle IChooseCommand and IChooseAction already</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">CommandAndActionForState</span>&lt;tstate, TCommand&gt; : IChooseCommandAndAction&lt;tstate, TCommand&gt;
-{
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">readonly</span> CommandsForState&lt;tstate, TCommand&gt; commandsForState;
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">readonly</span> ActionsForCommand&lt;tstate, TCommand&gt; actionsForCommand;
-
-	<span style="color:#000;font-weight:bold">public</span> CommandAndActionForState(CommandsForState&lt;tstate, TCommand&gt; commands, ActionsForCommand&lt;tstate, TCommand&gt; actions)
-	{
-		commandsForState = commands;
-		actionsForCommand = actions;
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> IChooseAction&lt;tstate, TCommand&gt; On(TCommand command)
-	{
-		<span style="color:#000;font-weight:bold">return</span> commandsForState.On(command);
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> IChooseCommandAndAction&lt;tstate, TCommand&gt; Do(Action action)
-	{
-		<span style="color:#000;font-weight:bold">return</span> actionsForCommand.Do(action);
-	}
-}
-</code></pre></div><p><img src="http://www.timvw.be/wp-content/images/statemachine.solution.png" alt="screenshot of files in statemachine solution."></p>
-<p>As you can see, complex problems can have simple solutions. Feel free to download the complete solution: <a href="http://www.timvw.be/wp-content/code/csharp/StateMachine.zip">StateMachine.zip</a>.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">17</span>
-										<span class="rest">Aug 2009</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">17</span>
+							<span class="rest">Aug 2009</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Presenting ControlStateMachine</h1>
+								<h4 class="title small">
+									<a href="../../2009/08/17/presenting-controlstatemachine/">Presenting ControlStateMachine</a>
+								</h4>
+								<span class="description">
+									
+										Here is a situation we are all familiar with: A form that only displays a certain set of controls depending on the mode ...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Here is a situation we are all familiar with: A form that only displays a certain set of controls depending on the mode or state of the application. Let me start with an example: At design time there are three buttons</p>
-<p><img src="http://www.timvw.be/wp-content/images/controlstatemachine.design.png" alt="screenshot of flowlayoutpanel with three buttons: edit, save and cancel."></p>
-<p>The user can look at the data and decide to edit it:</p>
-<p><img src="http://www.timvw.be/wp-content/images/controlstatemachine.display.png" alt="screenshot of flowlayoutpanel with only one visible button: edit."></p>
-<p>Or the user is editing the data and can decide to commit or discard her changes:</p>
-<p><img src="http://www.timvw.be/wp-content/images/controlstatemachine.edit.png" alt="screenshot of flowlayoutpanel with two visible buttons: save and cancel."></p>
-<p>A couple of years i ago i used to spread such display logic all over my code and it was hard to figure out which control was visible at a given point. Later on i refactored that code and encapsulated it in functions like: MakeControlsForDisplayVisible and MakeControlsForEditVisible which felt like a huge improvement. These days i have the feeling that a very simple state machine can improve the readability even better.</p>
-<p>Ok, so how simple is simple? Currently the requirements list is pretty limited:</p>
-<p><img src="http://www.timvw.be/wp-content/images/controlstatemachine.specs.png" alt="screenshot of unittests for controlstatemachine"></p>
-<p>Anyway, here is how i would write the code today (Yeah, for a stupid example this looks like overkill):</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> InitializeButtonLayoutPanelMachine()
-{
-controlStateMachine = <span style="color:#000;font-weight:bold">new</span> ControlStateMachine&lt;displayAndEditStates&gt;(buttonLayoutPanel);
-
-controlStateMachine.WhenStateChangesTo(DisplayAndEditStates.Display)
-.TheOnlyVisibleControlsAre(buttonEdit);
-
-controlStateMachine.WhenStateChangesTo(DisplayAndEditStates.Edit)
-.TheOnlyVisibleControlsAre(buttonSave, buttonCancel);
-}
-</code></pre></div><p>As always, here is the source: <a href="http://www.timvw.be/wp-content/code/csharp/ControlStateMachine.cs.txt">ControlStateMachine</a> and <a href="http://www.timvw.be/wp-content/code/csharp/WhenChangingState.cs.txt">WhenChangingState</a>.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 				
 

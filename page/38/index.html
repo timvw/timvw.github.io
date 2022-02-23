@@ -61,535 +61,213 @@
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">02</span>
-										<span class="rest">Apr 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">02</span>
+							<span class="rest">Apr 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Allow a form to be posted only once</h1>
+								<h4 class="title small">
+									<a href="../../2006/04/02/allow-a-form-to-be-posted-only-once/">Allow a form to be posted only once</a>
+								</h4>
+								<span class="description">
+									
+										People can fill in a form and submit it. Then they can hit their back button, and choose to submit it again. Usually the...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>People can fill in a form and submit it. Then they can hit their back button, and choose to submit it again. Usually the second time this form is being posted, the values in that form aren&rsquo;t valid anymore and thus corrupt the database.</p>
-<p>Most developpers i know try to work around this problem by using the header function or the html meta tags to set the expiration date. However, this solution does not only limit the usability of a site, it simply does not work for visitors that have a browser that ignores the expiration date.</p>
-<p>My solution for this problem is quite easy. For each entity in the database that can be updated by a form, we should add an attribute lastupdate. Now every time we build a form that contains data of that entity, we should also add an input of type hidden with the value of that lastupdate attribute. If the value of the lastupdate attribute in the database is more recent than the value of the posted lastupdate in the recieving script, then the posted values are invalid and this script should tell the user about this error. Offcourse, every time such an entity is updated, the lastupdate attribute of this entity should be updated too.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/php">PHP</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">01</span>
-										<span class="rest">Apr 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">01</span>
+							<span class="rest">Apr 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Using cmd.exe</h1>
+								<h4 class="title small">
+									<a href="../../2006/04/01/using-cmd.exe/">Using cmd.exe</a>
+								</h4>
+								<span class="description">
+									
+										Earlier someone asked me how he could use [windows cmd.exe](http://www.microsoft.com/resources/documentation/windows/xp/...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Earlier someone asked me how he could use <a href="http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/cmd.mspx?mfr=true">windows cmd.exe</a> with PHP. People run into trouble as soon as there are quotes needed because there are special characters (&gt;/&amp;()[]{}^=;!'+,`~ and <!-- raw HTML omitted -->) in the command. I do it like this</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
-<span style="color:#008080">$result</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">`&#34;&#34;c:\\my path\\prog.exe&#34; &#34;filename&#34;&#34;`</span>;
-<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div><p>In case you have to do it often you might want to wrap it into a little function like this</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
-<span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">cmd</span>(<span style="color:#008080">$command</span>, <span style="color:#008080">$arguments</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">null</span>)
-{
-        <span style="color:#008080">$commandline</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;&#39;</span>;
-        <span style="color:#000;font-weight:bold">foreach</span>(func_get_args() <span style="color:#000;font-weight:bold">as</span> <span style="color:#008080">$word</span>) {
-                <span style="color:#008080">$commandline</span> <span style="color:#000;font-weight:bold">.=</span> <span style="color:#d14">&#39;&#34;&#39;</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#008080">$word</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;&#34; &#39;</span>;
-        }
-        <span style="color:#008080">$commandline</span> <span style="color:#000;font-weight:bold">=</span> rtrim(<span style="color:#008080">$commandline</span>, <span style="color:#d14">&#39; &#39;</span>);
-        <span style="color:#008080">$commandline</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;&#34;&#39;</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#008080">$commandline</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;&#34;&#39;</span>;
-        <span style="color:#000;font-weight:bold">return</span> <span style="color:#d14">`$commandline`</span>;
-}
-
-<span style="color:#998;font-style:italic">// run blah.exe
-</span><span style="color:#998;font-style:italic"></span>cmd(<span style="color:#d14">&#39;blah.exe&#39;</span>);
-
-<span style="color:#998;font-style:italic">// run c:\my path\blah.exe with the arguments &#34;foo&#34; and &#34;bar bar&#34;
-</span><span style="color:#998;font-style:italic"></span>cmd(<span style="color:#d14">&#39;c:\\my path\\blah.exe&#39;</span>, <span style="color:#d14">&#39;foo&#39;</span>, <span style="color:#d14">&#39;bar bar&#39;</span>);
-<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/php">PHP</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">29</span>
-										<span class="rest">Mar 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">29</span>
+							<span class="rest">Mar 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Silly bug in Visual Studio 2005 editor</h1>
+								<h4 class="title small">
+									<a href="../../2006/03/29/silly-bug-in-visual-studio-2005-editor/">Silly bug in Visual Studio 2005 editor</a>
+								</h4>
+								<span class="description">
+									
+										If you try to compile the code below you will see that the i in the second loop is not defined in my main function. Posi...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>If you try to compile the code below you will see that the i in the second loop is not defined in my main function. Position your mouse over the i, click right and choose &ldquo;Go To Definition&rdquo; in the context menu. Why does the cursor move to the i in the struct? Btw, if you remove the first for loop this doesn&rsquo;t happen.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&#34;stdafx.h&#34;</span><span style="color:#999;font-weight:bold;font-style:italic">
-</span><span style="color:#999;font-weight:bold;font-style:italic"></span><span style="color:#000;font-weight:bold">struct</span> {
-<span style="color:#458;font-weight:bold">int</span> i;
-} BLAH;
-
-<span style="color:#458;font-weight:bold">int</span> <span style="color:#900;font-weight:bold">_tmain</span>(<span style="color:#458;font-weight:bold">int</span> argc, _TCHAR<span style="color:#000;font-weight:bold">*</span> argv[]) {
-	<span style="color:#000;font-weight:bold">for</span> (<span style="color:#458;font-weight:bold">int</span> i <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; i <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#099">10</span>; <span style="color:#000;font-weight:bold">++</span>i) { ; } 
-	<span style="color:#000;font-weight:bold">for</span> (i <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; i <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#099">10</span>; <span style="color:#000;font-weight:bold">++</span>i) { ; } 
-	<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>; 
-} 
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/visual-studio">Visual Studio</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">28</span>
-										<span class="rest">Mar 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">28</span>
+							<span class="rest">Mar 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">More about marshalling</h1>
+								<h4 class="title small">
+									<a href="../../2006/03/28/more-about-marshalling/">More about marshalling</a>
+								</h4>
+								<span class="description">
+									
+										Last month i&#39;ve started programming with the [.NET Framework](http://msdn.microsoft.com/netframework/) using Visual Basi...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Last month i&rsquo;ve started programming with the <a href="http://msdn.microsoft.com/netframework/">.NET Framework</a> using Visual Basic, C++.NET and C# on a daily basis. The first thing i noticed is that some useful functions that were available in kernel32.dll, user32.dll, etc. have been removed from the <a href="http://msdn2.microsoft.com/en-us/library/ms306608.aspx">API</a>. At <a href="http://www.pinvoke.net">pinvoke.net</a> you find a summary of the functions in these <a href="http://en.wikipedia.org/wiki/Dynamic-link_library">DLL</a>s and the PInvoke signatures.The most common approach is to build classes for the DLLs as following</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">namespace</span> <span style="color:#555">InterOp</span> {
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">User32</span> {
-<span style="color:#008080">		[DllImport(&#34;user32.dll&#34;)]</span>
-		<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">extern</span> IntPtr GetDesktopWindow();
-<span style="color:#008080">		[DllImport(&#34;user32.dll&#34;)]</span>
-		<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">extern</span> IntPtr GetWindowDC(IntPtr hWnd);
-<span style="color:#008080">		[DllImport(&#34;user32.dll&#34;)]</span>
-		<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">extern</span> IntPtr ReleaseDC(IntPtr hWnd, IntPtr hDC);
-<span style="color:#008080">		[DllImport(&#34;user32.dll&#34;)]</span>
-		<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">extern</span> IntPtr GetWindowRect(IntPtr hWnd, RECT rect);
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">GDI32</span> {
-<span style="color:#008080">		[DllImport(&#34;gdi32.dll&#34;)]</span>
-		<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">extern</span> <span style="color:#458;font-weight:bold">bool</span> DeleteDC(IntPtr hDC);
-<span style="color:#008080">		[DllImport(&#34;gdi32.dll&#34;)]</span>
-		<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">extern</span> <span style="color:#458;font-weight:bold">bool</span> DeleteObject(IntPtr hObject);
-<span style="color:#008080">		[DllImport(&#34;gdi32.dll&#34;)]</span>
-		<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">extern</span> IntPtr SelectObject(IntPtr hDC, IntPtr hObject);
-	}
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">19</span>
-										<span class="rest">Mar 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">19</span>
+							<span class="rest">Mar 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Adding support for localization to a WordPress plugin</h1>
+								<h4 class="title small">
+									<a href="../../2006/03/19/adding-support-for-localization-to-a-wordpress-plugin/">Adding support for localization to a WordPress plugin</a>
+								</h4>
+								<span class="description">
+									
+										WordPress uses [GNU gettext](http://www.gnu.org/software/gettext/), as explained in [Translating WordPress](http://codex...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>WordPress uses <a href="http://www.gnu.org/software/gettext/">GNU gettext</a>, as explained in <a href="http://codex.wordpress.org/Localizing_WordPress">Translating WordPress</a> and <a href="http://codex.wordpress.org/Writing_a_Plugin">Writing a Plugin</a>, for <a href="http://en.wikipedia.org/wiki/Software_localization">localization</a>. I decided that my plugins should support l10n too. Here is how i realised it:</p>
-<p>I started with defining the WPLANG constant in my wp-config.php:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">define (<span style="color:#d14">&#39;WPLANG&#39;</span>, <span style="color:#d14">&#39;en_EN&#39;</span>);
-</code></pre></div><p>Then i changed the beginning of my localized plugin as following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
-<span style="color:#998;font-style:italic">/*
-</span><span style="color:#998;font-style:italic">Plugin Name: WP-SpamFilter
-</span><span style="color:#998;font-style:italic">Version: 0.4
-</span><span style="color:#998;font-style:italic">Plugin URI: http://timvw.madoka.be/?p=533
-</span><span style="color:#998;font-style:italic">Description: Mark the new comment as spam if the sender is in the spammers list.
-</span><span style="color:#998;font-style:italic">
-</span><span style="color:#998;font-style:italic">
-</span><span style="color:#998;font-style:italic">Author URI: http://timvw.be
-</span><span style="color:#998;font-style:italic">*/</span>
-
-<span style="color:#998;font-style:italic">// If this function does not exist it means that the file is accessed directly.
-</span><span style="color:#998;font-style:italic">// Accessing this file directly is not allowed.
-</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">!</span>function_exists(<span style="color:#d14">&#39;load_plugin_textdomain&#39;</span>)) {
-<span style="color:#000;font-weight:bold">exit</span>;
-}
-
-load_plugin_textdomain(<span style="color:#d14">&#39;wp_spamfilter&#39;</span>, <span style="color:#d14">&#39;wp-content/plugins/wp-spamfilter&#39;</span>);
-</code></pre></div><p>In wp-includes/wp-l10n.php you see that the result of this call is that the locale and the path are used to determine the mo-file to be loaded. Because this function uses ABSPATH it&rsquo;s impossible to use dirname(<strong>FILE</strong>) as path parameter</p>
-<p>The _e($string, $domain) function echos a localized string and the __($string, $domain) function returns a localized string that you can use in function calls etc&hellip; Below you can see an example of the original version and the updated version with localization support:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">
-<span style="color:#998;font-style:italic">## some string
-</span><span style="color:#998;font-style:italic"></span>
-<span style="color:#000;font-weight:bold">&lt;?</span>php <span style="color:#000;font-weight:bold">echo</span>(<span style="color:#d14">&#39;some other string&#39;</span>); <span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">
-<span style="color:#998;font-style:italic">## &lt;?php _e(&#39;some string&#39;, &#39;wp_spamfilter&#39;); ?&gt;
-</span><span style="color:#998;font-style:italic"></span>
-<span style="color:#000;font-weight:bold">&lt;?</span>php <span style="color:#000;font-weight:bold">echo</span>(__(<span style="color:#d14">&#39;some other string&#39;</span>, <span style="color:#d14">&#39;wp_spamfilter&#39;</span>)); <span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div><p>Then i used xgettext to extract all the strings that should be localized into wp_spamfilter-en_eN.po:</p>
-<pre tabindex="0"><code class="language-dos" data-lang="dos">xgettext --keyword=__ --keyword=_e --default-domain=wordpress --language=php *.php --output=wp_spamfilter-en_EN.po
-</code></pre><p>After that i editted the po file and i compiled a mo file with it using msgfmt:</p>
-<pre tabindex="0"><code class="language-dos" data-lang="dos">msgfmt wp_spamfilter-en_eN.po -o wp_spamfilter-en_eN.mo
-</code></pre><p>Once i had made sure that wp_spamfilter-en_eN.mo was readable by my webserver i was ready.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/wordpress">WordPress</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">19</span>
-										<span class="rest">Mar 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">19</span>
+							<span class="rest">Mar 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Internationalizing strings with variables</h1>
+								<h4 class="title small">
+									<a href="../../2006/03/19/internationalizing-strings-with-variables/">Internationalizing strings with variables</a>
+								</h4>
+								<span class="description">
+									
+										Yesterday i wrote that you can use __($string, $domain) and _e($string, $domain) to internationalize a string with [Word...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Yesterday i wrote that you can use __($string, $domain) and _e($string, $domain) to internationalize a string with <a href="http://www.wordpress.org">WordPress</a>. I forgot to mention that if you use <a href="http://www.php.net/sprintf">sprintf</a> you can handle strings with variables too. An example:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">echo</span> sprintf(__(<span style="color:#d14">&#39;There are %d monkeys in the %s&#39;</span>), <span style="color:#008080">$domain</span>), <span style="color:#008080">$number</span>, <span style="color:#008080">$location</span>);
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/wordpress">WordPress</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">19</span>
-										<span class="rest">Mar 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">19</span>
+							<span class="rest">Mar 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Plugin template for WordPress</h1>
+								<h4 class="title small">
+									<a href="../../2006/03/19/plugin-template-for-wordpress/">Plugin template for WordPress</a>
+								</h4>
+								<span class="description">
+									
+										Today i&#39;ve been cleaning up my code. All my plugins live in a directory %plugin_name% under the wp-content/plugins direc...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Today i&rsquo;ve been cleaning up my code. All my plugins live in a directory %plugin_name% under the wp-content/plugins directory. Here is the code for %plugin_name%/%plugin_name%.php</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
-<span style="color:#998;font-style:italic">/*
-</span><span style="color:#998;font-style:italic">Plugin Name: %plugin_name%
-</span><span style="color:#998;font-style:italic">Version: %plugin_version%
-</span><span style="color:#998;font-style:italic">Plugin URI: %plugin_uri%
-</span><span style="color:#998;font-style:italic">Description: %plugin_description%
-</span><span style="color:#998;font-style:italic">
-</span><span style="color:#998;font-style:italic">
-</span><span style="color:#998;font-style:italic">Author URI: %plugin_author_uri%
-</span><span style="color:#998;font-style:italic">*/</span>
-
-<span style="color:#998;font-style:italic">// Direct access is not allowed.
-</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">!</span>function\_exists(<span style="color:#d14">&#39;load_plugin_textdomain&#39;</span>)) {
-<span style="color:#000;font-weight:bold">exit</span>;
-} <span style="color:#000;font-weight:bold">else</span> {
-<span style="color:#000;font-weight:bold">require</span>(<span style="color:#d14">&#39;%plugin_name%.php&#39;</span>);
-<span style="color:#008080">$plugin_name</span> <span style="color:#000;font-weight:bold">=</span> substr(basename(<span style="color:#008080">__FILE__</span>), <span style="color:#099">0</span>, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">4</span>);
-
-<span style="color:#998;font-style:italic">// You can add optional parameters to the constructor, eg: the wpdb instance.
-</span><span style="color:#998;font-style:italic"></span><span style="color:#a61717;background-color:#e3d2d2">$</span><span style="color:#000;font-weight:bold">%</span>plugin_class<span style="color:#000;font-weight:bold">%</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> <span style="color:#000;font-weight:bold">%</span>plugin_class<span style="color:#000;font-weight:bold">%</span>(<span style="color:#008080">$plugin_name</span>);
-}
-<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div><p>Now it&rsquo;s time to implement the %plugin_class%. Here is the template for %plugin_name%/%plugin_class%.php:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
-
-<span style="color:#000;font-weight:bold">class</span> <span style="color:#a61717;background-color:#e3d2d2">%</span><span style="color:#458;font-weight:bold">plugin_class</span><span style="color:#000;font-weight:bold">%</span> {
-  <span style="color:#000;font-weight:bold">var</span> <span style="color:#008080">$_plugin_name</span>;
-
-  <span style="color:#000;font-weight:bold">var</span> <span style="color:#008080">$_localization_domain</span>;
-  <span style="color:#000;font-weight:bold">var</span> <span style="color:#008080">$_localization_path</span>;
-
-  <span style="color:#000;font-weight:bold">function</span> <span style="color:#000;font-weight:bold">%</span>plugin_class<span style="color:#000;font-weight:bold">%</span>(<span style="color:#008080">$plugin_name</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;%plugin_name%&#39;</span>) {
-    <span style="color:#008080">$this</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">_plugin_name</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$plugin_name</span>;
-
-<span style="color:#008080">$this</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">_localization_domain</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$plugin_name</span>;
-<span style="color:#008080">$this</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">_localization_path</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;wp-content/plugins/&#39;</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#008080">$plugin_name</span>;
-
-<span style="color:#998;font-style:italic">// You can add additional hooks and filters here.
-</span><span style="color:#998;font-style:italic"></span>add_action(<span style="color:#d14">&#39;activate_&#39;</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#008080">$plugin_name</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;/&#39;</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#008080">$plugin_name</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;.php&#39;</span>, <span style="color:#000;font-weight:bold">array</span>(<span style="color:#000;font-weight:bold">&amp;</span><span style="color:#008080">$this</span>, <span style="color:#d14">&#39;OnActivation&#39;</span>));
-add_action(<span style="color:#d14">&#39;admin_menu&#39;</span>, <span style="color:#000;font-weight:bold">array</span>(<span style="color:#000;font-weight:bold">&amp;</span><span style="color:#008080">$this</span>, <span style="color:#d14">&#39;OnAdminMenu&#39;</span>));
-}
-
-<span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">OnAdminMenu</span>() {
-load_plugin_textdomain(<span style="color:#008080">$this</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">_localization_domain</span>, <span style="color:#008080">$this</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">_localization_path</span>);
-add_options_page(__(<span style="color:#d14">&#39;%plugin_name% Options&#39;</span>, <span style="color:#008080">$this</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">_localization_domain</span>), __(<span style="color:#d14">&#39;%plugin_name%&#39;</span>, <span style="color:#008080">$this</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">_localization_domain</span>), <span style="color:#d14">&#39;manage_options&#39;</span>,<span style="color:#008080">$this</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">_plugin_name</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;/&#39;</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#008080">$this</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">_plugin_name</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;-options.php&#39;</span>, <span style="color:#000;font-weight:bold">array</span>(<span style="color:#000;font-weight:bold">&amp;</span><span style="color:#008080">$this</span>, <span style="color:#d14">&#39;OnDisplayOptions&#39;</span>));
-}
-
-<span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">OnDisplayOptions</span>() {
-<span style="color:#a61717;background-color:#e3d2d2">$</span><span style="color:#000;font-weight:bold">%</span>plugin_class<span style="color:#000;font-weight:bold">%</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;&#34;</span>;
-<span style="color:#000;font-weight:bold">require</span>( dirname(<span style="color:#008080">__FILE__</span>) <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;/&#39;</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#008080">$this</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">_plugin_name</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;-options.php&#39;</span>);
-}
-
-<span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">OnActivation</span>() {
-<span style="color:#998;font-style:italic">// This code is executed when the plugin is activated.
-</span><span style="color:#998;font-style:italic">// I prepend all my option names with $this-&gt;_plugin_name.
-</span><span style="color:#998;font-style:italic"></span>add_option(<span style="color:#008080">$this</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">_plugin_name</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;_somevar&#39;</span>, <span style="color:#d14">&#39;foo&#39;</span>);
-}
-}
-<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div><p>The code above requires that you create a %plugin_name%/%plugin_name%-options.php file to administrate the options. Here is the template for that file:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
-<span style="color:#998;font-style:italic">// Direct access is not allowed.
-</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">!</span>isset(<span style="color:#a61717;background-color:#e3d2d2">$</span><span style="color:#000;font-weight:bold">%</span>plugin_class<span style="color:#000;font-weight:bold">%</span>)) {
-  <span style="color:#000;font-weight:bold">exit</span>;
-}
-
-load_plugin_textdomain(<span style="color:#a61717;background-color:#e3d2d2">$</span><span style="color:#000;font-weight:bold">%</span>plugin_class<span style="color:#000;font-weight:bold">%-&gt;</span>_localization_domain, <span style="color:#a61717;background-color:#e3d2d2">$</span><span style="color:#000;font-weight:bold">%</span>plugin_class<span style="color:#000;font-weight:bold">%-&gt;</span>_localization_path);
-
-<span style="color:#998;font-style:italic">// Handle post action.
-</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">if</span> (<span style="color:#008080">$_POST</span>[<span style="color:#d14">&#39;stage&#39;</span>] <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;process&#39;</span>) {
-<span style="color:#998;font-style:italic">// All the names of form variables start with %plugin_class%_plugin_name.
-</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">if</span> (isset(<span style="color:#008080">$_POST</span>[<span style="color:#a61717;background-color:#e3d2d2">$</span><span style="color:#000;font-weight:bold">%</span>plugin_class<span style="color:#000;font-weight:bold">%-&gt;</span>_plugin_name <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;_somevar&#39;</span>])) {
-<span style="color:#998;font-style:italic">// Do processing here.
-</span><span style="color:#998;font-style:italic"></span>}
-}
-
-<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div><p>The only thing that we still have to do is generate a po file with xgettext, translate it and compile a %plugin_name%/%plugin_name%-en_EN.mo file.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/wordpress">WordPress</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">15</span>
-										<span class="rest">Mar 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">15</span>
+							<span class="rest">Mar 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Adding an action when your plugin is activated</h1>
+								<h4 class="title small">
+									<a href="../../2006/03/15/adding-an-action-when-your-plugin-is-activated/">Adding an action when your plugin is activated</a>
+								</h4>
+								<span class="description">
+									
+										The WordPress documentation says that you have to call add_action(&#39;activate_pluginurl&#39;, &#39;somefunction&#39;) to trigger somef...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>The WordPress documentation says that you have to call add_action(&lsquo;activate_pluginurl&rsquo;, &lsquo;somefunction&rsquo;) to trigger somefunction when your plugin is activated. Unfortunately i couldn&rsquo;t find with what pluginurl should be replaced. After a bit of experimenting i&rsquo;ve found that in wp-admin/plugins.php the following is called when a plugin is activated:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">do_action(<span style="color:#d14">&#39;activate_&#39;</span> <span style="color:#000;font-weight:bold">.</span> trim( <span style="color:#008080">$_GET</span>[<span style="color:#d14">&#39;plugin&#39;</span>] ));
-</code></pre></div><p>So it appears that you simply have to use the path of your plugin relative to /wp-content/plugins. Eg: you have a plugin in /wp-content/plugins/wp-spamfilter/wp-spamfilter.php then you have to call add_action as following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">add_action(<span style="color:#d14">&#39;activate_wp-spamfilter/wp-spamfilter.php&#39;</span>, <span style="color:#d14">&#39;somefunction&#39;</span>);
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/wordpress">WordPress</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">01</span>
-										<span class="rest">Mar 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">01</span>
+							<span class="rest">Mar 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">More marshalling...</h1>
+								<h4 class="title small">
+									<a href="../../2006/03/01/more-marshalling.../">More marshalling...</a>
+								</h4>
+								<span class="description">
+									
+										This snippet uses [GetPrivateProfileString](http://windowssdk.msdn.microsoft.com/library/default.asp?url=../../library/en-us/...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>This snippet uses <a href="http://windowssdk.msdn.microsoft.com/library/default.asp?url=../../library/en-us/sysinfo/base/getprivateprofilestring.asp">GetPrivateProfileString</a> that is available in kernel32.dll. Apparently microsoft has decided to remove this useful function from the dotnet api.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">[DllImport(<span style="color:#d14">&#34;kernel32&#34;</span>, SetLastError<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">true</span>)]
-<span style="color:#000;font-weight:bold">extern</span> <span style="color:#458;font-weight:bold">int</span> GetPrivateProfileString(
-String <span style="color:#000;font-weight:bold">^</span>pSection,
-String <span style="color:#000;font-weight:bold">^</span>pKey,
-String <span style="color:#000;font-weight:bold">^</span>pDefault,
-StringBuilder <span style="color:#000;font-weight:bold">^</span>pValue,
-<span style="color:#458;font-weight:bold">int</span> pBufferLen,
-String <span style="color:#000;font-weight:bold">^</span>pFile
-);
-
-StringBuilder <span style="color:#000;font-weight:bold">^</span>buf <span style="color:#000;font-weight:bold">=</span> gcnew StringBuilder(<span style="color:#099">256</span>);
-GetPrivateProfileString(
-<span style="color:#d14">&#34;logsection&#34;</span>,
-<span style="color:#d14">&#34;file&#34;</span>,
-<span style="color:#d14">&#34;default&#34;</span>,
-buf,
-buf<span style="color:#000;font-weight:bold">-&gt;</span>Capacity,
-<span style="color:#d14">&#34;example.ini&#34;</span>
-);
-
-std<span style="color:#000;font-weight:bold">::</span>string <span style="color:#a61717;background-color:#e3d2d2">\</span>_log<span style="color:#a61717;background-color:#e3d2d2">\</span>_file <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> string(
-(<span style="color:#458;font-weight:bold">char</span><span style="color:#000;font-weight:bold">*</span>) Marshal<span style="color:#000;font-weight:bold">::</span>StringToHGlobalAnsi(logf).ToPointer()
-);
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/c&#43;&#43;">C&#43;&#43;</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">27</span>
-										<span class="rest">Feb 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">27</span>
+							<span class="rest">Feb 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Reading unmanaged structs with .NET</h1>
+								<h4 class="title small">
+									<a href="../../2006/02/27/reading-unmanaged-structs-with-.net/">Reading unmanaged structs with .NET</a>
+								</h4>
+								<span class="description">
+									
+										Last week i&#39;ve spend a lot of time studying [System::Runtime::InteropServices](http://msdn.microsoft.com/library/default...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Last week i&rsquo;ve spend a lot of time studying <a href="http://msdn.microsoft.com/library/default.asp?url=../../library/en-us/cpref/html/frlrfSystemRuntimeInteropServices.asp">System::Runtime::InteropServices</a>. It took me a while to figure out how i could read unmanaged structs with .NET <a href="http://msdn.microsoft.com/library/default.asp?url=../../library/en-us/cpref/html/frlrfsystemio.asp">System::IO</a>. Here is a bit of sample code (Should be obvious enough to write a template or generic class for all sorts of structs, just like i did at the office)</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#000;font-weight:bold">typedef</span> <span style="color:#000;font-weight:bold">struct</span> {
-<span style="color:#458;font-weight:bold">char</span> name[<span style="color:#099">9</span>];
-<span style="color:#458;font-weight:bold">int</span> name;
-<span style="color:#458;font-weight:bold">double</span> sterr;
-} TEST;
-
-FileStream <span style="color:#000;font-weight:bold">^</span>f <span style="color:#000;font-weight:bold">=</span> gcnew FileStream(<span style="color:#d14">&#34;C:</span><span style="color:#d14">\\</span><span style="color:#d14">TEST.DAT&#34;</span>, FileMode<span style="color:#000;font-weight:bold">::</span>Open, FileAccess<span style="color:#000;font-weight:bold">::</span>ReadWrite);
-BinaryReader <span style="color:#000;font-weight:bold">^</span>r <span style="color:#000;font-weight:bold">=</span> gcnew BinaryReader(f);
-array<span style="color:#000;font-weight:bold">&lt;</span>byte<span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000;font-weight:bold">^</span>buf <span style="color:#000;font-weight:bold">=</span> r<span style="color:#000;font-weight:bold">-&gt;</span>ReadBytes(<span style="color:#000;font-weight:bold">sizeof</span>(TEST));
-TEST test;
-Marshal<span style="color:#000;font-weight:bold">::</span>Copy(buf, <span style="color:#099">0</span>, (IntPtr) <span style="color:#000;font-weight:bold">&amp;</span>test, <span style="color:#000;font-weight:bold">sizeof</span>(TEST));
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/c&#43;&#43;">C&#43;&#43;</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 				
 

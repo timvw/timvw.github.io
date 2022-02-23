@@ -61,544 +61,213 @@
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">22</span>
-										<span class="rest">Mar 2008</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">22</span>
+							<span class="rest">Mar 2008</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Easily switching between configuration files with MSBuild</h1>
+								<h4 class="title small">
+									<a href="../../2008/03/22/easily-switching-between-configuration-files-with-msbuild/">Easily switching between configuration files with MSBuild</a>
+								</h4>
+								<span class="description">
+									
+										A couple of days ago i wrote about [Easily switching between App.Config files with MSBuild](http://www.timvw.be/easily-s...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>A couple of days ago i wrote about <a href="http://www.timvw.be/easily-switching-between-appconfig-files-with-msbuild/">Easily switching between App.Config files with MSBuild</a>. Christophe Gijbels, a fellow <a href="http://www.compuware.be/root/Careers/index.asp">compuwarrior</a>, pointed out that developers usually need to copy more than a single App.Config file&hellip; I would propose to add a Folder for each Customer that contains all the specific configuration files. Eg</p>
-<p><img src="http://www.timvw.be/wp-content/images/customerconfigurations.gif" alt="screenshot of solution explorer with proposed folder structures"></p>
-<p>Now i have to configure MSBuild so that the right files are copied into the <a href="http://msdn2.microsoft.com/en-us/library/bb629394.aspx">OutDir</a>:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#998;font-style:italic">&lt;!-- Define the CustomerPath depending on the choosen Configuration --&gt;</span>
-<span style="color:#000080">&lt;propertyGroup</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34; $(Configuration) == &#39;Customer1 Debug&#39; &#34;</span><span style="color:#000080">&gt;</span> 
-	<span style="color:#000080">&lt;customerPath&gt;</span>Customer1<span style="color:#000080">&lt;/customerPath&gt;</span> 
-<span style="color:#000080">&lt;/propertyGroup&gt;</span> 
-<span style="color:#000080">&lt;propertyGroup</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34; $(Configuration) == &#39;Customer2 Debug&#39; &#34;</span><span style="color:#000080">&gt;</span> 
-	<span style="color:#000080">&lt;customerPath&gt;</span>Customer2<span style="color:#000080">&lt;/customerPath&gt;</span> 
-<span style="color:#000080">&lt;/propertyGroup&gt;</span> 
-
-<span style="color:#998;font-style:italic">&lt;!-- Define AppConfig in the CustomerPath  --&gt;</span>
-<span style="color:#000080">&lt;propertyGroup&gt;</span>
-	<span style="color:#000080">&lt;appConfig&gt;</span>$(CustomerPath)\App.config<span style="color:#000080">&lt;/appConfig&gt;</span> 
-<span style="color:#000080">&lt;/propertyGroup&gt;</span> 
-
-<span style="color:#998;font-style:italic">&lt;!-- Find all files in CustomerPath, excluding AppConfig --&gt;</span>
-<span style="color:#000080">&lt;itemGroup&gt;</span>
-	<span style="color:#000080">&lt;customerFiles</span> <span style="color:#008080">Include=</span><span style="color:#d14">&#34;$(CustomerPath)\*.*&#34;</span> <span style="color:#008080">Exclude=</span><span style="color:#d14">&#34;$(CustomerPath)\App.config&#34;</span> <span style="color:#000080">/&gt;</span>
-<span style="color:#000080">&lt;/itemGroup&gt;</span>
-
-<span style="color:#000080">&lt;target</span> <span style="color:#008080">Name=</span><span style="color:#d14">&#34;AfterBuild&#34;</span><span style="color:#000080">&gt;</span>
-	<span style="color:#000080">&lt;copy</span> <span style="color:#008080">SourceFiles=</span><span style="color:#d14">&#34;@(CustomerFiles)&#34;</span> <span style="color:#008080">DestinationFolder=</span><span style="color:#d14">&#34;$(OutDir)&#34;</span> <span style="color:#008080">SkipUnchangedFiles=</span><span style="color:#d14">&#34;true&#34;</span><span style="color:#000080">/&gt;</span>
-<span style="color:#000080">&lt;/target&gt;</span>
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/visual-studio">Visual Studio</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">22</span>
-										<span class="rest">Mar 2008</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">22</span>
+							<span class="rest">Mar 2008</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Why doesn&#39;t Visual Studio display my MSBuild message texts?</h1>
+								<h4 class="title small">
+									<a href="../../2008/03/22/why-doesnt-visual-studio-display-my-msbuild-message-texts/">Why doesn&#39;t Visual Studio display my MSBuild message texts?</a>
+								</h4>
+								<span class="description">
+									
+										In order to debug an [MSBuild](http://msdn2.microsoft.com/en-us/library/wea2sca5.aspx) script i added a couple of &lt;Messa...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>In order to debug an <a href="http://msdn2.microsoft.com/en-us/library/wea2sca5.aspx">MSBuild</a> script i added a couple of <!-- raw HTML omitted --> tasks, but when i asked Visual Studio to Build i didn&rsquo;t get to see the output&hellip; By default Visual Studio will use &ldquo;Minimal&rdquo; as <a href="http://msdn2.microsoft.com/en-us/library/ms164311.aspx">verbosity</a> level. You can change this via Tools -&gt; Options -&gt; Projects and Solutions -&gt; Build and Run.</p>
-<p><img src="http://www.timvw.be/wp-content/images/msbuildverbosity.gif" alt="screenshot of configuration dialog in visual studio that allows the user to set the verbosity of msbuild"></p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/visual-studio">Visual Studio</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">17</span>
-										<span class="rest">Mar 2008</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">17</span>
+							<span class="rest">Mar 2008</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Easily switching between App.Config files with MSBuild</h1>
+								<h4 class="title small">
+									<a href="../../2008/03/17/easily-switching-between-app.config-files-with-msbuild/">Easily switching between App.Config files with MSBuild</a>
+								</h4>
+								<span class="description">
+									
+										Imagine the following situation: One codebase, two customers with different [Application Configuration files](http://msd...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Imagine the following situation: One codebase, two customers with different <a href="http://msdn2.microsoft.com/en-us/library/kkz9kefa(VS.80).aspx">Application Configuration files</a>. How can we easily switch between the different configurations? By taking advantage of the <a href="http://msdn2.microsoft.com/en-us/library/kkz9kefa(VS.80).aspx">Build Configurations</a> functionality in Visual Studio we can easily switch between different configurations</p>
-<p><img src="http://www.timvw.be/wp-content/images/vsconfigurationmanager.gif" alt="screenshot of the configuration manager in visual studio"></p>
-<p>A brute-force solution would be to add a <a href="http://msdn2.microsoft.com/en-us/library/42x5kfw4(VS.80).aspx">Post-build Event</a> that copies the desired App.Config file to the destination directory. In the Microsoft.Common.targets file (usually at C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727) around line 725 you can read how <a href="http://msdn2.microsoft.com/en-us/library/wea2sca5.aspx">MSBuild</a> chooses the App.Config that is copied to the destination folder</p>
-<blockquote>
-<p>Choose exactly one app.config to be the main app.config that is copied to the destination folder.<br>
-The search order is:</p>
-<ol>
-<li>Choose the value $(AppConfig) set in the main project.</li>
-<li>Choose @(None) App.Config in the same folder as the project.</li>
-<li>Choose @(Content) App.Config in the same folder as the project.</li>
-<li>Choose @(None) App.Config in any subfolder in the project.</li>
-<li>Choose @(Content) App.Config in any subfolder in the project.</li>
-</ol>
-</blockquote>
-<p>Thus, simply setting $(AppConfig) should be enough to make sure that MSBuild chooses the appropriate App.Config file. Here is an example of a csproj section that defines $(AppConfig) as App.Customer1.Config or App.Customer2.Config depending on the choosen Build configuration</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;propertyGroup</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug Customer1|AnyCPU&#39; &#34;</span><span style="color:#000080">&gt;</span> 
-	<span style="color:#000080">&lt;debugSymbols&gt;</span>true<span style="color:#000080">&lt;/debugSymbols&gt;</span>
-	<span style="color:#000080">&lt;debugType&gt;</span>full<span style="color:#000080">&lt;/debugType&gt;</span>
-	<span style="color:#000080">&lt;optimize&gt;</span>false<span style="color:#000080">&lt;/optimize&gt;</span>
-	<span style="color:#000080">&lt;outputPath&gt;</span>bin\Debug\<span style="color:#000080">&lt;/outputPath&gt;</span>
-	<span style="color:#000080">&lt;defineConstants&gt;</span>DEBUG;TRACE<span style="color:#000080">&lt;/defineConstants&gt;</span>
-	<span style="color:#000080">&lt;errorReport&gt;</span>prompt<span style="color:#000080">&lt;/errorReport&gt;</span>
-	<span style="color:#000080">&lt;warningLevel&gt;</span>4<span style="color:#000080">&lt;/warningLevel&gt;</span>
-	<span style="color:#000080">&lt;appConfig&gt;</span>App.Customer1.Config<span style="color:#000080">&lt;/appConfig&gt;</span> 
-<span style="color:#000080">&lt;/propertyGroup&gt;</span> 
-<span style="color:#000080">&lt;propertyGroup</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug Customer2|AnyCPU&#39; &#34;</span><span style="color:#000080">&gt;</span> 
-	<span style="color:#000080">&lt;debugSymbols&gt;</span>true<span style="color:#000080">&lt;/debugSymbols&gt;</span>
-	<span style="color:#000080">&lt;outputPath&gt;</span>bin\Debug Customer2\<span style="color:#000080">&lt;/outputPath&gt;</span>
-	<span style="color:#000080">&lt;defineConstants&gt;</span>DEBUG;TRACE<span style="color:#000080">&lt;/defineConstants&gt;</span>
-	<span style="color:#000080">&lt;debugType&gt;</span>full<span style="color:#000080">&lt;/debugType&gt;</span> <span style="color:#000080">&lt;platformTarget&gt;</span>AnyCPU<span style="color:#000080">&lt;/platformTarget&gt;</span> <span style="color:#000080">&lt;codeAnalysisUseTypeNameInSuppression&gt;</span>true<span style="color:#000080">&lt;/codeAnalysisUseTypeNameInSuppression&gt;</span>
-	<span style="color:#000080">&lt;codeAnalysisModuleSuppressionsFile&gt;</span>GlobalSuppressions.cs<span style="color:#000080">&lt;/codeAnalysisModuleSuppressionsFile&gt;</span>
-	<span style="color:#000080">&lt;errorReport&gt;</span>prompt<span style="color:#000080">&lt;/errorReport&gt;</span>
-	<span style="color:#000080">&lt;appConfig&gt;</span>App.Customer2.Config<span style="color:#000080">&lt;/appConfig&gt;</span> 
-<span style="color:#000080">&lt;/propertyGroup&gt;</span> 
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/visual-studio">Visual Studio</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">14</span>
-										<span class="rest">Mar 2008</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">14</span>
+							<span class="rest">Mar 2008</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Heroes happened {Here}</h1>
+								<h4 class="title small">
+									<a href="../../2008/03/14/heroes-happened-here/">Heroes happened {Here}</a>
+								</h4>
+								<span class="description">
+									
+										I&#39;m back from [Heroes Happen Here](http://www.microsoft.com/belux/heroeshappenhere/default.aspx). Even with a fullhouse ...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>I&rsquo;m back from <a href="http://www.microsoft.com/belux/heroeshappenhere/default.aspx">Heroes Happen Here</a>. Even with a fullhouse this convention was well organized and evertyhing went pretty smooth (In my experience that is true for all events organised by Microsoft). One suggestion though: Reduce the sugar buffet (although the cake and muffins are very tasty) and add some healthy fruit 😉</p>
-<p>I&rsquo;m glad to notice, despite the fact that the main reason seems to be <a href="http://en.wikipedia.org/wiki/Search_engine_optimisation">SEO</a>, web developers are encouraged to develop websites that work without JavaScript and that they add it afterwards as a real usability enhancement.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/events">Events</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">14</span>
-										<span class="rest">Mar 2008</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">14</span>
+							<span class="rest">Mar 2008</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Using Linq for statically-typed reflection</h1>
+								<h4 class="title small">
+									<a href="../../2008/03/14/using-linq-for-statically-typed-reflection/">Using Linq for statically-typed reflection</a>
+								</h4>
+								<span class="description">
+									
+										I discovered the [TypedReflector](http://www.codeplex.com/Release/ProjectReleases.aspx?ProjectName=clarius&amp;ReleaseId=949...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>I discovered the <a href="http://www.codeplex.com/Release/ProjectReleases.aspx?ProjectName=clarius&amp;ReleaseId=9495">TypedReflector</a></p>
-<p>on <a href="http://www.clariusconsulting.net/blogs/kzu/archive/2007/12/30/49063.aspx">Daniel Cazzulino&rsquo;s Blog</a>. In essence, a simplified version of the code looks like</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Reflector</span>
-{
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> PropertyInfo GetProperty&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression)
-	{
-		<span style="color:#000;font-weight:bold">return</span> GetMemberInfo(expression) <span style="color:#000;font-weight:bold">as</span> PropertyInfo;
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> FieldInfo GetField&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression)
-	{
-		<span style="color:#000;font-weight:bold">return</span> GetMemberInfo(expression) <span style="color:#000;font-weight:bold">as</span> FieldInfo;
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> MethodInfo GetMethod&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression)
-	{
-		<span style="color:#000;font-weight:bold">return</span> GetMemberInfo(expression) <span style="color:#000;font-weight:bold">as</span> MethodInfo;
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> MemberInfo GetMemberInfo(Expression memberInfoExpression)
-	{
-		Expression lambdaBodyExpression = ((LambdaExpression)memberInfoExpression).Body;
-		<span style="color:#000;font-weight:bold">switch</span> (lambdaBodyExpression.NodeType)
-		{
-			<span style="color:#000;font-weight:bold">case</span> ExpressionType.MemberAccess:
-			<span style="color:#000;font-weight:bold">return</span> ((MemberExpression)lambdaBodyExpression).Member;
-			
-			<span style="color:#000;font-weight:bold">case</span> ExpressionType.Call:
-			<span style="color:#000;font-weight:bold">return</span> ((MethodCallExpression)lambdaBodyExpression).Method;
-			
-			<span style="color:#000;font-weight:bold">default</span>:
-			<span style="color:#000;font-weight:bold">throw</span> <span style="color:#000;font-weight:bold">new</span> ArgumentException(<span style="color:#d14">&#34;Unsupported NodeType&#34;</span>);
-		}
-	}
-}
-</code></pre></div><p>This class allows me to write the following</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">PropertyInfo namePropertyInfo = Reflector.GetProperty&lt;person, <span style="color:#458;font-weight:bold">string</span>&gt;(p =&gt; p.Surname);
-</code></pre></div><p>Not only can i be sure that the lambda (and thus the namePropertyInfo.Invoke) will always return a string, i can also use it to avoid &lsquo;hardcoded&rsquo; propertynames</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">//const string SurnameProperty = &#34;Surname&#34;;
-</span><span style="color:#998;font-style:italic">//comboBox1.DisplayMember = SurnameProperty;
-</span><span style="color:#998;font-style:italic"></span>comboBox1.DisplayMember = Reflector.GetProperty&lt;person, <span style="color:#458;font-weight:bold">string</span>&gt;(p =&gt; p.Surname).Name;
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">08</span>
-										<span class="rest">Mar 2008</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">08</span>
+							<span class="rest">Mar 2008</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Using System.DirectoryServices.AccountManagement to find the members of an AD group</h1>
+								<h4 class="title small">
+									<a href="../../2008/03/08/using-system.directoryservices.accountmanagement-to-find-the-members-of-an-ad-group/">Using System.DirectoryServices.AccountManagement to find the members of an AD group</a>
+								</h4>
+								<span class="description">
+									
+										A while ago i posted some code that demonstrated how to [find the members of an AD group](http://www.timvw.be/find-the-m...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>A while ago i posted some code that demonstrated how to <a href="http://www.timvw.be/find-the-members-of-an-ad-group/">find the members of an AD group</a>. If you&rsquo;re using the brandnew .Net 3.5 framework you can take advantage of the <a href="http://msdn2.microsoft.com/en-us/library/system.directoryservices.accountmanagement.aspx">System.DirectoryServices.AccountManagement</a> library which is an abstraction for AD (DS, LDS) and SAM accounts. Using this new library my method can be simplified</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> IEnumerable&lt;<span style="color:#458;font-weight:bold">string</span>&gt; FindUsernames(<span style="color:#458;font-weight:bold">string</span> groupname)
-{
-	PrincipalContext principalContext = <span style="color:#000;font-weight:bold">new</span> PrincipalContext(ContextType.Domain, <span style="color:#d14">&#34;mydomain&#34;</span>);
-	GroupPrincipal groupPrincipal = GroupPrincipal.FindByIdentity(principalContext, groupname);
-
-	<span style="color:#000;font-weight:bold">foreach</span> (Principal principal <span style="color:#000;font-weight:bold">in</span> groupPrincipal.Members)
-	{
-		<span style="color:#000;font-weight:bold">yield</span> <span style="color:#000;font-weight:bold">return</span> principal.DistinguishedName;
-	}
-}
-</code></pre></div><p>If you&rsquo;re looking for more information i would recommend that you read <a href="http://msdn2.microsoft.com/en-us/magazine/cc135979.aspx">Managing Directory Security Principals in the .NET Framework 3.5</a>.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">06</span>
-										<span class="rest">Mar 2008</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">06</span>
+							<span class="rest">Mar 2008</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Exploring alternative input: ActiveHome</h1>
+								<h4 class="title small">
+									<a href="../../2008/03/06/exploring-alternative-input-activehome/">Exploring alternative input: ActiveHome</a>
+								</h4>
+								<span class="description">
+									
+										A while ago i bought [Media Centerkit](http://www.easycomputing.com/product.asp?ref=3655) for an euro or two. I wouldn&#39;t...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>A while ago i bought <a href="http://www.easycomputing.com/product.asp?ref=3655">Media Centerkit</a> for an euro or two. I wouldn&rsquo;t recommend the product because it comes with crappy software. Anyway, i was only interested in playing with the hardware (RF Remote and USB Receiver) so i downloaded the <a href="http://www.activehomepro.com/sdk/sdk-info.html">ActiveHome Professional SDK</a>. Once you install this you can add a reference to &ldquo;ActiveHomeScript 1.0 Type Library&rdquo; under the COM tab in Visual Studio. I wrote a little library so that i can consume the ActiveHomeClass.RecvAction in a Type-safe way</p>
-<p><img src="http://www.timvw.be/wp-content/images/activehomelibrary.png" alt="class diagram of activehome library"></p>
-<p>Here is some sample code that demonstrates how you can use the Notifier to receive Notifications</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// register our eventhandler and tell the notifier to start raising events
-</span><span style="color:#998;font-style:italic"></span>Notifier.Instance.NotificationReceived += <span style="color:#000;font-weight:bold">this</span>.Instance_NotificationReceived;
-Notifier.Instance.Enable();
-
-<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Instance_NotificationReceived(<span style="color:#458;font-weight:bold">object</span> sender, NotificationReceivedEventArgs e)
-{
-	<span style="color:#998;font-style:italic">// for more complex logic i would recommend that you apply a Filter pattern...
-</span><span style="color:#998;font-style:italic"></span>	RadioFrequencyNotification rfNotification = e.Notification <span style="color:#000;font-weight:bold">as</span> RadioFrequencyNotification;
-	<span style="color:#000;font-weight:bold">if</span> (rfNotification.IsKeyPressed)
-	{
-		<span style="color:#000;font-weight:bold">if</span> (rfNotification.Command == RadioFrequencyCommand.Menu)
-		{
-			<span style="color:#000;font-weight:bold">this</span>.RaiseToolStripMenuItemClicked(<span style="color:#000;font-weight:bold">this</span>.MenuClicked, EventArgs.Empty);
-		}
-	}
-}
-</code></pre></div><p>As always feel free to download the library and sample application: <a href="http://www.timvw.be/wp-content/code/csharp/ActiveHome.zip">ActiveHome.zip</a></p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">05</span>
-										<span class="rest">Mar 2008</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">05</span>
+							<span class="rest">Mar 2008</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Find the members of an AD group</h1>
+								<h4 class="title small">
+									<a href="../../2008/03/05/find-the-members-of-an-ad-group/">Find the members of an AD group</a>
+								</h4>
+								<span class="description">
+									
+										Because i always seem to forget about the syntax of LDAP Search Filters ([RFC 2254: The String Representation of LDAP Se...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Because i always seem to forget about the syntax of LDAP Search Filters (<a href="http://www.ietf.org/rfc/rfc2254.txt">RFC 2254: The String Representation of LDAP Search Filters</a> and <a href="http://msdn2.microsoft.com/en-us/library/ms675768(VS.85).aspx">Creating a Query Filter</a>) i&rsquo;m going to post a basic demo of <a href="http://msdn2.microsoft.com/en-us/library/system.directoryservices.directorysearcher.aspx">DirectorySearcher</a> that returns the members that are part of a given AD group</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
-{
-	<span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">string</span> member <span style="color:#000;font-weight:bold">in</span> FindUsernames(<span style="color:#d14">&#34;CWBE-PS-.NetDev&#34;</span>))
-	{
-		Console.WriteLine(member);
-	}
-
-	Console.Write(<span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
-	Console.ReadKey();
-}
-
-<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> IEnumerable&lt;<span style="color:#458;font-weight:bold">string</span>&gt; FindUsernames(<span style="color:#458;font-weight:bold">string</span> groupname)
-{
-	<span style="color:#458;font-weight:bold">string</span> filter = <span style="color:#d14">&#34;(&amp;(&amp;(objectCategory=Group)(objectClass=Group))(name={0}))&#34;</span>;
-	filter = <span style="color:#458;font-weight:bold">string</span>.Format(filter, groupname);
-
-	DirectoryEntry directoryEntry = <span style="color:#000;font-weight:bold">new</span> DirectoryEntry();
-	DirectorySearcher searcher = <span style="color:#000;font-weight:bold">new</span> DirectorySearcher(directoryEntry);
-	searcher.SearchScope = SearchScope.Subtree;
-	searcher.Filter = filter;
-
-	DirectoryEntry groupEntry = searcher.FindOne().GetDirectoryEntry();
-	PropertyValueCollection members = (PropertyValueCollection)groupEntry.Properties[<span style="color:#d14">&#34;member&#34;</span>];
-	<span style="color:#000;font-weight:bold">return</span> ConvertAll&lt;<span style="color:#458;font-weight:bold">object</span>, <span style="color:#458;font-weight:bold">string</span>&gt;((<span style="color:#458;font-weight:bold">object</span>[])members.Value);
-}
-
-<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> IEnumerable&lt;to&gt; ConvertAll&lt;<span style="color:#000;font-weight:bold">from</span>, To&gt;(IEnumerable&lt;<span style="color:#000;font-weight:bold">from</span>&gt; elements)
-{
-	Type toType = <span style="color:#000;font-weight:bold">typeof</span>(To);
-
-	<span style="color:#000;font-weight:bold">foreach</span> (From element <span style="color:#000;font-weight:bold">in</span> elements)
-	{
-		<span style="color:#000;font-weight:bold">yield</span> <span style="color:#000;font-weight:bold">return</span> (To)Convert.ChangeType(element, toType);
-	}
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">29</span>
-										<span class="rest">Feb 2008</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">29</span>
+							<span class="rest">Feb 2008</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Display WorkItems in a WinForms application</h1>
+								<h4 class="title small">
+									<a href="../../2008/02/29/display-workitems-in-a-winforms-application/">Display WorkItems in a WinForms application</a>
+								</h4>
+								<span class="description">
+									
+										Using the Microsoft.TeamFoundation.WorkItemTracking.Controls assembly it is possibe to display WorkItems. Here is a litt...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Using the Microsoft.TeamFoundation.WorkItemTracking.Controls assembly it is possibe to display WorkItems. Here is a little demo application that will display all the WorkItems that have been changed by one of the given users in the given range</p>
-<p><img src="http://www.timvw.be/wp-content/images/workitemtracker.gif" alt="screenshot of workitemtracker application"></p>
-<p>Feel free to download the source: <a href="http://www.timvw.be/wp-content/code/csharp/WorkItemTracker.zip">WorkItemTracker.zip</a></p>
-<p><strong>Edit (05/03/2008):</strong></p>
-<p>Refactored the code a little and added some features like sortable columns, loading default tfsserver and users from App.Config, &hellip;</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">28</span>
-										<span class="rest">Feb 2008</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">28</span>
+							<span class="rest">Feb 2008</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Find WorkItems that have been changed between two dates</h1>
+								<h4 class="title small">
+									<a href="../../2008/02/28/find-workitems-that-have-been-changed-between-two-dates/">Find WorkItems that have been changed between two dates</a>
+								</h4>
+								<span class="description">
+									
+										Sometimes i want to know which WorkItems i have closed (or completed) between two dates. According to [Amit Ghosh](http:...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Sometimes i want to know which WorkItems i have closed (or completed) between two dates. According to <a href="http://forums.microsoft.com/MSDN/ShowPost.aspx?PostID=2528099&amp;SiteID=1">Amit Ghosh</a> it&rsquo;s not possible to write such a query so i wrote some code that uses the <a href="http://msdn2.microsoft.com/en-us/library/bb130146(VS.80).aspx">TFS SDK</a> to get that list</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
-{
-	TeamFoundationServer tfs = TeamFoundationServerFactory.GetServer(<span style="color:#d14">&#34;tfsrtm08&#34;</span>);
-	WorkItemStore wis = (WorkItemStore)tfs.GetService(<span style="color:#000;font-weight:bold">typeof</span>(WorkItemStore));
-
-	DateTime begin = <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2008</span>, <span style="color:#099">1</span>, <span style="color:#099">1</span>);
-	DateTime end = <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2008</span>, <span style="color:#099">2</span>, <span style="color:#099">28</span>);
-	<span style="color:#458;font-weight:bold">string</span> username = <span style="color:#d14">&#34;Darren&#34;</span>;
-
-	<span style="color:#000;font-weight:bold">foreach</span> (WorkItem workItem <span style="color:#000;font-weight:bold">in</span> FindChangesByUserInRange(wis, username, begin, end))
-	{
-		Console.WriteLine(<span style="color:#d14">&#34;[{0:00000}] {1}&#34;</span>, workItem.Id, workItem.Title);
-	}
-
-	Console.WriteLine(<span style="color:#d14">&#34;Press any key to continue...&#34;</span>);
-	Console.ReadKey();
-}
-
-<span style="color:#000;font-weight:bold">static</span> List&lt;workItem&gt; FindChangesByUserInRange(WorkItemStore workItemStore, <span style="color:#458;font-weight:bold">string</span> username, DateTime begin, DateTime end)
-{
-	<span style="color:#458;font-weight:bold">string</span> query = <span style="color:#d14">&#34;SELECT System.ID, System.Title FROM workitems WHERE [Changed By] EVER &#39;{0}&#39; AND [State] IN (&#39;Closed&#39;, &#39;Resolved&#39;) AND [Changed Date] &gt;= &#39;{1}&#39;&#34;</span>;
-	query = <span style="color:#458;font-weight:bold">string</span>.Format(query, username, begin.Date.ToShortDateString());
-
-	List&lt;workItem&gt; result = <span style="color:#000;font-weight:bold">new</span> List&lt;workItem&gt;();
-
-	<span style="color:#000;font-weight:bold">foreach</span> (WorkItem workItem <span style="color:#000;font-weight:bold">in</span> workItemStore.Query(query))
-	{
-		<span style="color:#000;font-weight:bold">if</span> (IsChangedByUserInRange(workItem, username, begin, end))
-		{
-			result.Add(workItem);
-		}
-	}
-
-	<span style="color:#000;font-weight:bold">return</span> result;
-}
-
-<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> IsChangedByUserInRange(WorkItem workItem, <span style="color:#458;font-weight:bold">string</span> username, DateTime begin, DateTime end)
-{
-	<span style="color:#000;font-weight:bold">foreach</span> (Revision rev <span style="color:#000;font-weight:bold">in</span> workItem.Revisions)
-	{
-		<span style="color:#458;font-weight:bold">string</span> changedBy = (<span style="color:#458;font-weight:bold">string</span>)rev.Fields[<span style="color:#d14">&#34;Changed By&#34;</span>].Value;
-		<span style="color:#000;font-weight:bold">if</span> (changedBy == username)
-		{
-			DateTime changedDate = (DateTime)rev.Fields[<span style="color:#d14">&#34;Changed Date&#34;</span>].Value;
-			<span style="color:#000;font-weight:bold">if</span> (begin &lt;= changedDate &amp;&amp; changedDate &lt;= end) 
-			{ 
-				<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>; 
-			} 
-		} 
-	} 
-	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>; 
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 				
 

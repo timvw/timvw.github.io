@@ -61,704 +61,214 @@
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">04</span>
-										<span class="rest">Apr 2009</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">04</span>
+							<span class="rest">Apr 2009</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Managing Humans: Biting and Humorous Tales of a Software Engineering Manager</h1>
+								<h4 class="title small">
+									<a href="../../2009/04/04/managing-humans-biting-and-humorous-tales-of-a-software-engineering-manager/">Managing Humans: Biting and Humorous Tales of a Software Engineering Manager</a>
+								</h4>
+								<span class="description">
+									
+										A while ago i heared Joel Spolsky shamelessly promote [Managing Humans: Biting and Humorous Tales of a Software Engineer...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>A while ago i heared Joel Spolsky shamelessly promote <a href="http://www.amazon.com/Managing-Humans-Humorous-Software-Engineering/dp/159059844X">Managing Humans: Biting and Humorous Tales of a Software Engineering Manager</a> and decided to give it a read. No boring process descriptions, but short and consice chapters, fed with real life examples, transmitting the message to the reader. I loved reading this book.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/book-reviews">Book reviews</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">03</span>
-										<span class="rest">Apr 2009</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">03</span>
+							<span class="rest">Apr 2009</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">POC: Moq API adapter for Rhino Mocks</h1>
+								<h4 class="title small">
+									<a href="../../2009/04/03/poc-moq-api-adapter-for-rhino-mocks/">POC: Moq API adapter for Rhino Mocks</a>
+								</h4>
+								<span class="description">
+									
+										One of my main concerns with third party software, and software in general, is maintainability. The Rhino Mocks project ...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>One of my main concerns with third party software, and software in general, is maintainability. The Rhino Mocks project has been out there for a couple of years now and i&rsquo;m pretty confident that it won&rsquo;t go away anytime soon. The Moq project is a lot younger and will have to proove that it can stay alive&hellip;</p>
-<p>Anyway, because most people seem to digg the Moq API i have decided to write an adapter that provides the same API using Rhino Mocks. Here are some simple examples</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> IEcho
-{
-	<span style="color:#458;font-weight:bold">string</span> Echo(<span style="color:#458;font-weight:bold">string</span> input);
-}
-<span style="color:#008080">
-</span><span style="color:#008080">[TestClass]</span>
-<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MockTests</span>
-{
-<span style="color:#008080">	[TestMethod]</span>
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToReturnObject()
-	{
-		<span style="color:#998;font-style:italic">// Arrange
-</span><span style="color:#998;font-style:italic"></span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
-
-		<span style="color:#998;font-style:italic">// Act
-</span><span style="color:#998;font-style:italic"></span>		IEcho echo = sut.Object;
-
-		<span style="color:#998;font-style:italic">// Assert
-</span><span style="color:#998;font-style:italic"></span>		Assert.IsNotNull(echo);
-		Assert.IsInstanceOfType(echo, <span style="color:#000;font-weight:bold">typeof</span>(IEcho));
-	}
-<span style="color:#008080">
-</span><span style="color:#008080">	[TestMethod]</span>
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToSetupAnAction()
-	{
-		<span style="color:#998;font-style:italic">// Arrange
-</span><span style="color:#998;font-style:italic"></span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
-
-		sut.Setup(<span style="color:#000;font-weight:bold">delegate</span>(IEcho echo)
-		{
-		echo.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
-		}).Returns(<span style="color:#d14">&#34;tim&#34;</span>);
-
-		<span style="color:#998;font-style:italic">// Act
-</span><span style="color:#998;font-style:italic"></span>		<span style="color:#458;font-weight:bold">string</span> result = sut.Object.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
-
-		<span style="color:#998;font-style:italic">// Assert
-</span><span style="color:#998;font-style:italic"></span>		Assert.AreEqual(<span style="color:#d14">&#34;tim&#34;</span>, result);
-	}
-<span style="color:#008080">
-</span><span style="color:#008080">	[TestMethod]</span>
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToVerifyAnAction()
-	{
-		<span style="color:#998;font-style:italic">// Arrange
-</span><span style="color:#998;font-style:italic"></span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
-
-		<span style="color:#998;font-style:italic">// Act
-</span><span style="color:#998;font-style:italic"></span>		sut.Object.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
-
-		<span style="color:#998;font-style:italic">// Assert
-</span><span style="color:#998;font-style:italic"></span>		sut.Verify(<span style="color:#000;font-weight:bold">delegate</span>(IEcho echo)
-		{
-		echo.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
-		});
-	}
-<span style="color:#008080">
-</span><span style="color:#008080">	[TestMethod]</span>
-<span style="color:#008080">	[ExpectedException(typeof(ExpectationViolationException))]</span>
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToVerifyAnActionThatDidNotHappen()
-	{
-		<span style="color:#998;font-style:italic">// Arrange
-</span><span style="color:#998;font-style:italic"></span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
-
-		<span style="color:#998;font-style:italic">// Act
-</span><span style="color:#998;font-style:italic"></span>		sut.Object.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
-
-		<span style="color:#998;font-style:italic">// Assert
-</span><span style="color:#998;font-style:italic"></span>		sut.Verify(<span style="color:#000;font-weight:bold">delegate</span>(IEcho echo)
-		{
-		echo.Echo(<span style="color:#d14">&#34;mike&#34;</span>);
-		});
-	}
-<span style="color:#008080">
-</span><span style="color:#008080">	[TestMethod]</span>
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToRaiseAnEvent()
-	{
-		<span style="color:#998;font-style:italic">// Arrange
-</span><span style="color:#998;font-style:italic"></span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
-		<span style="color:#458;font-weight:bold">bool</span> wasCalled = <span style="color:#000;font-weight:bold">false</span>;
-
-		sut.Object.EchoCompleted += <span style="color:#000;font-weight:bold">delegate</span>(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
-		{
-		<span style="color:#000;font-weight:bold">if</span> (sender == sut &amp;&amp; e == EventArgs.Empty) wasCalled = <span style="color:#000;font-weight:bold">true</span>;
-		};
-
-		<span style="color:#998;font-style:italic">// Act
-</span><span style="color:#998;font-style:italic"></span>		sut.Raise(<span style="color:#000;font-weight:bold">delegate</span>(IEcho echo) { echo.EchoCompleted += <span style="color:#000;font-weight:bold">null</span>; }, sut, EventArgs.Empty);
-
-		<span style="color:#998;font-style:italic">// Assert
-</span><span style="color:#998;font-style:italic"></span>		Assert.IsTrue(wasCalled);
-	}
-<span style="color:#008080">
-</span><span style="color:#008080">	[TestMethod]</span>
-<span style="color:#008080">	[ExpectedException(typeof(ArgumentException))]</span>
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToThrowAnException()
-	{
-		<span style="color:#998;font-style:italic">// Arrange
-</span><span style="color:#998;font-style:italic"></span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
-
-		sut.Setup(<span style="color:#000;font-weight:bold">delegate</span>(IEcho echo)
-		{
-		echo.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
-		}).Throws&lt;argumentException&gt;();
-
-		<span style="color:#998;font-style:italic">// Act
-</span><span style="color:#998;font-style:italic"></span>		sut.Object.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
-	}
-}
-</code></pre></div><p>Here is the actual code for this simplistic adapter</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Mock</span>&lt;T&gt; <span style="color:#000;font-weight:bold">where</span> T : <span style="color:#000;font-weight:bold">class</span>
-{
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">readonly</span> T mockedObject;
-
-	<span style="color:#000;font-weight:bold">public</span> Mock()
-	{
-		<span style="color:#000;font-weight:bold">this</span>.mockedObject = MockRepository.GenerateStub&lt;T&gt;();
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> T Object
-	{
-		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.mockedObject; }
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> Setup&lt;<span style="color:#458;font-weight:bold">object</span>, T&gt; Setup(Action&lt;T&gt; action)
-	{
-		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Setup&lt;<span style="color:#458;font-weight:bold">object</span>, T&gt;(RhinoMocksExtensions.Stub(<span style="color:#000;font-weight:bold">this</span>.mockedObject, action));
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> Setup&lt;R, T&gt; Setup&lt;R&gt;(Delegates.Function&lt;R, T&gt; action)
-	{
-		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Setup&lt;R, T&gt;(RhinoMocksExtensions.Stub(<span style="color:#000;font-weight:bold">this</span>.mockedObject, action));
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Verify(Action&lt;T&gt; action)
-	{
-		RhinoMocksExtensions.AssertWasCalled(<span style="color:#000;font-weight:bold">this</span>.mockedObject, action);
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Raise(Action&lt;T&gt; eventSubscription, <span style="color:#000;font-weight:bold">params</span> <span style="color:#458;font-weight:bold">object</span>[] args)
-	{
-		RhinoMocksExtensions.Raise(<span style="color:#000;font-weight:bold">this</span>.mockedObject, eventSubscription, args);
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> Setup&lt;R, T&gt; Throws&lt;e&gt;() <span style="color:#000;font-weight:bold">where</span> E : Exception, <span style="color:#000;font-weight:bold">new</span>()
-	{
-		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Setup&lt;R, T&gt;(<span style="color:#000;font-weight:bold">this</span>.options.Throw(<span style="color:#000;font-weight:bold">new</span> E()));
-	}
-}
-
-<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Setup</span>&lt;R, T&gt;
-{
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">readonly</span> IMethodOptions&lt;R&gt; options;
-
-	<span style="color:#000;font-weight:bold">public</span> Setup(IMethodOptions&lt;R&gt; options)
-	{
-		<span style="color:#000;font-weight:bold">this</span>.options = options;
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> Setup&lt;R, T&gt; Returns(R objToReturn)
-	{
-		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Setup&lt;R, T&gt;(<span style="color:#000;font-weight:bold">this</span>.options.Return(objToReturn));
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> Setup&lt;R, T&gt; Returns(Delegates.Function&lt;R, T&gt; action)
-	{
-		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Setup&lt;R, T&gt;(<span style="color:#000;font-weight:bold">this</span>.options.Do(action));
-	}
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">28</span>
-										<span class="rest">Mar 2009</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">28</span>
+							<span class="rest">Mar 2009</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">xUnit Test Patterns: Refactoring Test Code</h1>
+								<h4 class="title small">
+									<a href="../../2009/03/28/xunit-test-patterns-refactoring-test-code/">xUnit Test Patterns: Refactoring Test Code</a>
+								</h4>
+								<span class="description">
+									
+										[xUnit Test Patterns: Refactoring Test Code](http://www.amazon.com/xUnit-Test-Patterns-Refactoring-Addison-Wesley/dp/013...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p><a href="http://www.amazon.com/xUnit-Test-Patterns-Refactoring-Addison-Wesley/dp/0131495054">xUnit Test Patterns: Refactoring Test Code</a> starts with narratives on philosophy, principles, strategies and test smells. The second part covers test smells but i skimmed through these chapters because i have already had the joy to experience these anti-patterns first hand 🙁 Most chapters in the third part, covering actual patterns, caught my attention and inspired me. Although it&rsquo;s quite big, 700+ pages, this book is most certainly recommended!</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/book-reviews">Book reviews</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">24</span>
-										<span class="rest">Mar 2009</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">24</span>
+							<span class="rest">Mar 2009</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Strict mocks lead to overspecification</h1>
+								<h4 class="title small">
+									<a href="../../2009/03/24/strict-mocks-lead-to-overspecification/">Strict mocks lead to overspecification</a>
+								</h4>
+								<span class="description">
+									
+										Here is an example that demonstrates how strick mocks lead to overspecification. Imagine that we are creating a simple s...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Here is an example that demonstrates how strick mocks lead to overspecification. Imagine that we are creating a simple screen in a <a href="http://martinfowler.com/eaaDev/PassiveScreen.html">Passive View</a> architecture. The first feature that we implement is displaying the message &ldquo;edit&rdquo; when the user clicks the edit button</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[Fact]</span> <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldDisplayEditClickMessage()
-{
-	<span style="color:#998;font-style:italic">// Establish context
-</span><span style="color:#998;font-style:italic"></span>	MockRepository mockRepository = <span style="color:#000;font-weight:bold">new</span> MockRepository();
-	IView view = mockRepository.StrictMock&lt;iview&gt;();
-	Expect.Call(<span style="color:#000;font-weight:bold">delegate</span> { view.EditClick += <span style="color:#000;font-weight:bold">null</span>; }).IgnoreArguments();
-	mockRepository.Replay(view);
-
-	<span style="color:#998;font-style:italic">// Create sut
-</span><span style="color:#998;font-style:italic"></span>	Presenter sut = <span style="color:#000;font-weight:bold">new</span> Presenter(view);
-
-	<span style="color:#998;font-style:italic">// Setup expectations
-</span><span style="color:#998;font-style:italic"></span>	mockRepository.BackToRecord(view, BackToRecordOptions.Expectations);
-	Expect.Call(<span style="color:#000;font-weight:bold">delegate</span> { view.DisplayClickMessage(<span style="color:#d14">&#34;edit&#34;</span>); });
-	mockRepository.ReplayAll();
-
-	<span style="color:#998;font-style:italic">// Exercise
-</span><span style="color:#998;font-style:italic"></span>	RhinoMocksExtensions
-	.GetEventRaiser(view, <span style="color:#000;font-weight:bold">delegate</span>(IView v) { v.EditClick += <span style="color:#000;font-weight:bold">null</span>; })
-	.Raise(view, EventArgs.Empty);
-
-	<span style="color:#998;font-style:italic">// Verify
-</span><span style="color:#998;font-style:italic"></span>	mockRepository.VerifyAll();
-}
-</code></pre></div><p><img src="http://www.timvw.be/wp-content/images/overspecification-01.PNG" alt="screenshot of test runner with all tests passing"></p>
-<p>And now we add the feature that displays the message &ldquo;save&rdquo; whenever the user clicks on the save button</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#008080">[Fact]</span> <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldDisplaySaveClickMessage()
-{
-	<span style="color:#998;font-style:italic">// Establish context
-</span><span style="color:#998;font-style:italic"></span>	MockRepository mockRepository = <span style="color:#000;font-weight:bold">new</span> MockRepository();
-	IView view = mockRepository.StrictMock&lt;iview&gt;();
-	Expect.Call(<span style="color:#000;font-weight:bold">delegate</span> { view.EditClick += <span style="color:#000;font-weight:bold">null</span>; }).IgnoreArguments();
-	Expect.Call(<span style="color:#000;font-weight:bold">delegate</span> { view.SaveClick += <span style="color:#000;font-weight:bold">null</span>; }).IgnoreArguments();
-	mockRepository.Replay(view);
-
-	<span style="color:#998;font-style:italic">// Create sut
-</span><span style="color:#998;font-style:italic"></span>	Presenter sut = <span style="color:#000;font-weight:bold">new</span> Presenter(view);
-
-	<span style="color:#998;font-style:italic">// Setup expectations
-</span><span style="color:#998;font-style:italic"></span>	mockRepository.BackToRecord(view, BackToRecordOptions.Expectations);
-	Expect.Call(<span style="color:#000;font-weight:bold">delegate</span> { view.DisplayClickMessage(<span style="color:#d14">&#34;save&#34;</span>); });
-	mockRepository.ReplayAll();
-
-	<span style="color:#998;font-style:italic">// Exercise
-</span><span style="color:#998;font-style:italic"></span>	RhinoMocksExtensions
-	.GetEventRaiser(view, <span style="color:#000;font-weight:bold">delegate</span>(IView v) { v.SaveClick += <span style="color:#000;font-weight:bold">null</span>; })
-	.Raise(view, EventArgs.Empty);
-
-	<span style="color:#998;font-style:italic">// Verify
-</span><span style="color:#998;font-style:italic"></span>	mockRepository.VerifyAll();
-	}
-}
-</code></pre></div><p><img src="http://www.timvw.be/wp-content/images/overspecification-02.PNG" alt="screenshot of test runner with a failing test."></p>
-<p>Although we implemented the feature correctly, and left the code of the first feature untouched, we notice that our ShouldDisplayEditClickMessage test fails because it is not expecting a subscription to the SaveClick event. Imho, this way of testing is a testing <strong>anti-pattern</strong>.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/patterns">Patterns</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">23</span>
-										<span class="rest">Mar 2009</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">23</span>
+							<span class="rest">Mar 2009</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Comparing Moq to Rhino Mocks</h1>
+								<h4 class="title small">
+									<a href="../../2009/03/23/comparing-moq-to-rhino-mocks/">Comparing Moq to Rhino Mocks</a>
+								</h4>
+								<span class="description">
+									
+										So which mocking framework should we use? Do we fall back on good old [Rhino Mocks](http://ayende.com/projects/rhino-moc...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>So which mocking framework should we use? Do we fall back on good old <a href="http://ayende.com/projects/rhino-mocks.aspx">Rhino Mocks</a> or do we choose for the new kid on the block <a href="http://code.google.com/p/moq/">Moq</a>?</p>
-<p>From a technical point of view i would dare to say that they will be able to support the same set of features because they&rsquo;re both based on Castle&rsquo;s <a href="http://www.castleproject.org/dynamicproxy/index.html">DynamicProxy</a>. Rhino Mocks has the advantages that it, unlike Moq, supports the mocking of Delegates and can be used in a .Net 2.0 only environment. Whether or not we should care about these differences is a question i will leave unanswered.</p>
-<p>From a user point of view i find the Moq API a bit cleaner because <!-- raw HTML omitted -->it frees me from thinking about the record-replay model<!-- raw HTML omitted --> and Rhino Mocks wants me to make assertions on a stub. Apart from that the differences are rather small given for the use-cases i presented in <a href="http://www.timvw.be/getting-started-with-moq/">Getting started with Moq</a>.</p>
-<ul>
-<li>Creating instances</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Rhino  
-</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">var</span> productDetailView = MockRepository.GenerateStub&lt;iproductDetailView&gt;();
-</code></pre></div><p>vs</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Moq
-</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">var</span> productDetailViewMock = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iproductDetailView&gt;();
-</code></pre></div><ul>
-<li>Setting up results</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Rhino Mocks
-</span><span style="color:#998;font-style:italic"></span>productRepository
-    .Stub(repository =&gt; repository.GetCategory(<span style="color:#099">0</span>)).IgnoreArguments()
-    .Do((Delegates.Function&lt;icategory, <span style="color:#458;font-weight:bold">int</span>&gt;)(categoryId =&gt; <span style="color:#000;font-weight:bold">return</span> category;));
-</code></pre></div><p>vs</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Moq
-</span><span style="color:#998;font-style:italic"></span>productRepositoryMock    
-    .Setup(repository =&gt; repository.GetCategory(It.IsAny&lt;<span style="color:#458;font-weight:bold">int</span>&gt;())) 
-    .Returns&lt;<span style="color:#458;font-weight:bold">int</span>&gt;(categoryId =&gt; <span style="color:#000;font-weight:bold">return</span> category.Object;});
-</code></pre></div><ul>
-<li>Consuming the mocked objects</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Rhino Mocks
-</span><span style="color:#998;font-style:italic">// Nothing to do
-</span></code></pre></div><p>vs</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Moq  
-</span><span style="color:#998;font-style:italic">// Nothing to do
-</span></code></pre></div><ul>
-<li>Raising events</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Rhino Mocks
-</span><span style="color:#998;font-style:italic"></span>productDetailView.Raise(view =&gt; view.EditClick += <span style="color:#000;font-weight:bold">null</span>).Raise(sender, EventArgs.Empty);
-</code></pre></div><p>vs</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Moq  
-</span><span style="color:#998;font-style:italic"></span>productDetailViewMock.Raise(view =&gt; view.EditClick += <span style="color:#000;font-weight:bold">null</span>, sender, EventArgs.Empty);
-</code></pre></div><ul>
-<li>Verifying that a method was invoked</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Rhino Mocks -- Odd that i&#39;m asserting on a Stub.
-</span><span style="color:#998;font-style:italic"></span>productRepository.AssertWasCalled(    
-    repository =&gt; repository.FindCategories(
-    Arg&lt;ispecification&lt;icategory&gt;&gt;.Matches(Is.TypeOf(<span style="color:#000;font-weight:bold">typeof</span>(All&lt;icategory&gt;)))));
-</code></pre></div><p>vs</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Moq
-</span><span style="color:#998;font-style:italic"></span>productRepositoryMock.Verify(    
-    repository =&gt; repository.FindCategories(
-		It.Is&lt;ispecification&lt;icategory&gt;&gt;(specification =&gt; specification.GetType() == <span style="color:#000;font-weight:bold">typeof</span>(All&lt;icategory&gt;))));
-</code></pre></div><ul>
-<li>Override a result</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Rhino Mocks  
-</span><span style="color:#998;font-style:italic"></span>productDetailView.BackToRecord();
-    
-productDetailView    
-    .Stub(view =&gt; view.CategoryId)
-    .Returns(<span style="color:#099">2</span>);
-</code></pre></div><p>vs</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Moq  
-</span><span style="color:#998;font-style:italic"></span>productDetailViewMock
-    .Setup(view =&gt; view.CategoryId).Returns(<span style="color:#099">2</span>);
-</code></pre></div><p><strong>Editted code to take advantage of the new AAA syntax that comes with Rhino Mocks 3.5 If only someone could show me how i can override a Stubbed result&hellip;</strong></p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">21</span>
-										<span class="rest">Mar 2009</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">21</span>
+							<span class="rest">Mar 2009</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Getting started with Moq</h1>
+								<h4 class="title small">
+									<a href="../../2009/03/21/getting-started-with-moq/">Getting started with Moq</a>
+								</h4>
+								<span class="description">
+									
+										In this article I will demonstrate the Moq API by means of a simple application that allows the user to manage a quote.
+...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>In this article I will demonstrate the Moq API by means of a simple application that allows the user to manage a quote.</p>
-<p><img src="http://www.timvw.be/wp-content/images/QuoteOfTheDay-01.jpg" alt="screenshot of quote manager displaying opening screen."></p>
-<p><img src="http://www.timvw.be/wp-content/images/QuoteOfTheDay-02.jpg" alt="screenshot of quote manager displaying edit screen."></p>
-<p>In order to prevent that we have to rewrite our application when we move to a different graphical environment such as Web Forms, Silverlight or WPF I have decided to apply the [Humble Object](<a href="http://xunitpatterns.com/Humble">http://xunitpatterns.com/Humble</a> Object.html) pattern in the design. The implementation of the application has been based on the <a href="http://martinfowler.com/eaaDev/PassiveScreen.html">Passive View pattern</a>.</p>
-<p>First we describe what should happen when the user launches the application:</p>
-<ul>
-<li>The quote should be displayed</li>
-<li>The Edit button should be visible</li>
-<li>The OK button should be invisible</li>
-<li>The Cancel button should be invisible</li>
-<li>It should not be possible to edit the quote</li>
-</ul>
-<p>Now we translate these requirements in <a href="http://www.timvw.be/wp-content/code/csharp/Code-01.txt">code</a>. Because it is too expensive to test with actual Windows resources I have decided to use a mock object that mimics the actual resource. This is done in the Given method which arranges the context in which we want to verify the behavior:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iquoteFormView&gt;();
-<span style="color:#998;font-style:italic">// The mimicked view object is available via the Object property
-</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">this</span>.sut = <span style="color:#000;font-weight:bold">new</span> QuoteFormPresenter(<span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock.Object);
-</code></pre></div><p>The When method is used to invoke the behavior that we want to verify. In the situation where the user launches the application this means raising the Load event:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock.Raise(view =&gt; view.Load += <span style="color:#000;font-weight:bold">null</span>, <span style="color:#000;font-weight:bold">null</span>, EventArgs.Empty);
-</code></pre></div><p>We can verify that a certain method has been called as following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock.Verify(view =&gt; view.MakeEditButtonVisible(<span style="color:#000;font-weight:bold">true</span>));
-</code></pre></div><p>In situations where we don’t have the exact parameters for the method that should be invoked we can use the <a href="http://api.moq.me/html/FBE0FFA5.htm">It</a> class to describe those parameters:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock.Verify(view =&gt; view.DisplayQuote(It.IsAny&lt;<span style="color:#458;font-weight:bold">string</span>&gt;()));
-</code></pre></div><p>We repeat this process of defining and implementing the requirements for the other interactions we want to describe. We end up with a set of requirements that looks like this:</p>
-<p><img src="http://www.timvw.be/wp-content/images/QuoteOfTheDay-03.jpg" alt="screenshot of test manager"></p>
-<p>In case the user clicked the Cancel button we want to verify that the updated quote is not displayed:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock.Verify(view =&gt; view.DisplayQuote(It.IsAny&lt;<span style="color:#458;font-weight:bold">string</span>&gt;()), Times.Never());
-</code></pre></div><p>In case the user clicked the OK button we have to ensure a context where an updated quote is available. This is achieved by adding the following in our Given method:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock
-.Setup(view =&gt; view.UpdatedQuote)
-.Returns(<span style="color:#000;font-weight:bold">this</span>.updatedQuote);
-</code></pre></div><p>Now we can verify that the updated quote is displayed:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock.Verify(view =&gt; view.DisplayQuote(<span style="color:#000;font-weight:bold">this</span>.updatedQuote));
-</code></pre></div><p>Virtually every application interacts with a database and the same is true for our application. Just like we abstracted our view, we decide to abstract our quote resource too. In case the user clicked the OK button we want to verify that the resource was instructed to update the quote.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">var</span> quote = <span style="color:#000;font-weight:bold">this</span>.quoteFormViewMock.Object.UpdatedQuote;
-<span style="color:#000;font-weight:bold">this</span>.quoteResourceMock.Verify(resource =&gt; resource.Update(quote));
-</code></pre></div><p>In case the quote resource fails we would like to display an error message. To achieve this we create a new test that establishes a context where the quote resource throws an exception when it is asked to update a quote as following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">base</span>.Given();
-<span style="color:#000;font-weight:bold">base</span>.quoteResourceMock
-.Setup(resource =&gt; resource.Update(It.IsAny&lt;<span style="color:#458;font-weight:bold">string</span>&gt;()))
-.Throws(<span style="color:#000;font-weight:bold">new</span> ApplicationException(<span style="color:#d14">&#34;Resource is unavailable.&#34;</span>));
-</code></pre></div><p>Sometimes we want to determine what should happen based on the parameters that are provided. In that case we can provide the Returns function a delegate:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">base</span>.quoteResourceMock
-.Setup(resource =&gt; resource.Update(It.IsAny&lt;<span style="color:#458;font-weight:bold">string</span>&gt;()))
-.Returns&lt;<span style="color:#458;font-weight:bold">string</span>&gt;(quote =&gt;
-{
-<span style="color:#000;font-weight:bold">if</span> (<span style="color:#458;font-weight:bold">string</span>.IsNullOrEmpty(quote)) <span style="color:#000;font-weight:bold">throw</span> <span style="color:#000;font-weight:bold">new</span> ApplicationException();
-<span style="color:#000;font-weight:bold">return</span> quote.Replace(<span style="color:#d14">&#34;a&#34;</span>, <span style="color:#d14">&#34;b&#34;</span>);
-});
-</code></pre></div><p>I think that this covers most typical usage scenarios. Feel free to download the code: <a href="http://www.timvw.be/wp-content/code/csharp/QuoteManager.zip">QuoteManager.zip</a>.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">14</span>
-										<span class="rest">Mar 2009</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">14</span>
+							<span class="rest">Mar 2009</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Another reason for not using mstest</h1>
+								<h4 class="title small">
+									<a href="../../2009/03/14/another-reason-for-not-using-mstest/">Another reason for not using mstest</a>
+								</h4>
+								<span class="description">
+									
+										As you can read in [CA1001](http://msdn.microsoft.com/en-us/library/ms182172(VS.80).aspx): Types that own disposable fie...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>As you can read in <a href="http://msdn.microsoft.com/en-us/library/ms182172(VS.80).aspx">CA1001</a>: Types that own disposable fields should be disposable. Pretty solid advice, but for some reason the mstest runner does not dispose of classes that implement IDisposable. A possible workaround is to apply a <a href="http://msdn.microsoft.com/en-us/library/microsoft.visualstudio.testtools.unittesting.testcleanupattribute(VS.80).aspx">TestCleanupAttribute</a> to the Dispose method, but this is really contradictory with the &ldquo;Shared test fixture&rdquo; approach mstest uses. Imho, there is only one clean solution: use a decent testing framework instead.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/visual-studio">Visual Studio</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">14</span>
-										<span class="rest">Mar 2009</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">14</span>
+							<span class="rest">Mar 2009</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Setup expectation with successive function calls using Moq</h1>
+								<h4 class="title small">
+									<a href="../../2009/03/14/setup-expectation-with-successive-function-calls-using-moq/">Setup expectation with successive function calls using Moq</a>
+								</h4>
+								<span class="description">
+									
+										In the [Quickstart](http://code.google.com/p/moq/wiki/QuickStart) guide we find an example that shows us how to setup a ...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>In the <a href="http://code.google.com/p/moq/wiki/QuickStart">Quickstart</a> guide we find an example that shows us how to setup a different return value for each invocation as following</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// returning different values on each invocation
-</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">var</span> mock = <span style="color:#000;font-weight:bold">new</span> Mock&lt;ifoo&gt;();
-<span style="color:#458;font-weight:bold">var</span> calls = <span style="color:#099">0</span>;
-mock.Setup(foo =&gt; foo.Execute(<span style="color:#d14">&#34;ping&#34;</span>))
-	.Returns(() =&gt; calls)
-	.Callback(() =&gt; calls++);
-<span style="color:#998;font-style:italic">// returns 0 on first invocation, 1 on the next, and so on
-</span><span style="color:#998;font-style:italic"></span>Console.WriteLine(mock.Object.Execute(<span style="color:#d14">&#34;ping&#34;</span>));
-</code></pre></div><p>In <a href="http://www.madprops.org/blog/moq-triqs-successive-expectations/">Moq Triqs &ndash; Successive Expectations</a> i found inspiration to implement an extension method that allows me to define an expectation that calls a set of successive functions</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MoqExtensions</span>
-{
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> IReturnsResult&lt;tmock&gt; ReturnsInOrder&lt;tmock, TResult&gt;(<span style="color:#000;font-weight:bold">this</span> ISetup&lt;tmock, TResult&gt; setup, <span style="color:#000;font-weight:bold">params</span> Func&lt;tresult&gt;[] valueFunctions) <span style="color:#000;font-weight:bold">where</span> TMock : <span style="color:#000;font-weight:bold">class</span>
-	{
-		<span style="color:#458;font-weight:bold">var</span> functionQueue = <span style="color:#000;font-weight:bold">new</span> Queue&lt;func&lt;tresult&gt;&gt;(valueFunctions);
-		<span style="color:#000;font-weight:bold">return</span> setup.Returns(() =&gt; functionQueue.Dequeue()());
-	}
-}
-</code></pre></div><p>This allows me to define a set of functions that i want to be called for each successive call</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">WhenSettingUpOrderedExpectationFunctions</span>
-{
-	<span style="color:#000;font-weight:bold">interface</span> ICategory { <span style="color:#458;font-weight:bold">int</span> Id { <span style="color:#000;font-weight:bold">get</span>; } }
-<span style="color:#008080">
-</span><span style="color:#008080">	[Fact]</span>
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldReturnTheSequenceOfIds()
-	{
-		<span style="color:#458;font-weight:bold">var</span> category = <span style="color:#000;font-weight:bold">new</span> Mock&lt;icategory&gt;();
-
-		category.Setup(c =&gt; c.Id).ReturnsInOrder(
-			() =&gt; <span style="color:#099">1</span>,
-			() =&gt; <span style="color:#099">2</span>,
-			() =&gt; <span style="color:#099">3</span>,
-			() =&gt; <span style="color:#099">4</span>);
-
-		<span style="color:#458;font-weight:bold">var</span> expectedIds = <span style="color:#000;font-weight:bold">new</span> List&lt;<span style="color:#458;font-weight:bold">int</span>&gt; { <span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">3</span>, <span style="color:#099">4</span> };
-		<span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">var</span> expectedId <span style="color:#000;font-weight:bold">in</span> expectedIds) Assert.Equal(expectedId, category.Object.Id);
-	}
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">05</span>
-										<span class="rest">Mar 2009</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">05</span>
+							<span class="rest">Mar 2009</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Using sed</h1>
+								<h4 class="title small">
+									<a href="../../2009/03/05/using-sed/">Using sed</a>
+								</h4>
+								<span class="description">
+									
+										For a couple of days now i&#39;ve been pondering about posting something about my love for [GNU text-utilities](http://www.g...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>For a couple of days now i&rsquo;ve been pondering about posting something about my love for <a href="http://www.gnu.org/software/textutils/">GNU text-utilities</a> but never got round to it. A couple of minutes ago i read Phil Windley&rsquo;s <a href="http://www.windley.com/archives/2009/03/using_grep_and_find.shtml">Using Grep and Find</a> post so here is a one-liner that shows how you can add a reference to a msbuild target file to all csproj files in a given folder:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">find -name *.csproj -exec sed -i -e <span style="color:#d14">&#39;#^&lt;/project&gt;$# &lt;import Project=&#34;X:\\BuildTasks\\Corp.targets&#34; /&gt;\r\n&lt;/project&gt;&#39;</span> <span style="color:#000;font-weight:bold">{}</span> <span style="color:#d14">\;</span>
-</code></pre></div><p>Or if you are frustrated with System.Diagnostics.CodeAnalysis.SuppressMessageAttributes and want to remove them from all your cs files:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">find -name <span style="color:#d14">\*</span>.cs -exed sed -r -i -e <span style="color:#d14">&#39;s#\[.\*?SuppressMessage.*?\]##&#39;</span> <span style="color:#000;font-weight:bold">{}</span> <span style="color:#d14">\&#34;</span>;
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/free-software">Free Software</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">23</span>
-										<span class="rest">Feb 2009</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">23</span>
+							<span class="rest">Feb 2009</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">NHibernate in Action</h1>
+								<h4 class="title small">
+									<a href="../../2009/02/23/nhibernate-in-action/">NHibernate in Action</a>
+								</h4>
+								<span class="description">
+									
+										Last week i received my copy of [NHibernate in Action](http://www.amazon.com/NHibernate-Action-Pierre-Henri-Kuat%C3%A9/d...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Last week i received my copy of <a href="http://www.amazon.com/NHibernate-Action-Pierre-Henri-Kuat%C3%A9/dp/1932394923">NHibernate in Action</a>. This book provides much more than the typical examples you find in the product documentation like architectural guidance on the application of O/R Mapping. Even with my Hibernate experience i found some interesting insights in the NHibernate features. This book is most certainly recommended!</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/book-reviews">Book reviews</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 				
 

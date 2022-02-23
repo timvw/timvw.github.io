@@ -61,530 +61,221 @@
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">04</span>
-										<span class="rest">Mar 2005</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">04</span>
+							<span class="rest">Mar 2005</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">More on recursion</h1>
+								<h4 class="title small">
+									<a href="../../2005/03/04/more-on-recursion/">More on recursion</a>
+								</h4>
+								<span class="description">
+									
+										Yesterday i already wrote that an interative implementation for a recursive function is more efficient. And i gave you a...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Yesterday i already wrote that an interative implementation for a recursive function is more efficient. And i gave you an example of the fibonacci function. Well, today i am here to present you an implementation for every recursive function.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Math</span>
-{
-  <span style="color:#998;font-style:italic">// calculate the linear combination  
-</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// fe:     
-</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// coefficients = array(1, 2, 3)   
-</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// values = array(4, 5, 6)     
-</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// returns: (1 \* 4) + (2 \* 5) + (3 * 6)
-</span><span style="color:#998;font-style:italic"></span>  <span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">lc</span>(<span style="color:#008080">$coefficients</span>, <span style="color:#008080">$values</span>)     
-  {        
-    <span style="color:#000;font-weight:bold">if</span> (count(<span style="color:#008080">$coefficients</span>) <span style="color:#000;font-weight:bold">!=</span> count(<span style="color:#008080">$values</span>))        
-    {             
-      <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>;      
-    }
-
-    <span style="color:#008080">$result</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>;        
-    <span style="color:#000;font-weight:bold">for</span> (<span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; <span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">&lt;</span> count(<span style="color:#008080">$coefficients</span>); <span style="color:#000;font-weight:bold">++</span><span style="color:#008080">$i</span>)    
-    {          
-      <span style="color:#008080">$result</span> <span style="color:#000;font-weight:bold">+=</span> <span style="color:#008080">$coefficients</span>[<span style="color:#008080">$i</span>] <span style="color:#000;font-weight:bold">*</span> <span style="color:#008080">$values</span>[<span style="color:#008080">$i</span>];        
-    }         
-    <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$result</span>;     
-  }
-
-  <span style="color:#998;font-style:italic">// lookup the value for the recursive function     
-</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// fe:     
-</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// n: 3      
-</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// coefficients = array(a, b)    
-</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// initvalues = array(0, 1)     
-</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// returns: 2    
-</span><span style="color:#998;font-style:italic"></span>  <span style="color:#998;font-style:italic">// this is the same as f(n) = (a \* (n-2)) + (b \* (n-1))    
-</span><span style="color:#998;font-style:italic"></span>  <span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">recursive</span>(<span style="color:#008080">$n</span>, <span style="color:#008080">$coefficients</span>, <span style="color:#008080">$initvalues</span>)    
-  {          
-    <span style="color:#000;font-weight:bold">if</span> (<span style="color:#008080">$n</span> <span style="color:#000;font-weight:bold">&lt;</span> count(<span style="color:#008080">$initvalues</span>))         
-    {             
-      <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$initvalues</span>[<span style="color:#008080">$n</span>];          
-    }
-
-    <span style="color:#000;font-weight:bold">for</span> (<span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">=</span> count(<span style="color:#008080">$initvalues</span>); <span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">&lt;=</span> <span style="color:#008080">$n</span>; <span style="color:#000;font-weight:bold">++</span><span style="color:#008080">$i</span>)        
-    {            
-      <span style="color:#008080">$result</span> <span style="color:#000;font-weight:bold">=</span> Math<span style="color:#000;font-weight:bold">::</span><span style="color:#008080">lc</span>(<span style="color:#008080">$coefficients</span>, <span style="color:#008080">$initvalues</span>);            
-      array_shift(<span style="color:#008080">$initvalues</span>);             
-      array_push(<span style="color:#008080">$initvalues</span>, <span style="color:#008080">$result</span>);        
-    }
-    <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$result</span>;    
-  }
-}
-</code></pre></div><p>As an example we use this class to calculate fibonacci(3):</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#008080">$coefficients</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>(<span style="color:#099">1</span>, <span style="color:#099">1</span>); <span style="color:#998;font-style:italic">// f(n) = (1 \* f(n-2)) + (1 \* f(n-1))
-</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$initvalues</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>(<span style="color:#099">0</span>, <span style="color:#099">1</span>); <span style="color:#998;font-style:italic">// f(0) = 0 and f(1) = 1
-</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">echo</span> Math<span style="color:#000;font-weight:bold">::</span><span style="color:#008080">recursive</span>(<span style="color:#099">3</span>, <span style="color:#008080">$coefficients</span>, <span style="color:#008080">$initvalues</span>);
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/php">PHP</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">03</span>
-										<span class="rest">Mar 2005</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">03</span>
+							<span class="rest">Mar 2005</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Calculating Fibonacci</h1>
+								<h4 class="title small">
+									<a href="../../2005/03/03/calculating-fibonacci/">Calculating Fibonacci</a>
+								</h4>
+								<span class="description">
+									
+										What is a [recursive](http://en.wikipedia.org/wiki/Recursion) function? It is a function where the value for input n is ...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>What is a <a href="http://en.wikipedia.org/wiki/Recursion">recursive</a> function? It is a function where the value for input n is calculated as a linear combination of the previous 1, 2, &hellip;, n-1 function values. An example is the fibonacci function: f(n) = f(n-1) + f(n-2).</p>
-<p>If we program this our first code would look like:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">fibonacci</span>(<span style="color:#008080">$n</span>)
-{
-    <span style="color:#000;font-weight:bold">if</span> (<span style="color:#008080">$n</span> <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>) { <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$n</span>; } <span style="color:#000;font-weight:bold">return</span> fibonacci(<span style="color:#008080">$n</span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">+</span> fibonacci(<span style="color:#008080">$n</span><span style="color:#000;font-weight:bold">-</span><span style="color:#099">2</span>); 
-} 
-</code></pre></div><p>It becomes clear that this is really inefficient. For example if we call fibonacci(3) the following function calls will be made:</p>
-<p>fibonacci(3)</p>
-<ul>
-<li>fibonacci(2)
-&ndash; fibonacci(1)
-&mdash; fibonacci(0)
-&ndash;fibonacci(1)</li>
-</ul>
-<p>We can optimize this function by implementing it as an iteration. We still have to calculate all the previous values, thus the time-complexity of this algorithm is O(n). Here is the code:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">fibonacci</span>(<span style="color:#008080">$n</span>)
-{ 
-  <span style="color:#000;font-weight:bold">if</span> (<span style="color:#008080">$n</span> <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>) { <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$n</span>; } 
-  <span style="color:#008080">$nmin2</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; 
-  <span style="color:#008080">$nmin1</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>; 
-  <span style="color:#008080">$result</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; 
-  <span style="color:#000;font-weight:bold">for</span> (<span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">2</span>; <span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">&lt;=</span> n; <span style="color:#000;font-weight:bold">++</span><span style="color:#008080">$i</span>) { 
-    <span style="color:#008080">$result</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$nmin1</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#008080">$nmin2</span>; 
-    <span style="color:#008080">$nmin2</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$nmin1</span>; 
-    <span style="color:#008080">$nmin1</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$result</span>; 
-  }    
-  <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$result</span>; 
-} 
-</code></pre></div><p>Time to take our math course and lookup a non-recursive function for fibonacci. Eureka, we have found one! The algorithm has constant time complexity. The proof for this function is can be found <a href="http://mathforum.org/library/drmath/view/52686.html">here</a>.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">fibonacci</span>(<span style="color:#008080">$n</span>)
-{   
-  <span style="color:#008080">$denominator</span> <span style="color:#000;font-weight:bold">=</span> pow((<span style="color:#099">1</span><span style="color:#000;font-weight:bold">+</span>sqrt(<span style="color:#099">5</span>))<span style="color:#000;font-weight:bold">/</span><span style="color:#099">2</span>, <span style="color:#008080">$n</span>) <span style="color:#000;font-weight:bold">--</span> pow((<span style="color:#099">1</span><span style="color:#000;font-weight:bold">-</span>sqrt(<span style="color:#099">5</span>))<span style="color:#000;font-weight:bold">/</span><span style="color:#099">2</span>, <span style="color:#008080">$n</span>);  
-  <span style="color:#008080">$nominator</span> <span style="color:#000;font-weight:bold">=</span> sqrt(<span style="color:#099">5</span>);
-  <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$denominator</span> <span style="color:#000;font-weight:bold">/</span> <span style="color:#008080">$nominator</span>;
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/php">PHP</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">08</span>
-										<span class="rest">Feb 2005</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">08</span>
+							<span class="rest">Feb 2005</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Getting started with CVS</h1>
+								<h4 class="title small">
+									<a href="../../2005/02/08/getting-started-with-cvs/">Getting started with CVS</a>
+								</h4>
+								<span class="description">
+									
+										I got an e-mail that asked me how to get started with CVS as quick as possible. The first time i got lost too. So i&#39;ll g...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>I got an e-mail that asked me how to get started with CVS as quick as possible. The first time i got lost too. So i&rsquo;ll give a quick summary how i did it (no p-server).</p>
-<p>The repository will live on a <a href="http://www.debian.org">debian</a> machine in /home/users/timvw/services/cvs.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">timvw@debian: apt-get install cvs <span style="color:#998;font-style:italic"># get the tools</span>
-timvw@debian: cvs -d /home/users/timvw/services/cvs init <span style="color:#998;font-style:italic"># create repository</span>
-</code></pre></div><p>On my windows machine i use <a href="http://www.tortoisecvs.org">TortoiseCVS</a>. I want to make a module pecl that will contain all my <a href="http://pecl.php.net">pecl</a> related code.</p>
-<ol>
-<li>Configure TortoiseCVS to use the <a href="http://www.ssh.com">SSH.com</a> client instead of the built-in <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">Putty</a>.</li>
-</ol>
-<!-- raw HTML omitted -->
-<ol start="2">
-<li>Fill in the path to the SSH binary (tools tab).</li>
-</ol>
-<!-- raw HTML omitted -->
-<ol start="3">
-<li>Create a directory that will hold the code (i choose pecl as name).</li>
-</ol>
-<!-- raw HTML omitted -->
-<ol start="4">
-<li>Create a module (Choose the directory you created and click right).</li>
-</ol>
-<!-- raw HTML omitted -->
-<ol start="5">
-<li>Fill in the settings.</li>
-</ol>
-<!-- raw HTML omitted -->
-<ol start="6">
-<li>Hit Ok to initialise the module.</li>
-</ol>
-<!-- raw HTML omitted -->
-<ol start="7">
-<li>Create a README file and add it to the module.</li>
-</ol>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<ol start="8">
-<li>Add a comment message</li>
-</ol>
-<!-- raw HTML omitted -->
-<ol start="9">
-<li>Commit the changes</li>
-</ol>
-<!-- raw HTML omitted -->
-<ol start="10">
-<li>Update your files (Other people have commited their changes).</li>
-</ol>
-<!-- raw HTML omitted -->
-<ol start="11">
-<li>Read The Fine Manual at <a href="http://cvsbook.red-bean.com/cvsbook.html">http://cvsbook.red-bean.com/cvsbook.html</a></li>
-</ol>
+					</div>
+				
+					<div class="post">
+						<div class="post-header">
+							<div class="meta">
+								<div class="date">
+									<span class="day">06</span>
+							<span class="rest">Feb 2005</span>
+								</div>
+							</div>
+							<div class="matter">
+								<h4 class="title small">
+									<a href="../../2005/02/06/configuring-mutt-for-gpg/">Configuring Mutt for GPG</a>
+								</h4>
+								<span class="description">
+									
+										Today i generated a [PGP](http://www.pgpi.org/) (Pretty Good Privacy) key for my e-mail address. I also configured my ma...
+									
+								</span>
+							</div>
+						</div>
+					</div>
+				
+					<div class="post">
+						<div class="post-header">
+							<div class="meta">
+								<div class="date">
+									<span class="day">02</span>
+							<span class="rest">Feb 2005</span>
+								</div>
+							</div>
+							<div class="matter">
+								<h4 class="title small">
+									<a href="../../2005/02/02/elegantly-generate-sql-queries/">Elegantly generate SQL queries</a>
+								</h4>
+								<span class="description">
+									
+										Code: [php/elegantsql.txt](/wp-content/code/php/elegantsql.txt)
+									
+								</span>
+							</div>
+						</div>
+					</div>
+				
+					<div class="post">
+						<div class="post-header">
+							<div class="meta">
+								<div class="date">
+									<span class="day">28</span>
+							<span class="rest">Jan 2005</span>
+								</div>
+							</div>
+							<div class="matter">
+								<h4 class="title small">
+									<a href="../../2005/01/28/bypassing-url-file-access-is-disabled/">Bypassing URL file-access is disabled</a>
+								</h4>
+								<span class="description">
+									
+										For some odd reason this host has disabled URL file-access.
+  
+So i needed something simple to bypass this problem:
 
+```...
+									
+								</span>
+							</div>
 						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/free-software">Free Software</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">06</span>
-										<span class="rest">Feb 2005</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">23</span>
+							<span class="rest">Jan 2005</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Configuring Mutt for GPG</h1>
+								<h4 class="title small">
+									<a href="../../2005/01/23/playing-with-xml-and-xsl/">Playing with XML and XSL</a>
+								</h4>
+								<span class="description">
+									
+										```php  
+// add stuff to an xml document in php4
+$doc = domxml_open_mem($xml);
+$root = $doc-&gt;document_element();
+$inner ...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Today i generated a <a href="http://www.pgpi.org/">PGP</a> (Pretty Good Privacy) key for my e-mail address. I also configured my mailclient, <a href="http://www.mutt.org">mutt</a>, for use with <a href="http://www.gnupg.org">GnuPG</a>. I copied a sample file i found on the net but always got an error message: sh: line 1: pgpewrap: command not found. It appears that /usr/lib/mutt/ is not in the path and therefore is not found. Here is the tweaked .muttrc part:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/free-software">Free Software</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">02</span>
-										<span class="rest">Feb 2005</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">20</span>
+							<span class="rest">Jan 2005</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Elegantly generate SQL queries</h1>
+								<h4 class="title small">
+									<a href="../../2005/01/20/xslt-annoyances/">XSLT annoyances</a>
+								</h4>
+								<span class="description">
+									
+										Today i&#39;ve finally made the switch. My code generates [XML](http://www.w3.org/XML/) and then i translate it to [XHTML](h...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Code: <a href="../../wp-content/code/php/elegantsql.txt">php/elegantsql.txt</a></p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/php">PHP</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">28</span>
-										<span class="rest">Jan 2005</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">29</span>
+							<span class="rest">Dec 2004</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Bypassing URL file-access is disabled</h1>
+								<h4 class="title small">
+									<a href="../../2004/12/29/basic-download-script/">Basic download script</a>
+								</h4>
+								<span class="description">
+									
+										Code: [php/download.txt](/wp-content/code/php/download.txt)
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>For some odd reason this host has disabled URL file-access.</p>
-<p>So i needed something simple to bypass this problem:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">fetch_url</span>(<span style="color:#008080">$url</span>)
-{     
-  <span style="color:#000;font-weight:bold">if</span> (preg_match(<span style="color:#d14">&#34;#^http://(.\*?)/(.\*)$#&#34;</span>, <span style="color:#008080">$url</span>, <span style="color:#008080">$matches</span>))    
-  {
-    <span style="color:#008080">$host</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$matches</span>[<span style="color:#099">1</span>];       
-    <span style="color:#008080">$uri</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$matches</span>[<span style="color:#099">2</span>];       
-    <span style="color:#008080">$msg</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;GET /</span><span style="color:#d14">$uri</span><span style="color:#d14"> HTTP/1.0</span><span style="color:#d14">\r\n</span><span style="color:#d14">Host: </span><span style="color:#d14">$host\r\n\r\n</span><span style="color:#d14">&#34;</span>;
-    <span style="color:#008080">$fp</span> <span style="color:#000;font-weight:bold">=</span> fsockopen(<span style="color:#008080">$host</span>, <span style="color:#099">80</span>, <span style="color:#008080">$errno</span>, <span style="color:#008080">$errstr</span>, <span style="color:#099">10</span>);
-    fwrite(<span style="color:#008080">$fp</span>, <span style="color:#008080">$msg</span>);         
-    <span style="color:#008080">$ignore</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">true</span>;        
-    <span style="color:#000;font-weight:bold">while</span> (<span style="color:#000;font-weight:bold">!</span>feof(<span style="color:#008080">$fp</span>))        
-    {            
-      <span style="color:#008080">$read</span> <span style="color:#000;font-weight:bold">=</span> fgets(<span style="color:#008080">$fp</span>, <span style="color:#099">1024</span>);
-      <span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">!</span><span style="color:#008080">$ignore</span>)            
-      {     
-        <span style="color:#008080">$contents</span> <span style="color:#000;font-weight:bold">.=</span> <span style="color:#008080">$read</span>;            
-      }
-      <span style="color:#000;font-weight:bold">if</span> (preg_match(<span style="color:#d14">&#34;^Content-Type: .*?</span><span style="color:#d14">\r\n</span><span style="color:#d14">&#34;</span>, <span style="color:#008080">$read</span>))          
-      {                
-        <span style="color:#008080">$ignore</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">false</span>;          
-      }        
-    }
-    fclose(<span style="color:#008080">$fp</span>);
-    <span style="color:#000;font-weight:bold">return</span> <span style="color:#008080">$contents</span>;    
-  }
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/php">PHP</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">23</span>
-										<span class="rest">Jan 2005</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">09</span>
+							<span class="rest">Dec 2004</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Playing with XML and XSL</h1>
+								<h4 class="title small">
+									<a href="../../2004/12/09/custom-ordering-with-mysql/">Custom ordering with MySQL</a>
+								</h4>
+								<span class="description">
+									
+										As a follow up to [Custom Ordering](http://www.timvw.be/custom-ordering) I discovered the nice [Field](http://dev.mysql....
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#998;font-style:italic">// add stuff to an xml document in php4
-</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$doc</span> <span style="color:#000;font-weight:bold">=</span> domxml_open_mem(<span style="color:#008080">$xml</span>);
-<span style="color:#008080">$root</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$doc</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">document_element</span>();
-<span style="color:#008080">$inner</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$doc</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">create_element</span>(<span style="color:#d14">&#39;inner&#39;</span>);
-<span style="color:#008080">$root</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$root</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">append_child</span>(<span style="color:#008080">$inner</span>);
-
-<span style="color:#998;font-style:italic">// add stuff to an xml document in php5
-</span><span style="color:#998;font-style:italic"></span><span style="color:#008080">$doc</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> DomDocument(<span style="color:#d14">&#39;1.0&#39;</span>, <span style="color:#d14">&#39;UTF-8&#39;</span>);
-<span style="color:#008080">$doc</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">loadXML</span>(<span style="color:#008080">$xml</span>);
-<span style="color:#008080">$root</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$doc</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getelementsByTagName</span>(<span style="color:#d14">&#39;resultset&#39;</span>)<span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">item</span>(<span style="color:#099">0</span>);
-<span style="color:#008080">$inner</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$doc</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">createElement</span><span style="color:#d14">&#39;inner&#39;</span>);
-<span style="color:#008080">$root</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#008080">$root</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">appendChild</span>(<span style="color:#008080">$inner</span>); 
-</code></pre></div><p><a href="http://www.w3.org/TR/xhtml1/">XHTML</a> does not allow to have an empty list, <!-- raw HTML omitted --><!-- raw HTML omitted -->. Therefore we need to test first if there are any nodes we want to put in that list. The code to do this looks like:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;xsl:for-each</span> <span style="color:#008080">select=</span><span style="color:#d14">&#34;//resultset/entity&#34;</span><span style="color:#000080">&gt;</span>
-
-  <span style="color:#000080">&lt;div</span> <span style="color:#008080">class=</span><span style="color:#d14">&#34;mainitem&#34;</span><span style="color:#000080">&gt;</span>
-    <span style="color:#000080">&lt;div</span> <span style="color:#008080">class=</span><span style="color:#d14">&#34;maintitle&#34;</span><span style="color:#000080">&gt;</span>
-      <span style="color:#000080">&lt;xsl:value-of</span> <span style="color:#008080">select=</span><span style="color:#d14">&#34;title&#34;</span><span style="color:#000080">/&gt;</span>
-    <span style="color:#000080">&lt;/div&gt;</span>
-    <span style="color:#000080">&lt;div</span> <span style="color:#008080">class=</span><span style="color:#d14">&#34;maincontent&#34;</span><span style="color:#000080">&gt;</span>
-      <span style="color:#000080">&lt;xsl:if</span> <span style="color:#008080">test=</span><span style="color:#d14">&#34;count(items/item) &gt; 0&#34;</span><span style="color:#000080">&gt;</span>
-        <span style="color:#000080">&lt;ul&gt;</span>
-          <span style="color:#000080">&lt;xsl:for-each</span> <span style="color:#008080">select=</span><span style="color:#d14">&#34;items/item&#34;</span><span style="color:#000080">&gt;</span> 
-            <span style="color:#000080">&lt;li&gt;</span>
-              <span style="color:#000080">&lt;a</span> <span style="color:#008080">href=</span><span style="color:#d14">&#34;{link}&#34;</span><span style="color:#000080">&gt;&lt;xsl:value-of</span> <span style="color:#008080">select=</span><span style="color:#d14">&#34;title&#34;</span><span style="color:#000080">/&gt;&lt;/a&gt;</span>
-            <span style="color:#000080">&lt;/li&gt;</span>
-          <span style="color:#000080">&lt;/xsl:for-each&gt;</span> 
-        <span style="color:#000080">&lt;/ul&gt;</span> 
-      <span style="color:#000080">&lt;/xsl:if&gt;</span>
-    <span style="color:#000080">&lt;/div&gt;</span>
-  <span style="color:#000080">&lt;/div&gt;</span> 
-<span style="color:#000080">&lt;/xsl:for-each&gt;</span>
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/php">PHP</a></li>
-										
-										<li><a href="../../tags/xml">XML</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">20</span>
-										<span class="rest">Jan 2005</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">XSLT annoyances</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Today i&rsquo;ve finally made the switch. My code generates <a href="http://www.w3.org/XML/">XML</a> and then i translate it to <a href="http://www.w3.org/TR/xhtml1/">XHTML</a> with <a href="http://www.w3.org/TR/xslt">XSLT</a>. However, if i write</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;textarea</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;foo&#34;</span><span style="color:#000080">&gt;&lt;/textarea&gt;</span>
-</code></pre></div><p>it will be translated to:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;textarea</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;foo&#34;</span> <span style="color:#000080">/&gt;</span>.
-</code></pre></div><p>A not so good workaround is to write: (Notice the space in the xsl:text)</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;textarea</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;foo&#34;</span><span style="color:#000080">&gt;&lt;xsl:text&gt;</span> <span style="color:#000080">&lt;/xsl:text&gt;&lt;/textarea&gt;</span>
-</code></pre></div><p>UPDATE on 2005-01-20 05:42</p>
-<p>The solution is to use html as output method instead of xml.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;xsl:output</span> <span style="color:#008080">method=</span><span style="color:#d14">&#39;html&#39;</span><span style="color:#000080">/&gt;</span>
-</code></pre></div><p>UPDATE on 2005-01-21 02:15</p>
-<p>You may also want to make sure HTML tags do not get transformed:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;xsl:value-of</span> <span style="color:#008080">select=</span><span style="color:#d14">&#34;attribute[@name=&#39;content&#39;]&#34;</span> <span style="color:#008080">disable-output-escaping=</span><span style="color:#d14">&#34;yes&#34;</span><span style="color:#000080">/&gt;</span>
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/xml">XML</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">29</span>
-										<span class="rest">Dec 2004</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Basic download script</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Code: <a href="../../wp-content/code/php/download.txt">php/download.txt</a></p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/php">PHP</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">09</span>
-										<span class="rest">Dec 2004</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Custom ordering with MySQL</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>As a follow up to <a href="http://www.timvw.be/custom-ordering">Custom Ordering</a> I discovered the nice <a href="http://dev.mysql.com/doc/mysql/en/String_functions.html">Field</a> function in <a href="http://www.mysql.com">MySQL.</a> after it was mentionned on my favorite <a href="http://forums.devnetwork.net">PHP Forum</a> by <a href="http://forums.devnetwork.net/profile.php?mode=viewprofile&amp;u=7815">Weirdan</a>. It allows one to order a column on a custom order relation.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> 
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>foo<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">ORDER</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">BY</span><span style="color:#bbb"> </span>FIELD(<span style="color:#000;font-weight:bold">column</span>,<span style="color:#bbb"> </span><span style="color:#d14">&#39;Z&#39;</span>,<span style="color:#bbb"> </span><span style="color:#d14">&#39;B&#39;</span>,<span style="color:#bbb"> </span><span style="color:#d14">&#39;C&#39;</span>)<span style="color:#bbb"> 
-</span></code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/sql">SQL</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 				
 

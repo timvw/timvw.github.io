@@ -61,605 +61,223 @@
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">14</span>
-										<span class="rest">Nov 2005</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">14</span>
+							<span class="rest">Nov 2005</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Parsing http headers</h1>
+								<h4 class="title small">
+									<a href="../../2005/11/14/parsing-http-headers/">Parsing http headers</a>
+								</h4>
+								<span class="description">
+									
+										Today i updated my HTTP proxy a little. [RFC 2616](http://www.w3.org/Protocols/rfc2616/rfc2616.html) describes [Message ...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Today i updated my HTTP proxy a little. <a href="http://www.w3.org/Protocols/rfc2616/rfc2616.html">RFC 2616</a> describes <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2">Message Headers</a> as following:</p>
-<blockquote>
-<!-- raw HTML omitted -->
-</blockquote>
-<p>message-header = field-name &ldquo;:&rdquo; [ field-value ]
-field-name     = token
-field-value    = *( field-content | LWS )
-field-content  = &lt;the OCTETs making up the field-value and consisting of
-either *TEXT or combinations of token, separators,
-and quoted-string&gt;
-<!-- raw HTML omitted --></p>
-<blockquote>
-<!-- raw HTML omitted -->
-</blockquote>
-<p>Here is the code i used to get the field-name and field-value. Do you see the bug?</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-perl" data-lang="perl"><span style="color:#000;font-weight:bold">my</span> (<span style="color:#008080">$name</span>, <span style="color:#008080">$value</span>) <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">split</span> <span style="color:#009926">/:/</span>, <span style="color:#008080">$in</span>;
-</code></pre></div><p>Location headers look like &lsquo;header: <a href="http://www.example.com">http://www.example.com</a>&rsquo;. Now, the problem is that <a href="http://perldoc.perl.org/functions/split.html">split</a> returns a list with &lsquo;location&rsquo;, &lsquo;http&rsquo; and &lsquo;<a href="http://www.example.com">www.example.com</a>&rsquo;. Here is the solution:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-perl" data-lang="perl"><span style="color:#000;font-weight:bold">my</span> <span style="color:#008080">$in</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;location: http://www.example.com&#39;</span>;
-<span style="color:#000;font-weight:bold">my</span> (<span style="color:#008080">$name</span>, <span style="color:#008080">$value</span>) <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">split</span> <span style="color:#009926">/:/</span>, <span style="color:#008080">$in</span>, <span style="color:#099">2</span>;
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/perl">Perl</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">06</span>
-										<span class="rest">Nov 2005</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">06</span>
+							<span class="rest">Nov 2005</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Changing the include_path</h1>
+								<h4 class="title small">
+									<a href="../../2005/11/06/changing-the-include_path/">Changing the include_path</a>
+								</h4>
+								<span class="description">
+									
+										PHP has a feature to change the [include_path](http://www.php.net/manual/en/ini.core.php#ini.include-path) programatical...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>PHP has a feature to change the <a href="http://www.php.net/manual/en/ini.core.php#ini.include-path">include_path</a> programatically. The problem is that the path separator is : on unix and ; on windows. Luckily there is a constant <a href="http://www.php.net/manual/en/reserved.constants.php">PATH_SEPARATOR</a> to overcome this issue. Here is how i would do it</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
-ini_set(<span style="color:#d14">&#39;error_reporting&#39;</span>, <span style="color:#000;font-weight:bold">E_ALL</span>);
-ini_set(<span style="color:#d14">&#39;display_errors&#39;</span>, <span style="color:#000;font-weight:bold">TRUE</span>);
-
-<span style="color:#008080">$include_paths</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>(
-  <span style="color:#d14">&#39;.&#39;</span>,
-  <span style="color:#d14">&#39;/home/users/timvw/phpincs&#39;</span>,
-  <span style="color:#d14">&#39;/home/users/timvw/pear&#39;</span>,
-  ini_get(<span style="color:#d14">&#39;include_path&#39;</span>)
-);
-
-ini_set(<span style="color:#d14">&#39;include_path&#39;</span>, implode(PATH_SEPARATOR, <span style="color:#008080">$include_paths</span>));
-
-<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/php">PHP</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">06</span>
-										<span class="rest">Nov 2005</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">06</span>
+							<span class="rest">Nov 2005</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Introducing the masterpage</h1>
+								<h4 class="title small">
+									<a href="../../2005/11/06/introducing-the-masterpage/">Introducing the masterpage</a>
+								</h4>
+								<span class="description">
+									
+										Most websites have the same layout and an area with dynamic content. So most people choose for the following solution: g...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Most websites have the same layout and an area with dynamic content. So most people choose for the following solution: generate a couple of template files for the static content and then write the code for the dynamic content and include the static templates. Here is how the code for a contact and an aboutme page would look like</p>
-<p>contact.php</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
-<span style="color:#000;font-weight:bold">include</span>(<span style="color:#d14">&#39;header.php&#39;</span>);
-<span style="color:#000;font-weight:bold">include</span>(<span style="color:#d14">&#39;leftpanel.php&#39;</span>);
-<span style="color:#998;font-style:italic">// code for contact page
-</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">include</span>(<span style="color:#d14">&#39;rightpanel.php&#39;</span>);
-<span style="color:#000;font-weight:bold">include</span>(<span style="color:#d14">&#39;footer.php&#39;</span>);
-<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div><p>aboutme.php</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
-<span style="color:#000;font-weight:bold">include</span>(<span style="color:#d14">&#39;header.php&#39;</span>);
-<span style="color:#000;font-weight:bold">include</span>(<span style="color:#d14">&#39;leftpanel.php&#39;</span>);
-<span style="color:#998;font-style:italic">//something about me
-</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">include</span>(<span style="color:#d14">&#39;rightpanel.php&#39;</span>);
-<span style="color:#000;font-weight:bold">include</span>(<span style="color:#d14">&#39;footer.php&#39;</span>);
-<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div><p>This code is pretty flexible. But what happens if you want to change your layout to something without a rightpanel? Right, you have to edit each page and remove the include call. A couple of weeks ago i discovered the concept of <a href="http://www.lifl.fr/~dumoulin/tiles/">tiles</a> and immediately realised this is useful for php too. Here is an example implementation</p>
-<p>contact.php</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
-<span style="color:#000;font-weight:bold">require_once</span>(<span style="color:#d14">&#39;init.php&#39;</span>);
-<span style="color:#008080">$tiles</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>();
-<span style="color:#008080">$tiles</span>[<span style="color:#d14">&#39;main&#39;</span>] <span style="color:#000;font-weight:bold">=</span> PAGE_CONTENT <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;/contact.html&#39;</span>;
-<span style="color:#000;font-weight:bold">include</span>(<span style="color:#d14">&#39;masterpage.php&#39;</span>);
-<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div><p>aboutme.php</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
-<span style="color:#000;font-weight:bold">require_once</span>(<span style="color:#d14">&#39;init.php&#39;</span>);
-<span style="color:#008080">$tiles</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>();
-<span style="color:#008080">$tiles</span>[<span style="color:#d14">&#39;main&#39;</span>] <span style="color:#000;font-weight:bold">=</span> PAGE_CONTENT <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;/aboutme.html&#39;</span>;
-<span style="color:#000;font-weight:bold">include</span>(<span style="color:#d14">&#39;masterpage.php&#39;</span>);
-<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div><p>masterpage.php</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
-<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">!</span>isset(<span style="color:#008080">$tiles</span>)) <span style="color:#008080">$tiles</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>();
-<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">!</span>isset(<span style="color:#008080">$tiles</span>[<span style="color:#d14">&#39;header&#39;</span>]) <span style="color:#008080">$tiles</span>[<span style="color:#d14">&#39;headers&#39;</span>] <span style="color:#000;font-weight:bold">=</span> PAGE_CONTENT <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;/default-header.html&#39;</span>;
-<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">!</span>isset(<span style="color:#008080">$tiles</span>[<span style="color:#d14">&#39;leftpanel&#39;</span>]) <span style="color:#008080">$tiles</span>[<span style="color:#d14">&#39;headers&#39;</span>] <span style="color:#000;font-weight:bold">=</span> PAGE_CONTENT <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;/default-leftpanel.html&#39;</span>;
-<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">!</span>isset(<span style="color:#008080">$tiles</span>[<span style="color:#d14">&#39;main&#39;</span>]) <span style="color:#008080">$tiles</span>[<span style="color:#d14">&#39;headers&#39;</span>] <span style="color:#000;font-weight:bold">=</span> PAGE_CONTENT <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;/default-main.html&#39;</span>;
-<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">!</span>isset(<span style="color:#008080">$tiles</span>[<span style="color:#d14">&#39;footer&#39;</span>]) <span style="color:#008080">$tiles</span>[<span style="color:#d14">&#39;headers&#39;</span>] <span style="color:#000;font-weight:bold">=</span> PAGE_CONTENT <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;/default-footer.html&#39;</span>;
-<span style="color:#000;font-weight:bold">include</span>(<span style="color:#008080">$tiles</span>[<span style="color:#d14">&#39;header&#39;</span>]);
-<span style="color:#000;font-weight:bold">include</span>(<span style="color:#008080">$tiles</span>[<span style="color:#d14">&#39;leftpanel&#39;</span>]);
-<span style="color:#000;font-weight:bold">include</span>(<span style="color:#008080">$tiles</span>[<span style="color:#d14">&#39;main&#39;</span>]);
-<span style="color:#000;font-weight:bold">include</span>(<span style="color:#008080">$tiles</span>[<span style="color:#d14">&#39;footer.php&#39;</span>]);
-<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div><p>As you can see, this allows the programmer to change the layout in a single file, the masterpage. If a programmer wants to change the content of a specific area of a page all he has to do is change the $tiles array.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/php">PHP</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">04</span>
-										<span class="rest">Nov 2005</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">04</span>
+							<span class="rest">Nov 2005</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Problem with Base and MySQL support</h1>
+								<h4 class="title small">
+									<a href="../../2005/11/04/problem-with-base-and-mysql-support/">Problem with Base and MySQL support</a>
+								</h4>
+								<span class="description">
+									
+										Today i decided to try out the new [OpenOffice.org](http://www.openoffice.org/) release. Creating a presentation with [I...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Today i decided to try out the new <a href="http://www.openoffice.org/">OpenOffice.org</a> release. Creating a presentation with <a href="http://www.openoffice.org/product/impress.html">Impress</a> went pretty smooth. After that i wanted to check out <a href="http://www.openoffice.org/product/base.html">Base</a> with a MySQL backend but i got an error message that the JDBC driver could not be loaded.</p>
-<p><img src="http://www.timvw.be/wp-content/images/ooo2mysqlfail.jpg" alt="Could not load JDBC driver dialog"></p>
-<p>I immediately knew that i had to add the <a href="http://www.mysql.com/products/connector/j/">MySQL driver</a> to the classpath. A little websearch learned me i have to choose Tools-&gt;Options in the menu. And from there i can modify the classpath via the OpenOffice.org-&gt;Java panel.</p>
-<!-- raw HTML omitted -->
-<p><img src="http://www.timvw.be/wp-content/images/ooo2mysqladd.jpg" alt="Add MySQL Connector/J to classpath dialog"></p>
-<p><img src="http://www.timvw.be/wp-content/images/ooo2mysqlsuccess.jpg" alt="Could load JDBC driver dialog"></p>
-<p>After that everything went smooth 🙂 There are so many sites talking about the new release and all the new features but none of them seem to have experienced this. It makes me wonder if they have really tried it out..</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/free-software">Free Software</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">03</span>
-										<span class="rest">Nov 2005</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">03</span>
+							<span class="rest">Nov 2005</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">GNU text utilities</h1>
+								<h4 class="title small">
+									<a href="../../2005/11/03/gnu-text-utilities/">GNU text utilities</a>
+								</h4>
+								<span class="description">
+									
+										I&#39;ve already written that i like the [GNU Textutils](http://www.gnu.org/software/textutils/textutils.html) a lot. Today ...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>I&rsquo;ve already written that i like the <a href="http://www.gnu.org/software/textutils/textutils.html">GNU Textutils</a> a lot. Today someone had the following problem: A textfile with words. It&rsquo;s possible that a word is repeated a couple of times. He wants to generate a newfile without duplicate words. The solution is pretty simple</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sort words.txt | uniq &gt; newfile.txt
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/free-software">Free Software</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">20</span>
-										<span class="rest">Oct 2005</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">20</span>
+							<span class="rest">Oct 2005</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Passing a filehandle as parameter</h1>
+								<h4 class="title small">
+									<a href="../../2005/10/20/passing-a-filehandle-as-parameter/">Passing a filehandle as parameter</a>
+								</h4>
+								<span class="description">
+									
+										To keep things maintainable we split our program in modules, classes, functions... In [perlsub](http://perldoc.perl.org/...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>To keep things maintainable we split our program in modules, classes, functions&hellip; In <a href="http://perldoc.perl.org/perlsub.html">perlsub</a> from the execellent perl documentation you can lookup the syntax of how to use functions. Offcourse, you have to digg pretty deep to find out how you can pass a filehandle</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-perl" data-lang="perl"><span style="color:#998;font-style:italic"># clientproc(*STDOUT);</span>
-<span style="color:#998;font-style:italic"># pass the socket</span>
-clientproc(<span style="color:#000;font-weight:bold">*</span>CH);
-
-<span style="color:#000;font-weight:bold">sub</span> <span style="color:#900;font-weight:bold">clientproc</span>  
-{
-  <span style="color:#008080">$fh</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">shift</span>;  
-  <span style="color:#000;font-weight:bold">print</span> <span style="color:#008080">$fh</span> <span style="color:#d14">&#39;hello world&#39;</span>;
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/perl">Perl</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">18</span>
-										<span class="rest">Oct 2005</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">18</span>
+							<span class="rest">Oct 2005</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">a little hint for writing and testing a script</h1>
+								<h4 class="title small">
+									<a href="../../2005/10/18/a-little-hint-for-writing-and-testing-a-script/">a little hint for writing and testing a script</a>
+								</h4>
+								<span class="description">
+									
+										I noticed that most people think Vim sucks and they constantly perform the following keystrokes
+
+```dos
+:wq 
+perl somefi...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>I noticed that most people think Vim sucks and they constantly perform the following keystrokes</p>
-<pre tabindex="0"><code class="language-dos" data-lang="dos">:wq 
-perl somefile.pl 
-vim somefile.pl
-</code></pre><p>Here is the first trick, you do not need to exit vim to perform a command. Simply type the following while you are in vim</p>
-<pre tabindex="0"><code class="language-dos" data-lang="dos">:!perl somefile.pl
-</code></pre><p>Offcourse, you do not want to type the filename all the time, so you use the following</p>
-<pre tabindex="0"><code class="language-dos" data-lang="dos">:!perl %
-</code></pre><p>Now, if you are using a different scripting language it might be more portable to make the file executable (chmod u+x) and make sure the <a href="http://en.wikipedia.org/wiki/Shebang">Shebang</a> points to the right interpreter. Your script would be something like the following then</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-perl" data-lang="perl"><span style="color:#998;font-style:italic">#!/usr/bin/env perl</span>
-<span style="color:#000;font-weight:bold">use</span> <span style="color:#555">strict</span>;
-<span style="color:#000;font-weight:bold">use</span> <span style="color:#555">warnings</span>;
-<span style="color:#000;font-weight:bold">use</span> <span style="color:#555">Socket</span>;
-</code></pre></div><p>Now all you have to do is type the following in vim and your script will be executed</p>
-<pre tabindex="0"><code class="language-dos" data-lang="dos">:!%
-</code></pre><p>I noticed that the :!% trick does not work when your script is in your current working directory. This is how you can make it work</p>
-<pre tabindex="0"><code class="language-dos" data-lang="dos">:!./%
-</code></pre><p>I also noticed that before you execute this command you always need to type :w to save the changes. To automate this i have added the following to my ~/.vimrc file</p>
-<pre tabindex="0"><code class="language-dos" data-lang="dos">map ,r :w&lt;cr&gt;:!./%&lt;/cr&gt;&lt;cr&gt; 
-&lt;/cr&gt;
-</code></pre><p>Now all i have to type is the following</p>
-<pre tabindex="0"><code class="language-dos" data-lang="dos">,r  
-</code></pre><p>For other tricks and hints you have to check out <a href="http://www.vi-improved.org/tutorial.php">Vi-IMproved.org</a>.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/free-software">Free Software</a></li>
-										
-										<li><a href="../../tags/vim">Vim</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">12</span>
-										<span class="rest">Oct 2005</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">12</span>
+							<span class="rest">Oct 2005</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Odd behaviour with arrays</h1>
+								<h4 class="title small">
+									<a href="../../2005/10/12/odd-behaviour-with-arrays/">Odd behaviour with arrays</a>
+								</h4>
+								<span class="description">
+									
+										A while ago i was really stumbled by the behaviour of a server. This problem solved itself after the sysadmin noticed th...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>A while ago i was really stumbled by the behaviour of a server. This problem solved itself after the sysadmin noticed that he forgot to upgrade <a href="http://www.ioncube.com/">ionCube</a> after a php upgrade.Here is the code that i ran</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#008080">$array</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>();
-<span style="color:#008080">$array</span>[] <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>(<span style="color:#d14">&#39;name&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;row1&#39;</span>, <span style="color:#d14">&#39;value&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;1&#39;</span>);
-<span style="color:#008080">$array</span>[] <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>(<span style="color:#d14">&#39;name&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;row2&#39;</span>, <span style="color:#d14">&#39;value&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;3&#39;</span>);
-<span style="color:#008080">$array</span>[] <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">array</span>(<span style="color:#d14">&#39;name&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;row3&#39;</span>, <span style="color:#d14">&#39;value&#39;</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#d14">&#39;2&#39;</span>);
-
-<span style="color:#000;font-weight:bold">foreach</span>(<span style="color:#008080">$array</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#008080">$row</span>)
-{    
-  print_r(<span style="color:#008080">$row</span>);  
-  <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#39;&#39;</span>;
-}
-</code></pre></div><p>The expected output is</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">Array</span> ( [name] <span style="color:#000;font-weight:bold">=&gt;</span> row1 [value] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#099">1</span> )
-<span style="color:#000;font-weight:bold">Array</span> ( [name] <span style="color:#000;font-weight:bold">=&gt;</span> row2 [value] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#099">3</span> )
-<span style="color:#000;font-weight:bold">Array</span> ( [name] <span style="color:#000;font-weight:bold">=&gt;</span> row3 [value] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#099">2</span> )
-</code></pre></div><p>For some odd reason this is the output i got</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">Array</span> ( [<span style="color:#099">0</span>] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">Array</span> ( [name] <span style="color:#000;font-weight:bold">=&gt;</span> row1 [value] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#099">1</span> ) [<span style="color:#099">1</span>] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#099">0</span> )
-<span style="color:#000;font-weight:bold">Array</span> ( [<span style="color:#099">0</span>] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#000;font-weight:bold">Array</span> ( [name] <span style="color:#000;font-weight:bold">=&gt;</span> row2 [value] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#099">3</span> ) [<span style="color:#099">1</span>] <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#099">1</span> )
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/php">PHP</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">01</span>
-										<span class="rest">Sep 2005</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">01</span>
+							<span class="rest">Sep 2005</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Image scroller</h1>
+								<h4 class="title small">
+									<a href="../../2005/09/01/image-scroller/">Image scroller</a>
+								</h4>
+								<span class="description">
+									
+										```javascript
+// &#43;—————————————————————————
+// | // |
+// | A javascript picture scroller
+// &#43;—————————————————————————
+
+...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#998;font-style:italic">// +—————————————————————————
-</span><span style="color:#998;font-style:italic">// | // |
-</span><span style="color:#998;font-style:italic">// | A javascript picture scroller
-</span><span style="color:#998;font-style:italic">// +—————————————————————————
-</span><span style="color:#998;font-style:italic"></span>
-<span style="color:#000;font-weight:bold">var</span> i <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>;
-<span style="color:#000;font-weight:bold">var</span> pics <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> <span style="color:#0086b3">Array</span>();
-
-<span style="color:#998;font-style:italic">// define the pictures you want to show (html id, image url, link url)
-</span><span style="color:#998;font-style:italic"></span>pics[i<span style="color:#000;font-weight:bold">++</span>] <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> picture(<span style="color:#a61717;background-color:#e3d2d2">‘</span>pic<span style="color:#a61717;background-color:#e3d2d2">’</span> <span style="color:#000;font-weight:bold">+</span> i, <span style="color:#a61717;background-color:#e3d2d2">‘</span><span style="color:#000;font-weight:bold">/</span>images<span style="color:#000;font-weight:bold">/</span>scroller<span style="color:#000;font-weight:bold">/</span>top03.jpg<span style="color:#a61717;background-color:#e3d2d2">’</span>, <span style="color:#a61717;background-color:#e3d2d2">‘</span>http<span style="color:#000;font-weight:bold">:</span><span style="color:#998;font-style:italic">//www.microsoft.com’);
-</span><span style="color:#998;font-style:italic">//pics[i++] = new picture(‘pic’ + i, ‘/images/scroller/top04.jpg’, ‘http://www.khleuven.be’);
-</span><span style="color:#998;font-style:italic"></span>pics[i<span style="color:#000;font-weight:bold">++</span>] <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> picture(<span style="color:#a61717;background-color:#e3d2d2">‘</span>pic<span style="color:#a61717;background-color:#e3d2d2">’</span> <span style="color:#000;font-weight:bold">+</span> i, <span style="color:#a61717;background-color:#e3d2d2">‘</span><span style="color:#000;font-weight:bold">/</span>images<span style="color:#000;font-weight:bold">/</span>scroller<span style="color:#000;font-weight:bold">/</span>top05.jpg<span style="color:#a61717;background-color:#e3d2d2">’</span>, <span style="color:#a61717;background-color:#e3d2d2">‘</span><span style="color:#000;font-weight:bold">/</span>rss.php<span style="color:#a61717;background-color:#e3d2d2">’</span>);
-pics[i<span style="color:#000;font-weight:bold">++</span>] <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> picture(<span style="color:#a61717;background-color:#e3d2d2">‘</span>pic<span style="color:#a61717;background-color:#e3d2d2">’</span> <span style="color:#000;font-weight:bold">+</span> i, <span style="color:#a61717;background-color:#e3d2d2">‘</span><span style="color:#000;font-weight:bold">/</span>images<span style="color:#000;font-weight:bold">/</span>scroller<span style="color:#000;font-weight:bold">/</span>top11.jpg<span style="color:#a61717;background-color:#e3d2d2">’</span>, <span style="color:#a61717;background-color:#e3d2d2">”</span>);
-
-<span style="color:#998;font-style:italic">// define the sleep interval
-</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">var</span> slow <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">100</span>;
-
-<span style="color:#998;font-style:italic">/**
-</span><span style="color:#998;font-style:italic">* global variables
-</span><span style="color:#998;font-style:italic">*/</span>
-<span style="color:#000;font-weight:bold">var</span> lastindex <span style="color:#000;font-weight:bold">=</span> pics.length;
-<span style="color:#000;font-weight:bold">var</span> pause;
-<span style="color:#000;font-weight:bold">var</span> pictures;
-<span style="color:#000;font-weight:bold">var</span> offset;
-<span style="color:#000;font-weight:bold">var</span> left;
-
-<span style="color:#998;font-style:italic">/**
-</span><span style="color:#998;font-style:italic">* Scroll
-</span><span style="color:#998;font-style:italic">*
-</span><span style="color:#998;font-style:italic">* @param id the id in which the scroller should be drawn
-</span><span style="color:#998;font-style:italic">*/</span>
-<span style="color:#000;font-weight:bold">function</span> scroller(id)
-{
-	<span style="color:#998;font-style:italic">// load pictures
-</span><span style="color:#998;font-style:italic"></span>	pictures <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> <span style="color:#0086b3">Array</span>(lastindex);
-	<span style="color:#000;font-weight:bold">for</span> (i <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; i <span style="color:#000;font-weight:bold">&lt;</span> lastindex; <span style="color:#000;font-weight:bold">++</span>i)
-	{
-		pictures[i] <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Image();
-		pictures[i].src <span style="color:#000;font-weight:bold">=</span> pics[i].pictureurl;
-	}
-
-	offset <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">document</span>.getElementById(id).offsetLeft <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">161</span>;
-
-	<span style="color:#998;font-style:italic">// attach pictures to html, display:none
-</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">for</span> (i <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; i <span style="color:#000;font-weight:bold">&lt;</span> lastindex; <span style="color:#000;font-weight:bold">++</span>i)
-	{
-		purl <span style="color:#000;font-weight:bold">=</span> pics[i].pictureurl;
-		lurl <span style="color:#000;font-weight:bold">=</span> pics[i].linkurl;
-		pid <span style="color:#000;font-weight:bold">=</span> pics[i].id;
-		ileft <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>;
-		<span style="color:#0086b3">document</span>.getElementById(id).innerHTML <span style="color:#000;font-weight:bold">+=</span> <span style="color:#a61717;background-color:#e3d2d2">‘</span><span style="color:#000;font-weight:bold">&lt;</span>a href<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;’ + lurl + ‘&#34;</span><span style="color:#000;font-weight:bold">&gt;&lt;</span>img src<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;’ + purl + ‘&#34;</span> id<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;’ + pid + ‘&#34;</span> style<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;display: none; position: absolute; left:’ + ileft + ‘px; top: 27px;&#34;</span><span style="color:#000;font-weight:bold">/&gt;&lt;</span><span style="color:#a61717;background-color:#e3d2d2">/a&gt;’;</span>
-	}
-
-	<span style="color:#998;font-style:italic">// start
-</span><span style="color:#998;font-style:italic"></span>	pause <span style="color:#000;font-weight:bold">=</span> setInterval(<span style="color:#d14">&#34;start()&#34;</span>, <span style="color:#099">500</span>);
-}
-
-<span style="color:#998;font-style:italic">/**
-</span><span style="color:#998;font-style:italic">* A container for a picture
-</span><span style="color:#998;font-style:italic">*
-</span><span style="color:#998;font-style:italic">* @param id the DOM id for this picture
-</span><span style="color:#998;font-style:italic">* @param imageurl the URL where the picture can be found
-</span><span style="color:#998;font-style:italic">* @param linkurl the URL where the user should be directed to if he clicks the picture
-</span><span style="color:#998;font-style:italic">*/</span>
-<span style="color:#000;font-weight:bold">function</span> picture(id, pictureurl, linkurl)
-{
-	<span style="color:#000;font-weight:bold">this</span>.id <span style="color:#000;font-weight:bold">=</span> id;
-	<span style="color:#000;font-weight:bold">this</span>.pictureurl <span style="color:#000;font-weight:bold">=</span> pictureurl;
-	<span style="color:#000;font-weight:bold">this</span>.linkurl <span style="color:#000;font-weight:bold">=</span> linkurl;
-}
-
-<span style="color:#998;font-style:italic">/**
-</span><span style="color:#998;font-style:italic">* Determine of the pictures are ready to be displayed
-</span><span style="color:#998;font-style:italic">*/</span>
-<span style="color:#000;font-weight:bold">function</span> ready()
-{
-	<span style="color:#998;font-style:italic">// test if there is a picture that is not completely loaded
-</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">for</span> (i <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; i <span style="color:#000;font-weight:bold">&lt;</span> lastindex; <span style="color:#000;font-weight:bold">++</span>i)
-	{
-		id <span style="color:#000;font-weight:bold">=</span> pics[i].id;
-		<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">!</span><span style="color:#0086b3">document</span>.getElementById(id).complete)
-		{
-			<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>;
-		}
-	}
-	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>;
-}
-
-<span style="color:#998;font-style:italic">/**
-</span><span style="color:#998;font-style:italic">* Do the actual scrolling
-</span><span style="color:#998;font-style:italic">*/</span>
-<span style="color:#000;font-weight:bold">function</span> work()
-{
-	<span style="color:#998;font-style:italic">// move all the pictures to the left
-</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">for</span> (i <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; i <span style="color:#000;font-weight:bold">&lt;</span> lastindex; <span style="color:#000;font-weight:bold">++</span>i)
-	{
-		left[i] <span style="color:#000;font-weight:bold">-=</span> <span style="color:#099">1</span>;
-
-		<span style="color:#998;font-style:italic">// if picture is out the container, position it at the right of the other pictures
-</span><span style="color:#998;font-style:italic"></span>		<span style="color:#000;font-weight:bold">if</span> (left[i] <span style="color:#000;font-weight:bold">&lt;=</span> offset)
-		{
-
-			n <span style="color:#000;font-weight:bold">=</span> i <span style="color:#a61717;background-color:#e3d2d2">–</span> <span style="color:#099">1</span>;
-			<span style="color:#000;font-weight:bold">if</span> (n <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#099">0</span>)
-			{
-				n <span style="color:#000;font-weight:bold">=</span> lastindex <span style="color:#a61717;background-color:#e3d2d2">–</span> <span style="color:#099">1</span>;
-			}
-
-			l <span style="color:#000;font-weight:bold">=</span> left[n];
-			l <span style="color:#000;font-weight:bold">+=</span> pictures[n].width <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">10</span>;
-			left[i] <span style="color:#000;font-weight:bold">=</span> l;
-		}
-
-		id <span style="color:#000;font-weight:bold">=</span> pics[i].id;
-		ileft <span style="color:#000;font-weight:bold">=</span> left[i];
-		<span style="color:#0086b3">document</span>.getElementById(id).style.left <span style="color:#000;font-weight:bold">=</span> ileft <span style="color:#000;font-weight:bold">+</span> <span style="color:#a61717;background-color:#e3d2d2">‘</span>px<span style="color:#a61717;background-color:#e3d2d2">’</span>;
-	}
-}
-
-<span style="color:#998;font-style:italic">/**
-</span><span style="color:#998;font-style:italic">* Start the scroller
-</span><span style="color:#998;font-style:italic">*/</span>
-<span style="color:#000;font-weight:bold">function</span> start()
-{
-	<span style="color:#000;font-weight:bold">if</span> (ready())
-	{
-		<span style="color:#0086b3">window</span>.clearInterval(pause);
-
-		<span style="color:#998;font-style:italic">// calculate positions and make visible
-</span><span style="color:#998;font-style:italic"></span>		left <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> <span style="color:#0086b3">Array</span>(lastindex);
-
-		<span style="color:#000;font-weight:bold">for</span> (i <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; i <span style="color:#000;font-weight:bold">&lt;</span> lastindex; <span style="color:#000;font-weight:bold">++</span>i)
-		{
-			l <span style="color:#000;font-weight:bold">=</span> offset;
-			<span style="color:#000;font-weight:bold">for</span> (n <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>; n <span style="color:#000;font-weight:bold">&lt;</span> i; <span style="color:#000;font-weight:bold">++</span>n)
-			{
-				l <span style="color:#000;font-weight:bold">+=</span> pictures[n].width <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">10</span>;
-			}
-			left[i] <span style="color:#000;font-weight:bold">=</span> l;
-
-			id <span style="color:#000;font-weight:bold">=</span> pics[i].id;
-			ileft <span style="color:#000;font-weight:bold">=</span> left[i];
-			<span style="color:#0086b3">document</span>.getElementById(id).style.display <span style="color:#000;font-weight:bold">=</span> <span style="color:#a61717;background-color:#e3d2d2">‘</span>inline<span style="color:#a61717;background-color:#e3d2d2">’</span>;
-			<span style="color:#0086b3">document</span>.getElementById(id).style.left <span style="color:#000;font-weight:bold">=</span> ileft <span style="color:#000;font-weight:bold">+</span> <span style="color:#a61717;background-color:#e3d2d2">‘</span>px<span style="color:#a61717;background-color:#e3d2d2">’</span>;
-		}
-
-		<span style="color:#998;font-style:italic">// work
-</span><span style="color:#998;font-style:italic"></span>		interval <span style="color:#000;font-weight:bold">=</span> setInterval(<span style="color:#a61717;background-color:#e3d2d2">‘</span>work();<span style="color:#a61717;background-color:#e3d2d2">’</span>, slow);
-	}
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/javascript">JavaScript</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">29</span>
-										<span class="rest">Aug 2005</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">29</span>
+							<span class="rest">Aug 2005</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Currency convertor</h1>
+								<h4 class="title small">
+									<a href="../../2005/08/29/currency-convertor/">Currency convertor</a>
+								</h4>
+								<span class="description">
+									
+										I discovered that the [European Central Bank (ECB)](http://www.ecb.int) has a page with [Euro foreign exchange rates](ht...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>I discovered that the <a href="http://www.ecb.int">European Central Bank (ECB)</a> has a page with <a href="http://www.ecb.int/stats/exchange/eurofxref/html/index.en.html">Euro foreign exchange rates</a>. I thought it would be a nice exercise to write a little script that works with the <a href="http://www.ecb.int/stats/eurofxref/eurofxref-hist.xml">XML data</a> source. Get <a href="http://www.timvw.be/wp-content/code/php/currencyconvertor.txt">currencyconvertor.txt</a> now!</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/php">PHP</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 				
 

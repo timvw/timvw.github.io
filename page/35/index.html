@@ -61,620 +61,221 @@
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">10</span>
-										<span class="rest">Sep 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">10</span>
+							<span class="rest">Sep 2006</span>
 								</div>
-							
-							<div class="matter">
-								<h1 class="title">Implementing Master/Detail for Custom Objects with DataGridViewComboBoxColumns</h1>
 							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>Imagine you have the following two classes</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Parent</span> 
+							<div class="matter">
+								<h4 class="title small">
+									<a href="../../2006/09/10/implementing-master/detail-for-custom-objects-with-datagridviewcomboboxcolumns/">Implementing Master/Detail for Custom Objects with DataGridViewComboBoxColumns</a>
+								</h4>
+								<span class="description">
+									
+										Imagine you have the following two classes
+
+```csharp
+public class Parent 
 {
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> id;
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">string</span> name;
+	private int id;
+	private string name;
 
-	<span style="color:#000;font-weight:bold">public</span> Parent( <span style="color:#458;font-weight:bold">int</span> id, <span style="color:#458;font-weight:bold">string</span> name ) 
-	{
-		<span style="color:#000;font-weight:bold">this</span>.id = id;
-		<span style="color:#000;font-weight:bold">this</span>.name = name;
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> Id 
-	{
-		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.id; }
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Name 
-	{
-		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.name; }
-	}
-}
-
-<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Child</span> : Parent 
-{
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> parentId;
-
-	<span style="color:#000;font-weight:bold">public</span> Child( <span style="color:#458;font-weight:bold">int</span> id, <span style="color:#458;font-weight:bold">int</span> parentId, <span style="color:#458;font-weight:bold">string</span> name ) : <span style="color:#000;font-weight:bold">base</span>( id, name ) 
-	{
-		<span style="color:#000;font-weight:bold">this</span>.parentId = parentId;
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> ParentId 
-	{
-		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.parentId; }
-	}
-}
-</code></pre></div><p>In the first ComboBoxColumn you display a list of possible Parents. In the second ComboBoxColumn you display Children, but only those that belong to the Chosen Parent. Here is how it goes</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form 
-{
-	<span style="color:#000;font-weight:bold">private</span> Object selectedValue;
-
-	<span style="color:#000;font-weight:bold">public</span> Form1() 
-	{
-		InitializeComponent();
-
-		<span style="color:#998;font-style:italic">// Add a couple of Parents
-</span><span style="color:#998;font-style:italic"></span>		<span style="color:#000;font-weight:bold">for</span> ( <span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">0</span>; i &lt; <span style="color:#099">3</span>; ++i ) 
-		{ 
-			Parent parent = <span style="color:#000;font-weight:bold">new</span> Parent( i, String.Format( <span style="color:#d14">&#34;Parent{0:00}&#34;</span>, i ) ); 
-			<span style="color:#000;font-weight:bold">this</span>.Column1.Items.Add( parent ); 
-			<span style="color:#998;font-style:italic">// Add a couple of Children to each parent 
-</span><span style="color:#998;font-style:italic"></span>			<span style="color:#000;font-weight:bold">for</span> ( <span style="color:#458;font-weight:bold">int</span> j = <span style="color:#099">0</span>; j &lt; <span style="color:#099">5</span>; ++j ) 
-			{ 
-				Child child = <span style="color:#000;font-weight:bold">new</span> Child( j, i, String.Format( <span style="color:#d14">&#34;Child{0:00}&#34;</span>, i * <span style="color:#099">10</span> + j ) ); 
-				<span style="color:#000;font-weight:bold">this</span>.Column2.Items.Add( child ); 
-			} 
-		} 
-		<span style="color:#000;font-weight:bold">this</span>.Column1.DisplayMember = <span style="color:#d14">&#34;Name&#34;</span>; 
-		<span style="color:#000;font-weight:bold">this</span>.Column2.DisplayMember = <span style="color:#d14">&#34;Name&#34;</span>; 
-	} 
-	
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_CellParsing( <span style="color:#458;font-weight:bold">object</span> sender, DataGridViewCellParsingEventArgs e ) 
-	{ 
-		e.Value = <span style="color:#000;font-weight:bold">this</span>.selectedValue; 
-		e.ParsingApplied = <span style="color:#000;font-weight:bold">true</span>; 
-	} 
-	
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing( <span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e ) 
-	{ 
-		ComboBox cb = e.Control <span style="color:#000;font-weight:bold">as</span> ComboBox; 
-		<span style="color:#000;font-weight:bold">if</span> ( cb != <span style="color:#000;font-weight:bold">null</span> ) 
-		{ 
-			<span style="color:#998;font-style:italic">// remove all the children that do not belong to the choosen parent 
-</span><span style="color:#998;font-style:italic"></span>			<span style="color:#458;font-weight:bold">int</span> currentColumnIndex = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.CurrentCell.ColumnIndex; 
-			<span style="color:#000;font-weight:bold">if</span> ( currentColumnIndex == <span style="color:#099">1</span> ) 
-			{ 
-				cb.Items.Clear(); 
-				<span style="color:#458;font-weight:bold">int</span> currentRowIndex = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.CurrentCell.RowIndex; 
-				Object currentCellValue = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.Rows[currentRowIndex].Cells[<span style="color:#099">0</span>].Value; 
-				<span style="color:#000;font-weight:bold">if</span> ( currentCellValue != <span style="color:#000;font-weight:bold">null</span> ) 
-				{ 
-					<span style="color:#458;font-weight:bold">int</span> parentId = ( (Parent)currentCellValue ).Id; 
-					<span style="color:#000;font-weight:bold">foreach</span> ( Child child <span style="color:#000;font-weight:bold">in</span> <span style="color:#000;font-weight:bold">this</span>.Column2.Items ) 
-					{ 
-						<span style="color:#000;font-weight:bold">if</span> ( child.ParentId == parentId ) 
-						{ 
-							cb.Items.Add( child ); 
-						} 
-					} 
-				} 
-			} 
-			cb.SelectedIndexChanged -= cb_SelectedIndexChanged; 
-			cb.SelectedIndexChanged += cb_SelectedIndexChanged; 
-		} 
-		
-		<span style="color:#000;font-weight:bold">void</span> cb_SelectedIndexChanged(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e) 
-		{ 
-			ComboBox comboBox = sender <span style="color:#000;font-weight:bold">as</span> ComboBox; 
-			<span style="color:#000;font-weight:bold">this</span>.selectedValue = comboBox.SelectedItem; 
-		} 
-	}
-}
-</code></pre></div>
+	pu...
+									
+								</span>
+							</div>
 						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">10</span>
-										<span class="rest">Sep 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">10</span>
+							<span class="rest">Sep 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Using DataGridViewComboBoxColumn with Custom Objects</h1>
+								<h4 class="title small">
+									<a href="../../2006/09/10/using-datagridviewcomboboxcolumn-with-custom-objects/">Using DataGridViewComboBoxColumn with Custom Objects</a>
+								</h4>
+								<span class="description">
+									
+										Earlier today i was playing with the [DataGridView](http://msdn2.microsoft.com/en-us/library/system.windows.forms.datagr...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Earlier today i was playing with the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.datagridview.aspx">DataGridView</a> control. I wanted to have a couple of <a href="http://msdn2.microsoft.com/en-us/library/xwx934x7.aspx">DataGridViewComboBoxColumn</a>s in order to limit the available input options for the user. The documentation clearly mentions the following</p>
-<blockquote>
-<!-- raw HTML omitted -->
-</blockquote>
-<p>Here is sample of a custom object</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Slot</span> {
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> id;
-	<span style="color:#000;font-weight:bold">private</span> DateTime dateTime;
-
-	<span style="color:#000;font-weight:bold">public</span> Slot( <span style="color:#458;font-weight:bold">int</span> id, DateTime dateTime ) {
-		<span style="color:#000;font-weight:bold">this</span>.id = id;
-		<span style="color:#000;font-weight:bold">this</span>.dateTime = dateTime;
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> Id {
-		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.id; }
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> DateTime DateTime {
-		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.dateTime; }
-	}
-}
-</code></pre></div><p>And here is the workaround for a one to one mapping</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form 
-{
-	<span style="color:#998;font-style:italic">// here we&#39;ll store the value the user selected in one of the comboboxcolumns
-</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">private</span> Object selectedValue;
-
-	<span style="color:#000;font-weight:bold">public</span> Form1() 
-	{
-		InitializeComponent();
-		selectedValues = <span style="color:#000;font-weight:bold">new</span> Object[<span style="color:#000;font-weight:bold">this</span>.dataGridView1.Columns.Count];
-
-		<span style="color:#998;font-style:italic">// create a couple of slots an add them to the comboboxcolumns
-</span><span style="color:#998;font-style:italic"></span>		<span style="color:#000;font-weight:bold">for</span> ( <span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">0</span>; i &lt; <span style="color:#099">10</span>; ++i ) 
-		{ 
-			Slot slot = <span style="color:#000;font-weight:bold">new</span> Slot( i, DateTime.Now.AddDays( i ) ); 
-			<span style="color:#000;font-weight:bold">this</span>.Column1.Items.Add( slot ); 
-			<span style="color:#000;font-weight:bold">this</span>.Column2.Items.Add( slot ); 
-		} 
-		<span style="color:#000;font-weight:bold">this</span>.Column1.DisplayMember = <span style="color:#d14">&#34;DateTime&#34;</span>; 
-		<span style="color:#000;font-weight:bold">this</span>.Column2.DisplayMember = <span style="color:#d14">&#34;Id&#34;</span>; 
-	} 
-	
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_CellParsing( <span style="color:#458;font-weight:bold">object</span> sender, DataGridViewCellParsingEventArgs e ) 
-	{ 
-		<span style="color:#998;font-style:italic">// lookup the selected value 
-</span><span style="color:#998;font-style:italic"></span>		e.Value = <span style="color:#000;font-weight:bold">this</span>.selectedValue; 
-		e.ParsingApplied = <span style="color:#000;font-weight:bold">true</span>; 
-	} 
-	
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing( <span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e ) 
-	{ 
-		ComboBox cb = e.Control <span style="color:#000;font-weight:bold">as</span> ComboBox; 
-		<span style="color:#000;font-weight:bold">if</span> ( cb != <span style="color:#000;font-weight:bold">null</span> ) 
-		{ 
-			cb.SelectedIndexChanged -= cb_SelectedIndexChanged; 
-			cb.SelectedIndexChanged += cb_SelectedIndexChanged; 
-		} 
-	} 
-	
-	<span style="color:#000;font-weight:bold">void</span> cb_SelectedIndexChanged(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e) 
-	{ 
-		ComboBox comboBox = sender <span style="color:#000;font-weight:bold">as</span> ComboBox; 
-		<span style="color:#000;font-weight:bold">this</span>.selectedValue = comboBox.SelectedItem; 
-	} 
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">09</span>
-										<span class="rest">Sep 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">09</span>
+							<span class="rest">Sep 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Playing with VMWare Server</h1>
+								<h4 class="title small">
+									<a href="../../2006/09/09/playing-with-vmware-server/">Playing with VMWare Server</a>
+								</h4>
+								<span class="description">
+									
+										Earlier today i decided to add an image to my VMWare Server. The creation of the image went smooth but at the end of the...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Earlier today i decided to add an image to my VMWare Server. The creation of the image went smooth but at the end of the process i recieved the following error: <strong>Unable to add virtual machine &lsquo;E:\&hellip;..&rsquo; to the inventory: Virtual machine is already in the inventory&quot;.</strong> When i tried to open the machine via File &gt; Open i recieved the error again. Here is a workaround for this problem: Choose &lsquo;View&rsquo; in the menubar and click on Inventory F9. At the left of the screen you&rsquo;ll see a list of machines that are in the Inventory. If you delete the entries (right click on the machines in the list and choose delete) you&rsquo;ll be able to Open your newly created machine 🙂</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/information-technology">Information Technology</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">03</span>
-										<span class="rest">Sep 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">03</span>
+							<span class="rest">Sep 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Generate a menu with month names</h1>
+								<h4 class="title small">
+									<a href="../../2006/09/03/generate-a-menu-with-month-names/">Generate a menu with month names</a>
+								</h4>
+								<span class="description">
+									
+										I still see people building their calendar control or month (or day) picker with a hardcoded array of month (or day) nam...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>I still see people building their calendar control or month (or day) picker with a hardcoded array of month (or day) names. With the use of <a href="http://www.php.net/strftime">strftime</a> you can easily build a <a href="http://www.php.net/setlocale">locale aware</a> version. Here is an example</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
-<span style="color:#000;font-weight:bold">function</span> <span style="color:#900;font-weight:bold">SelectMonths</span>(<span style="color:#008080">$name</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;selectMonths&#39;</span>, <span style="color:#008080">$id</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;selectMonths&#39;</span>) {
- <span style="color:#008080">$current_month</span> <span style="color:#000;font-weight:bold">=</span> date(<span style="color:#d14">&#39;n&#39;</span>);
-
- <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#39;&lt;select name=&#34;&#39;</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#008080">$name</span> <span style="color:#000;font-weight:bold">.</span><span style="color:#d14">&#39;&#34; id=&#34;&#39;</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#008080">$id</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;&#34;&gt;&#39;</span>;
-
-<span style="color:#000;font-weight:bold">for</span> (<span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>; <span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#099">13</span>; <span style="color:#000;font-weight:bold">++</span><span style="color:#008080">$i</span>) { <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#39;&lt;option value=&#34;&#39;</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;&#34;&#39;</span>; <span style="color:#000;font-weight:bold">if</span> (<span style="color:#008080">$i</span> <span style="color:#000;font-weight:bold">==</span> <span style="color:#008080">$current\_month</span>) { <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#39; selected&#39;</span>; } <span style="color:#008080">$month\_name</span> <span style="color:#000;font-weight:bold">=</span> strftime(<span style="color:#d14">&#39;%B&#39;</span>, mktime(<span style="color:#099">0</span>, <span style="color:#099">0</span>, <span style="color:#099">0</span>, <span style="color:#008080">$i</span>, <span style="color:#099">1</span>, <span style="color:#099">2006</span>)); <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#39;&gt;&#39;</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#008080">$month_name</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#39;&lt;/option&gt;&#39;</span>;
-}
-
-<span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#39;&lt;/select&gt;&#39;</span>;
-}
-<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div><p>And now you can easily generate a localized menu</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php
-<span style="color:#000;font-weight:bold">include</span>(<span style="color:#d14">&#39;SelectMonths.php&#39;</span>);
-
-SelectMonths();
-
-<span style="color:#998;font-style:italic">// Tested on a Windows host - Read the http://be.php.net/setlocale
-</span><span style="color:#998;font-style:italic"></span>setlocale(LC_TIME, <span style="color:#d14">&#39;dutch&#39;</span>);
-SelectMonths();
-<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/php">PHP</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">03</span>
-										<span class="rest">Sep 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">03</span>
+							<span class="rest">Sep 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">List the month names</h1>
+								<h4 class="title small">
+									<a href="../../2006/09/03/list-the-month-names/">List the month names</a>
+								</h4>
+								<span class="description">
+									
+										As i wrote in [Generate a menu with month names](http://www.timvw.be/generate-a-menu-with-month-names/) it&#39;s silly to ha...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>As i wrote in <a href="http://www.timvw.be/generate-a-menu-with-month-names/">Generate a menu with month names</a> it&rsquo;s silly to hardcode month names. Here&rsquo;s a C# sample using localization/globalization</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">using</span> <span style="color:#555">System</span>;
-<span style="color:#000;font-weight:bold">using</span> <span style="color:#555">System.Globalization</span>;
-<span style="color:#000;font-weight:bold">using</span> <span style="color:#555">System.Threading</span>;
-
-<span style="color:#000;font-weight:bold">namespace</span> <span style="color:#555">ConsoleApplication1</span> 
-{
-	<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Program</span> 
-	{
-		<span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> ListMonths() 
-		{
-			<span style="color:#000;font-weight:bold">for</span> ( <span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">1</span>; i &lt; <span style="color:#099">13</span>; ++i ) 
-			{ 
-				DateTime dateTime = <span style="color:#000;font-weight:bold">new</span> DateTime( DateTime.Now.Year, i, <span style="color:#099">1</span> ); 
-				Console.WriteLine( dateTime.ToString( <span style="color:#d14">&#34;MMMM&#34;</span> ) ); 
-			} 
-			Console.WriteLine(); 
-		} 
-		
-		<span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main( <span style="color:#458;font-weight:bold">string</span>[] args ) 
-		{ 
-			Thread.CurrentThread.CurrentCulture = <span style="color:#000;font-weight:bold">new</span> CultureInfo( <span style="color:#d14">&#34;en-US&#34;</span>, <span style="color:#000;font-weight:bold">false</span> );
-			ListMonths(); 
-			Thread.CurrentThread.CurrentCulture = <span style="color:#000;font-weight:bold">new</span> CultureInfo( <span style="color:#d14">&#34;nl-BE&#34;</span>, <span style="color:#000;font-weight:bold">false</span> ); 
-			ListMonths(); 
-			Console.Write( <span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine ); 
-			Console.ReadKey(); 
-		} 
-	} 
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">03</span>
-										<span class="rest">Sep 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">03</span>
+							<span class="rest">Sep 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Selecting custom Objects from a ComboBox</h1>
+								<h4 class="title small">
+									<a href="../../2006/09/03/selecting-custom-objects-from-a-combobox/">Selecting custom Objects from a ComboBox</a>
+								</h4>
+								<span class="description">
+									
+										Earlier this week someone asked me how he could select custom objects from a [ComboBox](http://msdn2.microsoft.com/en-us...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Earlier this week someone asked me how he could select custom objects from a <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.combobox.aspx">ComboBox</a>. Here is the code he used</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> FillComboBoxPersons(List&lt;person&gt; persons) 
-{
-	<span style="color:#000;font-weight:bold">this</span>.comboBoxPersons.Items.Clear();
-	<span style="color:#000;font-weight:bold">this</span>.comboBoxPersons.Items.Add( <span style="color:#d14">&#34;-- Select Person -------------&#34;</span> );
-	<span style="color:#000;font-weight:bold">foreach</span> ( Person person <span style="color:#000;font-weight:bold">in</span> persons ) 
-	{
-		<span style="color:#000;font-weight:bold">this</span>.comboBoxPersons.Items.Add( person.Name );
-	}
-	<span style="color:#000;font-weight:bold">this</span>.comboBoxPersons.SelectedIndex = <span style="color:#099">0</span>;
-}
-</code></pre></div><p>In order to get the selected item he then used the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.combobox.selectedindex.aspx">SelectedIndex</a> property to lookup the Person in a cache of the persons collection.</p>
-<p>Here is an approach that doesn&rsquo;t require you to have a cache of the collection (Since the persons are already stored in the items)</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> FillComboBoxPersons(List&lt;person&gt; persons) 
-{
-	<span style="color:#000;font-weight:bold">this</span>.comboBoxPersons.Items.Clear();
-	<span style="color:#000;font-weight:bold">this</span>.comboBoxPersons.Items.Add( <span style="color:#d14">&#34;-- Select Person -------------&#34;</span> );
-	<span style="color:#000;font-weight:bold">this</span>.comboBoxPersons.DisplayMember = <span style="color:#d14">&#34;Name&#34;</span>;
-	<span style="color:#000;font-weight:bold">foreach</span> ( Person person <span style="color:#000;font-weight:bold">in</span> persons ) 
-	{
-		<span style="color:#000;font-weight:bold">this</span>.comboBoxPersons.Items.Add( person );
-	}
-	<span style="color:#000;font-weight:bold">this</span>.comboBoxPersons.SelectedIndex = <span style="color:#099">0</span>;
-}
-</code></pre></div><p>Now you can easily access the selected item through the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.listcontrol.selectedvalue.aspx">SelectedValue</a> property.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">03</span>
-										<span class="rest">Sep 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">03</span>
+							<span class="rest">Sep 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Selecting custom Objects from a DataGridView</h1>
+								<h4 class="title small">
+									<a href="../../2006/09/03/selecting-custom-objects-from-a-datagridview/">Selecting custom Objects from a DataGridView</a>
+								</h4>
+								<span class="description">
+									
+										Here is a way that allows the user to select a row (custom object properties are used as column values) from a [DataGrid...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Here is a way that allows the user to select a row (custom object properties are used as column values) from a <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.datagridview.aspx">DataGridView</a> assuming that the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.datagridview.selectionmode.aspx">SelectionMode</a> property is set FullRowSelect</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> FillDataGridViewPersons( List&lt;person&gt; persons ) 
-{
-	<span style="color:#000;font-weight:bold">this</span>.dataGridViewPersons.Rows.Clear();
-
-	<span style="color:#000;font-weight:bold">for</span> ( <span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">0</span>; i &lt; persons.Count; ++i ) 
-	{ 
-		<span style="color:#000;font-weight:bold">this</span>.dataGridViewPersons.Rows.Add(); 
-		<span style="color:#000;font-weight:bold">this</span>.dataGridViewPersons.Rows[i].Tag = persons[i]; 
-		<span style="color:#000;font-weight:bold">this</span>.dataGridViewPersons.Rows[i].SetValues( <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">object</span>[] { persons[i].Id, persons[i].Name } ); 
-	} 
-} 
-
-<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> buttonDoSomething_Click( <span style="color:#458;font-weight:bold">object</span> sender, EventArgs e ) 
-{ 
-	<span style="color:#000;font-weight:bold">if</span> ( <span style="color:#000;font-weight:bold">this</span>.dataGridViewPersons.SelectedRows.Count == <span style="color:#099">1</span> ) 
-	{ 
-		<span style="color:#458;font-weight:bold">int</span> selectedRowIndex = <span style="color:#000;font-weight:bold">this</span>.dataGridViewPersons.SelectedCells[<span style="color:#099">0</span>].RowIndex; 
-		Person selectedPerson = (Person)<span style="color:#000;font-weight:bold">this</span>.dataGridViewPersons.Rows[selectedRowIndex].Tag; 
-		MessageBox.Show( String.Format( <span style="color:#d14">&#34;You selected the person with 	} 
-</span><span style="color:#d14"></span>} 
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">02</span>
-										<span class="rest">Sep 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">02</span>
+							<span class="rest">Sep 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Automating the configuration of Internet Options / Lan Settings</h1>
+								<h4 class="title small">
+									<a href="../../2006/09/02/automating-the-configuration-of-internet-options-/-lan-settings/">Automating the configuration of Internet Options / Lan Settings</a>
+								</h4>
+								<span class="description">
+									
+										I got tired of manually changing my Internet Options / Lan Settings. It was really time to say goodbye to the dialog bel...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>I got tired of manually changing my Internet Options / Lan Settings. It was really time to say goodbye to the dialog below</p>
-<p><img src="http://www.timvw.be/wp-content/images/lansettingsdialog.jpg" alt="screenshot of lan settings dialog"></p>
-<p>With the help of <a href="http://support.microsoft.com/kb/310516/">How to add, modify, or delete registry subkeys and values by using a registration entries (.reg) file</a> i wrote two little files that add/remove the automatic configuration location.The work.reg file looks like</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-reg" data-lang="reg"><span style="color:#a61717;background-color:#e3d2d2">REGEDIT4</span>
-<span style="color:#000;font-weight:bold">[</span><span style="color:#0086b3">HKEY_CURRENT_USER</span><span style="color:#000;font-weight:bold">\Software\Microsoft\Windows\CurrentVersion\Internet Settings]</span>
-<span style="color:#008080">&#34;AutoConfigURL&#34;</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;http://192.168.1.99/&#34;</span>
-</code></pre></div><p>And the home.reg file looks like:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-reg" data-lang="reg"><span style="color:#a61717;background-color:#e3d2d2">REGEDIT4</span>
-<span style="color:#000;font-weight:bold">[</span><span style="color:#0086b3">HKEY_CURRENT_USER</span><span style="color:#000;font-weight:bold">\Software\Microsoft\Windows\CurrentVersion\Internet Settings]</span>
-<span style="color:#008080">&#34;AutoConfigURL&#34;</span><span style="color:#000;font-weight:bold">=-</span>
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/information-technology">Information Technology</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">27</span>
-										<span class="rest">Aug 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">27</span>
+							<span class="rest">Aug 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Dynamic CSS with PHP</h1>
+								<h4 class="title small">
+									<a href="../../2006/08/27/dynamic-css-with-php/">Dynamic CSS with PHP</a>
+								</h4>
+								<span class="description">
+									
+										Both html and css are simply text. Thus you should be able to generate css as easily as html with php. Now if you add a ...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Both html and css are simply text. Thus you should be able to generate css as easily as html with php. Now if you add a reference to the css.php file in your html (eg: <!-- raw HTML omitted -->) you&rsquo;ll probably experience that your browser ignores the file. How is this possible? Here is an example of a simple css.php file</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">body {
-background<span style="color:#000;font-weight:bold">-</span>color<span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">&lt;?</span>php <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#39;yellow&#39;</span>; <span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">;
-</span><span style="color:#a61717;background-color:#e3d2d2">}
-</span></code></pre></div><p>Here is a simulation of what your browser recieves when it requests the file:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>Where did that content-type header come from? Well, php outputs a default content-type header (text/html) when you don&rsquo;t set value explicitely. This means that your browser will try to interpret the file as html instead of css. Although it may seem weird, this behaviour is explicitely defined in <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec7.html#sec7.2.1">RFC 2616</a>.</p>
-<p>So the solution is pretty simple: explicitely generate content-type header. Here is an example for css: (You&rsquo;re smart enough to figure it out for csv, m3u, &hellip;)</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#000;font-weight:bold">&lt;?</span>php header(<span style="color:#d14">&#39;Content-type: text/css&#39;</span>);<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">body {
-</span><span style="color:#a61717;background-color:#e3d2d2">background-color: &lt;?php echo &#39;white&#39;; ?&gt;
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">}
-</span></code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/php">PHP</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">27</span>
-										<span class="rest">Aug 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">27</span>
+							<span class="rest">Aug 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">tweaking Oracle SQL Developer</h1>
+								<h4 class="title small">
+									<a href="../../2006/08/27/tweaking-oracle-sql-developer/">tweaking Oracle SQL Developer</a>
+								</h4>
+								<span class="description">
+									
+										A couple of days ago i discovered [Oracle SQL Developer](http://www.oracle.com/technology/products/database/sql_develope...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>A couple of days ago i discovered <a href="http://www.oracle.com/technology/products/database/sql_developer/index.html">Oracle SQL Developer</a>, a new and free graphical tool for database development. At first i was impressed by all it&rsquo;s features but when i tried to modify a couple of existing stored procedures the application freezed. <a href="http://forums.oracle.com/forums/profile.jspa?userID=481264">EricH</a> directed me to the <a href="http://www.oracle.com/technology/products/database/sql_developer/files/faqs.html#q3">FAQ: Can I suppress Code Insight (and why would I want to)?</a>. Now that i have added the &lsquo;AddVMOption -J-Dsdev.insight=false&rsquo; to my sqldeveloper.conf the application runs smooth</p>
-<p><a href="http://www.timvw.be/wp-content/images/oraclesqldeveloper-large.jpg"><img src="http://www.timvw.be/wp-content/images/oraclesqldeveloper-small.jpg" alt="screenshot of oracle sqldeveloper"></a></p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/sql">SQL</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 				
 

@@ -61,471 +61,213 @@
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">05</span>
-										<span class="rest">Sep 2010</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">05</span>
+							<span class="rest">Sep 2010</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">WIF: Change STS per request</h1>
+								<h4 class="title small">
+									<a href="../../2010/09/05/wif-change-sts-per-request/">WIF: Change STS per request</a>
+								</h4>
+								<span class="description">
+									
+										Here is some code that will redirect unauthenticated users to their respective STS (Eg: A user visiting ~/CompanyA/Defau...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Here is some code that will redirect unauthenticated users to their respective STS (Eg: A user visiting ~/CompanyA/Default.aspx will be asked to authenticate at the STS linked to CompanyA.</p>
-<p>Notice that in the enterprise you typically have multiple applications that require this kind of behavior, so you would solve this by establishing trust between your app(s) and your STS + establish trust between your STS and the client STSes.)</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Global</span> : HttpApplication
-{
-	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">void</span> wSFederationAuthenticationModule_RedirectingToIdentityProvider(<span style="color:#458;font-weight:bold">object</span> sender, RedirectingToIdentityProviderEventArgs e)
-	{
-		e.Cancel = <span style="color:#000;font-weight:bold">true</span>;
-		RedirectToCompanySts();
-	}
-
-	<span style="color:#000;font-weight:bold">void</span> RedirectToCompanySts()
-	{
-		<span style="color:#458;font-weight:bold">var</span> httpContext = HttpContext.Current;
-		<span style="color:#458;font-weight:bold">var</span> rawUrl = httpContext.Request.RawUrl;
-
-		<span style="color:#458;font-weight:bold">var</span> returnUrl = rawUrl;
-		<span style="color:#458;font-weight:bold">var</span> companyName = ExtractCompanyName(rawUrl);
-		<span style="color:#458;font-weight:bold">var</span> companySts = GetCompanySts(companyName);
-		<span style="color:#458;font-weight:bold">var</span> realm = GetRealm(companyName);
-		<span style="color:#458;font-weight:bold">var</span> redirectUrl = GetRedirectUrl(companySts, realm, returnUrl);
-
-		httpContext.Response.Redirect(redirectUrl, <span style="color:#000;font-weight:bold">false</span>);
-		httpContext.ApplicationInstance.CompleteRequest();
-	}
-
-	<span style="color:#458;font-weight:bold">string</span> ExtractCompanyName(<span style="color:#458;font-weight:bold">string</span> rawUrl)
-	{
-		<span style="color:#458;font-weight:bold">var</span> regex = <span style="color:#d14">@&#34;~/(.\*?)/.\*&#34;</span>;
-		<span style="color:#458;font-weight:bold">var</span> relativeUrl = VirtualPathUtility.ToAppRelative(rawUrl);
-		<span style="color:#458;font-weight:bold">var</span> match = Regex.Match(relativeUrl, regex);
-		<span style="color:#000;font-weight:bold">return</span> match.Success ? match.Groups[<span style="color:#099">1</span>].Value : <span style="color:#d14">&#34;&#34;</span>;
-	}
-
-	<span style="color:#458;font-weight:bold">string</span> GetCompanySts(<span style="color:#458;font-weight:bold">string</span> companyName)
-	{
-		<span style="color:#000;font-weight:bold">if</span> (companyName == <span style="color:#d14">&#34;CompanyA&#34;</span>) <span style="color:#000;font-weight:bold">return</span> <span style="color:#d14">@&#34;http://localhost/STS2Site&#34;</span>;
-		<span style="color:#000;font-weight:bold">return</span> <span style="color:#d14">@&#34;http://localhost/STSSite&#34;</span>;
-	}
-
-	<span style="color:#458;font-weight:bold">string</span> GetRealm(<span style="color:#458;font-weight:bold">string</span> companyName)
-	{
-		<span style="color:#458;font-weight:bold">var</span> realm = <span style="color:#d14">@&#34;http://localhost/RPSite/&#34;</span>;
-		<span style="color:#000;font-weight:bold">if</span> (!<span style="color:#458;font-weight:bold">string</span>.IsNullOrEmpty(companyName)) realm += companyName +<span style="color:#d14">&#34;/&#34;</span>;
-		<span style="color:#000;font-weight:bold">return</span> realm;
-	}
-
-	<span style="color:#458;font-weight:bold">string</span> GetRedirectUrl(<span style="color:#458;font-weight:bold">string</span> companySts, <span style="color:#458;font-weight:bold">string</span> realm, <span style="color:#458;font-weight:bold">string</span> returnUrl)
-	{
-		<span style="color:#458;font-weight:bold">var</span> signInRequestMessage = <span style="color:#000;font-weight:bold">new</span> SignInRequestMessage(<span style="color:#000;font-weight:bold">new</span> Uri(companySts), realm)
-		{
-			Context = returnUrl,
-			HomeRealm = <span style="color:#d14">&#34;timvw&#34;</span>
-		};
-
-		<span style="color:#000;font-weight:bold">return</span> signInRequestMessage.WriteQueryString();
-	}
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/sts">sts</a></li>
-										
-										<li><a href="../../tags/wif">wif</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">25</span>
-										<span class="rest">Aug 2010</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">25</span>
+							<span class="rest">Aug 2010</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Making the TemplateFileTask easier to use...</h1>
+								<h4 class="title small">
+									<a href="../../2010/08/25/making-the-templatefiletask-easier-to-use.../">Making the TemplateFileTask easier to use...</a>
+								</h4>
+								<span class="description">
+									
+										One of the disadvantages of the TemplateFile task ([msbuildtasks](http://msbuildtasks.tigris.org/)) is the fact that it ...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>One of the disadvantages of the TemplateFile task (<a href="http://msbuildtasks.tigris.org/">msbuildtasks</a>) is the fact that it requires a lot of typing to define template values</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;ItemGroup</span> <span style="color:#008080">Condition=</span> <span style="color:#d14">&#34; &#39;$(ConfigurationEnvironment)&#39;==&#39;build&#39; &#34;</span><span style="color:#000080">&gt;</span>
-	<span style="color:#000080">&lt;Tokens</span> <span style="color:#008080">Include=</span><span style="color:#d14">&#34;a&#34;</span><span style="color:#000080">&gt;</span>
-		<span style="color:#000080">&lt;ReplacementValue&gt;</span>localhost<span style="color:#000080">&lt;/ReplacementValue&gt;</span>
-	<span style="color:#000080">&lt;/Tokens&gt;</span>
-	<span style="color:#000080">&lt;Tokens</span> <span style="color:#008080">Include=</span><span style="color:#d14">&#34;b&#34;</span><span style="color:#000080">&gt;</span>
-		<span style="color:#000080">&lt;ReplacementValue&gt;&lt;mynode/&gt;&lt;/ReplacementValue&gt;</span>
-	<span style="color:#000080">&lt;/Tokens&gt;</span>
-<span style="color:#000080">&lt;/ItemGroup&gt;</span>
-</code></pre></div><p>Here is a format proposition to make this a lot more finger friendly</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;configuration&gt;</span>
-	<span style="color:#000080">&lt;variables</span> <span style="color:#008080">env=</span><span style="color:#d14">&#34;build&#34;</span><span style="color:#000080">&gt;</span>
-		<span style="color:#000080">&lt;x</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;a&#34;</span><span style="color:#000080">&gt;</span>localhost<span style="color:#000080">&lt;/x&gt;</span>
-		<span style="color:#000080">&lt;x</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;b</span><span style="color:#000080">&gt;&lt;mynode/&gt;&lt;/x&gt;</span>
-	<span style="color:#000080">&lt;/variables&gt;</span>
-<span style="color:#000080">&lt;/configuration&gt;</span>
-</code></pre></div><p>Here is the msbuild script we need to achieve that</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;PropertyGroup&gt;</span>
-	<span style="color:#000080">&lt;ConfigurationFile&gt;</span>configuration.xml<span style="color:#000080">&lt;/ConfigurationFile&gt;</span>
-	<span style="color:#000080">&lt;ConfigurationEnvironment&gt;</span>build<span style="color:#000080">&lt;/ConfigurationEnvironment&gt;</span>
-<span style="color:#000080">&lt;/PropertyGroup&gt;</span>
-
-<span style="color:#998;font-style:italic">&lt;!-- Retreive all template values for the specific environment --&gt;</span>
-<span style="color:#000080">&lt;XmlQuery</span> <span style="color:#008080">XmlFileName=</span><span style="color:#d14">&#34;$(ConfigurationFile)&#34;</span> <span style="color:#008080">XPath =</span> <span style="color:#d14">&#34;//variables[@env=&#39;$(ConfigurationEnvironment)&#39;]/*&#34;</span><span style="color:#000080">&gt;</span>
-	<span style="color:#000080">&lt;Output</span> <span style="color:#008080">TaskParameter=</span><span style="color:#d14">&#34;Values&#34;</span> <span style="color:#008080">ItemName=</span><span style="color:#d14">&#34;Values&#34;</span> <span style="color:#000080">/&gt;</span>
-<span style="color:#000080">&lt;/XmlQuery&gt;</span>
-
-<span style="color:#000080">&lt;--</span> <span style="color:#a61717;background-color:#e3d2d2">Construct</span> <span style="color:#a61717;background-color:#e3d2d2">@Tokens</span> <span style="color:#a61717;background-color:#e3d2d2">--</span><span style="color:#000080">&gt;</span>
-<span style="color:#000080">&lt;ItemGroup&gt;</span>
-	<span style="color:#000080">&lt;Tokens</span> <span style="color:#008080">Include=</span><span style="color:#d14">&#34;%(Values.name)&#34;</span><span style="color:#000080">&gt;</span>
-		<span style="color:#000080">&lt;ReplacementValue&gt;</span>%(Values._innerxml)<span style="color:#000080">&lt;/ReplacementValue&gt;</span>
-	<span style="color:#000080">&lt;/Tokens&gt;</span>
-<span style="color:#000080">&lt;/ItemGroup&gt;</span>
-
-<span style="color:#998;font-style:italic">&lt;!-- Generate the configuration files --&gt;</span>
-<span style="color:#000080">&lt;Message</span> <span style="color:#008080">Text=</span><span style="color:#d14">&#34;Available variables:&#34;</span> <span style="color:#000080">/&gt;</span>
-<span style="color:#000080">&lt;Message</span> <span style="color:#008080">Text=</span><span style="color:#d14">&#34;====================&#34;</span> <span style="color:#000080">/&gt;</span>
-<span style="color:#000080">&lt;Message</span> <span style="color:#008080">Text=</span><span style="color:#d14">&#34;%(Tokens.Identity): %(Tokens.ReplacementValue)&#34;</span> <span style="color:#000080">/&gt;</span>
-</code></pre></div><p>Happy coding!</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/msbuild">MSBuild</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">25</span>
-										<span class="rest">Aug 2010</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">25</span>
+							<span class="rest">Aug 2010</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">What i dislike about the Web.config Transformation in VS2010</h1>
+								<h4 class="title small">
+									<a href="../../2010/08/25/what-i-dislike-about-the-web.config-transformation-in-vs2010/">What i dislike about the Web.config Transformation in VS2010</a>
+								</h4>
+								<span class="description">
+									
+										There are a couple of things that i strongly dislike about the [Web.config transformation in VS2010](http://blogs.msdn.c...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>There are a couple of things that i strongly dislike about the <a href="http://blogs.msdn.com/b/webdevtools/archive/2009/05/04/web-deployment-web-config-transformation.aspx">Web.config transformation in VS2010</a></p>
-<ul>
-<li>Only works with XML files (eg: Can&rsquo;t be used to generate a release notes.txt file)</li>
-<li><!-- raw HTML omitted -->Does not seem to support externalized sections, eg: log4net.config in a separate file<!-- raw HTML omitted --></li>
-<li><!-- raw HTML omitted -->No support to copy/paste transform files<!-- raw HTML omitted --></li>
-<li>Only works when Visual Studio 2010 is installed (And i am still not convinced a build server should have this).</li>
-<li>Ties environment to build configuration</li>
-</ul>
-<p><strong>Lesson learned: Don&rsquo;t trust your co-workers, always double-check!</strong></p>
-<ul>
-<li>Having multiple transformations is easy-peasy, just invoke the TransformXml task for all your config files and make sure your transformation files are correct. For log4net this would look like</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;log4net</span> <span style="color:#008080">xmlns:xdt=</span><span style="color:#d14">&#34;http://schemas.microsoft.com/XML-Document-Transform&#34;</span><span style="color:#000080">&gt;</span>
-	<span style="color:#000080">&lt;root&gt;</span>
-		<span style="color:#000080">&lt;level</span> <span style="color:#008080">value=</span><span style="color:#d14">&#34;ERROR&#34;</span> <span style="color:#008080">xdt:Transform=</span><span style="color:#d14">&#34;Replace&#34;</span><span style="color:#000080">/&gt;</span>
-	<span style="color:#000080">&lt;/root&gt;</span>
-<span style="color:#000080">&lt;/log4net&gt;</span>
-</code></pre></div><ul>
-<li>The support for copy/paste can be achieved by removing the DependentUpon tag in your proj file (At the cost that you do not have the + sign in solution explorer which &lsquo;hides&rsquo; the transforms files)</li>
-</ul>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/msbuild">MSBuild</a></li>
-										
-										<li><a href="../../tags/visual-studio">Visual Studio</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">17</span>
-										<span class="rest">Aug 2010</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">17</span>
+							<span class="rest">Aug 2010</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Clean TemplateFile hack</h1>
+								<h4 class="title small">
+									<a href="../../2010/08/17/clean-templatefile-hack/">Clean TemplateFile hack</a>
+								</h4>
+								<span class="description">
+									
+										A while ago i wrote about a [Clever TemplateFile hack](http://www.timvw.be/clever-templatefile-hack/) to use some xml bl...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>A while ago i wrote about a <a href="http://www.timvw.be/clever-templatefile-hack/">Clever TemplateFile hack</a> to use some xml block as ReplacementValue. Today i realized there is a clean way to achieve this by defining the value as <a href="http://www.w3schools.com/xml/xml_cdata.asp">CDATA</a></p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;TemplateTokens</span> <span style="color:#008080">Include=</span><span style="color:#d14">&#34;mex&#34;</span><span style="color:#000080">&gt;</span>
-	<span style="color:#000080">&lt;ReplacementValue&gt;</span>
-		<span style="color:#999;font-weight:bold;font-style:italic">&lt;![CDATA[&lt;endpoint address=&#34;mex&#34; binding=&#34;mexHttpBinding&#34; contract=&#34;IMetadataExchange&#34; /&gt;]]&gt;</span>
-	<span style="color:#000080">&lt;/ReplacementValue&gt;</span>
-<span style="color:#000080">&lt;/TemplateTokens&gt;</span>
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/msbuild">MSBuild</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">29</span>
-										<span class="rest">Jul 2010</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">29</span>
+							<span class="rest">Jul 2010</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Behind Closed Doors: Secrets of Great Management</h1>
+								<h4 class="title small">
+									<a href="../../2010/07/29/behind-closed-doors-secrets-of-great-management/">Behind Closed Doors: Secrets of Great Management</a>
+								</h4>
+								<span class="description">
+									
+										[Behind Closed Doors: Secrets of Great Management](http://www.pragprog.com/titles/rdbcd/behind-closed-doors) first let&#39;s...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p><a href="http://www.pragprog.com/titles/rdbcd/behind-closed-doors">Behind Closed Doors: Secrets of Great Management</a> first let&rsquo;s you look behind the closed doors of all those private meetings and then provides you a set of techniques that allow you to be(come) a better manager. All 160 pages were worth reading!</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/book-reviews">Book reviews</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">29</span>
-										<span class="rest">Jul 2010</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">29</span>
+							<span class="rest">Jul 2010</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Ship It!: A Practical Guide to Successful Software Projects</h1>
+								<h4 class="title small">
+									<a href="../../2010/07/29/ship-it-a-practical-guide-to-successful-software-projects/">Ship It!: A Practical Guide to Successful Software Projects</a>
+								</h4>
+								<span class="description">
+									
+										[Ship It!: A Practical Guide to Successful Software Projects](http://www.pragprog.com/titles/prj/ship-it) is focussed on...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p><a href="http://www.pragprog.com/titles/prj/ship-it">Ship It!: A Practical Guide to Successful Software Projects</a> is focussed on one core idea: &ldquo;The List&rdquo;. The place in which you track your (and your teams) to-do and done work. I do not agree with everything written in the book but would still want to recommend it.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/book-reviews">Book reviews</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">22</span>
-										<span class="rest">Jul 2010</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">22</span>
+							<span class="rest">Jul 2010</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Brownfield Application Development in .NET</h1>
+								<h4 class="title small">
+									<a href="../../2010/07/22/brownfield-application-development-in-.net/">Brownfield Application Development in .NET</a>
+								</h4>
+								<span class="description">
+									
+										[Brownfield Application Development in .NET](http://www.manning.com/baley/) is one of the better books i have read recen...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p><a href="http://www.manning.com/baley/">Brownfield Application Development in .NET</a> is one of the better books i have read recently. The first part is about the ecosystem (version control, automated build, continuous integration, testing, defect management, &hellip; ), the second part is about the code (OO-principles, layering, dependencies, ui patterns, &hellip;) and the last chapter talks about ways to maintain the momentum. Very much recommended!</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/book-reviews">Book reviews</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">21</span>
-										<span class="rest">Jul 2010</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">21</span>
+							<span class="rest">Jul 2010</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Quick reminder about the workings of Type.IsAssignableFrom</h1>
+								<h4 class="title small">
+									<a href="../../2010/07/21/quick-reminder-about-the-workings-of-type.isassignablefrom/">Quick reminder about the workings of Type.IsAssignableFrom</a>
+								</h4>
+								<span class="description">
+									
+										Here is a quick reminder about the workings of [Type.IsAssignableFrom](http://msdn.microsoft.com/en-us/library/system.ty...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Here is a quick reminder about the workings of <a href="http://msdn.microsoft.com/en-us/library/system.type.isassignablefrom.aspx">Type.IsAssignableFrom</a></p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Fruit</span> {}
-<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Banana</span> : Fruit {}
-<span style="color:#008080">
-</span><span style="color:#008080">[Test]</span>
-<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> CanAssignBananaToFruit()
-{
-	<span style="color:#458;font-weight:bold">var</span> fruit = <span style="color:#000;font-weight:bold">typeof</span> (Fruit);
-	<span style="color:#458;font-weight:bold">var</span> banana = <span style="color:#000;font-weight:bold">typeof</span> (Banana);
-	Assert.IsTrue(fruit.IsAssignableFrom(banana));
-}
-<span style="color:#008080">
-</span><span style="color:#008080">[Test]</span>
-<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> CanNotAssignFruitToBanana()
-{
-	<span style="color:#458;font-weight:bold">var</span> fruit = <span style="color:#000;font-weight:bold">typeof</span>(Fruit);
-	<span style="color:#458;font-weight:bold">var</span> banana = <span style="color:#000;font-weight:bold">typeof</span>(Banana);
-	Assert.IsFalse(banana.IsAssignableFrom(fruit));
-}
-</code></pre></div><p>I really hate this API because it always seems backward to me. Here is how i really want to use it</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Assert.IsTrue(banana.CanBeAssignedTo(fruit));
-Assert.IsFalse(fruit.CanBeAssignedTo(banana));
-</code></pre></div><p>With the aid of an extension method we can easily achieve this</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> CanBeAssignedTo(<span style="color:#000;font-weight:bold">this</span> Type sourceType, Type destinationType)
-{
-	<span style="color:#000;font-weight:bold">return</span> destinationType.IsAssignableFrom(sourceType);
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">20</span>
-										<span class="rest">Jul 2010</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">20</span>
+							<span class="rest">Jul 2010</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">97 Things Every Programmer Should Know</h1>
+								<h4 class="title small">
+									<a href="../../2010/07/20/97-things-every-programmer-should-know/">97 Things Every Programmer Should Know</a>
+								</h4>
+								<span class="description">
+									
+										[97 Things Every Programmer Should Know](http://oreilly.com/catalog/9780596809492) was the last book that i wanted to re...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p><a href="http://oreilly.com/catalog/9780596809492">97 Things Every Programmer Should Know</a> was the last book that i wanted to read at the pool during summer holidays. As with all 97 things books you get a lot of valuable tips but i found this book not as exciting as the previous ones&hellip;</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/book-reviews">Book reviews</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">20</span>
-										<span class="rest">Jul 2010</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">20</span>
+							<span class="rest">Jul 2010</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Debug It!: Find, Repair, and Prevent Bugs in Your Code</h1>
+								<h4 class="title small">
+									<a href="../../2010/07/20/debug-it-find-repair-and-prevent-bugs-in-your-code/">Debug It!: Find, Repair, and Prevent Bugs in Your Code</a>
+								</h4>
+								<span class="description">
+									
+										A while ago i noticed that [Davy Brion](http://davybrion.com/blog/2010/01/highly-recommended-book-debug-it/) recommended...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>A while ago i noticed that <a href="http://davybrion.com/blog/2010/01/highly-recommended-book-debug-it/">Davy Brion</a> recommended <a href="http://pragprog.com/titles/pbdp/debug-it">Debug It!: Find, Repair, and Prevent Bugs in Your Code</a> so i decided to give it a read. Although i really liked the suggested process for investigating bugs where you have absolutely no clue of what is going on, i am not convinced that this is a must read book.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/book-reviews">Book reviews</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 				
 

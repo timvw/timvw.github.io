@@ -6,7 +6,7 @@
 	<meta itemprop="name" content="Exploring window functions">
 <meta itemprop="description" content="Here is a sample query that allows you to explore the behavior of various aggregate window functions:
 WITH[Nums1]AS(SELECT1AS[Value]UNIONSELECT2AS[Value]),[Nums2]AS(SELECTA.*FROM[Nums1]ASA,[Nums1]ASB,[Nums1]ASC),[Nums3]AS(SELECTA.*FROM[Nums2]ASA,[Nums2]ASB,[Nums2]ASC),[Nums4]AS(SELECTA.*FROM[Nums3]ASA,[Nums3]ASB)-- Build numbers from 1 to 1000 ,[Numbers]AS(SELECTTOP(1000)ROW_NUMBER()OVER(ORDERBY[Value])AS[Value]FROM[Nums4])SELECT[Value],ROW_NUMBER()OVER(PARTITIONBY[Value]/100ORDERBY[Value]%10)AS[RowNumber],RANK()OVER(PARTITIONBY[Value]/100ORDERBY[Value]%10)AS[Rank],DENSE_RANK()OVER(PARTITIONBY[Value]/100ORDERBY[Value]%10)AS[DenseRank],NTILE(4)OVER(PARTITIONBY[Value]/100ORDERBY[Value]%10)AS[Tile100]FROM[Numbers]ORDERBY[Value];"><meta itemprop="datePublished" content="2010-12-10T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2022-02-23T13:18:34+01:00" />
+<meta itemprop="dateModified" content="2022-02-23T13:48:49+01:00" />
 <meta itemprop="wordCount" content="25">
 <meta itemprop="keywords" content="SQL," /><meta property="og:title" content="Exploring window functions" />
 <meta property="og:description" content="Here is a sample query that allows you to explore the behavior of various aggregate window functions:
@@ -14,7 +14,7 @@ WITH[Nums1]AS(SELECT1AS[Value]UNIONSELECT2AS[Value]),[Nums2]AS(SELECTA.*FROM[Num
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/2010/12/10/exploring-window-functions/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2010-12-10T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-02-23T13:18:34+01:00" />
+<meta property="article:modified_time" content="2022-02-23T13:48:49+01:00" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Exploring window functions"/>

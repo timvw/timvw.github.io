@@ -61,826 +61,218 @@
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">26</span>
-										<span class="rest">Jul 2007</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">26</span>
+							<span class="rest">Jul 2007</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Using interfaces with Drag and Drop</h1>
+								<h4 class="title small">
+									<a href="../../2007/07/26/using-interfaces-with-drag-and-drop/">Using interfaces with Drag and Drop</a>
+								</h4>
+								<span class="description">
+									
+										Earlier today i was refactoring some graphical components. I wanted to use an interface instead of concrete implementati...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Earlier today i was refactoring some graphical components. I wanted to use an interface instead of concrete implementations for my drag and drop code&hellip; Although i was using an instance of Foo, and thus IFoo, the following code never allowed me to drop</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">interface</span> IFoo { }
-<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Foo</span> : IFoo { }
-
-<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> label1_MouseDown(<span style="color:#458;font-weight:bold">object</span> sender, MouseEventArgs e)
-{
-	<span style="color:#000;font-weight:bold">this</span>.DoDragDrop(<span style="color:#000;font-weight:bold">new</span> Foo(), DragDropEffects.All);
-}
-
-<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Form1_DragEnter(<span style="color:#458;font-weight:bold">object</span> sender, DragEventArgs e)
-{
-	<span style="color:#998;font-style:italic">// for an instance of Foo it returns false,
-</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// if you use typeof(Foo) it returns true though...
-</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">if</span> (e.Data.GetDataPresent(<span style="color:#000;font-weight:bold">typeof</span>(IFoo)))
-	{
-		e.Effect = DragDropEffects.All;
-	}
-}
-</code></pre></div><p>Simply wrapping the concrete instance in a <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.dataobject(VS.80).aspx">DataObject</a> results in the desired behaviour</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> label1_MouseDown(<span style="color:#458;font-weight:bold">object</span> sender, MouseEventArgs e)
-{
-	<span style="color:#000;font-weight:bold">this</span>.DoDragDrop(<span style="color:#000;font-weight:bold">new</span> DataObject(<span style="color:#000;font-weight:bold">typeof</span>(IFoo).FullName,<span style="color:#000;font-weight:bold">new</span> Foo()), DragDropEffects.All);
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">18</span>
-										<span class="rest">Jul 2007</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">18</span>
+							<span class="rest">Jul 2007</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Pondering about DateTime and it&#39;s Ticks...</h1>
+								<h4 class="title small">
+									<a href="../../2007/07/18/pondering-about-datetime-and-its-ticks.../">Pondering about DateTime and it&#39;s Ticks...</a>
+								</h4>
+								<span class="description">
+									
+										Recently someone was able to convince me that there is no problem with using [System.DateTime](http://msdn2.microsoft.co...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Recently someone was able to convince me that there is no problem with using <a href="http://msdn2.microsoft.com/en-us/library/System.Datetime.aspx">System.DateTime</a> for the storage of localtimes (even if DST is in effect), because it works with <a href="http://msdn2.microsoft.com/en-us/library/system.datetime.ticks.aspx">Ticks</a> and i bought into his base + offset story&hellip;. The following table explains his reasoning</p>
-<!-- raw HTML omitted -->
-<pre><code>&lt;th style=&quot;width: 33%&quot;&gt;
-  Localtime
-&lt;/th&gt;
-
-&lt;th style=&quot;width: 33%&quot;&gt;
-  Ticks (Localtime)
-&lt;/th&gt;
-</code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<pre><code>&lt;td&gt;
-  2007-10-28 01:59:59
-&lt;/td&gt;
-
-&lt;td&gt;
-  63329133&lt;b&gt;599&lt;/b&gt;0000000
-&lt;/td&gt;
-</code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<pre><code>&lt;td&gt;
-  2007-10-28 02:00:00
-&lt;/td&gt;
-
-&lt;td&gt;
-  63329133&lt;b&gt;600&lt;/b&gt;0000000
-&lt;/td&gt;
-</code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<pre><code>&lt;td&gt;
-  2007-10-28 02:00:01
-&lt;/td&gt;
-
-&lt;td&gt;
-  63329133&lt;b&gt;601&lt;/b&gt;0000000
-&lt;/td&gt;
-</code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<pre><code>&lt;td&gt;
-  2007-10-28 02:59:59
-&lt;/td&gt;
-
-&lt;td&gt;
-  63329137&lt;b&gt;199&lt;/b&gt;0000000
-&lt;/td&gt;
-</code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<pre><code>&lt;td&gt;
-  2007-10-28 02:00:00
-&lt;/td&gt;
-
-&lt;td&gt;
-  63329133&lt;b&gt;200&lt;/b&gt;0000000
-&lt;/td&gt;
-</code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<pre><code>&lt;td&gt;
-  2007-10-28 02:00:01
-&lt;/td&gt;
-
-&lt;td&gt;
-  63329133&lt;b&gt;201&lt;/b&gt;0000000
-&lt;/td&gt;
-</code></pre>
-<!-- raw HTML omitted -->
-<p>This reasoning gives you the impression that for each second <strong>1</strong>0000000 is added to the ticks.. However, this is faulty and in reality you get the following</p>
-<!-- raw HTML omitted -->
-<pre><code>&lt;th style=&quot;width: 33%&quot;&gt;
-  Localtime
-&lt;/th&gt;
-
-&lt;th style=&quot;width: 33%&quot;&gt;
-  Ticks (Localtime)
-&lt;/th&gt;
-</code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<pre><code>&lt;td&gt;
-  2007-10-28 01:59:59
-&lt;/td&gt;
-
-&lt;td&gt;
-  63329133&lt;b&gt;599&lt;/b&gt;0000000
-&lt;/td&gt;
-</code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<pre><code>&lt;td&gt;
-  2007-10-28 02:00:00
-&lt;/td&gt;
-
-&lt;td&gt;
-  63329133&lt;b&gt;600&lt;/b&gt;0000000
-&lt;/td&gt;
-</code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<pre><code>&lt;td&gt;
-  2007-10-28 02:00:01
-&lt;/td&gt;
-
-&lt;td&gt;
-  63329133&lt;b&gt;601&lt;/b&gt;0000000
-&lt;/td&gt;
-</code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<pre><code>&lt;td&gt;
-  2007-10-28 02:59:59
-&lt;/td&gt;
-
-&lt;td&gt;
-  63329137&lt;b&gt;199&lt;/b&gt;0000000
-&lt;/td&gt;
-</code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<pre><code>&lt;td&gt;
-  2007-10-28 02:00:00
-&lt;/td&gt;
-
-&lt;td&gt;
-  63329133&lt;span style=&quot;color: red&quot;&gt;&lt;b&gt;600&lt;/b&gt;&lt;/span&gt;0000000
-&lt;/td&gt;
-</code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<pre><code>&lt;td&gt;
-  2007-10-28 02:00:01
-&lt;/td&gt;
-
-&lt;td&gt;
-  63329133&lt;b&gt;601&lt;/b&gt;0000000
-&lt;/td&gt;
-</code></pre>
-<!-- raw HTML omitted -->
-<p>As you can see, instead of adding <strong>1</strong>0000000 to the ticks between 2007-10-27 00:59:59 and 01:00:00 in UTC there is a <!-- raw HTML omitted -->reduction of ticks in the localtime<!-- raw HTML omitted --> instead&hellip;. Because of this new DateTime(633291336000000000, DateTimeKind.Local) could represent both 2007-10-27 00:00:00 UTC and 2007-10-27 01:00:00 UTC&hellip; So if you want to keep out of trouble you&rsquo;d better start storing your dates as UTC&hellip; If you don&rsquo;t believe me, run the test yourself</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">List&lt;dateTime&gt; localTimes = <span style="color:#000;font-weight:bold">new</span> List&lt;dateTime&gt;();
-
-<span style="color:#998;font-style:italic">// start at 2007-10-27 23:59:59 UTC, which is 2007-28-10 01:59:59 localtime
-</span><span style="color:#998;font-style:italic"></span>DateTime utcBase = <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">10</span>, <span style="color:#099">27</span>, <span style="color:#099">23</span>, <span style="color:#099">59</span>, <span style="color:#099">59</span>, DateTimeKind.Utc);
-localTimes.Add(utcBase.ToLocalTime());
-
-<span style="color:#998;font-style:italic">// add 1 second to the base, which is 2007-28-10 02:00:00 localtime (first time)
-</span><span style="color:#998;font-style:italic"></span>localTimes.Add(utcBase.AddSeconds(<span style="color:#099">1</span>).ToLocalTime());
-
-<span style="color:#998;font-style:italic">// add 2 seconds to the base, which is 2007-28-10 02:00:01 localtime (first time)
-</span><span style="color:#998;font-style:italic"></span>localTimes.Add(utcBase.AddSeconds(<span style="color:#099">2</span>).ToLocalTime());
-
-<span style="color:#998;font-style:italic">// add 60 minutes to the base, which is 2007-28-10 02:59:59 localtime (first time)
-</span><span style="color:#998;font-style:italic"></span>localTimes.Add(utcBase.AddMinutes(<span style="color:#099">60</span>).ToLocalTime());
-
-<span style="color:#998;font-style:italic">// add 60 minutes and 1 second to the base, which is 2007-28-10 02:00:00 localtime (second time)
-</span><span style="color:#998;font-style:italic"></span>localTimes.Add(utcBase.AddMinutes(<span style="color:#099">60</span>).AddSeconds(<span style="color:#099">1</span>).ToLocalTime());
-
-<span style="color:#998;font-style:italic">// add 60 minutes and 2 second to the base, which is 2007-28-10 02:00:01 localtime (second time)
-</span><span style="color:#998;font-style:italic"></span>localTimes.Add(utcBase.AddMinutes(<span style="color:#099">60</span>).AddSeconds(<span style="color:#099">2</span>).ToLocalTime());
-
-<span style="color:#000;font-weight:bold">foreach</span> (DateTime localTime <span style="color:#000;font-weight:bold">in</span> localTimes)
-{
-	Console.WriteLine(localTime.ToString(<span style="color:#d14">&#34;yyyy-MM-dd HH:mm:ss&#34;</span>));
-	Console.WriteLine(localTime.Ticks);
-	Console.WriteLine();
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">17</span>
-										<span class="rest">Jul 2007</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">17</span>
+							<span class="rest">Jul 2007</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Update from localtime to UTC or any other timezone with Oracle</h1>
+								<h4 class="title small">
+									<a href="../../2007/07/17/update-from-localtime-to-utc-or-any-other-timezone-with-oracle/">Update from localtime to UTC or any other timezone with Oracle</a>
+								</h4>
+								<span class="description">
+									
+										Imagine that you have a table with a column of the type DATETIME. You&#39;ve been storing data as localtime and after a whil...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Imagine that you have a table with a column of the type DATETIME. You&rsquo;ve been storing data as localtime and after a while you need to convert these datetimes to UTC. Here&rsquo;s a possible approach</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">UPDATE</span><span style="color:#bbb"> </span>events<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SET</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">start</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>SYS_EXTRACT_UTC(FROM_TZ(<span style="color:#000;font-weight:bold">start</span>,<span style="color:#bbb"> </span><span style="color:#d14">&#39;Europe/Brussels&#39;</span>));<span style="color:#bbb">
-</span></code></pre></div><p>You get a more generic variant using the AT TIME ZONE clause</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">UPDATE</span><span style="color:#bbb"> </span>events<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SET</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">start</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>FROM_TZ(<span style="color:#000;font-weight:bold">start</span>,<span style="color:#bbb"> </span><span style="color:#d14">&#39;Europe/Brussels&#39;</span>)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AT</span><span style="color:#bbb"> </span>TIME<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ZONE</span><span style="color:#bbb"> </span><span style="color:#d14">&#39;America/Denver&#39;</span>;<span style="color:#bbb">
-</span></code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/sql">SQL</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">06</span>
-										<span class="rest">Jul 2007</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">06</span>
+							<span class="rest">Jul 2007</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">About Authorization</h1>
+								<h4 class="title small">
+									<a href="../../2007/07/06/about-authorization/">About Authorization</a>
+								</h4>
+								<span class="description">
+									
+										Yesterday i visited an evening session about authentication and authorization at [Compuware](http://www.compuware.be) (Y...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Yesterday i visited an evening session about authentication and authorization at <a href="http://www.compuware.be">Compuware</a> (Yes, i&rsquo;ve got interesting collegues that are willing to share their knowledige). Anyway, i left the meeting with a couple of questions</p>
-<p><strong>How does System.Security.Principal.PrincipalPolicy work under <a href="http://www.mono-project.com/Main_Page">Mono</a>?</strong></p>
-<p>Well, NoPrincipal and UnauthenticatedPrincipal behave exactly the same way as they do in the Microsoft implementation. For the WindowsPrincipal the unix groups are used to determine the result of IsInRole. eg</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">//lists the groups the user timvw is part of:
-</span><span style="color:#998;font-style:italic">//timvw@debian:~$ groups
-</span><span style="color:#998;font-style:italic">//timvw dialout cdrom floppy audio video plugdev
-</span><span style="color:#998;font-style:italic"></span>
-AppDomain.CurrentDomain.SetPrincipalPolicy(PrincipalPolicy.WindowsPrincipal);
-IPrincipal principal = Thread.CurrentPrincipal;
-
-<span style="color:#458;font-weight:bold">string</span>[] roles = <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">string</span>[] { <span style="color:#d14">&#34;floppy&#34;</span>, <span style="color:#d14">&#34;wheel&#34;</span> };
-<span style="color:#000;font-weight:bold">foreach</span>(<span style="color:#458;font-weight:bold">string</span> role <span style="color:#000;font-weight:bold">in</span> roles)
-{
-	Console.WriteLine(<span style="color:#d14">&#34;{0} is in the {1} role: {2}.&#34;</span>, principal.Identity.Name, role, principal.IsInRole(role));
-}
-
-<span style="color:#998;font-style:italic">// the output:
-</span><span style="color:#998;font-style:italic">//timvw@debian:~$ ./Main.exe
-</span><span style="color:#998;font-style:italic">//timvw is in the floppy role: True.
-</span><span style="color:#998;font-style:italic">//timvw is in the wheel role: False.
-</span></code></pre></div><p><strong>How are instances of IPrincipal propgated into other threads?</strong></p>
-<p>A bit of research learned me that BeginInvoke and Thread.Start copy the Thread.CurrentPrincipal into the new thread and that ThreadPool.QueueUserWorkItem and System.Threading.Timer don&rsquo;t copy the Thread.CurrentPrincipal.</p>
-<p><strong>How can i use the <a href="http://blogs.msdn.com/azman/">Authorization Manager</a> without Windows Identity?</strong></p>
-<p>A possible solution would be the following</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> GetSid()
-{
-	<span style="color:#998;font-style:italic">// modify this so that it contains an application and user id
-</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#d14">&#34;S-1-9-1-1&#34;</span>;
-}
-
-<span style="color:#998;font-style:italic">// By passing in 1 as the second parameter, no verification of the SID against the AD is performed
-</span><span style="color:#998;font-style:italic"></span>IAzClientContext cctx = app.InitializeClientContextFromStringSid(GetSid(), <span style="color:#099">1</span>, <span style="color:#000;font-weight:bold">null</span>);
-
-<span style="color:#998;font-style:italic">// Because the MMC does not allow you to add custom SIDs you&#39;ll have to edit to add these manually (eg: by using the API)
-</span><span style="color:#998;font-style:italic"></span>IAzApplicationGroup <span style="color:#000;font-weight:bold">group</span> = app.OpenApplicationGroup(<span style="color:#d14">&#34;DemoApplicationUsers&#34;</span>, <span style="color:#000;font-weight:bold">null</span>);
-<span style="color:#000;font-weight:bold">group</span>.AddMember(GetSid(), <span style="color:#000;font-weight:bold">null</span>);
-<span style="color:#000;font-weight:bold">group</span>.Submit(<span style="color:#099">0</span>, <span style="color:#000;font-weight:bold">null</span>);
-
-<span style="color:#998;font-style:italic">// And now you can verify is the custom SID has access to a given operation:
-</span><span style="color:#998;font-style:italic"></span>Console.WriteLine(HasAccess(cctx, <span style="color:#000;font-weight:bold">null</span>, <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">int</span>[] { <span style="color:#099">1</span> }));
-
-<span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> HasAccess(IAzClientContext context, <span style="color:#458;font-weight:bold">string</span>[] scopeNames, <span style="color:#458;font-weight:bold">int</span>[] operationIds)
-{
-	<span style="color:#458;font-weight:bold">string</span> subject = <span style="color:#d14">&#34;audit&#34;</span>;
-
-	<span style="color:#458;font-weight:bold">object</span> scopes;
-	<span style="color:#000;font-weight:bold">if</span> (scopeNames == <span style="color:#000;font-weight:bold">null</span> || scopeNames.Length == <span style="color:#099">0</span>)
-	{
-		scopes = <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">object</span>[] { <span style="color:#d14">&#34;&#34;</span> };
-	}
-	<span style="color:#000;font-weight:bold">else</span>
-	{
-		scopes = Array.ConvertAll&lt;<span style="color:#458;font-weight:bold">string</span>, <span style="color:#458;font-weight:bold">object</span>&gt;(scopeNames, <span style="color:#000;font-weight:bold">delegate</span>(<span style="color:#458;font-weight:bold">string</span> scopeName) { <span style="color:#000;font-weight:bold">return</span> scopeName; });
-	}
-
-	<span style="color:#458;font-weight:bold">object</span>[] operations = Array.ConvertAll&lt;<span style="color:#458;font-weight:bold">int</span>, <span style="color:#458;font-weight:bold">object</span>&gt;(operationIds, <span style="color:#000;font-weight:bold">delegate</span>(<span style="color:#458;font-weight:bold">int</span> operationId) { <span style="color:#000;font-weight:bold">return</span> operationId; });
-	<span style="color:#458;font-weight:bold">object</span>[] results = (<span style="color:#458;font-weight:bold">object</span>[])context.AccessCheck(subject, scopes, operations, <span style="color:#000;font-weight:bold">null</span>, <span style="color:#000;font-weight:bold">null</span>, <span style="color:#000;font-weight:bold">null</span>, <span style="color:#000;font-weight:bold">null</span>, <span style="color:#000;font-weight:bold">null</span>);
-	<span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">object</span> result <span style="color:#000;font-weight:bold">in</span> results)
-	{
-		<span style="color:#000;font-weight:bold">if</span> ((<span style="color:#458;font-weight:bold">int</span>)result != <span style="color:#099">0</span>)
-		{
-			<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>;
-		}
-	}
-
-	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>;
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">26</span>
-										<span class="rest">Jun 2007</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">26</span>
+							<span class="rest">Jun 2007</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">About additional precision and unpredicted behaviour...</h1>
+								<h4 class="title small">
+									<a href="../../2007/06/26/about-additional-precision-and-unpredicted-behaviour.../">About additional precision and unpredicted behaviour...</a>
+								</h4>
+								<span class="description">
+									
+										Earlier today someone posted the following code
+
+```csharp
+float a = 0.12f;
+float b = a * 100f;
+Console.WriteLine((int) ...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Earlier today someone posted the following code</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">float</span> a = <span style="color:#099">0.12f</span>;
-<span style="color:#458;font-weight:bold">float</span> b = a * <span style="color:#099">100f</span>;
-Console.WriteLine((<span style="color:#458;font-weight:bold">int</span>) b); <span style="color:#998;font-style:italic">// prints 12
-</span><span style="color:#998;font-style:italic"></span>Console.WriteLine((<span style="color:#458;font-weight:bold">int</span>)(a * <span style="color:#099">100f</span>)); <span style="color:#998;font-style:italic">// prints 11 !!!!!!!!
-</span></code></pre></div><p>An (extensive) explanation for this strange behaviour can be found at <a href="http://blogs.msdn.com/davidnotario/archive/2005/08/08/449092.aspx">CLR and floating point: Some answers to common questions</a>&hellip; A possible way to force the compiler and runtime to get rid of the additional precision would be the following</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Console.WriteLine((<span style="color:#458;font-weight:bold">int</span>)(<span style="color:#458;font-weight:bold">float</span>)(a * <span style="color:#099">100f</span>));
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">10</span>
-										<span class="rest">May 2007</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">10</span>
+							<span class="rest">May 2007</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Improvements for the SortableBindingList (and TypedList)</h1>
+								<h4 class="title small">
+									<a href="../../2007/05/10/improvements-for-the-sortablebindinglist-and-typedlist/">Improvements for the SortableBindingList (and TypedList)</a>
+								</h4>
+								<span class="description">
+									
+										I found out that the sorting didn&#39;t work for &#39;Expression&#39; properties. My first thought was to add another switch to the ...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>I found out that the sorting didn&rsquo;t work for &lsquo;Expression&rsquo; properties. My first thought was to add another switch to the logic of the already existing code</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">object</span> value1 = t1;
-<span style="color:#458;font-weight:bold">object</span> value2 = t2;
-
-<span style="color:#000;font-weight:bold">if</span> (prop.Name.StartsWith(<span style="color:#d14">&#34;||&#34;</span>))
-{
-	<span style="color:#998;font-style:italic">// do something to find the &#39;ExpressionProperty&#39; values
-</span><span style="color:#998;font-style:italic"></span>}
-<span style="color:#000;font-weight:bold">else</span>
-{
-	<span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">string</span> property <span style="color:#000;font-weight:bold">in</span> prop.Name.Split(<span style="color:#d14">&#39;.&#39;</span>))
-	{
-		<span style="color:#998;font-style:italic">// navigate through the relations
-</span><span style="color:#998;font-style:italic"></span>		PropertyInfo propertyInfo = value1.GetType().GetProperty(property);
-		value1 = propertyInfo.GetValue(value1, <span style="color:#000;font-weight:bold">null</span>);
-		value2 = propertyInfo.GetValue(value2, <span style="color:#000;font-weight:bold">null</span>);
-	}
-}
-</code></pre></div><p>Since i already have a PropertyDescriptor it seems a lot smarter to use it&rsquo;s GetValue instead</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#458;font-weight:bold">object</span> value1 = prop.GetValue(t1);
-<span style="color:#458;font-weight:bold">object</span> value2 = prop.GetValue(t2);
-</code></pre></div><p>At <a href="http://blog.developpez.com/index.php?blog=121&amp;title=typedlistalt_tagt&amp;more=1&amp;c=1&amp;tb=1&amp;pb=1">Matthieu MEZIL</a>&rsquo;s blog i found a suggestion to use <a href="http://msdn2.microsoft.com/en-us/library/cfttsh47(VS.80).aspx">Comparer<!-- raw HTML omitted --></a>. This allowed me to reduce</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">IComparable comparable = value1 <span style="color:#000;font-weight:bold">as</span> IComparable;
-<span style="color:#000;font-weight:bold">if</span> (comparable != <span style="color:#000;font-weight:bold">null</span>)
-{
-	<span style="color:#000;font-weight:bold">return</span> reverse * comparable.CompareTo(value2);
-}
-<span style="color:#000;font-weight:bold">else</span>
-{
-	comparable = value2 <span style="color:#000;font-weight:bold">as</span> IComparable;
-	<span style="color:#000;font-weight:bold">if</span> (comparable != <span style="color:#000;font-weight:bold">null</span>)
-	{
-		<span style="color:#000;font-weight:bold">return</span> -<span style="color:#099">1</span> <span style="color:#a61717;background-color:#e3d2d2">\</span>* reverse <span style="color:#a61717;background-color:#e3d2d2">\</span>* comparable.CompareTo(value1);
-	}
-	<span style="color:#000;font-weight:bold">else</span>
-	{
-		<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
-	}
-}
-</code></pre></div><p>with</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Notice that this requires that atleast value1 or value2 are an instance of a type that implements IComparable
-</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">return</span> reverse * Comparer.Default.Compare(value1, value2);
-</code></pre></div><p>Feel free to get yet another version of <a href="http://www.timvw.be/wp-content/code/csharp/TypedList.zip">TypedList.zip</a>.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">09</span>
-										<span class="rest">May 2007</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">09</span>
+							<span class="rest">May 2007</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">About .Net events in Belgium</h1>
+								<h4 class="title small">
+									<a href="../../2007/05/09/about-.net-events-in-belgium/">About .Net events in Belgium</a>
+								</h4>
+								<span class="description">
+									
+										Earlier this evening i visited &#34;Visual C&#43;&#43; &#39;Orcas&#39; and a Microsoft C&#43;&#43; Strategy&#34;, an [MSDN Belux](http://www.microsoft.c...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Earlier this evening i visited &ldquo;Visual C++ &lsquo;Orcas&rsquo; and a Microsoft C++ Strategy&rdquo;, an <a href="http://www.microsoft.com/belux/msdn/nl/default.mspx">MSDN Belux</a> event. Since the events are for free, time would be the only thing you can loose&hellip;. But as always with these events, they are worth the time. I even liked the jokes this time ;)) The speaker, Ronald Laeremans, now the Program Unit Manager for Visual C++ talked and kept talking about his passion 🙂 30 minutes after his session <a href="http://blogs.msdn.com/tommer/">Tom</a> eventually found a way to stop him.. I can only recommend that you visit these events too&hellip; Scheduled</p>
-<ul>
-<li>May 10th, <a href="http://www.visug.be/Default.aspx">Introduction on IIS7</a> (I won&rsquo;t be there since i already saw the presentation at DevDays)</li>
-<li>June 6th, <a href="http://msevents.microsoft.com/CUI/EventDetail.aspx?EventID=1032340308&amp;Culture=en-US">Securing ASP.NET AJAX enabled web applications, lessons from the field</a></li>
-</ul>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/events">Events</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">08</span>
-										<span class="rest">May 2007</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">08</span>
+							<span class="rest">May 2007</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Presenting the ExpressionDescriptor</h1>
+								<h4 class="title small">
+									<a href="../../2007/05/08/presenting-the-expressiondescriptor/">Presenting the ExpressionDescriptor</a>
+								</h4>
+								<span class="description">
+									
+										A couple of days ago i presented you the [TypedList](http://www.timvw.be/presenting-the-typedlistt/) which supports navi...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>A couple of days ago i presented you the <a href="http://www.timvw.be/presenting-the-typedlistt/">TypedList</a> which supports navigation through subproperties. Another common feature request is the possibility to add a column that has a value based on other values in the row (like a DataColumn with it&rsquo;s Expression property set). With the plumbing code i&rsquo;ve written it&rsquo;s as simple as implementing the following interface</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> IExpressionProvider&lt;componentType, PropertyType&gt;
-{
-	<span style="color:#458;font-weight:bold">string</span> Name { <span style="color:#000;font-weight:bold">get</span>; }
-	PropertyType GetValue(ComponentType component);
-}
-</code></pre></div><p>An example implementation could be an expression that represents the duration of an Appointment</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">DurationExpressionProvider</span> : IExpressionProvider&lt;appointment, TimeSpan&gt;
-{
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Name { <span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#d14">&#34;||Duration&#34;</span>; } }
-
-	<span style="color:#000;font-weight:bold">public</span> TimeSpan GetValue(Appointment component)
-	{
-		<span style="color:#000;font-weight:bold">return</span> component.DateTimeRange.End -- component.DateTimeRange.Start;
-	}
-}
-</code></pre></div><p>I&rsquo;ve changed the constructor of TypedList a bit so that it accepts an enumeration of PropertyDescriptors. In my example you can initialise the list as following</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">List&lt;propertyDescriptor&gt; propertyDescriptors = <span style="color:#000;font-weight:bold">new</span> List&lt;propertyDescriptor&gt;();
-
-<span style="color:#998;font-style:italic">// create the subpropertydescriptors
-</span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">string</span>[] propertyNames = <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">string</span>[] { <span style="color:#d14">&#34;Patient.Name&#34;</span>, <span style="color:#d14">&#34;Patient.Address.Municipality&#34;</span>, <span style="color:#d14">&#34;DateTimeRange.Start&#34;</span>, <span style="color:#d14">&#34;DateTimeRange.End&#34;</span> };
-propertyDescriptors.AddRange(Array.ConvertAll&lt;<span style="color:#458;font-weight:bold">string</span>, SubPropertyDescriptor&lt;appointment&gt;&gt;(propertyNames, <span style="color:#000;font-weight:bold">delegate</span>(<span style="color:#458;font-weight:bold">string</span> propertyName) { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> SubPropertyDescriptor&lt;appointment&gt;(propertyName); }));
-
-<span style="color:#998;font-style:italic">// add an expressiondescriptor
-</span><span style="color:#998;font-style:italic"></span>IExpressionProvider&lt;appointment, TimeSpan&gt; expressionProvider = <span style="color:#000;font-weight:bold">new</span> DurationExpressionProvider();
-ExpressionDescriptor&lt;appointment, TimeSpan&gt; durationDescriptor = <span style="color:#000;font-weight:bold">new</span> ExpressionDescriptor&lt;appointment, TimeSpan&gt;(expressionProvider);
-propertyDescriptors.Add(durationDescriptor);
-
-TypedBindingList&lt;appointment&gt; appointments = <span style="color:#000;font-weight:bold">new</span> TypedBindingList&lt;appointment&gt;(propertyDescriptors);
-</code></pre></div><p>And this is how it looks like at runtime</p>
-<p><img src="http://www.timvw.be/wp-content/images/typedlist-3.gif" alt="image of the typedlist"></p>
-<p>As always, feel free to download the code: <a href="http://www.timvw.be/wp-content/code/csharp/TypedList.zip">TypedList.zip</a>.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">05</span>
-										<span class="rest">May 2007</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">05</span>
+							<span class="rest">May 2007</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Presenting the TypedList&lt;T&gt;</h1>
+								<h4 class="title small">
+									<a href="../../2007/05/05/presenting-the-typedlistt/">Presenting the TypedList&lt;T&gt;</a>
+								</h4>
+								<span class="description">
+									
+										A while ago i presented the [SortableBindingList](http://www.timvw.be/presenting-the-sortablebindinglistt/). One of the ...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>A while ago i presented the <a href="http://www.timvw.be/presenting-the-sortablebindinglistt/">SortableBindingList</a>. One of the nice features you get with DataSets is that you can use relations to navigate through the data. Business Objects don&rsquo;t give you this functionality by default. Today i implemented a BindingList that supports navigation through relations. First i&rsquo;ll present you the Business Objects</p>
-<p><img src="http://www.timvw.be/wp-content/images/typedlist-1.gif" alt="screenshot of business objects"></p>
-<p>We would like to create an overview of the appointments using a datagridview</p>
-<p><img src="http://www.timvw.be/wp-content/images/typedlist-2.gif" alt="screenshot of wanted ui"></p>
-<p>I drag a datagridview on the designer form, add columns, and then i set the datapropertynames as following: (Notice how i use a . to navigate the relations)</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">this</span>.dataGridView1.AutoGenerateColumns = <span style="color:#000;font-weight:bold">false</span>;
-<span style="color:#000;font-weight:bold">this</span>.ColumnId.DataPropertyName = <span style="color:#d14">&#34;Id&#34;</span>;
-<span style="color:#000;font-weight:bold">this</span>.ColumnPatient.DataPropertyName = <span style="color:#d14">&#34;Patient.Name&#34;</span>;
-<span style="color:#000;font-weight:bold">this</span>.ColumnMunicipality.DataPropertyName = <span style="color:#d14">&#34;Patient.Address.Municipality&#34;</span>;
-<span style="color:#000;font-weight:bold">this</span>.ColumnStart.DataPropertyName = <span style="color:#d14">&#34;DateTimeRange.Start&#34;</span>;
-<span style="color:#000;font-weight:bold">this</span>.ColumnEnd.DataPropertyName = <span style="color:#d14">&#34;DateTimeRange.End&#34;</span>;
-</code></pre></div><p>First we need to implement a method that allows us to find a PropertyInfo for the given property name</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> PropertyInfo Resolve(<span style="color:#458;font-weight:bold">string</span> propertyName)
-{
-	Type t = <span style="color:#000;font-weight:bold">typeof</span>(T);
-	PropertyInfo propertyInfo = <span style="color:#000;font-weight:bold">null</span>;
-
-	<span style="color:#458;font-weight:bold">string</span>[] subPropertyNames = propertyName.Split(<span style="color:#d14">&#39;.&#39;</span>);
-	<span style="color:#000;font-weight:bold">if</span> (subPropertyNames.Length == <span style="color:#099">1</span>)
-	{
-		<span style="color:#998;font-style:italic">// a regular property
-</span><span style="color:#998;font-style:italic"></span>		propertyInfo = t.GetProperty(propertyName);
-	}
-	<span style="color:#000;font-weight:bold">else</span>
-	{
-		<span style="color:#998;font-style:italic">// navigate through the subproperties
-</span><span style="color:#998;font-style:italic"></span>		<span style="color:#000;font-weight:bold">for</span> (<span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">0</span>; i &lt; subPropertyNames.Length - <span style="color:#099">1</span>; ++i) 
-		{ 
-			propertyInfo = t.GetProperty(subPropertyNames[i]); 
-			t = propertyInfo.PropertyType; 
-		} 
-	} 
-	<span style="color:#000;font-weight:bold">return</span> propertyInfo; 
-}
-</code></pre></div><p>Now we are ready to implement the ITypedList.GetItemProperties method in our TypedList</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> PropertyDescriptorCollection GetItemProperties(PropertyDescriptor[] listAccessors)
-{
-	PropertyDescriptorCollection propertyDescriptors = <span style="color:#000;font-weight:bold">new</span> PropertyDescriptorCollection(listAccessors);
-
-	<span style="color:#998;font-style:italic">// add the regular property descriptors T has
-</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">foreach</span> (PropertyDescriptor propertyDescriptor <span style="color:#000;font-weight:bold">in</span> TypeDescriptor.GetProperties(<span style="color:#000;font-weight:bold">typeof</span>(T)))
-	{
-		propertyDescriptors.Add(propertyDescriptor);
-	}
-
-	<span style="color:#998;font-style:italic">// add the subproperties
-</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">string</span> subPropertyName <span style="color:#000;font-weight:bold">in</span> <span style="color:#000;font-weight:bold">this</span>.subPropertyNames)
-	{
-		propertyDescriptors.Add(<span style="color:#000;font-weight:bold">new</span> SubPropertyDescriptor&lt;t&gt;(subPropertyName));
-	}
-
-	<span style="color:#000;font-weight:bold">return</span> propertyDescriptors;
-}
-</code></pre></div><p>Using this class is as simple as</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// create a TypedList that holds Appointments
-</span><span style="color:#998;font-style:italic"></span>TypedBindingList&lt;appointment&gt; appointments = <span style="color:#000;font-weight:bold">new</span> TypedBindingList&lt;appointment&gt;(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">string</span>[] { <span style="color:#d14">&#34;Patient.Name&#34;</span>, <span style="color:#d14">&#34;Patient.Address.Municipality&#34;</span>, <span style="color:#d14">&#34;DateTimeRange.Start&#34;</span>, <span style="color:#d14">&#34;DateTimeRange.End&#34;</span> });
-
-<span style="color:#998;font-style:italic">// Initialise two patients
-</span><span style="color:#998;font-style:italic"></span>Patient patient = <span style="color:#000;font-weight:bold">new</span> Patient(<span style="color:#099">1</span>, <span style="color:#d14">&#34;Tim&#34;</span>, <span style="color:#000;font-weight:bold">new</span> Address(<span style="color:#099">1</span>, <span style="color:#d14">&#34;MyStreet&#34;</span>, <span style="color:#099">1820</span>, <span style="color:#d14">&#34;Melsbroek&#34;</span>));
-Patient patient2 = <span style="color:#000;font-weight:bold">new</span> Patient(<span style="color:#099">2</span>, <span style="color:#d14">&#34;John&#34;</span>, <span style="color:#000;font-weight:bold">new</span> Address(<span style="color:#099">2</span>, <span style="color:#d14">&#34;His Street&#34;</span>, <span style="color:#099">3000</span>, <span style="color:#d14">&#34;Leuven&#34;</span>));
-
-<span style="color:#998;font-style:italic">// Add appointsments to the list
-</span><span style="color:#998;font-style:italic"></span>appointments.Add(<span style="color:#000;font-weight:bold">new</span> Appointment(<span style="color:#099">1</span>, patient, <span style="color:#000;font-weight:bold">new</span> DateTimeRange(<span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">5</span>, <span style="color:#099">3</span>, <span style="color:#099">15</span>, <span style="color:#099">0</span>, <span style="color:#099">0</span>), <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">5</span>, <span style="color:#099">3</span>, <span style="color:#099">16</span>, <span style="color:#099">0</span>, <span style="color:#099">0</span>))));
-appointments.Add(<span style="color:#000;font-weight:bold">new</span> Appointment(<span style="color:#099">2</span>, patient2, <span style="color:#000;font-weight:bold">new</span> DateTimeRange(<span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">5</span>, <span style="color:#099">4</span>, <span style="color:#099">15</span>, <span style="color:#099">0</span>, <span style="color:#099">0</span>), <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">5</span>, <span style="color:#099">4</span>, <span style="color:#099">16</span>, <span style="color:#099">0</span>, <span style="color:#099">0</span>))));
-appointments.Add(<span style="color:#000;font-weight:bold">new</span> Appointment(<span style="color:#099">3</span>, patient, <span style="color:#000;font-weight:bold">new</span> DateTimeRange(<span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">5</span>, <span style="color:#099">5</span>, <span style="color:#099">15</span>, <span style="color:#099">0</span>, <span style="color:#099">0</span>), <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">5</span>, <span style="color:#099">5</span>, <span style="color:#099">16</span>, <span style="color:#099">0</span>, <span style="color:#099">0</span>))));
-appointments.Add(<span style="color:#000;font-weight:bold">new</span> Appointment(<span style="color:#099">4</span>, patient, <span style="color:#000;font-weight:bold">new</span> DateTimeRange(<span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">5</span>, <span style="color:#099">6</span>, <span style="color:#099">15</span>, <span style="color:#099">0</span>, <span style="color:#099">0</span>), <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">5</span>, <span style="color:#099">6</span>, <span style="color:#099">16</span>, <span style="color:#099">0</span>, <span style="color:#099">0</span>))));
-appointments.Add(<span style="color:#000;font-weight:bold">new</span> Appointment(<span style="color:#099">5</span>, patient2, <span style="color:#000;font-weight:bold">new</span> DateTimeRange(<span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">5</span>, <span style="color:#099">7</span>, <span style="color:#099">15</span>, <span style="color:#099">0</span>, <span style="color:#099">0</span>), <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">5</span>, <span style="color:#099">7</span>, <span style="color:#099">16</span>, <span style="color:#099">0</span>, <span style="color:#099">0</span>))));
-appointments.Add(<span style="color:#000;font-weight:bold">new</span> Appointment(<span style="color:#099">6</span>, patient, <span style="color:#000;font-weight:bold">new</span> DateTimeRange(<span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">5</span>, <span style="color:#099">7</span>, <span style="color:#099">17</span>, <span style="color:#099">0</span>, <span style="color:#099">0</span>), <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">2007</span>, <span style="color:#099">5</span>, <span style="color:#099">7</span>, <span style="color:#099">17</span>, <span style="color:#099">15</span>, <span style="color:#099">0</span>))));
-
-<span style="color:#998;font-style:italic">// Assign this list to the datagridview datasource
-</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataSource = appointments;
-</code></pre></div><p>Pretty cool, don&rsquo;t you think? As always, feel free to download the code: <a href="http://www.timvw.be/wp-content/code/csharp/TypedList.zip">TypedList.zip</a></p>
-<p><strong>Edit:</strong> Today, May 8th 2007, i discovered a but in SubPropertyDescriptor.SetValue and uploaded a newer version of the code.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">03</span>
-										<span class="rest">May 2007</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">03</span>
+							<span class="rest">May 2007</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Exploring DataGridViewComboBoxColumn databinding (part2)</h1>
+								<h4 class="title small">
+									<a href="../../2007/05/03/exploring-datagridviewcomboboxcolumn-databinding-part2/">Exploring DataGridViewComboBoxColumn databinding (part2)</a>
+								</h4>
+								<span class="description">
+									
+										A while ago i wrote about [Exploring DataGridViewComboBoxColumn databinding](http://www.timvw.be/exploring-datagridviewc...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>A while ago i wrote about <a href="http://www.timvw.be/exploring-datagridviewcomboboxcolumn-databinding/">Exploring DataGridViewComboBoxColumn databinding</a> using Business Objects. Some people asked me to give an example using DataSets&hellip;</p>
-<p>I&rsquo;ll start with creating a DataSet, add two DataTables, and create a relation on PersonType.Id (int32). In the designer this looks like</p>
-<p><img src="http://www.timvw.be/wp-content/images/databind-dataset1.gif" alt="screenshot of dataset designer displaying person and persontype"></p>
-<p>Next i create a DataSetDac that will return an instance of a Filled PersonDataSet (In real life you would probably use a TableAdapter and get the data from a database) The code is as simple as</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> PersonsDataSet Find()
-{
-	PersonsDataSet personsDataSet = <span style="color:#000;font-weight:bold">new</span> PersonsDataSet();
-
-	personsDataSet.PersonType.Rows.Add(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">object</span>[] { <span style="color:#099">0</span>, <span style="color:#d14">&#34;A geeky person&#34;</span> });
-	personsDataSet.PersonType.Rows.Add(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">object</span>[] { <span style="color:#099">1</span>, <span style="color:#d14">&#34;A coward&#34;</span> });
-	personsDataSet.PersonType.Rows.Add(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">object</span>[] { <span style="color:#099">2</span>, <span style="color:#d14">&#34;Feeling hot hot hot&#34;</span> });
-	personsDataSet.PersonType.Rows.Add(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">object</span>[] { -<span style="color:#099">1</span>, <span style="color:#d14">&#34;(None)&#34;</span> });
-
-	personsDataSet.Person.Rows.Add(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">object</span>[] { <span style="color:#d14">&#34;Timvw&#34;</span>, <span style="color:#099">0</span> });
-	personsDataSet.Person.Rows.Add(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">object</span>[] { <span style="color:#d14">&#34;John Doe&#34;</span>, <span style="color:#099">1</span> });
-	personsDataSet.Person.Rows.Add(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">object</span>[] { <span style="color:#d14">&#34;An Onymous&#34;</span>, <span style="color:#099">1</span> });
-	personsDataSet.Person.Rows.Add(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">object</span>[] { <span style="color:#d14">&#34;Jenna Jameson&#34;</span>, <span style="color:#099">2</span> });
-	personsDataSet.Person.Rows.Add(<span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">object</span>[] { <span style="color:#d14">&#34;Null Able&#34;</span>, -<span style="color:#099">1</span> });
-
-	<span style="color:#000;font-weight:bold">return</span> personsDataSet;
-}
-</code></pre></div><p>And now comes the important stuff: Bind the data to the DataGridView and DataGridViewComboBoxColumn</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> Form1()
-{
-	InitializeComponent();
-
-	PersonsDataSet personsDataSet = DataSetDac.Find();
-
-	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.AutoGenerateColumns = <span style="color:#000;font-weight:bold">false</span>;
-	<span style="color:#000;font-weight:bold">this</span>.ColumnName.DataPropertyName = <span style="color:#d14">&#34;Name&#34;</span>;
-	<span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.DataPropertyName = <span style="color:#d14">&#34;PersonTypeId&#34;</span>;
-
-	<span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.DisplayMember = <span style="color:#d14">&#34;Label&#34;</span>;
-	<span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.ValueMember = <span style="color:#d14">&#34;Id&#34;</span>;
-	<span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.DataSource = personsDataSet.PersonType;
-
-	BindingSource bindingSource = <span style="color:#000;font-weight:bold">new</span> BindingSource();
-	bindingSource.DataSource = personsDataSet.Person;
-	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataSource = bindingSource;
-}
-</code></pre></div><p>Geeks are doomed to stay Geeks forever. When you try change a Person that is a Geek, the values in ComboBox should be limited to Geek and (None). The following code takes care of that</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing(<span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e)
-{
-	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.dataGridView1.CurrentCell.ColumnIndex == <span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.Index)
-	{
-		BindingSource bindingSource = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataSource <span style="color:#000;font-weight:bold">as</span> BindingSource;
-		PersonsDataSet.PersonRow person = (bindingSource.Current <span style="color:#000;font-weight:bold">as</span> DataRowView).Row <span style="color:#000;font-weight:bold">as</span> PersonsDataSet.PersonRow;
-
-		<span style="color:#998;font-style:italic">// this method returns the allowed persontypes for the given person
-</span><span style="color:#998;font-style:italic"></span>		PersonsDataSet.PersonTypeDataTable personTypeDataTable = DataSetDac.FindPersonTypes(person);
-
-		DataGridViewComboBoxEditingControl comboBox = e.Control <span style="color:#000;font-weight:bold">as</span> DataGridViewComboBoxEditingControl;
-		comboBox.DataSource = personTypeDataTable;
-
-		comboBox.SelectionChangeCommitted -= <span style="color:#000;font-weight:bold">this</span>.comboBox_SelectionChangeCommitted;
-		comboBox.SelectionChangeCommitted += <span style="color:#000;font-weight:bold">this</span>.comboBox_SelectionChangeCommitted;
-	}
-}
-
-<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> PersonsDataSet.PersonTypeDataTable FindPersonTypes(PersonsDataSet.PersonRow person)
-{
-	<span style="color:#998;font-style:italic">// by default, all persons simply have one of the available persontypecodes
-</span><span style="color:#998;font-style:italic"></span>	PersonsDataSet personsDataSet = Find();
-
-	<span style="color:#000;font-weight:bold">if</span> (person.PersonTypeId.Equals(<span style="color:#099">0</span>))
-	{
-		<span style="color:#998;font-style:italic">// geeks are doomed to stay geeks
-</span><span style="color:#998;font-style:italic"></span>		personsDataSet.PersonType.Rows.RemoveAt(<span style="color:#099">2</span>);
-		personsDataSet.PersonType.Rows.RemoveAt(<span style="color:#099">1</span>);
-	}
-
-	<span style="color:#000;font-weight:bold">return</span> personsDataSet.PersonType;
-}
-
-<span style="color:#000;font-weight:bold">void</span> comboBox_SelectionChangeCommitted(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
-{
-	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.EndEdit();
-}
-</code></pre></div><p>As always, feel free to download <a href="http://www.timvw.be/wp-content/code/csharp/DataGridViewComboBoxBinding2.zip">DataGridViewComboBoxBinding2.zip</a>.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 				
 

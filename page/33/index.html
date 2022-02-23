@@ -61,740 +61,215 @@
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">18</span>
-										<span class="rest">Dec 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">18</span>
+							<span class="rest">Dec 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Looking up the MediaType of a given Logical Drive</h1>
+								<h4 class="title small">
+									<a href="../../2006/12/18/looking-up-the-mediatype-of-a-given-logical-drive/">Looking up the MediaType of a given Logical Drive</a>
+								</h4>
+								<span class="description">
+									
+										Earlier today i saw someone asking how he could find out the MediaType of a given logical drive. The easy solution would...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Earlier today i saw someone asking how he could find out the MediaType of a given logical drive. The easy solution would be to iterate over <a href="http://msdn2.microsoft.com/en-us/library/system.io.driveinfo.getdrives.aspx">DriveInfo.GetDrives</a> and pick the one you are looking for&hellip; Anyway, i thought it would be nice to experiment with <a href="http://msdn.microsoft.com/library/default.asp?url=../../library/en-us/wmisdk/wmi/wmi_start_page.asp">WMI</a> so i wrote a little function that uses <a href="http://msdn.microsoft.com/library/default.asp?url=../../library/en-us/wmisdk/wmi/Win32_LogicalDisk.asp">Win32_LogicalDisk</a> to look the MediaType up</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
-{
-	<span style="color:#458;font-weight:bold">char</span>[] driveLetters = <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">char</span>[] { <span style="color:#d14">&#39;a&#39;</span>, <span style="color:#d14">&#39;c&#39;</span>, <span style="color:#d14">&#39;d&#39;</span>, <span style="color:#d14">&#39;e&#39;</span> };
-	<span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">char</span> driveLetter <span style="color:#000;font-weight:bold">in</span> driveLetters)
-	{
-		<span style="color:#000;font-weight:bold">try</span>
-		{
-			Console.WriteLine(<span style="color:#d14">&#34;Drive {0} is a {1}&#34;</span>, driveLetter, GetMediaType(driveLetter));
-		}
-		<span style="color:#000;font-weight:bold">catch</span> (ManagementException)
-		{
-			Console.WriteLine(<span style="color:#d14">&#34;Drive {0} was not found&#34;</span>, driveLetter);
-		}
-	}
-
-	Console.WriteLine(<span style="color:#d14">&#34;Press any key to continue...&#34;</span>);
-	Console.ReadKey();
-}
-
-<span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> GetMediaType(<span style="color:#458;font-weight:bold">char</span> driveLetter)
-{
-	ManagementObject disk = <span style="color:#000;font-weight:bold">new</span> ManagementObject(<span style="color:#d14">&#34;win32_logicaldisk.deviceid=\&#34;&#34;</span> + driveLetter + <span style="color:#d14">&#34;:\&#34;&#34;</span>);
-	disk.Get();
-	<span style="color:#000;font-weight:bold">return</span> GetMediaMeaning((<span style="color:#458;font-weight:bold">uint</span>)disk[<span style="color:#d14">&#34;MediaType&#34;</span>]);
-}
-
-<span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> GetMediaMeaning(<span style="color:#458;font-weight:bold">uint</span> mediaType)
-{
-	Dictionary&lt;<span style="color:#458;font-weight:bold">uint</span>, <span style="color:#458;font-weight:bold">string</span>&gt; mediaTypes = <span style="color:#000;font-weight:bold">new</span> Dictionary&lt;<span style="color:#458;font-weight:bold">uint</span>, <span style="color:#458;font-weight:bold">string</span>&gt;();
-	mediaTypes.Add(<span style="color:#099">0</span>, <span style="color:#d14">&#34;Unknown Format&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">1</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 1.2Mb -- 512bytes/sector&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">2</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 1.44Mb -512bytes/sector&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">3</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 2.88Mb -- 512bytes/sector&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">4</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 20.8Mb -- 512bytes/sector&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">5</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 720Kb -- 512bytes/sector&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">6</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 360Kb -- 512bytes/sector&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">7</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 320Kb -- 512bytes/sector&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">8</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 320Kb -- 1024bytes/sector&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">9</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 180Kb -- 512bytes/sector&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">10</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 160Kb -- 512bytes/sector&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">11</span>, <span style="color:#d14">&#34;Removable media other than floppy&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">12</span>, <span style="color:#d14">&#34;Fixed hard disk media&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">13</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 120Mb -- 512bytes/sector&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">14</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 640Kb -- 512bytes/sector&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">15</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 640Kb -- 512bytes/sector&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">16</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 720Kb -- 512bytes/sector&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">17</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 1.2Mb -- 512bytes/sector&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">18</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 1.23Mb -- 1024bytes/sector&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">19</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 1.23Mb -- 1024bytes/sector&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">20</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 128Mb -- 512bytes/sector&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">21</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 230Mb -- 512bytes/sector&#34;</span>);
-	mediaTypes.Add(<span style="color:#099">22</span>, <span style="color:#d14">&#34;8-Inch Floppy Disk -- 256Kb -- 128bytes/sector&#34;</span>);
-
-	<span style="color:#458;font-weight:bold">string</span> meaning = <span style="color:#d14">&#34;Unknown format&#34;</span>;
-	mediaTypes.TryGetValue(mediaType, <span style="color:#000;font-weight:bold">out</span> meaning);
-	<span style="color:#000;font-weight:bold">return</span> meaning;
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">17</span>
-										<span class="rest">Dec 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">17</span>
+							<span class="rest">Dec 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Simple OutlookBar Control</h1>
+								<h4 class="title small">
+									<a href="../../2006/12/17/simple-outlookbar-control/">Simple OutlookBar Control</a>
+								</h4>
+								<span class="description">
+									
+										Earlier this evening i wanted to experiment with the [ToolStrip](http://msdn2.microsoft.com/en-us/library/system.windows...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Earlier this evening i wanted to experiment with the <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.toolstrip.aspx">ToolStrip</a> class so i decided to design a simple OutlookBar Control and a demo application that uses this control. Feel free to download <a href="http://www.timvw.be/wp-content/code/csharp/OutlookBar.zip">OutlookBar.zip</a>.</p>
-<p><img src="http://www.timvw.be/wp-content/images/outlookbardemo.jpg" alt="screenshot of OutlookBar demo"></p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">16</span>
-										<span class="rest">Dec 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">16</span>
+							<span class="rest">Dec 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Pondering about the difference between abstract classes and interfaces</h1>
+								<h4 class="title small">
+									<a href="../../2006/12/16/pondering-about-the-difference-between-abstract-classes-and-interfaces/">Pondering about the difference between abstract classes and interfaces</a>
+								</h4>
+								<span class="description">
+									
+										Back in May i was asked to explain the difference between an [interface](http://msdn.microsoft.com/library/en-us/csref/h...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Back in May i was asked to explain the difference between an <a href="http://msdn.microsoft.com/library/en-us/csref/html/vcreftheinterfacetype.asp">interface</a> and an <a href="http://msdn.microsoft.com/library/en-us/csspec/html/vclrfcsharpspec_10_1_1_1.asp">abstract class</a> at a job interview. Obviously the interviewer wanted me to tell him that an abstract class allows you to provide a partial implementation&hellip; I answered that the major difference is the fact that with interface-based programming you&rsquo;re not forced into an inheritance tree that might not make sense and that i didn&rsquo;t see much use for abstract classes (I&rsquo;m not sure he saw that one coming :P). For some unknown reason this kept spinning in my head&hellip; Here&rsquo;s an example of an abstract class and a concrete implementation</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">abstract</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">FooAbstract</span>
-{
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> DoX()
-	{
-		DoY();
-	}
-
-	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">abstract</span> <span style="color:#000;font-weight:bold">void</span> DoY();
-}
-
-<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">FooConcrete</span> : FooAbstract
-{
-	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">void</span> DoY()
-	{
-		Console.WriteLine(<span style="color:#d14">&#34;FooConcrete does Y&#34;</span>);
-	}
-}
-</code></pre></div><p>I find the interface-based implementation below a lot cleaner because it still provides the partial implementation but a concrete implementation is not forced into the inheritance relationship anymore. Another advantage is that the implementation only depends on the interface (the unimplemented parts) so you get some looser coupling than with abstract classes. A disadvantage is that an interface requires you to make all the unimplemented methods public</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Foo</span>
-{
-	<span style="color:#000;font-weight:bold">private</span> IAbstract myAbstract;
-
-	<span style="color:#000;font-weight:bold">public</span> Foo(IAbstract myAbstract)
-	{
-		<span style="color:#000;font-weight:bold">if</span> (myAbstract == <span style="color:#000;font-weight:bold">null</span>)
-		{
-			<span style="color:#000;font-weight:bold">throw</span> <span style="color:#000;font-weight:bold">new</span> ArgumentNullException();
-		}
-
-		<span style="color:#000;font-weight:bold">this</span>.myAbstract = myAbstract;
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> DoX()
-	{
-		<span style="color:#000;font-weight:bold">this</span>.myAbstract.DoY();
-	}
-}
-
-<span style="color:#000;font-weight:bold">interface</span> IAbstract
-{
-	<span style="color:#000;font-weight:bold">void</span> DoY();
-}
-
-<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Concrete</span> : IAbstract
-{
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> DoY()
-	{
-		Console.WriteLine(<span style="color:#d14">&#34;Concrete does Y&#34;</span>);
-	}
-}
-</code></pre></div><p>Conclusion: I still don&rsquo;t see much use for abstract classes.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">14</span>
-										<span class="rest">Dec 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">14</span>
+							<span class="rest">Dec 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Helper methods for DateTime</h1>
+								<h4 class="title small">
+									<a href="../../2006/12/14/helper-methods-for-datetime/">Helper methods for DateTime</a>
+								</h4>
+								<span class="description">
+									
+										Here are a couple of methods that help you with the manipulation of DateTime structs:
+
+Code: [csharp/DateTimeHelpers.txt...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Here are a couple of methods that help you with the manipulation of DateTime structs:</p>
-<p>Code: <a href="../../wp-content/code/csharp/DateTimeHelpers.txt">csharp/DateTimeHelpers.txt</a></p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">13</span>
-										<span class="rest">Dec 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">13</span>
+							<span class="rest">Dec 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">What goes up must come down...</h1>
+								<h4 class="title small">
+									<a href="../../2006/12/13/what-goes-up-must-come-down.../">What goes up must come down...</a>
+								</h4>
+								<span class="description">
+									
+										What goes up must come down... So you might think that after each CellMouseDown event you recieve a CellMouseUp event......
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>What goes up must come down&hellip; So you might think that after each CellMouseDown event you recieve a CellMouseUp event&hellip; Well, here is some code that proves that isn&rsquo;t always true</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form
-{
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">string</span> lastEvent;
-
-	<span style="color:#000;font-weight:bold">public</span> Form1()
-	{
-		InitializeComponent();
-		<span style="color:#000;font-weight:bold">this</span>.dataGridView1.ColumnCount = <span style="color:#099">10</span>;
-		<span style="color:#000;font-weight:bold">this</span>.dataGridView1.RowCount = <span style="color:#099">10</span>;
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> LastEvent
-	{
-		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.lastEvent; }
-		<span style="color:#000;font-weight:bold">set</span> {
-			<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.lastEvent == <span style="color:#000;font-weight:bold">value</span>)
-			{
-				MessageBox.Show(<span style="color:#d14">&#34;i&#39;ve detected two &#34;</span> + <span style="color:#000;font-weight:bold">value</span> + <span style="color:#d14">&#34; after each other&#34;</span>);
-			}
-			<span style="color:#000;font-weight:bold">this</span>.lastEvent = <span style="color:#000;font-weight:bold">value</span>;
-		}
-	}
-
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_CellMouseDown(<span style="color:#458;font-weight:bold">object</span> sender, DataGridViewCellMouseEventArgs e)
-	{
-		LastEvent = <span style="color:#d14">&#34;MouseDown&#34;</span>;
-	}
-
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_CellMouseUp(<span style="color:#458;font-weight:bold">object</span> sender, DataGridViewCellMouseEventArgs e)
-	{
-		LastEvent = <span style="color:#d14">&#34;MouseUp&#34;</span>;
-	}
-}
-</code></pre></div><p>And with a bit of a twisted optical mouse it&rsquo;s pretty easy to see the following MessageBox</p>
-<p><img src="http://www.timvw.be/wp-content/images/mousedown.jpg" alt="MessageBox that says the MouseDownEvent was captured two times after each other"></p>
-<p>After a bit of research i also found the following at <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.mouseeventargs.aspx">MouseEventArgs</a></p>
-<blockquote>
-<!-- raw HTML omitted -->
-</blockquote>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">25</span>
-										<span class="rest">Nov 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">25</span>
+							<span class="rest">Nov 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Master-Slave for databound ComboBoxes</h1>
+								<h4 class="title small">
+									<a href="../../2006/11/25/master-slave-for-databound-comboboxes/">Master-Slave for databound ComboBoxes</a>
+								</h4>
+								<span class="description">
+									
+										In most examples on the Internet you&#39;ll find that the Master has a property that returns the allowed Slaves. Here&#39;s an e...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>In most examples on the Internet you&rsquo;ll find that the Master has a property that returns the allowed Slaves. Here&rsquo;s an example that does not require such a property. Let&rsquo;s start with a simple class that represents a Person.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Person</span>
-{
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">string</span> name;
-
-	<span style="color:#000;font-weight:bold">public</span> Person(<span style="color:#458;font-weight:bold">string</span> name)
-	{
-		<span style="color:#000;font-weight:bold">this</span>.name = name;
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Name
-	{
-		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.name; }
-		<span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>.name = <span style="color:#000;font-weight:bold">value</span>; }
-	}
-}
-</code></pre></div><p>And now we define a class to hold the choosen Master and Slave persons.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MasterSlave</span>
-{
-	<span style="color:#000;font-weight:bold">private</span> Person master;
-	<span style="color:#000;font-weight:bold">private</span> Person slave;
-
-	<span style="color:#000;font-weight:bold">public</span> MasterSlave()
-	{
-		Person[] masters = <span style="color:#000;font-weight:bold">this</span>.GetMasters();
-		<span style="color:#000;font-weight:bold">this</span>.master = masters[<span style="color:#099">0</span>];
-
-		Person[] slaves = <span style="color:#000;font-weight:bold">this</span>.GetSlaves(<span style="color:#000;font-weight:bold">this</span>.master);
-		<span style="color:#000;font-weight:bold">this</span>.slave = slaves[<span style="color:#099">0</span>];
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> Person Master
-	{
-		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.master; }
-		<span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>.master = <span style="color:#000;font-weight:bold">value</span>; }
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> Person Slave
-	{
-		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.slave; }
-		<span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>.slave = <span style="color:#000;font-weight:bold">value</span>; }
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> Person[] GetMasters()
-	{
-		List&lt;person&gt; masters = <span style="color:#000;font-weight:bold">new</span> List&lt;person&gt;();
-		masters.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master1&#34;</span>));
-		masters.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master2&#34;</span>));
-		<span style="color:#000;font-weight:bold">return</span> masters.ToArray();
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> Person[] GetSlaves(Person person)
-	{
-		List&lt;person&gt; slaves = <span style="color:#000;font-weight:bold">new</span> List&lt;person&gt;();
-
-		<span style="color:#000;font-weight:bold">switch</span> (person.Name)
-		{
-		<span style="color:#000;font-weight:bold">case</span> <span style="color:#d14">&#34;master1&#34;</span>:
-		slaves.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master1-slave1&#34;</span>));
-		slaves.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master1-slave2&#34;</span>));
-		<span style="color:#000;font-weight:bold">break</span>;
-		<span style="color:#000;font-weight:bold">case</span> <span style="color:#d14">&#34;master2&#34;</span>:
-		slaves.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master2-slave1&#34;</span>));
-		slaves.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master2-slave2&#34;</span>));
-		slaves.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;master2-slave3&#34;</span>));
-		<span style="color:#000;font-weight:bold">break</span>;
-		}
-		<span style="color:#000;font-weight:bold">return</span> slaves.ToArray();
-	}
-}
-</code></pre></div><p>And now we can hook these objects to your Form.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form
-{
-	<span style="color:#000;font-weight:bold">public</span> Form1()
-	{
-		InitializeComponent();
-
-		MasterSlave masterSlave = <span style="color:#000;font-weight:bold">new</span> MasterSlave();
-
-		BindingSource masterBindingSource = <span style="color:#000;font-weight:bold">new</span> BindingSource();
-		masterBindingSource.DataSource = masterSlave.GetMasters();
-		masterBindingSource.CurrentChanged += <span style="color:#000;font-weight:bold">new</span> EventHandler(masterBindingSource_CurrentChanged);
-
-		<span style="color:#000;font-weight:bold">this</span>.comboBoxMaster.DataSource = masterBindingSource;
-		<span style="color:#000;font-weight:bold">this</span>.comboBoxMaster.DisplayMember = <span style="color:#d14">&#34;Name&#34;</span>;
-		<span style="color:#000;font-weight:bold">this</span>.comboBoxMaster.DataBindings.Add(<span style="color:#d14">&#34;SelectedItem&#34;</span>, masterSlave, <span style="color:#d14">&#34;Master&#34;</span>);
-
-		BindingSource slaveBindingSource = <span style="color:#000;font-weight:bold">new</span> BindingSource();
-		slaveBindingSource.DataSource = masterSlave.GetSlaves(masterBindingSource.Current <span style="color:#000;font-weight:bold">as</span> Person);
-
-		<span style="color:#000;font-weight:bold">this</span>.comboBoxSlave.DataSource = slaveBindingSource;
-		<span style="color:#000;font-weight:bold">this</span>.comboBoxSlave.DisplayMember = <span style="color:#d14">&#34;Name&#34;</span>;
-		<span style="color:#000;font-weight:bold">this</span>.comboBoxSlave.DataBindings.Add(<span style="color:#d14">&#34;SelectedItem&#34;</span>, masterSlave, <span style="color:#d14">&#34;Slave&#34;</span>);
-	}
-
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> masterBindingSource_CurrentChanged(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
-	{
-		BindingSource masterBindingSource = <span style="color:#000;font-weight:bold">this</span>.comboBoxMaster.DataSource <span style="color:#000;font-weight:bold">as</span> BindingSource;
-		Person master = masterBindingSource.Current <span style="color:#000;font-weight:bold">as</span> Person;
-
-		BindingSource slaveBindingSource = <span style="color:#000;font-weight:bold">this</span>.comboBoxSlave.DataSource <span style="color:#000;font-weight:bold">as</span> BindingSource;
-		MasterSlave masterSlave = <span style="color:#000;font-weight:bold">this</span>.comboBoxSlave.DataBindings[<span style="color:#d14">&#34;SelectedItem&#34;</span>].DataSource <span style="color:#000;font-weight:bold">as</span> MasterSlave;
-		slaveBindingSource.DataSource = masterSlave.GetSlaves(master);
-	}
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">23</span>
-										<span class="rest">Nov 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">23</span>
+							<span class="rest">Nov 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">A better look at the Foreach statement</h1>
+								<h4 class="title small">
+									<a href="../../2006/11/23/a-better-look-at-the-foreach-statement/">A better look at the Foreach statement</a>
+								</h4>
+								<span class="description">
+									
+										Earlier this week i was a bit surprised that the following code compiled without errors or warning messages. I expected ...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Earlier this week i was a bit surprised that the following code compiled without errors or warning messages. I expected at least a warning that i was trying to assign a double value to an integer parameter</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
-{
-	<span style="color:#458;font-weight:bold">double</span>[] values = <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">double</span>[] { <span style="color:#099">1.1</span>, <span style="color:#099">2.2</span>, <span style="color:#099">3.3</span>, <span style="color:#099">4.4</span>, <span style="color:#099">5.5</span> };
-
-	Console.WriteLine(<span style="color:#d14">&#34;foreach with int:&#34;</span>);
-
-	<span style="color:#998;font-style:italic">// happily iterate over the double values as if they are ints...
-</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">// this outputs the lines 1, 2, 3, 4 and 5.
-</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">int</span> <span style="color:#000;font-weight:bold">value</span> <span style="color:#000;font-weight:bold">in</span> values)
-	{
-		Console.WriteLine(<span style="color:#000;font-weight:bold">value</span>);
-	}
-}
-</code></pre></div><p>So i decided to dive into the <a href="http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-334.pdf">C# Language Specification</a> (Section 15.8.4 The foreach statement) where i found the following:</p>
-<blockquote>
-<!-- raw HTML omitted -->
-</blockquote>
-<p><!-- raw HTML omitted --> {<!-- raw HTML omitted --> E e = ((C)(x)).GetEnumerator();<!-- raw HTML omitted --> try {<!-- raw HTML omitted --> V v;<!-- raw HTML omitted --> while (e.MoveNext()) {<!-- raw HTML omitted --> v = (V)(T)e.Current;<!-- raw HTML omitted --> embedded-statement<!-- raw HTML omitted --> }<!-- raw HTML omitted --> }<!-- raw HTML omitted --> finally {<!-- raw HTML omitted --> â€¦ // Dispose e<!-- raw HTML omitted --> }<!-- raw HTML omitted --> }<!-- raw HTML omitted --></p>
-<pre tabindex="0"><code>&gt; &lt;/div&gt;
-</code></pre>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">04</span>
-										<span class="rest">Nov 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">04</span>
+							<span class="rest">Nov 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Querying Active Directory</h1>
+								<h4 class="title small">
+									<a href="../../2006/11/04/querying-active-directory/">Querying Active Directory</a>
+								</h4>
+								<span class="description">
+									
+										A while ago i wanted to figure out which demo accounts i had already created in my [Active Directory](http://www.microso...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>A while ago i wanted to figure out which demo accounts i had already created in my <a href="http://www.microsoft.com/windowsserver2003/technologies/directory/activedirectory/default.mspx">Active Directory</a>. Since i was smart enough to give them all a description &lsquo;Demo User&rsquo; this was easily done as following</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">using( DirectoryEntry directoryEntry = <span style="color:#000;font-weight:bold">new</span> DirectoryEntry() )
-{
-	using( DirectorySearcher directorySearcher = <span style="color:#000;font-weight:bold">new</span> DirectorySearcher() )
-	{
-		directorySearcher.Filter = <span style="color:#d14">&#34;(&amp;(objectClass=user)(description=Demo User))&#34;</span>;
-		directorySearcher.SearchScope = SearchScope.Subtree;
-		directorySearcher.Sort = <span style="color:#000;font-weight:bold">new</span> SortOption(<span style="color:#d14">&#34;displayname&#34;</span>, SortDirection.Ascending );
-
-		SearchResultCollection results = directorySearcher.FindAll();
-		<span style="color:#000;font-weight:bold">foreach</span>( SearchResult result <span style="color:#000;font-weight:bold">in</span> results )
-		{
-			ResultPropertyCollection propertyCollection = result.Properties;
-			Console.WriteLine( <span style="color:#d14">&#34;{0}: {1}&#34;</span>, propertyCollection<span style="color:#a61717;background-color:#e3d2d2">\</span>[<span style="color:#d14">&#34;displayname&#34;</span><span style="color:#a61717;background-color:#e3d2d2">\</span>]<span style="color:#a61717;background-color:#e3d2d2">\</span>[<span style="color:#099">0</span><span style="color:#a61717;background-color:#e3d2d2">\</span>].ToString(), propertyCollection<span style="color:#a61717;background-color:#e3d2d2">\</span>[<span style="color:#d14">&#34;description&#34;</span><span style="color:#a61717;background-color:#e3d2d2">\</span>]<span style="color:#a61717;background-color:#e3d2d2">\</span>[<span style="color:#099">0</span><span style="color:#a61717;background-color:#e3d2d2">\</span>].ToString() );
-		}
-	}
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">23</span>
-										<span class="rest">Oct 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">23</span>
+							<span class="rest">Oct 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Using a collection as parameter for a stored procedure</h1>
+								<h4 class="title small">
+									<a href="../../2006/10/23/using-a-collection-as-parameter-for-a-stored-procedure/">Using a collection as parameter for a stored procedure</a>
+								</h4>
+								<span class="description">
+									
+										Sometimes you want to select rows where a value is in a specific collection. Here&#39;s an example that show how you can sel...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Sometimes you want to select rows where a value is in a specific collection. Here&rsquo;s an example that show how you can select all the rows in the TEST table with an id of 1, 2 or 3. First we create an SQL type to contain a list of numbers</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">CREATE</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">TYPE</span><span style="color:#bbb"> </span>LIST_NUMBER<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">TABLE</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">OF</span><span style="color:#bbb"> </span><span style="color:#0086b3">NUMBER</span>(<span style="color:#099">10</span>);<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">/</span><span style="color:#bbb">
-</span></code></pre></div><p>Next thing to do is add a custom type and function header to the package specification</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">PACKAGE<span style="color:#bbb"> </span>TIMVW.TESTPACKAGE<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">TYPE</span><span style="color:#bbb"> </span>CRSR_REF<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IS</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">REF</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">CURSOR</span>;<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">TYPE</span><span style="color:#bbb"> </span>ARR<span style="color:#a61717;background-color:#e3d2d2">\</span>_IDS<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IS</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">TABLE</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">OF</span><span style="color:#bbb"> </span>TEST.TEST<span style="color:#a61717;background-color:#e3d2d2">\</span>_ID<span style="color:#000;font-weight:bold">%</span><span style="color:#000;font-weight:bold">Type</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INDEX</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">BY</span><span style="color:#bbb"> </span>BINARY_INTEGER;<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">PROCEDURE</span><span style="color:#bbb"> </span>GET_TESTS<span style="color:#bbb">
-</span><span style="color:#bbb"></span>(<span style="color:#bbb">
-</span><span style="color:#bbb"></span>P_IDS<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IN</span><span style="color:#bbb"> </span>ARR_IDS,<span style="color:#bbb">
-</span><span style="color:#bbb"></span>P_CURSOR<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">OUT</span><span style="color:#bbb"> </span>CRSR_REF<span style="color:#bbb">
-</span><span style="color:#bbb"></span>);<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">END</span>;<span style="color:#bbb">
-</span></code></pre></div><p>And offcourse we have to implement the function in the body</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">PROCEDURE</span><span style="color:#bbb"> </span>GET_TESTS<span style="color:#bbb">
-</span><span style="color:#bbb"></span>(<span style="color:#bbb">
-</span><span style="color:#bbb"></span>P_IDS<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IN</span><span style="color:#bbb"> </span>ARR_IDS,<span style="color:#bbb">
-</span><span style="color:#bbb"></span>P_CURSOR<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">OUT</span><span style="color:#bbb"> </span>CRSR_REF<span style="color:#bbb">
-</span><span style="color:#bbb"></span>)<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>V_IDS<span style="color:#bbb"> </span>LIST_NUMBER<span style="color:#bbb"> </span>:<span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>LIST_NUMBER();<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">BEGIN</span><span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>V_IDS.EXTEND(P_IDS.<span style="color:#000;font-weight:bold">COUNT</span>);<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">FOR</span><span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IN</span><span style="color:#bbb"> </span>P_IDS.<span style="color:#000;font-weight:bold">FIRST</span><span style="color:#bbb"> </span>..<span style="color:#bbb"> </span>P_IDS.<span style="color:#000;font-weight:bold">LAST</span><span style="color:#bbb"> </span>LOOP<span style="color:#bbb">
-</span><span style="color:#bbb">	</span>V_IDS(i)<span style="color:#bbb"> </span>:<span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>P_IDS(i);<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">END</span><span style="color:#bbb"> </span>LOOP;<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">OPEN</span><span style="color:#bbb"> </span>P_CURSOR<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FOR</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>TEST.TEST_ID,<span style="color:#bbb">
-</span><span style="color:#bbb"></span>TEST.NAME,<span style="color:#bbb">
-</span><span style="color:#bbb"></span>TEST.TYPE_CODE<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>TEST<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>TEST_ID<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IN</span><span style="color:#bbb"> </span>(<span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">TABLE</span>(V_IDS))<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">ORDER</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">BY</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>TEST.TEST_ID<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ASC</span>;<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">END</span>;<span style="color:#bbb">
-</span></code></pre></div><p>Now that we have done all this we can consume the function from our client code</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">using</span> (OracleConnection conn = <span style="color:#000;font-weight:bold">new</span> OracleConnection(<span style="color:#d14">&#34;User Id=u;password=p;Data Source=ORCL&#34;</span>))
-{
-	conn.Open();
-
-	OracleCommand command = conn.CreateCommand();
-	command.CommandType = CommandType.StoredProcedure;
-
-	command.CommandText = <span style="color:#d14">&#34;TIMVW.TESTPACKAGE.GET_TESTS&#34;</span>;
-	command.Parameters.Add(<span style="color:#d14">&#34;P_IDS&#34;</span>, OracleDbType.Int32, <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">int</span>[] { <span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">3</span> }, ParameterDirection.Input);
-	command.Parameters[<span style="color:#d14">&#34;P_IDS&#34;</span>].CollectionType = OracleCollectionType.PLSQLAssociativeArray;
-	command.Parameters.Add(<span style="color:#d14">&#34;P_CURSOR&#34;</span>, OracleDbType.RefCursor, ParameterDirection.Output);
-
-	OracleDataReader reader = command.ExecuteReader();
-	<span style="color:#000;font-weight:bold">while</span> (reader.Read())
-	{
-		Console.WriteLine(<span style="color:#d14">&#34;test 	}
-</span><span style="color:#d14"></span>
-	Console.Write(<span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
-	Console.ReadKey();
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/sql">SQL</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">22</span>
-										<span class="rest">Oct 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">22</span>
+							<span class="rest">Oct 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Searching made easy</h1>
+								<h4 class="title small">
+									<a href="../../2006/10/22/searching-made-easy/">Searching made easy</a>
+								</h4>
+								<span class="description">
+									
+										Very often i have to write queries that return all the rows where one or more columns match a specific value. If i add f...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Very often i have to write queries that return all the rows where one or more columns match a specific value. If i add for every column the condition &lsquo;P_COLUMN IS NULL OR COLUMN = P_COLUMN&rsquo; to the WHERE clause i only have to write one query. Here&rsquo;s an example of such a query</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">PROCEDURE</span><span style="color:#bbb"> </span>FIND_TESTS<span style="color:#bbb">
-</span><span style="color:#bbb"></span>(<span style="color:#bbb">
-</span><span style="color:#bbb">	</span>P_ID<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IN</span><span style="color:#bbb"> </span>TEST.ID<span style="color:#000;font-weight:bold">%</span><span style="color:#000;font-weight:bold">Type</span>,<span style="color:#bbb">
-</span><span style="color:#bbb">	</span>P_TITLE<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IN</span><span style="color:#bbb"> </span>TEST.TITLE<span style="color:#000;font-weight:bold">%</span><span style="color:#000;font-weight:bold">Type</span>,<span style="color:#bbb">
-</span><span style="color:#bbb">	</span>P_TYPE_CODE<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IN</span><span style="color:#bbb"> </span>TEST.TYPE_CODE<span style="color:#000;font-weight:bold">%</span><span style="color:#000;font-weight:bold">Type</span>,<span style="color:#bbb">
-</span><span style="color:#bbb">	</span>P_CURSOR<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">OUT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">CURSOR</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">REF</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>)<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">BEGIN</span><span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">OPEN</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>P_CURSOR<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FOR</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>ID,<span style="color:#bbb">
-</span><span style="color:#bbb"></span>TITLE,<span style="color:#bbb">
-</span><span style="color:#bbb"></span>TYPE_CODE<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>TEST<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>(P_ID<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IS</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">OR</span><span style="color:#bbb"> </span>ID<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>P_ID)<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">AND</span><span style="color:#bbb"> </span>(P_TITLE<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IS</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">OR</span><span style="color:#bbb"> </span>TITLE<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">LIKE</span><span style="color:#bbb"> </span>P_TITLE)<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">AND</span><span style="color:#bbb"> </span>(P_TYPE_CODE<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IS</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">OR</span><span style="color:#bbb"> </span>TYPE_CODE<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">LIKE</span><span style="color:#bbb"> </span>P_TYPE_CODE)<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">ORDER</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">BY</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>ID<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ASC</span>;<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">END</span>;<span style="color:#bbb">
-</span></code></pre></div><p>A couple of examples how you can use this query</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">using</span> (OracleConnection conn = <span style="color:#000;font-weight:bold">new</span> OracleConnection(<span style="color:#d14">&#34;User Id=u;password=p;Data Source=ORCL&#34;</span>))
-{
-	conn.Open();
-
-	OracleCommand command = conn.CreateCommand();
-	command.CommandText = <span style="color:#d14">&#34;TIMVW.MYPACKAGE.FIND_TESTS&#34;</span>;
-	command.CommandType = CommandType.StoredProcedure;
-
-	<span style="color:#998;font-style:italic">// select all tests of type_code &#34;book&#34; that have a title that starts with &#34;Myst&#34;
-</span><span style="color:#998;font-style:italic"></span>	command.Parameters.Add(<span style="color:#d14">&#34;P_ID&#34;</span>, OracleDbType.Int32, <span style="color:#099">10</span>, DBNull.Value, ParameterDirection.Input);
-	command.Parameters.Add(<span style="color:#d14">&#34;P_TITLE&#34;</span>, OracleDbType.Varchar2, <span style="color:#099">20</span>, <span style="color:#d14">&#34;Myst%&#34;</span>, ParameterDirection.Input);
-	command.Parameters.Add(<span style="color:#d14">&#34;P\_TYPE\_CODE&#34;</span>, OracleDbType.Varchar2, <span style="color:#099">20</span>, <span style="color:#d14">&#34;book&#34;</span>, ParameterDirection.Input);
-	command.Parameters.Add(<span style="color:#d14">&#34;P_CURSOR&#34;</span>, OracleDbType.RefCursor, ParameterDirection.Output);
-
-	<span style="color:#998;font-style:italic">// select the test with id 1
-</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">//command.Parameters.Add(&#34;P_ID&#34;, OracleDbType.Int32, 10, 1, ParameterDirection.Input);
-</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">//command.Parameters.Add(&#34;P_TITLE&#34;, OracleDbType.Varchar2, 20, DBNull.Value, ParameterDirection.Input);
-</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">//command.Parameters.Add(&#34;P\_TYPE\_CODE&#34;, OracleDbType.Varchar2, 20, DBNull.Value, ParameterDirection.Input);
-</span><span style="color:#998;font-style:italic"></span>	<span style="color:#998;font-style:italic">//command.Parameters.Add(&#34;P_CURSOR&#34;, OracleDbType.RefCursor, ParameterDirection.Output);
-</span><span style="color:#998;font-style:italic"></span>
-	OracleDataReader reader = command.ExecuteReader();
-	<span style="color:#000;font-weight:bold">while</span> (reader.Read())
-	{
-		Console.WriteLine(<span style="color:#d14">&#34;test 	}
-</span><span style="color:#d14"></span>
-	Console.Write(<span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
-	Console.ReadKey();
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/sql">SQL</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 				
 

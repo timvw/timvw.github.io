@@ -61,562 +61,219 @@
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">29</span>
-										<span class="rest">Apr 2007</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">29</span>
+							<span class="rest">Apr 2007</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Presenting the MultiPanel</h1>
+								<h4 class="title small">
+									<a href="../../2007/04/29/presenting-the-multipanel/">Presenting the MultiPanel</a>
+								</h4>
+								<span class="description">
+									
+										A while ago i was thinking that i would be nice to have a control that exposes multiple designer panels, but only shows ...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>A while ago i was thinking that i would be nice to have a control that exposes multiple designer panels, but only shows one at a time&hellip; Somewhat like a TabControl, but without the header.. Anyway, i found out (<a href="http://forums.microsoft.com/MSDN/ShowPost.aspx?PostID=1518961&amp;SiteID=1">here</a>) that a TabControl can be tweaked into that behaviour</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MultiPanel</span> : TabControl
-{
-	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">void</span> WndProc(<span style="color:#000;font-weight:bold">ref</span> Message m)
-	{
-		<span style="color:#000;font-weight:bold">if</span> (m.Msg == <span style="color:#099">0x1328</span> &amp;&amp; !DesignMode)
-		{
-			m.Result = (IntPtr) <span style="color:#099">1</span>;
-		}
-		<span style="color:#000;font-weight:bold">else</span>
-		{
-			<span style="color:#000;font-weight:bold">base</span>.WndProc(<span style="color:#000;font-weight:bold">ref</span> m);
-		}
-	}
-}
-</code></pre></div><p>In the designer it appears as following</p>
-<p><img src="http://www.timvw.be/wp-content/images/MultiPanel1.gif" alt="screenshot of MultiPanel at designtime"></p>
-<p><img src="http://www.timvw.be/wp-content/images/MultiPanel2.gif" alt="screenshot of MultiPanel at designtime"></p>
-<p>And at runtime it appears as following</p>
-<p><img src="http://www.timvw.be/wp-content/images/MultiPanel3.gif" alt="screenshot of MultiPanel at designtime"></p>
-<p><img src="http://www.timvw.be/wp-content/images/MultiPanel4.gif" alt="screenshot of MultiPanel at designtime"></p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">27</span>
-										<span class="rest">Apr 2007</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">27</span>
+							<span class="rest">Apr 2007</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Performing long running tasks in a Windows Application</h1>
+								<h4 class="title small">
+									<a href="../../2007/04/27/performing-long-running-tasks-in-a-windows-application/">Performing long running tasks in a Windows Application</a>
+								</h4>
+								<span class="description">
+									
+										A while ago i blogged about [Thread Safe UI](http://www.timvw.be/about-thread-safe-gui/). Today someone asked the follow...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>A while ago i blogged about <a href="http://www.timvw.be/about-thread-safe-gui/">Thread Safe UI</a>. Today someone asked the following</p>
-<blockquote>
-<!-- raw HTML omitted -->
-</blockquote>
-<p>The first thing i do is define a delegate (void Performer()) that will do the work of a long running operation. The reason i do this is because the compiler generates a class Performer that inherits from System.MulticastDelegate and exposes Begin- and EndInvoke methods.</p>
-<p><img src="http://www.timvw.be/wp-content/images/performerdelegate.gif" alt="screenshot of ildasm displaying generated performer class"></p>
-<p>Since i want to disable my form before each run of a Performer and enable it after each run i implement a method Perform as following</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Perform(Performer performer, <span style="color:#458;font-weight:bold">string</span> message)
-{
-	<span style="color:#000;font-weight:bold">this</span>.PrePerform(message);
-	performer.BeginInvoke(<span style="color:#000;font-weight:bold">this</span>.PostPerform, <span style="color:#000;font-weight:bold">null</span>);
-}
-</code></pre></div><p>Now it&rsquo;s simply a matter of implemeting Pre- and PostPerform</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> PrePerform(<span style="color:#458;font-weight:bold">string</span> message)
-{
-	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.InvokeRequired)
-	{
-		<span style="color:#000;font-weight:bold">this</span>.EndInvoke(<span style="color:#000;font-weight:bold">this</span>.BeginInvoke(<span style="color:#000;font-weight:bold">new</span> MethodInvoker(<span style="color:#000;font-weight:bold">delegate</span> { <span style="color:#000;font-weight:bold">this</span>.PrePerform(message); })));
-	}
-	<span style="color:#000;font-weight:bold">else</span>
-	{
-		<span style="color:#000;font-weight:bold">this</span>.Enabled = <span style="color:#000;font-weight:bold">false</span>;
-		<span style="color:#000;font-weight:bold">this</span>.toolStripStatusLabel1.Text = message;
-		<span style="color:#000;font-weight:bold">this</span>.toolStripStatusLabel1.Visible = <span style="color:#000;font-weight:bold">true</span>;
-		<span style="color:#000;font-weight:bold">this</span>.toolStripProgressBar1.Visible = <span style="color:#000;font-weight:bold">true</span>;
-	}
-}
-
-<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> PostPerform(<span style="color:#458;font-weight:bold">object</span> state)
-{
-	<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.InvokeRequired)
-	{
-		<span style="color:#000;font-weight:bold">this</span>.EndInvoke(<span style="color:#000;font-weight:bold">this</span>.BeginInvoke(<span style="color:#000;font-weight:bold">new</span> MethodInvoker(<span style="color:#000;font-weight:bold">delegate</span> { <span style="color:#000;font-weight:bold">this</span>.PostPerform(state); })));
-	}
-	<span style="color:#000;font-weight:bold">else</span>
-	{
-		<span style="color:#000;font-weight:bold">this</span>.toolStripProgressBar1.Visible = <span style="color:#000;font-weight:bold">false</span>;
-		<span style="color:#000;font-weight:bold">this</span>.toolStripStatusLabel1.Visible = <span style="color:#000;font-weight:bold">false</span>;
-		<span style="color:#000;font-weight:bold">this</span>.toolStripStatusLabel1.Text = <span style="color:#458;font-weight:bold">string</span>.Empty;
-		<span style="color:#000;font-weight:bold">this</span>.Enabled = <span style="color:#000;font-weight:bold">true</span>;
-	}
-}
-</code></pre></div><p>Now that we have all the infrastructure i implement an eventhandler for a button click</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> button1_Click(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
-{
-	<span style="color:#998;font-style:italic">// remove previously retrieved results
-</span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">this</span>.UpdateResultLabel(<span style="color:#458;font-weight:bold">string</span>.Empty);
-
-	<span style="color:#000;font-weight:bold">this</span>.Perform(<span style="color:#000;font-weight:bold">delegate</span>
-	{
-		<span style="color:#998;font-style:italic">// simulate the effect of a blocking operation that takes a while to complete
-</span><span style="color:#998;font-style:italic"></span>		<span style="color:#998;font-style:italic">// eg: remoting, webrequests, database queries, ...
-</span><span style="color:#998;font-style:italic"></span>		Thread.Sleep(<span style="color:#099">5000</span>);
-
-		<span style="color:#998;font-style:italic">// display the result of the long running operation
-</span><span style="color:#998;font-style:italic"></span>		<span style="color:#000;font-weight:bold">this</span>.UpdateResultLabel(<span style="color:#d14">&#34;Value was retrieved...&#34;</span>);
-	}, <span style="color:#d14">&#34;Retrieving value...&#34;</span>);
-}
-</code></pre></div><p>Here are a couple of screenshots of the running program</p>
-<p><img src="http://www.timvw.be/wp-content/images/performerdelegate2.gif" alt="screenshot of application not doing anything"></p>
-<p><img src="http://www.timvw.be/wp-content/images/performerdelegate3.gif" alt="screenshot of application performing long running task"></p>
-<p><img src="http://www.timvw.be/wp-content/images/performerdelegate4.gif" alt="screenshot of application after completion of long running task"></p>
-<p>Feel free to download the <a href="http://www.timvw.be/wp-content/code/csharp/AsyncDemo.zip">AsyncDemo.zip</a></p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">26</span>
-										<span class="rest">Apr 2007</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">26</span>
+							<span class="rest">Apr 2007</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Get the complement of a Color</h1>
+								<h4 class="title small">
+									<a href="../../2007/04/26/get-the-complement-of-a-color/">Get the complement of a Color</a>
+								</h4>
+								<span class="description">
+									
+										Here is a simple function that returns the complement of a given Color
+
+```csharp
+public static void GetComplement(Color...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Here is a simple function that returns the complement of a given Color</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> GetComplement(Color color)
-{
-	<span style="color:#000;font-weight:bold">return</span> Color.FromArgb(<span style="color:#458;font-weight:bold">int</span>.MaxValue -- color.ToArgb());
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">17</span>
-										<span class="rest">Apr 2007</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">17</span>
+							<span class="rest">Apr 2007</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Get hexadecimal RGB value from System.Drawing.Color</h1>
+								<h4 class="title small">
+									<a href="../../2007/04/17/get-hexadecimal-rgb-value-from-system.drawing.color/">Get hexadecimal RGB value from System.Drawing.Color</a>
+								</h4>
+								<span class="description">
+									
+										Here&#39;s a simple function that returns the [hexadecimal](http://en.wikipedia.org/wiki/Hexadecimal) [RGB](http://en.wikipe...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Here&rsquo;s a simple function that returns the <a href="http://en.wikipedia.org/wiki/Hexadecimal">hexadecimal</a> <a href="http://en.wikipedia.org/wiki/Rgb">RGB</a> value of a <a href="http://msdn2.microsoft.com/en-us/library/system.drawing.color.aspx">System.Drawing.Color</a></p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">string</span> ToHexadecimalRgb(Color color)
-{
-	<span style="color:#000;font-weight:bold">return</span> color.ToArgb().ToString(<span style="color:#d14">&#34;X&#34;</span>).Substring(<span style="color:#099">2</span>);
-}
-</code></pre></div><p><strong>EDIT</strong> Apparently there is also a <a href="http://msdn2.microsoft.com/en-us/library/system.drawing.colortranslator.aspx">ColorTranslator</a> with methods <a href="http://msdn2.microsoft.com/en-us/library/system.drawing.colortranslator.tohtml.aspx">ToHtml</a> and <a href="http://msdn2.microsoft.com/en-us/library/system.drawing.colortranslator.fromhtml.aspx">FromHtml</a>.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">07</span>
-										<span class="rest">Apr 2007</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">07</span>
+							<span class="rest">Apr 2007</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Programming .NET Components</h1>
+								<h4 class="title small">
+									<a href="../../2007/04/07/programming-.net-components/">Programming .NET Components</a>
+								</h4>
+								<span class="description">
+									
+										I couple of weeks ago i got a copy of [Programming .NET Components](http://www.oreilly.com/catalog/pnetcomp2/)... I can ...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>I couple of weeks ago i got a copy of <a href="http://www.oreilly.com/catalog/pnetcomp2/">Programming .NET Components</a>&hellip; I can only suggest to read it yourself because i found it really good 😉 Anyway, in one of the chapters <a href="http://www.oreillynet.com/pub/au/741">Juval Lowy</a> talks about context and interception (<a href="http://msdn.microsoft.com/msdnmag/issues/03/03/ContextsinNET/default.aspx">msdnmag article</a>). I got inspired and implemented my own log4net LoggingSink</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">LoggingSink</span> : IMessageSink
-{
-	...
-
-	<span style="color:#000;font-weight:bold">public</span> IMessage SyncProcessMessage(IMessage msg)
-	{
-		IMethodMessage methodMessage = msg <span style="color:#000;font-weight:bold">as</span> IMethodMessage;
-		ILog log = LogManager.GetLogger(methodMessage.TypeName);
-		log.Debug(methodMessage);
-
-		IMessage message = <span style="color:#000;font-weight:bold">this</span>.nextSink.SyncProcessMessage(msg);
-
-		IMethodReturnMessage methodReturnMessage = message <span style="color:#000;font-weight:bold">as</span> IMethodReturnMessage;
-		<span style="color:#000;font-weight:bold">if</span> (methodReturnMessage != <span style="color:#000;font-weight:bold">null</span>)
-		{
-			log.Debug(methodReturnMessage);
-		}
-
-		<span style="color:#000;font-weight:bold">return</span> message;
-	}
-}
-</code></pre></div><p>I also implemented my own MethodMessageRenderer and MethodReturnMessageRenderer using an ObjectRenderer that was inspired on the ObjectDumper that comes with the <a href="http://blogs.msdn.com/charlie/archive/2007/03/01/february-ctp-now-available.aspx">LINQ CTP samples</a></p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MethodReturnMessageRenderer</span> : IObjectRenderer
-{
-	<span style="color:#000;font-weight:bold">public</span> MethodReturnMessageRenderer()
-	{
-	}
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> RenderObject(RendererMap rendererMap, <span style="color:#458;font-weight:bold">object</span> obj, TextWriter writer)
-	{
-		IMethodReturnMessage methodReturnMessage = obj <span style="color:#000;font-weight:bold">as</span> IMethodReturnMessage;
-		writer.WriteLine(<span style="color:#d14">&#34;{0}Called: {1}{2}Params:&#34;</span>, Environment.NewLine, methodReturnMessage.MethodName, Environment.NewLine);
-		ObjectRenderer.RenderObject(methodReturnMessage.Args, writer);
-		<span style="color:#000;font-weight:bold">if</span> (methodReturnMessage.MethodName != <span style="color:#d14">&#34;.ctor&#34;</span>)
-		{
-			writer.WriteLine(<span style="color:#d14">&#34;{0}ReturnValue:&#34;</span>, Environment.NewLine);
-			ObjectRenderer.RenderObject(methodReturnMessage.ReturnValue, writer);
-		}
-		<span style="color:#000;font-weight:bold">if</span> (methodReturnMessage.Exception != <span style="color:#000;font-weight:bold">null</span>)
-		{
-			writer.WriteLine(<span style="color:#d14">&#34;{0}Exception:&#34;</span>, Environment.NewLine);
-			ObjectRenderer.RenderObject(methodReturnMessage.Exception, writer);
-		}
-		writer.WriteLine();
-	}
-}
-</code></pre></div><p>Adding an [assembly: XmlConfigurator(Watch = true)] attribute to the AssemblyInfo.cs of projects that use log4Net seems the easiest way to get the configuration right. In your configuration you still have to register the IObjectRenderers</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;renderer</span> <span style="color:#008080">renderingClass=</span><span style="color:#d14">&#34;EndPointTools.MethodReturnMessageRenderer, EndPointTools&#34;</span> <span style="color:#008080">renderedClass=</span><span style="color:#d14">&#34;System.Runtime.Remoting.Messaging.IMethodReturnMessage, mscorlib&#34;</span><span style="color:#000080">/&gt;</span>
-</code></pre></div><p>Have a look at the generated <a href="http://www.timvw.be/wp-content/code/csharp/log4net.txt">log</a> and feel free to download the complete solution: <a href="http://www.timvw.be/wp-content/code/csharp/ContextBoundSamples.zip">ContextBoundSamples.zip</a>.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/book-reviews">Book reviews</a></li>
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">05</span>
-										<span class="rest">Apr 2007</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">05</span>
+							<span class="rest">Apr 2007</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">DataGridView to Excel</h1>
+								<h4 class="title small">
+									<a href="../../2007/04/05/datagridview-to-excel/">DataGridView to Excel</a>
+								</h4>
+								<span class="description">
+									
+										The [CarlosAg Excel Xml Writer Library](http://www.carlosag.net/Tools/ExcelXmlWriter/Default.aspx) does not require [Exc...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>The <a href="http://www.carlosag.net/Tools/ExcelXmlWriter/Default.aspx">CarlosAg Excel Xml Writer Library</a> does not require <a href="http://office.microsoft.com/en-us/excel/default.aspx">Excel</a> in order to generate Excel Workbooks. I already presented a method to print a DataGridView (<a href="http://www.timvw.be/print-a-control/">here</a>) and now i present you a method that allows you to export a DataGridView to an Excel Workbook: <a href="http://www.timvw.be/wp-content/code/csharp/DataGridViewToExcel.zip">DataGridViewToExcel.zip</a>.</p>
-<p><img src="http://www.timvw.be/wp-content/images/datagridview-to-excel-1.gif" alt="screenshot of the source datagridview"></p>
-<p><img src="http://www.timvw.be/wp-content/images/datagridview-to-excel-2.gif" alt="screenshot of the generated excel workbook"></p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">29</span>
-										<span class="rest">Mar 2007</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">29</span>
+							<span class="rest">Mar 2007</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Developer &amp; IT Pro Days 2007</h1>
+								<h4 class="title small">
+									<a href="../../2007/03/29/developer-it-pro-days-2007/">Developer &amp; IT Pro Days 2007</a>
+								</h4>
+								<span class="description">
+									
+										Last days i&#39;ve visited a couple of interesting sessions at the [Developer &amp; IT Pro Days 2007](http://www.microsoft.com/b...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Last days i&rsquo;ve visited a couple of interesting sessions at the <a href="http://www.microsoft.com/belux/devitprodays/">Developer &amp; IT Pro Days 2007</a>. All in all the event was pretty well organised&hellip; In the closing word of the event, <a href="http://blogs.msdn.com/czhower/">Chad Z. Hower</a> found himself quite funny when he set the title of a form in an exception throwing application to &lsquo;Java Application&rsquo;. Unlike the rest of the crowd i didn&rsquo;t see the humor in it&hellip; Anyway, when his Visual Studio Orcas started choking i wet my pants too 😉</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/events">Events</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">24</span>
-										<span class="rest">Mar 2007</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">24</span>
+							<span class="rest">Mar 2007</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Simulate AutoIncrement</h1>
+								<h4 class="title small">
+									<a href="../../2007/03/24/simulate-autoincrement/">Simulate AutoIncrement</a>
+								</h4>
+								<span class="description">
+									
+										Earlier today someone asked the following
+
+&gt; &lt;div&gt;
+&gt;   I&#39;m trying to move selected data from one table to another. The f...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Earlier today someone asked the following</p>
-<blockquote>
-<!-- raw HTML omitted -->
-</blockquote>
-<p>Here is a possible answer: (Don&rsquo;t forget to wrap these queries in a transaction if your MySQL Engine supports it)</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#998;font-style:italic">-- Some demo tables (and data)
-</span><span style="color:#998;font-style:italic">-- CREATE TABLE table1 (id INT(10), name VARCHAR(20), PRIMARY KEY(id));
-</span><span style="color:#998;font-style:italic">-- CREATE TABLE table2 (id INT(10), name VARCHAR(20), PRIMARY KEY(id));
-</span><span style="color:#998;font-style:italic">-- INSERT INTO table1 VALUES (1, &#34;tim&#34;), (2, &#34;mike&#34;);
-</span><span style="color:#998;font-style:italic"></span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SET</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">@</span>id<span style="color:#bbb"> </span>:<span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>(<span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">MAX</span>(id)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">+</span><span style="color:#bbb"> </span><span style="color:#099">1</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>table2);<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">INSERT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INTO</span><span style="color:#bbb"> </span>table2<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">@</span>id<span style="color:#bbb"> </span>:<span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">@</span>id<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">+</span><span style="color:#bbb"> </span><span style="color:#099">1</span>,<span style="color:#bbb"> </span>table1.name<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>(<span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">@</span>id)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>id,<span style="color:#bbb"> </span>table1<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>table1;<span style="color:#bbb">
-</span></code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/sql">SQL</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">19</span>
-										<span class="rest">Mar 2007</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">19</span>
+							<span class="rest">Mar 2007</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Little INotifyPropertyChanged helper</h1>
+								<h4 class="title small">
+									<a href="../../2007/03/19/little-inotifypropertychanged-helper/">Little INotifyPropertyChanged helper</a>
+								</h4>
+								<span class="description">
+									
+										Most implementations of INotifyPropertyChanged look as following (notice that you have to make sure that the hardcoded P...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Most implementations of INotifyPropertyChanged look as following (notice that you have to make sure that the hardcoded PropertyName is spelled correctly)</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MyClass</span> : INotifyPropertyChanged
-{
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">event</span> PropertyChangedEventHandler PropertyChanged;
-
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> x;
-
-	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> X
-	{
-		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.x; }
-		<span style="color:#000;font-weight:bold">set</span>
-		{
-			<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.x != <span style="color:#000;font-weight:bold">value</span>)
-			{
-				<span style="color:#000;font-weight:bold">this</span>.x = <span style="color:#000;font-weight:bold">value</span>;
-				<span style="color:#000;font-weight:bold">this</span>.OnPropertyChanged(<span style="color:#d14">&#34;X&#34;</span>);
-			}
-		}
-	}
-<span style="color:#008080">
-</span><span style="color:#008080">	[MethodImpl(MethodImplOptions.NoInlining)]</span>
-	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Fire(Delegate del, <span style="color:#000;font-weight:bold">params</span> <span style="color:#458;font-weight:bold">object</span>[] args)
-	{
-		<span style="color:#000;font-weight:bold">if</span> (del != <span style="color:#000;font-weight:bold">null</span>)
-		{
-			<span style="color:#000;font-weight:bold">foreach</span> (Delegate sink <span style="color:#000;font-weight:bold">in</span> del.GetInvocationList())
-			{
-				<span style="color:#000;font-weight:bold">try</span> { sink.DynamicInvoke(args); }
-				<span style="color:#000;font-weight:bold">catch</span> { }
-			}
-		}
-	}
-
-	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">virtual</span> <span style="color:#000;font-weight:bold">void</span> OnPropertyChanged( <span style="color:#458;font-weight:bold">string</span> propertyName )
-	{
-		<span style="color:#000;font-weight:bold">this</span>.Fire( <span style="color:#000;font-weight:bold">this</span>.PropertyChanged, <span style="color:#000;font-weight:bold">new</span> PropertyChangedEventArgs( propertyName ) );
-	}
-}
-</code></pre></div><p>Everytime you refactor a property you also have to make sure to refactor the string with it&rsquo;s name in the setter method. Here&rsquo;s a helper method that makes life a little easier</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">void</span> OnPropertyChanged()
-{
-	<span style="color:#000;font-weight:bold">this</span>.OnPropertyChanged(<span style="color:#000;font-weight:bold">new</span> StackTrace(<span style="color:#000;font-weight:bold">false</span>).GetFrame(<span style="color:#099">1</span>).GetMethod().Name.Substring(<span style="color:#099">4</span>));
-}
-</code></pre></div><p>This makes the implementation of a property as simple as (No more hardcoded strings to maintain)</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> X
-{
-	<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.x; }
-	<span style="color:#000;font-weight:bold">set</span>
-	{
-		<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.x != <span style="color:#000;font-weight:bold">value</span>)
-		{
-			<span style="color:#000;font-weight:bold">this</span>.x = <span style="color:#000;font-weight:bold">value</span>;
-			<span style="color:#000;font-weight:bold">this</span>.OnPropertyChanged();
-		}
-	}
-}
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">22</span>
-										<span class="rest">Feb 2007</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">22</span>
+							<span class="rest">Feb 2007</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Presenting the SortableBindingList&lt;T&gt;</h1>
+								<h4 class="title small">
+									<a href="../../2007/02/22/presenting-the-sortablebindinglistt/">Presenting the SortableBindingList&lt;T&gt;</a>
+								</h4>
+								<span class="description">
+									
+										If you are databinding your custom objects (in a Bindinglist of &lt;T&gt;) to a DataGridView you will notice that the users ca...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>If you are databinding your custom objects (in a Bindinglist of <!-- raw HTML omitted -->) to a DataGridView you will notice that the users can&rsquo;t sort the rows by clicking on the columnheaders&hellip; Unlike an unbound DataGridView, the SortCompare event is not raised. Here is a class that uses IComparer to implement a BindingList that supports Sorting:</p>
-<p><strong>Please read the <a href="http://www.timvw.be/presenting-the-sortablebindinglistt-take-two/">follow up article</a> to find the updated source code.</strong></p>
-<p>Using this SortableBindingList is as easy as</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> Form1()
-{
-	InitializeComponent();
-
-	SortableBindingList&lt;person&gt; persons = <span style="color:#000;font-weight:bold">new</span> SortableBindingList&lt;person&gt;();
-	persons.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#099">1</span>, <span style="color:#d14">&#34;timvw&#34;</span>, <span style="color:#000;font-weight:bold">new</span> DateTime(<span style="color:#099">1980</span>, <span style="color:#099">04</span>, <span style="color:#099">30</span>)));
-	persons.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#099">2</span>, <span style="color:#d14">&#34;John Doe&#34;</span>, DateTime.Now));
-
-	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.AutoGenerateColumns = <span style="color:#000;font-weight:bold">false</span>;
-	<span style="color:#000;font-weight:bold">this</span>.ColumnId.DataPropertyName = <span style="color:#d14">&#34;Id&#34;</span>;
-	<span style="color:#000;font-weight:bold">this</span>.ColumnName.DataPropertyName = <span style="color:#d14">&#34;Name&#34;</span>;
-	<span style="color:#000;font-weight:bold">this</span>.ColumnBirthday.DataPropertyName = <span style="color:#d14">&#34;Birthday&#34;</span>;
-	<span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataSource = persons;
-}
-</code></pre></div><p><img src="http://www.timvw.be/wp-content/images/sortablebindinglist.gif" alt="the sortablebindinglist at work"></p>
-<p>Feel free to download the source and demoproject: <a href="http://www.timvw.be/wp-content/code/csharp/SortableBindingList.zip">SortableBindingList.zip</a>.</p>
-<p><strong>Edit:</strong> You can find the latest implementation at <a href="http://www.codeplex.com/BeTimvwFramework">BeTimvwFramework</a>, a project where i will keep classes that i find interesting.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 				
 

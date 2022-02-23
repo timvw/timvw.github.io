@@ -61,418 +61,216 @@
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">26</span>
-										<span class="rest">Aug 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">26</span>
+							<span class="rest">Aug 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Unable to enlist in a distributed transaction</h1>
+								<h4 class="title small">
+									<a href="../../2006/08/26/unable-to-enlist-in-a-distributed-transaction/">Unable to enlist in a distributed transaction</a>
+								</h4>
+								<span class="description">
+									
+										Earlier today we were confronted with the following [OracleException](http://msdn2.microsoft.com/en-US/library/system.da...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Earlier today we were confronted with the following <a href="http://msdn2.microsoft.com/en-US/library/system.data.oracleclient.oracleexception.aspx">OracleException</a>: <strong>Unable to enlist in a distributed transaction</strong>. Our code (and accompanying tests) had been running fine for the last two weeks thus we expected there was a problem with the database. A member of the DBA team assurred us there was nothing wrong with the database. Finally we discovered that we had created a circular reference and thus the program ended up in an endless loop (well untill the database decided it had been enough anyway :p). Here is a simplified version of the problem</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> DoA() 
-{
-	<span style="color:#000;font-weight:bold">using</span> (TransactionScope scope = <span style="color:#000;font-weight:bold">new</span> TransactionScope()) 
-	{
-		<span style="color:#000;font-weight:bold">using</span> (OracleConnection con = <span style="color:#000;font-weight:bold">new</span> OracleConnection(connectionString)) 
-		{
-			con.Open();
-			DoB();
-			scope.Complete();
-		}
-	}
-}
-
-<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> DoB() 
-{
-	<span style="color:#000;font-weight:bold">using</span> (TransactionScope scope = <span style="color:#000;font-weight:bold">new</span> TransactionScope()) 
-	{
-		<span style="color:#000;font-weight:bold">using</span> (OracleConnection con = <span style="color:#000;font-weight:bold">new</span> OracleConnection(connectionString)) 
-		{
-			con.Open();
-			DoA();
-			scope.Complete();
-		}
-	}
-}
-</code></pre></div><p>Without the use of <a href="http://msdn2.microsoft.com/en-us/library/system.transactions.transactionscope.aspx">TransactionScope</a> this results in a <strong>Connection request timed out</strong> exception.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">21</span>
-										<span class="rest">Aug 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">21</span>
+							<span class="rest">Aug 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Experimenting with Oracle and PL/SQL</h1>
+								<h4 class="title small">
+									<a href="../../2006/08/21/experimenting-with-oracle-and-pl/sql/">Experimenting with Oracle and PL/SQL</a>
+								</h4>
+								<span class="description">
+									
+										As i already wrote, last couple of days i&#39;ve been experimenting with PL/SQL. At work we use [Toad for Oracle](http://www...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>As i already wrote, last couple of days i&rsquo;ve been experimenting with PL/SQL. At work we use <a href="http://www.toadsoft.com/toad_oracle.htm">Toad for Oracle</a> but since <a href="http://www.toadsoft.com/">TOADSoft</a> only offers a limited freeware version i decided to write my code with <a href="http://www.vim.org">GVim</a> and use <a href="http://orafaq.com/faqplus.htm#WHAT">SQL*Plus</a> at home. Here are a couple of lines i added to my login.sql file</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">DEFINE<span style="color:#bbb"> </span>_EDITOR<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;gvim -c &#34;set filetype=sql&#34;&#39;</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SET</span><span style="color:#bbb"> </span>SERVEROUTPUT<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ON</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SET</span><span style="color:#bbb"> </span>LINESIZE<span style="color:#bbb"> </span><span style="color:#099">120</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SET</span><span style="color:#bbb"> </span>AUTOCOMMIT<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">OFF</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">ALTER</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SESSION</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SET</span><span style="color:#bbb"> </span>NLS_DATE_FORMAT<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;YYYY-MM-DD&#39;</span>;<span style="color:#bbb">
-</span></code></pre></div><p>In a stored procedure i created and filled an instance of NUMBER_TABLE (CREATE TYPE NUMBER_TABLE AS TABLE OF NUMBER) and my stored procedure tried to select all the rows in that table (SELECT * FROM V_NUMBER_TABLE). Apparently the engine didn&rsquo;t know this type @runtime despite the fact that i declared it in my stored procedure (V_NUMBER TABLE NUMBER_TABLE := NUMBER_TABLE();) and the engine compiled the package without errors. I got round that problem as following</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>(<span style="color:#000;font-weight:bold">CAST</span>(V_NUMBER_TABLE<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>NUMBER_TABLE));<span style="color:#bbb">
-</span></code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/sql">SQL</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">14</span>
-										<span class="rest">Aug 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">14</span>
+							<span class="rest">Aug 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Installing MSDN Library May 2006</h1>
+								<h4 class="title small">
+									<a href="../../2006/08/14/installing-msdn-library-may-2006/">Installing MSDN Library May 2006</a>
+								</h4>
+								<span class="description">
+									
+										Today i downloaded the freely available [MSDN Library (May 2006 Edition)](http://www.microsoft.com/downloads/details.asp...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Today i downloaded the freely available <a href="http://www.microsoft.com/downloads/details.aspx?FamilyId=373930CB-A3D7-4EA5-B421-DD6818DC7C41&amp;displaylang=en">MSDN Library (May 2006 Edition)</a>. I appended .iso to the filenames and mounted the first image with <a href="http://ww2.nero.com/nero6/eng/Nero_ImageDrive_prev.html">Nero ImageDrive</a>. After a while i got the following error message: &ldquo;Source file not found: _17693_RTL_x86_enu_NET_Framework_SDK_HxS.cab&rdquo;.</p>
-<p><img src="http://www.timvw.be/wp-content/images/msdn-library-2006-05-error.jpg" alt="error message with msdn library installer"></p>
-<p>Apparently this file exists on the second disk (Why doesn&rsquo;t the installer ask me to insert the second disk?). And yes, a little while later the same thing happens again when the third disk is expected&hellip;.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/information-technology">Information Technology</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">05</span>
-										<span class="rest">Aug 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">05</span>
+							<span class="rest">Aug 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Inserting pause to your Console Applications</h1>
+								<h4 class="title small">
+									<a href="../../2006/08/05/inserting-pause-to-your-console-applications/">Inserting pause to your Console Applications</a>
+								</h4>
+								<span class="description">
+									
+										When i write Console Applications i find myself to write the following two lines quite often
+
+```csharp
+Console.Write(&#34;{...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>When i write Console Applications i find myself to write the following two lines quite often</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">Console.Write(<span style="color:#d14">&#34;{0}Press any key to continue...&#34;</span>, Environment.NewLine);
-Console.ReadKey();
-</code></pre></div><p>As you already know i&rsquo;m lazy so i decided to write an <a href="http://msdn2.microsoft.com/en-us/library/ms165392.aspx">IntelliSense Code Snippet</a>. When i type &ldquo;pau&rdquo; Intellisense show the following:</p>
-<p><img src="http://www.timvw.be/wp-content/images/intellisense-drop-down-list.jpg" alt="Intellisense drop down list"></p>
-<p>Next i hit the tab button twice and i get the following effect:</p>
-<p><img src="http://www.timvw.be/wp-content/images/intellisense-code-snippet.jpg" alt="Intellisense code snippet"></p>
-<p>Download <a href="http://www.timvw.be/wp-content/code/csharp/pause.txt">pause.txt</a> and save it as Pause.snippet in your %My DocumentS\Visual Studio 2005\Code Snippets\Visual C#\My Code Snippets% folder.</p>
-<p>I&rsquo;ve made it even simpler, you can install the snippet by simply running the <a href="http://www.timvw.be/wp-content/code/csharp/pause.vsi">pause.vsi</a> package (Visual Studio Installer).</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/visual-studio">Visual Studio</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">23</span>
-										<span class="rest">Jul 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">23</span>
+							<span class="rest">Jul 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">eID with .NET</h1>
+								<h4 class="title small">
+									<a href="../../2006/07/23/eid-with-.net/">eID with .NET</a>
+								</h4>
+								<span class="description">
+									
+										When i started working (already 3 weeks ago) i recieved a laptop. Friday i discovered that this laptop has a [Smart card...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>When i started working (already 3 weeks ago) i recieved a laptop. Friday i discovered that this laptop has a <a href="http://en.wikipedia.org/wiki/Smartcard">Smart card</a> reader and i wanted to experiment with it. I thought it would be nice if i could read the data on my <a href="http://eid.belgium.be/">eID</a>. Apart from <a href="http://download.microsoft.com/download/4/f/d/4fd49a94-8772-4bd0-88ca-bf46e2d029fc/WHITEPAPERS/Accessing%20the%20eID%20Middleware%20from%20.NET%20(Version%201.0).doc">Accessing the eID Middleware from .NET (Version 1.0)</a> i couldn&rsquo;t find much information. I decided to use the document as the basis for my own libeid wrapper. With the Simple (Wrapper API) reading data becomes extremely easy</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#000;font-weight:bold">using</span> <span style="color:#555">eID.Simple</span>;
-
-Reader reader = Reader.GetReader();
-pictureBox.Image = reader.GetImage();
-labelName.Text = reader.GetName();
-labelGivenNames.Text = reader.GetFirstName1() + reader.GetFirstName2() + reader.GetFirstName3();
-dateTimePickerBirthdate.Value = reader.GetBirthdate();
-</code></pre></div><p>As usual, feel free to download the source (<a href="http://www.timvw.be/wp-content/code/csharp/Belgium.zip">Belgium.zip</a>) and/or leave any comments</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">26</span>
-										<span class="rest">Jun 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">26</span>
+							<span class="rest">Jun 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Windows Multimedia Video Capture</h1>
+								<h4 class="title small">
+									<a href="../../2006/06/26/windows-multimedia-video-capture/">Windows Multimedia Video Capture</a>
+								</h4>
+								<span class="description">
+									
+										On my computer the [WIA (Windows Image Acquisition)](http://msdn.microsoft.com/library/default.asp?url=../../library/en-us/wi...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>On my computer the <a href="http://msdn.microsoft.com/library/default.asp?url=../../library/en-us/wia/wia/overviews/startpage.asp">WIA (Windows Image Acquisition)</a> API is SLOOOOOW. So i decided to give the <a href="http://windowssdk.msdn.microsoft.com/en-us/library/ms713477(VS.80).aspx">Windows Multimedia Video Capture</a> API a try. I didn&rsquo;t take long to <a href="http://msdn.microsoft.com/library/default.asp?url=../../library/en-us/cpguide/html/cpconcreatingprototypesinmanagedcode.asp">create the prototypes in Managed Code</a> and <a href="http://msdn.microsoft.com/library/en-us/cpguide/html/cpconcallingdllfunction.asp">call the DLL functions</a>. Everything runs really smooth now&hellip; As always, feel free to download the <a href="http://www.timvw.be/wp-content/code/csharp/testavicap32.zip">testavicap32</a> sources now!</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">24</span>
-										<span class="rest">Jun 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">24</span>
+							<span class="rest">Jun 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Windows Image Acquisition</h1>
+								<h4 class="title small">
+									<a href="../../2006/06/24/windows-image-acquisition/">Windows Image Acquisition</a>
+								</h4>
+								<span class="description">
+									
+										Earlier today i decided to toy around with my webcam. A couple of websearches later i ended up at [WIA (Windows Image Ac...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Earlier today i decided to toy around with my webcam. A couple of websearches later i ended up at <a href="http://msdn.microsoft.com/library/default.asp?url=../../library/en-us/wia/wia/overviews/startpage.asp">WIA (Windows Image Acquisition)</a>. I found a couple of articles (eg: <a href="http://msdn.microsoft.com/coding4fun/someassemblyrequired/lookatme/default.aspx">here</a> and <a href="http://blogs.msdn.com/robburke/archive/2005/09/21/472541.aspx">here</a>) that showed how to capture images. I wanted to display the caputered image in a <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.picturebox.aspx">PictureBox</a>. Unfortunately everybody seems to save the WIA.ImageFile to a file and then load the imagefile into a PictureBox. It&rsquo;s obvious that i don&rsquo;t want to save the image into a file first. Here is my workaround</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#998;font-style:italic">// Load the ImageFile into a PictureBox
-</span><span style="color:#998;font-style:italic"></span>pbImage.Image = Image.FromStream(<span style="color:#000;font-weight:bold">new</span> MemorySteam((<span style="color:#458;font-weight:bold">byte</span>[]) imgf.FileData.get_BinaryData()));
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-										<li><a href="../../tags/windows-forms">Windows Forms</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">20</span>
-										<span class="rest">Jun 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">20</span>
+							<span class="rest">Jun 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Experimenting with LINQ Preview (May 2006)</h1>
+								<h4 class="title small">
+									<a href="../../2006/06/20/experimenting-with-linq-preview-may-2006/">Experimenting with LINQ Preview (May 2006)</a>
+								</h4>
+								<span class="description">
+									
+										Today i downloaded and installed [LINQ Preview (May 2006)](http://www.microsoft.com/downloads/details.aspx?familyid=1e90...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Today i downloaded and installed <a href="http://www.microsoft.com/downloads/details.aspx?familyid=1e902c21-340c-4d13-9f04-70eb5e3dceea&amp;displaylang=en">LINQ Preview (May 2006)</a>. Well, that was the plan anyway:</p>
-<p><img src="http://www.timvw.be/wp-content/images/linq-2006-06-error.png" alt="error with linq preview installer"></p>
-<p>A couple of minutes later i found <a href="http://forums.microsoft.com/MSDN/ShowPost.aspx?PostID=394174&amp;SiteID=1">this page</a> and was able to solve the problem by adding the following users with administrative rights: Power Users, Users and Creator Owner.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/csharp">CSharp</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">18</span>
-										<span class="rest">Jun 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">18</span>
+							<span class="rest">Jun 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">A TableModel for Entity Beans</h1>
+								<h4 class="title small">
+									<a href="../../2006/06/18/a-tablemodel-for-entity-beans/">A TableModel for Entity Beans</a>
+								</h4>
+								<span class="description">
+									
+										For my graduation project i needed a component that could display a list of [Entity Beans](http://java.sun.com/j2ee/tuto...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>For my graduation project i needed a component that could display a list of <a href="http://java.sun.com/j2ee/tutorial/1_3-fcs/doc/EJBConcepts4.html">Entity Beans</a>. I found that <a href="http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/JTable.html">JTable</a> is such a component and with the help of custom <a href="http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/table/TableCellRenderer.html">TableCellRenderer</a> and <a href="http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/table/TableCellEditor.html">TableCellEditor</a> components i was able to customize the rendering to my needs. In order to get the data into the JTable i implemented a custom <a href="http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/table/TableModel.html">TableModel</a>, namely <a href="http://www.timvw.be/wp-content/code/java/EntityTableModel.java.txt">EntityTableModel</a>. Now i can easily generate a JTable that displays Entity Beans</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#998;font-style:italic">// fetch the elements we want to display
-</span><span style="color:#998;font-style:italic"></span>Object<span style="color:#000;font-weight:bold">[]</span> elements <span style="color:#000;font-weight:bold">=</span> employeeController
-	<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getEntityManager</span><span style="color:#000;font-weight:bold">()</span>
-	<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">createNamedQuery</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;findEmployees&#34;</span><span style="color:#000;font-weight:bold">)</span>
-	<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getResultList</span><span style="color:#000;font-weight:bold">()</span>
-	<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">toArray</span><span style="color:#000;font-weight:bold">();</span>
-
-<span style="color:#998;font-style:italic">// build map with column name, entity attribute pairs
-</span><span style="color:#998;font-style:italic"></span>HashMap<span style="color:#000;font-weight:bold">&lt;</span>string<span style="color:#000;font-weight:bold">,</span> String<span style="color:#000;font-weight:bold">&gt;</span> colAttrs <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> LinkedHashMap<span style="color:#000;font-weight:bold">&lt;</span>string<span style="color:#000;font-weight:bold">,</span> String<span style="color:#000;font-weight:bold">&gt;();</span>
-colAttrs<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">put</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;First Name&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#d14">&#34;firstName&#34;</span><span style="color:#000;font-weight:bold">);</span>
-colAttrs<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">put</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;Last Name&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#d14">&#34;lastName&#34;</span><span style="color:#000;font-weight:bold">);</span>
-
-<span style="color:#998;font-style:italic">// build collection with editable attributes
-</span><span style="color:#998;font-style:italic"></span>Collection<span style="color:#000;font-weight:bold">&lt;</span>string<span style="color:#000;font-weight:bold">&gt;</span> editables <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> ArrayList<span style="color:#000;font-weight:bold">&lt;</span>string<span style="color:#000;font-weight:bold">&gt;();</span>
-
-<span style="color:#998;font-style:italic">// initialise the tablemodel
-</span><span style="color:#998;font-style:italic"></span>TableModel tableModel <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> EntityTableModel<span style="color:#000;font-weight:bold">(</span>elements<span style="color:#000;font-weight:bold">,</span> colAttrs<span style="color:#000;font-weight:bold">,</span> editables<span style="color:#000;font-weight:bold">);</span>
-
-<span style="color:#998;font-style:italic">// initialise the table
-</span><span style="color:#998;font-style:italic"></span>JTable table <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> JTable<span style="color:#000;font-weight:bold">(</span>tableModel<span style="color:#000;font-weight:bold">);</span>
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/hibernate">Hibernate</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">14</span>
-										<span class="rest">Jun 2006</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">14</span>
+							<span class="rest">Jun 2006</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">BBCode for Graphics2D</h1>
+								<h4 class="title small">
+									<a href="../../2006/06/14/bbcode-for-graphics2d/">BBCode for Graphics2D</a>
+								</h4>
+								<span class="description">
+									
+										For my graduation project we needed the ability to print a couple of bills etc. Printing lines was pretty simple with th...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>For my graduation project we needed the ability to print a couple of bills etc. Printing lines was pretty simple with the <a href="http://www.timvw.be/wp-content/code/java/LinesPrinter.java.txt">LinesPrinter</a> i blogged about a while ago. We had two choices: either implement a specific <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/awt/print/Printable.html#print(java.awt.Graphics,%20java.awt.print.PageFormat,%20int)">print method</a> for each module or implement a reusable markup system. Obviously we went for the second option and came up with something alike <a href="http://en.wikipedia.org/wiki/BBCode">BBCode</a>. The codes we implemented are</p>
-<ul>
-<li>[b]..[/b] for bold</li>
-<li>[i]..[/i] for italic</li>
-<li>[color=x]..[/color] for color x</li>
-<li>[c]..[/c] for centered text</li>
-<li>[r]..[/r] for right aligned text</li>
-<li>[ll=x]..[/ll] for left aligned text starting from the x-th column at the left</li>
-<li>[lr=x]..[/lr] for left aligned text starting from the x-th column at the right</li>
-<li>[rl=x]..[/ll] for right aligned text starting from the x-th column at the left</li>
-<li>[rr=x]..[/ll] for right aligned text starting from the x-th column at the right</li>
-</ul>
-<p>Since the code is written to work on a <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/awt/Graphics2D.html">Graphics2D</a> device you can also render the formatted text on a jpanel etc instead of a printer device. Here is a screenshot of a generated bill (on a jpanel):</p>
-<p><img src="http://www.timvw.be/wp-content/images/rpcode.png" alt="rpcode"></p>
-<p>Feel free to download, try and improve the <a href="http://www.timvw.be/wp-content/code/java/rpcode.zip">rpcode.zip</a> package.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
-										
-										<li><a href="../../tags/java">Java</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+					</div>
 				
 				
 

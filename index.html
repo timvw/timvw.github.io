@@ -61,659 +61,223 @@
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">08</span>
-										<span class="rest">Nov 2021</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">08</span>
+							<span class="rest">Nov 2021</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Hosting a secure registry on microk8s</h1>
+								<h4 class="title small">
+									<a href="./2021/11/08/hosting-a-secure-registry-on-microk8s/">Hosting a secure registry on microk8s</a>
+								</h4>
+								<span class="description">
+									
+										The documentation for microk8s seems to suggest that there is a built-in registry that can be used, but not in a secure ...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>The documentation for microk8s seems to suggest that there is a built-in registry that can be used, but not in a secure way.</p>
-<p>In essence, you need to <a href="https://docs.docker.com/registry/configuration">configure</a> the following:</p>
-<ul>
-<li>Storage</li>
-</ul>
-<p>For storage I will assume that the local filesystem is sufficient (or that you have a safety net, such as NFS backing it up, in place).</p>
-<ul>
-<li>Authentication</li>
-</ul>
-<p>For authentication I use create a secret which contains a htpasswd file, here is how you can generate this:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run --rm --entrypoint htpasswd registry:2.6.2 -Bbn username password &gt; ./registry-htpasswd
-kubectl create secret generic auth-secret --from-file<span style="color:#000;font-weight:bold">=</span>./registry-htpasswd -n registry
-</code></pre></div><ul>
-<li>A TLS certificate</li>
-</ul>
-<p>The TLS certificate is generated using <a href="https://cert-manager.io/docs/">cert-manager</a>. See this <a href="https://timvw.be/2021/03/15/notes-on-microk8s-and-cert-manager/">post</a> on how to achieve that.</p>
-<p>When all is in place you can simply kubectl apply the following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>v1<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>Namespace<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">metadata</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">labels</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">app</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#555">---</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>apps/v1<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>Deployment<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">metadata</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">namespace</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">labels</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">app</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">spec</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">replicas</span>:<span style="color:#bbb"> </span><span style="color:#099">1</span><span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">selector</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">matchLabels</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#000080">app</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">template</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">metadata</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#000080">labels</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#000080">app</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">spec</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#000080">containers</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">      </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#000080">image</span>:<span style="color:#bbb"> </span>registry:2.6.2<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#000080">ports</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">        </span>- <span style="color:#000080">containerPort</span>:<span style="color:#bbb"> </span><span style="color:#099">5000</span><span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#000080">volumeMounts</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">        </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>repo-vol<span style="color:#bbb">
-</span><span style="color:#bbb">          </span><span style="color:#000080">mountPath</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;/var/lib/registry&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">        </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>certs-vol<span style="color:#bbb">
-</span><span style="color:#bbb">          </span><span style="color:#000080">mountPath</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;/certs&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">          </span><span style="color:#000080">readOnly</span>:<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">true</span><span style="color:#bbb">
-</span><span style="color:#bbb">        </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>auth-vol<span style="color:#bbb">
-</span><span style="color:#bbb">          </span><span style="color:#000080">mountPath</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;/auth&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">          </span><span style="color:#000080">readOnly</span>:<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">true</span><span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#000080">env</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">        </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>REGISTRY_AUTH<span style="color:#bbb">
-</span><span style="color:#bbb">          </span><span style="color:#000080">value</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;htpasswd&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">        </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>REGISTRY_AUTH_HTPASSWD_REALM<span style="color:#bbb">
-</span><span style="color:#bbb">          </span><span style="color:#000080">value</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;Registry Realm&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">        </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>REGISTRY_AUTH_HTPASSWD_PATH<span style="color:#bbb">
-</span><span style="color:#bbb">          </span><span style="color:#000080">value</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;/auth/registry-htpasswd&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">        </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>REGISTRY_HTTP_TLS_CERTIFICATE<span style="color:#bbb">
-</span><span style="color:#bbb">          </span><span style="color:#000080">value</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;/certs/tls.crt&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">        </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>REGISTRY_HTTP_TLS_KEY<span style="color:#bbb">
-</span><span style="color:#bbb">          </span><span style="color:#000080">value</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;/certs/tls.key&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#000080">volumes</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">      </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>repo-vol<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#000080">hostPath</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">          </span><span style="color:#998;font-style:italic"># directory location on host</span><span style="color:#bbb">
-</span><span style="color:#bbb">          </span><span style="color:#000080">path</span>:<span style="color:#bbb"> </span>/home/timvw/registry<span style="color:#bbb">
-</span><span style="color:#bbb">          </span><span style="color:#998;font-style:italic"># this field is optional</span><span style="color:#bbb">
-</span><span style="color:#bbb">          </span><span style="color:#000080">type</span>:<span style="color:#bbb"> </span>Directory<span style="color:#bbb">
-</span><span style="color:#bbb">      </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>certs-vol<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#000080">secret</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">          </span><span style="color:#000080">secretName</span>:<span style="color:#bbb"> </span>registry-tls-secret<span style="color:#bbb">
-</span><span style="color:#bbb">      </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>auth-vol<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#000080">secret</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">          </span><span style="color:#000080">secretName</span>:<span style="color:#bbb"> </span>auth-secret<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#555">---</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>v1<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>Service<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">metadata</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>docker-registry<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">namespace</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">spec</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">selector</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">app</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">ports</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span>- <span style="color:#000080">port</span>:<span style="color:#bbb"> </span><span style="color:#099">5000</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">targetPort</span>:<span style="color:#bbb"> </span><span style="color:#099">5000</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#555">---</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>networking.k8s.io/v1<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>Ingress<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">metadata</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">namespace</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">labels</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">app</span>:<span style="color:#bbb"> </span>registry<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">annotations</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">cert-manager.io/cluster-issuer</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;letsencrypt-prod&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">nginx.ingress.kubernetes.io/backend-protocol</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;HTTPS&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">nginx.ingress.kubernetes.io/proxy-body-size</span>:<span style="color:#bbb"> </span>1024m<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">spec</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">tls</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span>- <span style="color:#000080">hosts</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>- registry.apps.timvw.be<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">secretName</span>:<span style="color:#bbb"> </span>registry-tls-secret<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">rules</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span>- <span style="color:#000080">host</span>:<span style="color:#bbb"> </span>registry.apps.timvw.be<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">http</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#000080">paths</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">      </span>- <span style="color:#000080">path</span>:<span style="color:#bbb"> </span>/<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#000080">pathType</span>:<span style="color:#bbb"> </span>Prefix<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#000080">backend</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">          </span><span style="color:#000080">service</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">            </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>docker-registry<span style="color:#bbb">
-</span><span style="color:#bbb">            </span><span style="color:#000080">port</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">              </span><span style="color:#000080">number</span>:<span style="color:#bbb"> </span><span style="color:#099">5000</span><span style="color:#bbb">   
-</span></code></pre></div><p>Once everything is in place you can test the registry by running:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker login registry.apps.timvw.be
-</code></pre></div><p>In order to use this registry in your cluster you need to have a <a href="https://kubernetes.io/docs/concepts/configuration/secret/">secret</a> in the namespace where the pods are created with the following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create secret docker-registry regcred -n demo <span style="color:#d14">\
-</span><span style="color:#d14"></span>  --docker-server<span style="color:#000;font-weight:bold">=</span>registry.apps.timvw.be <span style="color:#d14">\
-</span><span style="color:#d14"></span>  --docker-username<span style="color:#000;font-weight:bold">=</span>username <span style="color:#d14">\
-</span><span style="color:#d14"></span>  --docker-password<span style="color:#000;font-weight:bold">=</span>password <span style="color:#d14">\
-</span><span style="color:#d14"></span>  --docker-email<span style="color:#000;font-weight:bold">=</span>test@example.com
-</code></pre></div><p>Now you can create a deployment using this secret and referencing images on the registry:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#555">---</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>apps/v1<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>Deployment<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#555">...</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">spec</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#000080">imagePullSecrets</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">      </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>regcred     <span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#000080">containers</span>:<span style="color:#bbb">      
-</span><span style="color:#bbb">      </span>- <span style="color:#000080">name</span>:<span style="color:#bbb"> </span>demo<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#000080">image</span>:<span style="color:#bbb"> </span>registry.apps.timvw.be/demo:1.2.3 <span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#555">...</span><span style="color:#bbb">
-</span></code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">15</span>
-										<span class="rest">Mar 2021</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">15</span>
+							<span class="rest">Mar 2021</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Notes on microk8s and cert-manager</h1>
+								<h4 class="title small">
+									<a href="./2021/03/15/notes-on-microk8s-and-cert-manager/">Notes on microk8s and cert-manager</a>
+								</h4>
+								<span class="description">
+									
+										Last couple of weeks I&#39;ve been using [MicroK8s](https://microk8s.io/) for local development.
+
+Installing current version...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Last couple of weeks I&rsquo;ve been using <a href="https://microk8s.io/">MicroK8s</a> for local development.</p>
-<p>Installing current version of <a href="https://cert-manager.io/docs/">cert-manager</a> just worked by following the <a href="https://cert-manager.io/docs/installation/kubernetes/">installation instructions</a>:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.2.0/cert-manager.yaml
-</code></pre></div><p>Then I enabled the <a href="https://microk8s.io/docs/addon-ingress">ingress addon</a>:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">microk8s.enable ingress
-</code></pre></div><p>Configuring <a href="https://letsencrypt.org/">Let&rsquo;s Encrypt</a> required some deviations from the <a href="https://cert-manager.io/docs/configuration/acme/">documentation</a>. Only resources of type ClusterIssuer and public as ingress class seem to work:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>cert-manager.io/v1<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>ClusterIssuer<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">metadata</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>letsencrypt-staging<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">spec</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">acme</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">email</span>:<span style="color:#bbb"> </span>tim@timvw.be<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">server</span>:<span style="color:#bbb"> </span>https://acme-staging-v02.api.letsencrypt.org/directory<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">privateKeySecretRef</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>letsencrypt-staging<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">solvers</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>- <span style="color:#000080">http01</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#000080">ingress</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">          </span><span style="color:#000080">class</span>:<span style="color:#bbb"> </span>public<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#555">---</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>cert-manager.io/v1<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>ClusterIssuer<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">metadata</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>letsencrypt-prod<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">spec</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">acme</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">server</span>:<span style="color:#bbb"> </span>https://acme-v02.api.letsencrypt.org/directory<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">email</span>:<span style="color:#bbb"> </span>tim@timvw.be<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">privateKeySecretRef</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>letsencrypt-prod<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">solvers</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>- <span style="color:#000080">http01</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#000080">ingress</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">          </span><span style="color:#000080">class</span>:<span style="color:#bbb"> </span>public <span style="color:#bbb">
-</span></code></pre></div><p>When using nginx as ingress class I ran into various errors:</p>
-<ul>
-<li>challenge propagation: wrong status code &lsquo;404&rsquo;, expected &lsquo;200&rsquo;</li>
-<li>certificate never becoming &lsquo;Ready&rsquo;</li>
-<li>&hellip;</li>
-</ul>
-<p>Here are some helpful commands:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl logs -f -n cert-manager -f <span style="color:#008080">app</span><span style="color:#000;font-weight:bold">=</span>cert-manager
-kubectl get ingress
-</code></pre></div><p>Then I noticed that acme-staging-v02.api.letsencrypt.org could not be resolved by the cert-manager pods (trying to resolve from 127.0.0.1:53), thus I also enabled the dns addon and restarted the pods (by deleting them)</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">microk8s.enable dns
-kubectl delete pod -n cert-manager -l <span style="color:#008080">app</span><span style="color:#000;font-weight:bold">=</span>cert-manager
-</code></pre></div><p>And then all was fine. Eg: <a href="https://strava.apps.timvw.be">https://strava.apps.timvw.be</a> just works :)</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">20</span>
-										<span class="rest">Jan 2021</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">20</span>
+							<span class="rest">Jan 2021</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Use cases for Github Actions</h1>
+								<h4 class="title small">
+									<a href="./2021/01/20/use-cases-for-github-actions/">Use cases for Github Actions</a>
+								</h4>
+								<span class="description">
+									
+										These days many systems are built with [Unix Philosophy](http://catb.org/~esr/writings/taoup/html/ch01s06.html) in mind,...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>These days many systems are built with <a href="http://catb.org/~esr/writings/taoup/html/ch01s06.html">Unix Philosophy</a> in mind,
-but the applications are in the form of <a href="https://opencontainers.org/">containers</a>. How many malicious containers images would be out there? :)</p>
-<p>Here are a couple of examples where I leveraged <a href="https://github.com/features/actions">Github Actions</a> to glue such applications:</p>
-<ul>
-<li><a href="#hugo" title="hugo">Publishing this blog with HUGO</a></li>
-<li><a href="#central" title="central">Releasing on central</a></li>
-<li><a href="#terraform" title="terraform">Managing cloud infrastructure</a></li>
-</ul>
-<h2 id="hugo">Publishing this blog with HUGO</h2>
-<p>Frustrated with jekyll ndependency hell I decided to swith to <a href="https://gohugo.io/">HUGO</a>. It&rsquo;s fast, really fast. And does whatever I need it to do.</p>
-<p>Each time I push commits to this repository, this repository is checked out, hugo generates the static website and that website is push to <a href="https://github.com/timvw/timvw.github.io/tree/gh-pages">gh-pages</a> for delivery.</p>
-<p><a href="https://github.com/timvw/timvw.github.io/blob/master/.github/workflows/publish.yml">https://github.com/timvw/timvw.github.io/blob/master/.github/workflows/publish.yml</a></p>
-<p>PS: Whenever <a href="https://azure.microsoft.com/en-us/">azure</a> blob-storage (or static websites) gets proper support (no DNS flattening hacks) for hosting websites from a storage account I might consider moving the hosting over there&hellip;</p>
-<h2 id="java">Releasing on central</h2>
-<p>With the shutdown of <a href="https://travis-ci.org/">travis-ci.org</a> in sight it was time to migrate to an alternative system to release artifacts on <a href="https://central.sonatype.org/">central</a>.</p>
-<p>Each time a commit is pushed to this repository, a build (and test) is triggered. Whenever a tag is pushed, that tag is released.</p>
-<p><a href="https://github.com/timvw/frameless-ext/blob/master/.github/workflows/ci.yml">https://github.com/timvw/frameless-ext/blob/master/.github/workflows/ci.yml</a></p>
-<h2 id="terraform">Managing cloud infrastructure</h2>
-<p>When you have automated the provisioning of your cloud infrastructure with a tool such as <a href="https://www.terraform.io/">Terraform</a> you may want to automate the roll-out as well. Careful, as this currently requires some annoying &ldquo;in between&rdquo; steps to avoid <strong>big bang</strong> deployments. You probably do not want to replace an entire pool of nodes by simply wiping it and putting another pool in place (but do it in a phased approach.</p>
-<p>So, each time a PR is created (or updated) we run terraform plan to validate the output and add a comment to the PR displaying the output. When the PR is merged into master you we run terraform apply (and add a comment to the commit with the output).</p>
-<p><a href="https://gist.github.com/timvw/7a245947a9b3b027d5a0fcd5ad3d9977">https://gist.github.com/timvw/7a245947a9b3b027d5a0fcd5ad3d9977</a></p>
-<p>PS: In this example we have multiple terraform modules, which are all planned/applied via a <a href="https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idstrategymatrix">matrix</a> and terraform&rsquo;s -chdir parameter.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-									<ul class="flat">
+					</div>
+				
+					<div class="post">
+						<div class="post-header">
+							<div class="meta">
+								<div class="date">
+									<span class="day">05</span>
+							<span class="rest">Jan 2021</span>
+								</div>
+							</div>
+							<div class="matter">
+								<h4 class="title small">
+									<a href="./2021/01/05/cluster-info-on-k8s-cluster-with-limited-permissions/">cluster-info on k8s cluster with limited permissions</a>
+								</h4>
+								<span class="description">
+									
 										
-										<li><a href="./tags/meta">meta</a></li>
-										
-										<li><a href="./tags/blog">blog</a></li>
-										
-										<li><a href="./tags/github-actions">github-actions</a></li>
-										
-										<li><a href="./tags/ci">ci</a></li>
-										
-									</ul>
-								
-							
-						</div></div>
+When you have limited access (eg: only a specific [namespace](https://kubernetes.io/docs/concepts/overview/working-with...
+									
+								</span>
+							</div>
+						</div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">05</span>
-										<span class="rest">Jan 2021</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">09</span>
+							<span class="rest">Dec 2020</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">cluster-info on k8s cluster with limited permissions</h1>
+								<h4 class="title small">
+									<a href="./2020/12/09/leverage-terraform-to-create-virtual-machine-scaleset-with-spot-instances/">Leverage Terraform to create virtual machine scaleset with spot instances</a>
+								</h4>
+								<span class="description">
+									
+										In a [previous](https://timvw.be/2020/02/10/terraform-azure-k8s-nginx-letsencrypt.html) post I demonstrated how easy it ...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>When you have limited access (eg: only a specific <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/">namespace</a> (~ <a href="https://docs.openshift.com/enterprise/3.0/architecture/core_concepts/projects_and_users.html#:~:text=A%20Kubernetes%20namespace%20provides%20a,provide%20a%20unique%20scope%20for%3A&amp;text=The%20ability%20to%20limit%20community%20resource%20consumption.">openshift project</a>) on a kubernetes cluster you may not be able to run kubectl cluster-info.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  ~ kubectl cluster-info
-
-To further debug and diagnose cluster problems, use <span style="color:#d14">&#39;kubectl cluster-info dump&#39;</span>.
-Error from server <span style="color:#000;font-weight:bold">(</span>Forbidden<span style="color:#000;font-weight:bold">)</span>: services is forbidden: User <span style="color:#d14">&#34;timvw&#34;</span> cannot list resource <span style="color:#d14">&#34;services&#34;</span> in API group <span style="color:#d14">&#34;&#34;</span> in the namespace <span style="color:#d14">&#34;kube-system&#34;</span>
-</code></pre></div><p>As soon as you run the command in your namespace  it will work:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  ~ kubectl cluster-info -n spark
-Kubernetes master is running at https://api.customer.example:443
-
-To further debug and diagnose cluster problems, use <span style="color:#d14">&#39;kubectl cluster-info dump&#39;</span>.
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">09</span>
-										<span class="rest">Dec 2020</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">25</span>
+							<span class="rest">Feb 2020</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Leverage Terraform to create virtual machine scaleset with spot instances</h1>
+								<h4 class="title small">
+									<a href="./2020/02/25/leverage-terraform-nginx-ingress-controller-cert-manager-and-lets-encrypt-to-quickly-create-a-kubernetes-cluster-on-aws./">Leverage Terraform, NGINX Ingress Controller, cert-manager and Let&#39;s Encrypt to quickly create a Kubernetes cluster on AWS.</a>
+								</h4>
+								<span class="description">
+									
+										In my [previous](https://timvw.be/2020/02/10/terraform-azure-k8s-nginx-letsencrypt.html) post I demonstrated how easy it...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>In a <a href="https://timvw.be/2020/02/10/terraform-azure-k8s-nginx-letsencrypt.html">previous</a> post I demonstrated how easy it has become to deploy a webapplications with an HTTPS backend on Kubernetes and Azure. Let&rsquo;s expand this cluster with a node pool that is backed by <a href="https://azure.microsoft.com/en-us/pricing/spot/">spot</a> instances:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">resource &#34;azurerm_kubernetes_cluster_node_pool&#34; &#34;spot&#34; {<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>name                  = &#34;spot&#34;<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>kubernetes_cluster_id = azurerm_kubernetes_cluster.k8s.id<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>vm_size         = &#34;standard_D2s_v4&#34;<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span>node_count      = 0<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>enable_auto_scaling = true<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>min_count = 0<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>max_count = 5<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span>priority = &#34;Spot&#34;<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>eviction_policy = &#34;Delete&#34;<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>spot_max_price = 0.02<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span>tags       = var.tags<span style="color:#bbb">
-</span><span style="color:#bbb"></span>}<span style="color:#bbb">
-</span></code></pre></div><p>The nodes in this pool will be <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/">tainted</a> with kubernetes.azure.com/scalesetpriority=spot:NoSchedule.</p>
-<p>For a pod to land on a node in this pool you will have to specify a toleration. Here is how you would do this in <a href="https://spark.apache.org/">Apache Spark</a>:</p>
-<p>First create a pod.yml file in which you specify the toleration:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>v1<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>Pod<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">metadata</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">annotations</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">cluster-autoscaler.kubernetes.io/safe-to-evict</span>:<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">true</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#000080">spec</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#000080">tolerations</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span>- <span style="color:#000080">key</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;kubernetes.azure.com/scalesetpriority&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">operator</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;Equal&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">value</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;spot&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#000080">effect</span>:<span style="color:#bbb"> </span><span style="color:#d14">&#34;NoSchedule&#34;</span><span style="color:#bbb">
-</span></code></pre></div><p>And now you can submit the app</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./bin/spark-submit <span style="color:#d14">\
-</span><span style="color:#d14"></span>  --master k8s://<span style="color:#008080">$KUBERNETES_MASTER_API</span> <span style="color:#d14">\
-</span><span style="color:#d14"></span>  --deploy-mode cluster <span style="color:#d14">\
-</span><span style="color:#d14"></span>  --name spark-pi <span style="color:#d14">\
-</span><span style="color:#d14"></span>  --class org.apache.spark.examples.SparkPi <span style="color:#d14">\
-</span><span style="color:#d14"></span>  --conf spark.executor.instances<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span> <span style="color:#d14">\
-</span><span style="color:#d14"></span>  --conf spark.kubernetes.container.image<span style="color:#000;font-weight:bold">=</span>timvw/spark:3.0.1-hadoop2.7 <span style="color:#d14">\
-</span><span style="color:#d14"></span>  --conf spark.kubernetes.driver.podTemplateFile<span style="color:#000;font-weight:bold">=</span>pod.yml <span style="color:#d14">\
-</span><span style="color:#d14"></span>  --conf spark.kubernetes.executor.podTemplateFile<span style="color:#000;font-weight:bold">=</span>pod.yml <span style="color:#d14">\
-</span><span style="color:#d14"></span>  --conf spark.kubernetes.node.selector.agentpool<span style="color:#000;font-weight:bold">=</span>spot <span style="color:#d14">\
-</span><span style="color:#d14"></span>  local:///opt/spark/examples/jars/spark-examples_2.12-3.0.1.jar
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">25</span>
-										<span class="rest">Feb 2020</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">10</span>
+							<span class="rest">Feb 2020</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Leverage Terraform, NGINX Ingress Controller, cert-manager and Let&#39;s Encrypt to quickly create a Kubernetes cluster on AWS.</h1>
+								<h4 class="title small">
+									<a href="./2020/02/10/leverage-terraform-nginx-ingress-controller-cert-manager-and-lets-encrypt-to-quickly-create-a-kubernetes-cluster-which-can-serve-webapps-over-https./">Leverage Terraform, NGINX Ingress Controller, cert-manager and Let&#39;s Encrypt to quickly create a Kubernetes cluster which can serve webapps over HTTPS.</a>
+								</h4>
+								<span class="description">
+									
+										In this post I demonstrate how easy it has become to create a kubernetes cluster which serves webapplications over HTTPS...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>In my <a href="https://timvw.be/2020/02/10/terraform-azure-k8s-nginx-letsencrypt.html">previous</a> post I demonstrated how easy it has become to deploy a webapplications with an HTTPS backend on Kubernetes and Azure. In this post I demonstrate the same but on AWS.</p>
-<p>In order to follow along you should clone the sample code from this <a href="https://github.com/timvw/sample-terraform-aws-k8s-nginx-letsencrypt">repository</a>:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/timvw/sample-terraform-aws-k8s-nginx-letsencrypt
-</code></pre></div><p>First <a href="hhttps://www.terraform.io/docs/providers/aws/index.html">configure the aws access_key and secret_key for Terraform</a>:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#0086b3">export</span> <span style="color:#008080">AWS_ACCESS_KEY</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;XXXXXXXXXXXXXXXXXX&#34;</span>
-<span style="color:#0086b3">export</span> <span style="color:#008080">AWS_SECRET_KEY</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;XXXXXXXXXXXXXXXXXX&#34;</span>
-<span style="color:#0086b3">export</span> <span style="color:#008080">AWS_DEFAULT_REGION</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;eu-west-1&#34;</span>
-</code></pre></div><p>With all this configuration in place we can instruct Terraform to create the kubernetes cluster:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">terraform init
-terraform apply -auto-approve
-</code></pre></div><p>After a couple (~15) of minutes your cluster will be ready. Importing the credentials into your ~/.kube/config can be done as following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aws eks --region <span style="color:#008080">$AWS_DEFAULT_REGION</span> update-kubeconfig --name demo
-</code></pre></div><p>There are some differences with AKS:</p>
-<ul>
-<li>
-<p>On AKS a client and key certificate are added to your kubeconfig. On EKS an entry is added which invokes aws eks get-token</p>
-</li>
-<li>
-<p>On EKS the Kubernetes master runs in a different network and you need to provision such that the <a href="https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html">nodegroups</a> can connect to this master. In my example this is achieved by installing an <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html">internet gateway</a>.</p>
-</li>
-</ul>
-<p>Another remark: In case you try to create a <a href="https://www.terraform.io/docs/providers/aws/r/eks_fargate_profile.html">Fargate profile</a> and it fails you should verify that you are doing it in a <a href="https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/">supported region</a>.</p>
-<p>Now it is time to <a href="https://kubernetes.github.io/ingress-nginx/deploy/">deploy the NGINX Ingress Controller</a>. We also need to apply the <a href="https://kubernetes.github.io/ingress-nginx/deploy/#aws">aws specific</a> additions:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.29.0/deploy/static/mandatory.yaml
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.29.0/deploy/static/provider/aws/service-l4.yaml
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.29.0/deploy/static/provider/aws/patch-configmap-l4.yaml
-</code></pre></div><p>Deploying the NGINX Ingress Controller results in the creation of a loadbalancer and a public ip. Here is how you can fetch that address:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aws elb describe-load-balancers | jq -r <span style="color:#d14">&#39;.LoadBalancerDescriptions[].DNSName&#39;</span>
-</code></pre></div><p>In this example we want to access our applications as <a href="https://XXX.aws.icteam.be">https://XXX.aws.icteam.be</a>.
-We achieve this by adding an A-record (the azure public ip address) pointing to *.aws.icteam.be</p>
-<p>For the HTTPS part we <a href="https://cert-manager.io/docs/installation/kubernetes/">install cert-manager</a> and use <a href="https://letsencrypt.org/">Let&rsquo;s Encrypt</a> to provide certificates:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply --validate<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">false</span> -f https://github.com/jetstack/cert-manager/releases/download/v0.13.0/cert-manager.yaml
-kubectl apply -f letsencrypt.yaml
-</code></pre></div><p>With all this infrastructure in place we can deploy a sample application:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create deployment hello-node --image<span style="color:#000;font-weight:bold">=</span>gcr.io/hello-minikube-zero-install/hello-node
-kubectl expose deployment hello-node --port<span style="color:#000;font-weight:bold">=</span><span style="color:#099">8080</span>
-kubectl apply -f hello-node-ingress.yaml 
-</code></pre></div><p>Or we can <a href="https://docs.aws.amazon.com/eks/latest/userguide/dashboard-tutorial.html">deploy</a> and expose the kubernetes dashboard:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
-kubectl apply -f dashboard-sa.yaml
-kubectl apply -f dashboard-ingress.yaml
-</code></pre></div><p>You can fetch the token as following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl -n kube-system describe secret <span style="color:#000;font-weight:bold">$(</span>kubectl -n kube-system get secret | grep eks-admin | awk <span style="color:#d14">&#39;{print $1}&#39;</span><span style="color:#000;font-weight:bold">)</span>
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">10</span>
-										<span class="rest">Feb 2020</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">31</span>
+							<span class="rest">Dec 2016</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Leverage Terraform, NGINX Ingress Controller, cert-manager and Let&#39;s Encrypt to quickly create a Kubernetes cluster which can serve webapps over HTTPS.</h1>
+								<h4 class="title small">
+									<a href="./2016/12/31/looking-back-at-2016/">Looking back at 2016</a>
+								</h4>
+								<span class="description">
+									
+										Starting 2016 at Emergency Care was a game changer for me.
+
+On a personal level I have successfully changed my diet and ...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>In this post I demonstrate how easy it has become to create a kubernetes cluster which serves webapplications over HTTPS.</p>
-<p>In order to follow along you should clone the sample code from this <a href="https://github.com/timvw/sample-terraform-azure-k8s-nginx-letsencrypt">repository</a>:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/timvw/sample-terraform-azure-k8s-nginx-letsencrypt
-</code></pre></div><p>First <a href="https://www.terraform.io/docs/providers/azurerm/guides/service_principal_client_secret.html">configure the azure service principal for Terraform</a>:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#0086b3">export</span> <span style="color:#008080">ARM_CLIENT_ID</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34;</span>
-<span style="color:#0086b3">export</span> <span style="color:#008080">ARM_CLIENT_SECRET</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34;</span>
-<span style="color:#0086b3">export</span> <span style="color:#008080">ARM_SUBSCRIPTION_ID</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34;</span>
-<span style="color:#0086b3">export</span> <span style="color:#008080">ARM_TENANT_ID</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&#34;</span>
-</code></pre></div><p>The resources in this example depend on the following variables: client_id, client_secret, aks_service_principal_app_id and aks_service_principal_client_secret. One way to configure them is by exporting their values as a TF_VAR_xxx:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#0086b3">export</span> <span style="color:#008080">TF_VAR_client_id</span><span style="color:#000;font-weight:bold">=</span><span style="color:#008080">$ARM_CLIENT_ID</span>
-<span style="color:#0086b3">export</span> <span style="color:#008080">TF_VAR_client_secret</span><span style="color:#000;font-weight:bold">=</span><span style="color:#008080">$ARM_CLIENT_SECRET</span>
-<span style="color:#0086b3">export</span> <span style="color:#008080">TF_VAR_aks_service_principal_app_id</span><span style="color:#000;font-weight:bold">=</span><span style="color:#008080">$ARM_CLIENT_ID</span>
-<span style="color:#0086b3">export</span> <span style="color:#008080">TF_VAR_aks_service_principal_client_secret</span><span style="color:#000;font-weight:bold">=</span><span style="color:#008080">$ARM_CLIENT_SECRET</span>
-</code></pre></div><p>With all this configuration in place we can instruct Terraform to create the kubernetes cluster:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">terraform init
-terraform apply -auto-approve
-</code></pre></div><p>After a couple (~10) of minutes your cluster will be ready. Importing the credentials into your ~/.kube/config can be done as following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">az aks get-credentials --resource-group k8s-test --name kaz
-</code></pre></div><p><a href="https://github.com/ahmetb/kubectx">kubectx</a> is an awesome tool that allows you to easily switch between contexts.</p>
-<p>Now it is time to <a href="https://kubernetes.github.io/ingress-nginx/deploy/">deploy the NGINX Ingress Controller</a>. We also need to apply the <a href="https://kubernetes.github.io/ingress-nginx/deploy/#azure">azure specific</a> additions:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.28.0/deploy/static/mandatory.yaml
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.28.0/deploy/static/provider/cloud-generic.yaml
-</code></pre></div><p>Deploying the NGINX Ingress Controller results in the creation of a loadbalancer and a public ip. Here is how you can fetch that address:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">az network public-ip list | grep -Po <span style="color:#d14">&#39;(?&lt;=&#34;ipAddress&#34;: &#34;)([^&#34;]*)&#39;</span>
-</code></pre></div><p>In this example we want to access our applications as <a href="https://XXX.apps.icteam.be">https://XXX.apps.icteam.be</a>.
-We achieve this by adding an A-record (the azure public ip address) pointing to *.apps.icteam.be</p>
-<p>For the HTTPS part we <a href="https://cert-manager.io/docs/installation/kubernetes/">install cert-manager</a> and use <a href="https://letsencrypt.org/">Let&rsquo;s Encrypt</a> to provide certificates:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.13.0/cert-manager.yaml
-kubectl apply -f letsencrypt.yaml 
-</code></pre></div><p>With all this infrastructure in place we can deploy a sample application:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create deployment hello-node --image<span style="color:#000;font-weight:bold">=</span>gcr.io/hello-minikube-zero-install/hello-node
-kubectl expose deployment hello-node --port<span style="color:#000;font-weight:bold">=</span><span style="color:#099">8080</span>
-kubectl apply -f ingress.yaml
-</code></pre></div><p>Now we can access our application:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl -v https://hello-node.apps.icteam.be
-</code></pre></div><p>Here are some useful commands to help with debugging:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic"># get some cluster info</span>
-kubectl cluster-info
-kubectl proxy
-
-<span style="color:#998;font-style:italic"># follow logs of the ingress controller</span>
-kubectl logs -n ingress-nginx deployment/nginx-ingress-controller -f
-
-<span style="color:#998;font-style:italic"># restart the ingress controller</span>
-kubectl scale deployment -n ingress-nginx --replicas<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span> nginx-ingress-controller
-kubectl scale deployment -n ingress-nginx --replicas<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span> nginx-ingress-controller
-</code></pre></div><p>Remove the hello-node application (pods/deployment/service/ingress):</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl delete all -l <span style="color:#008080">app</span><span style="color:#000;font-weight:bold">=</span>hello-node
-</code></pre></div><p>Finally you want to remove everything:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">terraform destroy -auto-approve
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">31</span>
-										<span class="rest">Dec 2016</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">20</span>
+							<span class="rest">Nov 2016</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Looking back at 2016</h1>
+								<h4 class="title small">
+									<a href="./2016/11/20/parsing-lines-from-spark-rdd/">Parsing lines from Spark RDD</a>
+								</h4>
+								<span class="description">
+									
+										A typical [Apache Spark](http://spark.apache.org/) application using RDD api starts as following:
+
+```scala
+val lines = ...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>Starting 2016 at Emergency Care was a game changer for me.</p>
-<p>On a personal level I have successfully changed my diet and lost 45kg (BMI went from 50 to 35), completed Start2Run (0-5km/30min) and Continue2Run (5-10km/60min). Looking forward to loosing more weight and getting a BMI &lt; 30 again. Finishing a 1/2 marathon would be awesome too. Had plenty of quality family time as well!</p>
-<p>On a professional level I have changed focus from Enterprise Apps/.NET to Data intensive (Big Data, Augmented/Business Intelligence and a bit of Machine learning) mainly using Scala. Had some serious fun bringing a Kafka cluster in place as the central messaging interface in an industrial setting (24/7) continuously pushing &gt; 1 million messages/sec. Became familiar with Docker and looking forward to see it replace Java Application Servers.</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-							
-						</div></div>
+					</div>
 				
 					<div class="post">
 						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">20</span>
-										<span class="rest">Nov 2016</span>
-									</div>
+							<div class="meta">
+								<div class="date">
+									<span class="day">04</span>
+							<span class="rest">Oct 2016</span>
 								</div>
-							
+							</div>
 							<div class="matter">
-								<h1 class="title">Parsing lines from Spark RDD</h1>
+								<h4 class="title small">
+									<a href="./2016/10/04/blog-migrated-to-jekyll/">Blog migrated to Jekyll</a>
+								</h4>
+								<span class="description">
+									
+										As many other people I have decided to leave Wordpress behind and move to Jekyll instead.
+
+Most posts have been migrated...
+									
+								</span>
 							</div>
 						</div>
-								
-						<div class="markdown">
-							<p>A typical <a href="http://spark.apache.org/">Apache Spark</a> application using RDD api starts as following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#000;font-weight:bold">val</span> lines <span style="color:#000;font-weight:bold">=</span> sc<span style="color:#000;font-weight:bold">.</span>textFile<span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;/path/to/data&#34;</span><span style="color:#000;font-weight:bold">)</span>
-<span style="color:#000;font-weight:bold">val</span> records <span style="color:#000;font-weight:bold">=</span> lines<span style="color:#000;font-weight:bold">.</span>map<span style="color:#000;font-weight:bold">(</span>parseLineToRecord<span style="color:#000;font-weight:bold">)</span>
-
-<span style="color:#000;font-weight:bold">case</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Record</span><span style="color:#000;font-weight:bold">(...)</span>
-
-<span style="color:#000;font-weight:bold">def</span> parseLineToRecord<span style="color:#000;font-weight:bold">(</span>line<span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">String</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">Record</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">{</span>
-  <span style="color:#000;font-weight:bold">val</span> parts <span style="color:#000;font-weight:bold">=</span> line<span style="color:#000;font-weight:bold">.</span>split<span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;\t&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span><span style="color:#000;font-weight:bold">)</span>
-  <span style="color:#000;font-weight:bold">...</span>
-  <span style="color:#458;font-weight:bold">Record</span><span style="color:#000;font-weight:bold">(..)</span>
-<span style="color:#000;font-weight:bold">}</span>
-</code></pre></div><p>In case of bad records you very often want to discard the unparseable lines:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#000;font-weight:bold">def</span> parseLineToRecordOption<span style="color:#000;font-weight:bold">(</span>line<span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">String</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#458;font-weight:bold">Option</span><span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">Record</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">{</span>
-  <span style="color:#000;font-weight:bold">try</span> <span style="color:#000;font-weight:bold">{</span>
-    <span style="color:#000;font-weight:bold">...</span>
-    <span style="color:#458;font-weight:bold">Some</span><span style="color:#000;font-weight:bold">(</span><span style="color:#458;font-weight:bold">Record</span><span style="color:#000;font-weight:bold">(..))</span>
-  <span style="color:#000;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">catch</span> <span style="color:#000;font-weight:bold">{</span>
-    <span style="color:#000;font-weight:bold">case</span> <span style="color:#000;font-weight:bold">_</span> <span style="color:#000;font-weight:bold">=&gt;</span> <span style="color:#458;font-weight:bold">None</span>
-  <span style="color:#000;font-weight:bold">}</span>
-<span style="color:#000;font-weight:bold">}</span>
-
-<span style="color:#000;font-weight:bold">val</span> records <span style="color:#000;font-weight:bold">=</span> lines<span style="color:#000;font-weight:bold">.</span>map<span style="color:#000;font-weight:bold">(</span>parseLineToRecordOption<span style="color:#000;font-weight:bold">).</span>filter<span style="color:#000;font-weight:bold">(</span>x <span style="color:#000;font-weight:bold">=&gt;</span> x<span style="color:#000;font-weight:bold">.</span>isDefined<span style="color:#000;font-weight:bold">).</span>map<span style="color:#000;font-weight:bold">(</span>x <span style="color:#000;font-weight:bold">=&gt;</span> x<span style="color:#000;font-weight:bold">.</span>get<span style="color:#000;font-weight:bold">)</span>
-</code></pre></div><p>And then you discover that you there is an <a href="https://github.com/scala/scala/blob/2.12.x/src/library/scala/Option.scala">implicit conversion from Option[T] to Iterable[T]</a>.
-The nice thing is that you now can use flatMap instead of filter + map:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#000;font-weight:bold">val</span> records <span style="color:#000;font-weight:bold">=</span> lines<span style="color:#000;font-weight:bold">.</span>flatMap<span style="color:#000;font-weight:bold">(</span>parseLineToRecordOption<span style="color:#000;font-weight:bold">)</span>
-</code></pre></div><p>Strangely enough there is no such implicit conversion for a Try[T] so we convert to Option first:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#000;font-weight:bold">def</span> tryParseLineToRecordOption<span style="color:#000;font-weight:bold">(</span>line<span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">String</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#458;font-weight:bold">Try</span><span style="color:#000;font-weight:bold">[</span><span style="color:#458;font-weight:bold">Record</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">=</span>
-  <span style="color:#458;font-weight:bold">Try</span> <span style="color:#000;font-weight:bold">{</span>
-    <span style="color:#000;font-weight:bold">...</span>
-    <span style="color:#458;font-weight:bold">Some</span><span style="color:#000;font-weight:bold">(</span><span style="color:#458;font-weight:bold">Record</span><span style="color:#000;font-weight:bold">(..))</span>
-  <span style="color:#000;font-weight:bold">}</span>
-
-<span style="color:#000;font-weight:bold">val</span> records <span style="color:#000;font-weight:bold">=</span> lines<span style="color:#000;font-weight:bold">.</span>map<span style="color:#000;font-weight:bold">(</span>tryParseLineToRecordOption<span style="color:#000;font-weight:bold">).</span>flatMap<span style="color:#000;font-weight:bold">(</span>x <span style="color:#000;font-weight:bold">=&gt;</span> x<span style="color:#000;font-weight:bold">.</span>toOption<span style="color:#000;font-weight:bold">)</span>
-</code></pre></div>
-						</div>
-			
-						<div class="tags">
-							
-								
-							
-						</div></div>
-				
-					<div class="post">
-						<div class="post-header">
-							
-								<div class="meta">
-									<div class="date">
-										<span class="day">04</span>
-										<span class="rest">Oct 2016</span>
-									</div>
-								</div>
-							
-							<div class="matter">
-								<h1 class="title">Blog migrated to Jekyll</h1>
-							</div>
-						</div>
-								
-						<div class="markdown">
-							<p>As many other people I have decided to leave Wordpress behind and move to Jekyll instead.</p>
-<p>Most posts have been migrated pretty well but I do not feel like bothering with them anymore.
-In fact, some of them have become irrelevant, some of them are just wrong and others only attract spammers. In summary: they are not worth my time anymore. In case you really loved them, you can still send a pull-request :P</p>
-
-						</div>
-			
-						<div class="tags">
-							
-								
-							
-						</div></div>
+					</div>
 				
 				
 
