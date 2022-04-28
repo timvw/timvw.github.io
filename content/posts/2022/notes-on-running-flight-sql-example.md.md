@@ -63,7 +63,8 @@ mvn compile -Dcheckstyle.skip -Drat.skip=true
 6. Run client without arguments:
 
 ```bash
-mvn exec:java -Dcheckstyle.skip -Drat.skip=true  -Dexec.mainClass="org.apache.arrow.flight.sql.example.FlightSqlClientDemoApp"
+mvn exec:java -Dcheckstyle.skip -Drat.skip=true \
+    -Dexec.mainClass="org.apache.arrow.flight.sql.example.FlightSqlClientDemoApp"
 ```
 
 Output:
@@ -84,7 +85,9 @@ org.apache.commons.cli.MissingOptionException: Missing required options: host, p
 7. List tables in APP schema:
 
 ```bash
-mvn exec:java -Dcheckstyle.skip -Drat.skip=true  -Dexec.mainClass="org.apache.arrow.flight.sql.example.FlightSqlClientDemoApp" -Dexec.args="-host localhost -port 52358 -command GetTables -schema APP"
+mvn exec:java -Dcheckstyle.skip -Drat.skip=true \
+    -Dexec.mainClass="org.apache.arrow.flight.sql.example.FlightSqlClientDemoApp" \
+    -Dexec.args="-host localhost -port 52358 -command GetTables -schema APP"
 ```
 
 Output:
@@ -97,7 +100,9 @@ null    APP     INTTABLE        TABLE
 8. Execute a query:
 
 ```bash
-mvn exec:java -Dcheckstyle.skip -Drat.skip=true  -Dexec.mainClass="org.apache.arrow.flight.sql.example.FlightSqlClientDemoApp" -Dexec.args='-host localhost -port 52358 -command Execute -query "select * from APP.INTTABLE"'
+mvn exec:java -Dcheckstyle.skip -Drat.skip=true \
+    -Dexec.mainClass="org.apache.arrow.flight.sql.example.FlightSqlClientDemoApp" \
+    -Dexec.args='-host localhost -port 52358 -command Execute -query "select * from APP.INTTABLE"'
 ```
 
 Output:
