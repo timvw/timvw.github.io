@@ -1,121 +1,43 @@
-<!doctype html><html>
-<head>
-<meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge"><title>Presenting the SortableBindingList&lt;T> (take two) - Tim Van Wassenhove</title><meta name=viewport content="width=device-width,initial-scale=1">
-<meta itemprop=name content="Presenting the SortableBindingList<T> (take two)">
-<meta itemprop=description content="I&rsquo;m in the progress of adding classes that i find interesting to the BeTimvwFramework project. The original implementation of my SortableBindingList relied on IComparable to implement ApplySortCore(PropertyDescriptor property, ListSortDirection direction). I received some good feedback and blogged about those improvements.
-Because some of my classes only implement IComparable i needed support for this too. My first thought was to use ComparerIComparer comparer = Comparer<t>.Default; itemsList.Sort(delegate(T t1, T t2) { object property1 = prop."><meta itemprop=datePublished content="2008-08-02T00:00:00+00:00">
-<meta itemprop=dateModified content="2021-01-04T22:47:36+01:00">
-<meta itemprop=wordCount content="286">
-<meta itemprop=keywords content="CSharp,"><meta property="og:title" content="Presenting the SortableBindingList<T> (take two)">
-<meta property="og:description" content="I&rsquo;m in the progress of adding classes that i find interesting to the BeTimvwFramework project. The original implementation of my SortableBindingList relied on IComparable to implement ApplySortCore(PropertyDescriptor property, ListSortDirection direction). I received some good feedback and blogged about those improvements.
-Because some of my classes only implement IComparable i needed support for this too. My first thought was to use ComparerIComparer comparer = Comparer<t>.Default; itemsList.Sort(delegate(T t1, T t2) { object property1 = prop.">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://timvw.be/2008/08/02/presenting-the-sortablebindinglistt-take-two/"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2008-08-02T00:00:00+00:00">
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="Presenting the SortableBindingList<T> (take two)">
-<meta name=twitter:description content="I&rsquo;m in the progress of adding classes that i find interesting to the BeTimvwFramework project. The original implementation of my SortableBindingList relied on IComparable to implement ApplySortCore(PropertyDescriptor property, ListSortDirection direction). I received some good feedback and blogged about those improvements.
-Because some of my classes only implement IComparable i needed support for this too. My first thought was to use ComparerIComparer comparer = Comparer<t>.Default; itemsList.Sort(delegate(T t1, T t2) { object property1 = prop.">
-<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700" rel=stylesheet type=text/css>
-<link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/normalize.css>
-<link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/main.css>
-<link id=dark-scheme rel=stylesheet type=text/css href=https://timvw.be/css/dark.css>
-<script src=https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js></script>
-<script src=https://timvw.be/js/main.js></script>
-</head>
-<body>
-<div class="container wrapper">
-<div class=header>
-<h1 class=site-title><a href=https://timvw.be/>Tim Van Wassenhove</a></h1>
-<div class=site-description><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
-<ul class=flat><li><a href=https://twitter.com/timvw title=Twitter><i data-feather=twitter></i></a></li><li><a href=https://github.com/timvw title=Github><i data-feather=github></i></a></li><li><a href=https://www.linkedin.com/in/timvanwassenhove title=Linkedin><i data-feather=linkedin></i></a></li><li><a href=https://timvw.be/feed.xml title=RSS><i data-feather=rss></i></a></li></ul>
-</nav>
-</div>
-<nav class=nav>
-<ul class=flat>
-<li>
-<a href=../../../../>Home</a>
-</li>
-<li>
-<a href=../../../../posts>All posts</a>
-</li>
-<li>
-<a href=../../../../tags>Tags</a>
-</li>
-</ul>
-</nav>
-</div>
-<div class=post>
-<div class=post-header>
-<div class=meta>
-<div class=date>
-<span class=day>02</span>
-<span class=rest>Aug 2008</span>
-</div>
-</div>
-<div class=matter>
-<h1 class=title>Presenting the SortableBindingList&lt;T> (take two)</h1>
-</div>
-</div>
-<div class=markdown>
-<p>I&rsquo;m in the progress of adding classes that i find interesting to the <a href=http://www.codeplex.com/BeTimvwFramework>BeTimvwFramework</a> project. The original implementation of my <a href=http://www.timvw.be/presenting-the-sortablebindinglistt/>SortableBindingList</a> relied on <a href=http://msdn.microsoft.com/en-us/library/system.icomparable.aspx>IComparable</a> to implement ApplySortCore(PropertyDescriptor property, ListSortDirection direction). I received some good feedback and <a href=http://www.timvw.be/improvements-for-the-sortablebindinglist-and-typedlist/>blogged about those improvements</a>.</p>
-<p>Because some of my classes only implement <a href=http://msdn.microsoft.com/en-us/library/4d7sx9hd.aspx>IComparable</a> i needed support for this too. My first thought was to use Comparer</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp>IComparer comparer = Comparer&lt;t&gt;.Default;
-itemsList.Sort(<span style=color:#000;font-weight:700>delegate</span>(T t1, T t2)
-{
-	<span style=color:#458;font-weight:700>object</span> property1 = prop.GetValue(t1);
-	<span style=color:#458;font-weight:700>object</span> property2 = prop.GetValue(t2);
-	<span style=color:#000;font-weight:700>return</span> reverse * comparer.Compare(property1, property2);
-});
-</code></pre></div><p>Obviously that didn&rsquo;t work. The problem is that i received the default Comparer for T, instead of the Comparer for the type of the property. Anyway, with a bit of reflection i got access to that Comparer</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp>Type comparablePropertyType = <span style=color:#000;font-weight:700>typeof</span>(Comparer&lt;&gt;).MakeGenericType(property.PropertyType);
-IComparer comparer = (IComparer)comparablePropertyType.InvokeMember(<span style=color:#d14>&#34;Default&#34;</span>, BindingFlags.Static | BindingFlags.GetProperty | BindingFlags.Public, <span style=color:#000;font-weight:700>null</span>, <span style=color:#000;font-weight:700>null</span>, <span style=color:#000;font-weight:700>null</span>);
-</code></pre></div><p>After a bit of refactoring i ended up with a PropertyComparer which allowed me to implement the sorting as following</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp>Type propertyType = property.PropertyType;
-
-<span style=color:#998;font-style:italic>// this cache minimizes the cost of reflection in the PropertyComparer constructor
-</span><span style=color:#998;font-style:italic></span>PropertyComparer&lt;t&gt; comparer;
-<span style=color:#000;font-weight:700>if</span> (!<span style=color:#000;font-weight:700>this</span>.comparers.TryGetValue(propertyType, <span style=color:#000;font-weight:700>out</span> comparer))
-{
-	comparer = <span style=color:#000;font-weight:700>new</span> PropertyComparer&lt;t&gt;(property, direction);
-	<span style=color:#000;font-weight:700>this</span>.comparers.Add(propertyType, comparer);
-}
-<span style=color:#000;font-weight:700>else</span>
-{
-	comparer.SetListSortDirection(direction);
-}
-
-itemsList.Sort(comparer);
-</code></pre></div><p>In order to write unittests, i needed a way to get instances of a <a href=http://msdn.microsoft.com/en-us/library/system.componentmodel.propertydescriptor.aspx>PropertyDescriptor</a>. This was achieved by using the <a href=http://msdn.microsoft.com/en-us/library/system.componentmodel.typedescriptor_methods.aspx>TypeDescriptor</a> as following</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp>PropertyDescriptor GetPropertyDescriptor(<span style=color:#458;font-weight:700>object</span> component, <span style=color:#458;font-weight:700>string</span> propertyName)
-{
-	PropertyDescriptorCollection propertyDescriptors = TypeDescriptor.GetProperties(component);
-	<span style=color:#000;font-weight:700>foreach</span> (PropertyDescriptor propertyDescriptor <span style=color:#000;font-weight:700>in</span> propertyDescriptors)
-	{
-		<span style=color:#000;font-weight:700>if</span> (propertyDescriptor.Name == propertyName)
-		{
-			<span style=color:#000;font-weight:700>return</span> propertyDescriptor;
-		}
-	}
-	<span style=color:#000;font-weight:700>throw</span> <span style=color:#000;font-weight:700>new</span> ArgumentException(<span style=color:#458;font-weight:700>string</span>.Format(<span style=color:#d14>&#34;The property &#39;{0}&#39; was not found.&#34;</span>, propertyName));
-}
-</code></pre></div><p>Feel free to download the updated demo application: <a href=http://www.timvw.be/wp-content/code/csharp/SortableBindingList.zip>sortablebindinglist.zip</a>. There are even real applications that use this class, eg: <a href=http://vstrac.devjavu.com/>VSTrac</a> and <a href=http://monotorrent.com/>MonoTorrent</a>. If you&rsquo;re interested in the unittests you&rsquo;ll have to get the code at <a href=http://www.codeplex.com/BeTimvwFramework>BeTimvwFramework</a>.</p>
-</div>
-<div class=tags>
-<ul class=flat>
-<li><a href=../../../../tags/csharp>CSharp</a></li>
-</ul>
-</div></div>
-</div>
-<div class="footer wrapper">
-<nav class=nav>
-<div>2022 <a href=https://github.com/knadh/hugo-ink>Ink</a> theme on <a href=https://gohugo.io>Hugo</a></div>
-</nav>
-</div>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-9DP4SV12YW',{anonymize_ip:!1})}</script>
-<script>feather.replace()</script>
-</body>
-</html>
+<!doctype html><html><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>Presenting the SortableBindingList&lt;T> (take two) - Tim Van Wassenhove</title><meta name=viewport content="width=device-width,initial-scale=1"><meta itemprop=name content="Presenting the SortableBindingList<T> (take two)"><meta itemprop=description content="I&rsquo;m in the progress of adding classes that i find interesting to the BeTimvwFramework project. The original implementation of my SortableBindingList relied on IComparable to implement ApplySortCore(PropertyDescriptor property, ListSortDirection direction). I received some good feedback and blogged about those improvements.
+Because some of my classes only implement IComparable i needed support for this too. My first thought was to use ComparerIComparer comparer = Comparer<t>.Default; itemsList.Sort(delegate(T t1, T t2) { 	object property1 = prop."><meta itemprop=datePublished content="2008-08-02T00:00:00+00:00"><meta itemprop=dateModified content="2021-01-04T22:47:36+01:00"><meta itemprop=wordCount content="286"><meta itemprop=keywords content="CSharp,"><meta property="og:title" content="Presenting the SortableBindingList<T> (take two)"><meta property="og:description" content="I&rsquo;m in the progress of adding classes that i find interesting to the BeTimvwFramework project. The original implementation of my SortableBindingList relied on IComparable to implement ApplySortCore(PropertyDescriptor property, ListSortDirection direction). I received some good feedback and blogged about those improvements.
+Because some of my classes only implement IComparable i needed support for this too. My first thought was to use ComparerIComparer comparer = Comparer<t>.Default; itemsList.Sort(delegate(T t1, T t2) { 	object property1 = prop."><meta property="og:type" content="article"><meta property="og:url" content="https://timvw.be/2008/08/02/presenting-the-sortablebindinglistt-take-two/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2008-08-02T00:00:00+00:00"><meta property="article:modified_time" content="2021-01-04T22:47:36+01:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Presenting the SortableBindingList<T> (take two)"><meta name=twitter:description content="I&rsquo;m in the progress of adding classes that i find interesting to the BeTimvwFramework project. The original implementation of my SortableBindingList relied on IComparable to implement ApplySortCore(PropertyDescriptor property, ListSortDirection direction). I received some good feedback and blogged about those improvements.
+Because some of my classes only implement IComparable i needed support for this too. My first thought was to use ComparerIComparer comparer = Comparer<t>.Default; itemsList.Sort(delegate(T t1, T t2) { 	object property1 = prop."><link href="https://fonts.googleapis.com/css?family=Playfair+Display:700" rel=stylesheet type=text/css><link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/normalize.css><link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/main.css><link id=dark-scheme rel=stylesheet type=text/css href=https://timvw.be/css/dark.css><script src=https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js></script>
+<script src=https://timvw.be/js/main.js></script></head><body><div class="container wrapper"><div class=header><h1 class=site-title><a href=https://timvw.be/>Tim Van Wassenhove</a></h1><div class=site-description><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social"><ul class=flat><li><a href=https://twitter.com/timvw title=Twitter><i data-feather=twitter></i></a></li><li><a href=https://github.com/timvw title=Github><i data-feather=github></i></a></li><li><a href=https://www.linkedin.com/in/timvanwassenhove title=Linkedin><i data-feather=linkedin></i></a></li><li><a href=https://timvw.be/feed.xml title=RSS><i data-feather=rss></i></a></li></ul></nav></div><nav class=nav><ul class=flat><li><a href=../../../../>Home</a></li><li><a href=../../../../posts>All posts</a></li><li><a href=../../../../tags>Tags</a></li></ul></nav></div><div class=post><div class=post-header><div class=meta><div class=date><span class=day>02</span>
+<span class=rest>Aug 2008</span></div></div><div class=matter><h1 class=title>Presenting the SortableBindingList&lt;T> (take two)</h1></div></div><div class=markdown><p>I&rsquo;m in the progress of adding classes that i find interesting to the <a href=http://www.codeplex.com/BeTimvwFramework>BeTimvwFramework</a> project. The original implementation of my <a href=http://www.timvw.be/presenting-the-sortablebindinglistt/>SortableBindingList</a> relied on <a href=http://msdn.microsoft.com/en-us/library/system.icomparable.aspx>IComparable</a> to implement ApplySortCore(PropertyDescriptor property, ListSortDirection direction). I received some good feedback and <a href=http://www.timvw.be/improvements-for-the-sortablebindinglist-and-typedlist/>blogged about those improvements</a>.</p><p>Because some of my classes only implement <a href=http://msdn.microsoft.com/en-us/library/4d7sx9hd.aspx>IComparable</a> i needed support for this too. My first thought was to use Comparer</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span>IComparer comparer = Comparer&lt;t&gt;.Default;
+</span></span><span style=display:flex><span>itemsList.Sort(<span style=color:#000;font-weight:700>delegate</span>(T t1, T t2)
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>	<span style=color:#458;font-weight:700>object</span> property1 = prop.GetValue(t1);
+</span></span><span style=display:flex><span>	<span style=color:#458;font-weight:700>object</span> property2 = prop.GetValue(t2);
+</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>return</span> reverse * comparer.Compare(property1, property2);
+</span></span><span style=display:flex><span>});
+</span></span></code></pre></div><p>Obviously that didn&rsquo;t work. The problem is that i received the default Comparer for T, instead of the Comparer for the type of the property. Anyway, with a bit of reflection i got access to that Comparer</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span>Type comparablePropertyType = <span style=color:#000;font-weight:700>typeof</span>(Comparer&lt;&gt;).MakeGenericType(property.PropertyType);
+</span></span><span style=display:flex><span>IComparer comparer = (IComparer)comparablePropertyType.InvokeMember(<span style=color:#d14>&#34;Default&#34;</span>, BindingFlags.Static | BindingFlags.GetProperty | BindingFlags.Public, <span style=color:#000;font-weight:700>null</span>, <span style=color:#000;font-weight:700>null</span>, <span style=color:#000;font-weight:700>null</span>);
+</span></span></code></pre></div><p>After a bit of refactoring i ended up with a PropertyComparer which allowed me to implement the sorting as following</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span>Type propertyType = property.PropertyType;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>// this cache minimizes the cost of reflection in the PropertyComparer constructor</span>
+</span></span><span style=display:flex><span>PropertyComparer&lt;t&gt; comparer;
+</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>if</span> (!<span style=color:#000;font-weight:700>this</span>.comparers.TryGetValue(propertyType, <span style=color:#000;font-weight:700>out</span> comparer))
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>	comparer = <span style=color:#000;font-weight:700>new</span> PropertyComparer&lt;t&gt;(property, direction);
+</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>this</span>.comparers.Add(propertyType, comparer);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>else</span>
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>	comparer.SetListSortDirection(direction);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>itemsList.Sort(comparer);
+</span></span></code></pre></div><p>In order to write unittests, i needed a way to get instances of a <a href=http://msdn.microsoft.com/en-us/library/system.componentmodel.propertydescriptor.aspx>PropertyDescriptor</a>. This was achieved by using the <a href=http://msdn.microsoft.com/en-us/library/system.componentmodel.typedescriptor_methods.aspx>TypeDescriptor</a> as following</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span>PropertyDescriptor GetPropertyDescriptor(<span style=color:#458;font-weight:700>object</span> component, <span style=color:#458;font-weight:700>string</span> propertyName)
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>	PropertyDescriptorCollection propertyDescriptors = TypeDescriptor.GetProperties(component);
+</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>foreach</span> (PropertyDescriptor propertyDescriptor <span style=color:#000;font-weight:700>in</span> propertyDescriptors)
+</span></span><span style=display:flex><span>	{
+</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>if</span> (propertyDescriptor.Name == propertyName)
+</span></span><span style=display:flex><span>		{
+</span></span><span style=display:flex><span>			<span style=color:#000;font-weight:700>return</span> propertyDescriptor;
+</span></span><span style=display:flex><span>		}
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>throw</span> <span style=color:#000;font-weight:700>new</span> ArgumentException(<span style=color:#458;font-weight:700>string</span>.Format(<span style=color:#d14>&#34;The property &#39;{0}&#39; was not found.&#34;</span>, propertyName));
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>Feel free to download the updated demo application: <a href=http://www.timvw.be/wp-content/code/csharp/SortableBindingList.zip>sortablebindinglist.zip</a>. There are even real applications that use this class, eg: <a href=http://vstrac.devjavu.com/>VSTrac</a> and <a href=http://monotorrent.com/>MonoTorrent</a>. If you&rsquo;re interested in the unittests you&rsquo;ll have to get the code at <a href=http://www.codeplex.com/BeTimvwFramework>BeTimvwFramework</a>.</p></div><div class=tags><ul class=flat><li><a href=../../../../tags/csharp>CSharp</a></li></ul></div></div></div><div class="footer wrapper"><nav class=nav><div>2022 <a href=https://github.com/knadh/hugo-ink>Ink</a> theme on <a href=https://gohugo.io>Hugo</a></div></nav></div><script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-9DP4SV12YW",{anonymize_ip:!1})}</script><script>feather.replace()</script></body></html>

@@ -1,150 +1,71 @@
-<!doctype html><html>
-<head>
-<meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge"><title>Using DataGridViewComboBoxColumn with Custom Objects - Tim Van Wassenhove</title><meta name=viewport content="width=device-width,initial-scale=1">
-<meta itemprop=name content="Using DataGridViewComboBoxColumn with Custom Objects">
-<meta itemprop=description content="Earlier today i was playing with the DataGridView control. I wanted to have a couple of DataGridViewComboBoxColumns in order to limit the available input options for the user. The documentation clearly mentions the following
+<!doctype html><html><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>Using DataGridViewComboBoxColumn with Custom Objects - Tim Van Wassenhove</title><meta name=viewport content="width=device-width,initial-scale=1"><meta itemprop=name content="Using DataGridViewComboBoxColumn with Custom Objects"><meta itemprop=description content="Earlier today i was playing with the DataGridView control. I wanted to have a couple of DataGridViewComboBoxColumns in order to limit the available input options for the user. The documentation clearly mentions the following
   Here is sample of a custom object
-public class Slot { private int id; private DateTime dateTime; public Slot( int id, DateTime dateTime ) { this.id = id; this.dateTime = dateTime; } public int Id { get { return this."><meta itemprop=datePublished content="2006-09-10T00:00:00+00:00">
-<meta itemprop=dateModified content="2021-01-04T22:47:36+01:00">
-<meta itemprop=wordCount content="246">
-<meta itemprop=keywords content="CSharp,Windows Forms,"><meta property="og:title" content="Using DataGridViewComboBoxColumn with Custom Objects">
-<meta property="og:description" content="Earlier today i was playing with the DataGridView control. I wanted to have a couple of DataGridViewComboBoxColumns in order to limit the available input options for the user. The documentation clearly mentions the following
+public class Slot { 	private int id; 	private DateTime dateTime;  	public Slot( int id, DateTime dateTime ) { 	this.id = id; 	this."><meta itemprop=datePublished content="2006-09-10T00:00:00+00:00"><meta itemprop=dateModified content="2021-01-04T22:47:36+01:00"><meta itemprop=wordCount content="246"><meta itemprop=keywords content="CSharp,Windows Forms,"><meta property="og:title" content="Using DataGridViewComboBoxColumn with Custom Objects"><meta property="og:description" content="Earlier today i was playing with the DataGridView control. I wanted to have a couple of DataGridViewComboBoxColumns in order to limit the available input options for the user. The documentation clearly mentions the following
   Here is sample of a custom object
-public class Slot { private int id; private DateTime dateTime; public Slot( int id, DateTime dateTime ) { this.id = id; this.dateTime = dateTime; } public int Id { get { return this.">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://timvw.be/2006/09/10/using-datagridviewcomboboxcolumn-with-custom-objects/"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2006-09-10T00:00:00+00:00">
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="Using DataGridViewComboBoxColumn with Custom Objects">
-<meta name=twitter:description content="Earlier today i was playing with the DataGridView control. I wanted to have a couple of DataGridViewComboBoxColumns in order to limit the available input options for the user. The documentation clearly mentions the following
+public class Slot { 	private int id; 	private DateTime dateTime;  	public Slot( int id, DateTime dateTime ) { 	this.id = id; 	this."><meta property="og:type" content="article"><meta property="og:url" content="https://timvw.be/2006/09/10/using-datagridviewcomboboxcolumn-with-custom-objects/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2006-09-10T00:00:00+00:00"><meta property="article:modified_time" content="2021-01-04T22:47:36+01:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Using DataGridViewComboBoxColumn with Custom Objects"><meta name=twitter:description content="Earlier today i was playing with the DataGridView control. I wanted to have a couple of DataGridViewComboBoxColumns in order to limit the available input options for the user. The documentation clearly mentions the following
   Here is sample of a custom object
-public class Slot { private int id; private DateTime dateTime; public Slot( int id, DateTime dateTime ) { this.id = id; this.dateTime = dateTime; } public int Id { get { return this.">
-<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700" rel=stylesheet type=text/css>
-<link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/normalize.css>
-<link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/main.css>
-<link id=dark-scheme rel=stylesheet type=text/css href=https://timvw.be/css/dark.css>
-<script src=https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js></script>
-<script src=https://timvw.be/js/main.js></script>
-</head>
-<body>
-<div class="container wrapper">
-<div class=header>
-<h1 class=site-title><a href=https://timvw.be/>Tim Van Wassenhove</a></h1>
-<div class=site-description><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
-<ul class=flat><li><a href=https://twitter.com/timvw title=Twitter><i data-feather=twitter></i></a></li><li><a href=https://github.com/timvw title=Github><i data-feather=github></i></a></li><li><a href=https://www.linkedin.com/in/timvanwassenhove title=Linkedin><i data-feather=linkedin></i></a></li><li><a href=https://timvw.be/feed.xml title=RSS><i data-feather=rss></i></a></li></ul>
-</nav>
-</div>
-<nav class=nav>
-<ul class=flat>
-<li>
-<a href=../../../../>Home</a>
-</li>
-<li>
-<a href=../../../../posts>All posts</a>
-</li>
-<li>
-<a href=../../../../tags>Tags</a>
-</li>
-</ul>
-</nav>
-</div>
-<div class=post>
-<div class=post-header>
-<div class=meta>
-<div class=date>
-<span class=day>10</span>
-<span class=rest>Sep 2006</span>
-</div>
-</div>
-<div class=matter>
-<h1 class=title>Using DataGridViewComboBoxColumn with Custom Objects</h1>
-</div>
-</div>
-<div class=markdown>
-<p>Earlier today i was playing with the <a href=http://msdn2.microsoft.com/en-us/library/system.windows.forms.datagridview.aspx>DataGridView</a> control. I wanted to have a couple of <a href=http://msdn2.microsoft.com/en-us/library/xwx934x7.aspx>DataGridViewComboBoxColumn</a>s in order to limit the available input options for the user. The documentation clearly mentions the following</p>
-<blockquote>
-</blockquote>
-<p>Here is sample of a custom object</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>class</span> <span style=color:#458;font-weight:700>Slot</span> {
-	<span style=color:#000;font-weight:700>private</span> <span style=color:#458;font-weight:700>int</span> id;
-	<span style=color:#000;font-weight:700>private</span> DateTime dateTime;
-
-	<span style=color:#000;font-weight:700>public</span> Slot( <span style=color:#458;font-weight:700>int</span> id, DateTime dateTime ) {
-		<span style=color:#000;font-weight:700>this</span>.id = id;
-		<span style=color:#000;font-weight:700>this</span>.dateTime = dateTime;
-	}
-
-	<span style=color:#000;font-weight:700>public</span> <span style=color:#458;font-weight:700>int</span> Id {
-		<span style=color:#000;font-weight:700>get</span> { <span style=color:#000;font-weight:700>return</span> <span style=color:#000;font-weight:700>this</span>.id; }
-	}
-
-	<span style=color:#000;font-weight:700>public</span> DateTime DateTime {
-		<span style=color:#000;font-weight:700>get</span> { <span style=color:#000;font-weight:700>return</span> <span style=color:#000;font-weight:700>this</span>.dateTime; }
-	}
-}
-</code></pre></div><p>And here is the workaround for a one to one mapping</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>partial</span> <span style=color:#000;font-weight:700>class</span> <span style=color:#458;font-weight:700>Form1</span> : Form 
-{
-	<span style=color:#998;font-style:italic>// here we&#39;ll store the value the user selected in one of the comboboxcolumns
-</span><span style=color:#998;font-style:italic></span>	<span style=color:#000;font-weight:700>private</span> Object selectedValue;
-
-	<span style=color:#000;font-weight:700>public</span> Form1() 
-	{
-		InitializeComponent();
-		selectedValues = <span style=color:#000;font-weight:700>new</span> Object[<span style=color:#000;font-weight:700>this</span>.dataGridView1.Columns.Count];
-
-		<span style=color:#998;font-style:italic>// create a couple of slots an add them to the comboboxcolumns
-</span><span style=color:#998;font-style:italic></span>		<span style=color:#000;font-weight:700>for</span> ( <span style=color:#458;font-weight:700>int</span> i = <span style=color:#099>0</span>; i &lt; <span style=color:#099>10</span>; ++i ) 
-		{ 
-			Slot slot = <span style=color:#000;font-weight:700>new</span> Slot( i, DateTime.Now.AddDays( i ) ); 
-			<span style=color:#000;font-weight:700>this</span>.Column1.Items.Add( slot ); 
-			<span style=color:#000;font-weight:700>this</span>.Column2.Items.Add( slot ); 
-		} 
-		<span style=color:#000;font-weight:700>this</span>.Column1.DisplayMember = <span style=color:#d14>&#34;DateTime&#34;</span>; 
-		<span style=color:#000;font-weight:700>this</span>.Column2.DisplayMember = <span style=color:#d14>&#34;Id&#34;</span>; 
-	} 
-	
-	<span style=color:#000;font-weight:700>private</span> <span style=color:#000;font-weight:700>void</span> dataGridView1_CellParsing( <span style=color:#458;font-weight:700>object</span> sender, DataGridViewCellParsingEventArgs e ) 
-	{ 
-		<span style=color:#998;font-style:italic>// lookup the selected value 
-</span><span style=color:#998;font-style:italic></span>		e.Value = <span style=color:#000;font-weight:700>this</span>.selectedValue; 
-		e.ParsingApplied = <span style=color:#000;font-weight:700>true</span>; 
-	} 
-	
-	<span style=color:#000;font-weight:700>private</span> <span style=color:#000;font-weight:700>void</span> dataGridView1_EditingControlShowing( <span style=color:#458;font-weight:700>object</span> sender, DataGridViewEditingControlShowingEventArgs e ) 
-	{ 
-		ComboBox cb = e.Control <span style=color:#000;font-weight:700>as</span> ComboBox; 
-		<span style=color:#000;font-weight:700>if</span> ( cb != <span style=color:#000;font-weight:700>null</span> ) 
-		{ 
-			cb.SelectedIndexChanged -= cb_SelectedIndexChanged; 
-			cb.SelectedIndexChanged += cb_SelectedIndexChanged; 
-		} 
-	} 
-	
-	<span style=color:#000;font-weight:700>void</span> cb_SelectedIndexChanged(<span style=color:#458;font-weight:700>object</span> sender, EventArgs e) 
-	{ 
-		ComboBox comboBox = sender <span style=color:#000;font-weight:700>as</span> ComboBox; 
-		<span style=color:#000;font-weight:700>this</span>.selectedValue = comboBox.SelectedItem; 
-	} 
-}
-</code></pre></div>
-</div>
-<div class=tags>
-<ul class=flat>
-<li><a href=../../../../tags/csharp>CSharp</a></li>
-<li><a href=../../../../tags/windows-forms>Windows Forms</a></li>
-</ul>
-</div></div>
-</div>
-<div class="footer wrapper">
-<nav class=nav>
-<div>2022 <a href=https://github.com/knadh/hugo-ink>Ink</a> theme on <a href=https://gohugo.io>Hugo</a></div>
-</nav>
-</div>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-9DP4SV12YW',{anonymize_ip:!1})}</script>
-<script>feather.replace()</script>
-</body>
-</html>
+public class Slot { 	private int id; 	private DateTime dateTime;  	public Slot( int id, DateTime dateTime ) { 	this.id = id; 	this."><link href="https://fonts.googleapis.com/css?family=Playfair+Display:700" rel=stylesheet type=text/css><link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/normalize.css><link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/main.css><link id=dark-scheme rel=stylesheet type=text/css href=https://timvw.be/css/dark.css><script src=https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js></script>
+<script src=https://timvw.be/js/main.js></script></head><body><div class="container wrapper"><div class=header><h1 class=site-title><a href=https://timvw.be/>Tim Van Wassenhove</a></h1><div class=site-description><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social"><ul class=flat><li><a href=https://twitter.com/timvw title=Twitter><i data-feather=twitter></i></a></li><li><a href=https://github.com/timvw title=Github><i data-feather=github></i></a></li><li><a href=https://www.linkedin.com/in/timvanwassenhove title=Linkedin><i data-feather=linkedin></i></a></li><li><a href=https://timvw.be/feed.xml title=RSS><i data-feather=rss></i></a></li></ul></nav></div><nav class=nav><ul class=flat><li><a href=../../../../>Home</a></li><li><a href=../../../../posts>All posts</a></li><li><a href=../../../../tags>Tags</a></li></ul></nav></div><div class=post><div class=post-header><div class=meta><div class=date><span class=day>10</span>
+<span class=rest>Sep 2006</span></div></div><div class=matter><h1 class=title>Using DataGridViewComboBoxColumn with Custom Objects</h1></div></div><div class=markdown><p>Earlier today i was playing with the <a href=http://msdn2.microsoft.com/en-us/library/system.windows.forms.datagridview.aspx>DataGridView</a> control. I wanted to have a couple of <a href=http://msdn2.microsoft.com/en-us/library/xwx934x7.aspx>DataGridViewComboBoxColumn</a>s in order to limit the available input options for the user. The documentation clearly mentions the following</p><blockquote></blockquote><p>Here is sample of a custom object</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>class</span> <span style=color:#458;font-weight:700>Slot</span> {
+</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>private</span> <span style=color:#458;font-weight:700>int</span> id;
+</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>private</span> DateTime dateTime;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> Slot( <span style=color:#458;font-weight:700>int</span> id, DateTime dateTime ) {
+</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>this</span>.id = id;
+</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>this</span>.dateTime = dateTime;
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> <span style=color:#458;font-weight:700>int</span> Id {
+</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>get</span> { <span style=color:#000;font-weight:700>return</span> <span style=color:#000;font-weight:700>this</span>.id; }
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> DateTime DateTime {
+</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>get</span> { <span style=color:#000;font-weight:700>return</span> <span style=color:#000;font-weight:700>this</span>.dateTime; }
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>And here is the workaround for a one to one mapping</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>partial</span> <span style=color:#000;font-weight:700>class</span> <span style=color:#458;font-weight:700>Form1</span> : Form 
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>	<span style=color:#998;font-style:italic>// here we&#39;ll store the value the user selected in one of the comboboxcolumns</span>
+</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>private</span> Object selectedValue;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> Form1() 
+</span></span><span style=display:flex><span>	{
+</span></span><span style=display:flex><span>		InitializeComponent();
+</span></span><span style=display:flex><span>		selectedValues = <span style=color:#000;font-weight:700>new</span> Object[<span style=color:#000;font-weight:700>this</span>.dataGridView1.Columns.Count];
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>		<span style=color:#998;font-style:italic>// create a couple of slots an add them to the comboboxcolumns</span>
+</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>for</span> ( <span style=color:#458;font-weight:700>int</span> i = <span style=color:#099>0</span>; i &lt; <span style=color:#099>10</span>; ++i ) 
+</span></span><span style=display:flex><span>		{ 
+</span></span><span style=display:flex><span>			Slot slot = <span style=color:#000;font-weight:700>new</span> Slot( i, DateTime.Now.AddDays( i ) ); 
+</span></span><span style=display:flex><span>			<span style=color:#000;font-weight:700>this</span>.Column1.Items.Add( slot ); 
+</span></span><span style=display:flex><span>			<span style=color:#000;font-weight:700>this</span>.Column2.Items.Add( slot ); 
+</span></span><span style=display:flex><span>		} 
+</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>this</span>.Column1.DisplayMember = <span style=color:#d14>&#34;DateTime&#34;</span>; 
+</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>this</span>.Column2.DisplayMember = <span style=color:#d14>&#34;Id&#34;</span>; 
+</span></span><span style=display:flex><span>	} 
+</span></span><span style=display:flex><span>	
+</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>private</span> <span style=color:#000;font-weight:700>void</span> dataGridView1_CellParsing( <span style=color:#458;font-weight:700>object</span> sender, DataGridViewCellParsingEventArgs e ) 
+</span></span><span style=display:flex><span>	{ 
+</span></span><span style=display:flex><span>		<span style=color:#998;font-style:italic>// lookup the selected value </span>
+</span></span><span style=display:flex><span>		e.Value = <span style=color:#000;font-weight:700>this</span>.selectedValue; 
+</span></span><span style=display:flex><span>		e.ParsingApplied = <span style=color:#000;font-weight:700>true</span>; 
+</span></span><span style=display:flex><span>	} 
+</span></span><span style=display:flex><span>	
+</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>private</span> <span style=color:#000;font-weight:700>void</span> dataGridView1_EditingControlShowing( <span style=color:#458;font-weight:700>object</span> sender, DataGridViewEditingControlShowingEventArgs e ) 
+</span></span><span style=display:flex><span>	{ 
+</span></span><span style=display:flex><span>		ComboBox cb = e.Control <span style=color:#000;font-weight:700>as</span> ComboBox; 
+</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>if</span> ( cb != <span style=color:#000;font-weight:700>null</span> ) 
+</span></span><span style=display:flex><span>		{ 
+</span></span><span style=display:flex><span>			cb.SelectedIndexChanged -= cb_SelectedIndexChanged; 
+</span></span><span style=display:flex><span>			cb.SelectedIndexChanged += cb_SelectedIndexChanged; 
+</span></span><span style=display:flex><span>		} 
+</span></span><span style=display:flex><span>	} 
+</span></span><span style=display:flex><span>	
+</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>void</span> cb_SelectedIndexChanged(<span style=color:#458;font-weight:700>object</span> sender, EventArgs e) 
+</span></span><span style=display:flex><span>	{ 
+</span></span><span style=display:flex><span>		ComboBox comboBox = sender <span style=color:#000;font-weight:700>as</span> ComboBox; 
+</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>this</span>.selectedValue = comboBox.SelectedItem; 
+</span></span><span style=display:flex><span>	} 
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></div><div class=tags><ul class=flat><li><a href=../../../../tags/csharp>CSharp</a></li><li><a href=../../../../tags/windows-forms>Windows Forms</a></li></ul></div></div></div><div class="footer wrapper"><nav class=nav><div>2022 <a href=https://github.com/knadh/hugo-ink>Ink</a> theme on <a href=https://gohugo.io>Hugo</a></div></nav></div><script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-9DP4SV12YW",{anonymize_ip:!1})}</script><script>feather.replace()</script></body></html>

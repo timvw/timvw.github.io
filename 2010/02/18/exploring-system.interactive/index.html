@@ -1,151 +1,73 @@
-<!doctype html><html>
-<head>
-<meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge"><title>Exploring System.Interactive - Tim Van Wassenhove</title><meta name=viewport content="width=device-width,initial-scale=1">
-<meta itemprop=name content="Exploring System.Interactive">
-<meta itemprop=description content="A couple of weeks ago i was working on an application that would transfer data through a couple of components as a List. In essence, all we were doing over and over again was the following:
-interface IMapper { TEntity FromObjectList(List objectList); List ToObjectList(TEntity entity); } My initial implementation (using EnumerableEx operators from Reactive Extensions) looked like this
-public TEntity FromObjectList(List objectList) { var entity = new TEntity(); properties .Zip(objectList, (property, value) => AssignValueToProperty(entity, property, value)) ."><meta itemprop=datePublished content="2010-02-18T00:00:00+00:00">
-<meta itemprop=dateModified content="2021-01-04T22:47:36+01:00">
-<meta itemprop=wordCount content="280">
-<meta itemprop=keywords content="CSharp,"><meta property="og:title" content="Exploring System.Interactive">
-<meta property="og:description" content="A couple of weeks ago i was working on an application that would transfer data through a couple of components as a List. In essence, all we were doing over and over again was the following:
-interface IMapper { TEntity FromObjectList(List objectList); List ToObjectList(TEntity entity); } My initial implementation (using EnumerableEx operators from Reactive Extensions) looked like this
-public TEntity FromObjectList(List objectList) { var entity = new TEntity(); properties .Zip(objectList, (property, value) => AssignValueToProperty(entity, property, value)) .">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://timvw.be/2010/02/18/exploring-system.interactive/"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2010-02-18T00:00:00+00:00">
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="Exploring System.Interactive">
-<meta name=twitter:description content="A couple of weeks ago i was working on an application that would transfer data through a couple of components as a List. In essence, all we were doing over and over again was the following:
-interface IMapper { TEntity FromObjectList(List objectList); List ToObjectList(TEntity entity); } My initial implementation (using EnumerableEx operators from Reactive Extensions) looked like this
-public TEntity FromObjectList(List objectList) { var entity = new TEntity(); properties .Zip(objectList, (property, value) => AssignValueToProperty(entity, property, value)) .">
-<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700" rel=stylesheet type=text/css>
-<link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/normalize.css>
-<link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/main.css>
-<link id=dark-scheme rel=stylesheet type=text/css href=https://timvw.be/css/dark.css>
-<script src=https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js></script>
-<script src=https://timvw.be/js/main.js></script>
-</head>
-<body>
-<div class="container wrapper">
-<div class=header>
-<h1 class=site-title><a href=https://timvw.be/>Tim Van Wassenhove</a></h1>
-<div class=site-description><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
-<ul class=flat><li><a href=https://twitter.com/timvw title=Twitter><i data-feather=twitter></i></a></li><li><a href=https://github.com/timvw title=Github><i data-feather=github></i></a></li><li><a href=https://www.linkedin.com/in/timvanwassenhove title=Linkedin><i data-feather=linkedin></i></a></li><li><a href=https://timvw.be/feed.xml title=RSS><i data-feather=rss></i></a></li></ul>
-</nav>
-</div>
-<nav class=nav>
-<ul class=flat>
-<li>
-<a href=../../../../>Home</a>
-</li>
-<li>
-<a href=../../../../posts>All posts</a>
-</li>
-<li>
-<a href=../../../../tags>Tags</a>
-</li>
-</ul>
-</nav>
-</div>
-<div class=post>
-<div class=post-header>
-<div class=meta>
-<div class=date>
-<span class=day>18</span>
-<span class=rest>Feb 2010</span>
-</div>
-</div>
-<div class=matter>
-<h1 class=title>Exploring System.Interactive</h1>
-</div>
-</div>
-<div class=markdown>
-<p>A couple of weeks ago i was working on an application that would transfer data through a couple of components as a List. In essence, all we were doing over and over again was the following:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=color:#000;font-weight:700>interface</span> IMapper
-{
-	TEntity FromObjectList(List objectList);
-	List ToObjectList(TEntity entity);
-}
-</code></pre></div><p>My initial implementation (using EnumerableEx operators from Reactive Extensions) looked like this</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=color:#000;font-weight:700>public</span> TEntity FromObjectList(List objectList)
-{
-	<span style=color:#458;font-weight:700>var</span> entity = <span style=color:#000;font-weight:700>new</span> TEntity();
-	
-	properties
-		.Zip(objectList, (property, <span style=color:#000;font-weight:700>value</span>) =&gt; AssignValueToProperty(entity, property, <span style=color:#000;font-weight:700>value</span>))
-		.Run();
-
-	<span style=color:#000;font-weight:700>return</span> entity;
-}
-
-<span style=color:#458;font-weight:700>int</span> AssignValueToProperty(<span style=color:#458;font-weight:700>object</span> entity, PropertyInfo property, <span style=color:#458;font-weight:700>object</span> <span style=color:#000;font-weight:700>value</span>)
-{
-	property.SetValue(entity, <span style=color:#000;font-weight:700>value</span>, <span style=color:#000;font-weight:700>null</span>);
-	<span style=color:#000;font-weight:700>return</span> <span style=color:#099>0</span>;
-}
-
-<span style=color:#000;font-weight:700>public</span> List ToObjectList(TEntity entity)
-{
-	<span style=color:#000;font-weight:700>return</span> properties
-	.Select(property =&gt; property.GetValue(entity, <span style=color:#000;font-weight:700>null</span>))
-	.ToList();
-}
-</code></pre></div><p>And the consumer code looks like this:</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=color:#458;font-weight:700>var</span> person = <span style=color:#000;font-weight:700>new</span> Person { Id = <span style=color:#099>2</span>, Score = <span style=color:#099>1.3</span>, Name = <span style=color:#d14>&#34;Tim&#34;</span>, Title = <span style=color:#d14>&#34;Sir&#34;</span> };
-
-<span style=color:#458;font-weight:700>var</span> personMapper = <span style=color:#000;font-weight:700>new</span> Mapper()
-	.Map(x =&gt; x.Id)
-	.Map(x =&gt; x.Score)
-	.Map(x =&gt; x.Name)
-	.Map(x =&gt; x.Title);
-
-<span style=color:#458;font-weight:700>var</span> data = personMapper.ToObjectList(person);
-<span style=color:#458;font-weight:700>var</span> clonedPerson = personMapper.FromObjectList(data);
-</code></pre></div><p>Wait a minute, in most situations we simply want to map all properties on the object. Let&rsquo;s create a mapper for this</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=color:#000;font-weight:700>class</span> <span style=color:#458;font-weight:700>AutoMapper</span> : Mapper <span style=color:#000;font-weight:700>where</span> TEntity : <span style=color:#000;font-weight:700>new</span>()
-{
-	<span style=color:#000;font-weight:700>public</span> AutoMapper()
-	{
-		<span style=color:#000;font-weight:700>typeof</span>(TEntity).GetProperties().Run(property =&gt; Map(property));
-	}
-}
-</code></pre></div><p>And now we don&rsquo;t have to waste time doing the same thing over and over again! Because we always need to map all properties of our types we ended up with the following</p>
-<div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>static</span> <span style=color:#000;font-weight:700>class</span> <span style=color:#458;font-weight:700>Mapper</span>
-{
-	<span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>static</span> List ToObjectsList(<span style=color:#000;font-weight:700>this</span> TEntity entity)
-	{
-		<span style=color:#000;font-weight:700>return</span> entity.GetType().GetProperties()
-		.Select(property =&gt; property.GetValue(entity, <span style=color:#000;font-weight:700>null</span>))
-		.ToList();
-	}
-	
-	<span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>static</span> TEntity ToEntity(<span style=color:#000;font-weight:700>this</span> List objectsList) <span style=color:#000;font-weight:700>where</span> TEntity : <span style=color:#000;font-weight:700>new</span>()
-	{
-		TEntity entity = <span style=color:#000;font-weight:700>new</span> TEntity();
-		entity.GetType().GetProperties()
-			.Zip(objectsList, (property, <span style=color:#000;font-weight:700>value</span>) =&gt;{ property.SetValue(entity, <span style=color:#000;font-weight:700>value</span>,<span style=color:#000;font-weight:700>null</span>); <span style=color:#000;font-weight:700>return</span> <span style=color:#099>0</span>;})
-			.Run();
-		<span style=color:#000;font-weight:700>return</span> entity;
-	}
-}
-</code></pre></div>
-</div>
-<div class=tags>
-<ul class=flat>
-<li><a href=../../../../tags/csharp>CSharp</a></li>
-</ul>
-</div></div>
-</div>
-<div class="footer wrapper">
-<nav class=nav>
-<div>2022 <a href=https://github.com/knadh/hugo-ink>Ink</a> theme on <a href=https://gohugo.io>Hugo</a></div>
-</nav>
-</div>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-9DP4SV12YW',{anonymize_ip:!1})}</script>
-<script>feather.replace()</script>
-</body>
-</html>
+<!doctype html><html><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>Exploring System.Interactive - Tim Van Wassenhove</title><meta name=viewport content="width=device-width,initial-scale=1"><meta itemprop=name content="Exploring System.Interactive"><meta itemprop=description content="A couple of weeks ago i was working on an application that would transfer data through a couple of components as a List. In essence, all we were doing over and over again was the following:
+interface IMapper { 	TEntity FromObjectList(List objectList); 	List ToObjectList(TEntity entity); } My initial implementation (using EnumerableEx operators from Reactive Extensions) looked like this
+public TEntity FromObjectList(List objectList) { 	var entity = new TEntity(); 		properties 	."><meta itemprop=datePublished content="2010-02-18T00:00:00+00:00"><meta itemprop=dateModified content="2021-01-04T22:47:36+01:00"><meta itemprop=wordCount content="280"><meta itemprop=keywords content="CSharp,"><meta property="og:title" content="Exploring System.Interactive"><meta property="og:description" content="A couple of weeks ago i was working on an application that would transfer data through a couple of components as a List. In essence, all we were doing over and over again was the following:
+interface IMapper { 	TEntity FromObjectList(List objectList); 	List ToObjectList(TEntity entity); } My initial implementation (using EnumerableEx operators from Reactive Extensions) looked like this
+public TEntity FromObjectList(List objectList) { 	var entity = new TEntity(); 		properties 	."><meta property="og:type" content="article"><meta property="og:url" content="https://timvw.be/2010/02/18/exploring-system.interactive/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2010-02-18T00:00:00+00:00"><meta property="article:modified_time" content="2021-01-04T22:47:36+01:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Exploring System.Interactive"><meta name=twitter:description content="A couple of weeks ago i was working on an application that would transfer data through a couple of components as a List. In essence, all we were doing over and over again was the following:
+interface IMapper { 	TEntity FromObjectList(List objectList); 	List ToObjectList(TEntity entity); } My initial implementation (using EnumerableEx operators from Reactive Extensions) looked like this
+public TEntity FromObjectList(List objectList) { 	var entity = new TEntity(); 		properties 	."><link href="https://fonts.googleapis.com/css?family=Playfair+Display:700" rel=stylesheet type=text/css><link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/normalize.css><link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/main.css><link id=dark-scheme rel=stylesheet type=text/css href=https://timvw.be/css/dark.css><script src=https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js></script>
+<script src=https://timvw.be/js/main.js></script></head><body><div class="container wrapper"><div class=header><h1 class=site-title><a href=https://timvw.be/>Tim Van Wassenhove</a></h1><div class=site-description><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social"><ul class=flat><li><a href=https://twitter.com/timvw title=Twitter><i data-feather=twitter></i></a></li><li><a href=https://github.com/timvw title=Github><i data-feather=github></i></a></li><li><a href=https://www.linkedin.com/in/timvanwassenhove title=Linkedin><i data-feather=linkedin></i></a></li><li><a href=https://timvw.be/feed.xml title=RSS><i data-feather=rss></i></a></li></ul></nav></div><nav class=nav><ul class=flat><li><a href=../../../../>Home</a></li><li><a href=../../../../posts>All posts</a></li><li><a href=../../../../tags>Tags</a></li></ul></nav></div><div class=post><div class=post-header><div class=meta><div class=date><span class=day>18</span>
+<span class=rest>Feb 2010</span></div></div><div class=matter><h1 class=title>Exploring System.Interactive</h1></div></div><div class=markdown><p>A couple of weeks ago i was working on an application that would transfer data through a couple of components as a List. In essence, all we were doing over and over again was the following:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#000;font-weight:700>interface</span> <span style=color:#458;font-weight:700>IMapper</span>
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>	TEntity FromObjectList(List objectList);
+</span></span><span style=display:flex><span>	List ToObjectList(TEntity entity);
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>My initial implementation (using EnumerableEx operators from Reactive Extensions) looked like this</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#000;font-weight:700>public</span> TEntity FromObjectList(List objectList)
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>	<span style=color:#458;font-weight:700>var</span> entity = <span style=color:#000;font-weight:700>new</span> TEntity();
+</span></span><span style=display:flex><span>	
+</span></span><span style=display:flex><span>	properties
+</span></span><span style=display:flex><span>		.Zip(objectList, (property, <span style=color:#000;font-weight:700>value</span>) =&gt; AssignValueToProperty(entity, property, <span style=color:#000;font-weight:700>value</span>))
+</span></span><span style=display:flex><span>		.Run();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>return</span> entity;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#458;font-weight:700>int</span> AssignValueToProperty(<span style=color:#458;font-weight:700>object</span> entity, PropertyInfo property, <span style=color:#458;font-weight:700>object</span> <span style=color:#000;font-weight:700>value</span>)
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>	property.SetValue(entity, <span style=color:#000;font-weight:700>value</span>, <span style=color:#000;font-weight:700>null</span>);
+</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>return</span> <span style=color:#099>0</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>public</span> List ToObjectList(TEntity entity)
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>return</span> properties
+</span></span><span style=display:flex><span>	.Select(property =&gt; property.GetValue(entity, <span style=color:#000;font-weight:700>null</span>))
+</span></span><span style=display:flex><span>	.ToList();
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>And the consumer code looks like this:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#458;font-weight:700>var</span> person = <span style=color:#000;font-weight:700>new</span> Person { Id = <span style=color:#099>2</span>, Score = <span style=color:#099>1.3</span>, Name = <span style=color:#d14>&#34;Tim&#34;</span>, Title = <span style=color:#d14>&#34;Sir&#34;</span> };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#458;font-weight:700>var</span> personMapper = <span style=color:#000;font-weight:700>new</span> Mapper()
+</span></span><span style=display:flex><span>	.Map(x =&gt; x.Id)
+</span></span><span style=display:flex><span>	.Map(x =&gt; x.Score)
+</span></span><span style=display:flex><span>	.Map(x =&gt; x.Name)
+</span></span><span style=display:flex><span>	.Map(x =&gt; x.Title);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#458;font-weight:700>var</span> data = personMapper.ToObjectList(person);
+</span></span><span style=display:flex><span><span style=color:#458;font-weight:700>var</span> clonedPerson = personMapper.FromObjectList(data);
+</span></span></code></pre></div><p>Wait a minute, in most situations we simply want to map all properties on the object. Let&rsquo;s create a mapper for this</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#000;font-weight:700>class</span> <span style=color:#458;font-weight:700>AutoMapper</span> : Mapper <span style=color:#000;font-weight:700>where</span> TEntity : <span style=color:#000;font-weight:700>new</span>()
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> AutoMapper()
+</span></span><span style=display:flex><span>	{
+</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>typeof</span>(TEntity).GetProperties().Run(property =&gt; Map(property));
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>And now we don&rsquo;t have to waste time doing the same thing over and over again! Because we always need to map all properties of our types we ended up with the following</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>static</span> <span style=color:#000;font-weight:700>class</span> <span style=color:#458;font-weight:700>Mapper</span>
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>static</span> List ToObjectsList(<span style=color:#000;font-weight:700>this</span> TEntity entity)
+</span></span><span style=display:flex><span>	{
+</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>return</span> entity.GetType().GetProperties()
+</span></span><span style=display:flex><span>		.Select(property =&gt; property.GetValue(entity, <span style=color:#000;font-weight:700>null</span>))
+</span></span><span style=display:flex><span>		.ToList();
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>	
+</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>static</span> TEntity ToEntity(<span style=color:#000;font-weight:700>this</span> List objectsList) <span style=color:#000;font-weight:700>where</span> TEntity : <span style=color:#000;font-weight:700>new</span>()
+</span></span><span style=display:flex><span>	{
+</span></span><span style=display:flex><span>		TEntity entity = <span style=color:#000;font-weight:700>new</span> TEntity();
+</span></span><span style=display:flex><span>		entity.GetType().GetProperties()
+</span></span><span style=display:flex><span>			.Zip(objectsList, (property, <span style=color:#000;font-weight:700>value</span>) =&gt;{ property.SetValue(entity, <span style=color:#000;font-weight:700>value</span>,<span style=color:#000;font-weight:700>null</span>); <span style=color:#000;font-weight:700>return</span> <span style=color:#099>0</span>;})
+</span></span><span style=display:flex><span>			.Run();
+</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>return</span> entity;
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></div><div class=tags><ul class=flat><li><a href=../../../../tags/csharp>CSharp</a></li></ul></div></div></div><div class="footer wrapper"><nav class=nav><div>2022 <a href=https://github.com/knadh/hugo-ink>Ink</a> theme on <a href=https://gohugo.io>Hugo</a></div></nav></div><script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-9DP4SV12YW",{anonymize_ip:!1})}</script><script>feather.replace()</script></body></html>
