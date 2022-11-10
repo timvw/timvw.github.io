@@ -1,34 +1,158 @@
-<!doctype html><html><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>Leverage Terraform, NGINX Ingress Controller, cert-manager and Let's Encrypt to quickly create a Kubernetes cluster on AWS. - Tim Van Wassenhove</title><meta name=viewport content="width=device-width,initial-scale=1"><meta itemprop=name content="Leverage Terraform, NGINX Ingress Controller, cert-manager and Let's Encrypt to quickly create a Kubernetes cluster on AWS."><meta itemprop=description content="In my previous post I demonstrated how easy it has become to deploy a webapplications with an HTTPS backend on Kubernetes and Azure. In this post I demonstrate the same but on AWS.
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Leverage Terraform, NGINX Ingress Controller, cert-manager and Let&#39;s Encrypt to quickly create a Kubernetes cluster on AWS. - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta itemprop="name" content="Leverage Terraform, NGINX Ingress Controller, cert-manager and Let&#39;s Encrypt to quickly create a Kubernetes cluster on AWS.">
+<meta itemprop="description" content="In my previous post I demonstrated how easy it has become to deploy a webapplications with an HTTPS backend on Kubernetes and Azure. In this post I demonstrate the same but on AWS.
 In order to follow along you should clone the sample code from this repository:
 git clone https://github.com/timvw/sample-terraform-aws-k8s-nginx-letsencrypt First configure the aws access_key and secret_key for Terraform:
-export AWS_ACCESS_KEY=&#34;XXXXXXXXXXXXXXXXXX&#34; export AWS_SECRET_KEY=&#34;XXXXXXXXXXXXXXXXXX&#34; export AWS_DEFAULT_REGION=&#34;eu-west-1&#34; With all this configuration in place we can instruct Terraform to create the kubernetes cluster:"><meta itemprop=datePublished content="2020-02-25T00:00:00+00:00"><meta itemprop=dateModified content="2021-01-04T22:47:36+01:00"><meta itemprop=wordCount content="386"><meta itemprop=keywords content><meta property="og:title" content="Leverage Terraform, NGINX Ingress Controller, cert-manager and Let's Encrypt to quickly create a Kubernetes cluster on AWS."><meta property="og:description" content="In my previous post I demonstrated how easy it has become to deploy a webapplications with an HTTPS backend on Kubernetes and Azure. In this post I demonstrate the same but on AWS.
+export AWS_ACCESS_KEY=&#34;XXXXXXXXXXXXXXXXXX&#34; export AWS_SECRET_KEY=&#34;XXXXXXXXXXXXXXXXXX&#34; export AWS_DEFAULT_REGION=&#34;eu-west-1&#34; With all this configuration in place we can instruct Terraform to create the kubernetes cluster:"><meta itemprop="datePublished" content="2020-02-25T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
+<meta itemprop="wordCount" content="386">
+<meta itemprop="keywords" content="" /><meta property="og:title" content="Leverage Terraform, NGINX Ingress Controller, cert-manager and Let&#39;s Encrypt to quickly create a Kubernetes cluster on AWS." />
+<meta property="og:description" content="In my previous post I demonstrated how easy it has become to deploy a webapplications with an HTTPS backend on Kubernetes and Azure. In this post I demonstrate the same but on AWS.
 In order to follow along you should clone the sample code from this repository:
 git clone https://github.com/timvw/sample-terraform-aws-k8s-nginx-letsencrypt First configure the aws access_key and secret_key for Terraform:
-export AWS_ACCESS_KEY=&#34;XXXXXXXXXXXXXXXXXX&#34; export AWS_SECRET_KEY=&#34;XXXXXXXXXXXXXXXXXX&#34; export AWS_DEFAULT_REGION=&#34;eu-west-1&#34; With all this configuration in place we can instruct Terraform to create the kubernetes cluster:"><meta property="og:type" content="article"><meta property="og:url" content="https://timvw.be/2020/02/25/leverage-terraform-nginx-ingress-controller-cert-manager-and-lets-encrypt-to-quickly-create-a-kubernetes-cluster-on-aws./"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-02-25T00:00:00+00:00"><meta property="article:modified_time" content="2021-01-04T22:47:36+01:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Leverage Terraform, NGINX Ingress Controller, cert-manager and Let's Encrypt to quickly create a Kubernetes cluster on AWS."><meta name=twitter:description content="In my previous post I demonstrated how easy it has become to deploy a webapplications with an HTTPS backend on Kubernetes and Azure. In this post I demonstrate the same but on AWS.
+export AWS_ACCESS_KEY=&#34;XXXXXXXXXXXXXXXXXX&#34; export AWS_SECRET_KEY=&#34;XXXXXXXXXXXXXXXXXX&#34; export AWS_DEFAULT_REGION=&#34;eu-west-1&#34; With all this configuration in place we can instruct Terraform to create the kubernetes cluster:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timvw.be/2020/02/25/leverage-terraform-nginx-ingress-controller-cert-manager-and-lets-encrypt-to-quickly-create-a-kubernetes-cluster-on-aws./" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-02-25T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Leverage Terraform, NGINX Ingress Controller, cert-manager and Let&#39;s Encrypt to quickly create a Kubernetes cluster on AWS."/>
+<meta name="twitter:description" content="In my previous post I demonstrated how easy it has become to deploy a webapplications with an HTTPS backend on Kubernetes and Azure. In this post I demonstrate the same but on AWS.
 In order to follow along you should clone the sample code from this repository:
 git clone https://github.com/timvw/sample-terraform-aws-k8s-nginx-letsencrypt First configure the aws access_key and secret_key for Terraform:
-export AWS_ACCESS_KEY=&#34;XXXXXXXXXXXXXXXXXX&#34; export AWS_SECRET_KEY=&#34;XXXXXXXXXXXXXXXXXX&#34; export AWS_DEFAULT_REGION=&#34;eu-west-1&#34; With all this configuration in place we can instruct Terraform to create the kubernetes cluster:"><link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel=stylesheet type=text/css><link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/normalize.css><link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/main.css><link id=dark-scheme rel=stylesheet type=text/css href=https://timvw.be/css/dark.css><script src=https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js></script>
-<script src=https://timvw.be/js/main.js></script></head><body><div class="container wrapper"><div class=header><h1 class=site-title><a href=https://timvw.be/>Tim Van Wassenhove</a></h1><div class=site-description><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social"><ul class=flat><li><a href=https://twitter.com/timvw title=Twitter><i data-feather=twitter></i></a></li><li><a href=https://github.com/timvw title=Github><i data-feather=github></i></a></li><li><a href=https://www.linkedin.com/in/timvanwassenhove title=Linkedin><i data-feather=linkedin></i></a></li><li><a href=https://timvw.be/feed.xml title=RSS><i data-feather=rss></i></a></li><li><a class=masto-link rel=me href=https://fosstodon.org/@timvw></a></li></ul></nav></div><nav class=nav><ul class=flat><li><a href=../../../../>Home</a></li><li><a href=../../../../posts>All posts</a></li><li><a href=../../../../tags>Tags</a></li></ul></nav></div><div class=post><div class=post-header><div class=meta><div class=date><span class=day>25</span>
-<span class=rest>Feb 2020</span></div></div><div class=matter><h1 class=title>Leverage Terraform, NGINX Ingress Controller, cert-manager and Let's Encrypt to quickly create a Kubernetes cluster on AWS.</h1></div></div><div class=markdown><p>In my <a href=https://timvw.be/2020/02/10/terraform-azure-k8s-nginx-letsencrypt.html>previous</a> post I demonstrated how easy it has become to deploy a webapplications with an HTTPS backend on Kubernetes and Azure. In this post I demonstrate the same but on AWS.</p><p>In order to follow along you should clone the sample code from this <a href=https://github.com/timvw/sample-terraform-aws-k8s-nginx-letsencrypt>repository</a>:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>git clone https://github.com/timvw/sample-terraform-aws-k8s-nginx-letsencrypt
-</span></span></code></pre></div><p>First <a href=hhttps://www.terraform.io/docs/providers/aws/index.html>configure the aws access_key and secret_key for Terraform</a>:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#0086b3>export</span> <span style=color:teal>AWS_ACCESS_KEY</span><span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;XXXXXXXXXXXXXXXXXX&#34;</span>
-</span></span><span style=display:flex><span><span style=color:#0086b3>export</span> <span style=color:teal>AWS_SECRET_KEY</span><span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;XXXXXXXXXXXXXXXXXX&#34;</span>
-</span></span><span style=display:flex><span><span style=color:#0086b3>export</span> <span style=color:teal>AWS_DEFAULT_REGION</span><span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;eu-west-1&#34;</span>
-</span></span></code></pre></div><p>With all this configuration in place we can instruct Terraform to create the kubernetes cluster:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>terraform init
-</span></span><span style=display:flex><span>terraform apply -auto-approve
-</span></span></code></pre></div><p>After a couple (~15) of minutes your cluster will be ready. Importing the credentials into your ~/.kube/config can be done as following:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>aws eks --region <span style=color:teal>$AWS_DEFAULT_REGION</span> update-kubeconfig --name demo
-</span></span></code></pre></div><p>There are some differences with AKS:</p><ul><li><p>On AKS a client and key certificate are added to your kubeconfig. On EKS an entry is added which invokes aws eks get-token</p></li><li><p>On EKS the Kubernetes master runs in a different network and you need to provision such that the <a href=https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html>nodegroups</a> can connect to this master. In my example this is achieved by installing an <a href=https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html>internet gateway</a>.</p></li></ul><p>Another remark: In case you try to create a <a href=https://www.terraform.io/docs/providers/aws/r/eks_fargate_profile.html>Fargate profile</a> and it fails you should verify that you are doing it in a <a href=https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/>supported region</a>.</p><p>Now it is time to <a href=https://kubernetes.github.io/ingress-nginx/deploy/>deploy the NGINX Ingress Controller</a>. We also need to apply the <a href=https://kubernetes.github.io/ingress-nginx/deploy/#aws>aws specific</a> additions:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.29.0/deploy/static/mandatory.yaml
-</span></span><span style=display:flex><span>kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.29.0/deploy/static/provider/aws/service-l4.yaml
-</span></span><span style=display:flex><span>kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.29.0/deploy/static/provider/aws/patch-configmap-l4.yaml
-</span></span></code></pre></div><p>Deploying the NGINX Ingress Controller results in the creation of a loadbalancer and a public ip. Here is how you can fetch that address:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>aws elb describe-load-balancers | jq -r <span style=color:#d14>&#39;.LoadBalancerDescriptions[].DNSName&#39;</span>
-</span></span></code></pre></div><p>In this example we want to access our applications as <a href=https://XXX.aws.icteam.be>https://XXX.aws.icteam.be</a>.
-We achieve this by adding an A-record (the azure public ip address) pointing to *.aws.icteam.be</p><p>For the HTTPS part we <a href=https://cert-manager.io/docs/installation/kubernetes/>install cert-manager</a> and use <a href=https://letsencrypt.org/>Let&rsquo;s Encrypt</a> to provide certificates:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply --validate<span style=color:#000;font-weight:700>=</span><span style=color:#0086b3>false</span> -f https://github.com/jetstack/cert-manager/releases/download/v0.13.0/cert-manager.yaml
-</span></span><span style=display:flex><span>kubectl apply -f letsencrypt.yaml
-</span></span></code></pre></div><p>With all this infrastructure in place we can deploy a sample application:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl create deployment hello-node --image<span style=color:#000;font-weight:700>=</span>gcr.io/hello-minikube-zero-install/hello-node
-</span></span><span style=display:flex><span>kubectl expose deployment hello-node --port<span style=color:#000;font-weight:700>=</span><span style=color:#099>8080</span>
-</span></span><span style=display:flex><span>kubectl apply -f hello-node-ingress.yaml 
-</span></span></code></pre></div><p>Or we can <a href=https://docs.aws.amazon.com/eks/latest/userguide/dashboard-tutorial.html>deploy</a> and expose the kubernetes dashboard:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
-</span></span><span style=display:flex><span>kubectl apply -f dashboard-sa.yaml
-</span></span><span style=display:flex><span>kubectl apply -f dashboard-ingress.yaml
-</span></span></code></pre></div><p>You can fetch the token as following:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl -n kube-system describe secret <span style=color:#000;font-weight:700>$(</span>kubectl -n kube-system get secret | grep eks-admin | awk <span style=color:#d14>&#39;{print $1}&#39;</span><span style=color:#000;font-weight:700>)</span>
-</span></span></code></pre></div></div><div class=tags></div></div></div><div class="footer wrapper"><nav class=nav><div>2022 <a href=https://github.com/knadh/hugo-ink>Ink</a> theme on <a href=https://gohugo.io>Hugo</a></div></nav></div><script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-9DP4SV12YW",{anonymize_ip:!1})}</script><script>feather.replace()</script></body></html>
+export AWS_ACCESS_KEY=&#34;XXXXXXXXXXXXXXXXXX&#34; export AWS_SECRET_KEY=&#34;XXXXXXXXXXXXXXXXXX&#34; export AWS_DEFAULT_REGION=&#34;eu-west-1&#34; With all this configuration in place we can instruct Terraform to create the kubernetes cluster:"/>
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li><li><a class="masto-link" rel="me" href="https://fosstodon.org/@timvw"></a></li>
+			</ul>
+		
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">25</span>
+							<span class="rest">Feb 2020</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">Leverage Terraform, NGINX Ingress Controller, cert-manager and Let&#39;s Encrypt to quickly create a Kubernetes cluster on AWS.</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<p>In my <a href="https://timvw.be/2020/02/10/terraform-azure-k8s-nginx-letsencrypt.html">previous</a> post I demonstrated how easy it has become to deploy a webapplications with an HTTPS backend on Kubernetes and Azure. In this post I demonstrate the same but on AWS.</p>
+<p>In order to follow along you should clone the sample code from this <a href="https://github.com/timvw/sample-terraform-aws-k8s-nginx-letsencrypt">repository</a>:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://github.com/timvw/sample-terraform-aws-k8s-nginx-letsencrypt
+</span></span></code></pre></div><p>First <a href="hhttps://www.terraform.io/docs/providers/aws/index.html">configure the aws access_key and secret_key for Terraform</a>:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#0086b3">export</span> <span style="color:#008080">AWS_ACCESS_KEY</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;XXXXXXXXXXXXXXXXXX&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#0086b3">export</span> <span style="color:#008080">AWS_SECRET_KEY</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;XXXXXXXXXXXXXXXXXX&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#0086b3">export</span> <span style="color:#008080">AWS_DEFAULT_REGION</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;eu-west-1&#34;</span>
+</span></span></code></pre></div><p>With all this configuration in place we can instruct Terraform to create the kubernetes cluster:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>terraform init
+</span></span><span style="display:flex;"><span>terraform apply -auto-approve
+</span></span></code></pre></div><p>After a couple (~15) of minutes your cluster will be ready. Importing the credentials into your ~/.kube/config can be done as following:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws eks --region <span style="color:#008080">$AWS_DEFAULT_REGION</span> update-kubeconfig --name demo
+</span></span></code></pre></div><p>There are some differences with AKS:</p>
+<ul>
+<li>
+<p>On AKS a client and key certificate are added to your kubeconfig. On EKS an entry is added which invokes aws eks get-token</p>
+</li>
+<li>
+<p>On EKS the Kubernetes master runs in a different network and you need to provision such that the <a href="https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html">nodegroups</a> can connect to this master. In my example this is achieved by installing an <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html">internet gateway</a>.</p>
+</li>
+</ul>
+<p>Another remark: In case you try to create a <a href="https://www.terraform.io/docs/providers/aws/r/eks_fargate_profile.html">Fargate profile</a> and it fails you should verify that you are doing it in a <a href="https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/">supported region</a>.</p>
+<p>Now it is time to <a href="https://kubernetes.github.io/ingress-nginx/deploy/">deploy the NGINX Ingress Controller</a>. We also need to apply the <a href="https://kubernetes.github.io/ingress-nginx/deploy/#aws">aws specific</a> additions:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.29.0/deploy/static/mandatory.yaml
+</span></span><span style="display:flex;"><span>kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.29.0/deploy/static/provider/aws/service-l4.yaml
+</span></span><span style="display:flex;"><span>kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.29.0/deploy/static/provider/aws/patch-configmap-l4.yaml
+</span></span></code></pre></div><p>Deploying the NGINX Ingress Controller results in the creation of a loadbalancer and a public ip. Here is how you can fetch that address:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws elb describe-load-balancers | jq -r <span style="color:#d14">&#39;.LoadBalancerDescriptions[].DNSName&#39;</span>
+</span></span></code></pre></div><p>In this example we want to access our applications as <a href="https://XXX.aws.icteam.be">https://XXX.aws.icteam.be</a>.
+We achieve this by adding an A-record (the azure public ip address) pointing to *.aws.icteam.be</p>
+<p>For the HTTPS part we <a href="https://cert-manager.io/docs/installation/kubernetes/">install cert-manager</a> and use <a href="https://letsencrypt.org/">Let&rsquo;s Encrypt</a> to provide certificates:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply --validate<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">false</span> -f https://github.com/jetstack/cert-manager/releases/download/v0.13.0/cert-manager.yaml
+</span></span><span style="display:flex;"><span>kubectl apply -f letsencrypt.yaml
+</span></span></code></pre></div><p>With all this infrastructure in place we can deploy a sample application:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl create deployment hello-node --image<span style="color:#000;font-weight:bold">=</span>gcr.io/hello-minikube-zero-install/hello-node
+</span></span><span style="display:flex;"><span>kubectl expose deployment hello-node --port<span style="color:#000;font-weight:bold">=</span><span style="color:#099">8080</span>
+</span></span><span style="display:flex;"><span>kubectl apply -f hello-node-ingress.yaml 
+</span></span></code></pre></div><p>Or we can <a href="https://docs.aws.amazon.com/eks/latest/userguide/dashboard-tutorial.html">deploy</a> and expose the kubernetes dashboard:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
+</span></span><span style="display:flex;"><span>kubectl apply -f dashboard-sa.yaml
+</span></span><span style="display:flex;"><span>kubectl apply -f dashboard-ingress.yaml
+</span></span></code></pre></div><p>You can fetch the token as following:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl -n kube-system describe secret <span style="color:#000;font-weight:bold">$(</span>kubectl -n kube-system get secret | grep eks-admin | awk <span style="color:#d14">&#39;{print $1}&#39;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span></code></pre></div>
+			</div>
+
+			<div class="tags">
+				
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
+}
+</script>
+<script>feather.replace()</script>
+</body>
+</html>

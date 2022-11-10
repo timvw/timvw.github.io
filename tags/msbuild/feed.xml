@@ -1,13 +1,104 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>MSBuild on Tim Van Wassenhove</title><link>https://timvw.be/tags/msbuild/</link><description>Recent content in MSBuild on Tim Van Wassenhove</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 12 Mar 2011 00:00:00 +0000</lastBuildDate><atom:link href="https://timvw.be/tags/msbuild/feed.xml" rel="self" type="application/rss+xml"/><item><title>Some tips for .Net developers using git on cygwin</title><link>https://timvw.be/2011/03/12/some-tips-for-.net-developers-using-git-on-cygwin/</link><pubDate>Sat, 12 Mar 2011 00:00:00 +0000</pubDate><guid>https://timvw.be/2011/03/12/some-tips-for-.net-developers-using-git-on-cygwin/</guid><description>Here are some tips that i want to share with fellow .Net developers that use git on cygwin.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MSBuild on Tim Van Wassenhove</title>
+    <link>https://timvw.be/tags/msbuild/</link>
+    <description>Recent content in MSBuild on Tim Van Wassenhove</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 12 Mar 2011 00:00:00 +0000</lastBuildDate><atom:link href="https://timvw.be/tags/msbuild/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Some tips for .Net developers using git on cygwin</title>
+      <link>https://timvw.be/2011/03/12/some-tips-for-.net-developers-using-git-on-cygwin/</link>
+      <pubDate>Sat, 12 Mar 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2011/03/12/some-tips-for-.net-developers-using-git-on-cygwin/</guid>
+      <description>Here are some tips that i want to share with fellow .Net developers that use git on cygwin.
 First of all i defined some aliases in my ~/.bashrc:
-# open explorer in the current working directory alias explorer=&amp;#39;explorer.exe &amp;#34;\`cygpath -aw \&amp;#34;$PWD\&amp;#34;\`&amp;#34;&amp;#39; # invoke MSBuild alias msbuild=&amp;#39;/cygdrive/c/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe&amp;amp;&amp;#39; Because i do not like the TFS source control story i use git-tfs. As a .Net developer you want to add the following to your .</description></item><item><title>Build your solution with Visual Studio from MSBuild</title><link>https://timvw.be/2010/11/07/build-your-solution-with-visual-studio-from-msbuild/</link><pubDate>Sun, 07 Nov 2010 00:00:00 +0000</pubDate><guid>https://timvw.be/2010/11/07/build-your-solution-with-visual-studio-from-msbuild/</guid><description>Unfortunately MSBuild and BIDS Helper are not able to build an .asdatabase from our Analysis Services project (.dwproj). Here is a task which invokes Visual Studio to build such a solution:
-&amp;lt;Target Name=&amp;#34;DevEnvBuild&amp;#34;&amp;gt; &amp;lt;Error Condition=&amp;#34;&amp;#39;$(SolutionFile)&amp;#39;==&amp;#34;&amp;#34; Text=&amp;#34;Missing SolutionFile&amp;#34; /&amp;gt; &amp;lt;PropertyGroup&amp;gt; &amp;lt;DevEnvTool Condition=&amp;#34;&amp;#39;$(DevEnvTool)&amp;#39;==&amp;#34;&amp;#34;&amp;gt;C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe&amp;lt;/DevEnvTool&amp;gt; &amp;lt;DevEnvSwitch Condition=&amp;#34;&amp;#39;$(DevEnvSwitch)&amp;#39;==&amp;#34;&amp;#34;&amp;gt;Build&amp;lt;/DevEnvSwitch&amp;gt; &amp;lt;DevEnvBuildCommand&amp;gt;&amp;#34;$(DevEnvTool)&amp;#34; &amp;#34;$(SolutionFile)&amp;#34; /$(DevEnvSwitch)&amp;lt;/DevEnvBuildCommand&amp;gt; &amp;lt;/PropertyGroup&amp;gt; &amp;lt;Exec Command=&amp;#34;$(DevEnvBuildCommand)&amp;#34; /&amp;gt; &amp;lt;/Target&amp;gt;</description></item><item><title>Invoke PowerShell script from MSBuild</title><link>https://timvw.be/2010/11/07/invoke-powershell-script-from-msbuild/</link><pubDate>Sun, 07 Nov 2010 00:00:00 +0000</pubDate><guid>https://timvw.be/2010/11/07/invoke-powershell-script-from-msbuild/</guid><description>Here is a small MSBuild target that allows you to invoke a PowerShell script, eg: powershell.exe &amp;amp; &amp;lsquo;script.ps1&amp;rsquo; -SomeParam &amp;lsquo;x&amp;rsquo;
-&amp;lt;Target Name=&amp;#34;InvokePowerShell&amp;#34;&amp;gt; &amp;lt;PropertyGroup&amp;gt; &amp;lt;PowerShellCommand&amp;gt;&amp;#34;$(PowerShellTool)&amp;#34; &amp;#34;&amp;amp; &amp;#39;$(ScriptFile)&amp;#39; -SomeParam &amp;#39;$(SomeParam)&amp;#39; &amp;#34;&amp;lt;/PowerShellCommand&amp;gt; &amp;lt;/PropertyGroup&amp;gt; &amp;lt;Exec Command=&amp;#34;$(PowerShellCommand)&amp;#34; /&amp;gt; &amp;lt;/Target&amp;gt;</description></item><item><title>Making the TemplateFileTask easier to use...</title><link>https://timvw.be/2010/08/25/making-the-templatefiletask-easier-to-use.../</link><pubDate>Wed, 25 Aug 2010 00:00:00 +0000</pubDate><guid>https://timvw.be/2010/08/25/making-the-templatefiletask-easier-to-use.../</guid><description>One of the disadvantages of the TemplateFile task (msbuildtasks) is the fact that it requires a lot of typing to define template values
+# open explorer in the current working directory alias explorer=&amp;#39;explorer.exe &amp;#34;\`cygpath -aw \&amp;#34;$PWD\&amp;#34;\`&amp;#34;&amp;#39; # invoke MSBuild alias msbuild=&amp;#39;/cygdrive/c/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe&amp;amp;&amp;#39; Because i do not like the TFS source control story i use git-tfs. As a .Net developer you want to add the following to your .</description>
+    </item>
+    
+    <item>
+      <title>Build your solution with Visual Studio from MSBuild</title>
+      <link>https://timvw.be/2010/11/07/build-your-solution-with-visual-studio-from-msbuild/</link>
+      <pubDate>Sun, 07 Nov 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/11/07/build-your-solution-with-visual-studio-from-msbuild/</guid>
+      <description>Unfortunately MSBuild and BIDS Helper are not able to build an .asdatabase from our Analysis Services project (.dwproj). Here is a task which invokes Visual Studio to build such a solution:
+&amp;lt;Target Name=&amp;#34;DevEnvBuild&amp;#34;&amp;gt; &amp;lt;Error Condition=&amp;#34;&amp;#39;$(SolutionFile)&amp;#39;==&amp;#34;&amp;#34; Text=&amp;#34;Missing SolutionFile&amp;#34; /&amp;gt; &amp;lt;PropertyGroup&amp;gt; &amp;lt;DevEnvTool Condition=&amp;#34;&amp;#39;$(DevEnvTool)&amp;#39;==&amp;#34;&amp;#34;&amp;gt;C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe&amp;lt;/DevEnvTool&amp;gt; &amp;lt;DevEnvSwitch Condition=&amp;#34;&amp;#39;$(DevEnvSwitch)&amp;#39;==&amp;#34;&amp;#34;&amp;gt;Build&amp;lt;/DevEnvSwitch&amp;gt; &amp;lt;DevEnvBuildCommand&amp;gt;&amp;#34;$(DevEnvTool)&amp;#34; &amp;#34;$(SolutionFile)&amp;#34; /$(DevEnvSwitch)&amp;lt;/DevEnvBuildCommand&amp;gt; &amp;lt;/PropertyGroup&amp;gt; &amp;lt;Exec Command=&amp;#34;$(DevEnvBuildCommand)&amp;#34; /&amp;gt; &amp;lt;/Target&amp;gt; </description>
+    </item>
+    
+    <item>
+      <title>Invoke PowerShell script from MSBuild</title>
+      <link>https://timvw.be/2010/11/07/invoke-powershell-script-from-msbuild/</link>
+      <pubDate>Sun, 07 Nov 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/11/07/invoke-powershell-script-from-msbuild/</guid>
+      <description>Here is a small MSBuild target that allows you to invoke a PowerShell script, eg: powershell.exe &amp;amp; &amp;lsquo;script.ps1&amp;rsquo; -SomeParam &amp;lsquo;x&amp;rsquo;
+&amp;lt;Target Name=&amp;#34;InvokePowerShell&amp;#34;&amp;gt; &amp;lt;PropertyGroup&amp;gt; &amp;lt;PowerShellCommand&amp;gt;&amp;#34;$(PowerShellTool)&amp;#34; &amp;#34;&amp;amp; &amp;#39;$(ScriptFile)&amp;#39; -SomeParam &amp;#39;$(SomeParam)&amp;#39; &amp;#34;&amp;lt;/PowerShellCommand&amp;gt; &amp;lt;/PropertyGroup&amp;gt; &amp;lt;Exec Command=&amp;#34;$(PowerShellCommand)&amp;#34; /&amp;gt; &amp;lt;/Target&amp;gt; </description>
+    </item>
+    
+    <item>
+      <title>Making the TemplateFileTask easier to use...</title>
+      <link>https://timvw.be/2010/08/25/making-the-templatefiletask-easier-to-use.../</link>
+      <pubDate>Wed, 25 Aug 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/08/25/making-the-templatefiletask-easier-to-use.../</guid>
+      <description>One of the disadvantages of the TemplateFile task (msbuildtasks) is the fact that it requires a lot of typing to define template values
 &amp;lt;ItemGroup Condition= &amp;#34; &amp;#39;$(ConfigurationEnvironment)&amp;#39;==&amp;#39;build&amp;#39; &amp;#34;&amp;gt; &amp;lt;Tokens Include=&amp;#34;a&amp;#34;&amp;gt; &amp;lt;ReplacementValue&amp;gt;localhost&amp;lt;/ReplacementValue&amp;gt; &amp;lt;/Tokens&amp;gt; &amp;lt;Tokens Include=&amp;#34;b&amp;#34;&amp;gt; &amp;lt;ReplacementValue&amp;gt;&amp;lt;mynode/&amp;gt;&amp;lt;/ReplacementValue&amp;gt; &amp;lt;/Tokens&amp;gt; &amp;lt;/ItemGroup&amp;gt; Here is a format proposition to make this a lot more finger friendly
 &amp;lt;configuration&amp;gt; &amp;lt;variables env=&amp;#34;build&amp;#34;&amp;gt; &amp;lt;x name=&amp;#34;a&amp;#34;&amp;gt;localhost&amp;lt;/x&amp;gt; &amp;lt;x name=&amp;#34;b&amp;gt;&amp;lt;mynode/&amp;gt;&amp;lt;/x&amp;gt; &amp;lt;/variables&amp;gt; &amp;lt;/configuration&amp;gt; Here is the msbuild script we need to achieve that
-&amp;lt;PropertyGroup&amp;gt; &amp;lt;ConfigurationFile&amp;gt;configuration.</description></item><item><title>What i dislike about the Web.config Transformation in VS2010</title><link>https://timvw.be/2010/08/25/what-i-dislike-about-the-web.config-transformation-in-vs2010/</link><pubDate>Wed, 25 Aug 2010 00:00:00 +0000</pubDate><guid>https://timvw.be/2010/08/25/what-i-dislike-about-the-web.config-transformation-in-vs2010/</guid><description>There are a couple of things that i strongly dislike about the Web.config transformation in VS2010
-Only works with XML files (eg: Can&amp;rsquo;t be used to generate a release notes.txt file) Does not seem to support externalized sections, eg: log4net.config in a separate file No support to copy/paste transform files Only works when Visual Studio 2010 is installed (And i am still not convinced a build server should have this). Ties environment to build configuration Lesson learned: Don&amp;rsquo;t trust your co-workers, always double-check!</description></item><item><title>Clean TemplateFile hack</title><link>https://timvw.be/2010/08/17/clean-templatefile-hack/</link><pubDate>Tue, 17 Aug 2010 00:00:00 +0000</pubDate><guid>https://timvw.be/2010/08/17/clean-templatefile-hack/</guid><description>A while ago i wrote about a Clever TemplateFile hack to use some xml block as ReplacementValue. Today i realized there is a clean way to achieve this by defining the value as CDATA
-&amp;lt;TemplateTokens Include=&amp;#34;mex&amp;#34;&amp;gt; &amp;lt;ReplacementValue&amp;gt; &amp;lt;![CDATA[&amp;lt;endpoint address=&amp;#34;mex&amp;#34; binding=&amp;#34;mexHttpBinding&amp;#34; contract=&amp;#34;IMetadataExchange&amp;#34; /&amp;gt;]]&amp;gt; &amp;lt;/ReplacementValue&amp;gt; &amp;lt;/TemplateTokens&amp;gt;</description></item><item><title>Convention over configuration with MSBuild</title><link>https://timvw.be/2010/06/26/convention-over-configuration-with-msbuild/</link><pubDate>Sat, 26 Jun 2010 00:00:00 +0000</pubDate><guid>https://timvw.be/2010/06/26/convention-over-configuration-with-msbuild/</guid><description>A while ago i blogged that i was using the TemplateFile task from the &amp;lt;a hrefhttp://msbuildtasks.tigris.org/&amp;quot;&amp;gt;MSBuild Community Tasks Project to generate configuration files. Each project that required templating would have modified it&amp;rsquo;s csproj file as following
-&amp;lt;!-- To modify your build process, add your task inside one of the targets below and uncomment it. Other similar extension points exist, see Microsoft.Common.targets. --&amp;gt; &amp;lt;import Project=&amp;#34;$(MSBuildProjectDirectory)\config.msbuild&amp;#34; /&amp;gt; &amp;lt;target Name=&amp;#34;BeforeBuild&amp;#34;&amp;gt; &amp;lt;callTarget Targets=&amp;#34;GenerateConfigurationFiles&amp;#34; /&amp;gt; &amp;lt;/target&amp;gt; And each of these config.</description></item><item><title>Setting up a self-contained build</title><link>https://timvw.be/2010/06/26/setting-up-a-self-contained-build/</link><pubDate>Sat, 26 Jun 2010 00:00:00 +0000</pubDate><guid>https://timvw.be/2010/06/26/setting-up-a-self-contained-build/</guid><description>Here is something you may have experienced already: As a newcomer on an existing project, you check out the code from source-control and discover that the build is broken. When you ask around no-one else seems to have that problem but a helpful collegue is kind enough to tell you that you can find the installers for the missing dependencies at location X (Let&amp;rsquo;s not even mention the places where those installers are not available *sigh*).</description></item><item><title>Clever TemplateFile hack</title><link>https://timvw.be/2010/02/12/clever-templatefile-hack/</link><pubDate>Fri, 12 Feb 2010 00:00:00 +0000</pubDate><guid>https://timvw.be/2010/02/12/clever-templatefile-hack/</guid><description>In my current project i use TemplateFileTask (MSBuild Community Tasks Project) to generate configuration files. I ran into the problem that i don&amp;rsquo;t want to expose a MEX endpoint in production. This is my initial template file
+&amp;lt;PropertyGroup&amp;gt; &amp;lt;ConfigurationFile&amp;gt;configuration.</description>
+    </item>
+    
+    <item>
+      <title>What i dislike about the Web.config Transformation in VS2010</title>
+      <link>https://timvw.be/2010/08/25/what-i-dislike-about-the-web.config-transformation-in-vs2010/</link>
+      <pubDate>Wed, 25 Aug 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/08/25/what-i-dislike-about-the-web.config-transformation-in-vs2010/</guid>
+      <description>There are a couple of things that i strongly dislike about the Web.config transformation in VS2010
+Only works with XML files (eg: Can&amp;rsquo;t be used to generate a release notes.txt file) Does not seem to support externalized sections, eg: log4net.config in a separate file No support to copy/paste transform files Only works when Visual Studio 2010 is installed (And i am still not convinced a build server should have this). Ties environment to build configuration Lesson learned: Don&amp;rsquo;t trust your co-workers, always double-check!</description>
+    </item>
+    
+    <item>
+      <title>Clean TemplateFile hack</title>
+      <link>https://timvw.be/2010/08/17/clean-templatefile-hack/</link>
+      <pubDate>Tue, 17 Aug 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/08/17/clean-templatefile-hack/</guid>
+      <description>A while ago i wrote about a Clever TemplateFile hack to use some xml block as ReplacementValue. Today i realized there is a clean way to achieve this by defining the value as CDATA
+&amp;lt;TemplateTokens Include=&amp;#34;mex&amp;#34;&amp;gt; &amp;lt;ReplacementValue&amp;gt; &amp;lt;![CDATA[&amp;lt;endpoint address=&amp;#34;mex&amp;#34; binding=&amp;#34;mexHttpBinding&amp;#34; contract=&amp;#34;IMetadataExchange&amp;#34; /&amp;gt;]]&amp;gt; &amp;lt;/ReplacementValue&amp;gt; &amp;lt;/TemplateTokens&amp;gt; </description>
+    </item>
+    
+    <item>
+      <title>Convention over configuration with MSBuild</title>
+      <link>https://timvw.be/2010/06/26/convention-over-configuration-with-msbuild/</link>
+      <pubDate>Sat, 26 Jun 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/06/26/convention-over-configuration-with-msbuild/</guid>
+      <description>A while ago i blogged that i was using the TemplateFile task from the &amp;lt;a hrefhttp://msbuildtasks.tigris.org/&amp;quot;&amp;gt;MSBuild Community Tasks Project to generate configuration files. Each project that required templating would have modified it&amp;rsquo;s csproj file as following
+&amp;lt;!-- To modify your build process, add your task inside one of the targets below and uncomment it. Other similar extension points exist, see Microsoft.Common.targets. --&amp;gt; &amp;lt;import Project=&amp;#34;$(MSBuildProjectDirectory)\config.msbuild&amp;#34; /&amp;gt; &amp;lt;target Name=&amp;#34;BeforeBuild&amp;#34;&amp;gt; &amp;lt;callTarget Targets=&amp;#34;GenerateConfigurationFiles&amp;#34; /&amp;gt; &amp;lt;/target&amp;gt; And each of these config.</description>
+    </item>
+    
+    <item>
+      <title>Setting up a self-contained build</title>
+      <link>https://timvw.be/2010/06/26/setting-up-a-self-contained-build/</link>
+      <pubDate>Sat, 26 Jun 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/06/26/setting-up-a-self-contained-build/</guid>
+      <description>Here is something you may have experienced already: As a newcomer on an existing project, you check out the code from source-control and discover that the build is broken. When you ask around no-one else seems to have that problem but a helpful collegue is kind enough to tell you that you can find the installers for the missing dependencies at location X (Let&amp;rsquo;s not even mention the places where those installers are not available *sigh*).</description>
+    </item>
+    
+    <item>
+      <title>Clever TemplateFile hack</title>
+      <link>https://timvw.be/2010/02/12/clever-templatefile-hack/</link>
+      <pubDate>Fri, 12 Feb 2010 00:00:00 +0000</pubDate>
+      
+      <guid>https://timvw.be/2010/02/12/clever-templatefile-hack/</guid>
+      <description>In my current project i use TemplateFileTask (MSBuild Community Tasks Project) to generate configuration files. I ran into the problem that i don&amp;rsquo;t want to expose a MEX endpoint in production. This is my initial template file
 &amp;lt;service behaviorconfiguration=&amp;#34;DemoBehavior&amp;#34; name=&amp;#34;DemoService.FileService&amp;#34;&amp;gt; &amp;lt;endpoint address=&amp;#34;&amp;#34; binding=&amp;#34;ws2007HttpBinding&amp;#34; contract=&amp;#34;DemoService.IFileService&amp;#34; /&amp;gt; ${MexEndpoint} &amp;lt;/service&amp;gt; And here is my initial msbuild task
-&amp;lt;Project ToolsVersion=&amp;#34;3.5&amp;#34; dDfaultTargets=&amp;#34;GenerateConfigFiles&amp;#34; xmlns=&amp;#34;http://schemas.microsoft.com/developer/msbuild/2003&amp;#34;&amp;gt; &amp;lt;Import Project=&amp;#34;$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets&amp;#34;/&amp;gt; &amp;lt;Target Name=&amp;#34;GenerateConfigFiles&amp;#34;&amp;gt; &amp;lt;PropertyGroup&amp;gt; &amp;lt;MexEndpoint&amp;gt; &amp;lt;endpoint address=&amp;#34;mex&amp;#34; binding=&amp;#34;mexHttpBinding&amp;#34; contract=&amp;#34;IMetadataExchange&amp;#34; /&amp;gt; &amp;lt;/MexEndpoint&amp;gt; &amp;lt;/PropertyGroup&amp;gt; &amp;lt;PropertyGroup Condition=&amp;#34; &amp;#39;$(Env)&amp;#39;==&amp;#39;Production&amp;#39; &amp;#34;&amp;gt; &amp;lt;MexEndpoint&amp;gt;&amp;lt;/MexEndpoint&amp;gt; &amp;lt;/PropertyGroup&amp;gt; &amp;lt;ItemGroup&amp;gt; &amp;lt;Tokens Include=&amp;#34;MexEndpoint&amp;#34;&amp;gt; &amp;lt;ReplacementValue&amp;gt;$(MexEndpoint)&amp;lt;/ReplacementValue&amp;gt; &amp;lt;/Tokens&amp;gt; &amp;lt;/ItemGroup&amp;gt; &amp;lt;TemplateFile Template=&amp;#34;Web.</description></item></channel></rss>
+&amp;lt;Project ToolsVersion=&amp;#34;3.5&amp;#34; dDfaultTargets=&amp;#34;GenerateConfigFiles&amp;#34; xmlns=&amp;#34;http://schemas.microsoft.com/developer/msbuild/2003&amp;#34;&amp;gt; &amp;lt;Import Project=&amp;#34;$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets&amp;#34;/&amp;gt; &amp;lt;Target Name=&amp;#34;GenerateConfigFiles&amp;#34;&amp;gt; &amp;lt;PropertyGroup&amp;gt; &amp;lt;MexEndpoint&amp;gt; &amp;lt;endpoint address=&amp;#34;mex&amp;#34; binding=&amp;#34;mexHttpBinding&amp;#34; contract=&amp;#34;IMetadataExchange&amp;#34; /&amp;gt; &amp;lt;/MexEndpoint&amp;gt; &amp;lt;/PropertyGroup&amp;gt; &amp;lt;PropertyGroup Condition=&amp;#34; &amp;#39;$(Env)&amp;#39;==&amp;#39;Production&amp;#39; &amp;#34;&amp;gt; &amp;lt;MexEndpoint&amp;gt;&amp;lt;/MexEndpoint&amp;gt; &amp;lt;/PropertyGroup&amp;gt; &amp;lt;ItemGroup&amp;gt; &amp;lt;Tokens Include=&amp;#34;MexEndpoint&amp;#34;&amp;gt; &amp;lt;ReplacementValue&amp;gt;$(MexEndpoint)&amp;lt;/ReplacementValue&amp;gt; &amp;lt;/Tokens&amp;gt; &amp;lt;/ItemGroup&amp;gt; &amp;lt;TemplateFile Template=&amp;#34;Web.</description>
+    </item>
+    
+  </channel>
+</rss>

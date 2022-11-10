@@ -1,44 +1,180 @@
-<!doctype html><html><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>Comparing Moq to Rhino Mocks - Tim Van Wassenhove</title><meta name=viewport content="width=device-width,initial-scale=1"><meta itemprop=name content="Comparing Moq to Rhino Mocks"><meta itemprop=description content="So which mocking framework should we use? Do we fall back on good old Rhino Mocks or do we choose for the new kid on the block Moq?
-From a technical point of view i would dare to say that they will be able to support the same set of features because they&rsquo;re both based on Castle&rsquo;s DynamicProxy. Rhino Mocks has the advantages that it, unlike Moq, supports the mocking of Delegates and can be used in a ."><meta itemprop=datePublished content="2009-03-23T00:00:00+00:00"><meta itemprop=dateModified content="2021-01-04T22:47:36+01:00"><meta itemprop=wordCount content="315"><meta itemprop=keywords content="CSharp,"><meta property="og:title" content="Comparing Moq to Rhino Mocks"><meta property="og:description" content="So which mocking framework should we use? Do we fall back on good old Rhino Mocks or do we choose for the new kid on the block Moq?
-From a technical point of view i would dare to say that they will be able to support the same set of features because they&rsquo;re both based on Castle&rsquo;s DynamicProxy. Rhino Mocks has the advantages that it, unlike Moq, supports the mocking of Delegates and can be used in a ."><meta property="og:type" content="article"><meta property="og:url" content="https://timvw.be/2009/03/23/comparing-moq-to-rhino-mocks/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2009-03-23T00:00:00+00:00"><meta property="article:modified_time" content="2021-01-04T22:47:36+01:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Comparing Moq to Rhino Mocks"><meta name=twitter:description content="So which mocking framework should we use? Do we fall back on good old Rhino Mocks or do we choose for the new kid on the block Moq?
-From a technical point of view i would dare to say that they will be able to support the same set of features because they&rsquo;re both based on Castle&rsquo;s DynamicProxy. Rhino Mocks has the advantages that it, unlike Moq, supports the mocking of Delegates and can be used in a ."><link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel=stylesheet type=text/css><link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/normalize.css><link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/main.css><link id=dark-scheme rel=stylesheet type=text/css href=https://timvw.be/css/dark.css><script src=https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js></script>
-<script src=https://timvw.be/js/main.js></script></head><body><div class="container wrapper"><div class=header><h1 class=site-title><a href=https://timvw.be/>Tim Van Wassenhove</a></h1><div class=site-description><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social"><ul class=flat><li><a href=https://twitter.com/timvw title=Twitter><i data-feather=twitter></i></a></li><li><a href=https://github.com/timvw title=Github><i data-feather=github></i></a></li><li><a href=https://www.linkedin.com/in/timvanwassenhove title=Linkedin><i data-feather=linkedin></i></a></li><li><a href=https://timvw.be/feed.xml title=RSS><i data-feather=rss></i></a></li><li><a class=masto-link rel=me href=https://fosstodon.org/@timvw></a></li></ul></nav></div><nav class=nav><ul class=flat><li><a href=../../../../>Home</a></li><li><a href=../../../../posts>All posts</a></li><li><a href=../../../../tags>Tags</a></li></ul></nav></div><div class=post><div class=post-header><div class=meta><div class=date><span class=day>23</span>
-<span class=rest>Mar 2009</span></div></div><div class=matter><h1 class=title>Comparing Moq to Rhino Mocks</h1></div></div><div class=markdown><p>So which mocking framework should we use? Do we fall back on good old <a href=http://ayende.com/projects/rhino-mocks.aspx>Rhino Mocks</a> or do we choose for the new kid on the block <a href=http://code.google.com/p/moq/>Moq</a>?</p><p>From a technical point of view i would dare to say that they will be able to support the same set of features because they&rsquo;re both based on Castle&rsquo;s <a href=http://www.castleproject.org/dynamicproxy/index.html>DynamicProxy</a>. Rhino Mocks has the advantages that it, unlike Moq, supports the mocking of Delegates and can be used in a .Net 2.0 only environment. Whether or not we should care about these differences is a question i will leave unanswered.</p><p>From a user point of view i find the Moq API a bit cleaner because it frees me from thinking about the record-replay model and Rhino Mocks wants me to make assertions on a stub. Apart from that the differences are rather small given for the use-cases i presented in <a href=http://www.timvw.be/getting-started-with-moq/>Getting started with Moq</a>.</p><ul><li>Creating instances</li></ul><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#998;font-style:italic>// Rhino  </span>
-</span></span><span style=display:flex><span><span style=color:#458;font-weight:700>var</span> productDetailView = MockRepository.GenerateStub&lt;iproductDetailView&gt;();
-</span></span></code></pre></div><p>vs</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#998;font-style:italic>// Moq</span>
-</span></span><span style=display:flex><span><span style=color:#458;font-weight:700>var</span> productDetailViewMock = <span style=color:#000;font-weight:700>new</span> Mock&lt;iproductDetailView&gt;();
-</span></span></code></pre></div><ul><li>Setting up results</li></ul><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#998;font-style:italic>// Rhino Mocks</span>
-</span></span><span style=display:flex><span>productRepository
-</span></span><span style=display:flex><span>    .Stub(repository =&gt; repository.GetCategory(<span style=color:#099>0</span>)).IgnoreArguments()
-</span></span><span style=display:flex><span>    .Do((Delegates.Function&lt;icategory, <span style=color:#458;font-weight:700>int</span>&gt;)(categoryId =&gt; <span style=color:#000;font-weight:700>return</span> category;));
-</span></span></code></pre></div><p>vs</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#998;font-style:italic>// Moq</span>
-</span></span><span style=display:flex><span>productRepositoryMock    
-</span></span><span style=display:flex><span>    .Setup(repository =&gt; repository.GetCategory(It.IsAny&lt;<span style=color:#458;font-weight:700>int</span>&gt;())) 
-</span></span><span style=display:flex><span>    .Returns&lt;<span style=color:#458;font-weight:700>int</span>&gt;(categoryId =&gt; <span style=color:#000;font-weight:700>return</span> category.Object;});
-</span></span></code></pre></div><ul><li>Consuming the mocked objects</li></ul><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#998;font-style:italic>// Rhino Mocks</span>
-</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>// Nothing to do</span>
-</span></span></code></pre></div><p>vs</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#998;font-style:italic>// Moq  </span>
-</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>// Nothing to do</span>
-</span></span></code></pre></div><ul><li>Raising events</li></ul><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#998;font-style:italic>// Rhino Mocks</span>
-</span></span><span style=display:flex><span>productDetailView.Raise(view =&gt; view.EditClick += <span style=color:#000;font-weight:700>null</span>).Raise(sender, EventArgs.Empty);
-</span></span></code></pre></div><p>vs</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#998;font-style:italic>// Moq  </span>
-</span></span><span style=display:flex><span>productDetailViewMock.Raise(view =&gt; view.EditClick += <span style=color:#000;font-weight:700>null</span>, sender, EventArgs.Empty);
-</span></span></code></pre></div><ul><li>Verifying that a method was invoked</li></ul><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#998;font-style:italic>// Rhino Mocks -- Odd that i&#39;m asserting on a Stub.</span>
-</span></span><span style=display:flex><span>productRepository.AssertWasCalled(    
-</span></span><span style=display:flex><span>    repository =&gt; repository.FindCategories(
-</span></span><span style=display:flex><span>    Arg&lt;ispecification&lt;icategory&gt;&gt;.Matches(Is.TypeOf(<span style=color:#000;font-weight:700>typeof</span>(All&lt;icategory&gt;)))));
-</span></span></code></pre></div><p>vs</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#998;font-style:italic>// Moq</span>
-</span></span><span style=display:flex><span>productRepositoryMock.Verify(    
-</span></span><span style=display:flex><span>    repository =&gt; repository.FindCategories(
-</span></span><span style=display:flex><span>		It.Is&lt;ispecification&lt;icategory&gt;&gt;(specification =&gt; specification.GetType() == <span style=color:#000;font-weight:700>typeof</span>(All&lt;icategory&gt;))));
-</span></span></code></pre></div><ul><li>Override a result</li></ul><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#998;font-style:italic>// Rhino Mocks  </span>
-</span></span><span style=display:flex><span>productDetailView.BackToRecord();
-</span></span><span style=display:flex><span>    
-</span></span><span style=display:flex><span>productDetailView    
-</span></span><span style=display:flex><span>    .Stub(view =&gt; view.CategoryId)
-</span></span><span style=display:flex><span>    .Returns(<span style=color:#099>2</span>);
-</span></span></code></pre></div><p>vs</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#998;font-style:italic>// Moq  </span>
-</span></span><span style=display:flex><span>productDetailViewMock
-</span></span><span style=display:flex><span>    .Setup(view =&gt; view.CategoryId).Returns(<span style=color:#099>2</span>);
-</span></span></code></pre></div><p><strong>Editted code to take advantage of the new AAA syntax that comes with Rhino Mocks 3.5 If only someone could show me how i can override a Stubbed result&mldr;</strong></p></div><div class=tags><ul class=flat><li><a href=../../../../tags/csharp>CSharp</a></li></ul></div></div></div><div class="footer wrapper"><nav class=nav><div>2022 <a href=https://github.com/knadh/hugo-ink>Ink</a> theme on <a href=https://gohugo.io>Hugo</a></div></nav></div><script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-9DP4SV12YW",{anonymize_ip:!1})}</script><script>feather.replace()</script></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Comparing Moq to Rhino Mocks - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta itemprop="name" content="Comparing Moq to Rhino Mocks">
+<meta itemprop="description" content="So which mocking framework should we use? Do we fall back on good old Rhino Mocks or do we choose for the new kid on the block Moq?
+From a technical point of view i would dare to say that they will be able to support the same set of features because they&rsquo;re both based on Castle&rsquo;s DynamicProxy. Rhino Mocks has the advantages that it, unlike Moq, supports the mocking of Delegates and can be used in a ."><meta itemprop="datePublished" content="2009-03-23T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
+<meta itemprop="wordCount" content="315">
+<meta itemprop="keywords" content="CSharp," /><meta property="og:title" content="Comparing Moq to Rhino Mocks" />
+<meta property="og:description" content="So which mocking framework should we use? Do we fall back on good old Rhino Mocks or do we choose for the new kid on the block Moq?
+From a technical point of view i would dare to say that they will be able to support the same set of features because they&rsquo;re both based on Castle&rsquo;s DynamicProxy. Rhino Mocks has the advantages that it, unlike Moq, supports the mocking of Delegates and can be used in a ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timvw.be/2009/03/23/comparing-moq-to-rhino-mocks/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-03-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Comparing Moq to Rhino Mocks"/>
+<meta name="twitter:description" content="So which mocking framework should we use? Do we fall back on good old Rhino Mocks or do we choose for the new kid on the block Moq?
+From a technical point of view i would dare to say that they will be able to support the same set of features because they&rsquo;re both based on Castle&rsquo;s DynamicProxy. Rhino Mocks has the advantages that it, unlike Moq, supports the mocking of Delegates and can be used in a ."/>
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li><li><a class="masto-link" rel="me" href="https://fosstodon.org/@timvw"></a></li>
+			</ul>
+		
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">23</span>
+							<span class="rest">Mar 2009</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">Comparing Moq to Rhino Mocks</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<p>So which mocking framework should we use? Do we fall back on good old <a href="http://ayende.com/projects/rhino-mocks.aspx">Rhino Mocks</a> or do we choose for the new kid on the block <a href="http://code.google.com/p/moq/">Moq</a>?</p>
+<p>From a technical point of view i would dare to say that they will be able to support the same set of features because they&rsquo;re both based on Castle&rsquo;s <a href="http://www.castleproject.org/dynamicproxy/index.html">DynamicProxy</a>. Rhino Mocks has the advantages that it, unlike Moq, supports the mocking of Delegates and can be used in a .Net 2.0 only environment. Whether or not we should care about these differences is a question i will leave unanswered.</p>
+<p>From a user point of view i find the Moq API a bit cleaner because <!-- raw HTML omitted -->it frees me from thinking about the record-replay model<!-- raw HTML omitted --> and Rhino Mocks wants me to make assertions on a stub. Apart from that the differences are rather small given for the use-cases i presented in <a href="http://www.timvw.be/getting-started-with-moq/">Getting started with Moq</a>.</p>
+<ul>
+<li>Creating instances</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#998;font-style:italic">// Rhino  </span>
+</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">var</span> productDetailView = MockRepository.GenerateStub&lt;iproductDetailView&gt;();
+</span></span></code></pre></div><p>vs</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#998;font-style:italic">// Moq</span>
+</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">var</span> productDetailViewMock = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iproductDetailView&gt;();
+</span></span></code></pre></div><ul>
+<li>Setting up results</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#998;font-style:italic">// Rhino Mocks</span>
+</span></span><span style="display:flex;"><span>productRepository
+</span></span><span style="display:flex;"><span>    .Stub(repository =&gt; repository.GetCategory(<span style="color:#099">0</span>)).IgnoreArguments()
+</span></span><span style="display:flex;"><span>    .Do((Delegates.Function&lt;icategory, <span style="color:#458;font-weight:bold">int</span>&gt;)(categoryId =&gt; <span style="color:#000;font-weight:bold">return</span> category;));
+</span></span></code></pre></div><p>vs</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#998;font-style:italic">// Moq</span>
+</span></span><span style="display:flex;"><span>productRepositoryMock    
+</span></span><span style="display:flex;"><span>    .Setup(repository =&gt; repository.GetCategory(It.IsAny&lt;<span style="color:#458;font-weight:bold">int</span>&gt;())) 
+</span></span><span style="display:flex;"><span>    .Returns&lt;<span style="color:#458;font-weight:bold">int</span>&gt;(categoryId =&gt; <span style="color:#000;font-weight:bold">return</span> category.Object;});
+</span></span></code></pre></div><ul>
+<li>Consuming the mocked objects</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#998;font-style:italic">// Rhino Mocks</span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// Nothing to do</span>
+</span></span></code></pre></div><p>vs</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#998;font-style:italic">// Moq  </span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// Nothing to do</span>
+</span></span></code></pre></div><ul>
+<li>Raising events</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#998;font-style:italic">// Rhino Mocks</span>
+</span></span><span style="display:flex;"><span>productDetailView.Raise(view =&gt; view.EditClick += <span style="color:#000;font-weight:bold">null</span>).Raise(sender, EventArgs.Empty);
+</span></span></code></pre></div><p>vs</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#998;font-style:italic">// Moq  </span>
+</span></span><span style="display:flex;"><span>productDetailViewMock.Raise(view =&gt; view.EditClick += <span style="color:#000;font-weight:bold">null</span>, sender, EventArgs.Empty);
+</span></span></code></pre></div><ul>
+<li>Verifying that a method was invoked</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#998;font-style:italic">// Rhino Mocks -- Odd that i&#39;m asserting on a Stub.</span>
+</span></span><span style="display:flex;"><span>productRepository.AssertWasCalled(    
+</span></span><span style="display:flex;"><span>    repository =&gt; repository.FindCategories(
+</span></span><span style="display:flex;"><span>    Arg&lt;ispecification&lt;icategory&gt;&gt;.Matches(Is.TypeOf(<span style="color:#000;font-weight:bold">typeof</span>(All&lt;icategory&gt;)))));
+</span></span></code></pre></div><p>vs</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#998;font-style:italic">// Moq</span>
+</span></span><span style="display:flex;"><span>productRepositoryMock.Verify(    
+</span></span><span style="display:flex;"><span>    repository =&gt; repository.FindCategories(
+</span></span><span style="display:flex;"><span>		It.Is&lt;ispecification&lt;icategory&gt;&gt;(specification =&gt; specification.GetType() == <span style="color:#000;font-weight:bold">typeof</span>(All&lt;icategory&gt;))));
+</span></span></code></pre></div><ul>
+<li>Override a result</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#998;font-style:italic">// Rhino Mocks  </span>
+</span></span><span style="display:flex;"><span>productDetailView.BackToRecord();
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>productDetailView    
+</span></span><span style="display:flex;"><span>    .Stub(view =&gt; view.CategoryId)
+</span></span><span style="display:flex;"><span>    .Returns(<span style="color:#099">2</span>);
+</span></span></code></pre></div><p>vs</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#998;font-style:italic">// Moq  </span>
+</span></span><span style="display:flex;"><span>productDetailViewMock
+</span></span><span style="display:flex;"><span>    .Setup(view =&gt; view.CategoryId).Returns(<span style="color:#099">2</span>);
+</span></span></code></pre></div><p><strong>Editted code to take advantage of the new AAA syntax that comes with Rhino Mocks 3.5 If only someone could show me how i can override a Stubbed result&hellip;</strong></p>
+
+			</div>
+
+			<div class="tags">
+				
+					
+						<ul class="flat">
+							
+							<li><a href="../../../../tags/csharp">CSharp</a></li>
+							
+						</ul>
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
+}
+</script>
+<script>feather.replace()</script>
+</body>
+</html>

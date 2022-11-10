@@ -1,174 +1,285 @@
-<!doctype html><html><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>POC: Moq API adapter for Rhino Mocks - Tim Van Wassenhove</title><meta name=viewport content="width=device-width,initial-scale=1"><meta itemprop=name content="POC: Moq API adapter for Rhino Mocks"><meta itemprop=description content="One of my main concerns with third party software, and software in general, is maintainability. The Rhino Mocks project has been out there for a couple of years now and i&rsquo;m pretty confident that it won&rsquo;t go away anytime soon. The Moq project is a lot younger and will have to proove that it can stay alive&mldr;
-Anyway, because most people seem to digg the Moq API i have decided to write an adapter that provides the same API using Rhino Mocks."><meta itemprop=datePublished content="2009-04-03T00:00:00+00:00"><meta itemprop=dateModified content="2021-01-04T22:47:36+01:00"><meta itemprop=wordCount content="413"><meta itemprop=keywords content="CSharp,"><meta property="og:title" content="POC: Moq API adapter for Rhino Mocks"><meta property="og:description" content="One of my main concerns with third party software, and software in general, is maintainability. The Rhino Mocks project has been out there for a couple of years now and i&rsquo;m pretty confident that it won&rsquo;t go away anytime soon. The Moq project is a lot younger and will have to proove that it can stay alive&mldr;
-Anyway, because most people seem to digg the Moq API i have decided to write an adapter that provides the same API using Rhino Mocks."><meta property="og:type" content="article"><meta property="og:url" content="https://timvw.be/2009/04/03/poc-moq-api-adapter-for-rhino-mocks/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2009-04-03T00:00:00+00:00"><meta property="article:modified_time" content="2021-01-04T22:47:36+01:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="POC: Moq API adapter for Rhino Mocks"><meta name=twitter:description content="One of my main concerns with third party software, and software in general, is maintainability. The Rhino Mocks project has been out there for a couple of years now and i&rsquo;m pretty confident that it won&rsquo;t go away anytime soon. The Moq project is a lot younger and will have to proove that it can stay alive&mldr;
-Anyway, because most people seem to digg the Moq API i have decided to write an adapter that provides the same API using Rhino Mocks."><link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel=stylesheet type=text/css><link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/normalize.css><link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/main.css><link id=dark-scheme rel=stylesheet type=text/css href=https://timvw.be/css/dark.css><script src=https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js></script>
-<script src=https://timvw.be/js/main.js></script></head><body><div class="container wrapper"><div class=header><h1 class=site-title><a href=https://timvw.be/>Tim Van Wassenhove</a></h1><div class=site-description><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social"><ul class=flat><li><a href=https://twitter.com/timvw title=Twitter><i data-feather=twitter></i></a></li><li><a href=https://github.com/timvw title=Github><i data-feather=github></i></a></li><li><a href=https://www.linkedin.com/in/timvanwassenhove title=Linkedin><i data-feather=linkedin></i></a></li><li><a href=https://timvw.be/feed.xml title=RSS><i data-feather=rss></i></a></li><li><a class=masto-link rel=me href=https://fosstodon.org/@timvw></a></li></ul></nav></div><nav class=nav><ul class=flat><li><a href=../../../../>Home</a></li><li><a href=../../../../posts>All posts</a></li><li><a href=../../../../tags>Tags</a></li></ul></nav></div><div class=post><div class=post-header><div class=meta><div class=date><span class=day>03</span>
-<span class=rest>Apr 2009</span></div></div><div class=matter><h1 class=title>POC: Moq API adapter for Rhino Mocks</h1></div></div><div class=markdown><p>One of my main concerns with third party software, and software in general, is maintainability. The Rhino Mocks project has been out there for a couple of years now and i&rsquo;m pretty confident that it won&rsquo;t go away anytime soon. The Moq project is a lot younger and will have to proove that it can stay alive&mldr;</p><p>Anyway, because most people seem to digg the Moq API i have decided to write an adapter that provides the same API using Rhino Mocks. Here are some simple examples</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>interface</span> <span style=color:#458;font-weight:700>IEcho</span>
-</span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>	<span style=color:#458;font-weight:700>string</span> Echo(<span style=color:#458;font-weight:700>string</span> input);
-</span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span><span style=color:teal>
-</span></span></span><span style=display:flex><span><span style=color:teal>[TestClass]</span>
-</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>class</span> <span style=color:#458;font-weight:700>MockTests</span>
-</span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span><span style=color:teal>	[TestMethod]</span>
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>void</span> ShouldBeAbleToReturnObject()
-</span></span><span style=display:flex><span>	{
-</span></span><span style=display:flex><span>		<span style=color:#998;font-style:italic>// Arrange</span>
-</span></span><span style=display:flex><span>		Mock&lt;iecho&gt; sut = <span style=color:#000;font-weight:700>new</span> Mock&lt;iecho&gt;();
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>		<span style=color:#998;font-style:italic>// Act</span>
-</span></span><span style=display:flex><span>		IEcho echo = sut.Object;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>		<span style=color:#998;font-style:italic>// Assert</span>
-</span></span><span style=display:flex><span>		Assert.IsNotNull(echo);
-</span></span><span style=display:flex><span>		Assert.IsInstanceOfType(echo, <span style=color:#000;font-weight:700>typeof</span>(IEcho));
-</span></span><span style=display:flex><span>	}
-</span></span><span style=display:flex><span><span style=color:teal>
-</span></span></span><span style=display:flex><span><span style=color:teal>	[TestMethod]</span>
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>void</span> ShouldBeAbleToSetupAnAction()
-</span></span><span style=display:flex><span>	{
-</span></span><span style=display:flex><span>		<span style=color:#998;font-style:italic>// Arrange</span>
-</span></span><span style=display:flex><span>		Mock&lt;iecho&gt; sut = <span style=color:#000;font-weight:700>new</span> Mock&lt;iecho&gt;();
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>		sut.Setup(<span style=color:#000;font-weight:700>delegate</span>(IEcho echo)
-</span></span><span style=display:flex><span>		{
-</span></span><span style=display:flex><span>		echo.Echo(<span style=color:#d14>&#34;tim&#34;</span>);
-</span></span><span style=display:flex><span>		}).Returns(<span style=color:#d14>&#34;tim&#34;</span>);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>		<span style=color:#998;font-style:italic>// Act</span>
-</span></span><span style=display:flex><span>		<span style=color:#458;font-weight:700>string</span> result = sut.Object.Echo(<span style=color:#d14>&#34;tim&#34;</span>);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>		<span style=color:#998;font-style:italic>// Assert</span>
-</span></span><span style=display:flex><span>		Assert.AreEqual(<span style=color:#d14>&#34;tim&#34;</span>, result);
-</span></span><span style=display:flex><span>	}
-</span></span><span style=display:flex><span><span style=color:teal>
-</span></span></span><span style=display:flex><span><span style=color:teal>	[TestMethod]</span>
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>void</span> ShouldBeAbleToVerifyAnAction()
-</span></span><span style=display:flex><span>	{
-</span></span><span style=display:flex><span>		<span style=color:#998;font-style:italic>// Arrange</span>
-</span></span><span style=display:flex><span>		Mock&lt;iecho&gt; sut = <span style=color:#000;font-weight:700>new</span> Mock&lt;iecho&gt;();
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>		<span style=color:#998;font-style:italic>// Act</span>
-</span></span><span style=display:flex><span>		sut.Object.Echo(<span style=color:#d14>&#34;tim&#34;</span>);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>		<span style=color:#998;font-style:italic>// Assert</span>
-</span></span><span style=display:flex><span>		sut.Verify(<span style=color:#000;font-weight:700>delegate</span>(IEcho echo)
-</span></span><span style=display:flex><span>		{
-</span></span><span style=display:flex><span>		echo.Echo(<span style=color:#d14>&#34;tim&#34;</span>);
-</span></span><span style=display:flex><span>		});
-</span></span><span style=display:flex><span>	}
-</span></span><span style=display:flex><span><span style=color:teal>
-</span></span></span><span style=display:flex><span><span style=color:teal>	[TestMethod]</span>
-</span></span><span style=display:flex><span><span style=color:teal>	[ExpectedException(typeof(ExpectationViolationException))]</span>
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>void</span> ShouldBeAbleToVerifyAnActionThatDidNotHappen()
-</span></span><span style=display:flex><span>	{
-</span></span><span style=display:flex><span>		<span style=color:#998;font-style:italic>// Arrange</span>
-</span></span><span style=display:flex><span>		Mock&lt;iecho&gt; sut = <span style=color:#000;font-weight:700>new</span> Mock&lt;iecho&gt;();
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>		<span style=color:#998;font-style:italic>// Act</span>
-</span></span><span style=display:flex><span>		sut.Object.Echo(<span style=color:#d14>&#34;tim&#34;</span>);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>		<span style=color:#998;font-style:italic>// Assert</span>
-</span></span><span style=display:flex><span>		sut.Verify(<span style=color:#000;font-weight:700>delegate</span>(IEcho echo)
-</span></span><span style=display:flex><span>		{
-</span></span><span style=display:flex><span>		echo.Echo(<span style=color:#d14>&#34;mike&#34;</span>);
-</span></span><span style=display:flex><span>		});
-</span></span><span style=display:flex><span>	}
-</span></span><span style=display:flex><span><span style=color:teal>
-</span></span></span><span style=display:flex><span><span style=color:teal>	[TestMethod]</span>
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>void</span> ShouldBeAbleToRaiseAnEvent()
-</span></span><span style=display:flex><span>	{
-</span></span><span style=display:flex><span>		<span style=color:#998;font-style:italic>// Arrange</span>
-</span></span><span style=display:flex><span>		Mock&lt;iecho&gt; sut = <span style=color:#000;font-weight:700>new</span> Mock&lt;iecho&gt;();
-</span></span><span style=display:flex><span>		<span style=color:#458;font-weight:700>bool</span> wasCalled = <span style=color:#000;font-weight:700>false</span>;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>		sut.Object.EchoCompleted += <span style=color:#000;font-weight:700>delegate</span>(<span style=color:#458;font-weight:700>object</span> sender, EventArgs e)
-</span></span><span style=display:flex><span>		{
-</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>if</span> (sender == sut &amp;&amp; e == EventArgs.Empty) wasCalled = <span style=color:#000;font-weight:700>true</span>;
-</span></span><span style=display:flex><span>		};
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>		<span style=color:#998;font-style:italic>// Act</span>
-</span></span><span style=display:flex><span>		sut.Raise(<span style=color:#000;font-weight:700>delegate</span>(IEcho echo) { echo.EchoCompleted += <span style=color:#000;font-weight:700>null</span>; }, sut, EventArgs.Empty);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>		<span style=color:#998;font-style:italic>// Assert</span>
-</span></span><span style=display:flex><span>		Assert.IsTrue(wasCalled);
-</span></span><span style=display:flex><span>	}
-</span></span><span style=display:flex><span><span style=color:teal>
-</span></span></span><span style=display:flex><span><span style=color:teal>	[TestMethod]</span>
-</span></span><span style=display:flex><span><span style=color:teal>	[ExpectedException(typeof(ArgumentException))]</span>
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>void</span> ShouldBeAbleToThrowAnException()
-</span></span><span style=display:flex><span>	{
-</span></span><span style=display:flex><span>		<span style=color:#998;font-style:italic>// Arrange</span>
-</span></span><span style=display:flex><span>		Mock&lt;iecho&gt; sut = <span style=color:#000;font-weight:700>new</span> Mock&lt;iecho&gt;();
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>		sut.Setup(<span style=color:#000;font-weight:700>delegate</span>(IEcho echo)
-</span></span><span style=display:flex><span>		{
-</span></span><span style=display:flex><span>		echo.Echo(<span style=color:#d14>&#34;tim&#34;</span>);
-</span></span><span style=display:flex><span>		}).Throws&lt;argumentException&gt;();
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>		<span style=color:#998;font-style:italic>// Act</span>
-</span></span><span style=display:flex><span>		sut.Object.Echo(<span style=color:#d14>&#34;tim&#34;</span>);
-</span></span><span style=display:flex><span>	}
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p>Here is the actual code for this simplistic adapter</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>class</span> <span style=color:#458;font-weight:700>Mock</span>&lt;T&gt; <span style=color:#000;font-weight:700>where</span> T : <span style=color:#000;font-weight:700>class</span>
-</span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>private</span> <span style=color:#000;font-weight:700>readonly</span> T mockedObject;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> Mock()
-</span></span><span style=display:flex><span>	{
-</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>this</span>.mockedObject = MockRepository.GenerateStub&lt;T&gt;();
-</span></span><span style=display:flex><span>	}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> T Object
-</span></span><span style=display:flex><span>	{
-</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>get</span> { <span style=color:#000;font-weight:700>return</span> <span style=color:#000;font-weight:700>this</span>.mockedObject; }
-</span></span><span style=display:flex><span>	}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> Setup&lt;<span style=color:#458;font-weight:700>object</span>, T&gt; Setup(Action&lt;T&gt; action)
-</span></span><span style=display:flex><span>	{
-</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>return</span> <span style=color:#000;font-weight:700>new</span> Setup&lt;<span style=color:#458;font-weight:700>object</span>, T&gt;(RhinoMocksExtensions.Stub(<span style=color:#000;font-weight:700>this</span>.mockedObject, action));
-</span></span><span style=display:flex><span>	}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> Setup&lt;R, T&gt; Setup&lt;R&gt;(Delegates.Function&lt;R, T&gt; action)
-</span></span><span style=display:flex><span>	{
-</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>return</span> <span style=color:#000;font-weight:700>new</span> Setup&lt;R, T&gt;(RhinoMocksExtensions.Stub(<span style=color:#000;font-weight:700>this</span>.mockedObject, action));
-</span></span><span style=display:flex><span>	}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>void</span> Verify(Action&lt;T&gt; action)
-</span></span><span style=display:flex><span>	{
-</span></span><span style=display:flex><span>		RhinoMocksExtensions.AssertWasCalled(<span style=color:#000;font-weight:700>this</span>.mockedObject, action);
-</span></span><span style=display:flex><span>	}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>void</span> Raise(Action&lt;T&gt; eventSubscription, <span style=color:#000;font-weight:700>params</span> <span style=color:#458;font-weight:700>object</span>[] args)
-</span></span><span style=display:flex><span>	{
-</span></span><span style=display:flex><span>		RhinoMocksExtensions.Raise(<span style=color:#000;font-weight:700>this</span>.mockedObject, eventSubscription, args);
-</span></span><span style=display:flex><span>	}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> Setup&lt;R, T&gt; Throws&lt;e&gt;() <span style=color:#000;font-weight:700>where</span> E : Exception, <span style=color:#000;font-weight:700>new</span>()
-</span></span><span style=display:flex><span>	{
-</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>return</span> <span style=color:#000;font-weight:700>new</span> Setup&lt;R, T&gt;(<span style=color:#000;font-weight:700>this</span>.options.Throw(<span style=color:#000;font-weight:700>new</span> E()));
-</span></span><span style=display:flex><span>	}
-</span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>class</span> <span style=color:#458;font-weight:700>Setup</span>&lt;R, T&gt;
-</span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>private</span> <span style=color:#000;font-weight:700>readonly</span> IMethodOptions&lt;R&gt; options;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> Setup(IMethodOptions&lt;R&gt; options)
-</span></span><span style=display:flex><span>	{
-</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>this</span>.options = options;
-</span></span><span style=display:flex><span>	}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> Setup&lt;R, T&gt; Returns(R objToReturn)
-</span></span><span style=display:flex><span>	{
-</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>return</span> <span style=color:#000;font-weight:700>new</span> Setup&lt;R, T&gt;(<span style=color:#000;font-weight:700>this</span>.options.Return(objToReturn));
-</span></span><span style=display:flex><span>	}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> Setup&lt;R, T&gt; Returns(Delegates.Function&lt;R, T&gt; action)
-</span></span><span style=display:flex><span>	{
-</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>return</span> <span style=color:#000;font-weight:700>new</span> Setup&lt;R, T&gt;(<span style=color:#000;font-weight:700>this</span>.options.Do(action));
-</span></span><span style=display:flex><span>	}
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div></div><div class=tags><ul class=flat><li><a href=../../../../tags/csharp>CSharp</a></li></ul></div></div></div><div class="footer wrapper"><nav class=nav><div>2022 <a href=https://github.com/knadh/hugo-ink>Ink</a> theme on <a href=https://gohugo.io>Hugo</a></div></nav></div><script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-9DP4SV12YW",{anonymize_ip:!1})}</script><script>feather.replace()</script></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>POC: Moq API adapter for Rhino Mocks - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta itemprop="name" content="POC: Moq API adapter for Rhino Mocks">
+<meta itemprop="description" content="One of my main concerns with third party software, and software in general, is maintainability. The Rhino Mocks project has been out there for a couple of years now and i&rsquo;m pretty confident that it won&rsquo;t go away anytime soon. The Moq project is a lot younger and will have to proove that it can stay alive&hellip;
+Anyway, because most people seem to digg the Moq API i have decided to write an adapter that provides the same API using Rhino Mocks."><meta itemprop="datePublished" content="2009-04-03T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
+<meta itemprop="wordCount" content="413">
+<meta itemprop="keywords" content="CSharp," /><meta property="og:title" content="POC: Moq API adapter for Rhino Mocks" />
+<meta property="og:description" content="One of my main concerns with third party software, and software in general, is maintainability. The Rhino Mocks project has been out there for a couple of years now and i&rsquo;m pretty confident that it won&rsquo;t go away anytime soon. The Moq project is a lot younger and will have to proove that it can stay alive&hellip;
+Anyway, because most people seem to digg the Moq API i have decided to write an adapter that provides the same API using Rhino Mocks." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timvw.be/2009/04/03/poc-moq-api-adapter-for-rhino-mocks/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-04-03T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="POC: Moq API adapter for Rhino Mocks"/>
+<meta name="twitter:description" content="One of my main concerns with third party software, and software in general, is maintainability. The Rhino Mocks project has been out there for a couple of years now and i&rsquo;m pretty confident that it won&rsquo;t go away anytime soon. The Moq project is a lot younger and will have to proove that it can stay alive&hellip;
+Anyway, because most people seem to digg the Moq API i have decided to write an adapter that provides the same API using Rhino Mocks."/>
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li><li><a class="masto-link" rel="me" href="https://fosstodon.org/@timvw"></a></li>
+			</ul>
+		
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">03</span>
+							<span class="rest">Apr 2009</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">POC: Moq API adapter for Rhino Mocks</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<p>One of my main concerns with third party software, and software in general, is maintainability. The Rhino Mocks project has been out there for a couple of years now and i&rsquo;m pretty confident that it won&rsquo;t go away anytime soon. The Moq project is a lot younger and will have to proove that it can stay alive&hellip;</p>
+<p>Anyway, because most people seem to digg the Moq API i have decided to write an adapter that provides the same API using Rhino Mocks. Here are some simple examples</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> <span style="color:#458;font-weight:bold">IEcho</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#458;font-weight:bold">string</span> Echo(<span style="color:#458;font-weight:bold">string</span> input);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#008080">
+</span></span></span><span style="display:flex;"><span><span style="color:#008080">[TestClass]</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MockTests</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#008080">	[TestMethod]</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToReturnObject()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// Arrange</span>
+</span></span><span style="display:flex;"><span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// Act</span>
+</span></span><span style="display:flex;"><span>		IEcho echo = sut.Object;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// Assert</span>
+</span></span><span style="display:flex;"><span>		Assert.IsNotNull(echo);
+</span></span><span style="display:flex;"><span>		Assert.IsInstanceOfType(echo, <span style="color:#000;font-weight:bold">typeof</span>(IEcho));
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span><span style="color:#008080">
+</span></span></span><span style="display:flex;"><span><span style="color:#008080">	[TestMethod]</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToSetupAnAction()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// Arrange</span>
+</span></span><span style="display:flex;"><span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		sut.Setup(<span style="color:#000;font-weight:bold">delegate</span>(IEcho echo)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>		echo.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+</span></span><span style="display:flex;"><span>		}).Returns(<span style="color:#d14">&#34;tim&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// Act</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#458;font-weight:bold">string</span> result = sut.Object.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// Assert</span>
+</span></span><span style="display:flex;"><span>		Assert.AreEqual(<span style="color:#d14">&#34;tim&#34;</span>, result);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span><span style="color:#008080">
+</span></span></span><span style="display:flex;"><span><span style="color:#008080">	[TestMethod]</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToVerifyAnAction()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// Arrange</span>
+</span></span><span style="display:flex;"><span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// Act</span>
+</span></span><span style="display:flex;"><span>		sut.Object.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// Assert</span>
+</span></span><span style="display:flex;"><span>		sut.Verify(<span style="color:#000;font-weight:bold">delegate</span>(IEcho echo)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>		echo.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+</span></span><span style="display:flex;"><span>		});
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span><span style="color:#008080">
+</span></span></span><span style="display:flex;"><span><span style="color:#008080">	[TestMethod]</span>
+</span></span><span style="display:flex;"><span><span style="color:#008080">	[ExpectedException(typeof(ExpectationViolationException))]</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToVerifyAnActionThatDidNotHappen()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// Arrange</span>
+</span></span><span style="display:flex;"><span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// Act</span>
+</span></span><span style="display:flex;"><span>		sut.Object.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// Assert</span>
+</span></span><span style="display:flex;"><span>		sut.Verify(<span style="color:#000;font-weight:bold">delegate</span>(IEcho echo)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>		echo.Echo(<span style="color:#d14">&#34;mike&#34;</span>);
+</span></span><span style="display:flex;"><span>		});
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span><span style="color:#008080">
+</span></span></span><span style="display:flex;"><span><span style="color:#008080">	[TestMethod]</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToRaiseAnEvent()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// Arrange</span>
+</span></span><span style="display:flex;"><span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
+</span></span><span style="display:flex;"><span>		<span style="color:#458;font-weight:bold">bool</span> wasCalled = <span style="color:#000;font-weight:bold">false</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		sut.Object.EchoCompleted += <span style="color:#000;font-weight:bold">delegate</span>(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> (sender == sut &amp;&amp; e == EventArgs.Empty) wasCalled = <span style="color:#000;font-weight:bold">true</span>;
+</span></span><span style="display:flex;"><span>		};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// Act</span>
+</span></span><span style="display:flex;"><span>		sut.Raise(<span style="color:#000;font-weight:bold">delegate</span>(IEcho echo) { echo.EchoCompleted += <span style="color:#000;font-weight:bold">null</span>; }, sut, EventArgs.Empty);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// Assert</span>
+</span></span><span style="display:flex;"><span>		Assert.IsTrue(wasCalled);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span><span style="color:#008080">
+</span></span></span><span style="display:flex;"><span><span style="color:#008080">	[TestMethod]</span>
+</span></span><span style="display:flex;"><span><span style="color:#008080">	[ExpectedException(typeof(ArgumentException))]</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> ShouldBeAbleToThrowAnException()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// Arrange</span>
+</span></span><span style="display:flex;"><span>		Mock&lt;iecho&gt; sut = <span style="color:#000;font-weight:bold">new</span> Mock&lt;iecho&gt;();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		sut.Setup(<span style="color:#000;font-weight:bold">delegate</span>(IEcho echo)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>		echo.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+</span></span><span style="display:flex;"><span>		}).Throws&lt;argumentException&gt;();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// Act</span>
+</span></span><span style="display:flex;"><span>		sut.Object.Echo(<span style="color:#d14">&#34;tim&#34;</span>);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Here is the actual code for this simplistic adapter</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Mock</span>&lt;T&gt; <span style="color:#000;font-weight:bold">where</span> T : <span style="color:#000;font-weight:bold">class</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">readonly</span> T mockedObject;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> Mock()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.mockedObject = MockRepository.GenerateStub&lt;T&gt;();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> T Object
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.mockedObject; }
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> Setup&lt;<span style="color:#458;font-weight:bold">object</span>, T&gt; Setup(Action&lt;T&gt; action)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Setup&lt;<span style="color:#458;font-weight:bold">object</span>, T&gt;(RhinoMocksExtensions.Stub(<span style="color:#000;font-weight:bold">this</span>.mockedObject, action));
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> Setup&lt;R, T&gt; Setup&lt;R&gt;(Delegates.Function&lt;R, T&gt; action)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Setup&lt;R, T&gt;(RhinoMocksExtensions.Stub(<span style="color:#000;font-weight:bold">this</span>.mockedObject, action));
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Verify(Action&lt;T&gt; action)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		RhinoMocksExtensions.AssertWasCalled(<span style="color:#000;font-weight:bold">this</span>.mockedObject, action);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> Raise(Action&lt;T&gt; eventSubscription, <span style="color:#000;font-weight:bold">params</span> <span style="color:#458;font-weight:bold">object</span>[] args)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		RhinoMocksExtensions.Raise(<span style="color:#000;font-weight:bold">this</span>.mockedObject, eventSubscription, args);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> Setup&lt;R, T&gt; Throws&lt;e&gt;() <span style="color:#000;font-weight:bold">where</span> E : Exception, <span style="color:#000;font-weight:bold">new</span>()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Setup&lt;R, T&gt;(<span style="color:#000;font-weight:bold">this</span>.options.Throw(<span style="color:#000;font-weight:bold">new</span> E()));
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Setup</span>&lt;R, T&gt;
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">readonly</span> IMethodOptions&lt;R&gt; options;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> Setup(IMethodOptions&lt;R&gt; options)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.options = options;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> Setup&lt;R, T&gt; Returns(R objToReturn)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Setup&lt;R, T&gt;(<span style="color:#000;font-weight:bold">this</span>.options.Return(objToReturn));
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> Setup&lt;R, T&gt; Returns(Delegates.Function&lt;R, T&gt; action)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> Setup&lt;R, T&gt;(<span style="color:#000;font-weight:bold">this</span>.options.Do(action));
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+			</div>
+
+			<div class="tags">
+				
+					
+						<ul class="flat">
+							
+							<li><a href="../../../../tags/csharp">CSharp</a></li>
+							
+						</ul>
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
+}
+</script>
+<script>feather.replace()</script>
+</body>
+</html>

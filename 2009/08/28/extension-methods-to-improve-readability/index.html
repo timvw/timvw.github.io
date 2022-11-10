@@ -1,19 +1,132 @@
-<!doctype html><html><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>Extension methods to improve readability - Tim Van Wassenhove</title><meta name=viewport content="width=device-width,initial-scale=1"><meta itemprop=name content="Extension methods to improve readability"><meta itemprop=description content="A common reason to take advantage of extension methods is to enhance readability (think fluent interfaces). My team uses the specification pattern regularly and in case a requirement says something like &ldquo;if the player has reached level 10 a message should be displayed&rdquo; they would implement it as
-if (new HasReachedLevel(10).IsSatisfiedBy(player)) { view.DisplayMessage(&#34;Congratulations! You have reached level 10.&#34;); } Pretty good but did you notice that they changed the order of player and level in their (code) story?"><meta itemprop=datePublished content="2009-08-28T00:00:00+00:00"><meta itemprop=dateModified content="2021-01-04T22:47:36+01:00"><meta itemprop=wordCount content="129"><meta itemprop=keywords content="CSharp,Patterns,"><meta property="og:title" content="Extension methods to improve readability"><meta property="og:description" content="A common reason to take advantage of extension methods is to enhance readability (think fluent interfaces). My team uses the specification pattern regularly and in case a requirement says something like &ldquo;if the player has reached level 10 a message should be displayed&rdquo; they would implement it as
-if (new HasReachedLevel(10).IsSatisfiedBy(player)) { view.DisplayMessage(&#34;Congratulations! You have reached level 10.&#34;); } Pretty good but did you notice that they changed the order of player and level in their (code) story?"><meta property="og:type" content="article"><meta property="og:url" content="https://timvw.be/2009/08/28/extension-methods-to-improve-readability/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2009-08-28T00:00:00+00:00"><meta property="article:modified_time" content="2021-01-04T22:47:36+01:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Extension methods to improve readability"><meta name=twitter:description content="A common reason to take advantage of extension methods is to enhance readability (think fluent interfaces). My team uses the specification pattern regularly and in case a requirement says something like &ldquo;if the player has reached level 10 a message should be displayed&rdquo; they would implement it as
-if (new HasReachedLevel(10).IsSatisfiedBy(player)) { view.DisplayMessage(&#34;Congratulations! You have reached level 10.&#34;); } Pretty good but did you notice that they changed the order of player and level in their (code) story?"><link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel=stylesheet type=text/css><link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/normalize.css><link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/main.css><link id=dark-scheme rel=stylesheet type=text/css href=https://timvw.be/css/dark.css><script src=https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js></script>
-<script src=https://timvw.be/js/main.js></script></head><body><div class="container wrapper"><div class=header><h1 class=site-title><a href=https://timvw.be/>Tim Van Wassenhove</a></h1><div class=site-description><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social"><ul class=flat><li><a href=https://twitter.com/timvw title=Twitter><i data-feather=twitter></i></a></li><li><a href=https://github.com/timvw title=Github><i data-feather=github></i></a></li><li><a href=https://www.linkedin.com/in/timvanwassenhove title=Linkedin><i data-feather=linkedin></i></a></li><li><a href=https://timvw.be/feed.xml title=RSS><i data-feather=rss></i></a></li><li><a class=masto-link rel=me href=https://fosstodon.org/@timvw></a></li></ul></nav></div><nav class=nav><ul class=flat><li><a href=../../../../>Home</a></li><li><a href=../../../../posts>All posts</a></li><li><a href=../../../../tags>Tags</a></li></ul></nav></div><div class=post><div class=post-header><div class=meta><div class=date><span class=day>28</span>
-<span class=rest>Aug 2009</span></div></div><div class=matter><h1 class=title>Extension methods to improve readability</h1></div></div><div class=markdown><p>A common reason to take advantage of extension methods is to enhance readability (think fluent interfaces). My team uses the <a href=http://en.wikipedia.org/wiki/Specification_pattern>specification pattern</a> regularly and in case a requirement says something like &ldquo;if the player has reached level 10 a message should be displayed&rdquo; they would implement it as</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#000;font-weight:700>if</span> (<span style=color:#000;font-weight:700>new</span> HasReachedLevel(<span style=color:#099>10</span>).IsSatisfiedBy(player))
-</span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>	view.DisplayMessage(<span style=color:#d14>&#34;Congratulations! You have reached level 10.&#34;</span>);
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p>Pretty good but did you notice that they changed the order of player and level in their (code) story? With the aid of an extension method we can express this requirement as</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#000;font-weight:700>if</span> (player.Satisfies(<span style=color:#000;font-weight:700>new</span> HasReachedLevel(<span style=color:#099>10</span>)))
-</span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>	view.DisplayMessage(<span style=color:#d14>&#34;Congratulations! You have reached level 10.&#34;</span>);
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p>Here is the extension method that allows you to express the requirement in this way</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>static</span> <span style=color:#458;font-weight:700>bool</span> Satisfies&lt;t&gt;(<span style=color:#000;font-weight:700>this</span> T candidate, ISpecification&lt;t&gt; specification)
-</span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>return</span> specification.IsSatisfiedBy(candidate);
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div></div><div class=tags><ul class=flat><li><a href=../../../../tags/csharp>CSharp</a></li><li><a href=../../../../tags/patterns>Patterns</a></li></ul></div></div></div><div class="footer wrapper"><nav class=nav><div>2022 <a href=https://github.com/knadh/hugo-ink>Ink</a> theme on <a href=https://gohugo.io>Hugo</a></div></nav></div><script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-9DP4SV12YW",{anonymize_ip:!1})}</script><script>feather.replace()</script></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Extension methods to improve readability - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta itemprop="name" content="Extension methods to improve readability">
+<meta itemprop="description" content="A common reason to take advantage of extension methods is to enhance readability (think fluent interfaces). My team uses the specification pattern regularly and in case a requirement says something like &ldquo;if the player has reached level 10 a message should be displayed&rdquo; they would implement it as
+if (new HasReachedLevel(10).IsSatisfiedBy(player)) { view.DisplayMessage(&#34;Congratulations! You have reached level 10.&#34;); } Pretty good but did you notice that they changed the order of player and level in their (code) story?"><meta itemprop="datePublished" content="2009-08-28T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
+<meta itemprop="wordCount" content="129">
+<meta itemprop="keywords" content="CSharp,Patterns," /><meta property="og:title" content="Extension methods to improve readability" />
+<meta property="og:description" content="A common reason to take advantage of extension methods is to enhance readability (think fluent interfaces). My team uses the specification pattern regularly and in case a requirement says something like &ldquo;if the player has reached level 10 a message should be displayed&rdquo; they would implement it as
+if (new HasReachedLevel(10).IsSatisfiedBy(player)) { view.DisplayMessage(&#34;Congratulations! You have reached level 10.&#34;); } Pretty good but did you notice that they changed the order of player and level in their (code) story?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timvw.be/2009/08/28/extension-methods-to-improve-readability/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2009-08-28T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Extension methods to improve readability"/>
+<meta name="twitter:description" content="A common reason to take advantage of extension methods is to enhance readability (think fluent interfaces). My team uses the specification pattern regularly and in case a requirement says something like &ldquo;if the player has reached level 10 a message should be displayed&rdquo; they would implement it as
+if (new HasReachedLevel(10).IsSatisfiedBy(player)) { view.DisplayMessage(&#34;Congratulations! You have reached level 10.&#34;); } Pretty good but did you notice that they changed the order of player and level in their (code) story?"/>
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li><li><a class="masto-link" rel="me" href="https://fosstodon.org/@timvw"></a></li>
+			</ul>
+		
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">28</span>
+							<span class="rest">Aug 2009</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">Extension methods to improve readability</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<p>A common reason to take advantage of extension methods is to enhance readability (think fluent interfaces). My team uses the <a href="http://en.wikipedia.org/wiki/Specification_pattern">specification pattern</a> regularly and in case a requirement says something like &ldquo;if the player has reached level 10 a message should be displayed&rdquo; they would implement it as</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">new</span> HasReachedLevel(<span style="color:#099">10</span>).IsSatisfiedBy(player))
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	view.DisplayMessage(<span style="color:#d14">&#34;Congratulations! You have reached level 10.&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Pretty good but did you notice that they changed the order of player and level in their (code) story? With the aid of an extension method we can express this requirement as</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">if</span> (player.Satisfies(<span style="color:#000;font-weight:bold">new</span> HasReachedLevel(<span style="color:#099">10</span>)))
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	view.DisplayMessage(<span style="color:#d14">&#34;Congratulations! You have reached level 10.&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Here is the extension method that allows you to express the requirement in this way</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">bool</span> Satisfies&lt;t&gt;(<span style="color:#000;font-weight:bold">this</span> T candidate, ISpecification&lt;t&gt; specification)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> specification.IsSatisfiedBy(candidate);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+			</div>
+
+			<div class="tags">
+				
+					
+						<ul class="flat">
+							
+							<li><a href="../../../../tags/csharp">CSharp</a></li>
+							
+							<li><a href="../../../../tags/patterns">Patterns</a></li>
+							
+						</ul>
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
+}
+</script>
+<script>feather.replace()</script>
+</body>
+</html>

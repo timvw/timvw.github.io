@@ -1,60 +1,173 @@
-<!doctype html><html><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>Little INotifyPropertyChanged helper - Tim Van Wassenhove</title><meta name=viewport content="width=device-width,initial-scale=1"><meta itemprop=name content="Little INotifyPropertyChanged helper"><meta itemprop=description content="Most implementations of INotifyPropertyChanged look as following (notice that you have to make sure that the hardcoded PropertyName is spelled correctly)
-class MyClass : INotifyPropertyChanged { public event PropertyChangedEventHandler PropertyChanged; private int x; public int X { get { return this.x; } set { if (this.x != value) { this.x = value; this.OnPropertyChanged(&#34;X&#34;); } } } [MethodImpl(MethodImplOptions.NoInlining)] private void Fire(Delegate del, params object[] args) { if (del != null) { foreach (Delegate sink in del."><meta itemprop=datePublished content="2007-03-19T00:00:00+00:00"><meta itemprop=dateModified content="2021-01-04T22:47:36+01:00"><meta itemprop=wordCount content="181"><meta itemprop=keywords content="CSharp,Windows Forms,"><meta property="og:title" content="Little INotifyPropertyChanged helper"><meta property="og:description" content="Most implementations of INotifyPropertyChanged look as following (notice that you have to make sure that the hardcoded PropertyName is spelled correctly)
-class MyClass : INotifyPropertyChanged { public event PropertyChangedEventHandler PropertyChanged; private int x; public int X { get { return this.x; } set { if (this.x != value) { this.x = value; this.OnPropertyChanged(&#34;X&#34;); } } } [MethodImpl(MethodImplOptions.NoInlining)] private void Fire(Delegate del, params object[] args) { if (del != null) { foreach (Delegate sink in del."><meta property="og:type" content="article"><meta property="og:url" content="https://timvw.be/2007/03/19/little-inotifypropertychanged-helper/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2007-03-19T00:00:00+00:00"><meta property="article:modified_time" content="2021-01-04T22:47:36+01:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Little INotifyPropertyChanged helper"><meta name=twitter:description content="Most implementations of INotifyPropertyChanged look as following (notice that you have to make sure that the hardcoded PropertyName is spelled correctly)
-class MyClass : INotifyPropertyChanged { public event PropertyChangedEventHandler PropertyChanged; private int x; public int X { get { return this.x; } set { if (this.x != value) { this.x = value; this.OnPropertyChanged(&#34;X&#34;); } } } [MethodImpl(MethodImplOptions.NoInlining)] private void Fire(Delegate del, params object[] args) { if (del != null) { foreach (Delegate sink in del."><link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel=stylesheet type=text/css><link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/normalize.css><link rel=stylesheet type=text/css media=screen href=https://timvw.be/css/main.css><link id=dark-scheme rel=stylesheet type=text/css href=https://timvw.be/css/dark.css><script src=https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js></script>
-<script src=https://timvw.be/js/main.js></script></head><body><div class="container wrapper"><div class=header><h1 class=site-title><a href=https://timvw.be/>Tim Van Wassenhove</a></h1><div class=site-description><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social"><ul class=flat><li><a href=https://twitter.com/timvw title=Twitter><i data-feather=twitter></i></a></li><li><a href=https://github.com/timvw title=Github><i data-feather=github></i></a></li><li><a href=https://www.linkedin.com/in/timvanwassenhove title=Linkedin><i data-feather=linkedin></i></a></li><li><a href=https://timvw.be/feed.xml title=RSS><i data-feather=rss></i></a></li><li><a class=masto-link rel=me href=https://fosstodon.org/@timvw></a></li></ul></nav></div><nav class=nav><ul class=flat><li><a href=../../../../>Home</a></li><li><a href=../../../../posts>All posts</a></li><li><a href=../../../../tags>Tags</a></li></ul></nav></div><div class=post><div class=post-header><div class=meta><div class=date><span class=day>19</span>
-<span class=rest>Mar 2007</span></div></div><div class=matter><h1 class=title>Little INotifyPropertyChanged helper</h1></div></div><div class=markdown><p>Most implementations of INotifyPropertyChanged look as following (notice that you have to make sure that the hardcoded PropertyName is spelled correctly)</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#000;font-weight:700>class</span> <span style=color:#458;font-weight:700>MyClass</span> : INotifyPropertyChanged
-</span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> <span style=color:#000;font-weight:700>event</span> PropertyChangedEventHandler PropertyChanged;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>private</span> <span style=color:#458;font-weight:700>int</span> x;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>public</span> <span style=color:#458;font-weight:700>int</span> X
-</span></span><span style=display:flex><span>	{
-</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>get</span> { <span style=color:#000;font-weight:700>return</span> <span style=color:#000;font-weight:700>this</span>.x; }
-</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>set</span>
-</span></span><span style=display:flex><span>		{
-</span></span><span style=display:flex><span>			<span style=color:#000;font-weight:700>if</span> (<span style=color:#000;font-weight:700>this</span>.x != <span style=color:#000;font-weight:700>value</span>)
-</span></span><span style=display:flex><span>			{
-</span></span><span style=display:flex><span>				<span style=color:#000;font-weight:700>this</span>.x = <span style=color:#000;font-weight:700>value</span>;
-</span></span><span style=display:flex><span>				<span style=color:#000;font-weight:700>this</span>.OnPropertyChanged(<span style=color:#d14>&#34;X&#34;</span>);
-</span></span><span style=display:flex><span>			}
-</span></span><span style=display:flex><span>		}
-</span></span><span style=display:flex><span>	}
-</span></span><span style=display:flex><span><span style=color:teal>
-</span></span></span><span style=display:flex><span><span style=color:teal>	[MethodImpl(MethodImplOptions.NoInlining)]</span>
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>private</span> <span style=color:#000;font-weight:700>void</span> Fire(Delegate del, <span style=color:#000;font-weight:700>params</span> <span style=color:#458;font-weight:700>object</span>[] args)
-</span></span><span style=display:flex><span>	{
-</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>if</span> (del != <span style=color:#000;font-weight:700>null</span>)
-</span></span><span style=display:flex><span>		{
-</span></span><span style=display:flex><span>			<span style=color:#000;font-weight:700>foreach</span> (Delegate sink <span style=color:#000;font-weight:700>in</span> del.GetInvocationList())
-</span></span><span style=display:flex><span>			{
-</span></span><span style=display:flex><span>				<span style=color:#000;font-weight:700>try</span> { sink.DynamicInvoke(args); }
-</span></span><span style=display:flex><span>				<span style=color:#000;font-weight:700>catch</span> { }
-</span></span><span style=display:flex><span>			}
-</span></span><span style=display:flex><span>		}
-</span></span><span style=display:flex><span>	}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>protected</span> <span style=color:#000;font-weight:700>virtual</span> <span style=color:#000;font-weight:700>void</span> OnPropertyChanged( <span style=color:#458;font-weight:700>string</span> propertyName )
-</span></span><span style=display:flex><span>	{
-</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>this</span>.Fire( <span style=color:#000;font-weight:700>this</span>.PropertyChanged, <span style=color:#000;font-weight:700>new</span> PropertyChangedEventArgs( propertyName ) );
-</span></span><span style=display:flex><span>	}
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p>Everytime you refactor a property you also have to make sure to refactor the string with it&rsquo;s name in the setter method. Here&rsquo;s a helper method that makes life a little easier</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#000;font-weight:700>protected</span> <span style=color:#000;font-weight:700>void</span> OnPropertyChanged()
-</span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>this</span>.OnPropertyChanged(<span style=color:#000;font-weight:700>new</span> StackTrace(<span style=color:#000;font-weight:700>false</span>).GetFrame(<span style=color:#099>1</span>).GetMethod().Name.Substring(<span style=color:#099>4</span>));
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p>This makes the implementation of a property as simple as (No more hardcoded strings to maintain)</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=display:flex><span><span style=color:#000;font-weight:700>public</span> <span style=color:#458;font-weight:700>int</span> X
-</span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>get</span> { <span style=color:#000;font-weight:700>return</span> <span style=color:#000;font-weight:700>this</span>.x; }
-</span></span><span style=display:flex><span>	<span style=color:#000;font-weight:700>set</span>
-</span></span><span style=display:flex><span>	{
-</span></span><span style=display:flex><span>		<span style=color:#000;font-weight:700>if</span> (<span style=color:#000;font-weight:700>this</span>.x != <span style=color:#000;font-weight:700>value</span>)
-</span></span><span style=display:flex><span>		{
-</span></span><span style=display:flex><span>			<span style=color:#000;font-weight:700>this</span>.x = <span style=color:#000;font-weight:700>value</span>;
-</span></span><span style=display:flex><span>			<span style=color:#000;font-weight:700>this</span>.OnPropertyChanged();
-</span></span><span style=display:flex><span>		}
-</span></span><span style=display:flex><span>	}
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div></div><div class=tags><ul class=flat><li><a href=../../../../tags/csharp>CSharp</a></li><li><a href=../../../../tags/windows-forms>Windows Forms</a></li></ul></div></div></div><div class="footer wrapper"><nav class=nav><div>2022 <a href=https://github.com/knadh/hugo-ink>Ink</a> theme on <a href=https://gohugo.io>Hugo</a></div></nav></div><script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-9DP4SV12YW",{anonymize_ip:!1})}</script><script>feather.replace()</script></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Little INotifyPropertyChanged helper - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta itemprop="name" content="Little INotifyPropertyChanged helper">
+<meta itemprop="description" content="Most implementations of INotifyPropertyChanged look as following (notice that you have to make sure that the hardcoded PropertyName is spelled correctly)
+class MyClass : INotifyPropertyChanged { public event PropertyChangedEventHandler PropertyChanged; private int x; public int X { get { return this.x; } set { if (this.x != value) { this.x = value; this.OnPropertyChanged(&#34;X&#34;); } } } [MethodImpl(MethodImplOptions.NoInlining)] private void Fire(Delegate del, params object[] args) { if (del != null) { foreach (Delegate sink in del."><meta itemprop="datePublished" content="2007-03-19T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
+<meta itemprop="wordCount" content="181">
+<meta itemprop="keywords" content="CSharp,Windows Forms," /><meta property="og:title" content="Little INotifyPropertyChanged helper" />
+<meta property="og:description" content="Most implementations of INotifyPropertyChanged look as following (notice that you have to make sure that the hardcoded PropertyName is spelled correctly)
+class MyClass : INotifyPropertyChanged { public event PropertyChangedEventHandler PropertyChanged; private int x; public int X { get { return this.x; } set { if (this.x != value) { this.x = value; this.OnPropertyChanged(&#34;X&#34;); } } } [MethodImpl(MethodImplOptions.NoInlining)] private void Fire(Delegate del, params object[] args) { if (del != null) { foreach (Delegate sink in del." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://timvw.be/2007/03/19/little-inotifypropertychanged-helper/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2007-03-19T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Little INotifyPropertyChanged helper"/>
+<meta name="twitter:description" content="Most implementations of INotifyPropertyChanged look as following (notice that you have to make sure that the hardcoded PropertyName is spelled correctly)
+class MyClass : INotifyPropertyChanged { public event PropertyChangedEventHandler PropertyChanged; private int x; public int X { get { return this.x; } set { if (this.x != value) { this.x = value; this.OnPropertyChanged(&#34;X&#34;); } } } [MethodImpl(MethodImplOptions.NoInlining)] private void Fire(Delegate del, params object[] args) { if (del != null) { foreach (Delegate sink in del."/>
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li><li><a class="masto-link" rel="me" href="https://fosstodon.org/@timvw"></a></li>
+			</ul>
+		
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">19</span>
+							<span class="rest">Mar 2007</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">Little INotifyPropertyChanged helper</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<p>Most implementations of INotifyPropertyChanged look as following (notice that you have to make sure that the hardcoded PropertyName is spelled correctly)</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">MyClass</span> : INotifyPropertyChanged
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">event</span> PropertyChangedEventHandler PropertyChanged;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> x;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> X
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.x; }
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">set</span>
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.x != <span style="color:#000;font-weight:bold">value</span>)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">this</span>.x = <span style="color:#000;font-weight:bold">value</span>;
+</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">this</span>.OnPropertyChanged(<span style="color:#d14">&#34;X&#34;</span>);
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span><span style="color:#008080">
+</span></span></span><span style="display:flex;"><span><span style="color:#008080">	[MethodImpl(MethodImplOptions.NoInlining)]</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Fire(Delegate del, <span style="color:#000;font-weight:bold">params</span> <span style="color:#458;font-weight:bold">object</span>[] args)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> (del != <span style="color:#000;font-weight:bold">null</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">foreach</span> (Delegate sink <span style="color:#000;font-weight:bold">in</span> del.GetInvocationList())
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">try</span> { sink.DynamicInvoke(args); }
+</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">catch</span> { }
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">virtual</span> <span style="color:#000;font-weight:bold">void</span> OnPropertyChanged( <span style="color:#458;font-weight:bold">string</span> propertyName )
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.Fire( <span style="color:#000;font-weight:bold">this</span>.PropertyChanged, <span style="color:#000;font-weight:bold">new</span> PropertyChangedEventArgs( propertyName ) );
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Everytime you refactor a property you also have to make sure to refactor the string with it&rsquo;s name in the setter method. Here&rsquo;s a helper method that makes life a little easier</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">void</span> OnPropertyChanged()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">this</span>.OnPropertyChanged(<span style="color:#000;font-weight:bold">new</span> StackTrace(<span style="color:#000;font-weight:bold">false</span>).GetFrame(<span style="color:#099">1</span>).GetMethod().Name.Substring(<span style="color:#099">4</span>));
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This makes the implementation of a property as simple as (No more hardcoded strings to maintain)</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> X
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.x; }
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">set</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.x != <span style="color:#000;font-weight:bold">value</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">this</span>.x = <span style="color:#000;font-weight:bold">value</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">this</span>.OnPropertyChanged();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+			</div>
+
+			<div class="tags">
+				
+					
+						<ul class="flat">
+							
+							<li><a href="../../../../tags/csharp">CSharp</a></li>
+							
+							<li><a href="../../../../tags/windows-forms">Windows Forms</a></li>
+							
+						</ul>
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2022  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
+}
+</script>
+<script>feather.replace()</script>
+</body>
+</html>
