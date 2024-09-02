@@ -15,6 +15,11 @@ Now use the fork as your them:
 git submodule add https://github.com/timvw/hugo-ink.git ./themes/ink
 ```
 
-.
+When cloning the repo:
+
+```bash
+git clone git@github.com:timvw/timvw.github.io.git
+git submodule update --init --recursive
+```
 
 
