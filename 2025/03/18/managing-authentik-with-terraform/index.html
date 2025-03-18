@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Managing Authentik with Terraform - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	
+  <meta itemprop="name" content="Managing Authentik with Terraform">
+  <meta itemprop="description" content="Introduction In my previous post, I detailed how to deploy Authentik on Kubernetes using FluxCD for GitOps-driven management. Today, I’ll explore how to manage the configuration of your Authentik instance using Terraform, providing a complete infrastructure-as-code solution for your identity provider.
+Why Terraform for Authentik? While deploying Authentik with Kubernetes and FluxCD gives us a solid foundation, we still need to configure the actual identity provider - creating applications, setting up OAuth providers, configuring authorization policies, and more. This is where Terraform comes in.">
+  <meta itemprop="datePublished" content="2025-03-18T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-03-18T11:34:12+01:00">
+  <meta itemprop="wordCount" content="588">
+  <meta itemprop="keywords" content="Terraform,Authentik,Identity,Infrastructure,Iac"><meta property="og:url" content="https://timvw.be/2025/03/18/managing-authentik-with-terraform/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Managing Authentik with Terraform">
+  <meta property="og:description" content="Introduction In my previous post, I detailed how to deploy Authentik on Kubernetes using FluxCD for GitOps-driven management. Today, I’ll explore how to manage the configuration of your Authentik instance using Terraform, providing a complete infrastructure-as-code solution for your identity provider.
+Why Terraform for Authentik? While deploying Authentik with Kubernetes and FluxCD gives us a solid foundation, we still need to configure the actual identity provider - creating applications, setting up OAuth providers, configuring authorization policies, and more. This is where Terraform comes in.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-03-18T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-03-18T11:34:12+01:00">
+    <meta property="article:tag" content="Terraform">
+    <meta property="article:tag" content="Authentik">
+    <meta property="article:tag" content="Identity">
+    <meta property="article:tag" content="Infrastructure">
+    <meta property="article:tag" content="Iac">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Managing Authentik with Terraform">
+  <meta name="twitter:description" content="Introduction In my previous post, I detailed how to deploy Authentik on Kubernetes using FluxCD for GitOps-driven management. Today, I’ll explore how to manage the configuration of your Authentik instance using Terraform, providing a complete infrastructure-as-code solution for your identity provider.
+Why Terraform for Authentik? While deploying Authentik with Kubernetes and FluxCD gives us a solid foundation, we still need to configure the actual identity provider - creating applications, setting up OAuth providers, configuring authorization policies, and more. This is where Terraform comes in.">
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+	<link href="https://github.com/timvw" rel="me">
+    <link href="https://timvw.be/" rel="me">
+    <link href="https://fosstodon.org/@timvw" rel="me">
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li><li><a rel="me" href="https://fosstodon.org/@timvw" class="masto-link" ></a></li>
+			</ul>
+		
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">18</span>
+							<span class="rest">Mar 2025</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">Managing Authentik with Terraform</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<h2 id="introduction">Introduction</h2>
+<p>In my <a href="../../../../2025/03/17/setting-up-authentik-with-kubernetes-and-fluxcd/">previous post</a>, I detailed how to deploy <a href="https://goauthentik.io/">Authentik</a> on Kubernetes using FluxCD for GitOps-driven management. Today, I&rsquo;ll explore how to manage the configuration of your Authentik instance using Terraform, providing a complete infrastructure-as-code solution for your identity provider.</p>
+<h2 id="why-terraform-for-authentik">Why Terraform for Authentik?</h2>
+<p>While deploying Authentik with Kubernetes and FluxCD gives us a solid foundation, we still need to configure the actual identity provider - creating applications, setting up OAuth providers, configuring authorization policies, and more. This is where Terraform comes in.</p>
+<p>Using Terraform to manage Authentik configuration offers several benefits:</p>
+<ol>
+<li><strong>Version-controlled configuration</strong>: All changes to your identity infrastructure are tracked in Git</li>
+<li><strong>Reproducibility</strong>: You can recreate your entire identity setup in a new environment</li>
+<li><strong>Automation</strong>: Integrate identity management into your CI/CD pipelines</li>
+<li><strong>Documentation as code</strong>: Your Terraform code serves as documentation for your identity setup</li>
+<li><strong>Consistency</strong>: Ensure consistent configuration across environments</li>
+</ol>
+<h2 id="the-authentik-terraform-provider">The Authentik Terraform Provider</h2>
+<p>The <a href="https://registry.terraform.io/providers/goauthentik/authentik/latest/docs">Authentik Terraform Provider</a> allows you to manage your Authentik instance with infrastructure as code. Here&rsquo;s how to set it up:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#1f2328">terraform</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">required_providers</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#1f2328">authentik</span> = <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#1f2328">source</span>  = <span style="color:#0a3069">&#34;goauthentik/authentik&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#1f2328">version</span> = <span style="color:#0a3069">&#34;2024.12.0&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">
+</span></span></span><span style="display:flex;"><span><span style="color:#cf222e">provider</span> <span style="color:#0a3069">&#34;authentik&#34;</span> <span style="color:#1f2328">{</span><span style="color:#57606a">
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">  # Connection details are configured via environment variables
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"></span><span style="color:#1f2328">}</span>
+</span></span></code></pre></div><h2 id="environment-variables-authentication">Environment Variables Authentication</h2>
+<p>Rather than hardcoding credentials in your Terraform configuration (which would be a security risk), I use environment variables to authenticate with Authentik:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#57606a"># Authentik configuration</span>
+</span></span><span style="display:flex;"><span><span style="color:#953800">AUTHENTIK_URL</span><span style="color:#0550ae">=</span><span style="color:#0a3069">&#34;https://authentik.apps.example.com/&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#953800">AUTHENTIK_TOKEN</span><span style="color:#0550ae">=</span><span style="color:#0a3069">&#34;your_api_token&#34;</span>
+</span></span></code></pre></div><p>For convenience, I keep these in a <code>.env</code> file (which is not committed to version control) and source it before running Terraform commands:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#6639ba">source</span> .env
+</span></span><span style="display:flex;"><span>terraform plan
+</span></span></code></pre></div><h2 id="what-can-you-manage-with-terraform">What Can You Manage with Terraform?</h2>
+<p>The <a href="https://registry.terraform.io/providers/goauthentik/authentik/latest/docs">Authentik Terraform provider</a> allows you to manage nearly all aspects of your Authentik configuration:</p>
+<ul>
+<li><strong>Applications</strong>: Define the applications that users can access through Authentik</li>
+<li><strong>Providers</strong>: Configure authentication providers (OAuth2, SAML, LDAP, etc.)</li>
+<li><strong>Sources</strong>: Set up identity sources like social login providers</li>
+<li><strong>Flows</strong>: Create and customize authentication flows</li>
+<li><strong>Policies</strong>: Define access policies for applications and resources</li>
+<li><strong>Groups</strong>: Manage user groups for access control</li>
+<li><strong>Stages</strong>: Configure the various stages that make up authentication flows</li>
+<li><strong>Property Mappings</strong>: Control how user attributes are mapped between systems</li>
+</ul>
+<h2 id="common-patterns">Common Patterns</h2>
+<p>When working with Terraform and Authentik, I&rsquo;ve found several useful patterns:</p>
+<h3 id="using-data-sources-for-existing-resources">Using Data Sources for Existing Resources</h3>
+<p>Often, you&rsquo;ll need to reference existing resources in Authentik. Data sources provide a way to reference these resources without managing them directly:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#cf222e">data</span> <span style="color:#0a3069">&#34;authentik_flow&#34;</span> <span style="color:#0a3069">&#34;default_authorization_flow&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">slug</span> = <span style="color:#0a3069">&#34;default-provider-authorization-implicit-consent&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">
+</span></span></span><span style="display:flex;"><span><span style="color:#cf222e">data</span> <span style="color:#0a3069">&#34;authentik_certificate_key_pair&#34;</span> <span style="color:#0a3069">&#34;default&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name</span> = <span style="color:#0a3069">&#34;authentik Self-signed Certificate&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span></code></pre></div><h3 id="modular-configuration">Modular Configuration</h3>
+<p>As your Authentik configuration grows, it&rsquo;s helpful to organize your Terraform code into modular units. I typically structure my configuration with separate files for different functional areas:</p>
+<ul>
+<li><code>provider.tf</code> - Provider configuration</li>
+<li><code>variables.tf</code> - Input variables</li>
+<li><code>applications.tf</code> - Application definitions</li>
+<li><code>oauth_providers.tf</code> - OAuth2 provider configurations</li>
+<li><code>access_control.tf</code> - Groups and policies</li>
+<li><code>outputs.tf</code> - Outputs, like client secrets that need to be used elsewhere</li>
+</ul>
+<h2 id="coming-next">Coming Next</h2>
+<p>In upcoming posts, I&rsquo;ll dive deeper into specific use cases for Authentik with Terraform:</p>
+<ol>
+<li>Setting up Google OAuth for social login</li>
+<li>Configuring OAuth2 providers for applications like Grafana and MinIO</li>
+<li>Implementing fine-grained access control with groups and policies</li>
+<li>Creating custom property mappings for specialized needs</li>
+</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>Managing Authentik with Terraform completes the infrastructure-as-code story that we began with Kubernetes and FluxCD. Together, these tools provide a robust, reproducible approach to identity management that fits well into a modern DevOps workflow.</p>
+<p>By treating your identity provider configuration as code, you gain all the benefits of version control, peer review, and automated deployment while maintaining tight control over your authentication and authorization infrastructure.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://goauthentik.io/">Authentik Official Website</a></li>
+<li><a href="https://registry.terraform.io/providers/goauthentik/authentik/latest/docs">Authentik Terraform Provider Documentation</a></li>
+<li><a href="https://www.terraform.io/docs/">Terraform Documentation</a></li>
+</ul>
+
+			</div>
+
+			<div class="tags">
+				
+					
+						<ul class="flat">
+							
+							<li><a href="../../../../tags/terraform">terraform</a></li>
+							
+							<li><a href="../../../../tags/authentik">authentik</a></li>
+							
+							<li><a href="../../../../tags/identity">identity</a></li>
+							
+							<li><a href="../../../../tags/infrastructure">infrastructure</a></li>
+							
+							<li><a href="../../../../tags/iac">iac</a></li>
+							
+						</ul>
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2025  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
+</body>
+</html>
