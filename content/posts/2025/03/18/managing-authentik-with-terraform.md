@@ -3,7 +3,7 @@ title: "Managing Authentik with Terraform"
 date: 2025-03-18T12:00:00+01:00
 draft: false
 tags: ["terraform", "authentik", "identity", "infrastructure", "iac"]
-categories: ["DevOps", "Infrastructure"]
+categories: ["devops", "infrastructure"]
 ---
 
 ## Introduction

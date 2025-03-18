@@ -1,9 +1,9 @@
 ---
-title: "Setting Up Authentik with Kubernetes and FluxCD"
-date: 2025-03-17T10:00:00+01:00
+title: "Setting up Authentik with Kubernetes and FluxCD"
+date: 2025-03-17T12:00:00+01:00
 draft: false
 tags: ["kubernetes", "authentik", "gitops", "fluxcd", "security"]
-categories: ["DevOps", "Infrastructure"]
+categories: ["devops", "infrastructure"]
 ---
 
 ## Introduction to Authentik
