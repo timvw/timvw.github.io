@@ -3,26 +3,30 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>ConcurrencyCheck with EF/Devart on Oracle - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="ConcurrencyCheck with EF/Devart on Oracle">
-<meta itemprop="description" content="Earlier this week I was wondering how I could easily achieve optimistic concurrency in a system using EF/Devart targetting an Oracle database (Not really my preferred technologies, but whatever:P). Here is a potential solution:
+	
+  <meta itemprop="name" content="ConcurrencyCheck with EF/Devart on Oracle">
+  <meta itemprop="description" content="Earlier this week I was wondering how I could easily achieve optimistic concurrency in a system using EF/Devart targetting an Oracle database (Not really my preferred technologies, but whatever:P). Here is a potential solution:
 Using a column for optimistic concurrency is documented on the devart website:
-[Table(&#34;TEST&#34;)] public class Test : IRequireConcurrencyCheck { ... [Required] [Column(&#34;VERSION&#34;)] [ConcurrencyCheck] // TELL EF to use this column as our &#34;timestamp/logical version&#34; public virtual int Version { get; protected set; } // protected, so users of this type can not touch this (easily) } By introducing an interface that exposes a version number like below:"><meta itemprop="datePublished" content="2015-02-20T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="183">
-<meta itemprop="keywords" content="" /><meta property="og:title" content="ConcurrencyCheck with EF/Devart on Oracle" />
-<meta property="og:description" content="Earlier this week I was wondering how I could easily achieve optimistic concurrency in a system using EF/Devart targetting an Oracle database (Not really my preferred technologies, but whatever:P). Here is a potential solution:
+[Table(&#34;TEST&#34;)] public class Test : IRequireConcurrencyCheck { ... [Required] [Column(&#34;VERSION&#34;)] [ConcurrencyCheck] // TELL EF to use this column as our &#34;timestamp/logical version&#34; public virtual int Version { get; protected set; } // protected, so users of this type can not touch this (easily) } By introducing an interface that exposes a version number like below:">
+  <meta itemprop="datePublished" content="2015-02-20T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="183"><meta property="og:url" content="https://timvw.be/2015/02/20/concurrencycheck-with-ef/devart-on-oracle/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="ConcurrencyCheck with EF/Devart on Oracle">
+  <meta property="og:description" content="Earlier this week I was wondering how I could easily achieve optimistic concurrency in a system using EF/Devart targetting an Oracle database (Not really my preferred technologies, but whatever:P). Here is a potential solution:
 Using a column for optimistic concurrency is documented on the devart website:
-[Table(&#34;TEST&#34;)] public class Test : IRequireConcurrencyCheck { ... [Required] [Column(&#34;VERSION&#34;)] [ConcurrencyCheck] // TELL EF to use this column as our &#34;timestamp/logical version&#34; public virtual int Version { get; protected set; } // protected, so users of this type can not touch this (easily) } By introducing an interface that exposes a version number like below:" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2015/02/20/concurrencycheck-with-ef/devart-on-oracle/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2015-02-20T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+[Table(&#34;TEST&#34;)] public class Test : IRequireConcurrencyCheck { ... [Required] [Column(&#34;VERSION&#34;)] [ConcurrencyCheck] // TELL EF to use this column as our &#34;timestamp/logical version&#34; public virtual int Version { get; protected set; } // protected, so users of this type can not touch this (easily) } By introducing an interface that exposes a version number like below:">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2015-02-20T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="ConcurrencyCheck with EF/Devart on Oracle"/>
-<meta name="twitter:description" content="Earlier this week I was wondering how I could easily achieve optimistic concurrency in a system using EF/Devart targetting an Oracle database (Not really my preferred technologies, but whatever:P). Here is a potential solution:
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="ConcurrencyCheck with EF/Devart on Oracle">
+  <meta name="twitter:description" content="Earlier this week I was wondering how I could easily achieve optimistic concurrency in a system using EF/Devart targetting an Oracle database (Not really my preferred technologies, but whatever:P). Here is a potential solution:
 Using a column for optimistic concurrency is documented on the devart website:
-[Table(&#34;TEST&#34;)] public class Test : IRequireConcurrencyCheck { ... [Required] [Column(&#34;VERSION&#34;)] [ConcurrencyCheck] // TELL EF to use this column as our &#34;timestamp/logical version&#34; public virtual int Version { get; protected set; } // protected, so users of this type can not touch this (easily) } By introducing an interface that exposes a version number like below:"/>
+[Table(&#34;TEST&#34;)] public class Test : IRequireConcurrencyCheck { ... [Required] [Column(&#34;VERSION&#34;)] [ConcurrencyCheck] // TELL EF to use this column as our &#34;timestamp/logical version&#34; public virtual int Version { get; protected set; } // protected, so users of this type can not touch this (easily) } By introducing an interface that exposes a version number like below:">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -86,46 +90,46 @@ Using a column for optimistic concurrency is documented on the devart website:
 			<div class="markdown">
 				<p>Earlier this week I was wondering how I could easily achieve optimistic concurrency in a system using EF/Devart targetting an Oracle database (Not really my preferred technologies, but whatever:P). Here is a potential solution:</p>
 <p>Using a column for optimistic concurrency is documented on the devart website:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#008080">[Table(&#34;TEST&#34;)]</span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Test</span> : IRequireConcurrencyCheck  
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	...
-</span></span><span style="display:flex;"><span><span style="color:#008080">	[Required]</span>
-</span></span><span style="display:flex;"><span><span style="color:#008080">	[Column(&#34;VERSION&#34;)]</span>
-</span></span><span style="display:flex;"><span><span style="color:#008080">	[ConcurrencyCheck]</span> <span style="color:#998;font-style:italic">// TELL EF to use this column as our &#34;timestamp/logical version&#34;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">virtual</span> <span style="color:#458;font-weight:bold">int</span> Version { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">protected</span> <span style="color:#000;font-weight:bold">set</span>; } <span style="color:#998;font-style:italic">// protected, so users of this type can not touch this (easily)</span>
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#1f2328">[Table(&#34;TEST&#34;)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">class</span> <span style="color:#1f2328">Test</span> <span style="color:#1f2328">:</span> IRequireConcurrencyCheck  
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">...</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">	[Required]</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">	[Column(&#34;VERSION&#34;)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">	[ConcurrencyCheck]</span> <span style="color:#57606a">// TELL EF to use this column as our &#34;timestamp/logical version&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> <span style="color:#cf222e">virtual</span> <span style="color:#cf222e">int</span> Version <span style="color:#1f2328">{</span> <span style="color:#cf222e">get</span><span style="color:#1f2328">;</span> <span style="color:#cf222e">protected</span> <span style="color:#cf222e">set</span><span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span> <span style="color:#57606a">// protected, so users of this type can not touch this (easily)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>By introducing an interface that exposes a version number like below:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> <span style="color:#458;font-weight:bold">IRequireConcurrencyCheck</span>
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#458;font-weight:bold">int</span> Version { <span style="color:#000;font-weight:bold">get</span>; } 
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">interface</span> <span style="color:#1f2328">IRequireConcurrencyCheck</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">int</span> Version <span style="color:#1f2328">{</span> <span style="color:#cf222e">get</span><span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span> 
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>With some custom behaviour on SaveChanges we can now take away the burden of having to update the Version property correctly:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">DataContext</span> : DbContext
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> DataContext(DbConnection existingConnection)  
-</span></span><span style="display:flex;"><span>		: <span style="color:#000;font-weight:bold">base</span>(existingConnection, <span style="color:#000;font-weight:bold">true</span>)    
-</span></span><span style="display:flex;"><span>	{ 
-</span></span><span style="display:flex;"><span>		Database.SetInitializer&lt;DataContext&gt;(<span style="color:#000;font-weight:bold">null</span>);
-</span></span><span style="display:flex;"><span>	}
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">class</span> <span style="color:#1f2328">DataContext</span> <span style="color:#1f2328">:</span> DbContext
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> DataContext<span style="color:#1f2328">(</span>DbConnection existingConnection<span style="color:#1f2328">)</span>  
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">:</span> <span style="color:#cf222e">base</span><span style="color:#1f2328">(</span>existingConnection<span style="color:#1f2328">,</span> <span style="color:#cf222e">true</span><span style="color:#1f2328">)</span>    
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span> 
+</span></span><span style="display:flex;"><span>		Database<span style="color:#1f2328">.</span>SetInitializer<span style="color:#1f2328">&lt;</span>DataContext<span style="color:#1f2328">&gt;(</span><span style="color:#cf222e">null</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">int</span> SaveChanges()
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#458;font-weight:bold">var</span> = ChangeTracker        
-</span></span><span style="display:flex;"><span>			.Entries&lt;IRequireConcurrencyCheck&gt;()
-</span></span><span style="display:flex;"><span>			.Where(x =&gt; x.State == EntityState.Modified)	
-</span></span><span style="display:flex;"><span>			.ToArray();
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> <span style="color:#cf222e">override</span> <span style="color:#cf222e">int</span> SaveChanges<span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">var</span> <span style="color:#1f2328">=</span> ChangeTracker        
+</span></span><span style="display:flex;"><span>			<span style="color:#1f2328">.</span>Entries<span style="color:#1f2328">&lt;</span>IRequireConcurrencyCheck<span style="color:#1f2328">&gt;()</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#1f2328">.</span>Where<span style="color:#1f2328">(</span>x <span style="color:#1f2328">=&gt;</span> x<span style="color:#1f2328">.</span>State <span style="color:#1f2328">==</span> EntityState<span style="color:#1f2328">.</span>Modified<span style="color:#1f2328">)</span>	
+</span></span><span style="display:flex;"><span>			<span style="color:#1f2328">.</span>ToArray<span style="color:#1f2328">();</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">var</span> entity <span style="color:#000;font-weight:bold">in</span> entitiesWhichHaveConcurrencyCheck)
-</span></span><span style="display:flex;"><span>		{
-</span></span><span style="display:flex;"><span>			entity.Property&lt;<span style="color:#458;font-weight:bold">int</span>&gt;(x =&gt; x.Version).CurrentValue++;  
-</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">foreach</span> <span style="color:#1f2328">(</span><span style="color:#cf222e">var</span> entity <span style="color:#cf222e">in</span> entitiesWhichHaveConcurrencyCheck<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>			entity<span style="color:#1f2328">.</span>Property<span style="color:#1f2328">&lt;</span><span style="color:#cf222e">int</span><span style="color:#1f2328">&gt;(</span>x <span style="color:#1f2328">=&gt;</span> x<span style="color:#1f2328">.</span>Version<span style="color:#1f2328">).</span>CurrentValue<span style="color:#1f2328">++;</span>  
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">base</span>.SaveChanges();
-</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">return</span> <span style="color:#cf222e">base</span><span style="color:#1f2328">.</span>SaveChanges<span style="color:#1f2328">();</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> IDbSet&lt;Test&gt; Tests { <span style="color:#000;font-weight:bold">get</span>; <span style="color:#000;font-weight:bold">set</span>; }
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> IDbSet<span style="color:#1f2328">&lt;</span>Test<span style="color:#1f2328">&gt;</span> Tests <span style="color:#1f2328">{</span> <span style="color:#cf222e">get</span><span style="color:#1f2328">;</span> <span style="color:#cf222e">set</span><span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div>
 			</div>
 
@@ -142,16 +146,19 @@ Using a column for optimistic concurrency is documented on the devart website:
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

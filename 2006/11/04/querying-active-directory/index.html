@@ -3,23 +3,29 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Querying Active Directory - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Querying Active Directory">
-<meta itemprop="description" content="A while ago i wanted to figure out which demo accounts i had already created in my Active Directory. Since i was smart enough to give them all a description &lsquo;Demo User&rsquo; this was easily done as following
-using( DirectoryEntry directoryEntry = new DirectoryEntry() ) { using( DirectorySearcher directorySearcher = new DirectorySearcher() ) { directorySearcher.Filter = &#34;(&amp;(objectClass=user)(description=Demo User))&#34;; directorySearcher.SearchScope = SearchScope.Subtree; directorySearcher.Sort = new SortOption(&#34;displayname&#34;, SortDirection.Ascending ); SearchResultCollection results = directorySearcher."><meta itemprop="datePublished" content="2006-11-04T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="91">
-<meta itemprop="keywords" content="CSharp," /><meta property="og:title" content="Querying Active Directory" />
-<meta property="og:description" content="A while ago i wanted to figure out which demo accounts i had already created in my Active Directory. Since i was smart enough to give them all a description &lsquo;Demo User&rsquo; this was easily done as following
-using( DirectoryEntry directoryEntry = new DirectoryEntry() ) { using( DirectorySearcher directorySearcher = new DirectorySearcher() ) { directorySearcher.Filter = &#34;(&amp;(objectClass=user)(description=Demo User))&#34;; directorySearcher.SearchScope = SearchScope.Subtree; directorySearcher.Sort = new SortOption(&#34;displayname&#34;, SortDirection.Ascending ); SearchResultCollection results = directorySearcher." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2006/11/04/querying-active-directory/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2006-11-04T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="Querying Active Directory">
+  <meta itemprop="description" content="A while ago i wanted to figure out which demo accounts i had already created in my Active Directory. Since i was smart enough to give them all a description ‘Demo User’ this was easily done as following
+using( DirectoryEntry directoryEntry = new DirectoryEntry() ) { using( DirectorySearcher directorySearcher = new DirectorySearcher() ) { directorySearcher.Filter = &#34;(&amp;(objectClass=user)(description=Demo User))&#34;; directorySearcher.SearchScope = SearchScope.Subtree; directorySearcher.Sort = new SortOption(&#34;displayname&#34;, SortDirection.Ascending ); SearchResultCollection results = directorySearcher.FindAll(); foreach( SearchResult result in results ) { ResultPropertyCollection propertyCollection = result.Properties; Console.WriteLine( &#34;{0}: {1}&#34;, propertyCollection\[&#34;displayname&#34;\]\[0\].ToString(), propertyCollection\[&#34;description&#34;\]\[0\].ToString() ); } } }">
+  <meta itemprop="datePublished" content="2006-11-04T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="91">
+  <meta itemprop="keywords" content="CSharp"><meta property="og:url" content="https://timvw.be/2006/11/04/querying-active-directory/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Querying Active Directory">
+  <meta property="og:description" content="A while ago i wanted to figure out which demo accounts i had already created in my Active Directory. Since i was smart enough to give them all a description ‘Demo User’ this was easily done as following
+using( DirectoryEntry directoryEntry = new DirectoryEntry() ) { using( DirectorySearcher directorySearcher = new DirectorySearcher() ) { directorySearcher.Filter = &#34;(&amp;(objectClass=user)(description=Demo User))&#34;; directorySearcher.SearchScope = SearchScope.Subtree; directorySearcher.Sort = new SortOption(&#34;displayname&#34;, SortDirection.Ascending ); SearchResultCollection results = directorySearcher.FindAll(); foreach( SearchResult result in results ) { ResultPropertyCollection propertyCollection = result.Properties; Console.WriteLine( &#34;{0}: {1}&#34;, propertyCollection\[&#34;displayname&#34;\]\[0\].ToString(), propertyCollection\[&#34;description&#34;\]\[0\].ToString() ); } } }">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2006-11-04T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="CSharp">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Querying Active Directory"/>
-<meta name="twitter:description" content="A while ago i wanted to figure out which demo accounts i had already created in my Active Directory. Since i was smart enough to give them all a description &lsquo;Demo User&rsquo; this was easily done as following
-using( DirectoryEntry directoryEntry = new DirectoryEntry() ) { using( DirectorySearcher directorySearcher = new DirectorySearcher() ) { directorySearcher.Filter = &#34;(&amp;(objectClass=user)(description=Demo User))&#34;; directorySearcher.SearchScope = SearchScope.Subtree; directorySearcher.Sort = new SortOption(&#34;displayname&#34;, SortDirection.Ascending ); SearchResultCollection results = directorySearcher."/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Querying Active Directory">
+  <meta name="twitter:description" content="A while ago i wanted to figure out which demo accounts i had already created in my Active Directory. Since i was smart enough to give them all a description ‘Demo User’ this was easily done as following
+using( DirectoryEntry directoryEntry = new DirectoryEntry() ) { using( DirectorySearcher directorySearcher = new DirectorySearcher() ) { directorySearcher.Filter = &#34;(&amp;(objectClass=user)(description=Demo User))&#34;; directorySearcher.SearchScope = SearchScope.Subtree; directorySearcher.Sort = new SortOption(&#34;displayname&#34;, SortDirection.Ascending ); SearchResultCollection results = directorySearcher.FindAll(); foreach( SearchResult result in results ) { ResultPropertyCollection propertyCollection = result.Properties; Console.WriteLine( &#34;{0}: {1}&#34;, propertyCollection\[&#34;displayname&#34;\]\[0\].ToString(), propertyCollection\[&#34;description&#34;\]\[0\].ToString() ); } } }">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -82,22 +88,22 @@ using( DirectoryEntry directoryEntry = new DirectoryEntry() ) { using( Directory
 					
 			<div class="markdown">
 				<p>A while ago i wanted to figure out which demo accounts i had already created in my <a href="http://www.microsoft.com/windowsserver2003/technologies/directory/activedirectory/default.mspx">Active Directory</a>. Since i was smart enough to give them all a description &lsquo;Demo User&rsquo; this was easily done as following</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>using( DirectoryEntry directoryEntry = <span style="color:#000;font-weight:bold">new</span> DirectoryEntry() )
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	using( DirectorySearcher directorySearcher = <span style="color:#000;font-weight:bold">new</span> DirectorySearcher() )
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		directorySearcher.Filter = <span style="color:#d14">&#34;(&amp;(objectClass=user)(description=Demo User))&#34;</span>;
-</span></span><span style="display:flex;"><span>		directorySearcher.SearchScope = SearchScope.Subtree;
-</span></span><span style="display:flex;"><span>		directorySearcher.Sort = <span style="color:#000;font-weight:bold">new</span> SortOption(<span style="color:#d14">&#34;displayname&#34;</span>, SortDirection.Ascending );
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>using<span style="color:#1f2328">(</span> DirectoryEntry directoryEntry <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> DirectoryEntry<span style="color:#1f2328">()</span> <span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	using<span style="color:#1f2328">(</span> DirectorySearcher directorySearcher <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> DirectorySearcher<span style="color:#1f2328">()</span> <span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		directorySearcher<span style="color:#1f2328">.</span>Filter <span style="color:#1f2328">=</span> <span style="color:#0a3069">&#34;(&amp;(objectClass=user)(description=Demo User))&#34;</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>		directorySearcher<span style="color:#1f2328">.</span>SearchScope <span style="color:#1f2328">=</span> SearchScope<span style="color:#1f2328">.</span>Subtree<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>		directorySearcher<span style="color:#1f2328">.</span>Sort <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> SortOption<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;displayname&#34;</span><span style="color:#1f2328">,</span> SortDirection<span style="color:#1f2328">.</span>Ascending <span style="color:#1f2328">);</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		SearchResultCollection results = directorySearcher.FindAll();
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">foreach</span>( SearchResult result <span style="color:#000;font-weight:bold">in</span> results )
-</span></span><span style="display:flex;"><span>		{
-</span></span><span style="display:flex;"><span>			ResultPropertyCollection propertyCollection = result.Properties;
-</span></span><span style="display:flex;"><span>			Console.WriteLine( <span style="color:#d14">&#34;{0}: {1}&#34;</span>, propertyCollection<span style="color:#a61717;background-color:#e3d2d2">\</span>[<span style="color:#d14">&#34;displayname&#34;</span><span style="color:#a61717;background-color:#e3d2d2">\</span>]<span style="color:#a61717;background-color:#e3d2d2">\</span>[<span style="color:#099">0</span><span style="color:#a61717;background-color:#e3d2d2">\</span>].ToString(), propertyCollection<span style="color:#a61717;background-color:#e3d2d2">\</span>[<span style="color:#d14">&#34;description&#34;</span><span style="color:#a61717;background-color:#e3d2d2">\</span>]<span style="color:#a61717;background-color:#e3d2d2">\</span>[<span style="color:#099">0</span><span style="color:#a61717;background-color:#e3d2d2">\</span>].ToString() );
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>		SearchResultCollection results <span style="color:#1f2328">=</span> directorySearcher<span style="color:#1f2328">.</span>FindAll<span style="color:#1f2328">();</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">foreach</span><span style="color:#1f2328">(</span> SearchResult result <span style="color:#cf222e">in</span> results <span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>			ResultPropertyCollection propertyCollection <span style="color:#1f2328">=</span> result<span style="color:#1f2328">.</span>Properties<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>			Console<span style="color:#1f2328">.</span>WriteLine<span style="color:#1f2328">(</span> <span style="color:#0a3069">&#34;{0}: {1}&#34;</span><span style="color:#1f2328">,</span> propertyCollection<span style="color:#f6f8fa;background-color:#82071e">\</span><span style="color:#1f2328">[</span><span style="color:#0a3069">&#34;displayname&#34;</span><span style="color:#f6f8fa;background-color:#82071e">\</span><span style="color:#1f2328">]</span><span style="color:#f6f8fa;background-color:#82071e">\</span><span style="color:#1f2328">[</span><span style="color:#0550ae">0</span><span style="color:#f6f8fa;background-color:#82071e">\</span><span style="color:#1f2328">].</span>ToString<span style="color:#1f2328">(),</span> propertyCollection<span style="color:#f6f8fa;background-color:#82071e">\</span><span style="color:#1f2328">[</span><span style="color:#0a3069">&#34;description&#34;</span><span style="color:#f6f8fa;background-color:#82071e">\</span><span style="color:#1f2328">]</span><span style="color:#f6f8fa;background-color:#82071e">\</span><span style="color:#1f2328">[</span><span style="color:#0550ae">0</span><span style="color:#f6f8fa;background-color:#82071e">\</span><span style="color:#1f2328">].</span>ToString<span style="color:#1f2328">()</span> <span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div>
 			</div>
 
@@ -120,16 +126,19 @@ using( DirectoryEntry directoryEntry = new DirectoryEntry() ) { using( Directory
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

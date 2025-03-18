@@ -3,26 +3,32 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Using Linq for statically-typed reflection - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Using Linq for statically-typed reflection">
-<meta itemprop="description" content="I discovered the TypedReflector
-on Daniel Cazzulino&rsquo;s Blog. In essence, a simplified version of the code looks like
-public static class Reflector { public static PropertyInfo GetProperty&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as PropertyInfo; } public static FieldInfo GetField&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as FieldInfo; } public static MethodInfo GetMethod&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as MethodInfo; } public static MemberInfo GetMemberInfo(Expression memberInfoExpression) { Expression lambdaBodyExpression = ((LambdaExpression)memberInfoExpression)."><meta itemprop="datePublished" content="2008-03-14T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="147">
-<meta itemprop="keywords" content="CSharp," /><meta property="og:title" content="Using Linq for statically-typed reflection" />
-<meta property="og:description" content="I discovered the TypedReflector
-on Daniel Cazzulino&rsquo;s Blog. In essence, a simplified version of the code looks like
-public static class Reflector { public static PropertyInfo GetProperty&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as PropertyInfo; } public static FieldInfo GetField&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as FieldInfo; } public static MethodInfo GetMethod&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as MethodInfo; } public static MemberInfo GetMemberInfo(Expression memberInfoExpression) { Expression lambdaBodyExpression = ((LambdaExpression)memberInfoExpression)." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2008/03/14/using-linq-for-statically-typed-reflection/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2008-03-14T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="Using Linq for statically-typed reflection">
+  <meta itemprop="description" content="I discovered the TypedReflector
+on Daniel Cazzulino’s Blog. In essence, a simplified version of the code looks like
+public static class Reflector { public static PropertyInfo GetProperty&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as PropertyInfo; } public static FieldInfo GetField&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as FieldInfo; } public static MethodInfo GetMethod&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as MethodInfo; } public static MemberInfo GetMemberInfo(Expression memberInfoExpression) { Expression lambdaBodyExpression = ((LambdaExpression)memberInfoExpression).Body; switch (lambdaBodyExpression.NodeType) { case ExpressionType.MemberAccess: return ((MemberExpression)lambdaBodyExpression).Member; case ExpressionType.Call: return ((MethodCallExpression)lambdaBodyExpression).Method; default: throw new ArgumentException(&#34;Unsupported NodeType&#34;); } } } This class allows me to write the following">
+  <meta itemprop="datePublished" content="2008-03-14T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="147">
+  <meta itemprop="keywords" content="CSharp"><meta property="og:url" content="https://timvw.be/2008/03/14/using-linq-for-statically-typed-reflection/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Using Linq for statically-typed reflection">
+  <meta property="og:description" content="I discovered the TypedReflector
+on Daniel Cazzulino’s Blog. In essence, a simplified version of the code looks like
+public static class Reflector { public static PropertyInfo GetProperty&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as PropertyInfo; } public static FieldInfo GetField&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as FieldInfo; } public static MethodInfo GetMethod&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as MethodInfo; } public static MemberInfo GetMemberInfo(Expression memberInfoExpression) { Expression lambdaBodyExpression = ((LambdaExpression)memberInfoExpression).Body; switch (lambdaBodyExpression.NodeType) { case ExpressionType.MemberAccess: return ((MemberExpression)lambdaBodyExpression).Member; case ExpressionType.Call: return ((MethodCallExpression)lambdaBodyExpression).Method; default: throw new ArgumentException(&#34;Unsupported NodeType&#34;); } } } This class allows me to write the following">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2008-03-14T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="CSharp">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Using Linq for statically-typed reflection"/>
-<meta name="twitter:description" content="I discovered the TypedReflector
-on Daniel Cazzulino&rsquo;s Blog. In essence, a simplified version of the code looks like
-public static class Reflector { public static PropertyInfo GetProperty&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as PropertyInfo; } public static FieldInfo GetField&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as FieldInfo; } public static MethodInfo GetMethod&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as MethodInfo; } public static MemberInfo GetMemberInfo(Expression memberInfoExpression) { Expression lambdaBodyExpression = ((LambdaExpression)memberInfoExpression)."/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Using Linq for statically-typed reflection">
+  <meta name="twitter:description" content="I discovered the TypedReflector
+on Daniel Cazzulino’s Blog. In essence, a simplified version of the code looks like
+public static class Reflector { public static PropertyInfo GetProperty&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as PropertyInfo; } public static FieldInfo GetField&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as FieldInfo; } public static MethodInfo GetMethod&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression) { return GetMemberInfo(expression) as MethodInfo; } public static MemberInfo GetMemberInfo(Expression memberInfoExpression) { Expression lambdaBodyExpression = ((LambdaExpression)memberInfoExpression).Body; switch (lambdaBodyExpression.NodeType) { case ExpressionType.MemberAccess: return ((MemberExpression)lambdaBodyExpression).Member; case ExpressionType.Call: return ((MethodCallExpression)lambdaBodyExpression).Method; default: throw new ArgumentException(&#34;Unsupported NodeType&#34;); } } } This class allows me to write the following">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -86,45 +92,45 @@ public static class Reflector { public static PropertyInfo GetProperty&lt;t, TRe
 			<div class="markdown">
 				<p>I discovered the <a href="http://www.codeplex.com/Release/ProjectReleases.aspx?ProjectName=clarius&amp;ReleaseId=9495">TypedReflector</a></p>
 <p>on <a href="http://www.clariusconsulting.net/blogs/kzu/archive/2007/12/30/49063.aspx">Daniel Cazzulino&rsquo;s Blog</a>. In essence, a simplified version of the code looks like</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Reflector</span>
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> PropertyInfo GetProperty&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> GetMemberInfo(expression) <span style="color:#000;font-weight:bold">as</span> PropertyInfo;
-</span></span><span style="display:flex;"><span>	}
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">static</span> <span style="color:#cf222e">class</span> <span style="color:#1f2328">Reflector</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> <span style="color:#cf222e">static</span> PropertyInfo GetProperty<span style="color:#1f2328">&lt;</span>t<span style="color:#1f2328">,</span> TRet<span style="color:#1f2328">&gt;(</span>Expression<span style="color:#1f2328">&lt;</span>func<span style="color:#1f2328">&lt;</span>t<span style="color:#1f2328">,</span> TRet<span style="color:#1f2328">&gt;&gt;</span> expression<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">return</span> GetMemberInfo<span style="color:#1f2328">(</span>expression<span style="color:#1f2328">)</span> <span style="color:#cf222e">as</span> PropertyInfo<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> FieldInfo GetField&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> GetMemberInfo(expression) <span style="color:#000;font-weight:bold">as</span> FieldInfo;
-</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> <span style="color:#cf222e">static</span> FieldInfo GetField<span style="color:#1f2328">&lt;</span>t<span style="color:#1f2328">,</span> TRet<span style="color:#1f2328">&gt;(</span>Expression<span style="color:#1f2328">&lt;</span>func<span style="color:#1f2328">&lt;</span>t<span style="color:#1f2328">,</span> TRet<span style="color:#1f2328">&gt;&gt;</span> expression<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">return</span> GetMemberInfo<span style="color:#1f2328">(</span>expression<span style="color:#1f2328">)</span> <span style="color:#cf222e">as</span> FieldInfo<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> MethodInfo GetMethod&lt;t, TRet&gt;(Expression&lt;func&lt;t, TRet&gt;&gt; expression)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> GetMemberInfo(expression) <span style="color:#000;font-weight:bold">as</span> MethodInfo;
-</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> <span style="color:#cf222e">static</span> MethodInfo GetMethod<span style="color:#1f2328">&lt;</span>t<span style="color:#1f2328">,</span> TRet<span style="color:#1f2328">&gt;(</span>Expression<span style="color:#1f2328">&lt;</span>func<span style="color:#1f2328">&lt;</span>t<span style="color:#1f2328">,</span> TRet<span style="color:#1f2328">&gt;&gt;</span> expression<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">return</span> GetMemberInfo<span style="color:#1f2328">(</span>expression<span style="color:#1f2328">)</span> <span style="color:#cf222e">as</span> MethodInfo<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> MemberInfo GetMemberInfo(Expression memberInfoExpression)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		Expression lambdaBodyExpression = ((LambdaExpression)memberInfoExpression).Body;
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">switch</span> (lambdaBodyExpression.NodeType)
-</span></span><span style="display:flex;"><span>		{
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">case</span> ExpressionType.MemberAccess:
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span> ((MemberExpression)lambdaBodyExpression).Member;
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> <span style="color:#cf222e">static</span> MemberInfo GetMemberInfo<span style="color:#1f2328">(</span>Expression memberInfoExpression<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		Expression lambdaBodyExpression <span style="color:#1f2328">=</span> <span style="color:#1f2328">((</span>LambdaExpression<span style="color:#1f2328">)</span>memberInfoExpression<span style="color:#1f2328">).</span>Body<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">switch</span> <span style="color:#1f2328">(</span>lambdaBodyExpression<span style="color:#1f2328">.</span>NodeType<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#cf222e">case</span> ExpressionType<span style="color:#1f2328">.</span>MemberAccess<span style="color:#1f2328">:</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#cf222e">return</span> <span style="color:#1f2328">((</span>MemberExpression<span style="color:#1f2328">)</span>lambdaBodyExpression<span style="color:#1f2328">).</span>Member<span style="color:#1f2328">;</span>
 </span></span><span style="display:flex;"><span>			
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">case</span> ExpressionType.Call:
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span> ((MethodCallExpression)lambdaBodyExpression).Method;
+</span></span><span style="display:flex;"><span>			<span style="color:#cf222e">case</span> ExpressionType<span style="color:#1f2328">.</span>Call<span style="color:#1f2328">:</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#cf222e">return</span> <span style="color:#1f2328">((</span>MethodCallExpression<span style="color:#1f2328">)</span>lambdaBodyExpression<span style="color:#1f2328">).</span>Method<span style="color:#1f2328">;</span>
 </span></span><span style="display:flex;"><span>			
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">default</span>:
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">throw</span> <span style="color:#000;font-weight:bold">new</span> ArgumentException(<span style="color:#d14">&#34;Unsupported NodeType&#34;</span>);
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>			<span style="color:#cf222e">default</span><span style="color:#1f2328">:</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#cf222e">throw</span> <span style="color:#cf222e">new</span> ArgumentException<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;Unsupported NodeType&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>This class allows me to write the following</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>PropertyInfo namePropertyInfo = Reflector.GetProperty&lt;person, <span style="color:#458;font-weight:bold">string</span>&gt;(p =&gt; p.Surname);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>PropertyInfo namePropertyInfo <span style="color:#1f2328">=</span> Reflector<span style="color:#1f2328">.</span>GetProperty<span style="color:#1f2328">&lt;</span>person<span style="color:#1f2328">,</span> <span style="color:#cf222e">string</span><span style="color:#1f2328">&gt;(</span>p <span style="color:#1f2328">=&gt;</span> p<span style="color:#1f2328">.</span>Surname<span style="color:#1f2328">);</span>
 </span></span></code></pre></div><p>Not only can i be sure that the lambda (and thus the namePropertyInfo.Invoke) will always return a string, i can also use it to avoid &lsquo;hardcoded&rsquo; propertynames</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#998;font-style:italic">//const string SurnameProperty = &#34;Surname&#34;;</span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">//comboBox1.DisplayMember = SurnameProperty;</span>
-</span></span><span style="display:flex;"><span>comboBox1.DisplayMember = Reflector.GetProperty&lt;person, <span style="color:#458;font-weight:bold">string</span>&gt;(p =&gt; p.Surname).Name;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#57606a">//const string SurnameProperty = &#34;Surname&#34;;</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a">//comboBox1.DisplayMember = SurnameProperty;</span>
+</span></span><span style="display:flex;"><span>comboBox1<span style="color:#1f2328">.</span>DisplayMember <span style="color:#1f2328">=</span> Reflector<span style="color:#1f2328">.</span>GetProperty<span style="color:#1f2328">&lt;</span>person<span style="color:#1f2328">,</span> <span style="color:#cf222e">string</span><span style="color:#1f2328">&gt;(</span>p <span style="color:#1f2328">=&gt;</span> p<span style="color:#1f2328">.</span>Surname<span style="color:#1f2328">).</span>Name<span style="color:#1f2328">;</span>
 </span></span></code></pre></div>
 			</div>
 
@@ -147,16 +153,19 @@ public static class Reflector { public static PropertyInfo GetProperty&lt;t, TRe
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

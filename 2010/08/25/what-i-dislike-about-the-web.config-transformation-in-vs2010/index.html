@@ -3,23 +3,30 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>What i dislike about the Web.config Transformation in VS2010 - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="What i dislike about the Web.config Transformation in VS2010">
-<meta itemprop="description" content="There are a couple of things that i strongly dislike about the Web.config transformation in VS2010
-Only works with XML files (eg: Can&rsquo;t be used to generate a release notes.txt file) Does not seem to support externalized sections, eg: log4net.config in a separate file No support to copy/paste transform files Only works when Visual Studio 2010 is installed (And i am still not convinced a build server should have this). Ties environment to build configuration Lesson learned: Don&rsquo;t trust your co-workers, always double-check!"><meta itemprop="datePublished" content="2010-08-25T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="155">
-<meta itemprop="keywords" content="MSBuild,Visual Studio," /><meta property="og:title" content="What i dislike about the Web.config Transformation in VS2010" />
-<meta property="og:description" content="There are a couple of things that i strongly dislike about the Web.config transformation in VS2010
-Only works with XML files (eg: Can&rsquo;t be used to generate a release notes.txt file) Does not seem to support externalized sections, eg: log4net.config in a separate file No support to copy/paste transform files Only works when Visual Studio 2010 is installed (And i am still not convinced a build server should have this). Ties environment to build configuration Lesson learned: Don&rsquo;t trust your co-workers, always double-check!" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2010/08/25/what-i-dislike-about-the-web.config-transformation-in-vs2010/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2010-08-25T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="What i dislike about the Web.config Transformation in VS2010">
+  <meta itemprop="description" content="There are a couple of things that i strongly dislike about the Web.config transformation in VS2010
+Only works with XML files (eg: Can’t be used to generate a release notes.txt file) Does not seem to support externalized sections, eg: log4net.config in a separate file No support to copy/paste transform files Only works when Visual Studio 2010 is installed (And i am still not convinced a build server should have this). Ties environment to build configuration Lesson learned: Don’t trust your co-workers, always double-check!">
+  <meta itemprop="datePublished" content="2010-08-25T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="155">
+  <meta itemprop="keywords" content="MSBuild,Visual Studio"><meta property="og:url" content="https://timvw.be/2010/08/25/what-i-dislike-about-the-web.config-transformation-in-vs2010/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="What i dislike about the Web.config Transformation in VS2010">
+  <meta property="og:description" content="There are a couple of things that i strongly dislike about the Web.config transformation in VS2010
+Only works with XML files (eg: Can’t be used to generate a release notes.txt file) Does not seem to support externalized sections, eg: log4net.config in a separate file No support to copy/paste transform files Only works when Visual Studio 2010 is installed (And i am still not convinced a build server should have this). Ties environment to build configuration Lesson learned: Don’t trust your co-workers, always double-check!">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2010-08-25T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="MSBuild">
+    <meta property="article:tag" content="Visual Studio">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="What i dislike about the Web.config Transformation in VS2010"/>
-<meta name="twitter:description" content="There are a couple of things that i strongly dislike about the Web.config transformation in VS2010
-Only works with XML files (eg: Can&rsquo;t be used to generate a release notes.txt file) Does not seem to support externalized sections, eg: log4net.config in a separate file No support to copy/paste transform files Only works when Visual Studio 2010 is installed (And i am still not convinced a build server should have this). Ties environment to build configuration Lesson learned: Don&rsquo;t trust your co-workers, always double-check!"/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="What i dislike about the Web.config Transformation in VS2010">
+  <meta name="twitter:description" content="There are a couple of things that i strongly dislike about the Web.config transformation in VS2010
+Only works with XML files (eg: Can’t be used to generate a release notes.txt file) Does not seem to support externalized sections, eg: log4net.config in a separate file No support to copy/paste transform files Only works when Visual Studio 2010 is installed (And i am still not convinced a build server should have this). Ties environment to build configuration Lesson learned: Don’t trust your co-workers, always double-check!">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -93,11 +100,11 @@ Only works with XML files (eg: Can&rsquo;t be used to generate a release notes.t
 <ul>
 <li>Having multiple transformations is easy-peasy, just invoke the TransformXml task for all your config files and make sure your transformation files are correct. For log4net this would look like</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#000080">&lt;log4net</span> <span style="color:#008080">xmlns:xdt=</span><span style="color:#d14">&#34;http://schemas.microsoft.com/XML-Document-Transform&#34;</span><span style="color:#000080">&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;root&gt;</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000080">&lt;level</span> <span style="color:#008080">value=</span><span style="color:#d14">&#34;ERROR&#34;</span> <span style="color:#008080">xdt:Transform=</span><span style="color:#d14">&#34;Replace&#34;</span><span style="color:#000080">/&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;/root&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000080">&lt;/log4net&gt;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#0550ae">&lt;log4net</span> <span style="color:#1f2328">xmlns:xdt=</span><span style="color:#0a3069">&#34;http://schemas.microsoft.com/XML-Document-Transform&#34;</span><span style="color:#0550ae">&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;root&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#0550ae">&lt;level</span> <span style="color:#1f2328">value=</span><span style="color:#0a3069">&#34;ERROR&#34;</span> <span style="color:#1f2328">xdt:Transform=</span><span style="color:#0a3069">&#34;Replace&#34;</span><span style="color:#0550ae">/&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;/root&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">&lt;/log4net&gt;</span>
 </span></span></code></pre></div><ul>
 <li>The support for copy/paste can be achieved by removing the DependentUpon tag in your proj file (At the cost that you do not have the + sign in solution explorer which &lsquo;hides&rsquo; the transforms files)</li>
 </ul>
@@ -125,16 +132,19 @@ Only works with XML files (eg: Can&rsquo;t be used to generate a release notes.t
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

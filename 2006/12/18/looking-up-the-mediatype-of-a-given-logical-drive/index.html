@@ -3,23 +3,29 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Looking up the MediaType of a given Logical Drive - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Looking up the MediaType of a given Logical Drive">
-<meta itemprop="description" content="Earlier today i saw someone asking how he could find out the MediaType of a given logical drive. The easy solution would be to iterate over DriveInfo.GetDrives and pick the one you are looking for&hellip; Anyway, i thought it would be nice to experiment with WMI so i wrote a little function that uses Win32_LogicalDisk to look the MediaType up
-static void Main(string[] args) { char[] driveLetters = new char[] { &#39;a&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39; }; foreach (char driveLetter in driveLetters) { try { Console."><meta itemprop="datePublished" content="2006-12-18T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="324">
-<meta itemprop="keywords" content="CSharp," /><meta property="og:title" content="Looking up the MediaType of a given Logical Drive" />
-<meta property="og:description" content="Earlier today i saw someone asking how he could find out the MediaType of a given logical drive. The easy solution would be to iterate over DriveInfo.GetDrives and pick the one you are looking for&hellip; Anyway, i thought it would be nice to experiment with WMI so i wrote a little function that uses Win32_LogicalDisk to look the MediaType up
-static void Main(string[] args) { char[] driveLetters = new char[] { &#39;a&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39; }; foreach (char driveLetter in driveLetters) { try { Console." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2006/12/18/looking-up-the-mediatype-of-a-given-logical-drive/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2006-12-18T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="Looking up the MediaType of a given Logical Drive">
+  <meta itemprop="description" content="Earlier today i saw someone asking how he could find out the MediaType of a given logical drive. The easy solution would be to iterate over DriveInfo.GetDrives and pick the one you are looking for… Anyway, i thought it would be nice to experiment with WMI so i wrote a little function that uses Win32_LogicalDisk to look the MediaType up
+static void Main(string[] args) { char[] driveLetters = new char[] { &#39;a&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39; }; foreach (char driveLetter in driveLetters) { try { Console.WriteLine(&#34;Drive {0} is a {1}&#34;, driveLetter, GetMediaType(driveLetter)); } catch (ManagementException) { Console.WriteLine(&#34;Drive {0} was not found&#34;, driveLetter); } } Console.WriteLine(&#34;Press any key to continue...&#34;); Console.ReadKey(); } static string GetMediaType(char driveLetter) { ManagementObject disk = new ManagementObject(&#34;win32_logicaldisk.deviceid=\&#34;&#34; &#43; driveLetter &#43; &#34;:\&#34;&#34;); disk.Get(); return GetMediaMeaning((uint)disk[&#34;MediaType&#34;]); } static string GetMediaMeaning(uint mediaType) { Dictionary&lt;uint, string&gt; mediaTypes = new Dictionary&lt;uint, string&gt;(); mediaTypes.Add(0, &#34;Unknown Format&#34;); mediaTypes.Add(1, &#34;51/4-Inch Floppy Disk -- 1.2Mb -- 512bytes/sector&#34;); mediaTypes.Add(2, &#34;31/2-Inch Floppy Disk -- 1.44Mb -512bytes/sector&#34;); mediaTypes.Add(3, &#34;31/2-Inch Floppy Disk -- 2.88Mb -- 512bytes/sector&#34;); mediaTypes.Add(4, &#34;31/2-Inch Floppy Disk -- 20.8Mb -- 512bytes/sector&#34;); mediaTypes.Add(5, &#34;31/2-Inch Floppy Disk -- 720Kb -- 512bytes/sector&#34;); mediaTypes.Add(6, &#34;51/4-Inch Floppy Disk -- 360Kb -- 512bytes/sector&#34;); mediaTypes.Add(7, &#34;51/4-Inch Floppy Disk -- 320Kb -- 512bytes/sector&#34;); mediaTypes.Add(8, &#34;51/4-Inch Floppy Disk -- 320Kb -- 1024bytes/sector&#34;); mediaTypes.Add(9, &#34;51/4-Inch Floppy Disk -- 180Kb -- 512bytes/sector&#34;); mediaTypes.Add(10, &#34;51/4-Inch Floppy Disk -- 160Kb -- 512bytes/sector&#34;); mediaTypes.Add(11, &#34;Removable media other than floppy&#34;); mediaTypes.Add(12, &#34;Fixed hard disk media&#34;); mediaTypes.Add(13, &#34;31/2-Inch Floppy Disk -- 120Mb -- 512bytes/sector&#34;); mediaTypes.Add(14, &#34;31/2-Inch Floppy Disk -- 640Kb -- 512bytes/sector&#34;); mediaTypes.Add(15, &#34;51/4-Inch Floppy Disk -- 640Kb -- 512bytes/sector&#34;); mediaTypes.Add(16, &#34;51/4-Inch Floppy Disk -- 720Kb -- 512bytes/sector&#34;); mediaTypes.Add(17, &#34;31/2-Inch Floppy Disk -- 1.2Mb -- 512bytes/sector&#34;); mediaTypes.Add(18, &#34;31/2-Inch Floppy Disk -- 1.23Mb -- 1024bytes/sector&#34;); mediaTypes.Add(19, &#34;51/4-Inch Floppy Disk -- 1.23Mb -- 1024bytes/sector&#34;); mediaTypes.Add(20, &#34;31/2-Inch Floppy Disk -- 128Mb -- 512bytes/sector&#34;); mediaTypes.Add(21, &#34;31/2-Inch Floppy Disk -- 230Mb -- 512bytes/sector&#34;); mediaTypes.Add(22, &#34;8-Inch Floppy Disk -- 256Kb -- 128bytes/sector&#34;); string meaning = &#34;Unknown format&#34;; mediaTypes.TryGetValue(mediaType, out meaning); return meaning; }">
+  <meta itemprop="datePublished" content="2006-12-18T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="324">
+  <meta itemprop="keywords" content="CSharp"><meta property="og:url" content="https://timvw.be/2006/12/18/looking-up-the-mediatype-of-a-given-logical-drive/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Looking up the MediaType of a given Logical Drive">
+  <meta property="og:description" content="Earlier today i saw someone asking how he could find out the MediaType of a given logical drive. The easy solution would be to iterate over DriveInfo.GetDrives and pick the one you are looking for… Anyway, i thought it would be nice to experiment with WMI so i wrote a little function that uses Win32_LogicalDisk to look the MediaType up
+static void Main(string[] args) { char[] driveLetters = new char[] { &#39;a&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39; }; foreach (char driveLetter in driveLetters) { try { Console.WriteLine(&#34;Drive {0} is a {1}&#34;, driveLetter, GetMediaType(driveLetter)); } catch (ManagementException) { Console.WriteLine(&#34;Drive {0} was not found&#34;, driveLetter); } } Console.WriteLine(&#34;Press any key to continue...&#34;); Console.ReadKey(); } static string GetMediaType(char driveLetter) { ManagementObject disk = new ManagementObject(&#34;win32_logicaldisk.deviceid=\&#34;&#34; &#43; driveLetter &#43; &#34;:\&#34;&#34;); disk.Get(); return GetMediaMeaning((uint)disk[&#34;MediaType&#34;]); } static string GetMediaMeaning(uint mediaType) { Dictionary&lt;uint, string&gt; mediaTypes = new Dictionary&lt;uint, string&gt;(); mediaTypes.Add(0, &#34;Unknown Format&#34;); mediaTypes.Add(1, &#34;51/4-Inch Floppy Disk -- 1.2Mb -- 512bytes/sector&#34;); mediaTypes.Add(2, &#34;31/2-Inch Floppy Disk -- 1.44Mb -512bytes/sector&#34;); mediaTypes.Add(3, &#34;31/2-Inch Floppy Disk -- 2.88Mb -- 512bytes/sector&#34;); mediaTypes.Add(4, &#34;31/2-Inch Floppy Disk -- 20.8Mb -- 512bytes/sector&#34;); mediaTypes.Add(5, &#34;31/2-Inch Floppy Disk -- 720Kb -- 512bytes/sector&#34;); mediaTypes.Add(6, &#34;51/4-Inch Floppy Disk -- 360Kb -- 512bytes/sector&#34;); mediaTypes.Add(7, &#34;51/4-Inch Floppy Disk -- 320Kb -- 512bytes/sector&#34;); mediaTypes.Add(8, &#34;51/4-Inch Floppy Disk -- 320Kb -- 1024bytes/sector&#34;); mediaTypes.Add(9, &#34;51/4-Inch Floppy Disk -- 180Kb -- 512bytes/sector&#34;); mediaTypes.Add(10, &#34;51/4-Inch Floppy Disk -- 160Kb -- 512bytes/sector&#34;); mediaTypes.Add(11, &#34;Removable media other than floppy&#34;); mediaTypes.Add(12, &#34;Fixed hard disk media&#34;); mediaTypes.Add(13, &#34;31/2-Inch Floppy Disk -- 120Mb -- 512bytes/sector&#34;); mediaTypes.Add(14, &#34;31/2-Inch Floppy Disk -- 640Kb -- 512bytes/sector&#34;); mediaTypes.Add(15, &#34;51/4-Inch Floppy Disk -- 640Kb -- 512bytes/sector&#34;); mediaTypes.Add(16, &#34;51/4-Inch Floppy Disk -- 720Kb -- 512bytes/sector&#34;); mediaTypes.Add(17, &#34;31/2-Inch Floppy Disk -- 1.2Mb -- 512bytes/sector&#34;); mediaTypes.Add(18, &#34;31/2-Inch Floppy Disk -- 1.23Mb -- 1024bytes/sector&#34;); mediaTypes.Add(19, &#34;51/4-Inch Floppy Disk -- 1.23Mb -- 1024bytes/sector&#34;); mediaTypes.Add(20, &#34;31/2-Inch Floppy Disk -- 128Mb -- 512bytes/sector&#34;); mediaTypes.Add(21, &#34;31/2-Inch Floppy Disk -- 230Mb -- 512bytes/sector&#34;); mediaTypes.Add(22, &#34;8-Inch Floppy Disk -- 256Kb -- 128bytes/sector&#34;); string meaning = &#34;Unknown format&#34;; mediaTypes.TryGetValue(mediaType, out meaning); return meaning; }">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2006-12-18T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="CSharp">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Looking up the MediaType of a given Logical Drive"/>
-<meta name="twitter:description" content="Earlier today i saw someone asking how he could find out the MediaType of a given logical drive. The easy solution would be to iterate over DriveInfo.GetDrives and pick the one you are looking for&hellip; Anyway, i thought it would be nice to experiment with WMI so i wrote a little function that uses Win32_LogicalDisk to look the MediaType up
-static void Main(string[] args) { char[] driveLetters = new char[] { &#39;a&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39; }; foreach (char driveLetter in driveLetters) { try { Console."/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Looking up the MediaType of a given Logical Drive">
+  <meta name="twitter:description" content="Earlier today i saw someone asking how he could find out the MediaType of a given logical drive. The easy solution would be to iterate over DriveInfo.GetDrives and pick the one you are looking for… Anyway, i thought it would be nice to experiment with WMI so i wrote a little function that uses Win32_LogicalDisk to look the MediaType up
+static void Main(string[] args) { char[] driveLetters = new char[] { &#39;a&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39; }; foreach (char driveLetter in driveLetters) { try { Console.WriteLine(&#34;Drive {0} is a {1}&#34;, driveLetter, GetMediaType(driveLetter)); } catch (ManagementException) { Console.WriteLine(&#34;Drive {0} was not found&#34;, driveLetter); } } Console.WriteLine(&#34;Press any key to continue...&#34;); Console.ReadKey(); } static string GetMediaType(char driveLetter) { ManagementObject disk = new ManagementObject(&#34;win32_logicaldisk.deviceid=\&#34;&#34; &#43; driveLetter &#43; &#34;:\&#34;&#34;); disk.Get(); return GetMediaMeaning((uint)disk[&#34;MediaType&#34;]); } static string GetMediaMeaning(uint mediaType) { Dictionary&lt;uint, string&gt; mediaTypes = new Dictionary&lt;uint, string&gt;(); mediaTypes.Add(0, &#34;Unknown Format&#34;); mediaTypes.Add(1, &#34;51/4-Inch Floppy Disk -- 1.2Mb -- 512bytes/sector&#34;); mediaTypes.Add(2, &#34;31/2-Inch Floppy Disk -- 1.44Mb -512bytes/sector&#34;); mediaTypes.Add(3, &#34;31/2-Inch Floppy Disk -- 2.88Mb -- 512bytes/sector&#34;); mediaTypes.Add(4, &#34;31/2-Inch Floppy Disk -- 20.8Mb -- 512bytes/sector&#34;); mediaTypes.Add(5, &#34;31/2-Inch Floppy Disk -- 720Kb -- 512bytes/sector&#34;); mediaTypes.Add(6, &#34;51/4-Inch Floppy Disk -- 360Kb -- 512bytes/sector&#34;); mediaTypes.Add(7, &#34;51/4-Inch Floppy Disk -- 320Kb -- 512bytes/sector&#34;); mediaTypes.Add(8, &#34;51/4-Inch Floppy Disk -- 320Kb -- 1024bytes/sector&#34;); mediaTypes.Add(9, &#34;51/4-Inch Floppy Disk -- 180Kb -- 512bytes/sector&#34;); mediaTypes.Add(10, &#34;51/4-Inch Floppy Disk -- 160Kb -- 512bytes/sector&#34;); mediaTypes.Add(11, &#34;Removable media other than floppy&#34;); mediaTypes.Add(12, &#34;Fixed hard disk media&#34;); mediaTypes.Add(13, &#34;31/2-Inch Floppy Disk -- 120Mb -- 512bytes/sector&#34;); mediaTypes.Add(14, &#34;31/2-Inch Floppy Disk -- 640Kb -- 512bytes/sector&#34;); mediaTypes.Add(15, &#34;51/4-Inch Floppy Disk -- 640Kb -- 512bytes/sector&#34;); mediaTypes.Add(16, &#34;51/4-Inch Floppy Disk -- 720Kb -- 512bytes/sector&#34;); mediaTypes.Add(17, &#34;31/2-Inch Floppy Disk -- 1.2Mb -- 512bytes/sector&#34;); mediaTypes.Add(18, &#34;31/2-Inch Floppy Disk -- 1.23Mb -- 1024bytes/sector&#34;); mediaTypes.Add(19, &#34;51/4-Inch Floppy Disk -- 1.23Mb -- 1024bytes/sector&#34;); mediaTypes.Add(20, &#34;31/2-Inch Floppy Disk -- 128Mb -- 512bytes/sector&#34;); mediaTypes.Add(21, &#34;31/2-Inch Floppy Disk -- 230Mb -- 512bytes/sector&#34;); mediaTypes.Add(22, &#34;8-Inch Floppy Disk -- 256Kb -- 128bytes/sector&#34;); string meaning = &#34;Unknown format&#34;; mediaTypes.TryGetValue(mediaType, out meaning); return meaning; }">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -82,63 +88,63 @@ static void Main(string[] args) { char[] driveLetters = new char[] { &#39;a&#39;
 					
 			<div class="markdown">
 				<p>Earlier today i saw someone asking how he could find out the MediaType of a given logical drive. The easy solution would be to iterate over <a href="http://msdn2.microsoft.com/en-us/library/system.io.driveinfo.getdrives.aspx">DriveInfo.GetDrives</a> and pick the one you are looking for&hellip; Anyway, i thought it would be nice to experiment with <a href="http://msdn.microsoft.com/library/default.asp?url=../../../../library/en-us/wmisdk/wmi/wmi_start_page.asp">WMI</a> so i wrote a little function that uses <a href="http://msdn.microsoft.com/library/default.asp?url=../../../../library/en-us/wmisdk/wmi/Win32_LogicalDisk.asp">Win32_LogicalDisk</a> to look the MediaType up</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">static</span> <span style="color:#000;font-weight:bold">void</span> Main(<span style="color:#458;font-weight:bold">string</span>[] args)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#458;font-weight:bold">char</span>[] driveLetters = <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">char</span>[] { <span style="color:#d14">&#39;a&#39;</span>, <span style="color:#d14">&#39;c&#39;</span>, <span style="color:#d14">&#39;d&#39;</span>, <span style="color:#d14">&#39;e&#39;</span> };
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">char</span> driveLetter <span style="color:#000;font-weight:bold">in</span> driveLetters)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">try</span>
-</span></span><span style="display:flex;"><span>		{
-</span></span><span style="display:flex;"><span>			Console.WriteLine(<span style="color:#d14">&#34;Drive {0} is a {1}&#34;</span>, driveLetter, GetMediaType(driveLetter));
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">catch</span> (ManagementException)
-</span></span><span style="display:flex;"><span>		{
-</span></span><span style="display:flex;"><span>			Console.WriteLine(<span style="color:#d14">&#34;Drive {0} was not found&#34;</span>, driveLetter);
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>	}
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">static</span> <span style="color:#cf222e">void</span> Main<span style="color:#1f2328">(</span><span style="color:#cf222e">string</span><span style="color:#1f2328">[]</span> args<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">char</span><span style="color:#1f2328">[]</span> driveLetters <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> <span style="color:#cf222e">char</span><span style="color:#1f2328">[]</span> <span style="color:#1f2328">{</span> <span style="color:#0a3069">&#39;a&#39;</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#39;c&#39;</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#39;d&#39;</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#39;e&#39;</span> <span style="color:#1f2328">};</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">foreach</span> <span style="color:#1f2328">(</span><span style="color:#cf222e">char</span> driveLetter <span style="color:#cf222e">in</span> driveLetters<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">try</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>			Console<span style="color:#1f2328">.</span>WriteLine<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;Drive {0} is a {1}&#34;</span><span style="color:#1f2328">,</span> driveLetter<span style="color:#1f2328">,</span> GetMediaType<span style="color:#1f2328">(</span>driveLetter<span style="color:#1f2328">));</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">catch</span> <span style="color:#1f2328">(</span>ManagementException<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>			Console<span style="color:#1f2328">.</span>WriteLine<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;Drive {0} was not found&#34;</span><span style="color:#1f2328">,</span> driveLetter<span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	Console.WriteLine(<span style="color:#d14">&#34;Press any key to continue...&#34;</span>);
-</span></span><span style="display:flex;"><span>	Console.ReadKey();
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>	Console<span style="color:#1f2328">.</span>WriteLine<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;Press any key to continue...&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	Console<span style="color:#1f2328">.</span>ReadKey<span style="color:#1f2328">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> GetMediaType(<span style="color:#458;font-weight:bold">char</span> driveLetter)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	ManagementObject disk = <span style="color:#000;font-weight:bold">new</span> ManagementObject(<span style="color:#d14">&#34;win32_logicaldisk.deviceid=\&#34;&#34;</span> + driveLetter + <span style="color:#d14">&#34;:\&#34;&#34;</span>);
-</span></span><span style="display:flex;"><span>	disk.Get();
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> GetMediaMeaning((<span style="color:#458;font-weight:bold">uint</span>)disk[<span style="color:#d14">&#34;MediaType&#34;</span>]);
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">static</span> <span style="color:#cf222e">string</span> GetMediaType<span style="color:#1f2328">(</span><span style="color:#cf222e">char</span> driveLetter<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	ManagementObject disk <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> ManagementObject<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;win32_logicaldisk.deviceid=\&#34;&#34;</span> <span style="color:#1f2328">+</span> driveLetter <span style="color:#1f2328">+</span> <span style="color:#0a3069">&#34;:\&#34;&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	disk<span style="color:#1f2328">.</span>Get<span style="color:#1f2328">();</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">return</span> GetMediaMeaning<span style="color:#1f2328">((</span><span style="color:#cf222e">uint</span><span style="color:#1f2328">)</span>disk<span style="color:#1f2328">[</span><span style="color:#0a3069">&#34;MediaType&#34;</span><span style="color:#1f2328">]);</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> GetMediaMeaning(<span style="color:#458;font-weight:bold">uint</span> mediaType)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	Dictionary&lt;<span style="color:#458;font-weight:bold">uint</span>, <span style="color:#458;font-weight:bold">string</span>&gt; mediaTypes = <span style="color:#000;font-weight:bold">new</span> Dictionary&lt;<span style="color:#458;font-weight:bold">uint</span>, <span style="color:#458;font-weight:bold">string</span>&gt;();
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">0</span>, <span style="color:#d14">&#34;Unknown Format&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">1</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 1.2Mb -- 512bytes/sector&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">2</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 1.44Mb -512bytes/sector&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">3</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 2.88Mb -- 512bytes/sector&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">4</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 20.8Mb -- 512bytes/sector&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">5</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 720Kb -- 512bytes/sector&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">6</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 360Kb -- 512bytes/sector&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">7</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 320Kb -- 512bytes/sector&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">8</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 320Kb -- 1024bytes/sector&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">9</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 180Kb -- 512bytes/sector&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">10</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 160Kb -- 512bytes/sector&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">11</span>, <span style="color:#d14">&#34;Removable media other than floppy&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">12</span>, <span style="color:#d14">&#34;Fixed hard disk media&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">13</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 120Mb -- 512bytes/sector&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">14</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 640Kb -- 512bytes/sector&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">15</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 640Kb -- 512bytes/sector&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">16</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 720Kb -- 512bytes/sector&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">17</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 1.2Mb -- 512bytes/sector&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">18</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 1.23Mb -- 1024bytes/sector&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">19</span>, <span style="color:#d14">&#34;51/4-Inch Floppy Disk -- 1.23Mb -- 1024bytes/sector&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">20</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 128Mb -- 512bytes/sector&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">21</span>, <span style="color:#d14">&#34;31/2-Inch Floppy Disk -- 230Mb -- 512bytes/sector&#34;</span>);
-</span></span><span style="display:flex;"><span>	mediaTypes.Add(<span style="color:#099">22</span>, <span style="color:#d14">&#34;8-Inch Floppy Disk -- 256Kb -- 128bytes/sector&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">static</span> <span style="color:#cf222e">string</span> GetMediaMeaning<span style="color:#1f2328">(</span><span style="color:#cf222e">uint</span> mediaType<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	Dictionary<span style="color:#1f2328">&lt;</span><span style="color:#cf222e">uint</span><span style="color:#1f2328">,</span> <span style="color:#cf222e">string</span><span style="color:#1f2328">&gt;</span> mediaTypes <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> Dictionary<span style="color:#1f2328">&lt;</span><span style="color:#cf222e">uint</span><span style="color:#1f2328">,</span> <span style="color:#cf222e">string</span><span style="color:#1f2328">&gt;();</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">0</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;Unknown Format&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">1</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;51/4-Inch Floppy Disk -- 1.2Mb -- 512bytes/sector&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">2</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;31/2-Inch Floppy Disk -- 1.44Mb -512bytes/sector&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">3</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;31/2-Inch Floppy Disk -- 2.88Mb -- 512bytes/sector&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">4</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;31/2-Inch Floppy Disk -- 20.8Mb -- 512bytes/sector&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">5</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;31/2-Inch Floppy Disk -- 720Kb -- 512bytes/sector&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">6</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;51/4-Inch Floppy Disk -- 360Kb -- 512bytes/sector&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">7</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;51/4-Inch Floppy Disk -- 320Kb -- 512bytes/sector&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">8</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;51/4-Inch Floppy Disk -- 320Kb -- 1024bytes/sector&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">9</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;51/4-Inch Floppy Disk -- 180Kb -- 512bytes/sector&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">10</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;51/4-Inch Floppy Disk -- 160Kb -- 512bytes/sector&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">11</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;Removable media other than floppy&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">12</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;Fixed hard disk media&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">13</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;31/2-Inch Floppy Disk -- 120Mb -- 512bytes/sector&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">14</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;31/2-Inch Floppy Disk -- 640Kb -- 512bytes/sector&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">15</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;51/4-Inch Floppy Disk -- 640Kb -- 512bytes/sector&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">16</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;51/4-Inch Floppy Disk -- 720Kb -- 512bytes/sector&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">17</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;31/2-Inch Floppy Disk -- 1.2Mb -- 512bytes/sector&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">18</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;31/2-Inch Floppy Disk -- 1.23Mb -- 1024bytes/sector&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">19</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;51/4-Inch Floppy Disk -- 1.23Mb -- 1024bytes/sector&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">20</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;31/2-Inch Floppy Disk -- 128Mb -- 512bytes/sector&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">21</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;31/2-Inch Floppy Disk -- 230Mb -- 512bytes/sector&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#0550ae">22</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;8-Inch Floppy Disk -- 256Kb -- 128bytes/sector&#34;</span><span style="color:#1f2328">);</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#458;font-weight:bold">string</span> meaning = <span style="color:#d14">&#34;Unknown format&#34;</span>;
-</span></span><span style="display:flex;"><span>	mediaTypes.TryGetValue(mediaType, <span style="color:#000;font-weight:bold">out</span> meaning);
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> meaning;
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">string</span> meaning <span style="color:#1f2328">=</span> <span style="color:#0a3069">&#34;Unknown format&#34;</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	mediaTypes<span style="color:#1f2328">.</span>TryGetValue<span style="color:#1f2328">(</span>mediaType<span style="color:#1f2328">,</span> <span style="color:#cf222e">out</span> meaning<span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">return</span> meaning<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div>
 			</div>
 
@@ -161,16 +167,19 @@ static void Main(string[] args) { char[] driveLetters = new char[] { &#39;a&#39;
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

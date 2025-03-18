@@ -3,23 +3,31 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Debugging custom UITypeEditors - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Debugging custom UITypeEditors">
-<meta itemprop="description" content="If you read this you&rsquo;re probably gonna think: What a moron! Anyway, i&rsquo;m sharing this in the hope that i&rsquo;ll be the last to undergo the following. In order to test my custom UITypeEditor i did the following
-Create a UserControl Add a property to the control Add an Editor attribute to the property Build Drag a UserControl on the designer form Test via Visual Studio&rsquo;s Property Window if the UITypeEditor works as expected Everytime i changed some code: Restart Visual Studio, load the project and repeat 6."><meta itemprop="datePublished" content="2007-08-10T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="288">
-<meta itemprop="keywords" content="CSharp,Visual Studio,Windows Forms," /><meta property="og:title" content="Debugging custom UITypeEditors" />
-<meta property="og:description" content="If you read this you&rsquo;re probably gonna think: What a moron! Anyway, i&rsquo;m sharing this in the hope that i&rsquo;ll be the last to undergo the following. In order to test my custom UITypeEditor i did the following
-Create a UserControl Add a property to the control Add an Editor attribute to the property Build Drag a UserControl on the designer form Test via Visual Studio&rsquo;s Property Window if the UITypeEditor works as expected Everytime i changed some code: Restart Visual Studio, load the project and repeat 6." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2007/08/10/debugging-custom-uitypeeditors/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2007-08-10T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="Debugging custom UITypeEditors">
+  <meta itemprop="description" content="If you read this you’re probably gonna think: What a moron! Anyway, i’m sharing this in the hope that i’ll be the last to undergo the following. In order to test my custom UITypeEditor i did the following
+Create a UserControl Add a property to the control Add an Editor attribute to the property Build Drag a UserControl on the designer form Test via Visual Studio’s Property Window if the UITypeEditor works as expected Everytime i changed some code: Restart Visual Studio, load the project and repeat 6. A tedious task to say the least. Yesterday i figured out that i could drag a PropertyGrid on the designer form, and set it’s SelectedObject property to a class with a property that uses the custom UITypeEditor; Instead of having to reload visual studio i can simply start a debug session, and click on the property in the PropertyGrid. Now it’s a breeze to develop custom UITypeEditors.">
+  <meta itemprop="datePublished" content="2007-08-10T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="288">
+  <meta itemprop="keywords" content="CSharp,Visual Studio,Windows Forms"><meta property="og:url" content="https://timvw.be/2007/08/10/debugging-custom-uitypeeditors/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Debugging custom UITypeEditors">
+  <meta property="og:description" content="If you read this you’re probably gonna think: What a moron! Anyway, i’m sharing this in the hope that i’ll be the last to undergo the following. In order to test my custom UITypeEditor i did the following
+Create a UserControl Add a property to the control Add an Editor attribute to the property Build Drag a UserControl on the designer form Test via Visual Studio’s Property Window if the UITypeEditor works as expected Everytime i changed some code: Restart Visual Studio, load the project and repeat 6. A tedious task to say the least. Yesterday i figured out that i could drag a PropertyGrid on the designer form, and set it’s SelectedObject property to a class with a property that uses the custom UITypeEditor; Instead of having to reload visual studio i can simply start a debug session, and click on the property in the PropertyGrid. Now it’s a breeze to develop custom UITypeEditors.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2007-08-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="CSharp">
+    <meta property="article:tag" content="Visual Studio">
+    <meta property="article:tag" content="Windows Forms">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Debugging custom UITypeEditors"/>
-<meta name="twitter:description" content="If you read this you&rsquo;re probably gonna think: What a moron! Anyway, i&rsquo;m sharing this in the hope that i&rsquo;ll be the last to undergo the following. In order to test my custom UITypeEditor i did the following
-Create a UserControl Add a property to the control Add an Editor attribute to the property Build Drag a UserControl on the designer form Test via Visual Studio&rsquo;s Property Window if the UITypeEditor works as expected Everytime i changed some code: Restart Visual Studio, load the project and repeat 6."/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Debugging custom UITypeEditors">
+  <meta name="twitter:description" content="If you read this you’re probably gonna think: What a moron! Anyway, i’m sharing this in the hope that i’ll be the last to undergo the following. In order to test my custom UITypeEditor i did the following
+Create a UserControl Add a property to the control Add an Editor attribute to the property Build Drag a UserControl on the designer form Test via Visual Studio’s Property Window if the UITypeEditor works as expected Everytime i changed some code: Restart Visual Studio, load the project and repeat 6. A tedious task to say the least. Yesterday i figured out that i could drag a PropertyGrid on the designer form, and set it’s SelectedObject property to a class with a property that uses the custom UITypeEditor; Instead of having to reload visual studio i can simply start a debug session, and click on the property in the PropertyGrid. Now it’s a breeze to develop custom UITypeEditors.">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -93,52 +101,52 @@ Create a UserControl Add a property to the control Add an Editor attribute to th
 </ol>
 <p>A tedious task to say the least. Yesterday i figured out that i could <strong>drag a <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.propertygrid.aspx">PropertyGrid</a> on the designer form, and set it&rsquo;s SelectedObject property to a class with a property that uses the custom UITypeEditor; Instead of having to reload visual studio i can simply start a debug session, and click on the property in the PropertyGrid.</strong> Now it&rsquo;s a breeze to develop custom UITypeEditors.</p>
 <p><img src="http://www.timvw.be/wp-content/images/uitypeeditor.gif" alt=""></p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Form1_Load(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#998;font-style:italic">// display an instance of PersonEntry,</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#998;font-style:italic">// a class with a property that should use the custom UITypeEditor i want to test</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">this</span>.propertyGrid1.SelectedObject = <span style="color:#000;font-weight:bold">new</span> PersonEntry(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;Tim&#34;</span>, <span style="color:#d14">&#34;Van Wassenhove&#34;</span>));
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">private</span> <span style="color:#cf222e">void</span> Form1_Load<span style="color:#1f2328">(</span><span style="color:#cf222e">object</span> sender<span style="color:#1f2328">,</span> EventArgs e<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#57606a">// display an instance of PersonEntry,</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#57606a">// a class with a property that should use the custom UITypeEditor i want to test</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>propertyGrid1<span style="color:#1f2328">.</span>SelectedObject <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> PersonEntry<span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> Person<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;Tim&#34;</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;Van Wassenhove&#34;</span><span style="color:#1f2328">));</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PersonEntry</span>
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	...
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">class</span> <span style="color:#1f2328">PersonEntry</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">...</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#998;font-style:italic">// instruct the PropertyGrid to use my custom PersonUITypeEditor</span>
-</span></span><span style="display:flex;"><span><span style="color:#008080">	[Editor(typeof(PersonUITypeEditor), typeof(UITypeEditor))]</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> Person Person
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.person; }
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>.person = <span style="color:#000;font-weight:bold">value</span>; }
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#57606a">// instruct the PropertyGrid to use my custom PersonUITypeEditor</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">	[Editor(typeof(PersonUITypeEditor), typeof(UITypeEditor))]</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> Person Person
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">get</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">return</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>person<span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">set</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>person <span style="color:#1f2328">=</span> <span style="color:#cf222e">value</span><span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PersonUITypeEditor</span> : UITypeEditor
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> UITypeEditorEditStyle.Modal;
-</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">class</span> <span style="color:#1f2328">PersonUITypeEditor</span> <span style="color:#1f2328">:</span> UITypeEditor
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> <span style="color:#cf222e">override</span> UITypeEditorEditStyle GetEditStyle<span style="color:#1f2328">(</span>ITypeDescriptorContext context<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">return</span> UITypeEditorEditStyle<span style="color:#1f2328">.</span>Modal<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">object</span> EditValue(ITypeDescriptorContext context, IServiceProvider provider, <span style="color:#458;font-weight:bold">object</span> <span style="color:#000;font-weight:bold">value</span>)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		Person person = <span style="color:#000;font-weight:bold">value</span> <span style="color:#000;font-weight:bold">as</span> Person;
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> <span style="color:#cf222e">override</span> <span style="color:#cf222e">object</span> EditValue<span style="color:#1f2328">(</span>ITypeDescriptorContext context<span style="color:#1f2328">,</span> IServiceProvider provider<span style="color:#1f2328">,</span> <span style="color:#cf222e">object</span> <span style="color:#cf222e">value</span><span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		Person person <span style="color:#1f2328">=</span> <span style="color:#cf222e">value</span> <span style="color:#cf222e">as</span> Person<span style="color:#1f2328">;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		IWindowsFormsEditorService svc = context.GetService(<span style="color:#000;font-weight:bold">typeof</span>(IWindowsFormsEditorService)) <span style="color:#000;font-weight:bold">as</span> IWindowsFormsEditorService;
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> (svc != <span style="color:#000;font-weight:bold">null</span>)
-</span></span><span style="display:flex;"><span>		{
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">using</span> (PersonEditorForm personEditorForm = <span style="color:#000;font-weight:bold">new</span> PersonEditorForm(person))
-</span></span><span style="display:flex;"><span>			{
-</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">if</span> (svc.ShowDialog(personEditorForm) == DialogResult.OK)
-</span></span><span style="display:flex;"><span>				{
-</span></span><span style="display:flex;"><span>					<span style="color:#000;font-weight:bold">return</span> personEditorForm.Person;
-</span></span><span style="display:flex;"><span>				}
-</span></span><span style="display:flex;"><span>			}
-</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		IWindowsFormsEditorService svc <span style="color:#1f2328">=</span> context<span style="color:#1f2328">.</span>GetService<span style="color:#1f2328">(</span><span style="color:#cf222e">typeof</span><span style="color:#1f2328">(</span>IWindowsFormsEditorService<span style="color:#1f2328">))</span> <span style="color:#cf222e">as</span> IWindowsFormsEditorService<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>svc <span style="color:#1f2328">!=</span> <span style="color:#cf222e">null</span><span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#cf222e">using</span> <span style="color:#1f2328">(</span>PersonEditorForm personEditorForm <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> PersonEditorForm<span style="color:#1f2328">(</span>person<span style="color:#1f2328">))</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>svc<span style="color:#1f2328">.</span>ShowDialog<span style="color:#1f2328">(</span>personEditorForm<span style="color:#1f2328">)</span> <span style="color:#1f2328">==</span> DialogResult<span style="color:#1f2328">.</span>OK<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>					<span style="color:#cf222e">return</span> personEditorForm<span style="color:#1f2328">.</span>Person<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">value</span>;
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">return</span> <span style="color:#cf222e">value</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div>
 			</div>
 
@@ -165,16 +173,19 @@ Create a UserControl Add a property to the control Add an Editor attribute to th
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

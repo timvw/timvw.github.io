@@ -3,26 +3,32 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Cute sort implementation - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Cute sort implementation">
-<meta itemprop="description" content="For years I had been implementing my sort functions as following:
+	
+  <meta itemprop="name" content="Cute sort implementation">
+  <meta itemprop="description" content="For years I had been implementing my sort functions as following:
 (x,y) =&gt; { if (x.PartName == null &amp;&amp; y.PartName == null) return 0; if (x.PartName == null) return -1; if (y.PartName == null) return 1; return x.PartName.CompareTo(y.PartName); } Earlier today I found the following cute variant while browsing through the ServiceStack codebase:
-(x,y) =&gt; x.Priority - y.Priority "><meta itemprop="datePublished" content="2014-07-28T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="58">
-<meta itemprop="keywords" content="C," /><meta property="og:title" content="Cute sort implementation" />
-<meta property="og:description" content="For years I had been implementing my sort functions as following:
+(x,y) =&gt; x.Priority - y.Priority">
+  <meta itemprop="datePublished" content="2014-07-28T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="58">
+  <meta itemprop="keywords" content="C"><meta property="og:url" content="https://timvw.be/2014/07/28/cute-sort-implementation/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Cute sort implementation">
+  <meta property="og:description" content="For years I had been implementing my sort functions as following:
 (x,y) =&gt; { if (x.PartName == null &amp;&amp; y.PartName == null) return 0; if (x.PartName == null) return -1; if (y.PartName == null) return 1; return x.PartName.CompareTo(y.PartName); } Earlier today I found the following cute variant while browsing through the ServiceStack codebase:
-(x,y) =&gt; x.Priority - y.Priority " />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2014/07/28/cute-sort-implementation/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2014-07-28T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+(x,y) =&gt; x.Priority - y.Priority">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2014-07-28T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="C">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Cute sort implementation"/>
-<meta name="twitter:description" content="For years I had been implementing my sort functions as following:
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Cute sort implementation">
+  <meta name="twitter:description" content="For years I had been implementing my sort functions as following:
 (x,y) =&gt; { if (x.PartName == null &amp;&amp; y.PartName == null) return 0; if (x.PartName == null) return -1; if (y.PartName == null) return 1; return x.PartName.CompareTo(y.PartName); } Earlier today I found the following cute variant while browsing through the ServiceStack codebase:
-(x,y) =&gt; x.Priority - y.Priority "/>
+(x,y) =&gt; x.Priority - y.Priority">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -85,14 +91,14 @@
 					
 			<div class="markdown">
 				<p>For years I had been implementing my <a href="http://msdn.microsoft.com/en-us/library/tfakywbh(v=vs.110).aspx">sort functions</a> as following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>(x,y) =&gt; {  
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> (x.PartName == <span style="color:#000;font-weight:bold">null</span> &amp;&amp; y.PartName == <span style="color:#000;font-weight:bold">null</span>) <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> (x.PartName == <span style="color:#000;font-weight:bold">null</span>) <span style="color:#000;font-weight:bold">return</span> -<span style="color:#099">1</span>;
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> (y.PartName == <span style="color:#000;font-weight:bold">null</span>) <span style="color:#000;font-weight:bold">return</span> <span style="color:#099">1</span>; 
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> x.PartName.CompareTo(y.PartName);
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#1f2328">(</span>x<span style="color:#1f2328">,</span>y<span style="color:#1f2328">)</span> <span style="color:#1f2328">=&gt;</span> <span style="color:#1f2328">{</span>  
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>x<span style="color:#1f2328">.</span>PartName <span style="color:#1f2328">==</span> <span style="color:#cf222e">null</span> <span style="color:#1f2328">&amp;&amp;</span> y<span style="color:#1f2328">.</span>PartName <span style="color:#1f2328">==</span> <span style="color:#cf222e">null</span><span style="color:#1f2328">)</span> <span style="color:#cf222e">return</span> <span style="color:#0550ae">0</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>x<span style="color:#1f2328">.</span>PartName <span style="color:#1f2328">==</span> <span style="color:#cf222e">null</span><span style="color:#1f2328">)</span> <span style="color:#cf222e">return</span> <span style="color:#1f2328">-</span><span style="color:#0550ae">1</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>y<span style="color:#1f2328">.</span>PartName <span style="color:#1f2328">==</span> <span style="color:#cf222e">null</span><span style="color:#1f2328">)</span> <span style="color:#cf222e">return</span> <span style="color:#0550ae">1</span><span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">return</span> x<span style="color:#1f2328">.</span>PartName<span style="color:#1f2328">.</span>CompareTo<span style="color:#1f2328">(</span>y<span style="color:#1f2328">.</span>PartName<span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>Earlier today I found the following cute variant while browsing through the <a href="https://github.com/ServiceStack/ServiceStack/blob/v3/src/ServiceStack/WebHost.Endpoints/Utils/FilterAttributeCache.cs">ServiceStack</a> codebase:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>(x,y) =&gt; x.Priority - y.Priority  
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#1f2328">(</span>x<span style="color:#1f2328">,</span>y<span style="color:#1f2328">)</span> <span style="color:#1f2328">=&gt;</span> x<span style="color:#1f2328">.</span>Priority <span style="color:#1f2328">-</span> y<span style="color:#1f2328">.</span>Priority  
 </span></span></code></pre></div>
 			</div>
 
@@ -115,16 +121,19 @@
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

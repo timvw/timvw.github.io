@@ -1,50 +1,40 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>scala on Tim Van Wassenhove</title>
+    <title>Scala on Tim Van Wassenhove</title>
     <link>https://timvw.be/tags/scala/</link>
-    <description>Recent content in scala on Tim Van Wassenhove</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Scala on Tim Van Wassenhove</description>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 29 Jan 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://timvw.be/tags/scala/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 04 Jan 2021 22:47:36 +0100</lastBuildDate>
+    <atom:link href="https://timvw.be/tags/scala/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About maven dependency type &#39;bundle&#39;</title>
       <link>https://timvw.be/2016/01/29/about-maven-dependency-type-bundle/</link>
       <pubDate>Fri, 29 Jan 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://timvw.be/2016/01/29/about-maven-dependency-type-bundle/</guid>
-      <description>Earlier this week my build failed because maven was not able to resolve an (indirect) dependency on some package. It took me a while to notice that the dependency node in the pom file had an extra attribute: type = bundle. It only took a couple of minutes to find a good explanation here. Build fixed 😉</description>
+      <description>&lt;p&gt;Earlier this week my build failed because maven was not able to resolve an (indirect) dependency on some package. It took me a while to notice that the dependency node in the pom file had an extra attribute: type = bundle. It only took a couple of minutes to find a good explanation &lt;a href=&#34;http://stackoverflow.com/questions/14913615/osgi-bundle-vs-jar-dependency&#34;&gt;here&lt;/a&gt;. Build fixed 😉&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Composing functions and leveraging scala.util.Try</title>
       <link>https://timvw.be/2016/01/29/composing-functions-and-leveraging-scala.util.try/</link>
       <pubDate>Fri, 29 Jan 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://timvw.be/2016/01/29/composing-functions-and-leveraging-scala.util.try/</guid>
-      <description>Last couple of days I have been hacking around trying to find a cute way to express the intent of my code. Typically it involves parsing some input, validating whatever rules that are in charge and persisting some values. In scala one can compose such a function by using the andThen method. Here is a concrete example:
-def id(x: String) = x def parseInput = id _ def validate = id _ def persist = id _ def usecase1 = parseInput andThen validate andThen persist Inspired by the excellent series on Railway Oriented Programming series by Scott Wlaschin I wanted to take advange of scala.</description>
+      <description>&lt;p&gt;Last couple of days I have been hacking around trying to find a cute way to express the intent of my code. Typically it involves parsing some input, validating whatever rules that are in charge and persisting some values. In scala one can compose such a function by using the &lt;a href=&#34;http://www.scala-lang.org/api/2.11.x/index.html#scala.Function1&#34;&gt;andThen&lt;/a&gt; method. Here is a concrete example:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#cf222e&#34;&gt;def&lt;/span&gt; id&lt;span style=&#34;color:#0550ae&#34;&gt;(&lt;/span&gt;x&lt;span style=&#34;color:#cf222e&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#cf222e&#34;&gt;String&lt;/span&gt;&lt;span style=&#34;color:#0550ae&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#cf222e&#34;&gt;=&lt;/span&gt; x  &#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#cf222e&#34;&gt;def&lt;/span&gt; parseInput &lt;span style=&#34;color:#cf222e&#34;&gt;=&lt;/span&gt; id &lt;span style=&#34;color:#cf222e&#34;&gt;_&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#cf222e&#34;&gt;def&lt;/span&gt; validate &lt;span style=&#34;color:#cf222e&#34;&gt;=&lt;/span&gt; id &lt;span style=&#34;color:#cf222e&#34;&gt;_&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#cf222e&#34;&gt;def&lt;/span&gt; persist &lt;span style=&#34;color:#cf222e&#34;&gt;=&lt;/span&gt; id &lt;span style=&#34;color:#cf222e&#34;&gt;_&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#cf222e&#34;&gt;def&lt;/span&gt; usecase1 &lt;span style=&#34;color:#cf222e&#34;&gt;=&lt;/span&gt; parseInput andThen validate andThen persist&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Inspired by the excellent series on &lt;a href=&#34;http://fsharpforfunandprofit.com/posts/recipe-part2/&#34;&gt;Railway Oriented Programming&lt;/a&gt; series by &lt;a href=&#34;@ScottWlaschin&#34;&gt;Scott Wlaschin&lt;/a&gt; I wanted to take advange of &lt;a href=&#34;http://www.scala-lang.org/files/archive/api/current/index.html#scala.util.Try&#34;&gt;scala.util.Try&lt;/a&gt; to remove try/catch clutter from my code. With a little helper function I can now compose my usecase as following:&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Using Gson to serialize Scala objects</title>
       <link>https://timvw.be/2016/01/14/using-gson-to-serialize-scala-objects/</link>
       <pubDate>Thu, 14 Jan 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://timvw.be/2016/01/14/using-gson-to-serialize-scala-objects/</guid>
-      <description>gson is a pretty nice library that converts Java objects into JSON and back. When using this library from Scala things become a bit harder (eg: Plenty of people have difficulties when their scala object has an (im)mutable Map or List).
-Here is an example to convert a JSON object to a Map[String,String]:
-import com.google.gson.Gson import scala.collection.JavaConversions._ val mapJson = &amp;#34;{ &amp;#39;a&amp;#39;: &amp;#39;b&amp;#39;, &amp;#39;c&amp;#39;: &amp;#39;d&amp;#39; }&amp;#34; val map = new Gson().</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/google/gson&#34;&gt;gson&lt;/a&gt; is a pretty nice library that converts Java objects into JSON and back. When using this library from Scala things become a bit harder (eg: Plenty of people have difficulties when their scala object has an (im)mutable Map or List).&lt;/p&gt;&#xA;&lt;p&gt;Here is an example to convert a JSON object to a Map[String,String]:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#cf222e&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#24292e&#34;&gt;com.google.gson.Gson&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#cf222e&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#24292e&#34;&gt;scala.collection.JavaConversions._&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#cf222e&#34;&gt;val&lt;/span&gt; mapJson &lt;span style=&#34;color:#cf222e&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#0a3069&#34;&gt;&amp;#34;{ &amp;#39;a&amp;#39;: &amp;#39;b&amp;#39;, &amp;#39;c&amp;#39;: &amp;#39;d&amp;#39; }&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#cf222e&#34;&gt;val&lt;/span&gt; map &lt;span style=&#34;color:#cf222e&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#cf222e&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#1f2328&#34;&gt;Gson&lt;/span&gt;&lt;span style=&#34;color:#0550ae&#34;&gt;().&lt;/span&gt;fromJson&lt;span style=&#34;color:#0550ae&#34;&gt;(&lt;/span&gt;mapJson&lt;span style=&#34;color:#0550ae&#34;&gt;,&lt;/span&gt; classOf&lt;span style=&#34;color:#0550ae&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#cf222e&#34;&gt;java.util.Map&lt;/span&gt;&lt;span style=&#34;color:#0550ae&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#cf222e&#34;&gt;String&lt;/span&gt;, &lt;span style=&#34;color:#cf222e&#34;&gt;String&lt;/span&gt;&lt;span style=&#34;color:#0550ae&#34;&gt;]])&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now that we know that this works, we hide the java types in the constructor and expose a nicer scala type via a method:&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Scaffolding scala projects</title>
       <link>https://timvw.be/2015/08/19/scaffolding-scala-projects/</link>
       <pubDate>Wed, 19 Aug 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://timvw.be/2015/08/19/scaffolding-scala-projects/</guid>
-      <description>These days the cool kids scaffold their projects with Yeoman. Obviously I could not stay behind, so here is my first generator for scala.</description>
+      <description>&lt;p&gt;These days the cool kids scaffold their projects with &lt;a href=&#34;http://yeoman.io/&#34;&gt;Yeoman&lt;/a&gt;. Obviously I could not stay behind, so here is my first &lt;a href=&#34;https://github.com/timvw/generator-scala&#34;&gt;generator for scala&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://camo.githubusercontent.com/2d553cce06333627904d8e33b61c91dfa7ae7bc4/687474703a2f2f692e696d6775722e636f6d2f4a4861416c424a2e706e67&#34; alt=&#34;&#34;&gt;&lt;/img&gt;&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

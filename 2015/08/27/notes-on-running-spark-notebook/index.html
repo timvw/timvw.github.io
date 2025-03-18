@@ -3,20 +3,29 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Notes on running spark-notebook - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Notes on running spark-notebook">
-<meta itemprop="description" content="These days Docker makes it extremely easy to get started with virtually any application you like. At first I was a bit skeptical but over the last couple of months I have changed my mind. Now I strongly believe this is a game changer. Even more when it comes to Windows. Anyway, these days kitematic (GUI to manage docker images) allows you to simply pick the spark-notebook by Andy Petrella."><meta itemprop="datePublished" content="2015-08-27T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="329">
-<meta itemprop="keywords" content="apache,spark,spark-csv,spark-notebook," /><meta property="og:title" content="Notes on running spark-notebook" />
-<meta property="og:description" content="These days Docker makes it extremely easy to get started with virtually any application you like. At first I was a bit skeptical but over the last couple of months I have changed my mind. Now I strongly believe this is a game changer. Even more when it comes to Windows. Anyway, these days kitematic (GUI to manage docker images) allows you to simply pick the spark-notebook by Andy Petrella." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2015/08/27/notes-on-running-spark-notebook/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2015-08-27T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="Notes on running spark-notebook">
+  <meta itemprop="description" content="These days Docker makes it extremely easy to get started with virtually any application you like. At first I was a bit skeptical but over the last couple of months I have changed my mind. Now I strongly believe this is a game changer. Even more when it comes to Windows. Anyway, these days kitematic (GUI to manage docker images) allows you to simply pick the spark-notebook by Andy Petrella.">
+  <meta itemprop="datePublished" content="2015-08-27T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="329">
+  <meta itemprop="keywords" content="Apache,Spark,Spark-Csv,Spark-Notebook"><meta property="og:url" content="https://timvw.be/2015/08/27/notes-on-running-spark-notebook/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Notes on running spark-notebook">
+  <meta property="og:description" content="These days Docker makes it extremely easy to get started with virtually any application you like. At first I was a bit skeptical but over the last couple of months I have changed my mind. Now I strongly believe this is a game changer. Even more when it comes to Windows. Anyway, these days kitematic (GUI to manage docker images) allows you to simply pick the spark-notebook by Andy Petrella.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2015-08-27T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="Apache">
+    <meta property="article:tag" content="Spark">
+    <meta property="article:tag" content="Spark-Csv">
+    <meta property="article:tag" content="Spark-Notebook">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Notes on running spark-notebook"/>
-<meta name="twitter:description" content="These days Docker makes it extremely easy to get started with virtually any application you like. At first I was a bit skeptical but over the last couple of months I have changed my mind. Now I strongly believe this is a game changer. Even more when it comes to Windows. Anyway, these days kitematic (GUI to manage docker images) allows you to simply pick the spark-notebook by Andy Petrella."/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Notes on running spark-notebook">
+  <meta name="twitter:description" content="These days Docker makes it extremely easy to get started with virtually any application you like. At first I was a bit skeptical but over the last couple of months I have changed my mind. Now I strongly believe this is a game changer. Even more when it comes to Windows. Anyway, these days kitematic (GUI to manage docker images) allows you to simply pick the spark-notebook by Andy Petrella.">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -81,15 +90,15 @@
 				<p>These days <a href="https://www.docker.com/">Docker</a> makes it extremely easy to get started with virtually any application you like. At first I was a bit skeptical but over the last couple of months I have changed my mind. Now I strongly believe this is a game changer. Even more when it comes to Windows. Anyway, these days kitematic (GUI to manage docker images) allows you to simply pick the <a href="https://github.com/andypetrella/spark-notebook">spark-notebook</a> by Andy Petrella.</p>
 <p><a href="http://www.timvw.be/wp-content/uploads/2015/08/docker_pick_image.png"><img src="http://www.timvw.be/wp-content/uploads/2015/08/docker_pick_image-300x152.png" alt="docker_pick_image" width="300" height="152" class="size-medium wp-image-2486" srcset="http://www.timvw.be/wp-content/uploads/2015/08/docker_pick_image-300x152.png 300w, http://www.timvw.be/wp-content/uploads/2015/08/docker_pick_image-1024x518.png 1024w, http://www.timvw.be/wp-content/uploads/2015/08/docker_pick_image-500x253.png 500w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
 <p>When running your docker host in VirtualBox, you still need to set up port forwarding for port 9000 (the notebook) and ports 4040 to 4050 (spark-ui) Assuming your docker host vm is named default:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>VBoxManage modifyvm <span style="color:#d14">&#34;default&#34;</span> --natpf1 <span style="color:#d14">&#34;tcp-port9000,tcp,,9000,,9000&#34;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>VBoxManage modifyvm <span style="color:#0a3069">&#34;default&#34;</span> --natpf1 <span style="color:#0a3069">&#34;tcp-port9000,tcp,,9000,,9000&#34;</span>
 </span></span></code></pre></div><p>These days <a href="https://www.docker.com/">Docker</a> makes it extremely easy to get started with virtually any application you like. At first I was a bit skeptical but over the last couple of months I have changed my mind. Now I strongly believe this is a game changer. Even more when it comes to Windows. Anyway, these days kitematic (GUI to manage docker images) allows you to simply pick the <a href="https://github.com/andypetrella/spark-notebook">spark-notebook</a> by Andy Petrella.</p>
 <p><a href="http://www.timvw.be/wp-content/uploads/2015/08/docker_pick_image.png"><img src="http://www.timvw.be/wp-content/uploads/2015/08/docker_pick_image-300x152.png" alt="docker_pick_image" width="300" height="152" class="size-medium wp-image-2486" srcset="http://www.timvw.be/wp-content/uploads/2015/08/docker_pick_image-300x152.png 300w, http://www.timvw.be/wp-content/uploads/2015/08/docker_pick_image-1024x518.png 1024w, http://www.timvw.be/wp-content/uploads/2015/08/docker_pick_image-500x253.png 500w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
 <p>When running your docker host in VirtualBox, you still need to set up port forwarding for port 9000 (the notebook) and ports 4040 to 4050 (spark-ui) Assuming your docker host vm is named default:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>VBoxManage modifyvm <span style="color:#d14">&#34;default&#34;</span> --natpf1 <span style="color:#d14">&#34;tcp-port9000,tcp,,9000,,9000&#34;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>VBoxManage modifyvm <span style="color:#0a3069">&#34;default&#34;</span> --natpf1 <span style="color:#0a3069">&#34;tcp-port9000,tcp,,9000,,9000&#34;</span>
 </span></span></code></pre></div><p>Now you can browse to http://localhost:9000 and start using your new notebook:</p>
 <p><a href="http://www.timvw.be/wp-content/uploads/2015/08/spark_notebook_home.png"><img src="http://www.timvw.be/wp-content/uploads/2015/08/spark_notebook_home-300x160.png" alt="spark_notebook_home" width="300" height="160" class="size-medium wp-image-2493" srcset="http://www.timvw.be/wp-content/uploads/2015/08/spark_notebook_home-300x160.png 300w, http://www.timvw.be/wp-content/uploads/2015/08/spark_notebook_home-1024x546.png 1024w, http://www.timvw.be/wp-content/uploads/2015/08/spark_notebook_home-500x267.png 500w, http://www.timvw.be/wp-content/uploads/2015/08/spark_notebook_home.png 1492w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
 <p>You may want to copy the default set of notebooks to a local directory:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker cp <span style="color:#008080">$containerName</span>:/opt/docker/notebooks /Users/timvw/notebooks
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker cp <span style="color:#953800">$containerName</span>:/opt/docker/notebooks /Users/timvw/notebooks
 </span></span></code></pre></div><p>Using that local copy is just a few clicks away with Kitematic:</p>
 <p><a href="http://www.timvw.be/wp-content/uploads/2015/08/docker_notebook_settings.png"><img src="http://www.timvw.be/wp-content/uploads/2015/08/docker_notebook_settings-300x140.png" alt="docker_notebook_settings" width="300" height="140" class="alignnone size-medium wp-image-2498" srcset="http://www.timvw.be/wp-content/uploads/2015/08/docker_notebook_settings-300x140.png 300w, http://www.timvw.be/wp-content/uploads/2015/08/docker_notebook_settings-1024x477.png 1024w, http://www.timvw.be/wp-content/uploads/2015/08/docker_notebook_settings-500x233.png 500w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
 <p>Offcourse you want to use additional packages such as <a href="https://github.com/databricks/spark-csv">spark-csv</a>. This can be achieved by editting the your notebook metadata:</p>
@@ -97,7 +106,7 @@
 <p>You simply need to add an entry to customDeps:</p>
 <p><a href="http://www.timvw.be/wp-content/uploads/2015/08/spark_notebook_customdeps.png"><img src="http://www.timvw.be/wp-content/uploads/2015/08/spark_notebook_customdeps-300x234.png" alt="spark_notebook_customdeps" width="300" height="234" class="alignnone size-medium wp-image-2500" srcset="http://www.timvw.be/wp-content/uploads/2015/08/spark_notebook_customdeps-300x234.png 300w, http://www.timvw.be/wp-content/uploads/2015/08/spark_notebook_customdeps-1024x798.png 1024w, http://www.timvw.be/wp-content/uploads/2015/08/spark_notebook_customdeps-385x300.png 385w, http://www.timvw.be/wp-content/uploads/2015/08/spark_notebook_customdeps.png 1368w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
 <p>When your container did not shutdown correctly, you may end up in the awkward situation that your container believes that it is still running(). The following commands fix that:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker start <span style="color:#008080">$containerName</span> <span style="color:#000;font-weight:bold">&amp;&amp;</span> docker <span style="color:#0086b3">exec</span> -t -i <span style="color:#008080">$containerName</span> /bin/rm /opt/docker/RUNNING_PID
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker start <span style="color:#953800">$containerName</span> <span style="color:#0550ae">&amp;&amp;</span> docker <span style="color:#6639ba">exec</span> -t -i <span style="color:#953800">$containerName</span> /bin/rm /opt/docker/RUNNING_PID
 </span></span></code></pre></div>
 			</div>
 
@@ -126,16 +135,19 @@
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

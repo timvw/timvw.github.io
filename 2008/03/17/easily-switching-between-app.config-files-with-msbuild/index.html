@@ -3,23 +3,29 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Easily switching between App.Config files with MSBuild - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Easily switching between App.Config files with MSBuild">
-<meta itemprop="description" content="Imagine the following situation: One codebase, two customers with different Application Configuration files. How can we easily switch between the different configurations? By taking advantage of the Build Configurations functionality in Visual Studio we can easily switch between different configurations
-A brute-force solution would be to add a Post-build Event that copies the desired App.Config file to the destination directory. In the Microsoft.Common.targets file (usually at C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727) around line 725 you can read how MSBuild chooses the App."><meta itemprop="datePublished" content="2008-03-17T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="224">
-<meta itemprop="keywords" content="Visual Studio," /><meta property="og:title" content="Easily switching between App.Config files with MSBuild" />
-<meta property="og:description" content="Imagine the following situation: One codebase, two customers with different Application Configuration files. How can we easily switch between the different configurations? By taking advantage of the Build Configurations functionality in Visual Studio we can easily switch between different configurations
-A brute-force solution would be to add a Post-build Event that copies the desired App.Config file to the destination directory. In the Microsoft.Common.targets file (usually at C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727) around line 725 you can read how MSBuild chooses the App." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2008/03/17/easily-switching-between-app.config-files-with-msbuild/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2008-03-17T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="Easily switching between App.Config files with MSBuild">
+  <meta itemprop="description" content="Imagine the following situation: One codebase, two customers with different Application Configuration files. How can we easily switch between the different configurations? By taking advantage of the Build Configurations functionality in Visual Studio we can easily switch between different configurations
+A brute-force solution would be to add a Post-build Event that copies the desired App.Config file to the destination directory. In the Microsoft.Common.targets file (usually at C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727) around line 725 you can read how MSBuild chooses the App.Config that is copied to the destination folder">
+  <meta itemprop="datePublished" content="2008-03-17T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="224">
+  <meta itemprop="keywords" content="Visual Studio"><meta property="og:url" content="https://timvw.be/2008/03/17/easily-switching-between-app.config-files-with-msbuild/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Easily switching between App.Config files with MSBuild">
+  <meta property="og:description" content="Imagine the following situation: One codebase, two customers with different Application Configuration files. How can we easily switch between the different configurations? By taking advantage of the Build Configurations functionality in Visual Studio we can easily switch between different configurations
+A brute-force solution would be to add a Post-build Event that copies the desired App.Config file to the destination directory. In the Microsoft.Common.targets file (usually at C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727) around line 725 you can read how MSBuild chooses the App.Config that is copied to the destination folder">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2008-03-17T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="Visual Studio">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Easily switching between App.Config files with MSBuild"/>
-<meta name="twitter:description" content="Imagine the following situation: One codebase, two customers with different Application Configuration files. How can we easily switch between the different configurations? By taking advantage of the Build Configurations functionality in Visual Studio we can easily switch between different configurations
-A brute-force solution would be to add a Post-build Event that copies the desired App.Config file to the destination directory. In the Microsoft.Common.targets file (usually at C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727) around line 725 you can read how MSBuild chooses the App."/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Easily switching between App.Config files with MSBuild">
+  <meta name="twitter:description" content="Imagine the following situation: One codebase, two customers with different Application Configuration files. How can we easily switch between the different configurations? By taking advantage of the Build Configurations functionality in Visual Studio we can easily switch between different configurations
+A brute-force solution would be to add a Post-build Event that copies the desired App.Config file to the destination directory. In the Microsoft.Common.targets file (usually at C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727) around line 725 you can read how MSBuild chooses the App.Config that is copied to the destination folder">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -93,28 +99,27 @@ The search order is:</p>
 <li>Choose @(Content) App.Config in the same folder as the project.</li>
 <li>Choose @(None) App.Config in any subfolder in the project.</li>
 <li>Choose @(Content) App.Config in any subfolder in the project.</li>
-</ol>
-</blockquote>
+</ol></blockquote>
 <p>Thus, simply setting $(AppConfig) should be enough to make sure that MSBuild chooses the appropriate App.Config file. Here is an example of a csproj section that defines $(AppConfig) as App.Customer1.Config or App.Customer2.Config depending on the choosen Build configuration</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#000080">&lt;propertyGroup</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug Customer1|AnyCPU&#39; &#34;</span><span style="color:#000080">&gt;</span> 
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;debugSymbols&gt;</span>true<span style="color:#000080">&lt;/debugSymbols&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;debugType&gt;</span>full<span style="color:#000080">&lt;/debugType&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;optimize&gt;</span>false<span style="color:#000080">&lt;/optimize&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;outputPath&gt;</span>bin\Debug\<span style="color:#000080">&lt;/outputPath&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;defineConstants&gt;</span>DEBUG;TRACE<span style="color:#000080">&lt;/defineConstants&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;errorReport&gt;</span>prompt<span style="color:#000080">&lt;/errorReport&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;warningLevel&gt;</span>4<span style="color:#000080">&lt;/warningLevel&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;appConfig&gt;</span>App.Customer1.Config<span style="color:#000080">&lt;/appConfig&gt;</span> 
-</span></span><span style="display:flex;"><span><span style="color:#000080">&lt;/propertyGroup&gt;</span> 
-</span></span><span style="display:flex;"><span><span style="color:#000080">&lt;propertyGroup</span> <span style="color:#008080">Condition=</span><span style="color:#d14">&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug Customer2|AnyCPU&#39; &#34;</span><span style="color:#000080">&gt;</span> 
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;debugSymbols&gt;</span>true<span style="color:#000080">&lt;/debugSymbols&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;outputPath&gt;</span>bin\Debug Customer2\<span style="color:#000080">&lt;/outputPath&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;defineConstants&gt;</span>DEBUG;TRACE<span style="color:#000080">&lt;/defineConstants&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;debugType&gt;</span>full<span style="color:#000080">&lt;/debugType&gt;</span> <span style="color:#000080">&lt;platformTarget&gt;</span>AnyCPU<span style="color:#000080">&lt;/platformTarget&gt;</span> <span style="color:#000080">&lt;codeAnalysisUseTypeNameInSuppression&gt;</span>true<span style="color:#000080">&lt;/codeAnalysisUseTypeNameInSuppression&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;codeAnalysisModuleSuppressionsFile&gt;</span>GlobalSuppressions.cs<span style="color:#000080">&lt;/codeAnalysisModuleSuppressionsFile&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;errorReport&gt;</span>prompt<span style="color:#000080">&lt;/errorReport&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;appConfig&gt;</span>App.Customer2.Config<span style="color:#000080">&lt;/appConfig&gt;</span> 
-</span></span><span style="display:flex;"><span><span style="color:#000080">&lt;/propertyGroup&gt;</span> 
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#0550ae">&lt;propertyGroup</span> <span style="color:#1f2328">Condition=</span><span style="color:#0a3069">&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug Customer1|AnyCPU&#39; &#34;</span><span style="color:#0550ae">&gt;</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;debugSymbols&gt;</span>true<span style="color:#0550ae">&lt;/debugSymbols&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;debugType&gt;</span>full<span style="color:#0550ae">&lt;/debugType&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;optimize&gt;</span>false<span style="color:#0550ae">&lt;/optimize&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;outputPath&gt;</span>bin\Debug\<span style="color:#0550ae">&lt;/outputPath&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;defineConstants&gt;</span>DEBUG;TRACE<span style="color:#0550ae">&lt;/defineConstants&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;errorReport&gt;</span>prompt<span style="color:#0550ae">&lt;/errorReport&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;warningLevel&gt;</span>4<span style="color:#0550ae">&lt;/warningLevel&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;appConfig&gt;</span>App.Customer1.Config<span style="color:#0550ae">&lt;/appConfig&gt;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">&lt;/propertyGroup&gt;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">&lt;propertyGroup</span> <span style="color:#1f2328">Condition=</span><span style="color:#0a3069">&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug Customer2|AnyCPU&#39; &#34;</span><span style="color:#0550ae">&gt;</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;debugSymbols&gt;</span>true<span style="color:#0550ae">&lt;/debugSymbols&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;outputPath&gt;</span>bin\Debug Customer2\<span style="color:#0550ae">&lt;/outputPath&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;defineConstants&gt;</span>DEBUG;TRACE<span style="color:#0550ae">&lt;/defineConstants&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;debugType&gt;</span>full<span style="color:#0550ae">&lt;/debugType&gt;</span> <span style="color:#0550ae">&lt;platformTarget&gt;</span>AnyCPU<span style="color:#0550ae">&lt;/platformTarget&gt;</span> <span style="color:#0550ae">&lt;codeAnalysisUseTypeNameInSuppression&gt;</span>true<span style="color:#0550ae">&lt;/codeAnalysisUseTypeNameInSuppression&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;codeAnalysisModuleSuppressionsFile&gt;</span>GlobalSuppressions.cs<span style="color:#0550ae">&lt;/codeAnalysisModuleSuppressionsFile&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;errorReport&gt;</span>prompt<span style="color:#0550ae">&lt;/errorReport&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;appConfig&gt;</span>App.Customer2.Config<span style="color:#0550ae">&lt;/appConfig&gt;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">&lt;/propertyGroup&gt;</span> 
 </span></span></code></pre></div>
 			</div>
 
@@ -137,16 +142,19 @@ The search order is:</p>
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

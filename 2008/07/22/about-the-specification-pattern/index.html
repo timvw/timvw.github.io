@@ -3,23 +3,29 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>About the Specification pattern - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="About the Specification pattern">
-<meta itemprop="description" content="A couple of days ago i mentionned Yves Goeleven&rsquo;s blog as a reference for solutions using DDD principles. Let&rsquo;s have a look at his implementation of the AndSpecification and OrSpecification in Design Patterns &ndash; The Specification Pattern &ndash; Part I
-class AndSpecification&lt;T&gt; : CompositeSpecification&lt;T&gt; { public override bool IsSatisfiedBy(T candidate) { bool isSatisfied = true; foreach( ISpecification&lt;T&gt; spec in Specifications) { isSatisfied &amp;= spec.IsSatisfiedBy(candidate); } return isSatisfied; } } class OrSpecification&lt;T&gt; : CompositeSpecification&lt;T&gt; { public override bool IsSatisfiedBy(T obj) { bool isSatisfied = false; foreach( ISpecification&lt;T&gt; spec in Specifications) { isSatisfied |= spec."><meta itemprop="datePublished" content="2008-07-22T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="371">
-<meta itemprop="keywords" content="Patterns," /><meta property="og:title" content="About the Specification pattern" />
-<meta property="og:description" content="A couple of days ago i mentionned Yves Goeleven&rsquo;s blog as a reference for solutions using DDD principles. Let&rsquo;s have a look at his implementation of the AndSpecification and OrSpecification in Design Patterns &ndash; The Specification Pattern &ndash; Part I
-class AndSpecification&lt;T&gt; : CompositeSpecification&lt;T&gt; { public override bool IsSatisfiedBy(T candidate) { bool isSatisfied = true; foreach( ISpecification&lt;T&gt; spec in Specifications) { isSatisfied &amp;= spec.IsSatisfiedBy(candidate); } return isSatisfied; } } class OrSpecification&lt;T&gt; : CompositeSpecification&lt;T&gt; { public override bool IsSatisfiedBy(T obj) { bool isSatisfied = false; foreach( ISpecification&lt;T&gt; spec in Specifications) { isSatisfied |= spec." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2008/07/22/about-the-specification-pattern/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2008-07-22T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="About the Specification pattern">
+  <meta itemprop="description" content="A couple of days ago i mentionned Yves Goeleven’s blog as a reference for solutions using DDD principles. Let’s have a look at his implementation of the AndSpecification and OrSpecification in Design Patterns – The Specification Pattern – Part I
+class AndSpecification&lt;T&gt; : CompositeSpecification&lt;T&gt; { public override bool IsSatisfiedBy(T candidate) { bool isSatisfied = true; foreach( ISpecification&lt;T&gt; spec in Specifications) { isSatisfied &amp;= spec.IsSatisfiedBy(candidate); } return isSatisfied; } } class OrSpecification&lt;T&gt; : CompositeSpecification&lt;T&gt; { public override bool IsSatisfiedBy(T obj) { bool isSatisfied = false; foreach( ISpecification&lt;T&gt; spec in Specifications) { isSatisfied |= spec.IsSatisfiedBy(obj); } return isSatisfied; } } I believe that it would be better if the implementations had the same lazy evaluation behaviour as the C# &amp;&amp; and || operators. Eg: in C# one can write (a &amp;&amp; b) and if a evaluates to false, then b is not evaluated anymore. Consider the following code">
+  <meta itemprop="datePublished" content="2008-07-22T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="371">
+  <meta itemprop="keywords" content="Patterns"><meta property="og:url" content="https://timvw.be/2008/07/22/about-the-specification-pattern/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="About the Specification pattern">
+  <meta property="og:description" content="A couple of days ago i mentionned Yves Goeleven’s blog as a reference for solutions using DDD principles. Let’s have a look at his implementation of the AndSpecification and OrSpecification in Design Patterns – The Specification Pattern – Part I
+class AndSpecification&lt;T&gt; : CompositeSpecification&lt;T&gt; { public override bool IsSatisfiedBy(T candidate) { bool isSatisfied = true; foreach( ISpecification&lt;T&gt; spec in Specifications) { isSatisfied &amp;= spec.IsSatisfiedBy(candidate); } return isSatisfied; } } class OrSpecification&lt;T&gt; : CompositeSpecification&lt;T&gt; { public override bool IsSatisfiedBy(T obj) { bool isSatisfied = false; foreach( ISpecification&lt;T&gt; spec in Specifications) { isSatisfied |= spec.IsSatisfiedBy(obj); } return isSatisfied; } } I believe that it would be better if the implementations had the same lazy evaluation behaviour as the C# &amp;&amp; and || operators. Eg: in C# one can write (a &amp;&amp; b) and if a evaluates to false, then b is not evaluated anymore. Consider the following code">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2008-07-22T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="Patterns">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="About the Specification pattern"/>
-<meta name="twitter:description" content="A couple of days ago i mentionned Yves Goeleven&rsquo;s blog as a reference for solutions using DDD principles. Let&rsquo;s have a look at his implementation of the AndSpecification and OrSpecification in Design Patterns &ndash; The Specification Pattern &ndash; Part I
-class AndSpecification&lt;T&gt; : CompositeSpecification&lt;T&gt; { public override bool IsSatisfiedBy(T candidate) { bool isSatisfied = true; foreach( ISpecification&lt;T&gt; spec in Specifications) { isSatisfied &amp;= spec.IsSatisfiedBy(candidate); } return isSatisfied; } } class OrSpecification&lt;T&gt; : CompositeSpecification&lt;T&gt; { public override bool IsSatisfiedBy(T obj) { bool isSatisfied = false; foreach( ISpecification&lt;T&gt; spec in Specifications) { isSatisfied |= spec."/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="About the Specification pattern">
+  <meta name="twitter:description" content="A couple of days ago i mentionned Yves Goeleven’s blog as a reference for solutions using DDD principles. Let’s have a look at his implementation of the AndSpecification and OrSpecification in Design Patterns – The Specification Pattern – Part I
+class AndSpecification&lt;T&gt; : CompositeSpecification&lt;T&gt; { public override bool IsSatisfiedBy(T candidate) { bool isSatisfied = true; foreach( ISpecification&lt;T&gt; spec in Specifications) { isSatisfied &amp;= spec.IsSatisfiedBy(candidate); } return isSatisfied; } } class OrSpecification&lt;T&gt; : CompositeSpecification&lt;T&gt; { public override bool IsSatisfiedBy(T obj) { bool isSatisfied = false; foreach( ISpecification&lt;T&gt; spec in Specifications) { isSatisfied |= spec.IsSatisfiedBy(obj); } return isSatisfied; } } I believe that it would be better if the implementations had the same lazy evaluation behaviour as the C# &amp;&amp; and || operators. Eg: in C# one can write (a &amp;&amp; b) and if a evaluates to false, then b is not evaluated anymore. Consider the following code">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -82,129 +88,129 @@ class AndSpecification&lt;T&gt; : CompositeSpecification&lt;T&gt; { public overr
 					
 			<div class="markdown">
 				<p>A couple of days ago i mentionned <a href="http://www.goeleven.com">Yves Goeleven&rsquo;s blog</a> as a reference for solutions using <a href="http://en.wikipedia.org/wiki/Domain-driven_design">DDD</a> principles. Let&rsquo;s have a look at his implementation of the AndSpecification and OrSpecification in <a href="http://www.goeleven.com/blog/entryDetail.aspx?entry=57">Design Patterns &ndash; The Specification Pattern &ndash; Part I</a></p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">AndSpecification</span>&lt;T&gt; : CompositeSpecification&lt;T&gt;
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">bool</span> IsSatisfiedBy(T candidate)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#458;font-weight:bold">bool</span> isSatisfied = <span style="color:#000;font-weight:bold">true</span>;
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">foreach</span>( ISpecification&lt;T&gt; spec <span style="color:#000;font-weight:bold">in</span> Specifications)
-</span></span><span style="display:flex;"><span>		{
-</span></span><span style="display:flex;"><span>			isSatisfied &amp;= spec.IsSatisfiedBy(candidate);
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> isSatisfied;
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">class</span> <span style="color:#1f2328">AndSpecification</span><span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;</span> <span style="color:#1f2328">:</span> CompositeSpecification<span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> <span style="color:#cf222e">override</span> <span style="color:#cf222e">bool</span> IsSatisfiedBy<span style="color:#1f2328">(</span>T candidate<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">bool</span> isSatisfied <span style="color:#1f2328">=</span> <span style="color:#cf222e">true</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">foreach</span><span style="color:#1f2328">(</span> ISpecification<span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;</span> spec <span style="color:#cf222e">in</span> Specifications<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>			isSatisfied <span style="color:#1f2328">&amp;=</span> spec<span style="color:#1f2328">.</span>IsSatisfiedBy<span style="color:#1f2328">(</span>candidate<span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">return</span> isSatisfied<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">OrSpecification</span>&lt;T&gt; : CompositeSpecification&lt;T&gt;
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">bool</span> IsSatisfiedBy(T obj)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#458;font-weight:bold">bool</span> isSatisfied = <span style="color:#000;font-weight:bold">false</span>;
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">foreach</span>( ISpecification&lt;T&gt; spec <span style="color:#000;font-weight:bold">in</span> Specifications)
-</span></span><span style="display:flex;"><span>		{
-</span></span><span style="display:flex;"><span>			isSatisfied |= spec.IsSatisfiedBy(obj);
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> isSatisfied;
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">class</span> <span style="color:#1f2328">OrSpecification</span><span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;</span> <span style="color:#1f2328">:</span> CompositeSpecification<span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> <span style="color:#cf222e">override</span> <span style="color:#cf222e">bool</span> IsSatisfiedBy<span style="color:#1f2328">(</span>T obj<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">bool</span> isSatisfied <span style="color:#1f2328">=</span> <span style="color:#cf222e">false</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">foreach</span><span style="color:#1f2328">(</span> ISpecification<span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;</span> spec <span style="color:#cf222e">in</span> Specifications<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>			isSatisfied <span style="color:#1f2328">|=</span> spec<span style="color:#1f2328">.</span>IsSatisfiedBy<span style="color:#1f2328">(</span>obj<span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">return</span> isSatisfied<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>I believe that it would be better if the implementations had the same lazy evaluation behaviour as the C# &amp;&amp; and || operators. Eg: in C# one can write (a &amp;&amp; b) and if a evaluates to false, then b is not evaluated anymore. Consider the following code</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">if</span> (person != <span style="color:#000;font-weight:bold">null</span> &amp;&amp; person.Age &gt; <span style="color:#099">18</span>) { }
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>person <span style="color:#1f2328">!=</span> <span style="color:#cf222e">null</span> <span style="color:#1f2328">&amp;&amp;</span> person<span style="color:#1f2328">.</span>Age <span style="color:#1f2328">&gt;</span> <span style="color:#0550ae">18</span><span style="color:#1f2328">)</span> <span style="color:#1f2328">{</span> <span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>Let&rsquo;s rewrite that same code using Specifications</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">NotNullSpecification</span>&lt;T&gt; : ISpecification&lt;T&gt; <span style="color:#000;font-weight:bold">where</span> T : <span style="color:#000;font-weight:bold">class</span>
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> IsSatisfiedBy(T item)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> item != <span style="color:#000;font-weight:bold">null</span>;
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">class</span> <span style="color:#1f2328">NotNullSpecification</span><span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;</span> <span style="color:#1f2328">:</span> ISpecification<span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;</span> <span style="color:#cf222e">where</span> T <span style="color:#1f2328">:</span> <span style="color:#cf222e">class</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> <span style="color:#cf222e">bool</span> IsSatisfiedBy<span style="color:#1f2328">(</span>T item<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">return</span> item <span style="color:#1f2328">!=</span> <span style="color:#cf222e">null</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">OlderThanSpecification</span> : ISpecification&lt;person&gt; {
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> age;
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">class</span> <span style="color:#1f2328">OlderThanSpecification</span> <span style="color:#1f2328">:</span> ISpecification<span style="color:#1f2328">&lt;</span>person<span style="color:#1f2328">&gt;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">private</span> <span style="color:#cf222e">int</span> age<span style="color:#1f2328">;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> OlderThanSpecification(<span style="color:#458;font-weight:bold">int</span> age)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.age = age;
-</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> OlderThanSpecification<span style="color:#1f2328">(</span><span style="color:#cf222e">int</span> age<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>age <span style="color:#1f2328">=</span> age<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> IsSatisfiedBy(Person person)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> person.Age &gt; <span style="color:#000;font-weight:bold">this</span>.age;
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> <span style="color:#cf222e">bool</span> IsSatisfiedBy<span style="color:#1f2328">(</span>Person person<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">return</span> person<span style="color:#1f2328">.</span>Age <span style="color:#1f2328">&gt;</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>age<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PersonNotNullAndOlderThan18Specification</span> : AndSpecification&lt;person&gt; 
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> PersonNotNullAndOlderThan18Specification()
-</span></span><span style="display:flex;"><span>	: <span style="color:#000;font-weight:bold">base</span>(<span style="color:#000;font-weight:bold">new</span> NotNullSpecification&lt;person&gt;(), <span style="color:#000;font-weight:bold">new</span> OlderThanSpecification(<span style="color:#099">18</span>))
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">class</span> <span style="color:#1f2328">PersonNotNullAndOlderThan18Specification</span> <span style="color:#1f2328">:</span> AndSpecification<span style="color:#1f2328">&lt;</span>person<span style="color:#1f2328">&gt;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> PersonNotNullAndOlderThan18Specification<span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">:</span> <span style="color:#cf222e">base</span><span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> NotNullSpecification<span style="color:#1f2328">&lt;</span>person<span style="color:#1f2328">&gt;(),</span> <span style="color:#cf222e">new</span> OlderThanSpecification<span style="color:#1f2328">(</span><span style="color:#0550ae">18</span><span style="color:#1f2328">))</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>Using the mentionned AndSpecification implementation the following unittest will fail</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#008080">[TestMethod]</span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">void</span> TestPersonNotNullAndOlderThan18Specification()
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	Person person = <span style="color:#000;font-weight:bold">null</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#1f2328">[TestMethod]</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">void</span> TestPersonNotNullAndOlderThan18Specification<span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	Person person <span style="color:#1f2328">=</span> <span style="color:#cf222e">null</span><span style="color:#1f2328">;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	ISpecification&lt;person&gt; specification = <span style="color:#000;font-weight:bold">new</span> PersonNotNullAndOlderThan18Specifictation();
-</span></span><span style="display:flex;"><span>	Assert.IsFalse(specification.IsSatisfiedBy(person));
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>	ISpecification<span style="color:#1f2328">&lt;</span>person<span style="color:#1f2328">&gt;</span> specification <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> PersonNotNullAndOlderThan18Specifictation<span style="color:#1f2328">();</span>
+</span></span><span style="display:flex;"><span>	Assert<span style="color:#1f2328">.</span>IsFalse<span style="color:#1f2328">(</span>specification<span style="color:#1f2328">.</span>IsSatisfiedBy<span style="color:#1f2328">(</span>person<span style="color:#1f2328">));</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>In order to make that test pass we could rewrite the specifications as following</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">abstract</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">CompositeSpecification</span>&lt;T&gt; : ISpecification&lt;T&gt;
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">readonly</span> IEnumerable&lt;ispecification&lt;T&gt;&gt; specifications;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">abstract</span> <span style="color:#cf222e">class</span> <span style="color:#1f2328">CompositeSpecification</span><span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;</span> <span style="color:#1f2328">:</span> ISpecification<span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">private</span> <span style="color:#cf222e">readonly</span> IEnumerable<span style="color:#1f2328">&lt;</span>ispecification<span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;&gt;</span> specifications<span style="color:#1f2328">;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> CompositeSpecification(IEnumerable&lt;ispecification&lt;T&gt;&gt; specifications)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.specifications = specifications;
-</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> CompositeSpecification<span style="color:#1f2328">(</span>IEnumerable<span style="color:#1f2328">&lt;</span>ispecification<span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;&gt;</span> specifications<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>specifications <span style="color:#1f2328">=</span> specifications<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">protected</span> IEnumerable&lt;ispecification&lt;T&gt;&gt; Specifications
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.specifications; }
-</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">protected</span> IEnumerable<span style="color:#1f2328">&lt;</span>ispecification<span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;&gt;</span> Specifications
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">get</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">return</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>specifications<span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">abstract</span> <span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> IsSatisfiedBy(T item);
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">abstract</span> <span style="color:#cf222e">public</span> <span style="color:#cf222e">bool</span> IsSatisfiedBy<span style="color:#1f2328">(</span>T item<span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">AndSpecification</span>&lt;T&gt; : CompositeSpecification&lt;T&gt;
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> AndSpecification(IEnumerable&lt;ispecification&lt;T&gt;&gt; specifications)
-</span></span><span style="display:flex;"><span>	:<span style="color:#000;font-weight:bold">base</span>(specifications)
-</span></span><span style="display:flex;"><span>	{ }
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">class</span> <span style="color:#1f2328">AndSpecification</span><span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;</span> <span style="color:#1f2328">:</span> CompositeSpecification<span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> AndSpecification<span style="color:#1f2328">(</span>IEnumerable<span style="color:#1f2328">&lt;</span>ispecification<span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;&gt;</span> specifications<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">:</span><span style="color:#cf222e">base</span><span style="color:#1f2328">(</span>specifications<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span> <span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> IsSatisfiedBy(T item)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">foreach</span> (ISpecification&lt;T&gt; specification <span style="color:#000;font-weight:bold">in</span> <span style="color:#000;font-weight:bold">this</span>.Specifications)
-</span></span><span style="display:flex;"><span>		{
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> (!specification.IsSatisfiedBy(item))
-</span></span><span style="display:flex;"><span>			{
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>;
-</span></span><span style="display:flex;"><span>			}
-</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">override</span> <span style="color:#cf222e">public</span> <span style="color:#cf222e">bool</span> IsSatisfiedBy<span style="color:#1f2328">(</span>T item<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">foreach</span> <span style="color:#1f2328">(</span>ISpecification<span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;</span> specification <span style="color:#cf222e">in</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>Specifications<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#cf222e">if</span> <span style="color:#1f2328">(!</span>specification<span style="color:#1f2328">.</span>IsSatisfiedBy<span style="color:#1f2328">(</span>item<span style="color:#1f2328">))</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#cf222e">return</span> <span style="color:#cf222e">false</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>;
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">return</span> <span style="color:#cf222e">true</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">OrSpecification</span>&lt;T&gt; : CompositeSpecification&lt;T&gt;
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> OrSpecification(IEnumerable&lt;ispecification&lt;T&gt;&gt; specifications)
-</span></span><span style="display:flex;"><span>	: <span style="color:#000;font-weight:bold">base</span>(specifications)
-</span></span><span style="display:flex;"><span>	{ }
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">class</span> <span style="color:#1f2328">OrSpecification</span><span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;</span> <span style="color:#1f2328">:</span> CompositeSpecification<span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> OrSpecification<span style="color:#1f2328">(</span>IEnumerable<span style="color:#1f2328">&lt;</span>ispecification<span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;&gt;</span> specifications<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">:</span> <span style="color:#cf222e">base</span><span style="color:#1f2328">(</span>specifications<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span> <span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">override</span> <span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">bool</span> IsSatisfiedBy(T item)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">foreach</span> (ISpecification&lt;T&gt; specification <span style="color:#000;font-weight:bold">in</span> <span style="color:#000;font-weight:bold">this</span>.Specifications)
-</span></span><span style="display:flex;"><span>		{
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> (specification.IsSatisfiedBy(item))
-</span></span><span style="display:flex;"><span>			{
-</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>;
-</span></span><span style="display:flex;"><span>			}
-</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">override</span> <span style="color:#cf222e">public</span> <span style="color:#cf222e">bool</span> IsSatisfiedBy<span style="color:#1f2328">(</span>T item<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">foreach</span> <span style="color:#1f2328">(</span>ISpecification<span style="color:#1f2328">&lt;</span>T<span style="color:#1f2328">&gt;</span> specification <span style="color:#cf222e">in</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>Specifications<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>specification<span style="color:#1f2328">.</span>IsSatisfiedBy<span style="color:#1f2328">(</span>item<span style="color:#1f2328">))</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#cf222e">return</span> <span style="color:#cf222e">true</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>;
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">return</span> <span style="color:#cf222e">false</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div>
 			</div>
 
@@ -227,16 +233,19 @@ class AndSpecification&lt;T&gt; : CompositeSpecification&lt;T&gt; { public overr
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

@@ -3,23 +3,30 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Improvements for the SortableBindingList (and TypedList) - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Improvements for the SortableBindingList (and TypedList)">
-<meta itemprop="description" content="I found out that the sorting didn&rsquo;t work for &lsquo;Expression&rsquo; properties. My first thought was to add another switch to the logic of the already existing code
-object value1 = t1; object value2 = t2; if (prop.Name.StartsWith(&#34;||&#34;)) { // do something to find the &#39;ExpressionProperty&#39; values } else { foreach (string property in prop.Name.Split(&#39;.&#39;)) { // navigate through the relations PropertyInfo propertyInfo = value1.GetType().GetProperty(property); value1 = propertyInfo.GetValue(value1, null); value2 = propertyInfo."><meta itemprop="datePublished" content="2007-05-10T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="189">
-<meta itemprop="keywords" content="CSharp,Windows Forms," /><meta property="og:title" content="Improvements for the SortableBindingList (and TypedList)" />
-<meta property="og:description" content="I found out that the sorting didn&rsquo;t work for &lsquo;Expression&rsquo; properties. My first thought was to add another switch to the logic of the already existing code
-object value1 = t1; object value2 = t2; if (prop.Name.StartsWith(&#34;||&#34;)) { // do something to find the &#39;ExpressionProperty&#39; values } else { foreach (string property in prop.Name.Split(&#39;.&#39;)) { // navigate through the relations PropertyInfo propertyInfo = value1.GetType().GetProperty(property); value1 = propertyInfo.GetValue(value1, null); value2 = propertyInfo." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2007/05/10/improvements-for-the-sortablebindinglist-and-typedlist/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2007-05-10T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="Improvements for the SortableBindingList (and TypedList)">
+  <meta itemprop="description" content="I found out that the sorting didn’t work for ‘Expression’ properties. My first thought was to add another switch to the logic of the already existing code
+object value1 = t1; object value2 = t2; if (prop.Name.StartsWith(&#34;||&#34;)) { // do something to find the &#39;ExpressionProperty&#39; values } else { foreach (string property in prop.Name.Split(&#39;.&#39;)) { // navigate through the relations PropertyInfo propertyInfo = value1.GetType().GetProperty(property); value1 = propertyInfo.GetValue(value1, null); value2 = propertyInfo.GetValue(value2, null); } } Since i already have a PropertyDescriptor it seems a lot smarter to use it’s GetValue instead">
+  <meta itemprop="datePublished" content="2007-05-10T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="189">
+  <meta itemprop="keywords" content="CSharp,Windows Forms"><meta property="og:url" content="https://timvw.be/2007/05/10/improvements-for-the-sortablebindinglist-and-typedlist/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Improvements for the SortableBindingList (and TypedList)">
+  <meta property="og:description" content="I found out that the sorting didn’t work for ‘Expression’ properties. My first thought was to add another switch to the logic of the already existing code
+object value1 = t1; object value2 = t2; if (prop.Name.StartsWith(&#34;||&#34;)) { // do something to find the &#39;ExpressionProperty&#39; values } else { foreach (string property in prop.Name.Split(&#39;.&#39;)) { // navigate through the relations PropertyInfo propertyInfo = value1.GetType().GetProperty(property); value1 = propertyInfo.GetValue(value1, null); value2 = propertyInfo.GetValue(value2, null); } } Since i already have a PropertyDescriptor it seems a lot smarter to use it’s GetValue instead">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2007-05-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="CSharp">
+    <meta property="article:tag" content="Windows Forms">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Improvements for the SortableBindingList (and TypedList)"/>
-<meta name="twitter:description" content="I found out that the sorting didn&rsquo;t work for &lsquo;Expression&rsquo; properties. My first thought was to add another switch to the logic of the already existing code
-object value1 = t1; object value2 = t2; if (prop.Name.StartsWith(&#34;||&#34;)) { // do something to find the &#39;ExpressionProperty&#39; values } else { foreach (string property in prop.Name.Split(&#39;.&#39;)) { // navigate through the relations PropertyInfo propertyInfo = value1.GetType().GetProperty(property); value1 = propertyInfo.GetValue(value1, null); value2 = propertyInfo."/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Improvements for the SortableBindingList (and TypedList)">
+  <meta name="twitter:description" content="I found out that the sorting didn’t work for ‘Expression’ properties. My first thought was to add another switch to the logic of the already existing code
+object value1 = t1; object value2 = t2; if (prop.Name.StartsWith(&#34;||&#34;)) { // do something to find the &#39;ExpressionProperty&#39; values } else { foreach (string property in prop.Name.Split(&#39;.&#39;)) { // navigate through the relations PropertyInfo propertyInfo = value1.GetType().GetProperty(property); value1 = propertyInfo.GetValue(value1, null); value2 = propertyInfo.GetValue(value2, null); } } Since i already have a PropertyDescriptor it seems a lot smarter to use it’s GetValue instead">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -82,47 +89,47 @@ object value1 = t1; object value2 = t2; if (prop.Name.StartsWith(&#34;||&#34;)) 
 					
 			<div class="markdown">
 				<p>I found out that the sorting didn&rsquo;t work for &lsquo;Expression&rsquo; properties. My first thought was to add another switch to the logic of the already existing code</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#458;font-weight:bold">object</span> value1 = t1;
-</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">object</span> value2 = t2;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">object</span> value1 <span style="color:#1f2328">=</span> t1<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">object</span> value2 <span style="color:#1f2328">=</span> t2<span style="color:#1f2328">;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">if</span> (prop.Name.StartsWith(<span style="color:#d14">&#34;||&#34;</span>))
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#998;font-style:italic">// do something to find the &#39;ExpressionProperty&#39; values</span>
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">else</span>
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">foreach</span> (<span style="color:#458;font-weight:bold">string</span> property <span style="color:#000;font-weight:bold">in</span> prop.Name.Split(<span style="color:#d14">&#39;.&#39;</span>))
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// navigate through the relations</span>
-</span></span><span style="display:flex;"><span>		PropertyInfo propertyInfo = value1.GetType().GetProperty(property);
-</span></span><span style="display:flex;"><span>		value1 = propertyInfo.GetValue(value1, <span style="color:#000;font-weight:bold">null</span>);
-</span></span><span style="display:flex;"><span>		value2 = propertyInfo.GetValue(value2, <span style="color:#000;font-weight:bold">null</span>);
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>prop<span style="color:#1f2328">.</span>Name<span style="color:#1f2328">.</span>StartsWith<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;||&#34;</span><span style="color:#1f2328">))</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#57606a">// do something to find the &#39;ExpressionProperty&#39; values</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">else</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">foreach</span> <span style="color:#1f2328">(</span><span style="color:#cf222e">string</span> property <span style="color:#cf222e">in</span> prop<span style="color:#1f2328">.</span>Name<span style="color:#1f2328">.</span>Split<span style="color:#1f2328">(</span><span style="color:#0a3069">&#39;.&#39;</span><span style="color:#1f2328">))</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#57606a">// navigate through the relations</span>
+</span></span><span style="display:flex;"><span>		PropertyInfo propertyInfo <span style="color:#1f2328">=</span> value1<span style="color:#1f2328">.</span>GetType<span style="color:#1f2328">().</span>GetProperty<span style="color:#1f2328">(</span>property<span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>		value1 <span style="color:#1f2328">=</span> propertyInfo<span style="color:#1f2328">.</span>GetValue<span style="color:#1f2328">(</span>value1<span style="color:#1f2328">,</span> <span style="color:#cf222e">null</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>		value2 <span style="color:#1f2328">=</span> propertyInfo<span style="color:#1f2328">.</span>GetValue<span style="color:#1f2328">(</span>value2<span style="color:#1f2328">,</span> <span style="color:#cf222e">null</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>Since i already have a PropertyDescriptor it seems a lot smarter to use it&rsquo;s GetValue instead</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#458;font-weight:bold">object</span> value1 = prop.GetValue(t1);
-</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">object</span> value2 = prop.GetValue(t2);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">object</span> value1 <span style="color:#1f2328">=</span> prop<span style="color:#1f2328">.</span>GetValue<span style="color:#1f2328">(</span>t1<span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">object</span> value2 <span style="color:#1f2328">=</span> prop<span style="color:#1f2328">.</span>GetValue<span style="color:#1f2328">(</span>t2<span style="color:#1f2328">);</span>
 </span></span></code></pre></div><p>At <a href="http://blog.developpez.com/index.php?blog=121&amp;title=typedlistalt_tagt&amp;more=1&amp;c=1&amp;tb=1&amp;pb=1">Matthieu MEZIL</a>&rsquo;s blog i found a suggestion to use <a href="http://msdn2.microsoft.com/en-us/library/cfttsh47(VS.80).aspx">Comparer<T></a>. This allowed me to reduce</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>IComparable comparable = value1 <span style="color:#000;font-weight:bold">as</span> IComparable;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">if</span> (comparable != <span style="color:#000;font-weight:bold">null</span>)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> reverse * comparable.CompareTo(value2);
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">else</span>
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	comparable = value2 <span style="color:#000;font-weight:bold">as</span> IComparable;
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> (comparable != <span style="color:#000;font-weight:bold">null</span>)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> -<span style="color:#099">1</span> <span style="color:#a61717;background-color:#e3d2d2">\</span>* reverse <span style="color:#a61717;background-color:#e3d2d2">\</span>* comparable.CompareTo(value1);
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">else</span>
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>;
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>IComparable comparable <span style="color:#1f2328">=</span> value1 <span style="color:#cf222e">as</span> IComparable<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>comparable <span style="color:#1f2328">!=</span> <span style="color:#cf222e">null</span><span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">return</span> reverse <span style="color:#1f2328">*</span> comparable<span style="color:#1f2328">.</span>CompareTo<span style="color:#1f2328">(</span>value2<span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">else</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	comparable <span style="color:#1f2328">=</span> value2 <span style="color:#cf222e">as</span> IComparable<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>comparable <span style="color:#1f2328">!=</span> <span style="color:#cf222e">null</span><span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">return</span> <span style="color:#1f2328">-</span><span style="color:#0550ae">1</span> <span style="color:#f6f8fa;background-color:#82071e">\</span><span style="color:#1f2328">*</span> reverse <span style="color:#f6f8fa;background-color:#82071e">\</span><span style="color:#1f2328">*</span> comparable<span style="color:#1f2328">.</span>CompareTo<span style="color:#1f2328">(</span>value1<span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">else</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">return</span> <span style="color:#0550ae">0</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>with</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#998;font-style:italic">// Notice that this requires that atleast value1 or value2 are an instance of a type that implements IComparable</span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">return</span> reverse * Comparer.Default.Compare(value1, value2);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#57606a">// Notice that this requires that atleast value1 or value2 are an instance of a type that implements IComparable</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">return</span> reverse <span style="color:#1f2328">*</span> Comparer<span style="color:#1f2328">.</span>Default<span style="color:#1f2328">.</span>Compare<span style="color:#1f2328">(</span>value1<span style="color:#1f2328">,</span> value2<span style="color:#1f2328">);</span>
 </span></span></code></pre></div><p>Feel free to get yet another version of <a href="http://www.timvw.be/wp-content/code/csharp/TypedList.zip">TypedList.zip</a>.</p>
 
 			</div>
@@ -148,16 +155,19 @@ object value1 = t1; object value2 = t2; if (prop.Name.StartsWith(&#34;||&#34;)) 
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

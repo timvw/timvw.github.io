@@ -3,20 +3,26 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Exploring CodeDomSerializer - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Exploring CodeDomSerializer">
-<meta itemprop="description" content="Sometimes we want absolute control over the code that the visual studio designer generates. Imagine that we have a UserControl with a Number property and instead of the default &ldquo;this.userControl1.Number = 27;&rdquo; code that the designer would generate we want it like &ldquo;this.userControl1.Number = 1 &#43; 3 &#43; 23&rdquo;. In order to achieve this we first have to inform the designer that we want custom serialization. This is done by adding a DesignerSerializerAttribute to our UserControl"><meta itemprop="datePublished" content="2007-08-17T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="432">
-<meta itemprop="keywords" content="CSharp," /><meta property="og:title" content="Exploring CodeDomSerializer" />
-<meta property="og:description" content="Sometimes we want absolute control over the code that the visual studio designer generates. Imagine that we have a UserControl with a Number property and instead of the default &ldquo;this.userControl1.Number = 27;&rdquo; code that the designer would generate we want it like &ldquo;this.userControl1.Number = 1 &#43; 3 &#43; 23&rdquo;. In order to achieve this we first have to inform the designer that we want custom serialization. This is done by adding a DesignerSerializerAttribute to our UserControl" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2007/08/17/exploring-codedomserializer/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2007-08-17T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="Exploring CodeDomSerializer">
+  <meta itemprop="description" content="Sometimes we want absolute control over the code that the visual studio designer generates. Imagine that we have a UserControl with a Number property and instead of the default “this.userControl1.Number = 27;” code that the designer would generate we want it like “this.userControl1.Number = 1 &#43; 3 &#43; 23”. In order to achieve this we first have to inform the designer that we want custom serialization. This is done by adding a DesignerSerializerAttribute to our UserControl">
+  <meta itemprop="datePublished" content="2007-08-17T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="432">
+  <meta itemprop="keywords" content="CSharp"><meta property="og:url" content="https://timvw.be/2007/08/17/exploring-codedomserializer/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Exploring CodeDomSerializer">
+  <meta property="og:description" content="Sometimes we want absolute control over the code that the visual studio designer generates. Imagine that we have a UserControl with a Number property and instead of the default “this.userControl1.Number = 27;” code that the designer would generate we want it like “this.userControl1.Number = 1 &#43; 3 &#43; 23”. In order to achieve this we first have to inform the designer that we want custom serialization. This is done by adding a DesignerSerializerAttribute to our UserControl">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2007-08-17T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="CSharp">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Exploring CodeDomSerializer"/>
-<meta name="twitter:description" content="Sometimes we want absolute control over the code that the visual studio designer generates. Imagine that we have a UserControl with a Number property and instead of the default &ldquo;this.userControl1.Number = 27;&rdquo; code that the designer would generate we want it like &ldquo;this.userControl1.Number = 1 &#43; 3 &#43; 23&rdquo;. In order to achieve this we first have to inform the designer that we want custom serialization. This is done by adding a DesignerSerializerAttribute to our UserControl"/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Exploring CodeDomSerializer">
+  <meta name="twitter:description" content="Sometimes we want absolute control over the code that the visual studio designer generates. Imagine that we have a UserControl with a Number property and instead of the default “this.userControl1.Number = 27;” code that the designer would generate we want it like “this.userControl1.Number = 1 &#43; 3 &#43; 23”. In order to achieve this we first have to inform the designer that we want custom serialization. This is done by adding a DesignerSerializerAttribute to our UserControl">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -79,83 +85,83 @@
 					
 			<div class="markdown">
 				<p>Sometimes we want absolute control over the code that the visual studio designer generates. Imagine that we have a UserControl with a Number property and instead of the default &ldquo;this.userControl1.Number = 27;&rdquo; code that the designer would generate we want it like &ldquo;this.userControl1.Number = 1 + 3 + 23&rdquo;. In order to achieve this we first have to inform the designer that we want custom serialization. This is done by adding a <a href="http://msdn2.microsoft.com/en-us/library/system.componentmodel.design.serialization.designerserializerattribute.aspx">DesignerSerializerAttribute</a> to our UserControl</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#008080">[DesignerSerializer(typeof(PrimeSerializer), typeof(CodeDomSerializer))]</span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">UserControl1</span> : UserControl
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> number;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#1f2328">[DesignerSerializer(typeof(PrimeSerializer), typeof(CodeDomSerializer))]</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">partial</span> <span style="color:#cf222e">class</span> <span style="color:#1f2328">UserControl1</span> <span style="color:#1f2328">:</span> UserControl
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">private</span> <span style="color:#cf222e">int</span> number<span style="color:#1f2328">;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> Number
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.number; }
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>.number = <span style="color:#000;font-weight:bold">value</span>; }
-</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> <span style="color:#cf222e">int</span> Number
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">get</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">return</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>number<span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">set</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>number <span style="color:#1f2328">=</span> <span style="color:#cf222e">value</span><span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#998;font-style:italic">// ...</span>
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#57606a">// ...</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>And now it&rsquo;s time to implement the PrimeSerializer for the custom assignment code</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PrimeSerializer</span> : CodeDomSerializer
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">object</span> Serialize(IDesignerSerializationManager manager, <span style="color:#458;font-weight:bold">object</span> <span style="color:#000;font-weight:bold">value</span>)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		UserControl1 uc = <span style="color:#000;font-weight:bold">value</span> <span style="color:#000;font-weight:bold">as</span> UserControl1;
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> (uc == <span style="color:#000;font-weight:bold">null</span>) { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">null</span>; }
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">class</span> <span style="color:#1f2328">PrimeSerializer</span> <span style="color:#1f2328">:</span> CodeDomSerializer
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> <span style="color:#cf222e">override</span> <span style="color:#cf222e">object</span> Serialize<span style="color:#1f2328">(</span>IDesignerSerializationManager manager<span style="color:#1f2328">,</span> <span style="color:#cf222e">object</span> <span style="color:#cf222e">value</span><span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		UserControl1 uc <span style="color:#1f2328">=</span> <span style="color:#cf222e">value</span> <span style="color:#cf222e">as</span> UserControl1<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>uc <span style="color:#1f2328">==</span> <span style="color:#cf222e">null</span><span style="color:#1f2328">)</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">return</span> <span style="color:#cf222e">null</span><span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// Instead of implementing all the serialization code, we&#39;ll rely on the implementation of the baseclass, namely UserControl</span>
-</span></span><span style="display:flex;"><span>		CodeDomSerializer baseClassSerializer = manager.GetSerializer(<span style="color:#000;font-weight:bold">typeof</span>(UserControl1).BaseType, <span style="color:#000;font-weight:bold">typeof</span>(CodeDomSerializer)) <span style="color:#000;font-weight:bold">as</span> CodeDomSerializer;
-</span></span><span style="display:flex;"><span>		Object codeObject = baseClassSerializer.Serialize(manager, <span style="color:#000;font-weight:bold">value</span>);
+</span></span><span style="display:flex;"><span>		<span style="color:#57606a">// Instead of implementing all the serialization code, we&#39;ll rely on the implementation of the baseclass, namely UserControl</span>
+</span></span><span style="display:flex;"><span>		CodeDomSerializer baseClassSerializer <span style="color:#1f2328">=</span> manager<span style="color:#1f2328">.</span>GetSerializer<span style="color:#1f2328">(</span><span style="color:#cf222e">typeof</span><span style="color:#1f2328">(</span>UserControl1<span style="color:#1f2328">).</span>BaseType<span style="color:#1f2328">,</span> <span style="color:#cf222e">typeof</span><span style="color:#1f2328">(</span>CodeDomSerializer<span style="color:#1f2328">))</span> <span style="color:#cf222e">as</span> CodeDomSerializer<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>		Object codeObject <span style="color:#1f2328">=</span> baseClassSerializer<span style="color:#1f2328">.</span>Serialize<span style="color:#1f2328">(</span>manager<span style="color:#1f2328">,</span> <span style="color:#cf222e">value</span><span style="color:#1f2328">);</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// The only thing we have to do is find the statement where the assigment to the Number property is made, and replace that...</span>
-</span></span><span style="display:flex;"><span>		CodeStatementCollection codeStatements = codeObject <span style="color:#000;font-weight:bold">as</span> CodeStatementCollection;
-</span></span><span style="display:flex;"><span>		CodeAssignStatement numberAssignmentStatement = <span style="color:#000;font-weight:bold">this</span>.FindNumberCodeStatement(codeStatements) <span style="color:#000;font-weight:bold">as</span> CodeAssignStatement;
-</span></span><span style="display:flex;"><span>		numberAssignmentStatement.Right = <span style="color:#000;font-weight:bold">new</span> CodeSnippetExpression(GetNumberAsSumOfPrimes(uc.Number));
+</span></span><span style="display:flex;"><span>		<span style="color:#57606a">// The only thing we have to do is find the statement where the assigment to the Number property is made, and replace that...</span>
+</span></span><span style="display:flex;"><span>		CodeStatementCollection codeStatements <span style="color:#1f2328">=</span> codeObject <span style="color:#cf222e">as</span> CodeStatementCollection<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>		CodeAssignStatement numberAssignmentStatement <span style="color:#1f2328">=</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>FindNumberCodeStatement<span style="color:#1f2328">(</span>codeStatements<span style="color:#1f2328">)</span> <span style="color:#cf222e">as</span> CodeAssignStatement<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>		numberAssignmentStatement<span style="color:#1f2328">.</span>Right <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> CodeSnippetExpression<span style="color:#1f2328">(</span>GetNumberAsSumOfPrimes<span style="color:#1f2328">(</span>uc<span style="color:#1f2328">.</span>Number<span style="color:#1f2328">));</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> codeObject;
-</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">return</span> codeObject<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> CodeStatement FindNumberCodeStatement(CodeStatementCollection codeStatements)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">foreach</span> (CodeStatement codeStatement <span style="color:#000;font-weight:bold">in</span> codeStatements)
-</span></span><span style="display:flex;"><span>		{
-</span></span><span style="display:flex;"><span>			CodeAssignStatement codeAssignment = codeStatement <span style="color:#000;font-weight:bold">as</span> CodeAssignStatement;
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> (codeAssignment != <span style="color:#000;font-weight:bold">null</span>)
-</span></span><span style="display:flex;"><span>			{
-</span></span><span style="display:flex;"><span>				CodePropertyReferenceExpression left = codeAssignment.Left <span style="color:#000;font-weight:bold">as</span> CodePropertyReferenceExpression;
-</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">if</span> (left != <span style="color:#000;font-weight:bold">null</span> &amp;&amp; left.PropertyName == <span style="color:#d14">&#34;Number&#34;</span>)
-</span></span><span style="display:flex;"><span>				{
-</span></span><span style="display:flex;"><span>					<span style="color:#000;font-weight:bold">return</span> codeStatement;
-</span></span><span style="display:flex;"><span>				}
-</span></span><span style="display:flex;"><span>			}
-</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">private</span> CodeStatement FindNumberCodeStatement<span style="color:#1f2328">(</span>CodeStatementCollection codeStatements<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">foreach</span> <span style="color:#1f2328">(</span>CodeStatement codeStatement <span style="color:#cf222e">in</span> codeStatements<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>			CodeAssignStatement codeAssignment <span style="color:#1f2328">=</span> codeStatement <span style="color:#cf222e">as</span> CodeAssignStatement<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>codeAssignment <span style="color:#1f2328">!=</span> <span style="color:#cf222e">null</span><span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>				CodePropertyReferenceExpression left <span style="color:#1f2328">=</span> codeAssignment<span style="color:#1f2328">.</span>Left <span style="color:#cf222e">as</span> CodePropertyReferenceExpression<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>left <span style="color:#1f2328">!=</span> <span style="color:#cf222e">null</span> <span style="color:#1f2328">&amp;&amp;</span> left<span style="color:#1f2328">.</span>PropertyName <span style="color:#1f2328">==</span> <span style="color:#0a3069">&#34;Number&#34;</span><span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>					<span style="color:#cf222e">return</span> codeStatement<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">throw</span> <span style="color:#000;font-weight:bold">new</span> Exception(<span style="color:#d14">&#34;The CodeStatement for Number was not found&#34;</span>);
-</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">throw</span> <span style="color:#cf222e">new</span> Exception<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;The CodeStatement for Number was not found&#34;</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">string</span> GetNumberAsSumOfPrimes(<span style="color:#458;font-weight:bold">int</span> number)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		StringBuilder sb = <span style="color:#000;font-weight:bold">new</span> StringBuilder();
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">private</span> <span style="color:#cf222e">static</span> <span style="color:#cf222e">string</span> GetNumberAsSumOfPrimes<span style="color:#1f2328">(</span><span style="color:#cf222e">int</span> number<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		StringBuilder sb <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> StringBuilder<span style="color:#1f2328">();</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#458;font-weight:bold">int</span>[] primes = <span style="color:#000;font-weight:bold">new</span> <span style="color:#458;font-weight:bold">int</span>[] { <span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">3</span>, <span style="color:#099">5</span>, <span style="color:#099">7</span>, <span style="color:#099">11</span>, <span style="color:#099">13</span>, <span style="color:#099">17</span>, <span style="color:#099">19</span>, <span style="color:#099">23</span>, <span style="color:#099">29</span>, <span style="color:#099">31</span>, <span style="color:#099">37</span>, <span style="color:#099">41</span>, <span style="color:#099">43</span>, <span style="color:#099">47</span>, <span style="color:#099">53</span>, <span style="color:#099">59</span>, <span style="color:#099">61</span>, <span style="color:#099">67</span>, <span style="color:#099">71</span>, <span style="color:#099">73</span>, <span style="color:#099">79</span>, <span style="color:#099">83</span>, <span style="color:#099">89</span>, <span style="color:#099">97</span>, <span style="color:#099">101</span> };
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">for</span> (<span style="color:#458;font-weight:bold">int</span> i = primes.Length -- <span style="color:#099">1</span>; i &gt;= <span style="color:#099">0</span> &amp;&amp; number &gt; <span style="color:#099">0</span>; --i)
-</span></span><span style="display:flex;"><span>		{
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> (primes[i] &lt;= number) 
-</span></span><span style="display:flex;"><span>			{ 
-</span></span><span style="display:flex;"><span>				sb.Insert(<span style="color:#099">0</span>, primes[i]); sb.Insert(<span style="color:#099">0</span>, <span style="color:#d14">&#34; + &#34;</span>); 
-</span></span><span style="display:flex;"><span>				number -= primes[i]; 
-</span></span><span style="display:flex;"><span>			} 
-</span></span><span style="display:flex;"><span>		} 
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> sb.ToString().Substring(<span style="color:#099">3</span>); 
-</span></span><span style="display:flex;"><span>	} 
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">int</span><span style="color:#1f2328">[]</span> primes <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> <span style="color:#cf222e">int</span><span style="color:#1f2328">[]</span> <span style="color:#1f2328">{</span> <span style="color:#0550ae">1</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">2</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">3</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">5</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">7</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">11</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">13</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">17</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">19</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">23</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">29</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">31</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">37</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">41</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">43</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">47</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">53</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">59</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">61</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">67</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">71</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">73</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">79</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">83</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">89</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">97</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">101</span> <span style="color:#1f2328">};</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">for</span> <span style="color:#1f2328">(</span><span style="color:#cf222e">int</span> i <span style="color:#1f2328">=</span> primes<span style="color:#1f2328">.</span>Length <span style="color:#1f2328">--</span> <span style="color:#0550ae">1</span><span style="color:#1f2328">;</span> i <span style="color:#1f2328">&gt;=</span> <span style="color:#0550ae">0</span> <span style="color:#1f2328">&amp;&amp;</span> number <span style="color:#1f2328">&gt;</span> <span style="color:#0550ae">0</span><span style="color:#1f2328">;</span> <span style="color:#1f2328">--</span>i<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>primes<span style="color:#1f2328">[</span>i<span style="color:#1f2328">]</span> <span style="color:#1f2328">&lt;=</span> number<span style="color:#1f2328">)</span> 
+</span></span><span style="display:flex;"><span>			<span style="color:#1f2328">{</span> 
+</span></span><span style="display:flex;"><span>				sb<span style="color:#1f2328">.</span>Insert<span style="color:#1f2328">(</span><span style="color:#0550ae">0</span><span style="color:#1f2328">,</span> primes<span style="color:#1f2328">[</span>i<span style="color:#1f2328">]);</span> sb<span style="color:#1f2328">.</span>Insert<span style="color:#1f2328">(</span><span style="color:#0550ae">0</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34; + &#34;</span><span style="color:#1f2328">);</span> 
+</span></span><span style="display:flex;"><span>				number <span style="color:#1f2328">-=</span> primes<span style="color:#1f2328">[</span>i<span style="color:#1f2328">];</span> 
+</span></span><span style="display:flex;"><span>			<span style="color:#1f2328">}</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">}</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">return</span> sb<span style="color:#1f2328">.</span>ToString<span style="color:#1f2328">().</span>Substring<span style="color:#1f2328">(</span><span style="color:#0550ae">3</span><span style="color:#1f2328">);</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span> 
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>And now we can look at the generated code in Form1.Designer.cs to verify everything works as expected</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>//
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// userControl1</span>
-</span></span><span style="display:flex;"><span>//
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.userControl1.BackColor = System.Drawing.Color.Maroon;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.userControl1.Location = <span style="color:#000;font-weight:bold">new</span> System.Drawing.Point(<span style="color:#099">50</span>, <span style="color:#099">23</span>);
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.userControl1.Name = <span style="color:#d14">&#34;userControl11&#34;</span>;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.userControl1.Number = <span style="color:#099">1</span> + <span style="color:#099">3</span> + <span style="color:#099">23</span>;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.userControl1.Size = <span style="color:#000;font-weight:bold">new</span> System.Drawing.Size(<span style="color:#099">686</span>, <span style="color:#099">294</span>);
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.userControl1.TabIndex = <span style="color:#099">0</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#57606a">//</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a">// userControl1</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a">//</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>userControl1<span style="color:#1f2328">.</span>BackColor <span style="color:#1f2328">=</span> System<span style="color:#1f2328">.</span>Drawing<span style="color:#1f2328">.</span>Color<span style="color:#1f2328">.</span>Maroon<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>userControl1<span style="color:#1f2328">.</span>Location <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> System<span style="color:#1f2328">.</span>Drawing<span style="color:#1f2328">.</span>Point<span style="color:#1f2328">(</span><span style="color:#0550ae">50</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">23</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>userControl1<span style="color:#1f2328">.</span>Name <span style="color:#1f2328">=</span> <span style="color:#0a3069">&#34;userControl11&#34;</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>userControl1<span style="color:#1f2328">.</span>Number <span style="color:#1f2328">=</span> <span style="color:#0550ae">1</span> <span style="color:#1f2328">+</span> <span style="color:#0550ae">3</span> <span style="color:#1f2328">+</span> <span style="color:#0550ae">23</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>userControl1<span style="color:#1f2328">.</span>Size <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> System<span style="color:#1f2328">.</span>Drawing<span style="color:#1f2328">.</span>Size<span style="color:#1f2328">(</span><span style="color:#0550ae">686</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">294</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>userControl1<span style="color:#1f2328">.</span>TabIndex <span style="color:#1f2328">=</span> <span style="color:#0550ae">0</span><span style="color:#1f2328">;</span>
 </span></span></code></pre></div><p>I&rsquo;ll leave the implementation of the Deserialize method up to you. By adding the DesignerSerializer attribute to our <a href="http://msdn2.microsoft.com/en-us/library/system.componentmodel.iextenderprovider.aspx">IExtenderProvider</a> implementations we can get full control over their code generation too 🙂</p>
 
 			</div>
@@ -179,16 +185,19 @@
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

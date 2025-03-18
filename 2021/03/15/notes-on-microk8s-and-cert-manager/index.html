@@ -3,32 +3,36 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Notes on microk8s and cert-manager - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Notes on microk8s and cert-manager">
-<meta itemprop="description" content="Last couple of weeks I&rsquo;ve been using MicroK8s for local development.
+	
+  <meta itemprop="name" content="Notes on microk8s and cert-manager">
+  <meta itemprop="description" content="Last couple of weeks I’ve been using MicroK8s for local development.
 Installing current version of cert-manager just worked by following the installation instructions:
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.2.0/cert-manager.yaml Then I enabled the ingress addon:
-microk8s.enable ingress Configuring Let&rsquo;s Encrypt required some deviations from the documentation. Only resources of type ClusterIssuer and public as ingress class seem to work:
-apiVersion: cert-manager.io/v1 kind: ClusterIssuer metadata: name: letsencrypt-staging spec: acme: email: tim@timvw.be server: https://acme-staging-v02.api.letsencrypt.org/directory privateKeySecretRef: name: letsencrypt-staging solvers: - http01: ingress: class: public --- apiVersion: cert-manager."><meta itemprop="datePublished" content="2021-03-15T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-03-15T11:42:40+01:00" />
-<meta itemprop="wordCount" content="192">
-<meta itemprop="keywords" content="" /><meta property="og:title" content="Notes on microk8s and cert-manager" />
-<meta property="og:description" content="Last couple of weeks I&rsquo;ve been using MicroK8s for local development.
+microk8s.enable ingress Configuring Let’s Encrypt required some deviations from the documentation. Only resources of type ClusterIssuer and public as ingress class seem to work:
+apiVersion: cert-manager.io/v1 kind: ClusterIssuer metadata: name: letsencrypt-staging spec: acme: email: tim@timvw.be server: https://acme-staging-v02.api.letsencrypt.org/directory privateKeySecretRef: name: letsencrypt-staging solvers: - http01: ingress: class: public --- apiVersion: cert-manager.io/v1 kind: ClusterIssuer metadata: name: letsencrypt-prod spec: acme: server: https://acme-v02.api.letsencrypt.org/directory email: tim@timvw.be privateKeySecretRef: name: letsencrypt-prod solvers: - http01: ingress: class: public When using nginx as ingress class I ran into various errors:">
+  <meta itemprop="datePublished" content="2021-03-15T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-03-15T11:42:40+01:00">
+  <meta itemprop="wordCount" content="192"><meta property="og:url" content="https://timvw.be/2021/03/15/notes-on-microk8s-and-cert-manager/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Notes on microk8s and cert-manager">
+  <meta property="og:description" content="Last couple of weeks I’ve been using MicroK8s for local development.
 Installing current version of cert-manager just worked by following the installation instructions:
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.2.0/cert-manager.yaml Then I enabled the ingress addon:
-microk8s.enable ingress Configuring Let&rsquo;s Encrypt required some deviations from the documentation. Only resources of type ClusterIssuer and public as ingress class seem to work:
-apiVersion: cert-manager.io/v1 kind: ClusterIssuer metadata: name: letsencrypt-staging spec: acme: email: tim@timvw.be server: https://acme-staging-v02.api.letsencrypt.org/directory privateKeySecretRef: name: letsencrypt-staging solvers: - http01: ingress: class: public --- apiVersion: cert-manager." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2021/03/15/notes-on-microk8s-and-cert-manager/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-03-15T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-03-15T11:42:40+01:00" />
+microk8s.enable ingress Configuring Let’s Encrypt required some deviations from the documentation. Only resources of type ClusterIssuer and public as ingress class seem to work:
+apiVersion: cert-manager.io/v1 kind: ClusterIssuer metadata: name: letsencrypt-staging spec: acme: email: tim@timvw.be server: https://acme-staging-v02.api.letsencrypt.org/directory privateKeySecretRef: name: letsencrypt-staging solvers: - http01: ingress: class: public --- apiVersion: cert-manager.io/v1 kind: ClusterIssuer metadata: name: letsencrypt-prod spec: acme: server: https://acme-v02.api.letsencrypt.org/directory email: tim@timvw.be privateKeySecretRef: name: letsencrypt-prod solvers: - http01: ingress: class: public When using nginx as ingress class I ran into various errors:">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-03-15T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-03-15T11:42:40+01:00">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Notes on microk8s and cert-manager"/>
-<meta name="twitter:description" content="Last couple of weeks I&rsquo;ve been using MicroK8s for local development.
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Notes on microk8s and cert-manager">
+  <meta name="twitter:description" content="Last couple of weeks I’ve been using MicroK8s for local development.
 Installing current version of cert-manager just worked by following the installation instructions:
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.2.0/cert-manager.yaml Then I enabled the ingress addon:
-microk8s.enable ingress Configuring Let&rsquo;s Encrypt required some deviations from the documentation. Only resources of type ClusterIssuer and public as ingress class seem to work:
-apiVersion: cert-manager.io/v1 kind: ClusterIssuer metadata: name: letsencrypt-staging spec: acme: email: tim@timvw.be server: https://acme-staging-v02.api.letsencrypt.org/directory privateKeySecretRef: name: letsencrypt-staging solvers: - http01: ingress: class: public --- apiVersion: cert-manager."/>
+microk8s.enable ingress Configuring Let’s Encrypt required some deviations from the documentation. Only resources of type ClusterIssuer and public as ingress class seem to work:
+apiVersion: cert-manager.io/v1 kind: ClusterIssuer metadata: name: letsencrypt-staging spec: acme: email: tim@timvw.be server: https://acme-staging-v02.api.letsencrypt.org/directory privateKeySecretRef: name: letsencrypt-staging solvers: - http01: ingress: class: public --- apiVersion: cert-manager.io/v1 kind: ClusterIssuer metadata: name: letsencrypt-prod spec: acme: server: https://acme-v02.api.letsencrypt.org/directory email: tim@timvw.be privateKeySecretRef: name: letsencrypt-prod solvers: - http01: ingress: class: public When using nginx as ingress class I ran into various errors:">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -96,35 +100,35 @@ apiVersion: cert-manager.io/v1 kind: ClusterIssuer metadata: name: letsencrypt-s
 </span></span></code></pre></div><p>Then I enabled the <a href="https://microk8s.io/docs/addon-ingress">ingress addon</a>:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>microk8s.enable ingress
 </span></span></code></pre></div><p>Configuring <a href="https://letsencrypt.org/">Let&rsquo;s Encrypt</a> required some deviations from the <a href="https://cert-manager.io/docs/configuration/acme/">documentation</a>. Only resources of type ClusterIssuer and public as ingress class seem to work:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>cert-manager.io/v1<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>ClusterIssuer<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">metadata</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>letsencrypt-staging<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">spec</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#000080">acme</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">email</span>:<span style="color:#bbb"> </span>tim@timvw.be<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">server</span>:<span style="color:#bbb"> </span>https://acme-staging-v02.api.letsencrypt.org/directory<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">privateKeySecretRef</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>letsencrypt-staging<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">solvers</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>- <span style="color:#000080">http01</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#000080">ingress</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span><span style="color:#000080">class</span>:<span style="color:#bbb"> </span>public<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#555">---</span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">apiVersion</span>:<span style="color:#bbb"> </span>cert-manager.io/v1<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">kind</span>:<span style="color:#bbb"> </span>ClusterIssuer<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">metadata</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>letsencrypt-prod<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">spec</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#000080">acme</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">server</span>:<span style="color:#bbb"> </span>https://acme-v02.api.letsencrypt.org/directory<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">email</span>:<span style="color:#bbb"> </span>tim@timvw.be<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">privateKeySecretRef</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#000080">name</span>:<span style="color:#bbb"> </span>letsencrypt-prod<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">solvers</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>- <span style="color:#000080">http01</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#000080">ingress</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span><span style="color:#000080">class</span>:<span style="color:#bbb"> </span>public <span style="color:#bbb">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#0550ae">apiVersion</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>cert-manager.io/v1<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#0550ae">kind</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>ClusterIssuer<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#0550ae">metadata</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">  </span><span style="color:#0550ae">name</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>letsencrypt-staging<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#0550ae">spec</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">  </span><span style="color:#0550ae">acme</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">email</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>tim@timvw.be<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">server</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>https://acme-staging-v02.api.letsencrypt.org/directory<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">privateKeySecretRef</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">      </span><span style="color:#0550ae">name</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>letsencrypt-staging<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">solvers</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span>- <span style="color:#0550ae">http01</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">ingress</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">          </span><span style="color:#0550ae">class</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>public<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#24292e">---</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#0550ae">apiVersion</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>cert-manager.io/v1<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#0550ae">kind</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>ClusterIssuer<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#0550ae">metadata</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">  </span><span style="color:#0550ae">name</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>letsencrypt-prod<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#0550ae">spec</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">  </span><span style="color:#0550ae">acme</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">server</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>https://acme-v02.api.letsencrypt.org/directory<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">email</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>tim@timvw.be<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">privateKeySecretRef</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">      </span><span style="color:#0550ae">name</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>letsencrypt-prod<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">solvers</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span>- <span style="color:#0550ae">http01</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">ingress</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">          </span><span style="color:#0550ae">class</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>public <span style="color:#fff">
 </span></span></span></code></pre></div><p>When using nginx as ingress class I ran into various errors:</p>
 <ul>
 <li>challenge propagation: wrong status code &lsquo;404&rsquo;, expected &lsquo;200&rsquo;</li>
@@ -132,11 +136,11 @@ apiVersion: cert-manager.io/v1 kind: ClusterIssuer metadata: name: letsencrypt-s
 <li>&hellip;</li>
 </ul>
 <p>Here are some helpful commands:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl logs -f -n cert-manager -f <span style="color:#008080">app</span><span style="color:#000;font-weight:bold">=</span>cert-manager
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl logs -f -n cert-manager -f <span style="color:#953800">app</span><span style="color:#0550ae">=</span>cert-manager
 </span></span><span style="display:flex;"><span>kubectl get ingress
 </span></span></code></pre></div><p>Then I noticed that acme-staging-v02.api.letsencrypt.org could not be resolved by the cert-manager pods (trying to resolve from 127.0.0.1:53), thus I also enabled the dns addon and restarted the pods (by deleting them)</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>microk8s.enable dns
-</span></span><span style="display:flex;"><span>kubectl delete pod -n cert-manager -l <span style="color:#008080">app</span><span style="color:#000;font-weight:bold">=</span>cert-manager
+</span></span><span style="display:flex;"><span>kubectl delete pod -n cert-manager -l <span style="color:#953800">app</span><span style="color:#0550ae">=</span>cert-manager
 </span></span></code></pre></div><p>And then all was fine. Eg: <a href="https://strava.apps.timvw.be">https://strava.apps.timvw.be</a> just works :)</p>
 
 			</div>
@@ -154,16 +158,19 @@ apiVersion: cert-manager.io/v1 kind: ClusterIssuer metadata: name: letsencrypt-s
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

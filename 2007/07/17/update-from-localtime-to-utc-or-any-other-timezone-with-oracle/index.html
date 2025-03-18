@@ -3,26 +3,32 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Update from localtime to UTC or any other timezone with Oracle - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Update from localtime to UTC or any other timezone with Oracle">
-<meta itemprop="description" content="Imagine that you have a table with a column of the type DATETIME. You&rsquo;ve been storing data as localtime and after a while you need to convert these datetimes to UTC. Here&rsquo;s a possible approach
+	
+  <meta itemprop="name" content="Update from localtime to UTC or any other timezone with Oracle">
+  <meta itemprop="description" content="Imagine that you have a table with a column of the type DATETIME. You’ve been storing data as localtime and after a while you need to convert these datetimes to UTC. Here’s a possible approach
 UPDATE events SET start = SYS_EXTRACT_UTC(FROM_TZ(start, &#39;Europe/Brussels&#39;)); You get a more generic variant using the AT TIME ZONE clause
-UPDATE events SET start = FROM_TZ(start, &#39;Europe/Brussels&#39;) AT TIME ZONE &#39;America/Denver&#39;; "><meta itemprop="datePublished" content="2007-07-17T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="65">
-<meta itemprop="keywords" content="SQL," /><meta property="og:title" content="Update from localtime to UTC or any other timezone with Oracle" />
-<meta property="og:description" content="Imagine that you have a table with a column of the type DATETIME. You&rsquo;ve been storing data as localtime and after a while you need to convert these datetimes to UTC. Here&rsquo;s a possible approach
+UPDATE events SET start = FROM_TZ(start, &#39;Europe/Brussels&#39;) AT TIME ZONE &#39;America/Denver&#39;;">
+  <meta itemprop="datePublished" content="2007-07-17T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="65">
+  <meta itemprop="keywords" content="SQL"><meta property="og:url" content="https://timvw.be/2007/07/17/update-from-localtime-to-utc-or-any-other-timezone-with-oracle/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Update from localtime to UTC or any other timezone with Oracle">
+  <meta property="og:description" content="Imagine that you have a table with a column of the type DATETIME. You’ve been storing data as localtime and after a while you need to convert these datetimes to UTC. Here’s a possible approach
 UPDATE events SET start = SYS_EXTRACT_UTC(FROM_TZ(start, &#39;Europe/Brussels&#39;)); You get a more generic variant using the AT TIME ZONE clause
-UPDATE events SET start = FROM_TZ(start, &#39;Europe/Brussels&#39;) AT TIME ZONE &#39;America/Denver&#39;; " />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2007/07/17/update-from-localtime-to-utc-or-any-other-timezone-with-oracle/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2007-07-17T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+UPDATE events SET start = FROM_TZ(start, &#39;Europe/Brussels&#39;) AT TIME ZONE &#39;America/Denver&#39;;">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2007-07-17T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="SQL">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Update from localtime to UTC or any other timezone with Oracle"/>
-<meta name="twitter:description" content="Imagine that you have a table with a column of the type DATETIME. You&rsquo;ve been storing data as localtime and after a while you need to convert these datetimes to UTC. Here&rsquo;s a possible approach
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Update from localtime to UTC or any other timezone with Oracle">
+  <meta name="twitter:description" content="Imagine that you have a table with a column of the type DATETIME. You’ve been storing data as localtime and after a while you need to convert these datetimes to UTC. Here’s a possible approach
 UPDATE events SET start = SYS_EXTRACT_UTC(FROM_TZ(start, &#39;Europe/Brussels&#39;)); You get a more generic variant using the AT TIME ZONE clause
-UPDATE events SET start = FROM_TZ(start, &#39;Europe/Brussels&#39;) AT TIME ZONE &#39;America/Denver&#39;; "/>
+UPDATE events SET start = FROM_TZ(start, &#39;Europe/Brussels&#39;) AT TIME ZONE &#39;America/Denver&#39;;">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -85,9 +91,9 @@ UPDATE events SET start = FROM_TZ(start, &#39;Europe/Brussels&#39;) AT TIME ZONE
 					
 			<div class="markdown">
 				<p>Imagine that you have a table with a column of the type DATETIME. You&rsquo;ve been storing data as localtime and after a while you need to convert these datetimes to UTC. Here&rsquo;s a possible approach</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">UPDATE</span><span style="color:#bbb"> </span>events<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SET</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">start</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>SYS_EXTRACT_UTC(FROM_TZ(<span style="color:#000;font-weight:bold">start</span>,<span style="color:#bbb"> </span><span style="color:#d14">&#39;Europe/Brussels&#39;</span>));<span style="color:#bbb">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#cf222e">UPDATE</span><span style="color:#fff"> </span>events<span style="color:#fff"> </span><span style="color:#cf222e">SET</span><span style="color:#fff"> </span><span style="color:#cf222e">start</span><span style="color:#fff"> </span><span style="color:#0550ae">=</span><span style="color:#fff"> </span>SYS_EXTRACT_UTC<span style="color:#1f2328">(</span>FROM_TZ<span style="color:#1f2328">(</span><span style="color:#cf222e">start</span><span style="color:#1f2328">,</span><span style="color:#fff"> </span><span style="color:#0a3069">&#39;Europe/Brussels&#39;</span><span style="color:#1f2328">));</span><span style="color:#fff">
 </span></span></span></code></pre></div><p>You get a more generic variant using the AT TIME ZONE clause</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">UPDATE</span><span style="color:#bbb"> </span>events<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SET</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">start</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>FROM_TZ(<span style="color:#000;font-weight:bold">start</span>,<span style="color:#bbb"> </span><span style="color:#d14">&#39;Europe/Brussels&#39;</span>)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AT</span><span style="color:#bbb"> </span>TIME<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ZONE</span><span style="color:#bbb"> </span><span style="color:#d14">&#39;America/Denver&#39;</span>;<span style="color:#bbb">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#cf222e">UPDATE</span><span style="color:#fff"> </span>events<span style="color:#fff"> </span><span style="color:#cf222e">SET</span><span style="color:#fff"> </span><span style="color:#cf222e">start</span><span style="color:#fff"> </span><span style="color:#0550ae">=</span><span style="color:#fff"> </span>FROM_TZ<span style="color:#1f2328">(</span><span style="color:#cf222e">start</span><span style="color:#1f2328">,</span><span style="color:#fff"> </span><span style="color:#0a3069">&#39;Europe/Brussels&#39;</span><span style="color:#1f2328">)</span><span style="color:#fff"> </span><span style="color:#cf222e">AT</span><span style="color:#fff"> </span>TIME<span style="color:#fff"> </span><span style="color:#cf222e">ZONE</span><span style="color:#fff"> </span><span style="color:#0a3069">&#39;America/Denver&#39;</span><span style="color:#1f2328">;</span><span style="color:#fff">
 </span></span></span></code></pre></div>
 			</div>
 
@@ -110,16 +116,19 @@ UPDATE events SET start = FROM_TZ(start, &#39;Europe/Brussels&#39;) AT TIME ZONE
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

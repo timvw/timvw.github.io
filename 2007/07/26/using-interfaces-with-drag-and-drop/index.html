@@ -3,23 +3,30 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Using interfaces with Drag and Drop - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Using interfaces with Drag and Drop">
-<meta itemprop="description" content="Earlier today i was refactoring some graphical components. I wanted to use an interface instead of concrete implementations for my drag and drop code&hellip; Although i was using an instance of Foo, and thus IFoo, the following code never allowed me to drop
-interface IFoo { } class Foo : IFoo { } private void label1_MouseDown(object sender, MouseEventArgs e) { this.DoDragDrop(new Foo(), DragDropEffects.All); } private void Form1_DragEnter(object sender, DragEventArgs e) { // for an instance of Foo it returns false, // if you use typeof(Foo) it returns true though."><meta itemprop="datePublished" content="2007-07-26T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="122">
-<meta itemprop="keywords" content="CSharp,Windows Forms," /><meta property="og:title" content="Using interfaces with Drag and Drop" />
-<meta property="og:description" content="Earlier today i was refactoring some graphical components. I wanted to use an interface instead of concrete implementations for my drag and drop code&hellip; Although i was using an instance of Foo, and thus IFoo, the following code never allowed me to drop
-interface IFoo { } class Foo : IFoo { } private void label1_MouseDown(object sender, MouseEventArgs e) { this.DoDragDrop(new Foo(), DragDropEffects.All); } private void Form1_DragEnter(object sender, DragEventArgs e) { // for an instance of Foo it returns false, // if you use typeof(Foo) it returns true though." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2007/07/26/using-interfaces-with-drag-and-drop/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2007-07-26T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="Using interfaces with Drag and Drop">
+  <meta itemprop="description" content="Earlier today i was refactoring some graphical components. I wanted to use an interface instead of concrete implementations for my drag and drop code… Although i was using an instance of Foo, and thus IFoo, the following code never allowed me to drop
+interface IFoo { } class Foo : IFoo { } private void label1_MouseDown(object sender, MouseEventArgs e) { this.DoDragDrop(new Foo(), DragDropEffects.All); } private void Form1_DragEnter(object sender, DragEventArgs e) { // for an instance of Foo it returns false, // if you use typeof(Foo) it returns true though... if (e.Data.GetDataPresent(typeof(IFoo))) { e.Effect = DragDropEffects.All; } } Simply wrapping the concrete instance in a DataObject results in the desired behaviour">
+  <meta itemprop="datePublished" content="2007-07-26T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="122">
+  <meta itemprop="keywords" content="CSharp,Windows Forms"><meta property="og:url" content="https://timvw.be/2007/07/26/using-interfaces-with-drag-and-drop/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Using interfaces with Drag and Drop">
+  <meta property="og:description" content="Earlier today i was refactoring some graphical components. I wanted to use an interface instead of concrete implementations for my drag and drop code… Although i was using an instance of Foo, and thus IFoo, the following code never allowed me to drop
+interface IFoo { } class Foo : IFoo { } private void label1_MouseDown(object sender, MouseEventArgs e) { this.DoDragDrop(new Foo(), DragDropEffects.All); } private void Form1_DragEnter(object sender, DragEventArgs e) { // for an instance of Foo it returns false, // if you use typeof(Foo) it returns true though... if (e.Data.GetDataPresent(typeof(IFoo))) { e.Effect = DragDropEffects.All; } } Simply wrapping the concrete instance in a DataObject results in the desired behaviour">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2007-07-26T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="CSharp">
+    <meta property="article:tag" content="Windows Forms">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Using interfaces with Drag and Drop"/>
-<meta name="twitter:description" content="Earlier today i was refactoring some graphical components. I wanted to use an interface instead of concrete implementations for my drag and drop code&hellip; Although i was using an instance of Foo, and thus IFoo, the following code never allowed me to drop
-interface IFoo { } class Foo : IFoo { } private void label1_MouseDown(object sender, MouseEventArgs e) { this.DoDragDrop(new Foo(), DragDropEffects.All); } private void Form1_DragEnter(object sender, DragEventArgs e) { // for an instance of Foo it returns false, // if you use typeof(Foo) it returns true though."/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Using interfaces with Drag and Drop">
+  <meta name="twitter:description" content="Earlier today i was refactoring some graphical components. I wanted to use an interface instead of concrete implementations for my drag and drop code… Although i was using an instance of Foo, and thus IFoo, the following code never allowed me to drop
+interface IFoo { } class Foo : IFoo { } private void label1_MouseDown(object sender, MouseEventArgs e) { this.DoDragDrop(new Foo(), DragDropEffects.All); } private void Form1_DragEnter(object sender, DragEventArgs e) { // for an instance of Foo it returns false, // if you use typeof(Foo) it returns true though... if (e.Data.GetDataPresent(typeof(IFoo))) { e.Effect = DragDropEffects.All; } } Simply wrapping the concrete instance in a DataObject results in the desired behaviour">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -82,28 +89,28 @@ interface IFoo { } class Foo : IFoo { } private void label1_MouseDown(object sen
 					
 			<div class="markdown">
 				<p>Earlier today i was refactoring some graphical components. I wanted to use an interface instead of concrete implementations for my drag and drop code&hellip; Although i was using an instance of Foo, and thus IFoo, the following code never allowed me to drop</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">interface</span> <span style="color:#458;font-weight:bold">IFoo</span> { }
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Foo</span> : IFoo { }
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">interface</span> <span style="color:#1f2328">IFoo</span> <span style="color:#1f2328">{</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">class</span> <span style="color:#1f2328">Foo</span> <span style="color:#1f2328">:</span> IFoo <span style="color:#1f2328">{</span> <span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> label1_MouseDown(<span style="color:#458;font-weight:bold">object</span> sender, MouseEventArgs e)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">this</span>.DoDragDrop(<span style="color:#000;font-weight:bold">new</span> Foo(), DragDropEffects.All);
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">private</span> <span style="color:#cf222e">void</span> label1_MouseDown<span style="color:#1f2328">(</span><span style="color:#cf222e">object</span> sender<span style="color:#1f2328">,</span> MouseEventArgs e<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>DoDragDrop<span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> Foo<span style="color:#1f2328">(),</span> DragDropEffects<span style="color:#1f2328">.</span>All<span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> Form1_DragEnter(<span style="color:#458;font-weight:bold">object</span> sender, DragEventArgs e)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#998;font-style:italic">// for an instance of Foo it returns false,</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#998;font-style:italic">// if you use typeof(Foo) it returns true though...</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> (e.Data.GetDataPresent(<span style="color:#000;font-weight:bold">typeof</span>(IFoo)))
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		e.Effect = DragDropEffects.All;
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">private</span> <span style="color:#cf222e">void</span> Form1_DragEnter<span style="color:#1f2328">(</span><span style="color:#cf222e">object</span> sender<span style="color:#1f2328">,</span> DragEventArgs e<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#57606a">// for an instance of Foo it returns false,</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#57606a">// if you use typeof(Foo) it returns true though...</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>e<span style="color:#1f2328">.</span>Data<span style="color:#1f2328">.</span>GetDataPresent<span style="color:#1f2328">(</span><span style="color:#cf222e">typeof</span><span style="color:#1f2328">(</span>IFoo<span style="color:#1f2328">)))</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		e<span style="color:#1f2328">.</span>Effect <span style="color:#1f2328">=</span> DragDropEffects<span style="color:#1f2328">.</span>All<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>Simply wrapping the concrete instance in a <a href="http://msdn2.microsoft.com/en-us/library/system.windows.forms.dataobject(VS.80).aspx">DataObject</a> results in the desired behaviour</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> label1_MouseDown(<span style="color:#458;font-weight:bold">object</span> sender, MouseEventArgs e)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">this</span>.DoDragDrop(<span style="color:#000;font-weight:bold">new</span> DataObject(<span style="color:#000;font-weight:bold">typeof</span>(IFoo).FullName,<span style="color:#000;font-weight:bold">new</span> Foo()), DragDropEffects.All);
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">private</span> <span style="color:#cf222e">void</span> label1_MouseDown<span style="color:#1f2328">(</span><span style="color:#cf222e">object</span> sender<span style="color:#1f2328">,</span> MouseEventArgs e<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>DoDragDrop<span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> DataObject<span style="color:#1f2328">(</span><span style="color:#cf222e">typeof</span><span style="color:#1f2328">(</span>IFoo<span style="color:#1f2328">).</span>FullName<span style="color:#1f2328">,</span><span style="color:#cf222e">new</span> Foo<span style="color:#1f2328">()),</span> DragDropEffects<span style="color:#1f2328">.</span>All<span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div>
 			</div>
 
@@ -128,16 +135,19 @@ interface IFoo { } class Foo : IFoo { } private void label1_MouseDown(object sen
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

@@ -3,23 +3,30 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Sample query to demonstrate influence of collation in Sql Server - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Sample query to demonstrate influence of collation in Sql Server">
-<meta itemprop="description" content="Lately I had the pleasure to investigate collations and here is a sample query that demonstrates how a collation impacts the behaviour of a query:
-WITH [Words] AS ( SELECT N&#39;Een&#39; AS [word] UNION ALL SELECT N&#39;Eèn&#39;	UNION ALL SELECT N&#39;EEN&#39; ) SELECT [word]	FROM [Words] WHERE [word]	--COLLATE Latin1_General_CS_AS -- returns Een --COLLATE Latin1_General_CI_AI -- returns Een, Eèn and EEN --COLLATE LAtin1_General_CI_AS -- returns Een and EEN COLLATE Latin1_General_CS_AI -- returns Een and Eèn = N&#39;Een&#39;; "><meta itemprop="datePublished" content="2012-10-18T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="77">
-<meta itemprop="keywords" content="collation,SQL," /><meta property="og:title" content="Sample query to demonstrate influence of collation in Sql Server" />
-<meta property="og:description" content="Lately I had the pleasure to investigate collations and here is a sample query that demonstrates how a collation impacts the behaviour of a query:
-WITH [Words] AS ( SELECT N&#39;Een&#39; AS [word] UNION ALL SELECT N&#39;Eèn&#39;	UNION ALL SELECT N&#39;EEN&#39; ) SELECT [word]	FROM [Words] WHERE [word]	--COLLATE Latin1_General_CS_AS -- returns Een --COLLATE Latin1_General_CI_AI -- returns Een, Eèn and EEN --COLLATE LAtin1_General_CI_AS -- returns Een and EEN COLLATE Latin1_General_CS_AI -- returns Een and Eèn = N&#39;Een&#39;; " />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2012/10/18/sample-query-to-demonstrate-influence-of-collation-in-sql-server/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2012-10-18T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="Sample query to demonstrate influence of collation in Sql Server">
+  <meta itemprop="description" content="Lately I had the pleasure to investigate collations and here is a sample query that demonstrates how a collation impacts the behaviour of a query:
+WITH [Words] AS ( SELECT N&#39;Een&#39; AS [word] UNION ALL SELECT N&#39;Eèn&#39;	UNION ALL SELECT N&#39;EEN&#39; ) SELECT [word]	FROM [Words] WHERE [word]	--COLLATE Latin1_General_CS_AS -- returns Een --COLLATE Latin1_General_CI_AI -- returns Een, Eèn and EEN --COLLATE LAtin1_General_CI_AS -- returns Een and EEN COLLATE Latin1_General_CS_AI -- returns Een and Eèn = N&#39;Een&#39;;">
+  <meta itemprop="datePublished" content="2012-10-18T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="77">
+  <meta itemprop="keywords" content="Collation,SQL"><meta property="og:url" content="https://timvw.be/2012/10/18/sample-query-to-demonstrate-influence-of-collation-in-sql-server/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Sample query to demonstrate influence of collation in Sql Server">
+  <meta property="og:description" content="Lately I had the pleasure to investigate collations and here is a sample query that demonstrates how a collation impacts the behaviour of a query:
+WITH [Words] AS ( SELECT N&#39;Een&#39; AS [word] UNION ALL SELECT N&#39;Eèn&#39;	UNION ALL SELECT N&#39;EEN&#39; ) SELECT [word]	FROM [Words] WHERE [word]	--COLLATE Latin1_General_CS_AS -- returns Een --COLLATE Latin1_General_CI_AI -- returns Een, Eèn and EEN --COLLATE LAtin1_General_CI_AS -- returns Een and EEN COLLATE Latin1_General_CS_AI -- returns Een and Eèn = N&#39;Een&#39;;">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2012-10-18T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="Collation">
+    <meta property="article:tag" content="SQL">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Sample query to demonstrate influence of collation in Sql Server"/>
-<meta name="twitter:description" content="Lately I had the pleasure to investigate collations and here is a sample query that demonstrates how a collation impacts the behaviour of a query:
-WITH [Words] AS ( SELECT N&#39;Een&#39; AS [word] UNION ALL SELECT N&#39;Eèn&#39;	UNION ALL SELECT N&#39;EEN&#39; ) SELECT [word]	FROM [Words] WHERE [word]	--COLLATE Latin1_General_CS_AS -- returns Een --COLLATE Latin1_General_CI_AI -- returns Een, Eèn and EEN --COLLATE LAtin1_General_CI_AS -- returns Een and EEN COLLATE Latin1_General_CS_AI -- returns Een and Eèn = N&#39;Een&#39;; "/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Sample query to demonstrate influence of collation in Sql Server">
+  <meta name="twitter:description" content="Lately I had the pleasure to investigate collations and here is a sample query that demonstrates how a collation impacts the behaviour of a query:
+WITH [Words] AS ( SELECT N&#39;Een&#39; AS [word] UNION ALL SELECT N&#39;Eèn&#39;	UNION ALL SELECT N&#39;EEN&#39; ) SELECT [word]	FROM [Words] WHERE [word]	--COLLATE Latin1_General_CS_AS -- returns Een --COLLATE Latin1_General_CI_AI -- returns Een, Eèn and EEN --COLLATE LAtin1_General_CI_AS -- returns Een and EEN COLLATE Latin1_General_CS_AI -- returns Een and Eèn = N&#39;Een&#39;;">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -82,21 +89,21 @@ WITH [Words] AS ( SELECT N&#39;Een&#39; AS [word] UNION ALL SELECT N&#39;Eèn&#3
 					
 			<div class="markdown">
 				<p>Lately I had the pleasure to investigate <a href="http://technet.microsoft.com/en-us/library/aa174903(v=sql.80).aspx">collations</a> and here is a sample query that demonstrates how a collation impacts the behaviour of a query:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">WITH</span><span style="color:#bbb"> </span>[Words]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>(<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>N<span style="color:#d14">&#39;Een&#39;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">AS</span><span style="color:#bbb"> </span>[word]<span style="color:#bbb">  
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">UNION</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ALL</span><span style="color:#bbb">  
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>N<span style="color:#d14">&#39;Eèn&#39;</span><span style="color:#bbb">	  
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">UNION</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ALL</span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>N<span style="color:#d14">&#39;EEN&#39;</span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span>)<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>[word]<span style="color:#bbb">	  
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>[Words]<span style="color:#bbb">  
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>[word]<span style="color:#bbb">	  
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#998;font-style:italic">--COLLATE Latin1_General_CS_AS -- returns Een
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">--COLLATE Latin1_General_CI_AI -- returns Een, Eèn and EEN
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">--COLLATE LAtin1_General_CI_AS -- returns Een and EEN
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">COLLATE</span><span style="color:#bbb"> </span>Latin1_General_CS_AI<span style="color:#bbb"> </span><span style="color:#998;font-style:italic">-- returns Een and Eèn
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>N<span style="color:#d14">&#39;Een&#39;</span>;<span style="color:#bbb">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#cf222e">WITH</span><span style="color:#fff"> </span><span style="color:#1f2328">[</span>Words<span style="color:#1f2328">]</span><span style="color:#fff"> </span><span style="color:#cf222e">AS</span><span style="color:#fff"> </span><span style="color:#1f2328">(</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">	</span><span style="color:#cf222e">SELECT</span><span style="color:#fff"> </span>N<span style="color:#0a3069">&#39;Een&#39;</span><span style="color:#fff"> </span><span style="color:#cf222e">AS</span><span style="color:#fff"> </span><span style="color:#1f2328">[</span>word<span style="color:#1f2328">]</span><span style="color:#fff">  
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">	</span><span style="color:#cf222e">UNION</span><span style="color:#fff"> </span><span style="color:#cf222e">ALL</span><span style="color:#fff">  
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">	</span><span style="color:#cf222e">SELECT</span><span style="color:#fff"> </span>N<span style="color:#0a3069">&#39;Eèn&#39;</span><span style="color:#fff">	  
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">	</span><span style="color:#cf222e">UNION</span><span style="color:#fff"> </span><span style="color:#cf222e">ALL</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">	</span><span style="color:#cf222e">SELECT</span><span style="color:#fff"> </span>N<span style="color:#0a3069">&#39;EEN&#39;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#1f2328">)</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#cf222e">SELECT</span><span style="color:#fff"> </span><span style="color:#1f2328">[</span>word<span style="color:#1f2328">]</span><span style="color:#fff">	  
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#cf222e">FROM</span><span style="color:#fff"> </span><span style="color:#1f2328">[</span>Words<span style="color:#1f2328">]</span><span style="color:#fff">  
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#cf222e">WHERE</span><span style="color:#fff"> </span><span style="color:#1f2328">[</span>word<span style="color:#1f2328">]</span><span style="color:#fff">	  
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#57606a">--COLLATE Latin1_General_CS_AS -- returns Een
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">--COLLATE Latin1_General_CI_AI -- returns Een, Eèn and EEN
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">--COLLATE LAtin1_General_CI_AS -- returns Een and EEN
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"></span><span style="color:#cf222e">COLLATE</span><span style="color:#fff"> </span>Latin1_General_CS_AI<span style="color:#fff"> </span><span style="color:#57606a">-- returns Een and Eèn
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"></span><span style="color:#0550ae">=</span><span style="color:#fff"> </span>N<span style="color:#0a3069">&#39;Een&#39;</span><span style="color:#1f2328">;</span><span style="color:#fff">
 </span></span></span></code></pre></div>
 			</div>
 
@@ -121,16 +128,19 @@ WITH [Words] AS ( SELECT N&#39;Een&#39; AS [word] UNION ALL SELECT N&#39;Eèn&#3
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

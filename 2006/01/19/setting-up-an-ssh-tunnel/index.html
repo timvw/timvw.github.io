@@ -3,23 +3,29 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Setting up an SSH tunnel - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Setting up an SSH tunnel">
-<meta itemprop="description" content="On the machine example there is a (tcp/ip) program listening on port 12345. The protocol it talks is some plaintext language. I want to talk with it, but i do not want others to know what i am sending to it. I am lucky enough to have remote access to that machine via ssh. I setup a tunnel with the following command
-ssh -N -L 12345:example:12345 timvw@example Now my program can connect to localhost:12345 and ssh will make sure that it ends up at example."><meta itemprop="datePublished" content="2006-01-19T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="106">
-<meta itemprop="keywords" content="Free Software," /><meta property="og:title" content="Setting up an SSH tunnel" />
-<meta property="og:description" content="On the machine example there is a (tcp/ip) program listening on port 12345. The protocol it talks is some plaintext language. I want to talk with it, but i do not want others to know what i am sending to it. I am lucky enough to have remote access to that machine via ssh. I setup a tunnel with the following command
-ssh -N -L 12345:example:12345 timvw@example Now my program can connect to localhost:12345 and ssh will make sure that it ends up at example." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2006/01/19/setting-up-an-ssh-tunnel/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2006-01-19T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="Setting up an SSH tunnel">
+  <meta itemprop="description" content="On the machine example there is a (tcp/ip) program listening on port 12345. The protocol it talks is some plaintext language. I want to talk with it, but i do not want others to know what i am sending to it. I am lucky enough to have remote access to that machine via ssh. I setup a tunnel with the following command
+ssh -N -L 12345:example:12345 timvw@example Now my program can connect to localhost:12345 and ssh will make sure that it ends up at example.:12345 without others being able to see the actual data. For windows users i suggest that you take a look at Plink.">
+  <meta itemprop="datePublished" content="2006-01-19T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="106">
+  <meta itemprop="keywords" content="Free Software"><meta property="og:url" content="https://timvw.be/2006/01/19/setting-up-an-ssh-tunnel/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Setting up an SSH tunnel">
+  <meta property="og:description" content="On the machine example there is a (tcp/ip) program listening on port 12345. The protocol it talks is some plaintext language. I want to talk with it, but i do not want others to know what i am sending to it. I am lucky enough to have remote access to that machine via ssh. I setup a tunnel with the following command
+ssh -N -L 12345:example:12345 timvw@example Now my program can connect to localhost:12345 and ssh will make sure that it ends up at example.:12345 without others being able to see the actual data. For windows users i suggest that you take a look at Plink.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2006-01-19T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="Free Software">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Setting up an SSH tunnel"/>
-<meta name="twitter:description" content="On the machine example there is a (tcp/ip) program listening on port 12345. The protocol it talks is some plaintext language. I want to talk with it, but i do not want others to know what i am sending to it. I am lucky enough to have remote access to that machine via ssh. I setup a tunnel with the following command
-ssh -N -L 12345:example:12345 timvw@example Now my program can connect to localhost:12345 and ssh will make sure that it ends up at example."/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Setting up an SSH tunnel">
+  <meta name="twitter:description" content="On the machine example there is a (tcp/ip) program listening on port 12345. The protocol it talks is some plaintext language. I want to talk with it, but i do not want others to know what i am sending to it. I am lucky enough to have remote access to that machine via ssh. I setup a tunnel with the following command
+ssh -N -L 12345:example:12345 timvw@example Now my program can connect to localhost:12345 and ssh will make sure that it ends up at example.:12345 without others being able to see the actual data. For windows users i suggest that you take a look at Plink.">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -106,16 +112,19 @@ ssh -N -L 12345:example:12345 timvw@example Now my program can connect to localh
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

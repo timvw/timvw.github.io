@@ -3,35 +3,39 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Notes on using grpc with rust and tonic - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Notes on using grpc with rust and tonic">
-<meta itemprop="description" content="In the Tonic examples proto files are used to generated service and client stubs with tonic_build.
+	
+  <meta itemprop="name" content="Notes on using grpc with rust and tonic">
+  <meta itemprop="description" content="In the Tonic examples proto files are used to generated service and client stubs with tonic_build.
 The Getting started section mentions the following:
 For IntelliJ IDEA users, please refer to this and enable org.rust.cargo.evaluate.build.scripts experimental feature.
 But in order to have a nice development experience you need some additional tweaks.
 You can find the full code here: https://github.com/timvw/arrow-flightsql-odbc
-By default the stubs are generated in ./target/&hellip;/build/&hellip; Unfortunately CLion does not scan those folders and you don&rsquo;t get to benefit from intellisense."><meta itemprop="datePublished" content="2022-04-28T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2022-04-29T06:42:06+02:00" />
-<meta itemprop="wordCount" content="337">
-<meta itemprop="keywords" content="" /><meta property="og:title" content="Notes on using grpc with rust and tonic" />
-<meta property="og:description" content="In the Tonic examples proto files are used to generated service and client stubs with tonic_build.
+By default the stubs are generated in ./target/…/build/… Unfortunately CLion does not scan those folders and you don’t get to benefit from intellisense.">
+  <meta itemprop="datePublished" content="2022-04-28T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2022-04-29T06:42:06+02:00">
+  <meta itemprop="wordCount" content="337"><meta property="og:url" content="https://timvw.be/2022/04/28/notes-on-using-grpc-with-rust-and-tonic/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Notes on using grpc with rust and tonic">
+  <meta property="og:description" content="In the Tonic examples proto files are used to generated service and client stubs with tonic_build.
 The Getting started section mentions the following:
 For IntelliJ IDEA users, please refer to this and enable org.rust.cargo.evaluate.build.scripts experimental feature.
 But in order to have a nice development experience you need some additional tweaks.
 You can find the full code here: https://github.com/timvw/arrow-flightsql-odbc
-By default the stubs are generated in ./target/&hellip;/build/&hellip; Unfortunately CLion does not scan those folders and you don&rsquo;t get to benefit from intellisense." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2022/04/28/notes-on-using-grpc-with-rust-and-tonic/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-04-28T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-04-29T06:42:06+02:00" />
+By default the stubs are generated in ./target/…/build/… Unfortunately CLion does not scan those folders and you don’t get to benefit from intellisense.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2022-04-28T00:00:00+00:00">
+    <meta property="article:modified_time" content="2022-04-29T06:42:06+02:00">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Notes on using grpc with rust and tonic"/>
-<meta name="twitter:description" content="In the Tonic examples proto files are used to generated service and client stubs with tonic_build.
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Notes on using grpc with rust and tonic">
+  <meta name="twitter:description" content="In the Tonic examples proto files are used to generated service and client stubs with tonic_build.
 The Getting started section mentions the following:
 For IntelliJ IDEA users, please refer to this and enable org.rust.cargo.evaluate.build.scripts experimental feature.
 But in order to have a nice development experience you need some additional tweaks.
 You can find the full code here: https://github.com/timvw/arrow-flightsql-odbc
-By default the stubs are generated in ./target/&hellip;/build/&hellip; Unfortunately CLion does not scan those folders and you don&rsquo;t get to benefit from intellisense."/>
+By default the stubs are generated in ./target/…/build/… Unfortunately CLion does not scan those folders and you don’t get to benefit from intellisense.">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -96,78 +100,77 @@ By default the stubs are generated in ./target/&hellip;/build/&hellip; Unfortuna
 				<p>In the Tonic <a href="https://github.com/hyperium/tonic/tree/master/examples">examples</a> proto files are used to generated service and client stubs with <a href="https://docs.rs/tonic-build/latest/tonic_build/">tonic_build</a>.</p>
 <p>The <a href="https://github.com/hyperium/tonic/">Getting started</a> section mentions the following:</p>
 <blockquote>
-<p>For IntelliJ IDEA users, please refer to <a href="https://github.com/intellij-rust/intellij-rust/pull/8056">this</a> and enable org.rust.cargo.evaluate.build.scripts <a href="https://plugins.jetbrains.com/plugin/8182-rust/docs/rust-faq.html#experimental-features">experimental feature</a>.</p>
-</blockquote>
+<p>For IntelliJ IDEA users, please refer to <a href="https://github.com/intellij-rust/intellij-rust/pull/8056">this</a> and enable org.rust.cargo.evaluate.build.scripts <a href="https://plugins.jetbrains.com/plugin/8182-rust/docs/rust-faq.html#experimental-features">experimental feature</a>.</p></blockquote>
 <p>But in order to have a nice development experience you need some additional tweaks.</p>
 <p>You can find the full code here: <a href="https://github.com/timvw/arrow-flightsql-odbc">https://github.com/timvw/arrow-flightsql-odbc</a></p>
 <p>By default the stubs are generated in ./target/&hellip;/build/&hellip; Unfortunately <a href="https://www.jetbrains.com/clion/">CLion</a> does not scan those folders and you don&rsquo;t get to benefit from intellisense.</p>
 <p>As a workaround you can generate the stubs in your ./src folder instead. You can do that by configuring the tonic_build in build.rs.</p>
 <p>While you are at it, you should also enable the writing of a file_descriptor_set to enable <a href="https://github.com/grpc/grpc/blob/master/doc/server-reflection.md">GRPC Server Reflection</a> using <a href="https://crates.io/crates/tonic-reflection">tonic-reflection</a>.</p>
 <h4 id="buildrs"><strong><code>build.rs</code></strong></h4>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">use</span><span style="color:#bbb"> </span>std::env;<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">use</span><span style="color:#bbb"> </span>std::path::PathBuf;<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">fn</span> <span style="color:#900;font-weight:bold">main</span>()<span style="color:#bbb"> </span>-&gt; <span style="color:#0086b3">Result</span><span style="color:#000;font-weight:bold">&lt;</span>(),<span style="color:#bbb"> </span><span style="color:#0086b3">Box</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000;font-weight:bold">dyn</span><span style="color:#bbb"> </span>std::error::Error<span style="color:#000;font-weight:bold">&gt;&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#998;font-style:italic">//intellij does not easily find types when not adding code to src
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#998;font-style:italic">//tonic_build::compile_protos(&#34;proto/Flight.proto&#34;)?;
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#998;font-style:italic">//tonic_build::compile_protos(&#34;proto/FlightSql.proto&#34;)?;
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">let</span><span style="color:#bbb"> </span>original_out_dir<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>PathBuf::from(env::var(<span style="color:#d14">&#34;OUT_DIR&#34;</span>)<span style="color:#000;font-weight:bold">?</span>);<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000;font-weight:bold">let</span><span style="color:#bbb"> </span>out_dir<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span><span style="color:#d14">&#34;./src&#34;</span>;<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>tonic_build::configure()<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span>.out_dir(out_dir)<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span>.file_descriptor_set_path(original_out_dir.join(<span style="color:#d14">&#34;flight_descriptor.bin&#34;</span>))<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span>.compile(<span style="color:#000;font-weight:bold">&amp;</span>[<span style="color:#d14">&#34;proto/Flight.proto&#34;</span>],<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">&amp;</span>[<span style="color:#d14">&#34;proto&#34;</span>])<span style="color:#000;font-weight:bold">?</span>;<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>tonic_build::configure()<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span>.out_dir(out_dir)<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span>.file_descriptor_set_path(original_out_dir.join(<span style="color:#d14">&#34;flight_sql_descriptor.bin&#34;</span>))<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span>.compile(<span style="color:#000;font-weight:bold">&amp;</span>[<span style="color:#d14">&#34;proto/FlightSql.proto&#34;</span>],<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">&amp;</span>[<span style="color:#d14">&#34;proto&#34;</span>])<span style="color:#000;font-weight:bold">?</span>;<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#0086b3">Ok</span>(())<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span>}<span style="color:#bbb">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#cf222e">use</span><span style="color:#fff"> </span>std::env<span style="color:#1f2328">;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#cf222e">use</span><span style="color:#fff"> </span>std::path::PathBuf<span style="color:#1f2328">;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#cf222e">fn</span> <span style="color:#6639ba">main</span><span style="color:#1f2328">()</span><span style="color:#fff"> </span>-&gt; <span style="color:#6639ba">Result</span><span style="color:#0550ae">&lt;</span><span style="color:#1f2328">(),</span><span style="color:#fff"> </span><span style="color:#6639ba">Box</span><span style="color:#0550ae">&lt;</span><span style="color:#cf222e">dyn</span><span style="color:#fff"> </span>std::error::Error<span style="color:#0550ae">&gt;&gt;</span><span style="color:#fff"> </span><span style="color:#1f2328">{</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#57606a">//intellij does not easily find types when not adding code to src
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"></span><span style="color:#fff">    </span><span style="color:#57606a">//tonic_build::compile_protos(&#34;proto/Flight.proto&#34;)?;
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"></span><span style="color:#fff">    </span><span style="color:#57606a">//tonic_build::compile_protos(&#34;proto/FlightSql.proto&#34;)?;
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"></span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#cf222e">let</span><span style="color:#fff"> </span>original_out_dir<span style="color:#fff"> </span><span style="color:#0550ae">=</span><span style="color:#fff"> </span>PathBuf::from<span style="color:#1f2328">(</span>env::var<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;OUT_DIR&#34;</span><span style="color:#1f2328">)</span><span style="color:#0550ae">?</span><span style="color:#1f2328">);</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#cf222e">let</span><span style="color:#fff"> </span>out_dir<span style="color:#fff"> </span><span style="color:#0550ae">=</span><span style="color:#fff"> </span><span style="color:#0a3069">&#34;./src&#34;</span><span style="color:#1f2328">;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span>tonic_build::configure<span style="color:#1f2328">()</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#1f2328">.</span>out_dir<span style="color:#1f2328">(</span>out_dir<span style="color:#1f2328">)</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#1f2328">.</span>file_descriptor_set_path<span style="color:#1f2328">(</span>original_out_dir<span style="color:#1f2328">.</span>join<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;flight_descriptor.bin&#34;</span><span style="color:#1f2328">))</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#1f2328">.</span>compile<span style="color:#1f2328">(</span><span style="color:#0550ae">&amp;</span><span style="color:#1f2328">[</span><span style="color:#0a3069">&#34;proto/Flight.proto&#34;</span><span style="color:#1f2328">],</span><span style="color:#fff"> </span><span style="color:#0550ae">&amp;</span><span style="color:#1f2328">[</span><span style="color:#0a3069">&#34;proto&#34;</span><span style="color:#1f2328">])</span><span style="color:#0550ae">?</span><span style="color:#1f2328">;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span>tonic_build::configure<span style="color:#1f2328">()</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#1f2328">.</span>out_dir<span style="color:#1f2328">(</span>out_dir<span style="color:#1f2328">)</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#1f2328">.</span>file_descriptor_set_path<span style="color:#1f2328">(</span>original_out_dir<span style="color:#1f2328">.</span>join<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;flight_sql_descriptor.bin&#34;</span><span style="color:#1f2328">))</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#1f2328">.</span>compile<span style="color:#1f2328">(</span><span style="color:#0550ae">&amp;</span><span style="color:#1f2328">[</span><span style="color:#0a3069">&#34;proto/FlightSql.proto&#34;</span><span style="color:#1f2328">],</span><span style="color:#fff"> </span><span style="color:#0550ae">&amp;</span><span style="color:#1f2328">[</span><span style="color:#0a3069">&#34;proto&#34;</span><span style="color:#1f2328">])</span><span style="color:#0550ae">?</span><span style="color:#1f2328">;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#6639ba">Ok</span><span style="color:#1f2328">(())</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#1f2328">}</span><span style="color:#fff">
 </span></span></span></code></pre></div><p>Now you can update your lib.rs and include the generated stubs by referring to their path in ./src instead of the include_proto! macro. Notice that I have also used the include_file_descriptor_set to enable the GRPC Server Reflection:</p>
 <h4 id="srclibrs"><strong><code>src/lib.rs</code></strong></h4>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#998;font-style:italic">/*
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">pub mod arrow_flight_protocol {
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">    tonic::include_proto!(&#34;arrow.flight.protocol&#34;); // The string specified here must match the proto package name
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">}
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">pub mod arrow_flight_protocol_sql {
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">    tonic::include_proto!(&#34;arrow.flight.protocol.sql&#34;); // The string specified here must match the proto package name
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">}
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"> */</span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#999;font-weight:bold;font-style:italic">#[path = </span><span style="color:#d14">&#34;arrow.flight.protocol.rs&#34;</span><span style="color:#999;font-weight:bold;font-style:italic">]</span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">mod</span> <span style="color:#555">arrow_flight_protocol</span>;<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#999;font-weight:bold;font-style:italic">#[path = </span><span style="color:#d14">&#34;arrow.flight.protocol.sql.rs&#34;</span><span style="color:#999;font-weight:bold;font-style:italic">]</span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">mod</span> <span style="color:#555">arrow_flight_protocol_sql</span>;<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">const</span><span style="color:#bbb"> </span>FLIGHT_DESCRIPTOR_SET: <span style="color:#000;font-weight:bold">&amp;</span>[<span style="color:#458;font-weight:bold">u8</span>]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>tonic::include_file_descriptor_set<span style="color:#000;font-weight:bold">!</span>(<span style="color:#d14">&#34;flight_descriptor&#34;</span>);<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">const</span><span style="color:#bbb"> </span>FLIGHT_SQL_DESCRIPTOR_SET: <span style="color:#000;font-weight:bold">&amp;</span>[<span style="color:#458;font-weight:bold">u8</span>]<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>tonic::include_file_descriptor_set<span style="color:#000;font-weight:bold">!</span>(<span style="color:#d14">&#34;flight_sql_descriptor&#34;</span>);<span style="color:#bbb">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#57606a">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">pub mod arrow_flight_protocol {
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">    tonic::include_proto!(&#34;arrow.flight.protocol&#34;); // The string specified here must match the proto package name
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">}
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">pub mod arrow_flight_protocol_sql {
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">    tonic::include_proto!(&#34;arrow.flight.protocol.sql&#34;); // The string specified here must match the proto package name
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">}
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"> */</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#57606a">#[path = </span><span style="color:#0a3069">&#34;arrow.flight.protocol.rs&#34;</span><span style="color:#57606a">]</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#cf222e">pub</span><span style="color:#fff"> </span><span style="color:#cf222e">mod</span> <span style="color:#24292e">arrow_flight_protocol</span><span style="color:#1f2328">;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#57606a">#[path = </span><span style="color:#0a3069">&#34;arrow.flight.protocol.sql.rs&#34;</span><span style="color:#57606a">]</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#cf222e">pub</span><span style="color:#fff"> </span><span style="color:#cf222e">mod</span> <span style="color:#24292e">arrow_flight_protocol_sql</span><span style="color:#1f2328">;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#cf222e">pub</span><span style="color:#fff"> </span><span style="color:#cf222e">const</span><span style="color:#fff"> </span><span style="color:#0550ae">FLIGHT_DESCRIPTOR_SET</span>: <span style="color:#cf222e">&amp;</span><span style="color:#1f2328">[</span><span style="color:#cf222e">u8</span><span style="color:#1f2328">]</span><span style="color:#fff"> </span><span style="color:#0550ae">=</span><span style="color:#fff"> </span>tonic::include_file_descriptor_set!<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;flight_descriptor&#34;</span><span style="color:#1f2328">);</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#cf222e">pub</span><span style="color:#fff"> </span><span style="color:#cf222e">const</span><span style="color:#fff"> </span><span style="color:#0550ae">FLIGHT_SQL_DESCRIPTOR_SET</span>: <span style="color:#cf222e">&amp;</span><span style="color:#1f2328">[</span><span style="color:#cf222e">u8</span><span style="color:#1f2328">]</span><span style="color:#fff"> </span><span style="color:#0550ae">=</span><span style="color:#fff"> </span>tonic::include_file_descriptor_set!<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;flight_sql_descriptor&#34;</span><span style="color:#1f2328">);</span><span style="color:#fff">
 </span></span></span></code></pre></div><p>Now you can create your server and register the reflection service:</p>
 <h4 id="srcbinserverrs"><strong><code>src/bin/server.rs</code></strong></h4>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">let</span><span style="color:#bbb"> </span>reflection_server<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>tonic_reflection::server::Builder::configure()<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>.register_encoded_file_descriptor_set(arrow_flightsql_odbc::FLIGHT_DESCRIPTOR_SET)<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>.register_encoded_file_descriptor_set(arrow_flightsql_odbc::FLIGHT_SQL_DESCRIPTOR_SET)<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>.build()<span style="color:#000;font-weight:bold">?</span>;<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span>Server::builder()<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>.add_service(FlightServiceServer::new(myserver))<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>.add_service(reflection_server)<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>.serve(addr)<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>.<span style="color:#000;font-weight:bold">await</span><span style="color:#000;font-weight:bold">?</span>;<span style="color:#bbb">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#cf222e">let</span><span style="color:#fff"> </span>reflection_server<span style="color:#fff"> </span><span style="color:#0550ae">=</span><span style="color:#fff"> </span>tonic_reflection::server::Builder::configure<span style="color:#1f2328">()</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#1f2328">.</span>register_encoded_file_descriptor_set<span style="color:#1f2328">(</span>arrow_flightsql_odbc::<span style="color:#0550ae">FLIGHT_DESCRIPTOR_SET</span><span style="color:#1f2328">)</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#1f2328">.</span>register_encoded_file_descriptor_set<span style="color:#1f2328">(</span>arrow_flightsql_odbc::<span style="color:#0550ae">FLIGHT_SQL_DESCRIPTOR_SET</span><span style="color:#1f2328">)</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#1f2328">.</span>build<span style="color:#1f2328">()</span><span style="color:#0550ae">?</span><span style="color:#1f2328">;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span>Server::builder<span style="color:#1f2328">()</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#1f2328">.</span>add_service<span style="color:#1f2328">(</span>FlightServiceServer::new<span style="color:#1f2328">(</span>myserver<span style="color:#1f2328">))</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#1f2328">.</span>add_service<span style="color:#1f2328">(</span>reflection_server<span style="color:#1f2328">)</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#1f2328">.</span>serve<span style="color:#1f2328">(</span>addr<span style="color:#1f2328">)</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#1f2328">.</span><span style="color:#cf222e">await</span><span style="color:#0550ae">?</span><span style="color:#1f2328">;</span><span style="color:#fff">
 </span></span></span></code></pre></div><p>When your server is running, you can query it:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>grpcurl -vv -plaintext <span style="color:#d14">&#39;localhost:52358&#39;</span> list
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>grpcurl -vv -plaintext <span style="color:#0a3069">&#39;localhost:52358&#39;</span> list
 </span></span></code></pre></div><p>Outputs:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>arrow.flight.protocol.FlightService
 </span></span><span style="display:flex;"><span>grpc.reflection.v1alpha.ServerReflection
 </span></span></code></pre></div><p>When diving a little deeper, we find the following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>grpcurl -vv -plaintext <span style="color:#d14">&#39;localhost:52358&#39;</span> list arrow.flight.protocol.FlightService
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>grpcurl -vv -plaintext <span style="color:#0a3069">&#39;localhost:52358&#39;</span> list arrow.flight.protocol.FlightService
 </span></span></code></pre></div><p>Outputs:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>arrow.flight.protocol.FlightService.DoAction
 </span></span><span style="display:flex;"><span>arrow.flight.protocol.FlightService.DoExchange
@@ -195,16 +198,19 @@ By default the stubs are generated in ./target/&hellip;/build/&hellip; Unfortuna
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

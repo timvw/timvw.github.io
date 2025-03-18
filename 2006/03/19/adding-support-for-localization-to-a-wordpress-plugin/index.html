@@ -3,29 +3,35 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Adding support for localization to a WordPress plugin - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Adding support for localization to a WordPress plugin">
-<meta itemprop="description" content="WordPress uses GNU gettext, as explained in Translating WordPress and Writing a Plugin, for localization. I decided that my plugins should support l10n too. Here is how i realised it:
+	
+  <meta itemprop="name" content="Adding support for localization to a WordPress plugin">
+  <meta itemprop="description" content="WordPress uses GNU gettext, as explained in Translating WordPress and Writing a Plugin, for localization. I decided that my plugins should support l10n too. Here is how i realised it:
 I started with defining the WPLANG constant in my wp-config.php:
 define (&#39;WPLANG&#39;, &#39;en_EN&#39;); Then i changed the beginning of my localized plugin as following:
-&lt;?php /* Plugin Name: WP-SpamFilter Version: 0.4 Plugin URI: http://timvw.madoka.be/?p=533 Description: Mark the new comment as spam if the sender is in the spammers list."><meta itemprop="datePublished" content="2006-03-19T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="272">
-<meta itemprop="keywords" content="WordPress," /><meta property="og:title" content="Adding support for localization to a WordPress plugin" />
-<meta property="og:description" content="WordPress uses GNU gettext, as explained in Translating WordPress and Writing a Plugin, for localization. I decided that my plugins should support l10n too. Here is how i realised it:
+&lt;?php /* Plugin Name: WP-SpamFilter Version: 0.4 Plugin URI: http://timvw.madoka.be/?p=533 Description: Mark the new comment as spam if the sender is in the spammers list. Author URI: http://timvw.be */ // If this function does not exist it means that the file is accessed directly. // Accessing this file directly is not allowed. if (!function_exists(&#39;load_plugin_textdomain&#39;)) { exit; } load_plugin_textdomain(&#39;wp_spamfilter&#39;, &#39;wp-content/plugins/wp-spamfilter&#39;); In wp-includes/wp-l10n.php you see that the result of this call is that the locale and the path are used to determine the mo-file to be loaded. Because this function uses ABSPATH it’s impossible to use dirname(FILE) as path parameter">
+  <meta itemprop="datePublished" content="2006-03-19T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="272">
+  <meta itemprop="keywords" content="WordPress"><meta property="og:url" content="https://timvw.be/2006/03/19/adding-support-for-localization-to-a-wordpress-plugin/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Adding support for localization to a WordPress plugin">
+  <meta property="og:description" content="WordPress uses GNU gettext, as explained in Translating WordPress and Writing a Plugin, for localization. I decided that my plugins should support l10n too. Here is how i realised it:
 I started with defining the WPLANG constant in my wp-config.php:
 define (&#39;WPLANG&#39;, &#39;en_EN&#39;); Then i changed the beginning of my localized plugin as following:
-&lt;?php /* Plugin Name: WP-SpamFilter Version: 0.4 Plugin URI: http://timvw.madoka.be/?p=533 Description: Mark the new comment as spam if the sender is in the spammers list." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2006/03/19/adding-support-for-localization-to-a-wordpress-plugin/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2006-03-19T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+&lt;?php /* Plugin Name: WP-SpamFilter Version: 0.4 Plugin URI: http://timvw.madoka.be/?p=533 Description: Mark the new comment as spam if the sender is in the spammers list. Author URI: http://timvw.be */ // If this function does not exist it means that the file is accessed directly. // Accessing this file directly is not allowed. if (!function_exists(&#39;load_plugin_textdomain&#39;)) { exit; } load_plugin_textdomain(&#39;wp_spamfilter&#39;, &#39;wp-content/plugins/wp-spamfilter&#39;); In wp-includes/wp-l10n.php you see that the result of this call is that the locale and the path are used to determine the mo-file to be loaded. Because this function uses ABSPATH it’s impossible to use dirname(FILE) as path parameter">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2006-03-19T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="WordPress">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Adding support for localization to a WordPress plugin"/>
-<meta name="twitter:description" content="WordPress uses GNU gettext, as explained in Translating WordPress and Writing a Plugin, for localization. I decided that my plugins should support l10n too. Here is how i realised it:
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Adding support for localization to a WordPress plugin">
+  <meta name="twitter:description" content="WordPress uses GNU gettext, as explained in Translating WordPress and Writing a Plugin, for localization. I decided that my plugins should support l10n too. Here is how i realised it:
 I started with defining the WPLANG constant in my wp-config.php:
 define (&#39;WPLANG&#39;, &#39;en_EN&#39;); Then i changed the beginning of my localized plugin as following:
-&lt;?php /* Plugin Name: WP-SpamFilter Version: 0.4 Plugin URI: http://timvw.madoka.be/?p=533 Description: Mark the new comment as spam if the sender is in the spammers list."/>
+&lt;?php /* Plugin Name: WP-SpamFilter Version: 0.4 Plugin URI: http://timvw.madoka.be/?p=533 Description: Mark the new comment as spam if the sender is in the spammers list. Author URI: http://timvw.be */ // If this function does not exist it means that the file is accessed directly. // Accessing this file directly is not allowed. if (!function_exists(&#39;load_plugin_textdomain&#39;)) { exit; } load_plugin_textdomain(&#39;wp_spamfilter&#39;, &#39;wp-content/plugins/wp-spamfilter&#39;); In wp-includes/wp-l10n.php you see that the result of this call is that the locale and the path are used to determine the mo-file to be loaded. Because this function uses ABSPATH it’s impossible to use dirname(FILE) as path parameter">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -89,36 +95,36 @@ define (&#39;WPLANG&#39;, &#39;en_EN&#39;); Then i changed the beginning of my l
 			<div class="markdown">
 				<p>WordPress uses <a href="http://www.gnu.org/software/gettext/">GNU gettext</a>, as explained in <a href="http://codex.wordpress.org/Localizing_WordPress">Translating WordPress</a> and <a href="http://codex.wordpress.org/Writing_a_Plugin">Writing a Plugin</a>, for <a href="http://en.wikipedia.org/wiki/Software_localization">localization</a>. I decided that my plugins should support l10n too. Here is how i realised it:</p>
 <p>I started with defining the WPLANG constant in my wp-config.php:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span>define (<span style="color:#d14">&#39;WPLANG&#39;</span>, <span style="color:#d14">&#39;en_EN&#39;</span>);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#1f2328">define</span> <span style="color:#1f2328">(</span><span style="color:#0a3069">&#39;WPLANG&#39;</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#39;en_EN&#39;</span><span style="color:#1f2328">);</span>
 </span></span></code></pre></div><p>Then i changed the beginning of my localized plugin as following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">&lt;?</span>php
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">/*
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">Plugin Name: WP-SpamFilter
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">Version: 0.4
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">Plugin URI: http://timvw.madoka.be/?p=533
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">Description: Mark the new comment as spam if the sender is in the spammers list.
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">Author URI: http://timvw.be
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">*/</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#0550ae">&lt;?</span><span style="color:#1f2328">php</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">Plugin Name: WP-SpamFilter
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">Version: 0.4
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">Plugin URI: http://timvw.madoka.be/?p=533
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">Description: Mark the new comment as spam if the sender is in the spammers list.
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">Author URI: http://timvw.be
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">*/</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// If this function does not exist it means that the file is accessed directly.
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// Accessing this file directly is not allowed.
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">!</span>function_exists(<span style="color:#d14">&#39;load_plugin_textdomain&#39;</span>)) {
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">exit</span>;
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#57606a">// If this function does not exist it means that the file is accessed directly.
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">// Accessing this file directly is not allowed.
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"></span><span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span><span style="color:#0550ae">!</span><span style="color:#1f2328">function_exists</span><span style="color:#1f2328">(</span><span style="color:#0a3069">&#39;load_plugin_textdomain&#39;</span><span style="color:#1f2328">))</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">exit</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>load_plugin_textdomain(<span style="color:#d14">&#39;wp_spamfilter&#39;</span>, <span style="color:#d14">&#39;wp-content/plugins/wp-spamfilter&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">load_plugin_textdomain</span><span style="color:#1f2328">(</span><span style="color:#0a3069">&#39;wp_spamfilter&#39;</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#39;wp-content/plugins/wp-spamfilter&#39;</span><span style="color:#1f2328">);</span>
 </span></span></code></pre></div><p>In wp-includes/wp-l10n.php you see that the result of this call is that the locale and the path are used to determine the mo-file to be loaded. Because this function uses ABSPATH it&rsquo;s impossible to use dirname(<strong>FILE</strong>) as path parameter</p>
 <p>The _e($string, $domain) function echos a localized string and the __($string, $domain) function returns a localized string that you can use in function calls etc&hellip; Below you can see an example of the original version and the updated version with localization support:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">## some string
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">&lt;?</span>php <span style="color:#000;font-weight:bold">echo</span>(<span style="color:#d14">&#39;some other string&#39;</span>); <span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></span><span style="display:flex;"><span><span style="color:#57606a">## some string
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"></span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">&lt;?</span><span style="color:#1f2328">php</span> <span style="color:#cf222e">echo</span><span style="color:#1f2328">(</span><span style="color:#0a3069">&#39;some other string&#39;</span><span style="color:#1f2328">);</span> <span style="color:#57606a">?&gt;</span><span style="color:#f6f8fa;background-color:#82071e">
 </span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">## &lt;?php _e(&#39;some string&#39;, &#39;wp_spamfilter&#39;); ?&gt;
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">&lt;?</span>php <span style="color:#000;font-weight:bold">echo</span>(__(<span style="color:#d14">&#39;some other string&#39;</span>, <span style="color:#d14">&#39;wp_spamfilter&#39;</span>)); <span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></span><span style="display:flex;"><span><span style="color:#57606a">## &lt;?php _e(&#39;some string&#39;, &#39;wp_spamfilter&#39;); ?&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"></span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">&lt;?</span><span style="color:#1f2328">php</span> <span style="color:#cf222e">echo</span><span style="color:#1f2328">(</span><span style="color:#1f2328">__</span><span style="color:#1f2328">(</span><span style="color:#0a3069">&#39;some other string&#39;</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#39;wp_spamfilter&#39;</span><span style="color:#1f2328">));</span> <span style="color:#57606a">?&gt;</span><span style="color:#f6f8fa;background-color:#82071e">
 </span></span></span></code></pre></div><p>Then i used xgettext to extract all the strings that should be localized into wp_spamfilter-en_eN.po:</p>
 <pre tabindex="0"><code class="language-dos" data-lang="dos">xgettext --keyword=__ --keyword=_e --default-domain=wordpress --language=php *.php --output=wp_spamfilter-en_EN.po
 </code></pre><p>After that i editted the po file and i compiled a mo file with it using msgfmt:</p>
@@ -146,16 +152,19 @@ define (&#39;WPLANG&#39;, &#39;en_EN&#39;); Then i changed the beginning of my l
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

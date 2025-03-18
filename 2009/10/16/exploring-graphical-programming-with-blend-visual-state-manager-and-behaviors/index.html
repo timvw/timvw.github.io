@@ -3,23 +3,30 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Exploring graphical programming with Blend, Visual State Manager and Behaviors - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Exploring graphical programming with Blend, Visual State Manager and Behaviors">
-<meta itemprop="description" content="A while ago i presented the ControlStateMachine and in Silverlight this concept is implemented as the Visual State Manager.
-In my sokoban implementation i have a cellview which exists out of 6 canvasses but only two of them (one for the cell type and one for the piece type) are visible at any given point in time. I have implemented this with 6 properties CanvasXVisible (with X being Player, Box, Wall, Goal, Floor and Cell) in my ViewModel but a State Machine / Manager may help clarify how the visibility of the canvasses are related."><meta itemprop="datePublished" content="2009-10-16T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="319">
-<meta itemprop="keywords" content="Silverlight,WPF," /><meta property="og:title" content="Exploring graphical programming with Blend, Visual State Manager and Behaviors" />
-<meta property="og:description" content="A while ago i presented the ControlStateMachine and in Silverlight this concept is implemented as the Visual State Manager.
-In my sokoban implementation i have a cellview which exists out of 6 canvasses but only two of them (one for the cell type and one for the piece type) are visible at any given point in time. I have implemented this with 6 properties CanvasXVisible (with X being Player, Box, Wall, Goal, Floor and Cell) in my ViewModel but a State Machine / Manager may help clarify how the visibility of the canvasses are related." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2009/10/16/exploring-graphical-programming-with-blend-visual-state-manager-and-behaviors/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2009-10-16T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="Exploring graphical programming with Blend, Visual State Manager and Behaviors">
+  <meta itemprop="description" content="A while ago i presented the ControlStateMachine and in Silverlight this concept is implemented as the Visual State Manager.
+In my sokoban implementation i have a cellview which exists out of 6 canvasses but only two of them (one for the cell type and one for the piece type) are visible at any given point in time. I have implemented this with 6 properties CanvasXVisible (with X being Player, Box, Wall, Goal, Floor and Cell) in my ViewModel but a State Machine / Manager may help clarify how the visibility of the canvasses are related. Here are the 2 visual state groups and their states that i would need for the CellView">
+  <meta itemprop="datePublished" content="2009-10-16T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="319">
+  <meta itemprop="keywords" content="Silverlight,WPF"><meta property="og:url" content="https://timvw.be/2009/10/16/exploring-graphical-programming-with-blend-visual-state-manager-and-behaviors/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Exploring graphical programming with Blend, Visual State Manager and Behaviors">
+  <meta property="og:description" content="A while ago i presented the ControlStateMachine and in Silverlight this concept is implemented as the Visual State Manager.
+In my sokoban implementation i have a cellview which exists out of 6 canvasses but only two of them (one for the cell type and one for the piece type) are visible at any given point in time. I have implemented this with 6 properties CanvasXVisible (with X being Player, Box, Wall, Goal, Floor and Cell) in my ViewModel but a State Machine / Manager may help clarify how the visibility of the canvasses are related. Here are the 2 visual state groups and their states that i would need for the CellView">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2009-10-16T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="Silverlight">
+    <meta property="article:tag" content="WPF">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Exploring graphical programming with Blend, Visual State Manager and Behaviors"/>
-<meta name="twitter:description" content="A while ago i presented the ControlStateMachine and in Silverlight this concept is implemented as the Visual State Manager.
-In my sokoban implementation i have a cellview which exists out of 6 canvasses but only two of them (one for the cell type and one for the piece type) are visible at any given point in time. I have implemented this with 6 properties CanvasXVisible (with X being Player, Box, Wall, Goal, Floor and Cell) in my ViewModel but a State Machine / Manager may help clarify how the visibility of the canvasses are related."/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Exploring graphical programming with Blend, Visual State Manager and Behaviors">
+  <meta name="twitter:description" content="A while ago i presented the ControlStateMachine and in Silverlight this concept is implemented as the Visual State Manager.
+In my sokoban implementation i have a cellview which exists out of 6 canvasses but only two of them (one for the cell type and one for the piece type) are visible at any given point in time. I have implemented this with 6 properties CanvasXVisible (with X being Player, Box, Wall, Goal, Floor and Cell) in my ViewModel but a State Machine / Manager may help clarify how the visibility of the canvasses are related. Here are the 2 visual state groups and their states that i would need for the CellView">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -85,42 +92,42 @@ In my sokoban implementation i have a cellview which exists out of 6 canvasses b
 <p>In my sokoban implementation i have a cellview which exists out of 6 canvasses but only two of them (one for the cell type and one for the piece type) are visible at any given point in time. I have implemented this with 6 properties CanvasXVisible (with X being Player, Box, Wall, Goal, Floor and Cell) in my ViewModel but a State Machine / Manager may help clarify how the visibility of the canvasses are related. Here are the 2 visual state groups and their states that i would need for the CellView</p>
 <p><img src="http://www.timvw.be/wp-content/images/cellview-vsm.png" alt="screenshot of visual state manager in expression blend"></p>
 <p>As you can see there is quite a lof of XAML involved to make the correct canvas visible:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#000080">&lt;visualState</span> <span style="color:#008080">x:Name=</span><span style="color:#d14">&#34;Space1&#34;</span><span style="color:#000080">&gt;</span>
-</span></span><span style="display:flex;"><span> <span style="color:#000080">&lt;storyboard&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000080">&lt;objectAnimationUsingKeyFrames</span> <span style="color:#008080">BeginTime=</span><span style="color:#d14">&#34;00:00:00&#34;</span>  <span style="color:#008080">Duration=</span><span style="color:#d14">&#34;00:00:00.0010000&#34;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#008080">Storyboard.TargetName=</span><span style="color:#d14">&#34;Space&#34;</span>  <span style="color:#008080">Storyboard.TargetProperty=</span><span style="color:#d14">&#34;(UIElement.Visibility)&#34;</span><span style="color:#000080">&gt;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000080">&lt;discreteObjectKeyFrame</span> <span style="color:#008080">KeyTime=</span><span style="color:#d14">&#34;00:00:00&#34;</span><span style="color:#000080">&gt;</span>
-</span></span><span style="display:flex;"><span>     <span style="color:#000080">&lt;discreteObjectKeyFrame.Value&gt;</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#000080">&lt;visibility&gt;</span>Visible<span style="color:#000080">&lt;/visibility&gt;</span>
-</span></span><span style="display:flex;"><span>     <span style="color:#000080">&lt;/discreteObjectKeyFrame.Value&gt;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000080">&lt;/discreteObjectKeyFrame&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#000080">&lt;/objectAnimationUsingKeyFrames&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000080">&lt;/storyboard&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000080">&lt;/visualState&gt;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#0550ae">&lt;visualState</span> <span style="color:#1f2328">x:Name=</span><span style="color:#0a3069">&#34;Space1&#34;</span><span style="color:#0550ae">&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#0550ae">&lt;storyboard&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#0550ae">&lt;objectAnimationUsingKeyFrames</span> <span style="color:#1f2328">BeginTime=</span><span style="color:#0a3069">&#34;00:00:00&#34;</span>  <span style="color:#1f2328">Duration=</span><span style="color:#0a3069">&#34;00:00:00.0010000&#34;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#1f2328">Storyboard.TargetName=</span><span style="color:#0a3069">&#34;Space&#34;</span>  <span style="color:#1f2328">Storyboard.TargetProperty=</span><span style="color:#0a3069">&#34;(UIElement.Visibility)&#34;</span><span style="color:#0550ae">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#0550ae">&lt;discreteObjectKeyFrame</span> <span style="color:#1f2328">KeyTime=</span><span style="color:#0a3069">&#34;00:00:00&#34;</span><span style="color:#0550ae">&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#0550ae">&lt;discreteObjectKeyFrame.Value&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#0550ae">&lt;visibility&gt;</span>Visible<span style="color:#0550ae">&lt;/visibility&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#0550ae">&lt;/discreteObjectKeyFrame.Value&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#0550ae">&lt;/discreteObjectKeyFrame&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#0550ae">&lt;/objectAnimationUsingKeyFrames&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#0550ae">&lt;/storyboard&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">&lt;/visualState&gt;</span>
 </span></span></code></pre></div><p>For a simple modification to the Visibility property this seems like overkill but in many situations you will want to change more than this one property.</p>
 <p>With the aid of the behaviors that come with Blend i can quickly add a couple of radio buttons, toss in some gotostate actions and end up with an interactive application:</p>
 <img src="http://www.timvw.be/wp-content/images/gotostateaction.png" alt="screenshot of gotostate action properties" />
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#000080">&lt;radioButton</span> <span style="color:#008080">Width=</span><span style="color:#d14">&#34;63&#34;</span> <span style="color:#008080">Canvas.Left=</span><span style="color:#d14">&#34;8&#34;</span> <span style="color:#008080">Canvas.Top=</span><span style="color:#d14">&#34;172&#34;</span> <span style="color:#008080">Content=</span><span style="color:#d14">&#34;Wall&#34;</span> <span style="color:#008080">GroupName=</span><span style="color:#d14">&#34;PieceTypes&#34;</span><span style="color:#000080">&gt;</span>
-</span></span><span style="display:flex;"><span> <span style="color:#000080">&lt;i:Interaction.Triggers&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000080">&lt;i:EventTrigger</span> <span style="color:#008080">EventName=</span><span style="color:#d14">&#34;Checked&#34;</span><span style="color:#000080">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#000080">&lt;ic:GoToStateAction</span> <span style="color:#008080">StateName=</span><span style="color:#d14">&#34;Wall1&#34;</span><span style="color:#000080">/&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000080">&lt;/i:EventTrigger&gt;</span>
-</span></span><span style="display:flex;"><span> <span style="color:#000080">&lt;/i:Interaction.Triggers&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000080">&lt;/radioButton&gt;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#0550ae">&lt;radioButton</span> <span style="color:#1f2328">Width=</span><span style="color:#0a3069">&#34;63&#34;</span> <span style="color:#1f2328">Canvas.Left=</span><span style="color:#0a3069">&#34;8&#34;</span> <span style="color:#1f2328">Canvas.Top=</span><span style="color:#0a3069">&#34;172&#34;</span> <span style="color:#1f2328">Content=</span><span style="color:#0a3069">&#34;Wall&#34;</span> <span style="color:#1f2328">GroupName=</span><span style="color:#0a3069">&#34;PieceTypes&#34;</span><span style="color:#0550ae">&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#0550ae">&lt;i:Interaction.Triggers&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#0550ae">&lt;i:EventTrigger</span> <span style="color:#1f2328">EventName=</span><span style="color:#0a3069">&#34;Checked&#34;</span><span style="color:#0550ae">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#0550ae">&lt;ic:GoToStateAction</span> <span style="color:#1f2328">StateName=</span><span style="color:#0a3069">&#34;Wall1&#34;</span><span style="color:#0550ae">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#0550ae">&lt;/i:EventTrigger&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#0550ae">&lt;/i:Interaction.Triggers&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">&lt;/radioButton&gt;</span>
 </span></span></code></pre></div><p>Feel free to try it yourself by changing the radio buttons</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#000080">&lt;div</span> <span style="color:#008080">id=</span><span style="color:#d14">&#34;exploringVSM&#34;</span><span style="color:#000080">&gt;</span>
-</span></span><span style="display:flex;"><span> <span style="color:#000080">&lt;object</span> <span style="color:#008080">data=</span><span style="color:#d14">&#34;data:application/x-silverlight-2,&#34;</span> <span style="color:#008080">type=</span><span style="color:#d14">&#34;application/x-silverlight-2&#34;</span>  <span style="color:#008080">width=</span><span style="color:#d14">&#34;300&#34;</span> <span style="color:#008080">height=</span><span style="color:#d14">&#34;240&#34;</span><span style="color:#000080">&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000080">&lt;param</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;source&#34;</span> <span style="color:#008080">value=</span><span style="color:#d14">&#34;http://www.timvw.be/ClientBin/ExploringVSM.xap&#34;</span><span style="color:#000080">/&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000080">&lt;param</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;onError&#34;</span> <span style="color:#008080">value=</span><span style="color:#d14">&#34;onSilverlightError&#34;</span> <span style="color:#000080">/&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000080">&lt;param</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;background&#34;</span> <span style="color:#008080">value=</span><span style="color:#d14">&#34;white&#34;</span> <span style="color:#000080">/&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000080">&lt;param</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;minRuntimeVersion&#34;</span> <span style="color:#008080">value=</span><span style="color:#d14">&#34;3.0.40624.0&#34;</span> <span style="color:#000080">/&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000080">&lt;param</span> <span style="color:#008080">name=</span><span style="color:#d14">&#34;autoUpgrade&#34;</span> <span style="color:#008080">value=</span><span style="color:#d14">&#34;true&#34;</span> <span style="color:#000080">/&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000080">&lt;a</span> <span style="color:#008080">href=</span><span style="color:#d14">&#34;http://go.microsoft.com/fwlink/?LinkID=149156&amp;#038;v=3.0.40624.0&#34;</span> <span style="color:#008080">style=</span><span style="color:#d14">&#34;text-decoration:none&#34;</span><span style="color:#000080">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#000080">&lt;img</span> <span style="color:#008080">src=</span><span style="color:#d14">&#34;http://go.microsoft.com/fwlink/?LinkId=108181&#34;</span> <span style="color:#008080">alt=</span><span style="color:#d14">&#34;Get Microsoft Silverlight&#34;</span> <span style="color:#008080">style=</span><span style="color:#d14">&#34;border-style:none&#34;</span><span style="color:#000080">/&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000080">&lt;/a&gt;</span>
-</span></span><span style="display:flex;"><span> <span style="color:#000080">&lt;/object&gt;</span>
-</span></span><span style="display:flex;"><span> <span style="color:#000080">&lt;iframe</span> <span style="color:#008080">id=</span><span style="color:#d14">&#34;_sl_historyFrame&#34;</span> <span style="color:#008080">style=</span><span style="color:#d14">&#34;visibility:hidden;height:0px;width:0px;border:0px&#34;</span><span style="color:#000080">&gt;&lt;/iframe&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000080">&lt;/div&gt;&lt;/div&gt;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#0550ae">&lt;div</span> <span style="color:#1f2328">id=</span><span style="color:#0a3069">&#34;exploringVSM&#34;</span><span style="color:#0550ae">&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#0550ae">&lt;object</span> <span style="color:#1f2328">data=</span><span style="color:#0a3069">&#34;data:application/x-silverlight-2,&#34;</span> <span style="color:#1f2328">type=</span><span style="color:#0a3069">&#34;application/x-silverlight-2&#34;</span>  <span style="color:#1f2328">width=</span><span style="color:#0a3069">&#34;300&#34;</span> <span style="color:#1f2328">height=</span><span style="color:#0a3069">&#34;240&#34;</span><span style="color:#0550ae">&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#0550ae">&lt;param</span> <span style="color:#1f2328">name=</span><span style="color:#0a3069">&#34;source&#34;</span> <span style="color:#1f2328">value=</span><span style="color:#0a3069">&#34;http://www.timvw.be/ClientBin/ExploringVSM.xap&#34;</span><span style="color:#0550ae">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#0550ae">&lt;param</span> <span style="color:#1f2328">name=</span><span style="color:#0a3069">&#34;onError&#34;</span> <span style="color:#1f2328">value=</span><span style="color:#0a3069">&#34;onSilverlightError&#34;</span> <span style="color:#0550ae">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#0550ae">&lt;param</span> <span style="color:#1f2328">name=</span><span style="color:#0a3069">&#34;background&#34;</span> <span style="color:#1f2328">value=</span><span style="color:#0a3069">&#34;white&#34;</span> <span style="color:#0550ae">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#0550ae">&lt;param</span> <span style="color:#1f2328">name=</span><span style="color:#0a3069">&#34;minRuntimeVersion&#34;</span> <span style="color:#1f2328">value=</span><span style="color:#0a3069">&#34;3.0.40624.0&#34;</span> <span style="color:#0550ae">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#0550ae">&lt;param</span> <span style="color:#1f2328">name=</span><span style="color:#0a3069">&#34;autoUpgrade&#34;</span> <span style="color:#1f2328">value=</span><span style="color:#0a3069">&#34;true&#34;</span> <span style="color:#0550ae">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#0550ae">&lt;a</span> <span style="color:#1f2328">href=</span><span style="color:#0a3069">&#34;http://go.microsoft.com/fwlink/?LinkID=149156&amp;#038;v=3.0.40624.0&#34;</span> <span style="color:#1f2328">style=</span><span style="color:#0a3069">&#34;text-decoration:none&#34;</span><span style="color:#0550ae">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#0550ae">&lt;img</span> <span style="color:#1f2328">src=</span><span style="color:#0a3069">&#34;http://go.microsoft.com/fwlink/?LinkId=108181&#34;</span> <span style="color:#1f2328">alt=</span><span style="color:#0a3069">&#34;Get Microsoft Silverlight&#34;</span> <span style="color:#1f2328">style=</span><span style="color:#0a3069">&#34;border-style:none&#34;</span><span style="color:#0550ae">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#0550ae">&lt;/a&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#0550ae">&lt;/object&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#0550ae">&lt;iframe</span> <span style="color:#1f2328">id=</span><span style="color:#0a3069">&#34;_sl_historyFrame&#34;</span> <span style="color:#1f2328">style=</span><span style="color:#0a3069">&#34;visibility:hidden;height:0px;width:0px;border:0px&#34;</span><span style="color:#0550ae">&gt;&lt;/iframe&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">&lt;/div&gt;&lt;/div&gt;</span>
 </span></span></code></pre></div><p>Conclusion: All in all it is relatively easy to create interactive applications using Blend without writing a single line of code.
 Too bad that the behaviors are in an Expression assembly and don&rsquo;t come with standard Silverlight.
 Another attention point is the maintainability of this new style of programming.</p>
@@ -148,16 +155,19 @@ Another attention point is the maintainability of this new style of programming.
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

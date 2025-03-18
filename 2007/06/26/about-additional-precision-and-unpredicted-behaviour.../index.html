@@ -3,26 +3,32 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>About additional precision and unpredicted behaviour... - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="About additional precision and unpredicted behaviour...">
-<meta itemprop="description" content="Earlier today someone posted the following code
-float a = 0.12f; float b = a * 100f; Console.WriteLine((int) b); // prints 12 Console.WriteLine((int)(a * 100f)); // prints 11 !!!!!!!! An (extensive) explanation for this strange behaviour can be found at CLR and floating point: Some answers to common questions&hellip; A possible way to force the compiler and runtime to get rid of the additional precision would be the following
-Console.WriteLine((int)(float)(a * 100f)); "><meta itemprop="datePublished" content="2007-06-26T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="72">
-<meta itemprop="keywords" content="CSharp," /><meta property="og:title" content="About additional precision and unpredicted behaviour..." />
-<meta property="og:description" content="Earlier today someone posted the following code
-float a = 0.12f; float b = a * 100f; Console.WriteLine((int) b); // prints 12 Console.WriteLine((int)(a * 100f)); // prints 11 !!!!!!!! An (extensive) explanation for this strange behaviour can be found at CLR and floating point: Some answers to common questions&hellip; A possible way to force the compiler and runtime to get rid of the additional precision would be the following
-Console.WriteLine((int)(float)(a * 100f)); " />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2007/06/26/about-additional-precision-and-unpredicted-behaviour.../" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2007-06-26T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="About additional precision and unpredicted behaviour...">
+  <meta itemprop="description" content="Earlier today someone posted the following code
+float a = 0.12f; float b = a * 100f; Console.WriteLine((int) b); // prints 12 Console.WriteLine((int)(a * 100f)); // prints 11 !!!!!!!! An (extensive) explanation for this strange behaviour can be found at CLR and floating point: Some answers to common questions… A possible way to force the compiler and runtime to get rid of the additional precision would be the following
+Console.WriteLine((int)(float)(a * 100f));">
+  <meta itemprop="datePublished" content="2007-06-26T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="72">
+  <meta itemprop="keywords" content="CSharp"><meta property="og:url" content="https://timvw.be/2007/06/26/about-additional-precision-and-unpredicted-behaviour.../">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="About additional precision and unpredicted behaviour...">
+  <meta property="og:description" content="Earlier today someone posted the following code
+float a = 0.12f; float b = a * 100f; Console.WriteLine((int) b); // prints 12 Console.WriteLine((int)(a * 100f)); // prints 11 !!!!!!!! An (extensive) explanation for this strange behaviour can be found at CLR and floating point: Some answers to common questions… A possible way to force the compiler and runtime to get rid of the additional precision would be the following
+Console.WriteLine((int)(float)(a * 100f));">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2007-06-26T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="CSharp">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="About additional precision and unpredicted behaviour..."/>
-<meta name="twitter:description" content="Earlier today someone posted the following code
-float a = 0.12f; float b = a * 100f; Console.WriteLine((int) b); // prints 12 Console.WriteLine((int)(a * 100f)); // prints 11 !!!!!!!! An (extensive) explanation for this strange behaviour can be found at CLR and floating point: Some answers to common questions&hellip; A possible way to force the compiler and runtime to get rid of the additional precision would be the following
-Console.WriteLine((int)(float)(a * 100f)); "/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="About additional precision and unpredicted behaviour...">
+  <meta name="twitter:description" content="Earlier today someone posted the following code
+float a = 0.12f; float b = a * 100f; Console.WriteLine((int) b); // prints 12 Console.WriteLine((int)(a * 100f)); // prints 11 !!!!!!!! An (extensive) explanation for this strange behaviour can be found at CLR and floating point: Some answers to common questions… A possible way to force the compiler and runtime to get rid of the additional precision would be the following
+Console.WriteLine((int)(float)(a * 100f));">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -85,12 +91,12 @@ Console.WriteLine((int)(float)(a * 100f)); "/>
 					
 			<div class="markdown">
 				<p>Earlier today someone posted the following code</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#458;font-weight:bold">float</span> a = <span style="color:#099">0.12f</span>;
-</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">float</span> b = a * <span style="color:#099">100f</span>;
-</span></span><span style="display:flex;"><span>Console.WriteLine((<span style="color:#458;font-weight:bold">int</span>) b); <span style="color:#998;font-style:italic">// prints 12</span>
-</span></span><span style="display:flex;"><span>Console.WriteLine((<span style="color:#458;font-weight:bold">int</span>)(a * <span style="color:#099">100f</span>)); <span style="color:#998;font-style:italic">// prints 11 !!!!!!!!</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">float</span> a <span style="color:#1f2328">=</span> <span style="color:#0550ae">0.12f</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">float</span> b <span style="color:#1f2328">=</span> a <span style="color:#1f2328">*</span> <span style="color:#0550ae">100f</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>Console<span style="color:#1f2328">.</span>WriteLine<span style="color:#1f2328">((</span><span style="color:#cf222e">int</span><span style="color:#1f2328">)</span> b<span style="color:#1f2328">);</span> <span style="color:#57606a">// prints 12</span>
+</span></span><span style="display:flex;"><span>Console<span style="color:#1f2328">.</span>WriteLine<span style="color:#1f2328">((</span><span style="color:#cf222e">int</span><span style="color:#1f2328">)(</span>a <span style="color:#1f2328">*</span> <span style="color:#0550ae">100f</span><span style="color:#1f2328">));</span> <span style="color:#57606a">// prints 11 !!!!!!!!</span>
 </span></span></code></pre></div><p>An (extensive) explanation for this strange behaviour can be found at <a href="http://blogs.msdn.com/davidnotario/archive/2005/08/08/449092.aspx">CLR and floating point: Some answers to common questions</a>&hellip; A possible way to force the compiler and runtime to get rid of the additional precision would be the following</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>Console.WriteLine((<span style="color:#458;font-weight:bold">int</span>)(<span style="color:#458;font-weight:bold">float</span>)(a * <span style="color:#099">100f</span>));
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>Console<span style="color:#1f2328">.</span>WriteLine<span style="color:#1f2328">((</span><span style="color:#cf222e">int</span><span style="color:#1f2328">)(</span><span style="color:#cf222e">float</span><span style="color:#1f2328">)(</span>a <span style="color:#1f2328">*</span> <span style="color:#0550ae">100f</span><span style="color:#1f2328">));</span>
 </span></span></code></pre></div>
 			</div>
 
@@ -113,16 +119,19 @@ Console.WriteLine((int)(float)(a * 100f)); "/>
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

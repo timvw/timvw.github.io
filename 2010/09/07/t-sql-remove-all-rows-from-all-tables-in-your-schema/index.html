@@ -3,23 +3,30 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>T-SQL: Remove all rows from all tables in your schema - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="T-SQL: Remove all rows from all tables in your schema">
-<meta itemprop="description" content="Sometimes i want to quickly clean up a database and start from fresh. Here is a small script that does exactly that.. (I just run the script a couple of times, untill no affected rows remain&hellip; Far more efficient than figuring out which constraints exist, building up a dependency tree, and cleanly deleting all rows):
--- Remove all rows from all tables DECLARE @tableName VARCHAR(255) DECLARE tableNames CURSOR FOR SELECT name FROM sys."><meta itemprop="datePublished" content="2010-09-07T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="104">
-<meta itemprop="keywords" content="SQL,t-sql," /><meta property="og:title" content="T-SQL: Remove all rows from all tables in your schema" />
-<meta property="og:description" content="Sometimes i want to quickly clean up a database and start from fresh. Here is a small script that does exactly that.. (I just run the script a couple of times, untill no affected rows remain&hellip; Far more efficient than figuring out which constraints exist, building up a dependency tree, and cleanly deleting all rows):
--- Remove all rows from all tables DECLARE @tableName VARCHAR(255) DECLARE tableNames CURSOR FOR SELECT name FROM sys." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2010/09/07/t-sql-remove-all-rows-from-all-tables-in-your-schema/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2010-09-07T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="T-SQL: Remove all rows from all tables in your schema">
+  <meta itemprop="description" content="Sometimes i want to quickly clean up a database and start from fresh. Here is a small script that does exactly that.. (I just run the script a couple of times, untill no affected rows remain… Far more efficient than figuring out which constraints exist, building up a dependency tree, and cleanly deleting all rows):
+-- Remove all rows from all tables DECLARE @tableName VARCHAR(255) DECLARE tableNames CURSOR FOR SELECT name FROM sys.Tables; OPEN tableNames FETCH NEXT FROM tableNames INTO @tableName WHILE @@FETCH_STATUS = 0 BEGIN EXEC(&#39;DELETE FROM [&#39; &#43; @tableName &#43; &#39;]&#39;) FETCH NEXT FROM tableNames INTO @tableName END CLOSE tableNames DEALLOCATE tableNames">
+  <meta itemprop="datePublished" content="2010-09-07T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="104">
+  <meta itemprop="keywords" content="SQL,T-Sql"><meta property="og:url" content="https://timvw.be/2010/09/07/t-sql-remove-all-rows-from-all-tables-in-your-schema/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="T-SQL: Remove all rows from all tables in your schema">
+  <meta property="og:description" content="Sometimes i want to quickly clean up a database and start from fresh. Here is a small script that does exactly that.. (I just run the script a couple of times, untill no affected rows remain… Far more efficient than figuring out which constraints exist, building up a dependency tree, and cleanly deleting all rows):
+-- Remove all rows from all tables DECLARE @tableName VARCHAR(255) DECLARE tableNames CURSOR FOR SELECT name FROM sys.Tables; OPEN tableNames FETCH NEXT FROM tableNames INTO @tableName WHILE @@FETCH_STATUS = 0 BEGIN EXEC(&#39;DELETE FROM [&#39; &#43; @tableName &#43; &#39;]&#39;) FETCH NEXT FROM tableNames INTO @tableName END CLOSE tableNames DEALLOCATE tableNames">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2010-09-07T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="SQL">
+    <meta property="article:tag" content="T-Sql">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="T-SQL: Remove all rows from all tables in your schema"/>
-<meta name="twitter:description" content="Sometimes i want to quickly clean up a database and start from fresh. Here is a small script that does exactly that.. (I just run the script a couple of times, untill no affected rows remain&hellip; Far more efficient than figuring out which constraints exist, building up a dependency tree, and cleanly deleting all rows):
--- Remove all rows from all tables DECLARE @tableName VARCHAR(255) DECLARE tableNames CURSOR FOR SELECT name FROM sys."/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="T-SQL: Remove all rows from all tables in your schema">
+  <meta name="twitter:description" content="Sometimes i want to quickly clean up a database and start from fresh. Here is a small script that does exactly that.. (I just run the script a couple of times, untill no affected rows remain… Far more efficient than figuring out which constraints exist, building up a dependency tree, and cleanly deleting all rows):
+-- Remove all rows from all tables DECLARE @tableName VARCHAR(255) DECLARE tableNames CURSOR FOR SELECT name FROM sys.Tables; OPEN tableNames FETCH NEXT FROM tableNames INTO @tableName WHILE @@FETCH_STATUS = 0 BEGIN EXEC(&#39;DELETE FROM [&#39; &#43; @tableName &#43; &#39;]&#39;) FETCH NEXT FROM tableNames INTO @tableName END CLOSE tableNames DEALLOCATE tableNames">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -82,19 +89,19 @@
 					
 			<div class="markdown">
 				<p>Sometimes i want to quickly clean up a database and start from fresh. Here is a small script that does exactly that.. (I just run the script a couple of times, untill no affected rows remain&hellip; Far more efficient than figuring out which constraints exist, building up a dependency tree, and cleanly deleting all rows):</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#998;font-style:italic">-- Remove all rows from all tables
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">DECLARE</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">@</span>tableName<span style="color:#bbb"> </span><span style="color:#0086b3">VARCHAR</span>(<span style="color:#099">255</span>)<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">DECLARE</span><span style="color:#bbb"> </span>tableNames<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">CURSOR</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FOR</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span>name<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>sys.Tables;<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">OPEN</span><span style="color:#bbb"> </span>tableNames<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">FETCH</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NEXT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>tableNames<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INTO</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">@</span>tableName<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span>WHILE<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">@@</span>FETCH_STATUS<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span><span style="color:#099">0</span><span style="color:#bbb"> 
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">BEGIN</span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">EXEC</span>(<span style="color:#d14">&#39;DELETE FROM [&#39;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">+</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">@</span>tableName<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">+</span><span style="color:#bbb"> </span><span style="color:#d14">&#39;]&#39;</span>)<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#000;font-weight:bold">FETCH</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NEXT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>tableNames<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INTO</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">@</span>tableName<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">END</span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">CLOSE</span><span style="color:#bbb"> </span>tableNames<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000;font-weight:bold">DEALLOCATE</span><span style="color:#bbb"> </span>tableNames<span style="color:#bbb">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#57606a">-- Remove all rows from all tables
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"></span><span style="color:#cf222e">DECLARE</span><span style="color:#fff"> </span><span style="color:#0550ae">@</span>tableName<span style="color:#fff"> </span><span style="color:#6639ba">VARCHAR</span><span style="color:#1f2328">(</span><span style="color:#0550ae">255</span><span style="color:#1f2328">)</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#cf222e">DECLARE</span><span style="color:#fff"> </span>tableNames<span style="color:#fff"> </span><span style="color:#cf222e">CURSOR</span><span style="color:#fff"> </span><span style="color:#cf222e">FOR</span><span style="color:#fff"> </span><span style="color:#cf222e">SELECT</span><span style="color:#fff"> </span>name<span style="color:#fff"> </span><span style="color:#cf222e">FROM</span><span style="color:#fff"> </span>sys<span style="color:#1f2328">.</span>Tables<span style="color:#1f2328">;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#cf222e">OPEN</span><span style="color:#fff"> </span>tableNames<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#cf222e">FETCH</span><span style="color:#fff"> </span><span style="color:#cf222e">NEXT</span><span style="color:#fff"> </span><span style="color:#cf222e">FROM</span><span style="color:#fff"> </span>tableNames<span style="color:#fff"> </span><span style="color:#cf222e">INTO</span><span style="color:#fff"> </span><span style="color:#0550ae">@</span>tableName<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span>WHILE<span style="color:#fff"> </span><span style="color:#0550ae">@@</span>FETCH_STATUS<span style="color:#fff"> </span><span style="color:#0550ae">=</span><span style="color:#fff"> </span><span style="color:#0550ae">0</span><span style="color:#fff"> 
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#cf222e">BEGIN</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">	</span><span style="color:#cf222e">EXEC</span><span style="color:#1f2328">(</span><span style="color:#0a3069">&#39;DELETE FROM [&#39;</span><span style="color:#fff"> </span><span style="color:#0550ae">+</span><span style="color:#fff"> </span><span style="color:#0550ae">@</span>tableName<span style="color:#fff"> </span><span style="color:#0550ae">+</span><span style="color:#fff"> </span><span style="color:#0a3069">&#39;]&#39;</span><span style="color:#1f2328">)</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">	</span><span style="color:#cf222e">FETCH</span><span style="color:#fff"> </span><span style="color:#cf222e">NEXT</span><span style="color:#fff"> </span><span style="color:#cf222e">FROM</span><span style="color:#fff"> </span>tableNames<span style="color:#fff"> </span><span style="color:#cf222e">INTO</span><span style="color:#fff"> </span><span style="color:#0550ae">@</span>tableName<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#cf222e">END</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#cf222e">CLOSE</span><span style="color:#fff"> </span>tableNames<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#cf222e">DEALLOCATE</span><span style="color:#fff"> </span>tableNames<span style="color:#fff">
 </span></span></span></code></pre></div>
 			</div>
 
@@ -119,16 +126,19 @@
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

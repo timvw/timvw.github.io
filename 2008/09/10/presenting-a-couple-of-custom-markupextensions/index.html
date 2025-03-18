@@ -3,23 +3,29 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Presenting a couple of custom MarkupExtensions - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Presenting a couple of custom MarkupExtensions">
-<meta itemprop="description" content="XAML provides us a way to declare objects with xml. Because i don&rsquo;t want to clutter my domain classes with attributes like TypeConverterAttribute, i needed a different approach to manipulate the parsing. This is where custom MarkupExtensions come to the rescue. Here is an example where i use the x:Array MarkupExtension in order to load a list of Lines into my IList Lines property
-&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt; &lt;d:Address xmlns:x=&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34; xmlns:s=&#34;clr-namespace:System;assembly=mscorlib&#34; xmlns:d=&#34;clr-namespace:XamlDemo."><meta itemprop="datePublished" content="2008-09-10T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="230">
-<meta itemprop="keywords" content="CSharp," /><meta property="og:title" content="Presenting a couple of custom MarkupExtensions" />
-<meta property="og:description" content="XAML provides us a way to declare objects with xml. Because i don&rsquo;t want to clutter my domain classes with attributes like TypeConverterAttribute, i needed a different approach to manipulate the parsing. This is where custom MarkupExtensions come to the rescue. Here is an example where i use the x:Array MarkupExtension in order to load a list of Lines into my IList Lines property
-&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt; &lt;d:Address xmlns:x=&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34; xmlns:s=&#34;clr-namespace:System;assembly=mscorlib&#34; xmlns:d=&#34;clr-namespace:XamlDemo." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2008/09/10/presenting-a-couple-of-custom-markupextensions/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2008-09-10T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="Presenting a couple of custom MarkupExtensions">
+  <meta itemprop="description" content="XAML provides us a way to declare objects with xml. Because i don’t want to clutter my domain classes with attributes like TypeConverterAttribute, i needed a different approach to manipulate the parsing. This is where custom MarkupExtensions come to the rescue. Here is an example where i use the x:Array MarkupExtension in order to load a list of Lines into my IList Lines property
+&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt; &lt;d:Address xmlns:x=&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34; xmlns:s=&#34;clr-namespace:System;assembly=mscorlib&#34; xmlns:d=&#34;clr-namespace:XamlDemo.Domain;assembly=XamlDemo&#34; xmlns:e=&#34;clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo&#34;&gt; &lt;d:Address.Lines&gt; &lt;x:Array Type=&#34;s:String&#34;&gt; &lt;s:String&gt;Ikaroslaan 21&lt;/s:String&gt; &lt;s:String&gt;B-1930 Zaventem&lt;/s:String&gt; &lt;/x:Array&gt; &lt;/d:Address.Lines&gt; &lt;/d:Address&gt; By default all XAML documents have all the data embedded. Sometimes this is undesirable so i decided to define External and ExternalList MarkupExtensions that allow us to specify that the resource is elsewhere available. Here is an example of Jeff who has one address in a different file, Domain\Address\Leuven\Brusselsestraat_400.xaml">
+  <meta itemprop="datePublished" content="2008-09-10T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="230">
+  <meta itemprop="keywords" content="CSharp"><meta property="og:url" content="https://timvw.be/2008/09/10/presenting-a-couple-of-custom-markupextensions/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Presenting a couple of custom MarkupExtensions">
+  <meta property="og:description" content="XAML provides us a way to declare objects with xml. Because i don’t want to clutter my domain classes with attributes like TypeConverterAttribute, i needed a different approach to manipulate the parsing. This is where custom MarkupExtensions come to the rescue. Here is an example where i use the x:Array MarkupExtension in order to load a list of Lines into my IList Lines property
+&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt; &lt;d:Address xmlns:x=&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34; xmlns:s=&#34;clr-namespace:System;assembly=mscorlib&#34; xmlns:d=&#34;clr-namespace:XamlDemo.Domain;assembly=XamlDemo&#34; xmlns:e=&#34;clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo&#34;&gt; &lt;d:Address.Lines&gt; &lt;x:Array Type=&#34;s:String&#34;&gt; &lt;s:String&gt;Ikaroslaan 21&lt;/s:String&gt; &lt;s:String&gt;B-1930 Zaventem&lt;/s:String&gt; &lt;/x:Array&gt; &lt;/d:Address.Lines&gt; &lt;/d:Address&gt; By default all XAML documents have all the data embedded. Sometimes this is undesirable so i decided to define External and ExternalList MarkupExtensions that allow us to specify that the resource is elsewhere available. Here is an example of Jeff who has one address in a different file, Domain\Address\Leuven\Brusselsestraat_400.xaml">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2008-09-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="CSharp">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Presenting a couple of custom MarkupExtensions"/>
-<meta name="twitter:description" content="XAML provides us a way to declare objects with xml. Because i don&rsquo;t want to clutter my domain classes with attributes like TypeConverterAttribute, i needed a different approach to manipulate the parsing. This is where custom MarkupExtensions come to the rescue. Here is an example where i use the x:Array MarkupExtension in order to load a list of Lines into my IList Lines property
-&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt; &lt;d:Address xmlns:x=&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34; xmlns:s=&#34;clr-namespace:System;assembly=mscorlib&#34; xmlns:d=&#34;clr-namespace:XamlDemo."/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Presenting a couple of custom MarkupExtensions">
+  <meta name="twitter:description" content="XAML provides us a way to declare objects with xml. Because i don’t want to clutter my domain classes with attributes like TypeConverterAttribute, i needed a different approach to manipulate the parsing. This is where custom MarkupExtensions come to the rescue. Here is an example where i use the x:Array MarkupExtension in order to load a list of Lines into my IList Lines property
+&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt; &lt;d:Address xmlns:x=&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34; xmlns:s=&#34;clr-namespace:System;assembly=mscorlib&#34; xmlns:d=&#34;clr-namespace:XamlDemo.Domain;assembly=XamlDemo&#34; xmlns:e=&#34;clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo&#34;&gt; &lt;d:Address.Lines&gt; &lt;x:Array Type=&#34;s:String&#34;&gt; &lt;s:String&gt;Ikaroslaan 21&lt;/s:String&gt; &lt;s:String&gt;B-1930 Zaventem&lt;/s:String&gt; &lt;/x:Array&gt; &lt;/d:Address.Lines&gt; &lt;/d:Address&gt; By default all XAML documents have all the data embedded. Sometimes this is undesirable so i decided to define External and ExternalList MarkupExtensions that allow us to specify that the resource is elsewhere available. Here is an example of Jeff who has one address in a different file, Domain\Address\Leuven\Brusselsestraat_400.xaml">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -82,45 +88,45 @@
 					
 			<div class="markdown">
 				<p><a href="http://en.wikipedia.org/wiki/Xaml">XAML</a> provides us a way to declare objects with xml. Because i don&rsquo;t want to clutter my domain classes with attributes like <a href="http://msdn.microsoft.com/en-us/library/system.componentmodel.typeconverterattribute.aspx">TypeConverterAttribute</a>, i needed a different approach to manipulate the parsing. This is where custom <a href="http://msdn.microsoft.com/en-us/library/system.windows.markup.markupextension.aspx">MarkupExtension</a>s come to the rescue. Here is an example where i use the <a href="http://msdn.microsoft.com/en-us/library/ms752340.aspx">x:Array MarkupExtension</a> in order to load a list of Lines into my IList<string> Lines property</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000080">&lt;d:Address</span> <span style="color:#008080">xmlns:x=</span><span style="color:#d14">&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34;</span> <span style="color:#008080">xmlns:s=</span><span style="color:#d14">&#34;clr-namespace:System;assembly=mscorlib&#34;</span> <span style="color:#008080">xmlns:d=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Domain;assembly=XamlDemo&#34;</span> <span style="color:#008080">xmlns:e=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo&#34;</span><span style="color:#000080">&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;d:Address.Lines&gt;</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000080">&lt;x:Array</span> <span style="color:#008080">Type=</span><span style="color:#d14">&#34;s:String&#34;</span><span style="color:#000080">&gt;</span>
-</span></span><span style="display:flex;"><span>			<span style="color:#000080">&lt;s:String&gt;</span>Ikaroslaan 21<span style="color:#000080">&lt;/s:String&gt;</span>
-</span></span><span style="display:flex;"><span>			<span style="color:#000080">&lt;s:String&gt;</span>B-1930 Zaventem<span style="color:#000080">&lt;/s:String&gt;</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000080">&lt;/x:Array&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;/d:Address.Lines&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000080">&lt;/d:Address&gt;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#57606a">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">&lt;d:Address</span> <span style="color:#1f2328">xmlns:x=</span><span style="color:#0a3069">&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34;</span> <span style="color:#1f2328">xmlns:s=</span><span style="color:#0a3069">&#34;clr-namespace:System;assembly=mscorlib&#34;</span> <span style="color:#1f2328">xmlns:d=</span><span style="color:#0a3069">&#34;clr-namespace:XamlDemo.Domain;assembly=XamlDemo&#34;</span> <span style="color:#1f2328">xmlns:e=</span><span style="color:#0a3069">&#34;clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo&#34;</span><span style="color:#0550ae">&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;d:Address.Lines&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#0550ae">&lt;x:Array</span> <span style="color:#1f2328">Type=</span><span style="color:#0a3069">&#34;s:String&#34;</span><span style="color:#0550ae">&gt;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#0550ae">&lt;s:String&gt;</span>Ikaroslaan 21<span style="color:#0550ae">&lt;/s:String&gt;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#0550ae">&lt;s:String&gt;</span>B-1930 Zaventem<span style="color:#0550ae">&lt;/s:String&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#0550ae">&lt;/x:Array&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;/d:Address.Lines&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">&lt;/d:Address&gt;</span>
 </span></span></code></pre></div><p>By default all XAML documents have all the data embedded. Sometimes this is undesirable so i decided to define External and ExternalList MarkupExtensions that allow us to specify that the resource is elsewhere available. Here is an example of Jeff who has one address in a different file, Domain\Address\Leuven\Brusselsestraat_400.xaml</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000080">&lt;d:Person</span> <span style="color:#008080">xmlns:x=</span><span style="color:#d14">&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34;</span> <span style="color:#008080">xmlns:s=</span><span style="color:#d14">&#34;clr-namespace:System;assembly=mscorlib&#34;</span> <span style="color:#008080">xmlns:d=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Domain;assembly=XamlDemo&#34;</span> <span style="color:#008080">xmlns:e=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo&#34;</span> <span style="color:#008080">Name=</span><span style="color:#d14">&#34;Jeff&#34;</span> <span style="color:#008080">Birthday=</span><span style="color:#d14">&#34;{e:DateTime 14/10/1972}&#34;</span><span style="color:#000080">&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;d:Person.Addresses&gt;</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000080">&lt;e:ExternalList</span> <span style="color:#008080">Type=</span><span style="color:#d14">&#34;XamlDemo.Domain.Address&#34;</span><span style="color:#000080">&gt;</span>
-</span></span><span style="display:flex;"><span>			<span style="color:#000080">&lt;e:ExternalList.Resources&gt;</span>
-</span></span><span style="display:flex;"><span>				<span style="color:#000080">&lt;x:Array</span> <span style="color:#008080">Type=</span><span style="color:#d14">&#34;s:String&#34;</span><span style="color:#000080">&gt;</span>
-</span></span><span style="display:flex;"><span>					<span style="color:#000080">&lt;s:String&gt;</span>Domain.Address.Leuven.Brusselsestraat_400<span style="color:#000080">&lt;/s:String&gt;</span>
-</span></span><span style="display:flex;"><span>				<span style="color:#000080">&lt;/x:Array&gt;</span>
-</span></span><span style="display:flex;"><span>			<span style="color:#000080">&lt;/e:ExternalList.Resources&gt;</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000080">&lt;/e:ExternalList&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;/d:Person.Addresses&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000080">&lt;/d:Person&gt;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#57606a">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">&lt;d:Person</span> <span style="color:#1f2328">xmlns:x=</span><span style="color:#0a3069">&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34;</span> <span style="color:#1f2328">xmlns:s=</span><span style="color:#0a3069">&#34;clr-namespace:System;assembly=mscorlib&#34;</span> <span style="color:#1f2328">xmlns:d=</span><span style="color:#0a3069">&#34;clr-namespace:XamlDemo.Domain;assembly=XamlDemo&#34;</span> <span style="color:#1f2328">xmlns:e=</span><span style="color:#0a3069">&#34;clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo&#34;</span> <span style="color:#1f2328">Name=</span><span style="color:#0a3069">&#34;Jeff&#34;</span> <span style="color:#1f2328">Birthday=</span><span style="color:#0a3069">&#34;{e:DateTime 14/10/1972}&#34;</span><span style="color:#0550ae">&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;d:Person.Addresses&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#0550ae">&lt;e:ExternalList</span> <span style="color:#1f2328">Type=</span><span style="color:#0a3069">&#34;XamlDemo.Domain.Address&#34;</span><span style="color:#0550ae">&gt;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#0550ae">&lt;e:ExternalList.Resources&gt;</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#0550ae">&lt;x:Array</span> <span style="color:#1f2328">Type=</span><span style="color:#0a3069">&#34;s:String&#34;</span><span style="color:#0550ae">&gt;</span>
+</span></span><span style="display:flex;"><span>					<span style="color:#0550ae">&lt;s:String&gt;</span>Domain.Address.Leuven.Brusselsestraat_400<span style="color:#0550ae">&lt;/s:String&gt;</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#0550ae">&lt;/x:Array&gt;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#0550ae">&lt;/e:ExternalList.Resources&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#0550ae">&lt;/e:ExternalList&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;/d:Person.Addresses&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">&lt;/d:Person&gt;</span>
 </span></span></code></pre></div><p>It is also possible to have multiple redirections. Here is an example of Tim who has two addresses defined in Domain\Address\ForPerson\Tim.xaml</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000080">&lt;d:Person</span> <span style="color:#008080">xmlns:x=</span><span style="color:#d14">&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34;</span> <span style="color:#008080">xmlns:s=</span><span style="color:#d14">&#34;clr-namespace:System;assembly=mscorlib&#34;</span> <span style="color:#008080">xmlns:d=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Domain;assembly=XamlDemo&#34;</span> <span style="color:#008080">xmlns:e=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo&#34;</span> <span style="color:#008080">Name=</span><span style="color:#d14">&#34;Tim&#34;</span> <span style="color:#008080">Birthday=</span><span style="color:#d14">&#34;{e:DateTime 30/04/1980}&#34;</span><span style="color:#000080">&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;d:Person.Addresses&gt;</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000080">&lt;e:External</span> <span style="color:#008080">Type=</span><span style="color:#d14">&#34;XamlDemo.Domain.Address&#34;</span> <span style="color:#008080">Resource=</span><span style="color:#d14">&#34;Domain.Address.ForPerson.Tim&#34;</span> <span style="color:#000080">/&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;/d:Person.Addresses&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000080">&lt;/d:Person&gt;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#57606a">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">&lt;d:Person</span> <span style="color:#1f2328">xmlns:x=</span><span style="color:#0a3069">&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34;</span> <span style="color:#1f2328">xmlns:s=</span><span style="color:#0a3069">&#34;clr-namespace:System;assembly=mscorlib&#34;</span> <span style="color:#1f2328">xmlns:d=</span><span style="color:#0a3069">&#34;clr-namespace:XamlDemo.Domain;assembly=XamlDemo&#34;</span> <span style="color:#1f2328">xmlns:e=</span><span style="color:#0a3069">&#34;clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo&#34;</span> <span style="color:#1f2328">Name=</span><span style="color:#0a3069">&#34;Tim&#34;</span> <span style="color:#1f2328">Birthday=</span><span style="color:#0a3069">&#34;{e:DateTime 30/04/1980}&#34;</span><span style="color:#0550ae">&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;d:Person.Addresses&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#0550ae">&lt;e:External</span> <span style="color:#1f2328">Type=</span><span style="color:#0a3069">&#34;XamlDemo.Domain.Address&#34;</span> <span style="color:#1f2328">Resource=</span><span style="color:#0a3069">&#34;Domain.Address.ForPerson.Tim&#34;</span> <span style="color:#0550ae">/&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;/d:Person.Addresses&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">&lt;/d:Person&gt;</span>
 </span></span></code></pre></div><p>And here is the definition for Domain\Address\ForPerson\Tim.xaml</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000080">&lt;e:ExternalList</span> <span style="color:#008080">xmlns:x=</span><span style="color:#d14">&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34;</span> <span style="color:#008080">xmlns:s=</span><span style="color:#d14">&#34;clr-namespace:System;assembly=mscorlib&#34;</span> <span style="color:#008080">xmlns:d=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Domain;assembly=XamlDemo&#34;</span> <span style="color:#008080">xmlns:e=</span><span style="color:#d14">&#34;clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo&#34;</span> <span style="color:#008080">Type=</span><span style="color:#d14">&#34;XamlDemo.Domain.Address&#34;</span><span style="color:#000080">&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;e:ExternalList.Resources&gt;</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000080">&lt;x:Array</span> <span style="color:#008080">Type=</span><span style="color:#d14">&#34;s:String&#34;</span><span style="color:#000080">&gt;</span>
-</span></span><span style="display:flex;"><span>			<span style="color:#000080">&lt;s:String&gt;</span>Domain.Address.Leuven.Bondgenotenlaan_14<span style="color:#000080">&lt;/s:String&gt;</span>
-</span></span><span style="display:flex;"><span>			<span style="color:#000080">&lt;s:String&gt;</span>Domain.Address.Zaventem.Ikaroslaan_21<span style="color:#000080">&lt;/s:String&gt;</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000080">&lt;/x:Array&gt;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;/e:ExternalList.Resources&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000080">&lt;/e:ExternalList&gt;</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#57606a">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">&lt;e:ExternalList</span> <span style="color:#1f2328">xmlns:x=</span><span style="color:#0a3069">&#34;http://schemas.microsoft.com/winfx/2006/xaml&#34;</span> <span style="color:#1f2328">xmlns:s=</span><span style="color:#0a3069">&#34;clr-namespace:System;assembly=mscorlib&#34;</span> <span style="color:#1f2328">xmlns:d=</span><span style="color:#0a3069">&#34;clr-namespace:XamlDemo.Domain;assembly=XamlDemo&#34;</span> <span style="color:#1f2328">xmlns:e=</span><span style="color:#0a3069">&#34;clr-namespace:XamlDemo.Infrastructure.Extensions;assembly=XamlDemo&#34;</span> <span style="color:#1f2328">Type=</span><span style="color:#0a3069">&#34;XamlDemo.Domain.Address&#34;</span><span style="color:#0550ae">&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;e:ExternalList.Resources&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#0550ae">&lt;x:Array</span> <span style="color:#1f2328">Type=</span><span style="color:#0a3069">&#34;s:String&#34;</span><span style="color:#0550ae">&gt;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#0550ae">&lt;s:String&gt;</span>Domain.Address.Leuven.Bondgenotenlaan_14<span style="color:#0550ae">&lt;/s:String&gt;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#0550ae">&lt;s:String&gt;</span>Domain.Address.Zaventem.Ikaroslaan_21<span style="color:#0550ae">&lt;/s:String&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#0550ae">&lt;/x:Array&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0550ae">&lt;/e:ExternalList.Resources&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">&lt;/e:ExternalList&gt;</span>
 </span></span></code></pre></div><p>Anyway, feel free to download the sample application, <a href="http://www.timvw.be/wp-content/code/csharp/XamlDemo.zip">XamlDemo.zip</a>.</p>
 
 			</div>
@@ -144,16 +150,19 @@
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

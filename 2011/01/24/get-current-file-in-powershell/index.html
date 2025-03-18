@@ -3,26 +3,32 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Get current file in PowerShell - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Get current file in PowerShell">
-<meta itemprop="description" content="A while ago i wrote a small script to take care of deployment. Configuring the source folders went as following:
+	
+  <meta itemprop="name" content="Get current file in PowerShell">
+  <meta itemprop="description" content="A while ago i wrote a small script to take care of deployment. Configuring the source folders went as following:
 param( $BaseDir = (Get-Location).Path, $WebDir = (Resolve-Path &#34;$BaseDir\web&#34;), $DatabaseDir = (Resolve-Path &#34;$BaseDir\database&#34;) ) The problem with this code is that it only works when your current working directory is set to the location of this script. An administrator (or build system) invokes the script as following:
-PS C:\Users\Admin&gt;&amp; &#39;D:\Deployments\20110124\Deploy.ps1&#39;; Because we don&rsquo;t want to annoy the consumer of our script with the burden of making sure he is in the correct directory we modified our code as following:"><meta itemprop="datePublished" content="2011-01-24T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="116">
-<meta itemprop="keywords" content="PowerShell," /><meta property="og:title" content="Get current file in PowerShell" />
-<meta property="og:description" content="A while ago i wrote a small script to take care of deployment. Configuring the source folders went as following:
+PS C:\Users\Admin&gt;&amp; &#39;D:\Deployments\20110124\Deploy.ps1&#39;; Because we don’t want to annoy the consumer of our script with the burden of making sure he is in the correct directory we modified our code as following:">
+  <meta itemprop="datePublished" content="2011-01-24T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="116">
+  <meta itemprop="keywords" content="PowerShell"><meta property="og:url" content="https://timvw.be/2011/01/24/get-current-file-in-powershell/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Get current file in PowerShell">
+  <meta property="og:description" content="A while ago i wrote a small script to take care of deployment. Configuring the source folders went as following:
 param( $BaseDir = (Get-Location).Path, $WebDir = (Resolve-Path &#34;$BaseDir\web&#34;), $DatabaseDir = (Resolve-Path &#34;$BaseDir\database&#34;) ) The problem with this code is that it only works when your current working directory is set to the location of this script. An administrator (or build system) invokes the script as following:
-PS C:\Users\Admin&gt;&amp; &#39;D:\Deployments\20110124\Deploy.ps1&#39;; Because we don&rsquo;t want to annoy the consumer of our script with the burden of making sure he is in the correct directory we modified our code as following:" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2011/01/24/get-current-file-in-powershell/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2011-01-24T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+PS C:\Users\Admin&gt;&amp; &#39;D:\Deployments\20110124\Deploy.ps1&#39;; Because we don’t want to annoy the consumer of our script with the burden of making sure he is in the correct directory we modified our code as following:">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2011-01-24T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="PowerShell">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Get current file in PowerShell"/>
-<meta name="twitter:description" content="A while ago i wrote a small script to take care of deployment. Configuring the source folders went as following:
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Get current file in PowerShell">
+  <meta name="twitter:description" content="A while ago i wrote a small script to take care of deployment. Configuring the source folders went as following:
 param( $BaseDir = (Get-Location).Path, $WebDir = (Resolve-Path &#34;$BaseDir\web&#34;), $DatabaseDir = (Resolve-Path &#34;$BaseDir\database&#34;) ) The problem with this code is that it only works when your current working directory is set to the location of this script. An administrator (or build system) invokes the script as following:
-PS C:\Users\Admin&gt;&amp; &#39;D:\Deployments\20110124\Deploy.ps1&#39;; Because we don&rsquo;t want to annoy the consumer of our script with the burden of making sure he is in the correct directory we modified our code as following:"/>
+PS C:\Users\Admin&gt;&amp; &#39;D:\Deployments\20110124\Deploy.ps1&#39;; Because we don’t want to annoy the consumer of our script with the burden of making sure he is in the correct directory we modified our code as following:">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -85,19 +91,19 @@ PS C:\Users\Admin&gt;&amp; &#39;D:\Deployments\20110124\Deploy.ps1&#39;; Because
 					
 			<div class="markdown">
 				<p>A while ago i wrote a small script to take care of deployment. Configuring the source folders went as following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">param</span>(  
-</span></span><span style="display:flex;"><span>  <span style="color:#008080">$BaseDir</span> = (<span style="color:#0086b3">Get-Location</span>).Path,  
-</span></span><span style="display:flex;"><span>  <span style="color:#008080">$WebDir</span> = (<span style="color:#0086b3">Resolve-Path</span> <span style="color:#d14">&#34;$BaseDir\web&#34;</span>),  
-</span></span><span style="display:flex;"><span>  <span style="color:#008080">$DatabaseDir</span> = (<span style="color:#0086b3">Resolve-Path</span> <span style="color:#d14">&#34;$BaseDir\database&#34;</span>)
-</span></span><span style="display:flex;"><span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#cf222e">param</span><span style="color:#1f2328">(</span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#953800">$BaseDir</span> <span style="color:#1f2328">=</span> <span style="color:#1f2328">(</span><span style="color:#6639ba">Get-Location</span><span style="color:#1f2328">).</span>Path<span style="color:#1f2328">,</span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#953800">$WebDir</span> <span style="color:#1f2328">=</span> <span style="color:#1f2328">(</span><span style="color:#6639ba">Resolve-Path</span> <span style="color:#0a3069">&#34;</span><span style="color:#953800">$BaseDir</span><span style="color:#0a3069">\web&#34;</span><span style="color:#1f2328">),</span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#953800">$DatabaseDir</span> <span style="color:#1f2328">=</span> <span style="color:#1f2328">(</span><span style="color:#6639ba">Resolve-Path</span> <span style="color:#0a3069">&#34;</span><span style="color:#953800">$BaseDir</span><span style="color:#0a3069">\database&#34;</span><span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">)</span>
 </span></span></code></pre></div><p>The problem with this code is that it only works when your current working directory is set to the location of this script. An administrator (or build system) invokes the script as following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#0086b3">PS </span>C:\Users\Admin&gt;&amp; <span style="color:#d14">&#39;D:\Deployments\20110124\Deploy.ps1&#39;</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#6639ba">PS </span>C:<span style="color:#1f2328">\</span>Users<span style="color:#1f2328">\</span>Admin<span style="color:#1f2328">&gt;&amp;</span> <span style="color:#0a3069">&#39;D:\Deployments\20110124\Deploy.ps1&#39;</span><span style="color:#1f2328">;</span>
 </span></span></code></pre></div><p>Because we don&rsquo;t want to annoy the consumer of our script with the burden of making sure he is in the correct directory we modified our code as following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">param</span>(  
-</span></span><span style="display:flex;"><span>  <span style="color:#008080">$BaseDir</span> = (<span style="color:#0086b3">Split-Path</span> <span style="color:#008080">$MyInvocation</span>.MyCommand.Definition),  
-</span></span><span style="display:flex;"><span>  <span style="color:#008080">$WebDir</span> = (<span style="color:#0086b3">Resolve-Path</span> <span style="color:#d14">&#34;$BaseDir\web&#34;</span>),	  
-</span></span><span style="display:flex;"><span>  <span style="color:#008080">$DatabaseDir</span> = (<span style="color:#0086b3">Resolve-Path</span> <span style="color:#d14">&#34;$BaseDir\database&#34;</span>)  
-</span></span><span style="display:flex;"><span>)  
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#cf222e">param</span><span style="color:#1f2328">(</span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#953800">$BaseDir</span> <span style="color:#1f2328">=</span> <span style="color:#1f2328">(</span><span style="color:#6639ba">Split-Path</span> <span style="color:#953800">$MyInvocation</span><span style="color:#1f2328">.</span>MyCommand<span style="color:#1f2328">.</span>Definition<span style="color:#1f2328">),</span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#953800">$WebDir</span> <span style="color:#1f2328">=</span> <span style="color:#1f2328">(</span><span style="color:#6639ba">Resolve-Path</span> <span style="color:#0a3069">&#34;</span><span style="color:#953800">$BaseDir</span><span style="color:#0a3069">\web&#34;</span><span style="color:#1f2328">),</span>	  
+</span></span><span style="display:flex;"><span>  <span style="color:#953800">$DatabaseDir</span> <span style="color:#1f2328">=</span> <span style="color:#1f2328">(</span><span style="color:#6639ba">Resolve-Path</span> <span style="color:#0a3069">&#34;</span><span style="color:#953800">$BaseDir</span><span style="color:#0a3069">\database&#34;</span><span style="color:#1f2328">)</span>  
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">)</span>  
 </span></span></code></pre></div><p>A quick win 🙂</p>
 
 			</div>
@@ -121,16 +127,19 @@ PS C:\Users\Admin&gt;&amp; &#39;D:\Deployments\20110124\Deploy.ps1&#39;; Because
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

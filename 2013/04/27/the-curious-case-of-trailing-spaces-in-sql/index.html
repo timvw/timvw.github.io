@@ -3,26 +3,33 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>The curious case of trailing spaces in SQL - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="The curious case of trailing spaces in SQL">
-<meta itemprop="description" content="A while ago I was quite surprised to see that the following query returns 1 instead of 0:
+	
+  <meta itemprop="name" content="The curious case of trailing spaces in SQL">
+  <meta itemprop="description" content="A while ago I was quite surprised to see that the following query returns 1 instead of 0:
 SELECT COUNT(*) WHERE N&#39;Tim&#39; = N&#39;Tim &#39;; -- notice the trailing space Apparently this is just standard behaviour. Here is an extract from sql1992.txt (Section 8.2 Paragraph 3):
-3) The comparison of two character strings is determined as fol- lows: a) If the length in characters of X is not equal to the length in characters of Y, then the shorter string is effectively replaced, for the purposes of comparison, with a copy of itself that has been extended to the length of the longer string by concatenation on the right of one or more pad char- acters, where the pad character is chosen based on CS."><meta itemprop="datePublished" content="2013-04-27T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="251">
-<meta itemprop="keywords" content="SQL,t-sql," /><meta property="og:title" content="The curious case of trailing spaces in SQL" />
-<meta property="og:description" content="A while ago I was quite surprised to see that the following query returns 1 instead of 0:
+3) The comparison of two character strings is determined as fol- lows: a) If the length in characters of X is not equal to the length in characters of Y, then the shorter string is effectively replaced, for the purposes of comparison, with a copy of itself that has been extended to the length of the longer string by concatenation on the right of one or more pad char- acters, where the pad character is chosen based on CS. If CS has the NO PAD attribute, then the pad character is an implementation-dependent character different from any char- acter in the character set of X and Y that collates less than any string under CS. Otherwise, the pad character is a &lt;space&gt;. b) The result of the comparison of X and Y is given by the col- lating sequence CS. c) Depending on the collating sequence, two strings may com- pare as equal even if they are of different lengths or con- tain different sequences of characters. When the operations MAX, MIN, DISTINCT, references to a grouping column, and the UNION, EXCEPT, and INTERSECT operators refer to character strings, the specific value selected by these operations from a set of such equal values is implementation-dependent.">
+  <meta itemprop="datePublished" content="2013-04-27T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="251">
+  <meta itemprop="keywords" content="SQL,T-Sql"><meta property="og:url" content="https://timvw.be/2013/04/27/the-curious-case-of-trailing-spaces-in-sql/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="The curious case of trailing spaces in SQL">
+  <meta property="og:description" content="A while ago I was quite surprised to see that the following query returns 1 instead of 0:
 SELECT COUNT(*) WHERE N&#39;Tim&#39; = N&#39;Tim &#39;; -- notice the trailing space Apparently this is just standard behaviour. Here is an extract from sql1992.txt (Section 8.2 Paragraph 3):
-3) The comparison of two character strings is determined as fol- lows: a) If the length in characters of X is not equal to the length in characters of Y, then the shorter string is effectively replaced, for the purposes of comparison, with a copy of itself that has been extended to the length of the longer string by concatenation on the right of one or more pad char- acters, where the pad character is chosen based on CS." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2013/04/27/the-curious-case-of-trailing-spaces-in-sql/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2013-04-27T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+3) The comparison of two character strings is determined as fol- lows: a) If the length in characters of X is not equal to the length in characters of Y, then the shorter string is effectively replaced, for the purposes of comparison, with a copy of itself that has been extended to the length of the longer string by concatenation on the right of one or more pad char- acters, where the pad character is chosen based on CS. If CS has the NO PAD attribute, then the pad character is an implementation-dependent character different from any char- acter in the character set of X and Y that collates less than any string under CS. Otherwise, the pad character is a &lt;space&gt;. b) The result of the comparison of X and Y is given by the col- lating sequence CS. c) Depending on the collating sequence, two strings may com- pare as equal even if they are of different lengths or con- tain different sequences of characters. When the operations MAX, MIN, DISTINCT, references to a grouping column, and the UNION, EXCEPT, and INTERSECT operators refer to character strings, the specific value selected by these operations from a set of such equal values is implementation-dependent.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2013-04-27T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="SQL">
+    <meta property="article:tag" content="T-Sql">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="The curious case of trailing spaces in SQL"/>
-<meta name="twitter:description" content="A while ago I was quite surprised to see that the following query returns 1 instead of 0:
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="The curious case of trailing spaces in SQL">
+  <meta name="twitter:description" content="A while ago I was quite surprised to see that the following query returns 1 instead of 0:
 SELECT COUNT(*) WHERE N&#39;Tim&#39; = N&#39;Tim &#39;; -- notice the trailing space Apparently this is just standard behaviour. Here is an extract from sql1992.txt (Section 8.2 Paragraph 3):
-3) The comparison of two character strings is determined as fol- lows: a) If the length in characters of X is not equal to the length in characters of Y, then the shorter string is effectively replaced, for the purposes of comparison, with a copy of itself that has been extended to the length of the longer string by concatenation on the right of one or more pad char- acters, where the pad character is chosen based on CS."/>
+3) The comparison of two character strings is determined as fol- lows: a) If the length in characters of X is not equal to the length in characters of Y, then the shorter string is effectively replaced, for the purposes of comparison, with a copy of itself that has been extended to the length of the longer string by concatenation on the right of one or more pad char- acters, where the pad character is chosen based on CS. If CS has the NO PAD attribute, then the pad character is an implementation-dependent character different from any char- acter in the character set of X and Y that collates less than any string under CS. Otherwise, the pad character is a &lt;space&gt;. b) The result of the comparison of X and Y is given by the col- lating sequence CS. c) Depending on the collating sequence, two strings may com- pare as equal even if they are of different lengths or con- tain different sequences of characters. When the operations MAX, MIN, DISTINCT, references to a grouping column, and the UNION, EXCEPT, and INTERSECT operators refer to character strings, the specific value selected by these operations from a set of such equal values is implementation-dependent.">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -85,7 +92,7 @@ SELECT COUNT(*) WHERE N&#39;Tim&#39; = N&#39;Tim &#39;; -- notice the trailing s
 					
 			<div class="markdown">
 				<p>A while ago I was quite surprised to see that the following query returns 1 instead of 0:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">COUNT</span>(<span style="color:#000;font-weight:bold">*</span>)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>N<span style="color:#d14">&#39;Tim&#39;</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">=</span><span style="color:#bbb"> </span>N<span style="color:#d14">&#39;Tim &#39;</span>;<span style="color:#bbb"> </span><span style="color:#998;font-style:italic">-- notice the trailing space
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#cf222e">SELECT</span><span style="color:#fff"> </span><span style="color:#cf222e">COUNT</span><span style="color:#1f2328">(</span><span style="color:#0550ae">*</span><span style="color:#1f2328">)</span><span style="color:#fff"> </span><span style="color:#cf222e">WHERE</span><span style="color:#fff"> </span>N<span style="color:#0a3069">&#39;Tim&#39;</span><span style="color:#fff"> </span><span style="color:#0550ae">=</span><span style="color:#fff"> </span>N<span style="color:#0a3069">&#39;Tim &#39;</span><span style="color:#1f2328">;</span><span style="color:#fff"> </span><span style="color:#57606a">-- notice the trailing space
 </span></span></span></code></pre></div><p>Apparently this is just standard behaviour. Here is an extract from <a href="http://www.andrew.cmu.edu/user/shadow/sql/sql1992.txt">sql1992.txt</a> (Section 8.2 Paragraph 3):</p>
 <quote> 
 <pre>3) The comparison of two character strings is determined as fol-
@@ -138,16 +145,19 @@ SELECT COUNT(*) WHERE N&#39;Tim&#39; = N&#39;Tim &#39;; -- notice the trailing s
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

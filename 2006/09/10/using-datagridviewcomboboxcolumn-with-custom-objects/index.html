@@ -3,23 +3,30 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Using DataGridViewComboBoxColumn with Custom Objects - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Using DataGridViewComboBoxColumn with Custom Objects">
-<meta itemprop="description" content="Earlier today i was playing with the DataGridView control. I wanted to have a couple of DataGridViewComboBoxColumns in order to limit the available input options for the user. The documentation clearly mentions the following
-The DataGridViewComboBoxColumn will only work properly if there is a mapping between all its cell values that are populated by the DataGridView.DataSource property and the range of choices populated either by the DataSource property or the Items property."><meta itemprop="datePublished" content="2006-09-10T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="304">
-<meta itemprop="keywords" content="CSharp,Windows Forms," /><meta property="og:title" content="Using DataGridViewComboBoxColumn with Custom Objects" />
-<meta property="og:description" content="Earlier today i was playing with the DataGridView control. I wanted to have a couple of DataGridViewComboBoxColumns in order to limit the available input options for the user. The documentation clearly mentions the following
-The DataGridViewComboBoxColumn will only work properly if there is a mapping between all its cell values that are populated by the DataGridView.DataSource property and the range of choices populated either by the DataSource property or the Items property." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2006/09/10/using-datagridviewcomboboxcolumn-with-custom-objects/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2006-09-10T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="Using DataGridViewComboBoxColumn with Custom Objects">
+  <meta itemprop="description" content="Earlier today i was playing with the DataGridView control. I wanted to have a couple of DataGridViewComboBoxColumns in order to limit the available input options for the user. The documentation clearly mentions the following
+The DataGridViewComboBoxColumn will only work properly if there is a mapping between all its cell values that are populated by the DataGridView.DataSource property and the range of choices populated either by the DataSource property or the Items property. If this mapping doesn&#39;t exist, the message &#34;An Error happened Formatting, Display&#34; will appear when the column is in view. Here is sample of a custom object">
+  <meta itemprop="datePublished" content="2006-09-10T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="304">
+  <meta itemprop="keywords" content="CSharp,Windows Forms"><meta property="og:url" content="https://timvw.be/2006/09/10/using-datagridviewcomboboxcolumn-with-custom-objects/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Using DataGridViewComboBoxColumn with Custom Objects">
+  <meta property="og:description" content="Earlier today i was playing with the DataGridView control. I wanted to have a couple of DataGridViewComboBoxColumns in order to limit the available input options for the user. The documentation clearly mentions the following
+The DataGridViewComboBoxColumn will only work properly if there is a mapping between all its cell values that are populated by the DataGridView.DataSource property and the range of choices populated either by the DataSource property or the Items property. If this mapping doesn&#39;t exist, the message &#34;An Error happened Formatting, Display&#34; will appear when the column is in view. Here is sample of a custom object">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2006-09-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="CSharp">
+    <meta property="article:tag" content="Windows Forms">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Using DataGridViewComboBoxColumn with Custom Objects"/>
-<meta name="twitter:description" content="Earlier today i was playing with the DataGridView control. I wanted to have a couple of DataGridViewComboBoxColumns in order to limit the available input options for the user. The documentation clearly mentions the following
-The DataGridViewComboBoxColumn will only work properly if there is a mapping between all its cell values that are populated by the DataGridView.DataSource property and the range of choices populated either by the DataSource property or the Items property."/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Using DataGridViewComboBoxColumn with Custom Objects">
+  <meta name="twitter:description" content="Earlier today i was playing with the DataGridView control. I wanted to have a couple of DataGridViewComboBoxColumns in order to limit the available input options for the user. The documentation clearly mentions the following
+The DataGridViewComboBoxColumn will only work properly if there is a mapping between all its cell values that are populated by the DataGridView.DataSource property and the range of choices populated either by the DataSource property or the Items property. If this mapping doesn&#39;t exist, the message &#34;An Error happened Formatting, Display&#34; will appear when the column is in view. Here is sample of a custom object">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -85,71 +92,70 @@ The DataGridViewComboBoxColumn will only work properly if there is a mapping bet
 <blockquote>
 <div>
   The DataGridViewComboBoxColumn will only work properly if there is a mapping between all its cell values that are populated by the DataGridView.DataSource property and the range of choices populated either by the DataSource property or the Items property. If this mapping doesn't exist, the message "An Error happened Formatting, Display" will appear when the column is in view.
-</div>
-</blockquote>
+</div></blockquote>
 <p>Here is sample of a custom object</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Slot</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> id;
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> DateTime dateTime;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">class</span> <span style="color:#1f2328">Slot</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">private</span> <span style="color:#cf222e">int</span> id<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">private</span> DateTime dateTime<span style="color:#1f2328">;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> Slot( <span style="color:#458;font-weight:bold">int</span> id, DateTime dateTime ) {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.id = id;
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.dateTime = dateTime;
-</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> Slot<span style="color:#1f2328">(</span> <span style="color:#cf222e">int</span> id<span style="color:#1f2328">,</span> DateTime dateTime <span style="color:#1f2328">)</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>id <span style="color:#1f2328">=</span> id<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>dateTime <span style="color:#1f2328">=</span> dateTime<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> Id {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.id; }
-</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> <span style="color:#cf222e">int</span> Id <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">get</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">return</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>id<span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> DateTime DateTime {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.dateTime; }
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> DateTime DateTime <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">get</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">return</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>dateTime<span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>And here is the workaround for a one to one mapping</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form 
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#998;font-style:italic">// here we&#39;ll store the value the user selected in one of the comboboxcolumns</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> Object selectedValue;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">partial</span> <span style="color:#cf222e">class</span> <span style="color:#1f2328">Form1</span> <span style="color:#1f2328">:</span> Form 
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#57606a">// here we&#39;ll store the value the user selected in one of the comboboxcolumns</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">private</span> Object selectedValue<span style="color:#1f2328">;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> Form1() 
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		InitializeComponent();
-</span></span><span style="display:flex;"><span>		selectedValues = <span style="color:#000;font-weight:bold">new</span> Object[<span style="color:#000;font-weight:bold">this</span>.dataGridView1.Columns.Count];
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> Form1<span style="color:#1f2328">()</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		InitializeComponent<span style="color:#1f2328">();</span>
+</span></span><span style="display:flex;"><span>		selectedValues <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> Object<span style="color:#1f2328">[</span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>dataGridView1<span style="color:#1f2328">.</span>Columns<span style="color:#1f2328">.</span>Count<span style="color:#1f2328">];</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// create a couple of slots an add them to the comboboxcolumns</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">for</span> ( <span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">0</span>; i &lt; <span style="color:#099">10</span>; ++i ) 
-</span></span><span style="display:flex;"><span>		{ 
-</span></span><span style="display:flex;"><span>			Slot slot = <span style="color:#000;font-weight:bold">new</span> Slot( i, DateTime.Now.AddDays( i ) ); 
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">this</span>.Column1.Items.Add( slot ); 
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">this</span>.Column2.Items.Add( slot ); 
-</span></span><span style="display:flex;"><span>		} 
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.Column1.DisplayMember = <span style="color:#d14">&#34;DateTime&#34;</span>; 
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.Column2.DisplayMember = <span style="color:#d14">&#34;Id&#34;</span>; 
-</span></span><span style="display:flex;"><span>	} 
+</span></span><span style="display:flex;"><span>		<span style="color:#57606a">// create a couple of slots an add them to the comboboxcolumns</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">for</span> <span style="color:#1f2328">(</span> <span style="color:#cf222e">int</span> i <span style="color:#1f2328">=</span> <span style="color:#0550ae">0</span><span style="color:#1f2328">;</span> i <span style="color:#1f2328">&lt;</span> <span style="color:#0550ae">10</span><span style="color:#1f2328">;</span> <span style="color:#1f2328">++</span>i <span style="color:#1f2328">)</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">{</span> 
+</span></span><span style="display:flex;"><span>			Slot slot <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> Slot<span style="color:#1f2328">(</span> i<span style="color:#1f2328">,</span> DateTime<span style="color:#1f2328">.</span>Now<span style="color:#1f2328">.</span>AddDays<span style="color:#1f2328">(</span> i <span style="color:#1f2328">)</span> <span style="color:#1f2328">);</span> 
+</span></span><span style="display:flex;"><span>			<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>Column1<span style="color:#1f2328">.</span>Items<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span> slot <span style="color:#1f2328">);</span> 
+</span></span><span style="display:flex;"><span>			<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>Column2<span style="color:#1f2328">.</span>Items<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span> slot <span style="color:#1f2328">);</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">}</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>Column1<span style="color:#1f2328">.</span>DisplayMember <span style="color:#1f2328">=</span> <span style="color:#0a3069">&#34;DateTime&#34;</span><span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>Column2<span style="color:#1f2328">.</span>DisplayMember <span style="color:#1f2328">=</span> <span style="color:#0a3069">&#34;Id&#34;</span><span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span> 
 </span></span><span style="display:flex;"><span>	
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_CellParsing( <span style="color:#458;font-weight:bold">object</span> sender, DataGridViewCellParsingEventArgs e ) 
-</span></span><span style="display:flex;"><span>	{ 
-</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// lookup the selected value </span>
-</span></span><span style="display:flex;"><span>		e.Value = <span style="color:#000;font-weight:bold">this</span>.selectedValue; 
-</span></span><span style="display:flex;"><span>		e.ParsingApplied = <span style="color:#000;font-weight:bold">true</span>; 
-</span></span><span style="display:flex;"><span>	} 
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">private</span> <span style="color:#cf222e">void</span> dataGridView1_CellParsing<span style="color:#1f2328">(</span> <span style="color:#cf222e">object</span> sender<span style="color:#1f2328">,</span> DataGridViewCellParsingEventArgs e <span style="color:#1f2328">)</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#57606a">// lookup the selected value </span>
+</span></span><span style="display:flex;"><span>		e<span style="color:#1f2328">.</span>Value <span style="color:#1f2328">=</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>selectedValue<span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>		e<span style="color:#1f2328">.</span>ParsingApplied <span style="color:#1f2328">=</span> <span style="color:#cf222e">true</span><span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span> 
 </span></span><span style="display:flex;"><span>	
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing( <span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e ) 
-</span></span><span style="display:flex;"><span>	{ 
-</span></span><span style="display:flex;"><span>		ComboBox cb = e.Control <span style="color:#000;font-weight:bold">as</span> ComboBox; 
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> ( cb != <span style="color:#000;font-weight:bold">null</span> ) 
-</span></span><span style="display:flex;"><span>		{ 
-</span></span><span style="display:flex;"><span>			cb.SelectedIndexChanged -= cb_SelectedIndexChanged; 
-</span></span><span style="display:flex;"><span>			cb.SelectedIndexChanged += cb_SelectedIndexChanged; 
-</span></span><span style="display:flex;"><span>		} 
-</span></span><span style="display:flex;"><span>	} 
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">private</span> <span style="color:#cf222e">void</span> dataGridView1_EditingControlShowing<span style="color:#1f2328">(</span> <span style="color:#cf222e">object</span> sender<span style="color:#1f2328">,</span> DataGridViewEditingControlShowingEventArgs e <span style="color:#1f2328">)</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span> 
+</span></span><span style="display:flex;"><span>		ComboBox cb <span style="color:#1f2328">=</span> e<span style="color:#1f2328">.</span>Control <span style="color:#cf222e">as</span> ComboBox<span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span> cb <span style="color:#1f2328">!=</span> <span style="color:#cf222e">null</span> <span style="color:#1f2328">)</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">{</span> 
+</span></span><span style="display:flex;"><span>			cb<span style="color:#1f2328">.</span>SelectedIndexChanged <span style="color:#1f2328">-=</span> cb_SelectedIndexChanged<span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>			cb<span style="color:#1f2328">.</span>SelectedIndexChanged <span style="color:#1f2328">+=</span> cb_SelectedIndexChanged<span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">}</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span> 
 </span></span><span style="display:flex;"><span>	
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">void</span> cb_SelectedIndexChanged(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e) 
-</span></span><span style="display:flex;"><span>	{ 
-</span></span><span style="display:flex;"><span>		ComboBox comboBox = sender <span style="color:#000;font-weight:bold">as</span> ComboBox; 
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.selectedValue = comboBox.SelectedItem; 
-</span></span><span style="display:flex;"><span>	} 
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">void</span> cb_SelectedIndexChanged<span style="color:#1f2328">(</span><span style="color:#cf222e">object</span> sender<span style="color:#1f2328">,</span> EventArgs e<span style="color:#1f2328">)</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span> 
+</span></span><span style="display:flex;"><span>		ComboBox comboBox <span style="color:#1f2328">=</span> sender <span style="color:#cf222e">as</span> ComboBox<span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>selectedValue <span style="color:#1f2328">=</span> comboBox<span style="color:#1f2328">.</span>SelectedItem<span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span> 
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div>
 			</div>
 
@@ -174,16 +180,19 @@ The DataGridViewComboBoxColumn will only work properly if there is a mapping bet
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

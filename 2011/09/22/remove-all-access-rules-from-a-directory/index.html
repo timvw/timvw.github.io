@@ -3,26 +3,33 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Remove all access rules from a directory - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Remove all access rules from a directory">
-<meta itemprop="description" content="A while ago i needed to write some code that removes all (existing/inherited) access rules from a given directory. It was pretty frustrating to notice that all my attempts seemed to fail (RemoveAccessRule, PurgeAccessRule, &hellip;)
+	
+  <meta itemprop="name" content="Remove all access rules from a directory">
+  <meta itemprop="description" content="A while ago i needed to write some code that removes all (existing/inherited) access rules from a given directory. It was pretty frustrating to notice that all my attempts seemed to fail (RemoveAccessRule, PurgeAccessRule, …)
 Finally i found that SetAccessRuleProtection was the method that i needed to invoke.
-const string Folder = @&#34;c:\temp\secured&#34;; var directory = new DirectoryInfo(Folder); var directorySecurity = directory.GetAccessControl(); directorySecurity.SetAccessRuleProtection(true,false); directory.SetAccessControl(directorySecurity); Image of the security properties tab in windows There you go 😉"><meta itemprop="datePublished" content="2011-09-22T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="76">
-<meta itemprop="keywords" content="C,security," /><meta property="og:title" content="Remove all access rules from a directory" />
-<meta property="og:description" content="A while ago i needed to write some code that removes all (existing/inherited) access rules from a given directory. It was pretty frustrating to notice that all my attempts seemed to fail (RemoveAccessRule, PurgeAccessRule, &hellip;)
+const string Folder = @&#34;c:\temp\secured&#34;; var directory = new DirectoryInfo(Folder); var directorySecurity = directory.GetAccessControl(); directorySecurity.SetAccessRuleProtection(true,false); directory.SetAccessControl(directorySecurity); Image of the security properties tab in windows">
+  <meta itemprop="datePublished" content="2011-09-22T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="76">
+  <meta itemprop="keywords" content="C,Security"><meta property="og:url" content="https://timvw.be/2011/09/22/remove-all-access-rules-from-a-directory/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Remove all access rules from a directory">
+  <meta property="og:description" content="A while ago i needed to write some code that removes all (existing/inherited) access rules from a given directory. It was pretty frustrating to notice that all my attempts seemed to fail (RemoveAccessRule, PurgeAccessRule, …)
 Finally i found that SetAccessRuleProtection was the method that i needed to invoke.
-const string Folder = @&#34;c:\temp\secured&#34;; var directory = new DirectoryInfo(Folder); var directorySecurity = directory.GetAccessControl(); directorySecurity.SetAccessRuleProtection(true,false); directory.SetAccessControl(directorySecurity); Image of the security properties tab in windows There you go 😉" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2011/09/22/remove-all-access-rules-from-a-directory/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2011-09-22T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+const string Folder = @&#34;c:\temp\secured&#34;; var directory = new DirectoryInfo(Folder); var directorySecurity = directory.GetAccessControl(); directorySecurity.SetAccessRuleProtection(true,false); directory.SetAccessControl(directorySecurity); Image of the security properties tab in windows">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2011-09-22T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="C">
+    <meta property="article:tag" content="Security">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Remove all access rules from a directory"/>
-<meta name="twitter:description" content="A while ago i needed to write some code that removes all (existing/inherited) access rules from a given directory. It was pretty frustrating to notice that all my attempts seemed to fail (RemoveAccessRule, PurgeAccessRule, &hellip;)
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Remove all access rules from a directory">
+  <meta name="twitter:description" content="A while ago i needed to write some code that removes all (existing/inherited) access rules from a given directory. It was pretty frustrating to notice that all my attempts seemed to fail (RemoveAccessRule, PurgeAccessRule, …)
 Finally i found that SetAccessRuleProtection was the method that i needed to invoke.
-const string Folder = @&#34;c:\temp\secured&#34;; var directory = new DirectoryInfo(Folder); var directorySecurity = directory.GetAccessControl(); directorySecurity.SetAccessRuleProtection(true,false); directory.SetAccessControl(directorySecurity); Image of the security properties tab in windows There you go 😉"/>
+const string Folder = @&#34;c:\temp\secured&#34;; var directory = new DirectoryInfo(Folder); var directorySecurity = directory.GetAccessControl(); directorySecurity.SetAccessRuleProtection(true,false); directory.SetAccessControl(directorySecurity); Image of the security properties tab in windows">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -86,11 +93,11 @@ const string Folder = @&#34;c:\temp\secured&#34;; var directory = new DirectoryI
 			<div class="markdown">
 				<p>A while ago i needed to write some code that removes all (existing/inherited) access rules from a given directory. It was pretty frustrating to notice that all my attempts seemed to fail (<a href="http://msdn.microsoft.com/en-us/library/system.security.accesscontrol.commonobjectsecurity.removeaccessrule.aspx">RemoveAccessRule</a>, <a href="http://msdn.microsoft.com/en-us/library/system.security.accesscontrol.objectsecurity.purgeaccessrules.aspx">PurgeAccessRule</a>, &hellip;)</p>
 <p>Finally i found that <a href="">SetAccessRuleProtection</a> was the method that i needed to invoke.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">const</span> <span style="color:#458;font-weight:bold">string</span> Folder = <span style="color:#d14">@&#34;c:\temp\secured&#34;</span>;
-</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">var</span> directory = <span style="color:#000;font-weight:bold">new</span> DirectoryInfo(Folder);
-</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">var</span> directorySecurity = directory.GetAccessControl();
-</span></span><span style="display:flex;"><span>directorySecurity.SetAccessRuleProtection(<span style="color:#000;font-weight:bold">true</span>,<span style="color:#000;font-weight:bold">false</span>);
-</span></span><span style="display:flex;"><span>directory.SetAccessControl(directorySecurity);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">const</span> <span style="color:#cf222e">string</span> Folder <span style="color:#1f2328">=</span> <span style="color:#0a3069">@&#34;c:\temp\secured&#34;</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">var</span> directory <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> DirectoryInfo<span style="color:#1f2328">(</span>Folder<span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">var</span> directorySecurity <span style="color:#1f2328">=</span> directory<span style="color:#1f2328">.</span>GetAccessControl<span style="color:#1f2328">();</span>
+</span></span><span style="display:flex;"><span>directorySecurity<span style="color:#1f2328">.</span>SetAccessRuleProtection<span style="color:#1f2328">(</span><span style="color:#cf222e">true</span><span style="color:#1f2328">,</span><span style="color:#cf222e">false</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>directory<span style="color:#1f2328">.</span>SetAccessControl<span style="color:#1f2328">(</span>directorySecurity<span style="color:#1f2328">);</span>
 </span></span></code></pre></div><br/>
 <div id="attachment_2235" style="width: 387px" class="wp-caption alignnone">
   <a href="http://www.timvw.be/wp-content/uploads/2011/09/directorysecurity.png"><img src="http://www.timvw.be/wp-content/uploads/2011/09/directorysecurity.png" alt="Image of the security properties tab in windows" title="directorysecurity" width="377" height="461" class="size-full wp-image-2235" srcset="http://www.timvw.be/wp-content/uploads/2011/09/directorysecurity.png 377w, http://www.timvw.be/wp-content/uploads/2011/09/directorysecurity-245x300.png 245w" sizes="(max-width: 377px) 100vw, 377px" /></a>
@@ -123,16 +130,19 @@ const string Folder = @&#34;c:\temp\secured&#34;; var directory = new DirectoryI
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

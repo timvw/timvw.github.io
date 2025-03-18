@@ -3,23 +3,30 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Implementing Master/Detail for Custom Objects with DataGridViewComboBoxColumns - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Implementing Master/Detail for Custom Objects with DataGridViewComboBoxColumns">
-<meta itemprop="description" content="Imagine you have the following two classes
-public class Parent { private int id; private string name; public Parent( int id, string name ) { this.id = id; this.name = name; } public int Id { get { return this.id; } } public string Name { get { return this.name; } } } public class Child : Parent { private int parentId; public Child( int id, int parentId, string name ) : base( id, name ) { this."><meta itemprop="datePublished" content="2006-09-10T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="350">
-<meta itemprop="keywords" content="CSharp,Windows Forms," /><meta property="og:title" content="Implementing Master/Detail for Custom Objects with DataGridViewComboBoxColumns" />
-<meta property="og:description" content="Imagine you have the following two classes
-public class Parent { private int id; private string name; public Parent( int id, string name ) { this.id = id; this.name = name; } public int Id { get { return this.id; } } public string Name { get { return this.name; } } } public class Child : Parent { private int parentId; public Child( int id, int parentId, string name ) : base( id, name ) { this." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2006/09/10/implementing-master/detail-for-custom-objects-with-datagridviewcomboboxcolumns/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2006-09-10T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="Implementing Master/Detail for Custom Objects with DataGridViewComboBoxColumns">
+  <meta itemprop="description" content="Imagine you have the following two classes
+public class Parent { private int id; private string name; public Parent( int id, string name ) { this.id = id; this.name = name; } public int Id { get { return this.id; } } public string Name { get { return this.name; } } } public class Child : Parent { private int parentId; public Child( int id, int parentId, string name ) : base( id, name ) { this.parentId = parentId; } public int ParentId { get { return this.parentId; } } } In the first ComboBoxColumn you display a list of possible Parents. In the second ComboBoxColumn you display Children, but only those that belong to the Chosen Parent. Here is how it goes">
+  <meta itemprop="datePublished" content="2006-09-10T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="350">
+  <meta itemprop="keywords" content="CSharp,Windows Forms"><meta property="og:url" content="https://timvw.be/2006/09/10/implementing-master/detail-for-custom-objects-with-datagridviewcomboboxcolumns/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Implementing Master/Detail for Custom Objects with DataGridViewComboBoxColumns">
+  <meta property="og:description" content="Imagine you have the following two classes
+public class Parent { private int id; private string name; public Parent( int id, string name ) { this.id = id; this.name = name; } public int Id { get { return this.id; } } public string Name { get { return this.name; } } } public class Child : Parent { private int parentId; public Child( int id, int parentId, string name ) : base( id, name ) { this.parentId = parentId; } public int ParentId { get { return this.parentId; } } } In the first ComboBoxColumn you display a list of possible Parents. In the second ComboBoxColumn you display Children, but only those that belong to the Chosen Parent. Here is how it goes">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2006-09-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="CSharp">
+    <meta property="article:tag" content="Windows Forms">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Implementing Master/Detail for Custom Objects with DataGridViewComboBoxColumns"/>
-<meta name="twitter:description" content="Imagine you have the following two classes
-public class Parent { private int id; private string name; public Parent( int id, string name ) { this.id = id; this.name = name; } public int Id { get { return this.id; } } public string Name { get { return this.name; } } } public class Child : Parent { private int parentId; public Child( int id, int parentId, string name ) : base( id, name ) { this."/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Implementing Master/Detail for Custom Objects with DataGridViewComboBoxColumns">
+  <meta name="twitter:description" content="Imagine you have the following two classes
+public class Parent { private int id; private string name; public Parent( int id, string name ) { this.id = id; this.name = name; } public int Id { get { return this.id; } } public string Name { get { return this.name; } } } public class Child : Parent { private int parentId; public Child( int id, int parentId, string name ) : base( id, name ) { this.parentId = parentId; } public int ParentId { get { return this.parentId; } } } In the first ComboBoxColumn you display a list of possible Parents. In the second ComboBoxColumn you display Children, but only those that belong to the Chosen Parent. Here is how it goes">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -82,108 +89,108 @@ public class Parent { private int id; private string name; public Parent( int id
 					
 			<div class="markdown">
 				<p>Imagine you have the following two classes</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Parent</span> 
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> id;
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">string</span> name;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">class</span> <span style="color:#1f2328">Parent</span> 
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">private</span> <span style="color:#cf222e">int</span> id<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">private</span> <span style="color:#cf222e">string</span> name<span style="color:#1f2328">;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> Parent( <span style="color:#458;font-weight:bold">int</span> id, <span style="color:#458;font-weight:bold">string</span> name ) 
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.id = id;
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.name = name;
-</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> Parent<span style="color:#1f2328">(</span> <span style="color:#cf222e">int</span> id<span style="color:#1f2328">,</span> <span style="color:#cf222e">string</span> name <span style="color:#1f2328">)</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>id <span style="color:#1f2328">=</span> id<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>name <span style="color:#1f2328">=</span> name<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> Id 
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.id; }
-</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> <span style="color:#cf222e">int</span> Id 
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">get</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">return</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>id<span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Name 
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.name; }
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> <span style="color:#cf222e">string</span> Name 
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">get</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">return</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>name<span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Child</span> : Parent 
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> parentId;
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">class</span> <span style="color:#1f2328">Child</span> <span style="color:#1f2328">:</span> Parent 
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">private</span> <span style="color:#cf222e">int</span> parentId<span style="color:#1f2328">;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> Child( <span style="color:#458;font-weight:bold">int</span> id, <span style="color:#458;font-weight:bold">int</span> parentId, <span style="color:#458;font-weight:bold">string</span> name ) : <span style="color:#000;font-weight:bold">base</span>( id, name ) 
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.parentId = parentId;
-</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> Child<span style="color:#1f2328">(</span> <span style="color:#cf222e">int</span> id<span style="color:#1f2328">,</span> <span style="color:#cf222e">int</span> parentId<span style="color:#1f2328">,</span> <span style="color:#cf222e">string</span> name <span style="color:#1f2328">)</span> <span style="color:#1f2328">:</span> <span style="color:#cf222e">base</span><span style="color:#1f2328">(</span> id<span style="color:#1f2328">,</span> name <span style="color:#1f2328">)</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>parentId <span style="color:#1f2328">=</span> parentId<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">int</span> ParentId 
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.parentId; }
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> <span style="color:#cf222e">int</span> ParentId 
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">get</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">return</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>parentId<span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>In the first ComboBoxColumn you display a list of possible Parents. In the second ComboBoxColumn you display Children, but only those that belong to the Chosen Parent. Here is how it goes</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">partial</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form 
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> Object selectedValue;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">partial</span> <span style="color:#cf222e">class</span> <span style="color:#1f2328">Form1</span> <span style="color:#1f2328">:</span> Form 
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">private</span> Object selectedValue<span style="color:#1f2328">;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> Form1() 
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		InitializeComponent();
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> Form1<span style="color:#1f2328">()</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		InitializeComponent<span style="color:#1f2328">();</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#998;font-style:italic">// Add a couple of Parents</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">for</span> ( <span style="color:#458;font-weight:bold">int</span> i = <span style="color:#099">0</span>; i &lt; <span style="color:#099">3</span>; ++i ) 
-</span></span><span style="display:flex;"><span>		{ 
-</span></span><span style="display:flex;"><span>			Parent parent = <span style="color:#000;font-weight:bold">new</span> Parent( i, String.Format( <span style="color:#d14">&#34;Parent{0:00}&#34;</span>, i ) ); 
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">this</span>.Column1.Items.Add( parent ); 
-</span></span><span style="display:flex;"><span>			<span style="color:#998;font-style:italic">// Add a couple of Children to each parent </span>
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">for</span> ( <span style="color:#458;font-weight:bold">int</span> j = <span style="color:#099">0</span>; j &lt; <span style="color:#099">5</span>; ++j ) 
-</span></span><span style="display:flex;"><span>			{ 
-</span></span><span style="display:flex;"><span>				Child child = <span style="color:#000;font-weight:bold">new</span> Child( j, i, String.Format( <span style="color:#d14">&#34;Child{0:00}&#34;</span>, i * <span style="color:#099">10</span> + j ) ); 
-</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">this</span>.Column2.Items.Add( child ); 
-</span></span><span style="display:flex;"><span>			} 
-</span></span><span style="display:flex;"><span>		} 
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.Column1.DisplayMember = <span style="color:#d14">&#34;Name&#34;</span>; 
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.Column2.DisplayMember = <span style="color:#d14">&#34;Name&#34;</span>; 
-</span></span><span style="display:flex;"><span>	} 
+</span></span><span style="display:flex;"><span>		<span style="color:#57606a">// Add a couple of Parents</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">for</span> <span style="color:#1f2328">(</span> <span style="color:#cf222e">int</span> i <span style="color:#1f2328">=</span> <span style="color:#0550ae">0</span><span style="color:#1f2328">;</span> i <span style="color:#1f2328">&lt;</span> <span style="color:#0550ae">3</span><span style="color:#1f2328">;</span> <span style="color:#1f2328">++</span>i <span style="color:#1f2328">)</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">{</span> 
+</span></span><span style="display:flex;"><span>			Parent parent <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> Parent<span style="color:#1f2328">(</span> i<span style="color:#1f2328">,</span> String<span style="color:#1f2328">.</span>Format<span style="color:#1f2328">(</span> <span style="color:#0a3069">&#34;Parent{0:00}&#34;</span><span style="color:#1f2328">,</span> i <span style="color:#1f2328">)</span> <span style="color:#1f2328">);</span> 
+</span></span><span style="display:flex;"><span>			<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>Column1<span style="color:#1f2328">.</span>Items<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span> parent <span style="color:#1f2328">);</span> 
+</span></span><span style="display:flex;"><span>			<span style="color:#57606a">// Add a couple of Children to each parent </span>
+</span></span><span style="display:flex;"><span>			<span style="color:#cf222e">for</span> <span style="color:#1f2328">(</span> <span style="color:#cf222e">int</span> j <span style="color:#1f2328">=</span> <span style="color:#0550ae">0</span><span style="color:#1f2328">;</span> j <span style="color:#1f2328">&lt;</span> <span style="color:#0550ae">5</span><span style="color:#1f2328">;</span> <span style="color:#1f2328">++</span>j <span style="color:#1f2328">)</span> 
+</span></span><span style="display:flex;"><span>			<span style="color:#1f2328">{</span> 
+</span></span><span style="display:flex;"><span>				Child child <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> Child<span style="color:#1f2328">(</span> j<span style="color:#1f2328">,</span> i<span style="color:#1f2328">,</span> String<span style="color:#1f2328">.</span>Format<span style="color:#1f2328">(</span> <span style="color:#0a3069">&#34;Child{0:00}&#34;</span><span style="color:#1f2328">,</span> i <span style="color:#1f2328">*</span> <span style="color:#0550ae">10</span> <span style="color:#1f2328">+</span> j <span style="color:#1f2328">)</span> <span style="color:#1f2328">);</span> 
+</span></span><span style="display:flex;"><span>				<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>Column2<span style="color:#1f2328">.</span>Items<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span> child <span style="color:#1f2328">);</span> 
+</span></span><span style="display:flex;"><span>			<span style="color:#1f2328">}</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">}</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>Column1<span style="color:#1f2328">.</span>DisplayMember <span style="color:#1f2328">=</span> <span style="color:#0a3069">&#34;Name&#34;</span><span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>Column2<span style="color:#1f2328">.</span>DisplayMember <span style="color:#1f2328">=</span> <span style="color:#0a3069">&#34;Name&#34;</span><span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span> 
 </span></span><span style="display:flex;"><span>	
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_CellParsing( <span style="color:#458;font-weight:bold">object</span> sender, DataGridViewCellParsingEventArgs e ) 
-</span></span><span style="display:flex;"><span>	{ 
-</span></span><span style="display:flex;"><span>		e.Value = <span style="color:#000;font-weight:bold">this</span>.selectedValue; 
-</span></span><span style="display:flex;"><span>		e.ParsingApplied = <span style="color:#000;font-weight:bold">true</span>; 
-</span></span><span style="display:flex;"><span>	} 
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">private</span> <span style="color:#cf222e">void</span> dataGridView1_CellParsing<span style="color:#1f2328">(</span> <span style="color:#cf222e">object</span> sender<span style="color:#1f2328">,</span> DataGridViewCellParsingEventArgs e <span style="color:#1f2328">)</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span> 
+</span></span><span style="display:flex;"><span>		e<span style="color:#1f2328">.</span>Value <span style="color:#1f2328">=</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>selectedValue<span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>		e<span style="color:#1f2328">.</span>ParsingApplied <span style="color:#1f2328">=</span> <span style="color:#cf222e">true</span><span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span> 
 </span></span><span style="display:flex;"><span>	
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing( <span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e ) 
-</span></span><span style="display:flex;"><span>	{ 
-</span></span><span style="display:flex;"><span>		ComboBox cb = e.Control <span style="color:#000;font-weight:bold">as</span> ComboBox; 
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> ( cb != <span style="color:#000;font-weight:bold">null</span> ) 
-</span></span><span style="display:flex;"><span>		{ 
-</span></span><span style="display:flex;"><span>			<span style="color:#998;font-style:italic">// remove all the children that do not belong to the choosen parent </span>
-</span></span><span style="display:flex;"><span>			<span style="color:#458;font-weight:bold">int</span> currentColumnIndex = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.CurrentCell.ColumnIndex; 
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> ( currentColumnIndex == <span style="color:#099">1</span> ) 
-</span></span><span style="display:flex;"><span>			{ 
-</span></span><span style="display:flex;"><span>				cb.Items.Clear(); 
-</span></span><span style="display:flex;"><span>				<span style="color:#458;font-weight:bold">int</span> currentRowIndex = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.CurrentCell.RowIndex; 
-</span></span><span style="display:flex;"><span>				Object currentCellValue = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.Rows[currentRowIndex].Cells[<span style="color:#099">0</span>].Value; 
-</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">if</span> ( currentCellValue != <span style="color:#000;font-weight:bold">null</span> ) 
-</span></span><span style="display:flex;"><span>				{ 
-</span></span><span style="display:flex;"><span>					<span style="color:#458;font-weight:bold">int</span> parentId = ( (Parent)currentCellValue ).Id; 
-</span></span><span style="display:flex;"><span>					<span style="color:#000;font-weight:bold">foreach</span> ( Child child <span style="color:#000;font-weight:bold">in</span> <span style="color:#000;font-weight:bold">this</span>.Column2.Items ) 
-</span></span><span style="display:flex;"><span>					{ 
-</span></span><span style="display:flex;"><span>						<span style="color:#000;font-weight:bold">if</span> ( child.ParentId == parentId ) 
-</span></span><span style="display:flex;"><span>						{ 
-</span></span><span style="display:flex;"><span>							cb.Items.Add( child ); 
-</span></span><span style="display:flex;"><span>						} 
-</span></span><span style="display:flex;"><span>					} 
-</span></span><span style="display:flex;"><span>				} 
-</span></span><span style="display:flex;"><span>			} 
-</span></span><span style="display:flex;"><span>			cb.SelectedIndexChanged -= cb_SelectedIndexChanged; 
-</span></span><span style="display:flex;"><span>			cb.SelectedIndexChanged += cb_SelectedIndexChanged; 
-</span></span><span style="display:flex;"><span>		} 
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">private</span> <span style="color:#cf222e">void</span> dataGridView1_EditingControlShowing<span style="color:#1f2328">(</span> <span style="color:#cf222e">object</span> sender<span style="color:#1f2328">,</span> DataGridViewEditingControlShowingEventArgs e <span style="color:#1f2328">)</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span> 
+</span></span><span style="display:flex;"><span>		ComboBox cb <span style="color:#1f2328">=</span> e<span style="color:#1f2328">.</span>Control <span style="color:#cf222e">as</span> ComboBox<span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span> cb <span style="color:#1f2328">!=</span> <span style="color:#cf222e">null</span> <span style="color:#1f2328">)</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">{</span> 
+</span></span><span style="display:flex;"><span>			<span style="color:#57606a">// remove all the children that do not belong to the choosen parent </span>
+</span></span><span style="display:flex;"><span>			<span style="color:#cf222e">int</span> currentColumnIndex <span style="color:#1f2328">=</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>dataGridView1<span style="color:#1f2328">.</span>CurrentCell<span style="color:#1f2328">.</span>ColumnIndex<span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>			<span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span> currentColumnIndex <span style="color:#1f2328">==</span> <span style="color:#0550ae">1</span> <span style="color:#1f2328">)</span> 
+</span></span><span style="display:flex;"><span>			<span style="color:#1f2328">{</span> 
+</span></span><span style="display:flex;"><span>				cb<span style="color:#1f2328">.</span>Items<span style="color:#1f2328">.</span>Clear<span style="color:#1f2328">();</span> 
+</span></span><span style="display:flex;"><span>				<span style="color:#cf222e">int</span> currentRowIndex <span style="color:#1f2328">=</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>dataGridView1<span style="color:#1f2328">.</span>CurrentCell<span style="color:#1f2328">.</span>RowIndex<span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>				Object currentCellValue <span style="color:#1f2328">=</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>dataGridView1<span style="color:#1f2328">.</span>Rows<span style="color:#1f2328">[</span>currentRowIndex<span style="color:#1f2328">].</span>Cells<span style="color:#1f2328">[</span><span style="color:#0550ae">0</span><span style="color:#1f2328">].</span>Value<span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>				<span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span> currentCellValue <span style="color:#1f2328">!=</span> <span style="color:#cf222e">null</span> <span style="color:#1f2328">)</span> 
+</span></span><span style="display:flex;"><span>				<span style="color:#1f2328">{</span> 
+</span></span><span style="display:flex;"><span>					<span style="color:#cf222e">int</span> parentId <span style="color:#1f2328">=</span> <span style="color:#1f2328">(</span> <span style="color:#1f2328">(</span>Parent<span style="color:#1f2328">)</span>currentCellValue <span style="color:#1f2328">).</span>Id<span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>					<span style="color:#cf222e">foreach</span> <span style="color:#1f2328">(</span> Child child <span style="color:#cf222e">in</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>Column2<span style="color:#1f2328">.</span>Items <span style="color:#1f2328">)</span> 
+</span></span><span style="display:flex;"><span>					<span style="color:#1f2328">{</span> 
+</span></span><span style="display:flex;"><span>						<span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span> child<span style="color:#1f2328">.</span>ParentId <span style="color:#1f2328">==</span> parentId <span style="color:#1f2328">)</span> 
+</span></span><span style="display:flex;"><span>						<span style="color:#1f2328">{</span> 
+</span></span><span style="display:flex;"><span>							cb<span style="color:#1f2328">.</span>Items<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span> child <span style="color:#1f2328">);</span> 
+</span></span><span style="display:flex;"><span>						<span style="color:#1f2328">}</span> 
+</span></span><span style="display:flex;"><span>					<span style="color:#1f2328">}</span> 
+</span></span><span style="display:flex;"><span>				<span style="color:#1f2328">}</span> 
+</span></span><span style="display:flex;"><span>			<span style="color:#1f2328">}</span> 
+</span></span><span style="display:flex;"><span>			cb<span style="color:#1f2328">.</span>SelectedIndexChanged <span style="color:#1f2328">-=</span> cb_SelectedIndexChanged<span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>			cb<span style="color:#1f2328">.</span>SelectedIndexChanged <span style="color:#1f2328">+=</span> cb_SelectedIndexChanged<span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">}</span> 
 </span></span><span style="display:flex;"><span>		
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">void</span> cb_SelectedIndexChanged(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e) 
-</span></span><span style="display:flex;"><span>		{ 
-</span></span><span style="display:flex;"><span>			ComboBox comboBox = sender <span style="color:#000;font-weight:bold">as</span> ComboBox; 
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">this</span>.selectedValue = comboBox.SelectedItem; 
-</span></span><span style="display:flex;"><span>		} 
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">void</span> cb_SelectedIndexChanged<span style="color:#1f2328">(</span><span style="color:#cf222e">object</span> sender<span style="color:#1f2328">,</span> EventArgs e<span style="color:#1f2328">)</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">{</span> 
+</span></span><span style="display:flex;"><span>			ComboBox comboBox <span style="color:#1f2328">=</span> sender <span style="color:#cf222e">as</span> ComboBox<span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>			<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>selectedValue <span style="color:#1f2328">=</span> comboBox<span style="color:#1f2328">.</span>SelectedItem<span style="color:#1f2328">;</span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#1f2328">}</span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div>
 			</div>
 
@@ -208,16 +215,19 @@ public class Parent { private int id; private string name; public Parent( int id
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

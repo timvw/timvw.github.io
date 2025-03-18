@@ -3,26 +3,32 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Parsing http headers - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Parsing http headers">
-<meta itemprop="description" content="Today i updated my HTTP proxy a little. RFC 2616 describes Message Headers as following:
-message-header = field-name &ldquo;:&rdquo; [ field-value ] field-name = token field-value = *( field-content | LWS ) field-content = &lt;the OCTETs making up the field-value and consisting of either *TEXT or combinations of token, separators, and quoted-string&gt; Here is the code i used to get the field-name and field-value. Do you see the bug?
-my ($name, $value) = split /:/, $in; Location headers look like &lsquo;header: http://www."><meta itemprop="datePublished" content="2005-11-14T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="113">
-<meta itemprop="keywords" content="Perl," /><meta property="og:title" content="Parsing http headers" />
-<meta property="og:description" content="Today i updated my HTTP proxy a little. RFC 2616 describes Message Headers as following:
-message-header = field-name &ldquo;:&rdquo; [ field-value ] field-name = token field-value = *( field-content | LWS ) field-content = &lt;the OCTETs making up the field-value and consisting of either *TEXT or combinations of token, separators, and quoted-string&gt; Here is the code i used to get the field-name and field-value. Do you see the bug?
-my ($name, $value) = split /:/, $in; Location headers look like &lsquo;header: http://www." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2005/11/14/parsing-http-headers/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2005-11-14T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="Parsing http headers">
+  <meta itemprop="description" content="Today i updated my HTTP proxy a little. RFC 2616 describes Message Headers as following:
+message-header = field-name “:” [ field-value ] field-name = token field-value = *( field-content | LWS ) field-content = &lt;the OCTETs making up the field-value and consisting of either *TEXT or combinations of token, separators, and quoted-string&gt; Here is the code i used to get the field-name and field-value. Do you see the bug?
+my ($name, $value) = split /:/, $in; Location headers look like ‘header: http://www.example.com’. Now, the problem is that split returns a list with ’location’, ‘http’ and ‘www.example.com’. Here is the solution:">
+  <meta itemprop="datePublished" content="2005-11-14T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="113">
+  <meta itemprop="keywords" content="Perl"><meta property="og:url" content="https://timvw.be/2005/11/14/parsing-http-headers/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Parsing http headers">
+  <meta property="og:description" content="Today i updated my HTTP proxy a little. RFC 2616 describes Message Headers as following:
+message-header = field-name “:” [ field-value ] field-name = token field-value = *( field-content | LWS ) field-content = &lt;the OCTETs making up the field-value and consisting of either *TEXT or combinations of token, separators, and quoted-string&gt; Here is the code i used to get the field-name and field-value. Do you see the bug?
+my ($name, $value) = split /:/, $in; Location headers look like ‘header: http://www.example.com’. Now, the problem is that split returns a list with ’location’, ‘http’ and ‘www.example.com’. Here is the solution:">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2005-11-14T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="Perl">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Parsing http headers"/>
-<meta name="twitter:description" content="Today i updated my HTTP proxy a little. RFC 2616 describes Message Headers as following:
-message-header = field-name &ldquo;:&rdquo; [ field-value ] field-name = token field-value = *( field-content | LWS ) field-content = &lt;the OCTETs making up the field-value and consisting of either *TEXT or combinations of token, separators, and quoted-string&gt; Here is the code i used to get the field-name and field-value. Do you see the bug?
-my ($name, $value) = split /:/, $in; Location headers look like &lsquo;header: http://www."/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Parsing http headers">
+  <meta name="twitter:description" content="Today i updated my HTTP proxy a little. RFC 2616 describes Message Headers as following:
+message-header = field-name “:” [ field-value ] field-name = token field-value = *( field-content | LWS ) field-content = &lt;the OCTETs making up the field-value and consisting of either *TEXT or combinations of token, separators, and quoted-string&gt; Here is the code i used to get the field-name and field-value. Do you see the bug?
+my ($name, $value) = split /:/, $in; Location headers look like ‘header: http://www.example.com’. Now, the problem is that split returns a list with ’location’, ‘http’ and ‘www.example.com’. Here is the solution:">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -87,8 +93,7 @@ my ($name, $value) = split /:/, $in; Location headers look like &lsquo;header: h
 				<p>Today i updated my HTTP proxy a little. <a href="http://www.w3.org/Protocols/rfc2616/rfc2616.html">RFC 2616</a> describes <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2">Message Headers</a> as following:</p>
 <blockquote>
 <div>
-  <pre>
-</blockquote>
+  <pre></blockquote>
 <p>message-header = field-name &ldquo;:&rdquo; [ field-value ]
 field-name     = token
 field-value    = *( field-content | LWS )
@@ -97,13 +102,12 @@ either *TEXT or combinations of token, separators,
 and quoted-string&gt;
 </pre></p>
 <blockquote>
-</div>
-</blockquote>
+</div></blockquote>
 <p>Here is the code i used to get the field-name and field-value. Do you see the bug?</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-perl" data-lang="perl"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">my</span> (<span style="color:#008080">$name</span>, <span style="color:#008080">$value</span>) <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">split</span> <span style="color:#009926">/:/</span>, <span style="color:#008080">$in</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-perl" data-lang="perl"><span style="display:flex;"><span><span style="color:#cf222e">my</span> <span style="color:#1f2328">(</span><span style="color:#953800">$name</span><span style="color:#1f2328">,</span> <span style="color:#953800">$value</span><span style="color:#1f2328">)</span> <span style="color:#0550ae">=</span> <span style="color:#6639ba">split</span> <span style="color:#0a3069">/:/</span><span style="color:#1f2328">,</span> <span style="color:#953800">$in</span><span style="color:#1f2328">;</span>
 </span></span></code></pre></div><p>Location headers look like &lsquo;header: <a href="http://www.example.com">http://www.example.com</a>&rsquo;. Now, the problem is that <a href="http://perldoc.perl.org/functions/split.html">split</a> returns a list with &rsquo;location&rsquo;, &lsquo;http&rsquo; and &lsquo;<a href="https://www.example.com">www.example.com</a>&rsquo;. Here is the solution:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-perl" data-lang="perl"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">my</span> <span style="color:#008080">$in</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;location: http://www.example.com&#39;</span>;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">my</span> (<span style="color:#008080">$name</span>, <span style="color:#008080">$value</span>) <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">split</span> <span style="color:#009926">/:/</span>, <span style="color:#008080">$in</span>, <span style="color:#099">2</span>;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-perl" data-lang="perl"><span style="display:flex;"><span><span style="color:#cf222e">my</span> <span style="color:#953800">$in</span> <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#39;location: http://www.example.com&#39;</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">my</span> <span style="color:#1f2328">(</span><span style="color:#953800">$name</span><span style="color:#1f2328">,</span> <span style="color:#953800">$value</span><span style="color:#1f2328">)</span> <span style="color:#0550ae">=</span> <span style="color:#6639ba">split</span> <span style="color:#0a3069">/:/</span><span style="color:#1f2328">,</span> <span style="color:#953800">$in</span><span style="color:#1f2328">,</span> <span style="color:#0550ae">2</span><span style="color:#1f2328">;</span>
 </span></span></code></pre></div>
 			</div>
 
@@ -126,16 +130,19 @@ and quoted-string&gt;
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

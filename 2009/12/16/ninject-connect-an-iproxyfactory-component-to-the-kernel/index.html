@@ -3,26 +3,33 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Ninject: connect an IProxyFactory component to the kernel - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Ninject: connect an IProxyFactory component to the kernel">
-<meta itemprop="description" content="Because it&rsquo;s the second time that i run into this i will post the solution here so that i (and all the other people that run into the same issue) can easily solve it next time. Anyway, i was playing with Ninject and ran into the following exception:
+	
+  <meta itemprop="name" content="Ninject: connect an IProxyFactory component to the kernel">
+  <meta itemprop="description" content="Because it’s the second time that i run into this i will post the solution here so that i (and all the other people that run into the same issue) can easily solve it next time. Anyway, i was playing with Ninject and ran into the following exception:
 Error activating XXX: the implementation type YYY requests static interceptors, or dynamic interceptors have been defined.
-In order to provide interception, you must connect an IProxyFactory component to the kernel."><meta itemprop="datePublished" content="2009-12-16T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="149">
-<meta itemprop="keywords" content="CSharp,Free Software," /><meta property="og:title" content="Ninject: connect an IProxyFactory component to the kernel" />
-<meta property="og:description" content="Because it&rsquo;s the second time that i run into this i will post the solution here so that i (and all the other people that run into the same issue) can easily solve it next time. Anyway, i was playing with Ninject and ran into the following exception:
+In order to provide interception, you must connect an IProxyFactory component to the kernel.">
+  <meta itemprop="datePublished" content="2009-12-16T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="149">
+  <meta itemprop="keywords" content="CSharp,Free Software"><meta property="og:url" content="https://timvw.be/2009/12/16/ninject-connect-an-iproxyfactory-component-to-the-kernel/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Ninject: connect an IProxyFactory component to the kernel">
+  <meta property="og:description" content="Because it’s the second time that i run into this i will post the solution here so that i (and all the other people that run into the same issue) can easily solve it next time. Anyway, i was playing with Ninject and ran into the following exception:
 Error activating XXX: the implementation type YYY requests static interceptors, or dynamic interceptors have been defined.
-In order to provide interception, you must connect an IProxyFactory component to the kernel." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2009/12/16/ninject-connect-an-iproxyfactory-component-to-the-kernel/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2009-12-16T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+In order to provide interception, you must connect an IProxyFactory component to the kernel.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2009-12-16T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="CSharp">
+    <meta property="article:tag" content="Free Software">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Ninject: connect an IProxyFactory component to the kernel"/>
-<meta name="twitter:description" content="Because it&rsquo;s the second time that i run into this i will post the solution here so that i (and all the other people that run into the same issue) can easily solve it next time. Anyway, i was playing with Ninject and ran into the following exception:
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Ninject: connect an IProxyFactory component to the kernel">
+  <meta name="twitter:description" content="Because it’s the second time that i run into this i will post the solution here so that i (and all the other people that run into the same issue) can easily solve it next time. Anyway, i was playing with Ninject and ran into the following exception:
 Error activating XXX: the implementation type YYY requests static interceptors, or dynamic interceptors have been defined.
-In order to provide interception, you must connect an IProxyFactory component to the kernel."/>
+In order to provide interception, you must connect an IProxyFactory component to the kernel.">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -86,15 +93,13 @@ In order to provide interception, you must connect an IProxyFactory component to
 			<div class="markdown">
 				<p>Because it&rsquo;s the second time that i run into this i will post the solution here so that i (and all the other people that run into the same issue) can easily solve it next time. Anyway, i was playing with <a href="http://ninject.org/">Ninject</a> and ran into the following exception:</p>
 <blockquote>
-<p>Error activating XXX: the implementation type YYY requests static interceptors, or dynamic interceptors have been defined.</p>
-</blockquote>
+<p>Error activating XXX: the implementation type YYY requests static interceptors, or dynamic interceptors have been defined.</p></blockquote>
 <blockquote>
-<p>In order to provide interception, you must connect an IProxyFactory component to the kernel.</p>
-</blockquote>
+<p>In order to provide interception, you must connect an IProxyFactory component to the kernel.</p></blockquote>
 <p>If you search for implementations of IProxyFactory you will find the DynamicProxy2ProxyFactory and the LinFuProxyFactory classes. But how can you tell your kernel to use them? This is pretty simple (but hard to find on the web):</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>Kernel.Components.Connect&lt;iproxyFactory&gt;(<span style="color:#000;font-weight:bold">new</span> DynamicProxy2ProxyFactory());
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>Kernel<span style="color:#1f2328">.</span>Components<span style="color:#1f2328">.</span>Connect<span style="color:#1f2328">&lt;</span>iproxyFactory<span style="color:#1f2328">&gt;(</span><span style="color:#cf222e">new</span> DynamicProxy2ProxyFactory<span style="color:#1f2328">());</span>
 </span></span></code></pre></div><p>Instead of writing this code to connect the ProxyFactory implementation you can also use the XXX module (which does it for you) as following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#458;font-weight:bold">var</span> kernel = <span style="color:#000;font-weight:bold">new</span> StandardKernel(<span style="color:#000;font-weight:bold">new</span> DynamicProxy2Module(), <span style="color:#000;font-weight:bold">new</span> BusinessModule());
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">var</span> kernel <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> StandardKernel<span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> DynamicProxy2Module<span style="color:#1f2328">(),</span> <span style="color:#cf222e">new</span> BusinessModule<span style="color:#1f2328">());</span>
 </span></span></code></pre></div>
 			</div>
 
@@ -119,16 +124,19 @@ In order to provide interception, you must connect an IProxyFactory component to
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>

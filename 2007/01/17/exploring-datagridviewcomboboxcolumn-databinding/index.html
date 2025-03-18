@@ -3,23 +3,30 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Exploring DataGridViewComboBoxColumn databinding - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="Exploring DataGridViewComboBoxColumn databinding">
-<meta itemprop="description" content="Let&rsquo;s start with a simple example: Each Person has a Name (string) and PersonTypeCode (an Enumerated value) property. We drag a DataGridView on the designer form and add two columns (DataGridViewComboBoxColumn for the PersonTypeCode property). And then we hook up the Bindingsource as following
-class Form1 : Form { public Form1() { InitializeComponent(); this.dataGridView1.AutoGenerateColumns = false; this.ColumnName.DataPropertyName = &#34;Name&#34;; this.ColumnPersonTypeCode.DataPropertyName = &#34;PersonTypeCode&#34;; BindingSource bindingSource = new BindingSource(); bindingSource.DataSource = FindPersons(); this."><meta itemprop="datePublished" content="2007-01-17T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="1058">
-<meta itemprop="keywords" content="CSharp,Windows Forms," /><meta property="og:title" content="Exploring DataGridViewComboBoxColumn databinding" />
-<meta property="og:description" content="Let&rsquo;s start with a simple example: Each Person has a Name (string) and PersonTypeCode (an Enumerated value) property. We drag a DataGridView on the designer form and add two columns (DataGridViewComboBoxColumn for the PersonTypeCode property). And then we hook up the Bindingsource as following
-class Form1 : Form { public Form1() { InitializeComponent(); this.dataGridView1.AutoGenerateColumns = false; this.ColumnName.DataPropertyName = &#34;Name&#34;; this.ColumnPersonTypeCode.DataPropertyName = &#34;PersonTypeCode&#34;; BindingSource bindingSource = new BindingSource(); bindingSource.DataSource = FindPersons(); this." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://timvw.be/2007/01/17/exploring-datagridviewcomboboxcolumn-databinding/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2007-01-17T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-04T22:47:36+01:00" />
+	
+  <meta itemprop="name" content="Exploring DataGridViewComboBoxColumn databinding">
+  <meta itemprop="description" content="Let’s start with a simple example: Each Person has a Name (string) and PersonTypeCode (an Enumerated value) property. We drag a DataGridView on the designer form and add two columns (DataGridViewComboBoxColumn for the PersonTypeCode property). And then we hook up the Bindingsource as following
+class Form1 : Form { public Form1() { InitializeComponent(); this.dataGridView1.AutoGenerateColumns = false; this.ColumnName.DataPropertyName = &#34;Name&#34;; this.ColumnPersonTypeCode.DataPropertyName = &#34;PersonTypeCode&#34;; BindingSource bindingSource = new BindingSource(); bindingSource.DataSource = FindPersons(); this.dataGridView1.DataSource = bindingSource; } private BindingList&lt;person&gt; FindPersons() { BindingList&lt;person&gt; bindingList = new BindingList&lt;person&gt;(); bindingList.Add(new Person(&#34;Timvw&#34;, PersonTypeCode.Geek)); bindingList.Add(new Person(&#34;John Doe&#34;, PersonTypeCode.Anonymous)); bindingList.Add(new Person(&#34;An Onymous&#34;, PersonTypeCode.Anonymous)); bindingList.Add(new Person(&#34;Jenna Jameson&#34;, PersonTypeCode.Babe)); return bindingList; } } enum PersonTypeCode { Geek = 0, Anonymous = 1, Babe = 2 } class Person { private PersonTypeCode personTypeCode; private string name; public Person(string name, PersonTypeCode personTypeCode) { this.name = name; this.personTypeCode = personTypeCode; } public string Name { get { return this.name; } set { this.name = value; } } public PersonTypeCode PersonTypeCode { get { return this.personTypeCode; } set { this.personTypeCode = value; } } } If we run this code we run in the following error:">
+  <meta itemprop="datePublished" content="2007-01-17T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00">
+  <meta itemprop="wordCount" content="1058">
+  <meta itemprop="keywords" content="CSharp,Windows Forms"><meta property="og:url" content="https://timvw.be/2007/01/17/exploring-datagridviewcomboboxcolumn-databinding/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Exploring DataGridViewComboBoxColumn databinding">
+  <meta property="og:description" content="Let’s start with a simple example: Each Person has a Name (string) and PersonTypeCode (an Enumerated value) property. We drag a DataGridView on the designer form and add two columns (DataGridViewComboBoxColumn for the PersonTypeCode property). And then we hook up the Bindingsource as following
+class Form1 : Form { public Form1() { InitializeComponent(); this.dataGridView1.AutoGenerateColumns = false; this.ColumnName.DataPropertyName = &#34;Name&#34;; this.ColumnPersonTypeCode.DataPropertyName = &#34;PersonTypeCode&#34;; BindingSource bindingSource = new BindingSource(); bindingSource.DataSource = FindPersons(); this.dataGridView1.DataSource = bindingSource; } private BindingList&lt;person&gt; FindPersons() { BindingList&lt;person&gt; bindingList = new BindingList&lt;person&gt;(); bindingList.Add(new Person(&#34;Timvw&#34;, PersonTypeCode.Geek)); bindingList.Add(new Person(&#34;John Doe&#34;, PersonTypeCode.Anonymous)); bindingList.Add(new Person(&#34;An Onymous&#34;, PersonTypeCode.Anonymous)); bindingList.Add(new Person(&#34;Jenna Jameson&#34;, PersonTypeCode.Babe)); return bindingList; } } enum PersonTypeCode { Geek = 0, Anonymous = 1, Babe = 2 } class Person { private PersonTypeCode personTypeCode; private string name; public Person(string name, PersonTypeCode personTypeCode) { this.name = name; this.personTypeCode = personTypeCode; } public string Name { get { return this.name; } set { this.name = value; } } public PersonTypeCode PersonTypeCode { get { return this.personTypeCode; } set { this.personTypeCode = value; } } } If we run this code we run in the following error:">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2007-01-17T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-01-04T22:47:36+01:00">
+    <meta property="article:tag" content="CSharp">
+    <meta property="article:tag" content="Windows Forms">
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Exploring DataGridViewComboBoxColumn databinding"/>
-<meta name="twitter:description" content="Let&rsquo;s start with a simple example: Each Person has a Name (string) and PersonTypeCode (an Enumerated value) property. We drag a DataGridView on the designer form and add two columns (DataGridViewComboBoxColumn for the PersonTypeCode property). And then we hook up the Bindingsource as following
-class Form1 : Form { public Form1() { InitializeComponent(); this.dataGridView1.AutoGenerateColumns = false; this.ColumnName.DataPropertyName = &#34;Name&#34;; this.ColumnPersonTypeCode.DataPropertyName = &#34;PersonTypeCode&#34;; BindingSource bindingSource = new BindingSource(); bindingSource.DataSource = FindPersons(); this."/>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Exploring DataGridViewComboBoxColumn databinding">
+  <meta name="twitter:description" content="Let’s start with a simple example: Each Person has a Name (string) and PersonTypeCode (an Enumerated value) property. We drag a DataGridView on the designer form and add two columns (DataGridViewComboBoxColumn for the PersonTypeCode property). And then we hook up the Bindingsource as following
+class Form1 : Form { public Form1() { InitializeComponent(); this.dataGridView1.AutoGenerateColumns = false; this.ColumnName.DataPropertyName = &#34;Name&#34;; this.ColumnPersonTypeCode.DataPropertyName = &#34;PersonTypeCode&#34;; BindingSource bindingSource = new BindingSource(); bindingSource.DataSource = FindPersons(); this.dataGridView1.DataSource = bindingSource; } private BindingList&lt;person&gt; FindPersons() { BindingList&lt;person&gt; bindingList = new BindingList&lt;person&gt;(); bindingList.Add(new Person(&#34;Timvw&#34;, PersonTypeCode.Geek)); bindingList.Add(new Person(&#34;John Doe&#34;, PersonTypeCode.Anonymous)); bindingList.Add(new Person(&#34;An Onymous&#34;, PersonTypeCode.Anonymous)); bindingList.Add(new Person(&#34;Jenna Jameson&#34;, PersonTypeCode.Babe)); return bindingList; } } enum PersonTypeCode { Geek = 0, Anonymous = 1, Babe = 2 } class Person { private PersonTypeCode personTypeCode; private string name; public Person(string name, PersonTypeCode personTypeCode) { this.name = name; this.personTypeCode = personTypeCode; } public string Name { get { return this.name; } set { this.name = value; } } public PersonTypeCode PersonTypeCode { get { return this.personTypeCode; } set { this.personTypeCode = value; } } } If we run this code we run in the following error:">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -82,310 +89,310 @@ class Form1 : Form { public Form1() { InitializeComponent(); this.dataGridView1.
 					
 			<div class="markdown">
 				<p>Let&rsquo;s start with a simple example: Each Person has a Name (string) and PersonTypeCode (an Enumerated value) property. We drag a DataGridView on the designer form and add two columns (DataGridViewComboBoxColumn for the PersonTypeCode property). And then we hook up the Bindingsource as following</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Form1</span> : Form
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> Form1()
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		InitializeComponent();
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">class</span> <span style="color:#1f2328">Form1</span> <span style="color:#1f2328">:</span> Form
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> Form1<span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		InitializeComponent<span style="color:#1f2328">();</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.dataGridView1.AutoGenerateColumns = <span style="color:#000;font-weight:bold">false</span>;
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.ColumnName.DataPropertyName = <span style="color:#d14">&#34;Name&#34;</span>;
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.DataPropertyName = <span style="color:#d14">&#34;PersonTypeCode&#34;</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>dataGridView1<span style="color:#1f2328">.</span>AutoGenerateColumns <span style="color:#1f2328">=</span> <span style="color:#cf222e">false</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>ColumnName<span style="color:#1f2328">.</span>DataPropertyName <span style="color:#1f2328">=</span> <span style="color:#0a3069">&#34;Name&#34;</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>ColumnPersonTypeCode<span style="color:#1f2328">.</span>DataPropertyName <span style="color:#1f2328">=</span> <span style="color:#0a3069">&#34;PersonTypeCode&#34;</span><span style="color:#1f2328">;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		BindingSource bindingSource = <span style="color:#000;font-weight:bold">new</span> BindingSource();
-</span></span><span style="display:flex;"><span>		bindingSource.DataSource = FindPersons();
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataSource = bindingSource;
-</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>		BindingSource bindingSource <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> BindingSource<span style="color:#1f2328">();</span>
+</span></span><span style="display:flex;"><span>		bindingSource<span style="color:#1f2328">.</span>DataSource <span style="color:#1f2328">=</span> FindPersons<span style="color:#1f2328">();</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>dataGridView1<span style="color:#1f2328">.</span>DataSource <span style="color:#1f2328">=</span> bindingSource<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> BindingList&lt;person&gt; FindPersons()
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		BindingList&lt;person&gt; bindingList = <span style="color:#000;font-weight:bold">new</span> BindingList&lt;person&gt;();
-</span></span><span style="display:flex;"><span>		bindingList.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;Timvw&#34;</span>, PersonTypeCode.Geek));
-</span></span><span style="display:flex;"><span>		bindingList.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;John Doe&#34;</span>, PersonTypeCode.Anonymous));
-</span></span><span style="display:flex;"><span>		bindingList.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;An Onymous&#34;</span>, PersonTypeCode.Anonymous));
-</span></span><span style="display:flex;"><span>		bindingList.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;Jenna Jameson&#34;</span>, PersonTypeCode.Babe));
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> bindingList;
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">private</span> BindingList<span style="color:#1f2328">&lt;</span>person<span style="color:#1f2328">&gt;</span> FindPersons<span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		BindingList<span style="color:#1f2328">&lt;</span>person<span style="color:#1f2328">&gt;</span> bindingList <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> BindingList<span style="color:#1f2328">&lt;</span>person<span style="color:#1f2328">&gt;();</span>
+</span></span><span style="display:flex;"><span>		bindingList<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> Person<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;Timvw&#34;</span><span style="color:#1f2328">,</span> PersonTypeCode<span style="color:#1f2328">.</span>Geek<span style="color:#1f2328">));</span>
+</span></span><span style="display:flex;"><span>		bindingList<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> Person<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;John Doe&#34;</span><span style="color:#1f2328">,</span> PersonTypeCode<span style="color:#1f2328">.</span>Anonymous<span style="color:#1f2328">));</span>
+</span></span><span style="display:flex;"><span>		bindingList<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> Person<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;An Onymous&#34;</span><span style="color:#1f2328">,</span> PersonTypeCode<span style="color:#1f2328">.</span>Anonymous<span style="color:#1f2328">));</span>
+</span></span><span style="display:flex;"><span>		bindingList<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> Person<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;Jenna Jameson&#34;</span><span style="color:#1f2328">,</span> PersonTypeCode<span style="color:#1f2328">.</span>Babe<span style="color:#1f2328">));</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">return</span> bindingList<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">enum</span> PersonTypeCode
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	Geek = <span style="color:#099">0</span>,
-</span></span><span style="display:flex;"><span>	Anonymous = <span style="color:#099">1</span>,
-</span></span><span style="display:flex;"><span>	Babe = <span style="color:#099">2</span>
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">enum</span> PersonTypeCode
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	Geek <span style="color:#1f2328">=</span> <span style="color:#0550ae">0</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>	Anonymous <span style="color:#1f2328">=</span> <span style="color:#0550ae">1</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>	Babe <span style="color:#1f2328">=</span> <span style="color:#0550ae">2</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Person</span>
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> PersonTypeCode personTypeCode;
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">string</span> name;
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">class</span> <span style="color:#1f2328">Person</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">private</span> PersonTypeCode personTypeCode<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">private</span> <span style="color:#cf222e">string</span> name<span style="color:#1f2328">;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> Person(<span style="color:#458;font-weight:bold">string</span> name, PersonTypeCode personTypeCode)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.name = name;
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">this</span>.personTypeCode = personTypeCode;
-</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> Person<span style="color:#1f2328">(</span><span style="color:#cf222e">string</span> name<span style="color:#1f2328">,</span> PersonTypeCode personTypeCode<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>name <span style="color:#1f2328">=</span> name<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>personTypeCode <span style="color:#1f2328">=</span> personTypeCode<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Name
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.name; }
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>.name = <span style="color:#000;font-weight:bold">value</span>; }
-</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> <span style="color:#cf222e">string</span> Name
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">get</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">return</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>name<span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">set</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>name <span style="color:#1f2328">=</span> <span style="color:#cf222e">value</span><span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">public</span> PersonTypeCode PersonTypeCode
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.personTypeCode; }
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>.personTypeCode = <span style="color:#000;font-weight:bold">value</span>; }
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#cf222e">public</span> PersonTypeCode PersonTypeCode
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">get</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">return</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>personTypeCode<span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#cf222e">set</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>personTypeCode <span style="color:#1f2328">=</span> <span style="color:#cf222e">value</span><span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>If we run this code we run in the following error:</p>
 <p><img src="http://www.timvw.be/wp-content/images/databind-datagridviewcomboboxcolumn-1.gif" alt="DataGridViewComboBoxCell value is not valid."></p>
 <p>Always make sure the DataGridViewComboxColumn knows about all the possible values (<a href="http://www.timvw.be/implementing-masterdetail-for-custom-objects-with-datagridviewcomboboxcolumns/">Add them via the Items property</a> or use databinding). Let&rsquo;s extend our Form1 class as following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> Form1()
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>InitializeComponent();
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">public</span> Form1<span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>InitializeComponent<span style="color:#1f2328">();</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.dataGridView1.AutoGenerateColumns = <span style="color:#000;font-weight:bold">false</span>;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.ColumnName.DataPropertyName = <span style="color:#d14">&#34;Name&#34;</span>;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.DataPropertyName = <span style="color:#d14">&#34;PersonTypeCode&#34;</span>;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.DataSource = FindPersonTypeCodes();
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>dataGridView1<span style="color:#1f2328">.</span>AutoGenerateColumns <span style="color:#1f2328">=</span> <span style="color:#cf222e">false</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>ColumnName<span style="color:#1f2328">.</span>DataPropertyName <span style="color:#1f2328">=</span> <span style="color:#0a3069">&#34;Name&#34;</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>ColumnPersonTypeCode<span style="color:#1f2328">.</span>DataPropertyName <span style="color:#1f2328">=</span> <span style="color:#0a3069">&#34;PersonTypeCode&#34;</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>ColumnPersonTypeCode<span style="color:#1f2328">.</span>DataSource <span style="color:#1f2328">=</span> FindPersonTypeCodes<span style="color:#1f2328">();</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>BindingSource bindingSource = <span style="color:#000;font-weight:bold">new</span> BindingSource();
-</span></span><span style="display:flex;"><span>bindingSource.DataSource = FindPersons();
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataSource = bindingSource;
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>BindingSource bindingSource <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> BindingSource<span style="color:#1f2328">();</span>
+</span></span><span style="display:flex;"><span>bindingSource<span style="color:#1f2328">.</span>DataSource <span style="color:#1f2328">=</span> FindPersons<span style="color:#1f2328">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>dataGridView1<span style="color:#1f2328">.</span>DataSource <span style="color:#1f2328">=</span> bindingSource<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">private</span> BindingList&lt;personTypeCode&gt; FindPersonTypeCodes()
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>BindingList&lt;personTypeCode&gt; bindingList = <span style="color:#000;font-weight:bold">new</span> BindingList&lt;personTypeCode&gt;();
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">foreach</span> (PersonTypeCode personTypeCode <span style="color:#000;font-weight:bold">in</span> Enum.GetValues(<span style="color:#000;font-weight:bold">typeof</span>(PersonTypeCode)))
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>bindingList.Add(personTypeCode);
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">return</span> bindingList;
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">private</span> BindingList<span style="color:#1f2328">&lt;</span>personTypeCode<span style="color:#1f2328">&gt;</span> FindPersonTypeCodes<span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>BindingList<span style="color:#1f2328">&lt;</span>personTypeCode<span style="color:#1f2328">&gt;</span> bindingList <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> BindingList<span style="color:#1f2328">&lt;</span>personTypeCode<span style="color:#1f2328">&gt;();</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">foreach</span> <span style="color:#1f2328">(</span>PersonTypeCode personTypeCode <span style="color:#cf222e">in</span> Enum<span style="color:#1f2328">.</span>GetValues<span style="color:#1f2328">(</span><span style="color:#cf222e">typeof</span><span style="color:#1f2328">(</span>PersonTypeCode<span style="color:#1f2328">)))</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>bindingList<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span>personTypeCode<span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">return</span> bindingList<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>Allright, here is a screenshot of our first working version:</p>
 <p><img src="http://www.timvw.be/wp-content/images/databind-datagridviewcomboboxcolumn-2.gif" alt="datagridviewcomboboxcolumn with enumerated values"></p>
 <p>Instead of displaying the bare enum values we want to display a nice label. In order to achieve this we define a class PersonType to hold both the PersonTypeCode and the label:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PersonType</span>
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">private</span> PersonTypeCode personTypeCode;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">string</span> label;
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">class</span> <span style="color:#1f2328">PersonType</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">private</span> PersonTypeCode personTypeCode<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">private</span> <span style="color:#cf222e">string</span> label<span style="color:#1f2328">;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> PersonType(<span style="color:#458;font-weight:bold">string</span> label, PersonTypeCode personTypeCode)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.label = label;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.personTypeCode = personTypeCode;
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">public</span> PersonType<span style="color:#1f2328">(</span><span style="color:#cf222e">string</span> label<span style="color:#1f2328">,</span> PersonTypeCode personTypeCode<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>label <span style="color:#1f2328">=</span> label<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>personTypeCode <span style="color:#1f2328">=</span> personTypeCode<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">string</span> Label
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.label; }
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>.label = <span style="color:#000;font-weight:bold">value</span>; }
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">string</span> Label
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">get</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">return</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>label<span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">set</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>label <span style="color:#1f2328">=</span> <span style="color:#cf222e">value</span><span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> PersonTypeCode PersonTypeCode
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.personTypeCode; }
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">set</span> { <span style="color:#000;font-weight:bold">this</span>.personTypeCode = <span style="color:#000;font-weight:bold">value</span>; }
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">public</span> PersonTypeCode PersonTypeCode
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">get</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">return</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>personTypeCode<span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">set</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>personTypeCode <span style="color:#1f2328">=</span> <span style="color:#cf222e">value</span><span style="color:#1f2328">;</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>We modify our code so that this new PersonType class is used for the ComboBoxColumn:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> Form1()
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>InitializeComponent();
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">public</span> Form1<span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>InitializeComponent<span style="color:#1f2328">();</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.dataGridView1.AutoGenerateColumns = <span style="color:#000;font-weight:bold">false</span>;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.ColumnName.DataPropertyName = <span style="color:#d14">&#34;Name&#34;</span>;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.DataPropertyName = <span style="color:#d14">&#34;PersonTypeCode&#34;</span>;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.DisplayMember = <span style="color:#d14">&#34;Label&#34;</span>;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.ValueMember = <span style="color:#d14">&#34;PersonTypeCode&#34;</span>;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.DataSource = FindPersonTypes();
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>dataGridView1<span style="color:#1f2328">.</span>AutoGenerateColumns <span style="color:#1f2328">=</span> <span style="color:#cf222e">false</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>ColumnName<span style="color:#1f2328">.</span>DataPropertyName <span style="color:#1f2328">=</span> <span style="color:#0a3069">&#34;Name&#34;</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>ColumnPersonTypeCode<span style="color:#1f2328">.</span>DataPropertyName <span style="color:#1f2328">=</span> <span style="color:#0a3069">&#34;PersonTypeCode&#34;</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>ColumnPersonTypeCode<span style="color:#1f2328">.</span>DisplayMember <span style="color:#1f2328">=</span> <span style="color:#0a3069">&#34;Label&#34;</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>ColumnPersonTypeCode<span style="color:#1f2328">.</span>ValueMember <span style="color:#1f2328">=</span> <span style="color:#0a3069">&#34;PersonTypeCode&#34;</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>ColumnPersonTypeCode<span style="color:#1f2328">.</span>DataSource <span style="color:#1f2328">=</span> FindPersonTypes<span style="color:#1f2328">();</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>BindingSource bindingSource = <span style="color:#000;font-weight:bold">new</span> BindingSource();
-</span></span><span style="display:flex;"><span>bindingSource.DataSource = FindPersons();
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataSource = bindingSource;
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>BindingSource bindingSource <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> BindingSource<span style="color:#1f2328">();</span>
+</span></span><span style="display:flex;"><span>bindingSource<span style="color:#1f2328">.</span>DataSource <span style="color:#1f2328">=</span> FindPersons<span style="color:#1f2328">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>dataGridView1<span style="color:#1f2328">.</span>DataSource <span style="color:#1f2328">=</span> bindingSource<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">private</span> BindingList&lt;personType&gt; FindPersonTypes()
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>BindingList&lt;personType&gt; bindingList = <span style="color:#000;font-weight:bold">new</span> BindingList&lt;personType&gt;();
-</span></span><span style="display:flex;"><span>bindingList.Add(<span style="color:#000;font-weight:bold">new</span> PersonType(<span style="color:#d14">&#34;A geeky person&#34;</span>, PersonTypeCode.Geek));
-</span></span><span style="display:flex;"><span>bindingList.Add(<span style="color:#000;font-weight:bold">new</span> PersonType(<span style="color:#d14">&#34;A coward&#34;</span>, PersonTypeCode.Anonymous));
-</span></span><span style="display:flex;"><span>bindingList.Add(<span style="color:#000;font-weight:bold">new</span> PersonType(<span style="color:#d14">&#34;Feeling hot hot hot&#34;</span>, PersonTypeCode.Babe));
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">return</span> bindingList;
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">private</span> BindingList<span style="color:#1f2328">&lt;</span>personType<span style="color:#1f2328">&gt;</span> FindPersonTypes<span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>BindingList<span style="color:#1f2328">&lt;</span>personType<span style="color:#1f2328">&gt;</span> bindingList <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> BindingList<span style="color:#1f2328">&lt;</span>personType<span style="color:#1f2328">&gt;();</span>
+</span></span><span style="display:flex;"><span>bindingList<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> PersonType<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;A geeky person&#34;</span><span style="color:#1f2328">,</span> PersonTypeCode<span style="color:#1f2328">.</span>Geek<span style="color:#1f2328">));</span>
+</span></span><span style="display:flex;"><span>bindingList<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> PersonType<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;A coward&#34;</span><span style="color:#1f2328">,</span> PersonTypeCode<span style="color:#1f2328">.</span>Anonymous<span style="color:#1f2328">));</span>
+</span></span><span style="display:flex;"><span>bindingList<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> PersonType<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;Feeling hot hot hot&#34;</span><span style="color:#1f2328">,</span> PersonTypeCode<span style="color:#1f2328">.</span>Babe<span style="color:#1f2328">));</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">return</span> bindingList<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p><img src="http://www.timvw.be/wp-content/images/databind-datagridviewcomboboxcolumn-3.gif" alt="datagridviewcomboboxcolumn with nice labels."></p>
 <p>Great! Now we&rsquo;ll add some functionality that limits the possible values in the ComboBoxColumn basesd on the Name (I already demonstrated this technique <a href="http://www.timvw.be/implementing-masterdetail-for-custom-objects-with-datagridviewcomboboxcolumns/">here</a>). Simply handle the EditingControlShowing Event on the DataGridView as following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing(<span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>BindingSource bindingSource = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataSource <span style="color:#000;font-weight:bold">as</span> BindingSource;
-</span></span><span style="display:flex;"><span>Person person = bindingSource.Current <span style="color:#000;font-weight:bold">as</span> Person;
-</span></span><span style="display:flex;"><span>BindingList&lt;personType&gt; bindingList = <span style="color:#000;font-weight:bold">this</span>.FindPersonTypes(person);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">void</span> dataGridView1_EditingControlShowing<span style="color:#1f2328">(</span><span style="color:#cf222e">object</span> sender<span style="color:#1f2328">,</span> DataGridViewEditingControlShowingEventArgs e<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>BindingSource bindingSource <span style="color:#1f2328">=</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>dataGridView1<span style="color:#1f2328">.</span>DataSource <span style="color:#cf222e">as</span> BindingSource<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>Person person <span style="color:#1f2328">=</span> bindingSource<span style="color:#1f2328">.</span>Current <span style="color:#cf222e">as</span> Person<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>BindingList<span style="color:#1f2328">&lt;</span>personType<span style="color:#1f2328">&gt;</span> bindingList <span style="color:#1f2328">=</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>FindPersonTypes<span style="color:#1f2328">(</span>person<span style="color:#1f2328">);</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>DataGridViewComboBoxEditingControl comboBox = e.Control <span style="color:#000;font-weight:bold">as</span> DataGridViewComboBoxEditingControl;
-</span></span><span style="display:flex;"><span>comboBox.DataSource = bindingList;
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>DataGridViewComboBoxEditingControl comboBox <span style="color:#1f2328">=</span> e<span style="color:#1f2328">.</span>Control <span style="color:#cf222e">as</span> DataGridViewComboBoxEditingControl<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>comboBox<span style="color:#1f2328">.</span>DataSource <span style="color:#1f2328">=</span> bindingList<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">private</span> BindingList&lt;personType&gt; FindPersonTypes(Person person)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// by default, all persons simply have one of the available persontypecodes</span>
-</span></span><span style="display:flex;"><span>BindingList&lt;personType&gt; bindingList = FindPersonTypes();
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">private</span> BindingList<span style="color:#1f2328">&lt;</span>personType<span style="color:#1f2328">&gt;</span> FindPersonTypes<span style="color:#1f2328">(</span>Person person<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a">// by default, all persons simply have one of the available persontypecodes</span>
+</span></span><span style="display:flex;"><span>BindingList<span style="color:#1f2328">&lt;</span>personType<span style="color:#1f2328">&gt;</span> bindingList <span style="color:#1f2328">=</span> FindPersonTypes<span style="color:#1f2328">();</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">if</span> (person.PersonTypeCode == PersonTypeCode.Geek)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// geeks are doomed to stay geeks</span>
-</span></span><span style="display:flex;"><span>bindingList.RemoveAt(<span style="color:#099">2</span>);
-</span></span><span style="display:flex;"><span>bindingList.RemoveAt(<span style="color:#099">1</span>);
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>person<span style="color:#1f2328">.</span>PersonTypeCode <span style="color:#1f2328">==</span> PersonTypeCode<span style="color:#1f2328">.</span>Geek<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a">// geeks are doomed to stay geeks</span>
+</span></span><span style="display:flex;"><span>bindingList<span style="color:#1f2328">.</span>RemoveAt<span style="color:#1f2328">(</span><span style="color:#0550ae">2</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>bindingList<span style="color:#1f2328">.</span>RemoveAt<span style="color:#1f2328">(</span><span style="color:#0550ae">1</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">return</span> bindingList;
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">return</span> bindingList<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>If you open the combox for &ldquo;Timvw&rdquo; you see that you can only choose &ldquo;A geeky person&rdquo;:</p>
 <p><img src="http://www.timvw.be/wp-content/images/databind-datagridviewcomboboxcolumn-4.gif" alt="datagridviewcomboboxcolumn with limited options."></p>
 <p>Instead of using an enum we could have used a regular class too. The key is to override the Equals method:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PersonTypeCode</span>
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> PersonTypeCode Geek
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> PersonTypeCode(<span style="color:#099">0</span>); }
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">class</span> <span style="color:#1f2328">PersonTypeCode</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">static</span> PersonTypeCode Geek
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">get</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">return</span> <span style="color:#cf222e">new</span> PersonTypeCode<span style="color:#1f2328">(</span><span style="color:#0550ae">0</span><span style="color:#1f2328">);</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> PersonTypeCode Anonymous
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> PersonTypeCode(<span style="color:#099">1</span>); }
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">static</span> PersonTypeCode Anonymous
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">get</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">return</span> <span style="color:#cf222e">new</span> PersonTypeCode<span style="color:#1f2328">(</span><span style="color:#0550ae">1</span><span style="color:#1f2328">);</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> PersonTypeCode Babe
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">get</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> PersonTypeCode(<span style="color:#099">2</span>); }
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">static</span> PersonTypeCode Babe
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">get</span> <span style="color:#1f2328">{</span> <span style="color:#cf222e">return</span> <span style="color:#cf222e">new</span> PersonTypeCode<span style="color:#1f2328">(</span><span style="color:#0550ae">2</span><span style="color:#1f2328">);</span> <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">private</span> <span style="color:#458;font-weight:bold">int</span> id;
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">private</span> <span style="color:#cf222e">int</span> id<span style="color:#1f2328">;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> PersonTypeCode(<span style="color:#458;font-weight:bold">int</span> id)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.id = id;
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">public</span> PersonTypeCode<span style="color:#1f2328">(</span><span style="color:#cf222e">int</span> id<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>id <span style="color:#1f2328">=</span> id<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">bool</span> Equals(<span style="color:#458;font-weight:bold">object</span> obj)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">if</span> (obj == <span style="color:#000;font-weight:bold">null</span>) <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">if</span> (obj == <span style="color:#000;font-weight:bold">this</span>) <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>;
-</span></span><span style="display:flex;"><span>PersonTypeCode personTypeCode = obj <span style="color:#000;font-weight:bold">as</span> PersonTypeCode;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">if</span> (personTypeCode == <span style="color:#000;font-weight:bold">null</span>) <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.id == personTypeCode.id;
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">override</span> <span style="color:#cf222e">bool</span> Equals<span style="color:#1f2328">(</span><span style="color:#cf222e">object</span> obj<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>obj <span style="color:#1f2328">==</span> <span style="color:#cf222e">null</span><span style="color:#1f2328">)</span> <span style="color:#cf222e">return</span> <span style="color:#cf222e">false</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>obj <span style="color:#1f2328">==</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">)</span> <span style="color:#cf222e">return</span> <span style="color:#cf222e">true</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>PersonTypeCode personTypeCode <span style="color:#1f2328">=</span> obj <span style="color:#cf222e">as</span> PersonTypeCode<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>personTypeCode <span style="color:#1f2328">==</span> <span style="color:#cf222e">null</span><span style="color:#1f2328">)</span> <span style="color:#cf222e">return</span> <span style="color:#cf222e">false</span><span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">return</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>id <span style="color:#1f2328">==</span> personTypeCode<span style="color:#1f2328">.</span>id<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">override</span> <span style="color:#458;font-weight:bold">int</span> GetHashCode()
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span>.id.GetHashCode();
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">public</span> <span style="color:#cf222e">override</span> <span style="color:#cf222e">int</span> GetHashCode<span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">return</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>id<span style="color:#1f2328">.</span>GetHashCode<span style="color:#1f2328">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">private</span> BindingList&lt;personType&gt; FindPersonTypes(Person person)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// by default, all persons simply have one of the available persontypecodes</span>
-</span></span><span style="display:flex;"><span>BindingList&lt;personType&gt; bindingList = FindPersonTypes();
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">private</span> BindingList<span style="color:#1f2328">&lt;</span>personType<span style="color:#1f2328">&gt;</span> FindPersonTypes<span style="color:#1f2328">(</span>Person person<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a">// by default, all persons simply have one of the available persontypecodes</span>
+</span></span><span style="display:flex;"><span>BindingList<span style="color:#1f2328">&lt;</span>personType<span style="color:#1f2328">&gt;</span> bindingList <span style="color:#1f2328">=</span> FindPersonTypes<span style="color:#1f2328">();</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">//if (person.PersonTypeCode == PersonTypeCode.Geek)</span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">if</span> (person.PersonTypeCode.Equals(PersonTypeCode.Geek))
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// geeks are doomed to stay geeks</span>
-</span></span><span style="display:flex;"><span>bindingList.RemoveAt(<span style="color:#099">2</span>);
-</span></span><span style="display:flex;"><span>bindingList.RemoveAt(<span style="color:#099">1</span>);
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#57606a">//if (person.PersonTypeCode == PersonTypeCode.Geek)</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>person<span style="color:#1f2328">.</span>PersonTypeCode<span style="color:#1f2328">.</span>Equals<span style="color:#1f2328">(</span>PersonTypeCode<span style="color:#1f2328">.</span>Geek<span style="color:#1f2328">))</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a">// geeks are doomed to stay geeks</span>
+</span></span><span style="display:flex;"><span>bindingList<span style="color:#1f2328">.</span>RemoveAt<span style="color:#1f2328">(</span><span style="color:#0550ae">2</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>bindingList<span style="color:#1f2328">.</span>RemoveAt<span style="color:#1f2328">(</span><span style="color:#0550ae">1</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">return</span> bindingList;
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">return</span> bindingList<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>And now you&rsquo;re thinking: But i want the user to not select a PersonTypeCode (null). We&rsquo;ll represent that with an empty string &ldquo;&rdquo;:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">private</span> BindingList&lt;person&gt; FindPersons()
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>BindingList&lt;person&gt; bindingList = <span style="color:#000;font-weight:bold">new</span> BindingList&lt;person&gt;();
-</span></span><span style="display:flex;"><span>bindingList.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;Timvw&#34;</span>, PersonTypeCode.Geek));
-</span></span><span style="display:flex;"><span>bindingList.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;John Doe&#34;</span>, PersonTypeCode.Anonymous));
-</span></span><span style="display:flex;"><span>bindingList.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;An Onymous&#34;</span>, PersonTypeCode.Anonymous));
-</span></span><span style="display:flex;"><span>bindingList.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;Jenna Jameson&#34;</span>, PersonTypeCode.Babe));
-</span></span><span style="display:flex;"><span>bindingList.Add(<span style="color:#000;font-weight:bold">new</span> Person(<span style="color:#d14">&#34;Null Able&#34;</span>, <span style="color:#000;font-weight:bold">null</span>));
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">return</span> bindingList;
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">private</span> BindingList<span style="color:#1f2328">&lt;</span>person<span style="color:#1f2328">&gt;</span> FindPersons<span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>BindingList<span style="color:#1f2328">&lt;</span>person<span style="color:#1f2328">&gt;</span> bindingList <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> BindingList<span style="color:#1f2328">&lt;</span>person<span style="color:#1f2328">&gt;();</span>
+</span></span><span style="display:flex;"><span>bindingList<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> Person<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;Timvw&#34;</span><span style="color:#1f2328">,</span> PersonTypeCode<span style="color:#1f2328">.</span>Geek<span style="color:#1f2328">));</span>
+</span></span><span style="display:flex;"><span>bindingList<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> Person<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;John Doe&#34;</span><span style="color:#1f2328">,</span> PersonTypeCode<span style="color:#1f2328">.</span>Anonymous<span style="color:#1f2328">));</span>
+</span></span><span style="display:flex;"><span>bindingList<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> Person<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;An Onymous&#34;</span><span style="color:#1f2328">,</span> PersonTypeCode<span style="color:#1f2328">.</span>Anonymous<span style="color:#1f2328">));</span>
+</span></span><span style="display:flex;"><span>bindingList<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> Person<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;Jenna Jameson&#34;</span><span style="color:#1f2328">,</span> PersonTypeCode<span style="color:#1f2328">.</span>Babe<span style="color:#1f2328">));</span>
+</span></span><span style="display:flex;"><span>bindingList<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> Person<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;Null Able&#34;</span><span style="color:#1f2328">,</span> <span style="color:#cf222e">null</span><span style="color:#1f2328">));</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">return</span> bindingList<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">private</span> BindingList&lt;personType&gt; FindPersonTypes()
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>BindingList&lt;personType&gt; bindingList = <span style="color:#000;font-weight:bold">new</span> BindingList&lt;personType&gt;();
-</span></span><span style="display:flex;"><span>bindingList.Add(<span style="color:#000;font-weight:bold">new</span> PersonType(<span style="color:#d14">&#34;A geeky person&#34;</span>, PersonTypeCode.Geek));
-</span></span><span style="display:flex;"><span>bindingList.Add(<span style="color:#000;font-weight:bold">new</span> PersonType(<span style="color:#d14">&#34;A coward&#34;</span>, PersonTypeCode.Anonymous));
-</span></span><span style="display:flex;"><span>bindingList.Add(<span style="color:#000;font-weight:bold">new</span> PersonType(<span style="color:#d14">&#34;Feeling hot hot hot&#34;</span>, PersonTypeCode.Babe));
-</span></span><span style="display:flex;"><span>bindingList.Add(<span style="color:#000;font-weight:bold">new</span> PersonType(<span style="color:#458;font-weight:bold">string</span>.Empty, <span style="color:#000;font-weight:bold">null</span>));
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">return</span> bindingList;
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">private</span> BindingList<span style="color:#1f2328">&lt;</span>personType<span style="color:#1f2328">&gt;</span> FindPersonTypes<span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>BindingList<span style="color:#1f2328">&lt;</span>personType<span style="color:#1f2328">&gt;</span> bindingList <span style="color:#1f2328">=</span> <span style="color:#cf222e">new</span> BindingList<span style="color:#1f2328">&lt;</span>personType<span style="color:#1f2328">&gt;();</span>
+</span></span><span style="display:flex;"><span>bindingList<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> PersonType<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;A geeky person&#34;</span><span style="color:#1f2328">,</span> PersonTypeCode<span style="color:#1f2328">.</span>Geek<span style="color:#1f2328">));</span>
+</span></span><span style="display:flex;"><span>bindingList<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> PersonType<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;A coward&#34;</span><span style="color:#1f2328">,</span> PersonTypeCode<span style="color:#1f2328">.</span>Anonymous<span style="color:#1f2328">));</span>
+</span></span><span style="display:flex;"><span>bindingList<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> PersonType<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;Feeling hot hot hot&#34;</span><span style="color:#1f2328">,</span> PersonTypeCode<span style="color:#1f2328">.</span>Babe<span style="color:#1f2328">));</span>
+</span></span><span style="display:flex;"><span>bindingList<span style="color:#1f2328">.</span>Add<span style="color:#1f2328">(</span><span style="color:#cf222e">new</span> PersonType<span style="color:#1f2328">(</span><span style="color:#cf222e">string</span><span style="color:#1f2328">.</span>Empty<span style="color:#1f2328">,</span> <span style="color:#cf222e">null</span><span style="color:#1f2328">));</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">return</span> bindingList<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">private</span> BindingList&lt;personType&gt; FindPersonTypes(Person person)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// by default, all persons simply have one of the available persontypecodes</span>
-</span></span><span style="display:flex;"><span>BindingList&lt;personType&gt; bindingList = FindPersonTypes();
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">private</span> BindingList<span style="color:#1f2328">&lt;</span>personType<span style="color:#1f2328">&gt;</span> FindPersonTypes<span style="color:#1f2328">(</span>Person person<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a">// by default, all persons simply have one of the available persontypecodes</span>
+</span></span><span style="display:flex;"><span>BindingList<span style="color:#1f2328">&lt;</span>personType<span style="color:#1f2328">&gt;</span> bindingList <span style="color:#1f2328">=</span> FindPersonTypes<span style="color:#1f2328">();</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">if</span> (person.PersonTypeCode != <span style="color:#000;font-weight:bold">null</span> &amp;&amp; person.PersonTypeCode.Equals(PersonTypeCode.Geek))
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// geeks are doomed to stay geeks</span>
-</span></span><span style="display:flex;"><span>bindingList.RemoveAt(<span style="color:#099">2</span>);
-</span></span><span style="display:flex;"><span>bindingList.RemoveAt(<span style="color:#099">1</span>);
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>person<span style="color:#1f2328">.</span>PersonTypeCode <span style="color:#1f2328">!=</span> <span style="color:#cf222e">null</span> <span style="color:#1f2328">&amp;&amp;</span> person<span style="color:#1f2328">.</span>PersonTypeCode<span style="color:#1f2328">.</span>Equals<span style="color:#1f2328">(</span>PersonTypeCode<span style="color:#1f2328">.</span>Geek<span style="color:#1f2328">))</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a">// geeks are doomed to stay geeks</span>
+</span></span><span style="display:flex;"><span>bindingList<span style="color:#1f2328">.</span>RemoveAt<span style="color:#1f2328">(</span><span style="color:#0550ae">2</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span>bindingList<span style="color:#1f2328">.</span>RemoveAt<span style="color:#1f2328">(</span><span style="color:#0550ae">1</span><span style="color:#1f2328">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">return</span> bindingList;
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">return</span> bindingList<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p><img src="http://www.timvw.be/wp-content/images/databind-datagridviewcomboboxcolumn-5.gif" alt="datagridviewcomboboxcolumn with null option."></p>
 <p>When the user starts editing the record, the combobox will choose the first item in the list (A geeky person). Now we change this behaviour so that the actual PersonTypeCode is selected:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing(<span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.dataGridView1.CurrentCell.ColumnIndex == <span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.Index)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>BindingSource bindingSource = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataSource <span style="color:#000;font-weight:bold">as</span> BindingSource;
-</span></span><span style="display:flex;"><span>Person person = bindingSource.Current <span style="color:#000;font-weight:bold">as</span> Person;
-</span></span><span style="display:flex;"><span>BindingList&lt;personType&gt; bindingList = <span style="color:#000;font-weight:bold">this</span>.FindPersonTypes(person);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">void</span> dataGridView1_EditingControlShowing<span style="color:#1f2328">(</span><span style="color:#cf222e">object</span> sender<span style="color:#1f2328">,</span> DataGridViewEditingControlShowingEventArgs e<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>dataGridView1<span style="color:#1f2328">.</span>CurrentCell<span style="color:#1f2328">.</span>ColumnIndex <span style="color:#1f2328">==</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>ColumnPersonTypeCode<span style="color:#1f2328">.</span>Index<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>BindingSource bindingSource <span style="color:#1f2328">=</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>dataGridView1<span style="color:#1f2328">.</span>DataSource <span style="color:#cf222e">as</span> BindingSource<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>Person person <span style="color:#1f2328">=</span> bindingSource<span style="color:#1f2328">.</span>Current <span style="color:#cf222e">as</span> Person<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>BindingList<span style="color:#1f2328">&lt;</span>personType<span style="color:#1f2328">&gt;</span> bindingList <span style="color:#1f2328">=</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>FindPersonTypes<span style="color:#1f2328">(</span>person<span style="color:#1f2328">);</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>DataGridViewComboBoxEditingControl comboBox = e.Control <span style="color:#000;font-weight:bold">as</span> DataGridViewComboBoxEditingControl;
-</span></span><span style="display:flex;"><span>comboBox.DataSource = bindingList;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">if</span> (person.PersonTypeCode != <span style="color:#000;font-weight:bold">null</span>)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>comboBox.SelectedValue = person.PersonTypeCode;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">else</span>
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>comboBox.SelectedValue = <span style="color:#458;font-weight:bold">string</span>.Empty;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>DataGridViewComboBoxEditingControl comboBox <span style="color:#1f2328">=</span> e<span style="color:#1f2328">.</span>Control <span style="color:#cf222e">as</span> DataGridViewComboBoxEditingControl<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>comboBox<span style="color:#1f2328">.</span>DataSource <span style="color:#1f2328">=</span> bindingList<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>person<span style="color:#1f2328">.</span>PersonTypeCode <span style="color:#1f2328">!=</span> <span style="color:#cf222e">null</span><span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>comboBox<span style="color:#1f2328">.</span>SelectedValue <span style="color:#1f2328">=</span> person<span style="color:#1f2328">.</span>PersonTypeCode<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">else</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>comboBox<span style="color:#1f2328">.</span>SelectedValue <span style="color:#1f2328">=</span> <span style="color:#cf222e">string</span><span style="color:#1f2328">.</span>Empty<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p><img src="http://www.timvw.be/wp-content/images/databind-datagridviewcomboboxcolumn-6.gif" alt="datagridviewcomboboxcolumn with selected item."></p>
 <p>In order to make the DataGridView more usable we set the EditMode property to EditOnEnter. Selected values in the ComboBox are only commited when the user leaves the current cell. Handling the SelectionChangeCommited event on the ComboBox allows us to commit that value without requiring the user to leave the current cell:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">void</span> dataGridView1_EditingControlShowing(<span style="color:#458;font-weight:bold">object</span> sender, DataGridViewEditingControlShowingEventArgs e)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">if</span> (<span style="color:#000;font-weight:bold">this</span>.dataGridView1.CurrentCell.ColumnIndex == <span style="color:#000;font-weight:bold">this</span>.ColumnPersonTypeCode.Index)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>BindingSource bindingSource = <span style="color:#000;font-weight:bold">this</span>.dataGridView1.DataSource <span style="color:#000;font-weight:bold">as</span> BindingSource;
-</span></span><span style="display:flex;"><span>Person person = bindingSource.Current <span style="color:#000;font-weight:bold">as</span> Person;
-</span></span><span style="display:flex;"><span>BindingList&lt;personType&gt; bindingList = <span style="color:#000;font-weight:bold">this</span>.FindPersonTypes(person);
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#cf222e">void</span> dataGridView1_EditingControlShowing<span style="color:#1f2328">(</span><span style="color:#cf222e">object</span> sender<span style="color:#1f2328">,</span> DataGridViewEditingControlShowingEventArgs e<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>dataGridView1<span style="color:#1f2328">.</span>CurrentCell<span style="color:#1f2328">.</span>ColumnIndex <span style="color:#1f2328">==</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>ColumnPersonTypeCode<span style="color:#1f2328">.</span>Index<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>BindingSource bindingSource <span style="color:#1f2328">=</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>dataGridView1<span style="color:#1f2328">.</span>DataSource <span style="color:#cf222e">as</span> BindingSource<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>Person person <span style="color:#1f2328">=</span> bindingSource<span style="color:#1f2328">.</span>Current <span style="color:#cf222e">as</span> Person<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>BindingList<span style="color:#1f2328">&lt;</span>personType<span style="color:#1f2328">&gt;</span> bindingList <span style="color:#1f2328">=</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>FindPersonTypes<span style="color:#1f2328">(</span>person<span style="color:#1f2328">);</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>DataGridViewComboBoxEditingControl comboBox = e.Control <span style="color:#000;font-weight:bold">as</span> DataGridViewComboBoxEditingControl;
-</span></span><span style="display:flex;"><span>comboBox.DataSource = bindingList;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">if</span> (person.PersonTypeCode != <span style="color:#000;font-weight:bold">null</span>)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>comboBox.SelectedValue = person.PersonTypeCode;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">else</span>
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>comboBox.SelectedValue = <span style="color:#458;font-weight:bold">string</span>.Empty;
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>DataGridViewComboBoxEditingControl comboBox <span style="color:#1f2328">=</span> e<span style="color:#1f2328">.</span>Control <span style="color:#cf222e">as</span> DataGridViewComboBoxEditingControl<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>comboBox<span style="color:#1f2328">.</span>DataSource <span style="color:#1f2328">=</span> bindingList<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">if</span> <span style="color:#1f2328">(</span>person<span style="color:#1f2328">.</span>PersonTypeCode <span style="color:#1f2328">!=</span> <span style="color:#cf222e">null</span><span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>comboBox<span style="color:#1f2328">.</span>SelectedValue <span style="color:#1f2328">=</span> person<span style="color:#1f2328">.</span>PersonTypeCode<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">else</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>comboBox<span style="color:#1f2328">.</span>SelectedValue <span style="color:#1f2328">=</span> <span style="color:#cf222e">string</span><span style="color:#1f2328">.</span>Empty<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>comboBox.SelectionChangeCommitted -= <span style="color:#000;font-weight:bold">this</span>.comboBox_SelectionChangeCommitted;
-</span></span><span style="display:flex;"><span>comboBox.SelectionChangeCommitted += <span style="color:#000;font-weight:bold">this</span>.comboBox_SelectionChangeCommitted;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>comboBox<span style="color:#1f2328">.</span>SelectionChangeCommitted <span style="color:#1f2328">-=</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>comboBox_SelectionChangeCommitted<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span>comboBox<span style="color:#1f2328">.</span>SelectionChangeCommitted <span style="color:#1f2328">+=</span> <span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>comboBox_SelectionChangeCommitted<span style="color:#1f2328">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">void</span> comboBox_SelectionChangeCommitted(<span style="color:#458;font-weight:bold">object</span> sender, EventArgs e)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">this</span>.dataGridView1.EndEdit();
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">void</span> comboBox_SelectionChangeCommitted<span style="color:#1f2328">(</span><span style="color:#cf222e">object</span> sender<span style="color:#1f2328">,</span> EventArgs e<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">this</span><span style="color:#1f2328">.</span>dataGridView1<span style="color:#1f2328">.</span>EndEdit<span style="color:#1f2328">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
 </span></span></code></pre></div><p>Now it&rsquo;s up to you to apply these simple techniques and build great software. Feel free to download the complete source: <a href="http://www.timvw.be/wp-content/code/csharp/DataGridViewComboBoxBinding.zip">DataGridViewComboBoxBinding.zip</a>.</p>
 
 			</div>
@@ -411,16 +418,19 @@ class Form1 : Form { public Form1() { InitializeComponent(); this.dataGridView1.
 </div>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-9DP4SV12YW', { 'anonymize_ip': false });
-}
-</script>
-<script>feather.replace()</script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
 </body>
 </html>
