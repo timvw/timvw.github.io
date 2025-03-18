@@ -110,13 +110,13 @@
 </span></span><span style="display:flex;"><span>	} 
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>; 
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>After a while clients want to buy licenses for only a couple of hours instead of a full day. I realise that my check can remain the same, but that the concept &ldquo;EndOfTime&rdquo; has become DateTime(9999, 12, 31, 23, 59, 59) and that i can advance only an hour instead of a day. Since i want to reuse my code i define the IDiscreteValueProvider<!-- raw HTML omitted --> interface (See <a href="http://en.wikipedia.org/wiki/Discrete_space">Discrete Space</a>)</p>
+</span></span></code></pre></div><p>After a while clients want to buy licenses for only a couple of hours instead of a full day. I realise that my check can remain the same, but that the concept &ldquo;EndOfTime&rdquo; has become DateTime(9999, 12, 31, 23, 59, 59) and that i can advance only an hour instead of a day. Since i want to reuse my code i define the IDiscreteValueProvider<T> interface (See <a href="http://en.wikipedia.org/wiki/Discrete_space">Discrete Space</a>)</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">interface</span> <span style="color:#458;font-weight:bold">IDiscreteValuesProvider</span>&lt;T&gt;
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>	T GetNextValue(T <span style="color:#000;font-weight:bold">value</span>);
 </span></span><span style="display:flex;"><span>	T MaxValue { <span style="color:#000;font-weight:bold">get</span>; }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>After this i&rsquo;m able to implement a DiscreteValuesRange<!-- raw HTML omitted --> that implements the following interface (See: <a href="http://www.timvw.be/presenting-a-generic-range/">Generic Range</a>)</p>
+</span></span></code></pre></div><p>After this i&rsquo;m able to implement a DiscreteValuesRange<T> that implements the following interface (See: <a href="http://www.timvw.be/presenting-a-generic-range/">Generic Range</a>)</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">interface</span> <span style="color:#458;font-weight:bold">IDiscreteValuesRange</span>&lt;T&gt; : IRange&lt;T&gt;
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>	<span style="color:#458;font-weight:bold">bool</span> IsCoveredByRanges(IEnumerable&lt;idiscreteValuesRange&lt;T&gt;&gt; ranges);

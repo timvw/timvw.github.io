@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Both html and css are simply text. Thus you should be able to generate css as easily as html with php. Now if you add a reference to the css.php file in your html (eg: ) you&rsquo;ll probably experience that your browser ignores the file. How is this possible? Here is an example of a simple css.php file
 body { background-color: &lt;?php echo &#39;yellow&#39;; ?&gt;; } Here is a simulation of what your browser recieves when it requests the file:"><meta itemprop="datePublished" content="2006-08-27T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="168">
+<meta itemprop="wordCount" content="188">
 <meta itemprop="keywords" content="PHP," /><meta property="og:title" content="Dynamic CSS with PHP" />
 <meta property="og:description" content="Both html and css are simply text. Thus you should be able to generate css as easily as html with php. Now if you add a reference to the css.php file in your html (eg: ) you&rsquo;ll probably experience that your browser ignores the file. How is this possible? Here is an example of a simple css.php file
 body { background-color: &lt;?php echo &#39;yellow&#39;; ?&gt;; } Here is a simulation of what your browser recieves when it requests the file:" />
@@ -81,13 +81,21 @@ body { background-color: &lt;?php echo &#39;yellow&#39;; ?&gt;; } Here is a simu
 			</div>
 					
 			<div class="markdown">
-				<p>Both html and css are simply text. Thus you should be able to generate css as easily as html with php. Now if you add a reference to the css.php file in your html (eg: <!-- raw HTML omitted -->) you&rsquo;ll probably experience that your browser ignores the file. How is this possible? Here is an example of a simple css.php file</p>
+				<p>Both html and css are simply text. Thus you should be able to generate css as easily as html with php. Now if you add a reference to the css.php file in your html (eg: <link rel="stylesheet" href="http://example.com/css.php" type="text/css" media="screen" />) you&rsquo;ll probably experience that your browser ignores the file. How is this possible? Here is an example of a simple css.php file</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span>body {
 </span></span><span style="display:flex;"><span>background<span style="color:#000;font-weight:bold">-</span>color<span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">&lt;?</span>php <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#39;yellow&#39;</span>; <span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">;
 </span></span></span><span style="display:flex;"><span><span style="color:#a61717;background-color:#e3d2d2">}
 </span></span></span></code></pre></div><p>Here is a simulation of what your browser recieves when it requests the file:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>HTTP/1.1 200 OK
+Server: Apache/1.3.34 (Unix) PHP/4.4.2 mod_macro/1.1.2
+X-Powered-By: PHP/4.4.2
+Connection: close
+Content-Type: text/html; charset=iso-8859-1
+
+body {
+        background-color: yellow;
+}
+</pre>
 <p>Where did that content-type header come from? Well, php outputs a default content-type header (text/html) when you don&rsquo;t set value explicitely. This means that your browser will try to interpret the file as html instead of css. Although it may seem weird, this behaviour is explicitely defined in <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec7.html#sec7.2.1">RFC 2616</a>.</p>
 <p>So the solution is pretty simple: explicitely generate content-type header. Here is an example for css: (You&rsquo;re smart enough to figure it out for csv, m3u, &hellip;)</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">&lt;?</span>php header(<span style="color:#d14">&#39;Content-type: text/css&#39;</span>);<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#a61717;background-color:#e3d2d2">

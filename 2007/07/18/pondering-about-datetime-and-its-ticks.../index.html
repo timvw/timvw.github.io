@@ -5,12 +5,12 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Pondering about DateTime and it&#39;s Ticks... - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta itemprop="name" content="Pondering about DateTime and it&#39;s Ticks...">
 <meta itemprop="description" content="Recently someone was able to convince me that there is no problem with using System.DateTime for the storage of localtimes (even if DST is in effect), because it works with Ticks and i bought into his base &#43; offset story&hellip;. The following table explains his reasoning
-&lt;th style=&quot;width: 33%&quot;&gt; Localtime &lt;/th&gt; &lt;th style=&quot;width: 33%&quot;&gt; Ticks (Localtime) &lt;/th&gt; &lt;td&gt; 2007-10-28 01:59:59 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;599&lt;/b&gt;0000000 &lt;/td&gt; &lt;td&gt; 2007-10-28 02:00:00 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;600&lt;/b&gt;0000000 &lt;/td&gt; &lt;td&gt; 2007-10-28 02:00:01 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;601&lt;/b&gt;0000000 &lt;/td&gt; &lt;td&gt; 2007-10-28 02:59:59 &lt;/td&gt; &lt;td&gt; 63329137&lt;b&gt;199&lt;/b&gt;0000000 &lt;/td&gt; &lt;td&gt; 2007-10-28 02:00:00 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;200&lt;/b&gt;0000000 &lt;/td&gt; &lt;td&gt; 2007-10-28 02:00:01 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;201&lt;/b&gt;0000000 &lt;/td&gt; This reasoning gives you the impression that for each second 10000000 is added to the ticks."><meta itemprop="datePublished" content="2007-07-18T00:00:00+00:00" />
+Utc &lt;th style=&quot;width: 33%&quot;&gt; Localtime &lt;/th&gt; &lt;th style=&quot;width: 33%&quot;&gt; Ticks (Localtime) &lt;/th&gt; 2007-10-27 23:59:59 &lt;td&gt; 2007-10-28 01:59:59 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;599&lt;/b&gt;0000000 &lt;/td&gt; &#43;1 second &lt;td&gt; 2007-10-28 02:00:00 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;600&lt;/b&gt;0000000 &lt;/td&gt; &#43;2 seconds &lt;td&gt; 2007-10-28 02:00:01 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;601&lt;/b&gt;0000000 &lt;/td&gt; &#43;60 minutes &lt;td&gt; 2007-10-28 02:59:59 &lt;/td&gt; &lt;td&gt; 63329137&lt;b&gt;199&lt;/b&gt;0000000 &lt;/td&gt; &#43;60 minutes and 1 second &lt;td&gt; 2007-10-28 02:00:00 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;200&lt;/b&gt;0000000 &lt;/td&gt; &#43;60 minutes and 2 seconds &lt;td&gt; 2007-10-28 02:00:01 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;201&lt;/b&gt;0000000 &lt;/td&gt; This reasoning gives you the impression that for each second 10000000 is added to the ticks."><meta itemprop="datePublished" content="2007-07-18T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="371">
+<meta itemprop="wordCount" content="409">
 <meta itemprop="keywords" content="CSharp," /><meta property="og:title" content="Pondering about DateTime and it&#39;s Ticks..." />
 <meta property="og:description" content="Recently someone was able to convince me that there is no problem with using System.DateTime for the storage of localtimes (even if DST is in effect), because it works with Ticks and i bought into his base &#43; offset story&hellip;. The following table explains his reasoning
-&lt;th style=&quot;width: 33%&quot;&gt; Localtime &lt;/th&gt; &lt;th style=&quot;width: 33%&quot;&gt; Ticks (Localtime) &lt;/th&gt; &lt;td&gt; 2007-10-28 01:59:59 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;599&lt;/b&gt;0000000 &lt;/td&gt; &lt;td&gt; 2007-10-28 02:00:00 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;600&lt;/b&gt;0000000 &lt;/td&gt; &lt;td&gt; 2007-10-28 02:00:01 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;601&lt;/b&gt;0000000 &lt;/td&gt; &lt;td&gt; 2007-10-28 02:59:59 &lt;/td&gt; &lt;td&gt; 63329137&lt;b&gt;199&lt;/b&gt;0000000 &lt;/td&gt; &lt;td&gt; 2007-10-28 02:00:00 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;200&lt;/b&gt;0000000 &lt;/td&gt; &lt;td&gt; 2007-10-28 02:00:01 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;201&lt;/b&gt;0000000 &lt;/td&gt; This reasoning gives you the impression that for each second 10000000 is added to the ticks." />
+Utc &lt;th style=&quot;width: 33%&quot;&gt; Localtime &lt;/th&gt; &lt;th style=&quot;width: 33%&quot;&gt; Ticks (Localtime) &lt;/th&gt; 2007-10-27 23:59:59 &lt;td&gt; 2007-10-28 01:59:59 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;599&lt;/b&gt;0000000 &lt;/td&gt; &#43;1 second &lt;td&gt; 2007-10-28 02:00:00 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;600&lt;/b&gt;0000000 &lt;/td&gt; &#43;2 seconds &lt;td&gt; 2007-10-28 02:00:01 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;601&lt;/b&gt;0000000 &lt;/td&gt; &#43;60 minutes &lt;td&gt; 2007-10-28 02:59:59 &lt;/td&gt; &lt;td&gt; 63329137&lt;b&gt;199&lt;/b&gt;0000000 &lt;/td&gt; &#43;60 minutes and 1 second &lt;td&gt; 2007-10-28 02:00:00 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;200&lt;/b&gt;0000000 &lt;/td&gt; &#43;60 minutes and 2 seconds &lt;td&gt; 2007-10-28 02:00:01 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;201&lt;/b&gt;0000000 &lt;/td&gt; This reasoning gives you the impression that for each second 10000000 is added to the ticks." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/2007/07/18/pondering-about-datetime-and-its-ticks.../" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2007-07-18T00:00:00+00:00" />
@@ -19,7 +19,7 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Pondering about DateTime and it&#39;s Ticks..."/>
 <meta name="twitter:description" content="Recently someone was able to convince me that there is no problem with using System.DateTime for the storage of localtimes (even if DST is in effect), because it works with Ticks and i bought into his base &#43; offset story&hellip;. The following table explains his reasoning
-&lt;th style=&quot;width: 33%&quot;&gt; Localtime &lt;/th&gt; &lt;th style=&quot;width: 33%&quot;&gt; Ticks (Localtime) &lt;/th&gt; &lt;td&gt; 2007-10-28 01:59:59 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;599&lt;/b&gt;0000000 &lt;/td&gt; &lt;td&gt; 2007-10-28 02:00:00 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;600&lt;/b&gt;0000000 &lt;/td&gt; &lt;td&gt; 2007-10-28 02:00:01 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;601&lt;/b&gt;0000000 &lt;/td&gt; &lt;td&gt; 2007-10-28 02:59:59 &lt;/td&gt; &lt;td&gt; 63329137&lt;b&gt;199&lt;/b&gt;0000000 &lt;/td&gt; &lt;td&gt; 2007-10-28 02:00:00 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;200&lt;/b&gt;0000000 &lt;/td&gt; &lt;td&gt; 2007-10-28 02:00:01 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;201&lt;/b&gt;0000000 &lt;/td&gt; This reasoning gives you the impression that for each second 10000000 is added to the ticks."/>
+Utc &lt;th style=&quot;width: 33%&quot;&gt; Localtime &lt;/th&gt; &lt;th style=&quot;width: 33%&quot;&gt; Ticks (Localtime) &lt;/th&gt; 2007-10-27 23:59:59 &lt;td&gt; 2007-10-28 01:59:59 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;599&lt;/b&gt;0000000 &lt;/td&gt; &#43;1 second &lt;td&gt; 2007-10-28 02:00:00 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;600&lt;/b&gt;0000000 &lt;/td&gt; &#43;2 seconds &lt;td&gt; 2007-10-28 02:00:01 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;601&lt;/b&gt;0000000 &lt;/td&gt; &#43;60 minutes &lt;td&gt; 2007-10-28 02:59:59 &lt;/td&gt; &lt;td&gt; 63329137&lt;b&gt;199&lt;/b&gt;0000000 &lt;/td&gt; &#43;60 minutes and 1 second &lt;td&gt; 2007-10-28 02:00:00 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;200&lt;/b&gt;0000000 &lt;/td&gt; &#43;60 minutes and 2 seconds &lt;td&gt; 2007-10-28 02:00:01 &lt;/td&gt; &lt;td&gt; 63329133&lt;b&gt;201&lt;/b&gt;0000000 &lt;/td&gt; This reasoning gives you the impression that for each second 10000000 is added to the ticks."/>
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -82,7 +82,11 @@
 					
 			<div class="markdown">
 				<p>Recently someone was able to convince me that there is no problem with using <a href="http://msdn2.microsoft.com/en-us/library/System.Datetime.aspx">System.DateTime</a> for the storage of localtimes (even if DST is in effect), because it works with <a href="http://msdn2.microsoft.com/en-us/library/system.datetime.ticks.aspx">Ticks</a> and i bought into his base + offset story&hellip;. The following table explains his reasoning</p>
-<!-- raw HTML omitted -->
+<table width="100%">
+  <tr>
+    <th style="width: 33%">
+      Utc
+    </th>
 <pre><code>&lt;th style=&quot;width: 33%&quot;&gt;
   Localtime
 &lt;/th&gt;
@@ -91,8 +95,11 @@
   Ticks (Localtime)
 &lt;/th&gt;
 </code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+  </tr>
+  <tr>
+    <td>
+      2007-10-27 23:59:59
+    </td>
 <pre><code>&lt;td&gt;
   2007-10-28 01:59:59
 &lt;/td&gt;
@@ -101,8 +108,11 @@
   63329133&lt;b&gt;599&lt;/b&gt;0000000
 &lt;/td&gt;
 </code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+  </tr>
+  <tr style="background-color: orange">
+    <td>
+      +1 second
+    </td>
 <pre><code>&lt;td&gt;
   2007-10-28 02:00:00
 &lt;/td&gt;
@@ -111,8 +121,11 @@
   63329133&lt;b&gt;600&lt;/b&gt;0000000
 &lt;/td&gt;
 </code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+  </tr>
+  <tr>
+    <td>
+      +2 seconds
+    </td>
 <pre><code>&lt;td&gt;
   2007-10-28 02:00:01
 &lt;/td&gt;
@@ -121,8 +134,11 @@
   63329133&lt;b&gt;601&lt;/b&gt;0000000
 &lt;/td&gt;
 </code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+  </tr>
+  <tr>
+    <td>
+      +60 minutes
+    </td>
 <pre><code>&lt;td&gt;
   2007-10-28 02:59:59
 &lt;/td&gt;
@@ -131,8 +147,11 @@
   63329137&lt;b&gt;199&lt;/b&gt;0000000
 &lt;/td&gt;
 </code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+  </tr>
+  <tr>
+    <td>
+      +60 minutes and 1 second
+    </td>
 <pre><code>&lt;td&gt;
   2007-10-28 02:00:00
 &lt;/td&gt;
@@ -141,8 +160,11 @@
   63329133&lt;b&gt;200&lt;/b&gt;0000000
 &lt;/td&gt;
 </code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+  </tr>
+  <tr>
+    <td>
+      +60 minutes and 2 seconds
+    </td>
 <pre><code>&lt;td&gt;
   2007-10-28 02:00:01
 &lt;/td&gt;
@@ -151,9 +173,14 @@
   63329133&lt;b&gt;201&lt;/b&gt;0000000
 &lt;/td&gt;
 </code></pre>
-<!-- raw HTML omitted -->
+  </tr>
+</table>
 <p>This reasoning gives you the impression that for each second <strong>1</strong>0000000 is added to the ticks.. However, this is faulty and in reality you get the following</p>
-<!-- raw HTML omitted -->
+<table width="100%">
+  <tr>
+    <th style="width: 33%">
+      Utc
+    </th>
 <pre><code>&lt;th style=&quot;width: 33%&quot;&gt;
   Localtime
 &lt;/th&gt;
@@ -162,8 +189,11 @@
   Ticks (Localtime)
 &lt;/th&gt;
 </code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+  </tr>
+  <tr>
+    <td>
+      2007-10-27 23:59:59
+    </td>
 <pre><code>&lt;td&gt;
   2007-10-28 01:59:59
 &lt;/td&gt;
@@ -172,8 +202,11 @@
   63329133&lt;b&gt;599&lt;/b&gt;0000000
 &lt;/td&gt;
 </code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+  </tr>
+  <tr style="background-color: orange">
+    <td>
+      +1 second
+    </td>
 <pre><code>&lt;td&gt;
   2007-10-28 02:00:00
 &lt;/td&gt;
@@ -182,8 +215,11 @@
   63329133&lt;b&gt;600&lt;/b&gt;0000000
 &lt;/td&gt;
 </code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+  </tr>
+  <tr>
+    <td>
+      +2 seconds
+    </td>
 <pre><code>&lt;td&gt;
   2007-10-28 02:00:01
 &lt;/td&gt;
@@ -192,8 +228,11 @@
   63329133&lt;b&gt;601&lt;/b&gt;0000000
 &lt;/td&gt;
 </code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+  </tr>
+  <tr>
+    <td>
+      +60 minutes
+    </td>
 <pre><code>&lt;td&gt;
   2007-10-28 02:59:59
 &lt;/td&gt;
@@ -202,8 +241,11 @@
   63329137&lt;b&gt;199&lt;/b&gt;0000000
 &lt;/td&gt;
 </code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+  </tr>
+  <tr style="background-color: orange">
+    <td>
+      +60 minutes and 1 second
+    </td>
 <pre><code>&lt;td&gt;
   2007-10-28 02:00:00
 &lt;/td&gt;
@@ -212,8 +254,11 @@
   63329133&lt;span style=&quot;color: red&quot;&gt;&lt;b&gt;600&lt;/b&gt;&lt;/span&gt;0000000
 &lt;/td&gt;
 </code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+  </tr>
+  <tr>
+    <td>
+      +60 minutes and 2 seconds
+    </td>
 <pre><code>&lt;td&gt;
   2007-10-28 02:00:01
 &lt;/td&gt;
@@ -222,8 +267,9 @@
   63329133&lt;b&gt;601&lt;/b&gt;0000000
 &lt;/td&gt;
 </code></pre>
-<!-- raw HTML omitted -->
-<p>As you can see, instead of adding <strong>1</strong>0000000 to the ticks between 2007-10-27 00:59:59 and 01:00:00 in UTC there is a <!-- raw HTML omitted -->reduction of ticks in the localtime<!-- raw HTML omitted --> instead&hellip;. Because of this new DateTime(633291336000000000, DateTimeKind.Local) could represent both 2007-10-27 00:00:00 UTC and 2007-10-27 01:00:00 UTC&hellip; So if you want to keep out of trouble you&rsquo;d better start storing your dates as UTC&hellip; If you don&rsquo;t believe me, run the test yourself</p>
+  </tr>
+</table>
+<p>As you can see, instead of adding <strong>1</strong>0000000 to the ticks between 2007-10-27 00:59:59 and 01:00:00 in UTC there is a <span style="color:red">reduction of ticks in the localtime</span> instead&hellip;. Because of this new DateTime(633291336000000000, DateTimeKind.Local) could represent both 2007-10-27 00:00:00 UTC and 2007-10-27 01:00:00 UTC&hellip; So if you want to keep out of trouble you&rsquo;d better start storing your dates as UTC&hellip; If you don&rsquo;t believe me, run the test yourself</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>List&lt;dateTime&gt; localTimes = <span style="color:#000;font-weight:bold">new</span> List&lt;dateTime&gt;();
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// start at 2007-10-27 23:59:59 UTC, which is 2007-28-10 01:59:59 localtime</span>

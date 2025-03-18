@@ -121,8 +121,7 @@ Create a UserControl Add a property to the control Add an Editor attribute to th
       
       <guid>https://timvw.be/2007/07/28/exploring-formatting.../</guid>
       <description>In the documentation you can read the following for CultureInfo
-First i&amp;rsquo;ll initialize an instance of a customized CultureInfo and install it in the current thread:
-CultureInfo appCultureInfo = new CultureInfo(&amp;#34;en-US&amp;#34;); appCultureInfo.NumberFormat.NumberDecimalSeparator = &amp;#34;.&amp;#34;; appCultureInfo.NumberFormat.NumberGroupSeparator = &amp;#34; &amp;#34;; appCultureInfo.NumberFormat.NumberDecimalDigits = 2; appCultureInfo.NumberFormat.CurrencySymbol = &amp;#34;€&amp;#34;; Thread.CurrentThread.CurrentCulture = appCultureInfo; Note: The culture in Thread.CurrentThread.CurrentUICulture is only used by the Resource Manager to lookup culture-specific resources at run-time. Since we&amp;rsquo;re not playing with resources, we don&amp;rsquo;t have to care about this one.</description>
+The CultureInfo class holds culture-specific information, such as the associated language, sublanguage, country/region, calendar, and cultural conventions. This class also provides access to culture-specific instances of DateTimeFormatInfo, NumberFormatInfo, CompareInfo, and TextInfo. These objects contain the information required for culture-specific operations, such as casing, formatting dates and numbers, and comparing strings. First i&amp;rsquo;ll initialize an instance of a customized CultureInfo and install it in the current thread:</description>
     </item>
     
     <item>
@@ -194,8 +193,8 @@ public class MultiPanel : TabControl { protected override void WndProc(ref Messa
       
       <guid>https://timvw.be/2007/04/27/performing-long-running-tasks-in-a-windows-application/</guid>
       <description>A while ago i blogged about Thread Safe UI. Today someone asked the following
-The first thing i do is define a delegate (void Performer()) that will do the work of a long running operation. The reason i do this is because the compiler generates a class Performer that inherits from System.MulticastDelegate and exposes Begin- and EndInvoke methods.
-Since i want to disable my form before each run of a Performer and enable it after each run i implement a method Perform as following</description>
+On a form i have a datagridview and two button. One is for insert in a database the values in datagridview, and the other to update data in db.
+Now, i would like to have a kind of &#39;progress form&#39; during the insert or the update. At the end, only when the operation is finished, the user can reuse the main form.</description>
     </item>
     
     <item>
@@ -245,8 +244,7 @@ public partial class Form1 : Form { public Form1() { InitializeComponent(); Simp
       
       <guid>https://timvw.be/2007/02/04/control-the-order-of-properties-in-your-class/</guid>
       <description>Sometimes you want to manipulate the order in which properties are used for databinding. Eg: If you drag and drop an object datasource on a DataGridView you have no control in which order it binds the properties. Offcourse, you can order the columns by moving them around&amp;hellip; Today someone asked the following
-I started with the implementation of a PropertyOrderAttribute
-[AttributeUsage(AttributeTargets.Property)] public class PropertyOrderAttribute : Attribute { private int order; public PropertyOrderAttribute(int order) { this.</description>
+I would like to have it come from the class in the order I want it. Any suggestions on how to set the display order without referencing the actual member names?</description>
     </item>
     
     <item>
@@ -286,8 +284,7 @@ class Form1 : Form { public Form1() { InitializeComponent(); this.dataGridView1.
       
       <guid>https://timvw.be/2007/01/13/hide-and-unhide-columns-or-rows-in-the-datagridview/</guid>
       <description>Once in a while i see the following question
-Using the Visibile property of the DataGridViewColumn makes this a no-brainer. Let&amp;rsquo;s take the Databound DataGridView and implement functionality to hide/unhide the quarterly results. All you have to do is add a DataGridViewButtonColumn and handle the DataGridView CellClick event as following
-private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e) { if (e.ColumnIndex == this.ColumnButton.Index) { bool visible = !this.ColumnQ1.Visible; this.ColumnQ1.Visible = visible; this.ColumnQ2.Visible = visible; this.</description>
+I have to create a customized datagridview to enable the expandable columns. Expandable column in the sense drilling down the columns.... One column can hide multiple columns. The user can see the child columns by clicking the + button before the column name Using the Visibile property of the DataGridViewColumn makes this a no-brainer. Let&amp;rsquo;s take the Databound DataGridView and implement functionality to hide/unhide the quarterly results.</description>
     </item>
     
     <item>
@@ -427,7 +424,8 @@ private void dataGridView1_MouseDown( object sender, MouseEventArgs e ) { DataGr
       
       <guid>https://timvw.be/2006/09/16/inconsistent-drag-and-drop-api/</guid>
       <description>Every System.Windows.Forms.Control has the following events
-public event DragEventHandler DragDrop public event DragEventHandler DragEnter public event EventHandler DragLeave public event DragEventHandler DragOver This means, when the user drags something away of the control, you can&amp;rsquo;t access the data anymore (unless you cached it somewhere when the DragEnter or DragOver events occured). Here is an extract from Microsoft patterns and practives on Event Design</description>
+public event DragEventHandler DragDrop public event DragEventHandler DragEnter public event EventHandler DragLeave public event DragEventHandler DragOver This means, when the user drags something away of the control, you can&amp;rsquo;t access the data anymore (unless you cached it somewhere when the DragEnter or DragOver events occured). Here is an extract from Microsoft patterns and practives on Event Design
+If you define an event that takes an EventArgs instance instead of a derived class that you define, you cannot add data to the event in later versions.</description>
     </item>
     
     <item>
@@ -458,8 +456,7 @@ public class Parent { private int id; private string name; public Parent( int id
       
       <guid>https://timvw.be/2006/09/10/using-datagridviewcomboboxcolumn-with-custom-objects/</guid>
       <description>Earlier today i was playing with the DataGridView control. I wanted to have a couple of DataGridViewComboBoxColumns in order to limit the available input options for the user. The documentation clearly mentions the following
-Here is sample of a custom object
-public class Slot { private int id; private DateTime dateTime; public Slot( int id, DateTime dateTime ) { this.id = id; this.dateTime = dateTime; } public int Id { get { return this.</description>
+The DataGridViewComboBoxColumn will only work properly if there is a mapping between all its cell values that are populated by the DataGridView.DataSource property and the range of choices populated either by the DataSource property or the Items property.</description>
     </item>
     
     <item>

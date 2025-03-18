@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Last couple of days i&rsquo;ve been reading Professional SQL Server Reporting Services. Today i wanted to display some images so i decided to use the Northwind database which has an Employees table that contains photos.. I set the MIMEType to image/bmp, Source to Database and Value to =Fields!Photo.Value but i kept getting a red cross instead of the image
 After a lot of searching, i found the following in Hitchhiker&rsquo;s Guide to SQL Server 2000 Reporting Services:"><meta itemprop="datePublished" content="2007-08-04T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="113">
+<meta itemprop="wordCount" content="269">
 <meta itemprop="keywords" content="Book reviews," /><meta property="og:title" content="Professional SQL Server 2005 Reporting Services" />
 <meta property="og:description" content="Last couple of days i&rsquo;ve been reading Professional SQL Server Reporting Services. Today i wanted to display some images so i decided to use the Northwind database which has an Employees table that contains photos.. I set the MIMEType to image/bmp, Source to Database and Value to =Fields!Photo.Value but i kept getting a red cross instead of the image
 After a lot of searching, i found the following in Hitchhiker&rsquo;s Guide to SQL Server 2000 Reporting Services:" />
@@ -85,9 +85,13 @@ After a lot of searching, i found the following in Hitchhiker&rsquo;s Guide to S
 <p><img src="http://www.timvw.be/wp-content/images/reportingservices-01.gif" alt="image of a sql server reporting service report where an error box appears instead of the image"></p>
 <p>After a lot of searching, i found the following in <a href="http://www.sqlreportingservices.net/BookSrs2000/default.aspx">Hitchhiker&rsquo;s Guide to SQL Server 2000 Reporting Services</a>:</p>
 <blockquote>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<div>
+  As we touched on earlier, you might find there is a problem if you need to use images that have been added to SQL Server through Microsoft Access or drawn directly from an Access/JET database or another similar tool. If you've run the Image wizard and bound the images to the DataSet and they still don't appear to render, the image data might be corrupted or simply prefixed with an OLE header. The Northwind Employees report is an example of a report with this issuered error boxes appear in the Image controls.</p> 
+  <p>
+    The reason for this could be that the image data is corrupted or simply has an OLE header at the beginning of the binary image data. Once this header is removed or bypassed, the image displays correctly. The typical OLE header is 105 bytes long and can be stepped over by editing the image control's Value property to the following expression:
+  </p>
+  <p>
+    <b>=System.Convert.FromBase64String(Mid(System.Convert.ToBase64String( Fields!Photo.Value ),105))</b> </div> </blockquote> 
 <pre><code>&lt;p&gt;
   And yes, once i used this as value for the image, everything worked as expected:
 &lt;/p&gt;

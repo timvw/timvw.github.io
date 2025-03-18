@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Now that i have presented a simple ControlStateMachine i can raise the bar a little. A statemachine that handles commands. Here is how a developer should be able to initialize this machine:
 sut.WhenIn(States.Loading) .On(Commands.Next) .Do(() =&gt; Console.WriteLine(&#34;got next command while loading...&#34;)) .Do(() =&gt; Console.WriteLine(&#34;doing it again...&#34;)) .On(Commands.Previous) .Do(() =&gt; Console.WriteLine(&#34;got previous command while loading...&#34;)); sut.WhenIn(States.Ready) .On(Commands.Previous) .Do(() =&gt; Console.WriteLine(&#34;got previous command while ready...&#34;)); So how should we define our methods to accomplish this initialization style?"><meta itemprop="datePublished" content="2009-08-17T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="308">
+<meta itemprop="wordCount" content="314">
 <meta itemprop="keywords" content="CSharp,Visual Studio," /><meta property="og:title" content="About the design of a fluent interface" />
 <meta property="og:description" content="Now that i have presented a simple ControlStateMachine i can raise the bar a little. A statemachine that handles commands. Here is how a developer should be able to initialize this machine:
 sut.WhenIn(States.Loading) .On(Commands.Next) .Do(() =&gt; Console.WriteLine(&#34;got next command while loading...&#34;)) .Do(() =&gt; Console.WriteLine(&#34;doing it again...&#34;)) .On(Commands.Previous) .Do(() =&gt; Console.WriteLine(&#34;got previous command while loading...&#34;)); sut.WhenIn(States.Ready) .On(Commands.Previous) .Do(() =&gt; Console.WriteLine(&#34;got previous command while ready...&#34;)); So how should we define our methods to accomplish this initialization style?" />
@@ -99,7 +99,11 @@ sut.WhenIn(States.Loading) .On(Commands.Next) .Do(() =&gt; Console.WriteLine(&#3
 <li>Do(Action action)</li>
 </ul>
 <p>Next thing to do is analyze in which sequence these methods can be called:</p>
-<!-- raw HTML omitted -->
+<table>
+  <tr>
+    <th style="width: 200px">
+      From -> To
+    </th>
 <pre><code>&lt;th style=&quot;width: 100px&quot;&gt;
   WhenIn
 &lt;/th&gt;
@@ -112,8 +116,11 @@ sut.WhenIn(States.Loading) .On(Commands.Next) .Do(() =&gt; Console.WriteLine(&#3
   Do
 &lt;/th&gt;
 </code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+  </tr>
+  <tr>
+    <td>
+      WhenIn
+    </td>
 <pre><code>&lt;td&gt;
 &lt;/td&gt;
 
@@ -124,8 +131,11 @@ sut.WhenIn(States.Loading) .On(Commands.Next) .Do(() =&gt; Console.WriteLine(&#3
 &lt;td&gt;
 &lt;/td&gt;
 </code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+  </tr>
+  <tr>
+    <td>
+      On
+    </td>
 <pre><code>&lt;td&gt;
 &lt;/td&gt;
 
@@ -136,8 +146,11 @@ sut.WhenIn(States.Loading) .On(Commands.Next) .Do(() =&gt; Console.WriteLine(&#3
   X
 &lt;/td&gt;
 </code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+  </tr>
+  <tr>
+    <td>
+      Do
+    </td>
 <pre><code>&lt;td&gt;
 &lt;/td&gt;
 
@@ -149,7 +162,8 @@ sut.WhenIn(States.Loading) .On(Commands.Next) .Do(() =&gt; Console.WriteLine(&#3
   X
 &lt;/td&gt;
 </code></pre>
-<!-- raw HTML omitted -->
+  </tr>
+</table>
 <p>Ok, now that we have clarified the requirements a little we can start working on a solution. Let&rsquo;s start with defining an interface for each of the methods:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">interface</span> <span style="color:#458;font-weight:bold">IChooseState</span>&lt;tstate, TCommand&gt; { Q1 WhenIn(TState state); }
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">interface</span> <span style="color:#458;font-weight:bold">IChooseCommand</span>&lt;tstate, TCommand&gt; { Q2 On(TCommand command); }

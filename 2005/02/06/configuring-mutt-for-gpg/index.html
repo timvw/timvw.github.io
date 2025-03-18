@@ -4,11 +4,13 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Configuring Mutt for GPG - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta itemprop="name" content="Configuring Mutt for GPG">
-<meta itemprop="description" content="Today i generated a PGP (Pretty Good Privacy) key for my e-mail address. I also configured my mailclient, mutt, for use with GnuPG. I copied a sample file i found on the net but always got an error message: sh: line 1: pgpewrap: command not found. It appears that /usr/lib/mutt/ is not in the path and therefore is not found. Here is the tweaked .muttrc part:"><meta itemprop="datePublished" content="2005-02-06T00:00:00+00:00" />
+<meta itemprop="description" content="Today i generated a PGP (Pretty Good Privacy) key for my e-mail address. I also configured my mailclient, mutt, for use with GnuPG. I copied a sample file i found on the net but always got an error message: sh: line 1: pgpewrap: command not found. It appears that /usr/lib/mutt/ is not in the path and therefore is not found. Here is the tweaked .muttrc part:
+set pgp_decode_command=&#34;gpg %?p?--passphrase-fd 0? --no-verbose --batch --output - %f&#34;"><meta itemprop="datePublished" content="2005-02-06T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2021-01-04T22:47:36+01:00" />
-<meta itemprop="wordCount" content="66">
+<meta itemprop="wordCount" content="214">
 <meta itemprop="keywords" content="Free Software," /><meta property="og:title" content="Configuring Mutt for GPG" />
-<meta property="og:description" content="Today i generated a PGP (Pretty Good Privacy) key for my e-mail address. I also configured my mailclient, mutt, for use with GnuPG. I copied a sample file i found on the net but always got an error message: sh: line 1: pgpewrap: command not found. It appears that /usr/lib/mutt/ is not in the path and therefore is not found. Here is the tweaked .muttrc part:" />
+<meta property="og:description" content="Today i generated a PGP (Pretty Good Privacy) key for my e-mail address. I also configured my mailclient, mutt, for use with GnuPG. I copied a sample file i found on the net but always got an error message: sh: line 1: pgpewrap: command not found. It appears that /usr/lib/mutt/ is not in the path and therefore is not found. Here is the tweaked .muttrc part:
+set pgp_decode_command=&#34;gpg %?p?--passphrase-fd 0? --no-verbose --batch --output - %f&#34;" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://timvw.be/2005/02/06/configuring-mutt-for-gpg/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2005-02-06T00:00:00+00:00" />
@@ -16,7 +18,8 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Configuring Mutt for GPG"/>
-<meta name="twitter:description" content="Today i generated a PGP (Pretty Good Privacy) key for my e-mail address. I also configured my mailclient, mutt, for use with GnuPG. I copied a sample file i found on the net but always got an error message: sh: line 1: pgpewrap: command not found. It appears that /usr/lib/mutt/ is not in the path and therefore is not found. Here is the tweaked .muttrc part:"/>
+<meta name="twitter:description" content="Today i generated a PGP (Pretty Good Privacy) key for my e-mail address. I also configured my mailclient, mutt, for use with GnuPG. I copied a sample file i found on the net but always got an error message: sh: line 1: pgpewrap: command not found. It appears that /usr/lib/mutt/ is not in the path and therefore is not found. Here is the tweaked .muttrc part:
+set pgp_decode_command=&#34;gpg %?p?--passphrase-fd 0? --no-verbose --batch --output - %f&#34;"/>
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -79,8 +82,28 @@
 					
 			<div class="markdown">
 				<p>Today i generated a <a href="http://www.pgpi.org/">PGP</a> (Pretty Good Privacy) key for my e-mail address. I also configured my mailclient, <a href="http://www.mutt.org">mutt</a>, for use with <a href="http://www.gnupg.org">GnuPG</a>. I copied a sample file i found on the net but always got an error message: sh: line 1: pgpewrap: command not found. It appears that /usr/lib/mutt/ is not in the path and therefore is not found. Here is the tweaked .muttrc part:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<pre>set pgp_decode_command="gpg %?p?--passphrase-fd 0? --no-verbose --batch --output - %f"
+set pgp_verify_command="gpg --no-verbose --batch --output - --verify %s %f"
+set pgp_decrypt_command="gpg --passphrase-fd 0 --no-verbose --batch --output - %f"
+set pgp_sign_command="gpg --no-verbose --batch --output - --passphrase-fd 0 --armor --detach-sign \
+--textmode %?a?-u %a? %f"
+set pgp_clearsign_command="gpg --no-verbose --batch --output - --passphrase-fd 0 --armor \
+--textmode --clearsign %?a?-u %a? %f"
+set pgp_encrypt_only_command="/usr/lib/mutt/pgpewrap gpg --batch --quiet --no-verbose --output - --encrypt \
+--textmode --armor --always-trust --encrypt-to 0xE38BE821 -- -r %r -- %f"
+set pgp_encrypt_sign_command="/usr/lib/mutt/pgpewrap gpg --passphrase-fd 0 --batch --quiet --no-verbose \
+--textmode --output - --encrypt --sign %?a?-u %a? --armor --always-trust --encrypt-to 0xE38BE821 -- -r %r -- %f"
+set pgp_import_command="gpg --no-verbose --import -v %f"
+set pgp_export_command="gpg --no-verbose --export --armor %r"
+set pgp_verify_key_command="gpg --no-verbose --batch --fingerprint --check-sigs %r"
+set pgp_list_pubring_command="gpg --no-verbose --batch --with-colons --list-keys %r"
+set pgp_list_secring_command="gpg --no-verbose --batch --with-colons --list-secret-keys %r"
+set pgp_autosign=no
+set pgp_sign_as=0xE38BE821
+set pgp_replyencrypt=yes
+set pgp_timeout=1800
+set pgp_good_sign="^gpg: Good signature from"
+</pre>
 
 			</div>
 
