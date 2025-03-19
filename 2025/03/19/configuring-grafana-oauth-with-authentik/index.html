@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Configuring Grafana OAuth with Authentik - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	
+  <meta itemprop="name" content="Configuring Grafana OAuth with Authentik">
+  <meta itemprop="description" content="Introduction Following our previous posts about setting up Authentik with Kubernetes and FluxCD and managing Authentik with Terraform, today we’ll demonstrate how to implement OAuth authentication for Grafana using Authentik as the identity provider. This integration offers several benefits:
+Centralized user management with single sign-on (SSO) Role-based access control for Grafana using Authentik groups Secure authentication without the need to maintain separate user databases Consistent user experience across services Infrastructure Overview Our setup consists of:">
+  <meta itemprop="datePublished" content="2025-03-19T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-03-19T07:30:58+01:00">
+  <meta itemprop="wordCount" content="1069">
+  <meta itemprop="keywords" content="Grafana,Authentik,Oauth,Terraform,Kubernetes"><meta property="og:url" content="https://timvw.be/2025/03/19/configuring-grafana-oauth-with-authentik/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Configuring Grafana OAuth with Authentik">
+  <meta property="og:description" content="Introduction Following our previous posts about setting up Authentik with Kubernetes and FluxCD and managing Authentik with Terraform, today we’ll demonstrate how to implement OAuth authentication for Grafana using Authentik as the identity provider. This integration offers several benefits:
+Centralized user management with single sign-on (SSO) Role-based access control for Grafana using Authentik groups Secure authentication without the need to maintain separate user databases Consistent user experience across services Infrastructure Overview Our setup consists of:">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-03-19T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-03-19T07:30:58+01:00">
+    <meta property="article:tag" content="Grafana">
+    <meta property="article:tag" content="Authentik">
+    <meta property="article:tag" content="Oauth">
+    <meta property="article:tag" content="Terraform">
+    <meta property="article:tag" content="Kubernetes">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Configuring Grafana OAuth with Authentik">
+  <meta name="twitter:description" content="Introduction Following our previous posts about setting up Authentik with Kubernetes and FluxCD and managing Authentik with Terraform, today we’ll demonstrate how to implement OAuth authentication for Grafana using Authentik as the identity provider. This integration offers several benefits:
+Centralized user management with single sign-on (SSO) Role-based access control for Grafana using Authentik groups Secure authentication without the need to maintain separate user databases Consistent user experience across services Infrastructure Overview Our setup consists of:">
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+	<link href="https://github.com/timvw" rel="me">
+    <link href="https://timvw.be/" rel="me">
+    <link href="https://fosstodon.org/@timvw" rel="me">
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li><li><a rel="me" href="https://fosstodon.org/@timvw" class="masto-link" ></a></li>
+			</ul>
+		
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">19</span>
+							<span class="rest">Mar 2025</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">Configuring Grafana OAuth with Authentik</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<h2 id="introduction">Introduction</h2>
+<p>Following our previous posts about <a href="../../../../2025/03/17/setting-up-authentik-with-kubernetes-and-fluxcd/">setting up Authentik with Kubernetes and FluxCD</a> and <a href="../../../../2025/03/18/managing-authentik-with-terraform/">managing Authentik with Terraform</a>, today we&rsquo;ll demonstrate how to implement OAuth authentication for Grafana using Authentik as the identity provider. This integration offers several benefits:</p>
+<ul>
+<li>Centralized user management with single sign-on (SSO)</li>
+<li>Role-based access control for Grafana using Authentik groups</li>
+<li>Secure authentication without the need to maintain separate user databases</li>
+<li>Consistent user experience across services</li>
+</ul>
+<h2 id="infrastructure-overview">Infrastructure Overview</h2>
+<p>Our setup consists of:</p>
+<ol>
+<li>Authentik deployed on Kubernetes using FluxCD (as described in our first post)</li>
+<li>Authentik configuration managed via Terraform (as explained in our second post)</li>
+<li>Grafana deployed on Kubernetes using a Helm chart via FluxCD</li>
+<li>OAuth integration between Grafana and Authentik</li>
+</ol>
+<h2 id="configuring-authentik-for-grafana-oauth">Configuring Authentik for Grafana OAuth</h2>
+<p>First, let&rsquo;s look at how we&rsquo;ve configured the Authentik side of the integration using Terraform.</p>
+<h3 id="authentik-provider-and-application-configuration">Authentik Provider and Application Configuration</h3>
+<p>Here&rsquo;s our Terraform configuration for the Grafana OAuth provider:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#cf222e">variable</span> <span style="color:#0a3069">&#34;grafana_client_secret&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">description</span> = <span style="color:#0a3069">&#34;Client secret for Grafana OAuth provider&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">type</span>        = <span style="color:#1f2328">string</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">sensitive</span>   = <span style="color:#cf222e">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">
+</span></span></span><span style="display:flex;"><span><span style="color:#cf222e">data</span> <span style="color:#0a3069">&#34;authentik_flow&#34;</span> <span style="color:#0a3069">&#34;default_invalidation_flow&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">slug</span> = <span style="color:#0a3069">&#34;default-invalidation-flow&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">
+</span></span></span><span style="display:flex;"><span><span style="color:#cf222e">data</span> <span style="color:#0a3069">&#34;authentik_flow&#34;</span> <span style="color:#0a3069">&#34;default-provider-authorization-implicit-consent&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">slug</span> = <span style="color:#0a3069">&#34;default-provider-authorization-implicit-consent&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">
+</span></span></span><span style="display:flex;"><span><span style="color:#cf222e">data</span> <span style="color:#0a3069">&#34;authentik_certificate_key_pair&#34;</span> <span style="color:#0a3069">&#34;default&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name</span> = <span style="color:#0a3069">&#34;authentik Self-signed Certificate&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">
+</span></span></span><span style="display:flex;"><span><span style="color:#cf222e">data</span> <span style="color:#0a3069">&#34;authentik_property_mapping_provider_scope&#34;</span> <span style="color:#0a3069">&#34;scope-email&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name</span> = <span style="color:#0a3069">&#34;scope_email&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">
+</span></span></span><span style="display:flex;"><span><span style="color:#cf222e">data</span> <span style="color:#0a3069">&#34;authentik_property_mapping_provider_scope&#34;</span> <span style="color:#0a3069">&#34;scope-profile&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name</span> = <span style="color:#0a3069">&#34;scope_profile&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">
+</span></span></span><span style="display:flex;"><span><span style="color:#cf222e">data</span> <span style="color:#0a3069">&#34;authentik_property_mapping_provider_scope&#34;</span> <span style="color:#0a3069">&#34;scope-openid&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name</span> = <span style="color:#0a3069">&#34;scope_openid&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">
+</span></span></span><span style="display:flex;"><span><span style="color:#cf222e">resource</span> <span style="color:#0a3069">&#34;authentik_provider_oauth2&#34;</span> <span style="color:#0a3069">&#34;grafana&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name</span>               = <span style="color:#0a3069">&#34;Grafana&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">client_id</span>          = <span style="color:#0a3069">&#34;grafana&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">client_secret</span>      = <span style="color:#6639ba">var</span><span style="color:#1f2328">.</span><span style="color:#1f2328">grafana_client_secret</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">authorization_flow</span> = <span style="color:#6639ba">data</span><span style="color:#1f2328">.</span><span style="color:#1f2328">authentik_flow</span><span style="color:#1f2328">.</span><span style="color:#1f2328">default</span><span style="color:#0550ae">-</span><span style="color:#1f2328">provider</span><span style="color:#0550ae">-</span><span style="color:#1f2328">authorization</span><span style="color:#0550ae">-</span><span style="color:#1f2328">implicit</span><span style="color:#0550ae">-</span><span style="color:#1f2328">consent</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">invalidation_flow</span>  = <span style="color:#6639ba">data</span><span style="color:#1f2328">.</span><span style="color:#1f2328">authentik_flow</span><span style="color:#1f2328">.</span><span style="color:#1f2328">default_invalidation_flow</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">signing_key</span>        = <span style="color:#6639ba">data</span><span style="color:#1f2328">.</span><span style="color:#1f2328">authentik_certificate_key_pair</span><span style="color:#1f2328">.</span><span style="color:#1f2328">default</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">property_mappings</span> = <span style="color:#1f2328">[</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">    data</span><span style="color:#1f2328">.</span><span style="color:#1f2328">authentik_property_mapping_provider_scope</span><span style="color:#1f2328">.</span><span style="color:#1f2328">scope</span><span style="color:#0550ae">-</span><span style="color:#1f2328">email</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">    data</span><span style="color:#1f2328">.</span><span style="color:#1f2328">authentik_property_mapping_provider_scope</span><span style="color:#1f2328">.</span><span style="color:#1f2328">scope</span><span style="color:#0550ae">-</span><span style="color:#1f2328">profile</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">    data</span><span style="color:#1f2328">.</span><span style="color:#1f2328">authentik_property_mapping_provider_scope</span><span style="color:#1f2328">.</span><span style="color:#1f2328">scope</span><span style="color:#0550ae">-</span><span style="color:#1f2328">openid</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">allowed_redirect_uris</span> = <span style="color:#1f2328">[</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#0a3069">&#34;matching_mode&#34;</span> <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#34;strict&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#0a3069">&#34;url&#34;</span>           <span style="color:#0550ae">=</span> <span style="color:#0a3069">&#34;https://grafana.apps.timvw.be/login/generic_oauth&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#1f2328">},</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">
+</span></span></span><span style="display:flex;"><span><span style="color:#cf222e">resource</span> <span style="color:#0a3069">&#34;authentik_application&#34;</span> <span style="color:#0a3069">&#34;grafana&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name</span>              = <span style="color:#0a3069">&#34;Grafana&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">slug</span>              = <span style="color:#0a3069">&#34;grafana&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">protocol_provider</span> = <span style="color:#1f2328">authentik_provider_oauth2</span><span style="color:#1f2328">.</span><span style="color:#1f2328">grafana</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">meta_icon</span>         = <span style="color:#0a3069">&#34;https://www.svgrepo.com/download/448228/grafana.svg&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">meta_launch_url</span>   = <span style="color:#0a3069">&#34;https://grafana.apps.timvw.be/login/generic_oauth&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">open_in_new_tab</span>   = <span style="color:#cf222e">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span></code></pre></div><p>This configuration:</p>
+<ol>
+<li>Defines a variable for the client secret instead of hardcoding it</li>
+<li>Creates an OAuth2 provider for Grafana with the necessary parameters</li>
+<li>Sets up property mappings for the OpenID Connect scopes (email, profile, openid)</li>
+<li>Configures the allowed redirect URI for Grafana&rsquo;s OAuth callback</li>
+<li>Creates an application in Authentik that users will see in their dashboard</li>
+</ol>
+<p>These data resources reference existing resources in Authentik that are created during installation rather than resources we need to create ourselves.</p>
+<h3 id="role-based-access-control">Role-Based Access Control</h3>
+<p>To implement role-based access control for Grafana, we&rsquo;ve set up specific groups:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#cf222e">resource</span> <span style="color:#0a3069">&#34;authentik_group&#34;</span> <span style="color:#0a3069">&#34;grafana_admins&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name</span>         = <span style="color:#0a3069">&#34;Grafana Admins&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">is_superuser</span> = <span style="color:#cf222e">false</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">
+</span></span></span><span style="display:flex;"><span><span style="color:#cf222e">resource</span> <span style="color:#0a3069">&#34;authentik_group&#34;</span> <span style="color:#0a3069">&#34;grafana_editors&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name</span>         = <span style="color:#0a3069">&#34;Grafana Editors&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">is_superuser</span> = <span style="color:#cf222e">false</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">
+</span></span></span><span style="display:flex;"><span><span style="color:#cf222e">resource</span> <span style="color:#0a3069">&#34;authentik_policy_binding&#34;</span> <span style="color:#0a3069">&#34;grafana_access&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">target</span> = <span style="color:#1f2328">authentik_application</span><span style="color:#1f2328">.</span><span style="color:#1f2328">grafana</span><span style="color:#1f2328">.</span><span style="color:#6639ba">uuid</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">group</span>  = <span style="color:#1f2328">authentik_group</span><span style="color:#1f2328">.</span><span style="color:#1f2328">grafana_admins</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">order</span>  = <span style="color:#0550ae">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span></code></pre></div><p>This sets up two groups:</p>
+<ul>
+<li><strong>Grafana Admins</strong>: Users with administrative privileges</li>
+<li><strong>Grafana Editors</strong>: Users who can edit dashboards but have limited permissions</li>
+</ul>
+<p>The policy binding ensures that members of the Grafana Admins group have access to the application.</p>
+<h3 id="secret-management">Secret Management</h3>
+<p>For security, we expose the client secret as a Terraform output, which can be consumed by other systems:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#cf222e">output</span> <span style="color:#0a3069">&#34;grafana_client_secret&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">value</span>     = <span style="color:#1f2328">authentik_provider_oauth2</span><span style="color:#1f2328">.</span><span style="color:#1f2328">grafana</span><span style="color:#1f2328">.</span><span style="color:#1f2328">client_secret</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">sensitive</span> = <span style="color:#cf222e">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span></code></pre></div><h2 id="configuring-grafana-for-oauth-authentication">Configuring Grafana for OAuth Authentication</h2>
+<p>Now, let&rsquo;s examine the Grafana side of the setup, which is defined in our Kubernetes manifests:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#0550ae">apiVersion</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>helm.toolkit.fluxcd.io/v2<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#0550ae">kind</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>HelmRelease<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#0550ae">metadata</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">  </span><span style="color:#0550ae">name</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>grafana<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">  </span><span style="color:#0550ae">namespace</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>grafana<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#0550ae">spec</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">  </span><span style="color:#0550ae">interval</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>10m<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">  </span><span style="color:#0550ae">timeout</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>5m<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">  </span><span style="color:#0550ae">chart</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">spec</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">      </span><span style="color:#0550ae">chart</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>grafana<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">      </span><span style="color:#0550ae">reconcileStrategy</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>ChartVersion<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">      </span><span style="color:#0550ae">sourceRef</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">kind</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>HelmRepository<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">name</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>grafana<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">      </span><span style="color:#0550ae">version</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#0a3069">&#39;*&#39;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">  </span><span style="color:#0550ae">values</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">assertNoLeakedSecrets</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#cf222e">false</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">envFromSecret</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>grafana-oauth-credentials<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">ingress</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">      </span><span style="color:#0550ae">enabled</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#cf222e">true</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">      </span><span style="color:#0550ae">annotations</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">cert-manager.io/cluster-issuer</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#0a3069">&#34;letsencrypt-prod&#34;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">      </span><span style="color:#0550ae">tls</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">      </span>- <span style="color:#0550ae">hosts</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span>- grafana.apps.timvw.be<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">secretName</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>grafana-apps-tls-secret        <span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">      </span><span style="color:#0550ae">hosts</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span>- grafana.apps.timvw.be<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">datasources</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">      </span><span style="color:#0550ae">datasources.yaml</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">apiVersion</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#0550ae">1</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">datasources</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span>- <span style="color:#0550ae">name</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>Jaeger<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">          </span>...<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span>- <span style="color:#0550ae">name</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>Prometheus<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">          </span>...<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">grafana.ini</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">      </span><span style="color:#0550ae">server</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">root_url</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#0a3069">&#34;https://grafana.apps.timvw.be&#34;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">      </span><span style="color:#0550ae">auth</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">signout_redirect_url</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#0a3069">&#34;https://authentik.apps.timvw.be/application/o/end-session/&#34;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">oauth_auto_login</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#cf222e">false</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">      </span><span style="color:#0550ae">auth.generic_oauth</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">name</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>Authentik<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">enabled</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#cf222e">true</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">allow_sign_up</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#cf222e">true</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">client_id</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>grafana<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">client_secret</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>${CLIENT_SECRET}<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">scopes</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#0a3069">&#34;openid profile email&#34;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">auth_url</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#0a3069">&#34;https://authentik.apps.timvw.be/application/o/authorize/&#34;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">token_url</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#0a3069">&#34;https://authentik.apps.timvw.be/application/o/token/&#34;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">api_url</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#0a3069">&#34;https://authentik.apps.timvw.be/application/o/userinfo/&#34;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">role_attribute_path</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#0a3069">&#34;contains(groups, &#39;Grafana Admins&#39;) &amp;&amp; &#39;Admin&#39; || contains(groups, &#39;Grafana Editors&#39;) &amp;&amp; &#39;Editor&#39; || &#39;Viewer&#39;&#34;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">use_pkce</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#cf222e">true</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">      </span><span style="color:#0550ae">users</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">allow_sign_up</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#cf222e">false</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">auto_assign_org</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#cf222e">true</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">auto_assign_org_id</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#0550ae">1</span><span style="color:#fff">
+</span></span></span></code></pre></div><p>The key parts of this configuration are:</p>
+<ol>
+<li>
+<p><strong>Reference to Secret</strong>: The <code>envFromSecret: grafana-oauth-credentials</code> setting tells Grafana to load environment variables from a Kubernetes Secret, which includes the OAuth client secret.</p>
+</li>
+<li>
+<p><strong>Authentication Settings</strong>: The <code>auth</code> section configures the sign-out redirect URL, pointing back to Authentik&rsquo;s end-session endpoint.</p>
+</li>
+<li>
+<p><strong>OAuth Configuration</strong>: The <code>auth.generic_oauth</code> section contains the core OAuth configuration:</p>
+<ul>
+<li>The auth, token, and API URLs point to Authentik&rsquo;s OAuth endpoints</li>
+<li>The client_id matches the one defined in Authentik</li>
+<li>The client_secret is loaded from the environment variables</li>
+<li>The required scopes are specified (openid profile email)</li>
+<li>PKCE (Proof Key for Code Exchange) is enabled for additional security</li>
+</ul>
+</li>
+<li>
+<p><strong>Role Mapping</strong>: The <code>role_attribute_path</code> setting contains a JMESPath expression that maps Authentik groups to Grafana roles:</p>
+<ul>
+<li>Members of &lsquo;Grafana Admins&rsquo; get the Admin role</li>
+<li>Members of &lsquo;Grafana Editors&rsquo; get the Editor role</li>
+<li>All other users get the Viewer role</li>
+</ul>
+</li>
+</ol>
+<h2 id="creating-the-secret-for-oauth-credentials">Creating the Secret for OAuth Credentials</h2>
+<p>For the integration to work, we need to create a Kubernetes Secret containing the OAuth client secret:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#57606a"># Get the client secret from Terraform output</span>
+</span></span><span style="display:flex;"><span><span style="color:#953800">CLIENT_SECRET</span><span style="color:#0550ae">=</span><span style="color:#cf222e">$(</span>terraform output -raw grafana_client_secret<span style="color:#cf222e">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># Create the Kubernetes Secret</span>
+</span></span><span style="display:flex;"><span>kubectl create secret generic grafana-oauth-credentials <span style="color:#0a3069">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069"></span>  --namespace grafana <span style="color:#0a3069">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069"></span>  --from-literal<span style="color:#0550ae">=</span><span style="color:#953800">CLIENT_SECRET</span><span style="color:#0550ae">=</span><span style="color:#0a3069">&#34;</span><span style="color:#953800">$CLIENT_SECRET</span><span style="color:#0a3069">&#34;</span>
+</span></span></code></pre></div><p>In practice, this would be part of a CI/CD pipeline or another automated process.</p>
+<h2 id="testing-the-integration">Testing the Integration</h2>
+<p>After deploying these configurations, we can verify the integration by:</p>
+<ol>
+<li>Accessing Grafana at <a href="https://grafana.apps.timvw.be">https://grafana.apps.timvw.be</a></li>
+<li>Clicking on the &ldquo;Sign in with Authentik&rdquo; button</li>
+<li>Being redirected to Authentik&rsquo;s login page</li>
+<li>After authentication, being redirected back to Grafana with the appropriate permissions</li>
+</ol>
+<h2 id="security-considerations">Security Considerations</h2>
+<p>When implementing OAuth with Grafana and Authentik, we&rsquo;ve taken several security measures:</p>
+<ol>
+<li>
+<p><strong>Use of PKCE</strong>: The <code>use_pkce: true</code> setting enables Proof Key for Code Exchange, which prevents authorization code interception attacks.</p>
+</li>
+<li>
+<p><strong>Secure Storage of Secrets</strong>: Client secrets are stored in Kubernetes Secrets and injected into Grafana at runtime.</p>
+</li>
+<li>
+<p><strong>Restricted Redirect URIs</strong>: In Authentik, we&rsquo;ve explicitly listed the allowed redirect URIs to prevent open redirector vulnerabilities.</p>
+</li>
+<li>
+<p><strong>TLS Everywhere</strong>: All communications between components use TLS encryption.</p>
+</li>
+<li>
+<p><strong>Principle of Least Privilege</strong>: Users are assigned the minimum necessary permissions based on their group membership.</p>
+</li>
+</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>By integrating Grafana with Authentik using OAuth, we&rsquo;ve established a robust authentication system that provides:</p>
+<ul>
+<li>Single sign-on for users across multiple applications</li>
+<li>Centralized user and permission management</li>
+<li>Role-based access control that&rsquo;s easy to adjust</li>
+<li>Improved security through modern authentication protocols</li>
+</ul>
+<p>This setup builds on the foundation laid in our previous posts about Authentik deployment and Terraform management, completing a comprehensive identity management solution for our Kubernetes-based infrastructure.</p>
+<p>The combination of GitOps with FluxCD and Infrastructure as Code with Terraform provides a fully declarative approach to both the deployment and configuration of this authentication infrastructure, making it reproducible, version-controlled, and easily maintainable.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://docs.goauthentik.io/integrations/services/grafana/">Authentik Grafana Integration Documentation</a></li>
+<li><a href="https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/generic-oauth/">Grafana OAuth Configuration Documentation</a></li>
+<li><a href="https://oauth.net/2/pkce/">OAuth 2.0 with PKCE Explained</a></li>
+</ul>
+
+			</div>
+
+			<div class="tags">
+				
+					
+						<ul class="flat">
+							
+							<li><a href="../../../../tags/grafana">grafana</a></li>
+							
+							<li><a href="../../../../tags/authentik">authentik</a></li>
+							
+							<li><a href="../../../../tags/oauth">oauth</a></li>
+							
+							<li><a href="../../../../tags/terraform">terraform</a></li>
+							
+							<li><a href="../../../../tags/kubernetes">kubernetes</a></li>
+							
+						</ul>
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2025  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
+</body>
+</html>
