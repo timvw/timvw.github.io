@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Configuring AWS Identity Center with Authentik SCIM Provisioning - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	
+  <meta itemprop="name" content="Configuring AWS Identity Center with Authentik SCIM Provisioning">
+  <meta itemprop="description" content="Introduction In previous posts, I’ve covered setting up Authentik with Kubernetes and FluxCD, managing Authentik with Terraform, and integrating it with various services like Grafana and MinIO. Today, I’ll explain how I configured AWS IAM Identity Center (formerly AWS SSO) with Authentik using SCIM provisioning.
+AWS IAM Identity Center has become a critical component for managing access to AWS accounts and applications. By integrating it with Authentik using SCIM (System for Cross-domain Identity Management), we can automate user provisioning and deprovisioning, centralize identity management, and implement consistent access controls across our AWS environment.">
+  <meta itemprop="datePublished" content="2025-03-21T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-03-21T11:34:53+01:00">
+  <meta itemprop="wordCount" content="1524">
+  <meta itemprop="keywords" content="Aws,Authentik,Scim,Terraform,Identity-Center"><meta property="og:url" content="https://timvw.be/2025/03/21/configuring-aws-identity-center-with-authentik-scim-provisioning/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Configuring AWS Identity Center with Authentik SCIM Provisioning">
+  <meta property="og:description" content="Introduction In previous posts, I’ve covered setting up Authentik with Kubernetes and FluxCD, managing Authentik with Terraform, and integrating it with various services like Grafana and MinIO. Today, I’ll explain how I configured AWS IAM Identity Center (formerly AWS SSO) with Authentik using SCIM provisioning.
+AWS IAM Identity Center has become a critical component for managing access to AWS accounts and applications. By integrating it with Authentik using SCIM (System for Cross-domain Identity Management), we can automate user provisioning and deprovisioning, centralize identity management, and implement consistent access controls across our AWS environment.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-03-21T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-03-21T11:34:53+01:00">
+    <meta property="article:tag" content="Aws">
+    <meta property="article:tag" content="Authentik">
+    <meta property="article:tag" content="Scim">
+    <meta property="article:tag" content="Terraform">
+    <meta property="article:tag" content="Identity-Center">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Configuring AWS Identity Center with Authentik SCIM Provisioning">
+  <meta name="twitter:description" content="Introduction In previous posts, I’ve covered setting up Authentik with Kubernetes and FluxCD, managing Authentik with Terraform, and integrating it with various services like Grafana and MinIO. Today, I’ll explain how I configured AWS IAM Identity Center (formerly AWS SSO) with Authentik using SCIM provisioning.
+AWS IAM Identity Center has become a critical component for managing access to AWS accounts and applications. By integrating it with Authentik using SCIM (System for Cross-domain Identity Management), we can automate user provisioning and deprovisioning, centralize identity management, and implement consistent access controls across our AWS environment.">
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+	<link href="https://github.com/timvw" rel="me">
+    <link href="https://timvw.be/" rel="me">
+    <link href="https://fosstodon.org/@timvw" rel="me">
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li><li><a rel="me" href="https://fosstodon.org/@timvw" class="masto-link" ></a></li>
+			</ul>
+		
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">21</span>
+							<span class="rest">Mar 2025</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">Configuring AWS Identity Center with Authentik SCIM Provisioning</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<h2 id="introduction">Introduction</h2>
+<p>In previous posts, I&rsquo;ve covered <a href="../../../../2025/03/17/setting-up-authentik-with-kubernetes-and-fluxcd/">setting up Authentik with Kubernetes and FluxCD</a>, <a href="../../../../2025/03/18/managing-authentik-with-terraform/">managing Authentik with Terraform</a>, and integrating it with various services like <a href="../../../../2025/03/19/configuring-grafana-oauth-with-authentik/">Grafana</a> and <a href="../../../../2025/03/20/configuring-minio-oauth-with-authentik/">MinIO</a>. Today, I&rsquo;ll explain how I configured AWS IAM Identity Center (formerly AWS SSO) with Authentik using SCIM provisioning.</p>
+<p>AWS IAM Identity Center has become a critical component for managing access to AWS accounts and applications. By integrating it with Authentik using SCIM (System for Cross-domain Identity Management), we can automate user provisioning and deprovisioning, centralize identity management, and implement consistent access controls across our AWS environment.</p>
+<p>This post will focus specifically on the SCIM provisioning aspect and an important consideration I discovered: the relationship between SAML name_id_mapping and SCIM username fields.</p>
+<h2 id="integration-overview">Integration Overview</h2>
+<p>The integration between Authentik and AWS IAM Identity Center involves:</p>
+<ol>
+<li><strong>SAML Authentication</strong>: AWS IAM Identity Center acts as a SAML Service Provider</li>
+<li><strong>SCIM Provisioning</strong>: Syncs users and groups from Authentik to AWS IAM Identity Center</li>
+<li><strong>User Mapping</strong>: Configuring how Authentik user attributes map to AWS IAM Identity Center</li>
+<li><strong>Permission Sets</strong>: Defining AWS permissions assigned to provisioned users</li>
+</ol>
+<p>Let&rsquo;s dive into each component.</p>
+<h2 id="configuring-aws-iam-identity-center">Configuring AWS IAM Identity Center</h2>
+<p>First, we need to set up AWS IAM Identity Center. In the AWS Management Console:</p>
+<ol>
+<li>Enable AWS IAM Identity Center</li>
+<li>Under &ldquo;Settings&rdquo;, choose &ldquo;Identity source&rdquo; and select &ldquo;External identity provider&rdquo;</li>
+<li>Set up SAML authentication</li>
+<li>Enable automatic provisioning using SCIM</li>
+</ol>
+<p>After setting up the SAML provider, AWS generates:</p>
+<ul>
+<li>An IAM Identity provider ARN</li>
+<li>A SCIM endpoint URL</li>
+<li>A SCIM access token</li>
+</ul>
+<p>We&rsquo;ll need these when configuring Authentik.</p>
+<h2 id="configuring-authentik-with-terraform">Configuring Authentik with Terraform</h2>
+<p>Now, let&rsquo;s look at how I&rsquo;ve configured Authentik for AWS IAM Identity Center using Terraform:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#57606a"># Authentik SAML Provider
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"></span><span style="color:#cf222e">resource</span> <span style="color:#0a3069">&#34;authentik_provider_saml&#34;</span> <span style="color:#0a3069">&#34;aws&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name</span>               = <span style="color:#0a3069">&#34;AWS IAM Identity Center&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">authorization_flow</span> = <span style="color:#6639ba">data</span><span style="color:#1f2328">.</span><span style="color:#1f2328">authentik_flow</span><span style="color:#1f2328">.</span><span style="color:#1f2328">default_authorization_flow</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">invalidation_flow</span>  = <span style="color:#6639ba">data</span><span style="color:#1f2328">.</span><span style="color:#1f2328">authentik_flow</span><span style="color:#1f2328">.</span><span style="color:#1f2328">default_invalidation_flow</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">acs_url</span>            = <span style="color:#0a3069">&#34;https://eu-central-1.signin.aws.amazon.com/platform/saml/acs/e4f71ab4-31d3-46cd-a105-2c2c38ec0032&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">audience</span>           = <span style="color:#0a3069">&#34;https://eu-central-1.signin.aws.amazon.com/platform/saml/d-99677451d0&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">issuer</span>             = <span style="color:#0a3069">&#34;https://eu-central-1.signin.aws.amazon.com/platform/saml/d-99677451d0&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">signing_kp</span>         = <span style="color:#6639ba">data</span><span style="color:#1f2328">.</span><span style="color:#1f2328">authentik_certificate_key_pair</span><span style="color:#1f2328">.</span><span style="color:#1f2328">default</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">sp_binding</span>         = <span style="color:#0a3069">&#34;post&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">property_mappings</span>  = <span style="color:#1f2328">[]</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name_id_mapping</span>    = <span style="color:#6639ba">data</span><span style="color:#1f2328">.</span><span style="color:#1f2328">authentik_property_mapping_provider_saml</span><span style="color:#1f2328">.</span><span style="color:#1f2328">username</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span><span style="color:#57606a">
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"># Authentik Application
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"></span><span style="color:#cf222e">resource</span> <span style="color:#0a3069">&#34;authentik_application&#34;</span> <span style="color:#0a3069">&#34;aws&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name</span>                  = <span style="color:#0a3069">&#34;AWS Console (icteam)&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">slug</span>                  = <span style="color:#0a3069">&#34;aws-console-icteam&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">protocol_provider</span>     = <span style="color:#1f2328">authentik_provider_saml</span><span style="color:#1f2328">.</span><span style="color:#1f2328">aws</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">meta_icon</span>             = <span style="color:#0a3069">&#34;https://www.svgrepo.com/download/448266/aws.svg&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">meta_launch_url</span>       = <span style="color:#0a3069">&#34;https://icteam.awsapps.com/start&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">open_in_new_tab</span>       = <span style="color:#cf222e">true</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">backchannel_providers</span> = <span style="color:#1f2328">[</span><span style="color:#1f2328">authentik_provider_scim</span><span style="color:#1f2328">.</span><span style="color:#1f2328">aws</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span><span style="color:#1f2328">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span><span style="color:#57606a">
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"># Authentik SCIM Provider
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"></span><span style="color:#cf222e">resource</span> <span style="color:#0a3069">&#34;authentik_provider_scim&#34;</span> <span style="color:#0a3069">&#34;aws&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name</span>                          = <span style="color:#0a3069">&#34;AWS IAM Identity Center SCIM&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">url</span>                           = <span style="color:#6639ba">var</span><span style="color:#1f2328">.</span><span style="color:#1f2328">aws_scim_url</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">token</span>                         = <span style="color:#6639ba">var</span><span style="color:#1f2328">.</span><span style="color:#1f2328">aws_scim_token</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">exclude_users_service_account</span> = <span style="color:#cf222e">true</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">filter_group</span>                  = <span style="color:#6639ba">data</span><span style="color:#1f2328">.</span><span style="color:#1f2328">authentik_group</span><span style="color:#1f2328">.</span><span style="color:#1f2328">aws_users</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">property_mappings</span> = <span style="color:#1f2328">[</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">    resource</span><span style="color:#1f2328">.</span><span style="color:#1f2328">authentik_property_mapping_provider_scim</span><span style="color:#1f2328">.</span><span style="color:#1f2328">aws_scim_user_mapping</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">]</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">property_mappings_group</span> = <span style="color:#1f2328">[</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">    data</span><span style="color:#1f2328">.</span><span style="color:#1f2328">authentik_property_mapping_provider_scim</span><span style="color:#1f2328">.</span><span style="color:#1f2328">scim_group_mapping</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span><span style="color:#57606a">
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"># Custom user mapping for SCIM
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"></span><span style="color:#cf222e">resource</span> <span style="color:#0a3069">&#34;authentik_property_mapping_provider_scim&#34;</span> <span style="color:#0a3069">&#34;aws_scim_user_mapping&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name</span>       = <span style="color:#0a3069">&#34;AWS SCIM User Mapping&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">expression</span> = <span style="color:#0550ae">&lt;&lt;EOF</span><span style="color:#0a3069">
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069"># https://docs.aws.amazon.com/singlesignon/latest/developerguide/createuser.html
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">#The givenName, familyName, userName, and displayName fields are required.
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">if &#34; &#34; in request.user.name:
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">    givenName, _, familyName = request.user.name.partition(&#34; &#34;)
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">else:
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">    givenName, familyName = request.user.name, &#34; &#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">locale = request.user.locale()
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">if locale == &#34;&#34;:
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">    locale = None
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">emails = []
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">if request.user.email != &#34;&#34;:
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">    emails = [{
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">        &#34;value&#34;: request.user.email,
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">        &#34;type&#34;: &#34;other&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">        &#34;primary&#34;: True,
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">    }]
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">return {
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">    &#34;externalId&#34;: request.user.uid,
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">    &#34;userName&#34;: request.user.username,
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">    &#34;name&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">        &#34;givenName&#34;: givenName,
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">        &#34;familyName&#34;: familyName,
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">    },
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">    &#34;displayName&#34;: request.user.name,
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">    &#34;locale&#34;: locale,
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">    &#34;active&#34;: request.user.is_active,
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">    &#34;emails&#34;: emails,
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">}
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069"></span><span style="color:#0550ae">EOF</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span></code></pre></div><p>I&rsquo;m also using some data sources:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#cf222e">data</span> <span style="color:#0a3069">&#34;authentik_certificate_key_pair&#34;</span> <span style="color:#0a3069">&#34;default&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name</span> = <span style="color:#0a3069">&#34;authentik Self-signed Certificate&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">
+</span></span></span><span style="display:flex;"><span><span style="color:#cf222e">data</span> <span style="color:#0a3069">&#34;authentik_group&#34;</span> <span style="color:#0a3069">&#34;aws_users&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name</span> = <span style="color:#0a3069">&#34;aws-users&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">
+</span></span></span><span style="display:flex;"><span><span style="color:#cf222e">data</span> <span style="color:#0a3069">&#34;authentik_property_mapping_provider_saml&#34;</span> <span style="color:#0a3069">&#34;username&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">managed</span> = <span style="color:#0a3069">&#34;goauthentik.io/providers/saml/username&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">
+</span></span></span><span style="display:flex;"><span><span style="color:#cf222e">data</span> <span style="color:#0a3069">&#34;authentik_property_mapping_provider_scim&#34;</span> <span style="color:#0a3069">&#34;scim_group_mapping&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">managed</span> = <span style="color:#0a3069">&#34;goauthentik.io/providers/scim/group&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span></code></pre></div><p>The key components here are:</p>
+<ol>
+<li><strong>SAML Provider</strong>: Configures the authentication part</li>
+<li><strong>Property Mappings</strong>: Define how Authentik user attributes map to AWS SAML claims</li>
+<li><strong>SCIM Source</strong>: Handles automatic user provisioning to AWS IAM Identity Center</li>
+</ol>
+<h2 id="name-id-mapping-considerations">Name ID Mapping Considerations</h2>
+<p>This is where I noticed something important: depending on how you configure your SCIM username mapping, you need a corresponding name_id_mapping in your SAML provider.</p>
+<p>In my configuration, I&rsquo;m using the default <code>username</code> property mapping for the <code>name_id_mapping</code> field in the SAML provider (<code>data.authentik_property_mapping_provider_saml.username.id</code>). Looking at my SCIM mapping, I&rsquo;m using <code>request.user.username</code> as the <code>userName</code> field in the SCIM mapping:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#cf222e">return</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#0a3069">&#34;externalId&#34;</span><span style="color:#1f2328">:</span> request<span style="color:#0550ae">.</span>user<span style="color:#0550ae">.</span>uid<span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#0a3069">&#34;userName&#34;</span><span style="color:#1f2328">:</span> request<span style="color:#0550ae">.</span>user<span style="color:#0550ae">.</span>username<span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#57606a"># ... other fields</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span></code></pre></div><p>This alignment is critical because:</p>
+<ol>
+<li>If your SCIM provisioning uses usernames as the <code>userName</code> field, your SAML name_id_mapping should also use the username attribute</li>
+<li>If your SCIM provisioning uses emails as the <code>userName</code> field, your SAML name_id_mapping should use the email attribute</li>
+</ol>
+<p>This was the key insight from <a href="https://github.com/goauthentik/authentik/issues/4554">Authentik Issue #4554</a> - mismatching these will result in AWS IAM Identity Center failing to match SAML-authenticated users to their SCIM-provisioned identities. The user&rsquo;s SAML NameID must match the userName field in SCIM.</p>
+<h2 id="user-and-group-provisioning">User and Group Provisioning</h2>
+<p>With the SCIM integration in place, Authentik will automatically:</p>
+<ol>
+<li>Create users in AWS IAM Identity Center when they&rsquo;re added to the specified group in Authentik</li>
+<li>Update user attributes when they change in Authentik</li>
+<li>Disable users in AWS IAM Identity Center when they&rsquo;re removed from the group in Authentik</li>
+<li>Provision groups from Authentik to AWS IAM Identity Center</li>
+</ol>
+<p>In my configuration, I&rsquo;ve set up the following:</p>
+<ul>
+<li>Users are provisioned if they&rsquo;re in the &ldquo;aws-users&rdquo; group (<code>filter_group = data.authentik_group.aws_users.id</code>)</li>
+<li>Service accounts are excluded from provisioning (<code>exclude_users_service_account = true</code>)</li>
+<li>The standard Authentik SCIM group mapping is used for group provisioning (<code>data.authentik_property_mapping_provider_scim.scim_group_mapping.id</code>)</li>
+<li>The backchannel connection between the application and SCIM provider is established with <code>backchannel_providers</code></li>
+</ul>
+<p>The SCIM user mapping follows AWS IAM Identity Center&rsquo;s requirements for mandatory fields: givenName, familyName, userName, and displayName. The mapping handles users with or without spaces in their full name and properly formats the user data according to AWS specifications.</p>
+<h2 id="aws-permission-sets-and-assignment">AWS Permission Sets and Assignment</h2>
+<p>After users and groups are provisioned, we need to assign them to AWS accounts with appropriate permission sets. This can also be managed through Terraform. Here&rsquo;s how I&rsquo;ve implemented it:</p>
+<p>First, I create the permission set:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#cf222e">data</span> <span style="color:#0a3069">&#34;aws_ssoadmin_instances&#34;</span> <span style="color:#0a3069">&#34;identity_center&#34;</span> <span style="color:#1f2328">{}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">locals</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">identity_center_arn</span> = <span style="color:#6639ba">tolist</span><span style="color:#1f2328">(</span><span style="color:#6639ba">data</span><span style="color:#1f2328">.</span><span style="color:#1f2328">aws_ssoadmin_instances</span><span style="color:#1f2328">.</span><span style="color:#1f2328">identity_center</span><span style="color:#1f2328">.</span><span style="color:#1f2328">arns</span><span style="color:#1f2328">)[</span><span style="color:#0550ae">0</span><span style="color:#1f2328">]</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">identity_store_id</span>   = <span style="color:#6639ba">tolist</span><span style="color:#1f2328">(</span><span style="color:#6639ba">data</span><span style="color:#1f2328">.</span><span style="color:#1f2328">aws_ssoadmin_instances</span><span style="color:#1f2328">.</span><span style="color:#1f2328">identity_center</span><span style="color:#1f2328">.</span><span style="color:#1f2328">identity_store_ids</span><span style="color:#1f2328">)[</span><span style="color:#0550ae">0</span><span style="color:#1f2328">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span><span style="color:#57606a">
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"># This group is provisioned from Authentik via SCIM
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"></span><span style="color:#cf222e">data</span> <span style="color:#0a3069">&#34;aws_identitystore_group&#34;</span> <span style="color:#0a3069">&#34;aws_administrators&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">identity_store_id</span> = <span style="color:#1f2328">local</span><span style="color:#1f2328">.</span><span style="color:#1f2328">identity_store_id</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">alternate_identifier</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#1f2328">unique_attribute</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#1f2328">attribute_path</span>  = <span style="color:#0a3069">&#34;DisplayName&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#1f2328">attribute_value</span> = <span style="color:#0a3069">&#34;aws-administrators&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">
+</span></span></span><span style="display:flex;"><span><span style="color:#cf222e">resource</span> <span style="color:#0a3069">&#34;aws_ssoadmin_permission_set&#34;</span> <span style="color:#0a3069">&#34;administrator_access&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name</span>             = <span style="color:#0a3069">&#34;Administrator&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">description</span>      = <span style="color:#0a3069">&#34;Administrator access for all accounts&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">instance_arn</span>     = <span style="color:#1f2328">local</span><span style="color:#1f2328">.</span><span style="color:#1f2328">identity_center_arn</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">session_duration</span> = <span style="color:#0a3069">&#34;PT8H&#34;</span><span style="color:#57606a"> # 8-hour sessions
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"></span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">
+</span></span></span><span style="display:flex;"><span><span style="color:#cf222e">resource</span> <span style="color:#0a3069">&#34;aws_ssoadmin_managed_policy_attachment&#34;</span> <span style="color:#0a3069">&#34;administrator_access&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">instance_arn</span>       = <span style="color:#1f2328">local</span><span style="color:#1f2328">.</span><span style="color:#1f2328">identity_center_arn</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">permission_set_arn</span> = <span style="color:#1f2328">aws_ssoadmin_permission_set</span><span style="color:#1f2328">.</span><span style="color:#1f2328">administrator_access</span><span style="color:#1f2328">.</span><span style="color:#1f2328">arn</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">managed_policy_arn</span> = <span style="color:#0a3069">&#34;arn:aws:iam::aws:policy/AdministratorAccess&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span></code></pre></div><p>Then, I assign the permission set to specific AWS accounts using a module:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#cf222e">resource</span> <span style="color:#0a3069">&#34;aws_ssoadmin_account_assignment&#34;</span> <span style="color:#0a3069">&#34;aws_administrators&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">instance_arn</span>       = <span style="color:#6639ba">var</span><span style="color:#1f2328">.</span><span style="color:#1f2328">identity_center_arn</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">permission_set_arn</span> = <span style="color:#6639ba">var</span><span style="color:#1f2328">.</span><span style="color:#1f2328">administrator_access_arn</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">principal_id</span>   = <span style="color:#6639ba">var</span><span style="color:#1f2328">.</span><span style="color:#1f2328">aws_administrators_group_id</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">principal_type</span> = <span style="color:#0a3069">&#34;GROUP&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">target_id</span>   = <span style="color:#1f2328">aws_organizations_account</span><span style="color:#1f2328">.</span><span style="color:#1f2328">account</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">target_type</span> = <span style="color:#0a3069">&#34;AWS_ACCOUNT&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span></code></pre></div><p>This approach allows me to:</p>
+<ol>
+<li>Define common permission sets (like AdministratorAccess) in a central place</li>
+<li>Reference groups provisioned from Authentik via SCIM using their DisplayName</li>
+<li>Assign these permission sets to specific AWS accounts</li>
+<li>Manage everything through Terraform using Infrastructure as Code principles</li>
+</ol>
+<p>By combining Authentik&rsquo;s SCIM provisioning with Terraform-managed AWS permission sets and assignments, I can control the entire access management lifecycle through code. When a user is added to or removed from the &ldquo;aws-administrators&rdquo; group in Authentik, the changes propagate through SCIM to AWS IAM Identity Center, and the appropriate permissions are automatically applied.</p>
+<h2 id="synchronization-flow">Synchronization Flow</h2>
+<p>When everything is properly configured, the complete workflow looks like this:</p>
+<ol>
+<li>User is created or added to the &ldquo;aws-users&rdquo; group in Authentik</li>
+<li>User is automatically provisioned to AWS IAM Identity Center via SCIM</li>
+<li>Terraform-managed permission sets are assigned to the groups the user belongs to (e.g., &ldquo;aws-administrators&rdquo;)</li>
+<li>User authenticates to AWS using Authentik via SAML</li>
+<li>The user gains access to permitted AWS accounts and resources based on their group memberships</li>
+<li>When access needs to be revoked, the user is simply removed from the appropriate group in Authentik</li>
+</ol>
+<p>This creates a seamless access management pipeline that&rsquo;s both secure and maintainable. All changes are auditable through version control (for Terraform configurations) and through Authentik&rsquo;s logs (for user membership changes).</p>
+<h2 id="troubleshooting-common-issues">Troubleshooting Common Issues</h2>
+<p>During implementation, I encountered several issues:</p>
+<ol>
+<li>
+<p><strong>Mismatched SAML and SCIM identifiers</strong>: As mentioned, the SAML name_id_mapping must match how users are identified in SCIM</p>
+</li>
+<li>
+<p><strong>Group provisioning issues</strong>: Ensure group path templates in SCIM configuration match the actual group structure in Authentik</p>
+</li>
+<li>
+<p><strong>Permission issues</strong>: The SCIM token must have sufficient permissions to create/update users and groups</p>
+</li>
+<li>
+<p><strong>Certificate validation</strong>: For production use, ensure your SAML certificates are valid and not expired</p>
+</li>
+<li>
+<p><strong>Attribute mapping</strong>: AWS expects specific attributes for user profiles; ensure these are properly mapped in your SAML provider</p>
+</li>
+</ol>
+<p>Checking AWS CloudTrail logs and Authentik logs can help identify the specific issues.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Integrating AWS IAM Identity Center with Authentik via SAML and SCIM provides a robust solution for centralized identity management across AWS environments. The key takeaway is ensuring consistent user identification between SAML authentication and SCIM provisioning.</p>
+<p>The most critical insight from this implementation was the need to align the SAML name_id_mapping with the SCIM userName field. This seemingly small detail is essential for AWS IAM Identity Center to correctly match authenticated users with their provisioned identities.</p>
+<p>By following the approach outlined in this post, you can:</p>
+<ul>
+<li>Automate user provisioning to AWS IAM Identity Center</li>
+<li>Provide a seamless single sign-on experience</li>
+<li>Centralize access management in Authentik</li>
+<li>Implement least-privilege access principles across your AWS organization</li>
+</ul>
+<p>This integration completes our series on Authentik integrations, demonstrating how a single identity provider can secure and simplify access to various services in our infrastructure.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://docs.aws.amazon.com/singlesignon/">AWS IAM Identity Center Documentation</a></li>
+<li><a href="https://goauthentik.io/docs/providers/scim">Authentik SCIM Integration Documentation</a></li>
+<li><a href="https://docs.goauthentik.io/integrations/services/aws/#method-2-iam-identity-center">Authentik AWS Integration Guide</a></li>
+<li><a href="https://docs.aws.amazon.com/singlesignon/latest/userguide/scim-profile.html">AWS IAM Identity Center SCIM Implementation Guide</a></li>
+<li><a href="https://github.com/goauthentik/authentik/issues/4554">SAML Name ID to SCIM Username Issue</a></li>
+<li><a href="https://github.com/SimpleSAMLphp/SAML-tracer">SAML-tracer, a Firefox extension that aims to make debugging of SAML- and WS-Federation-communication between websites easier</a></li>
+</ul>
+
+			</div>
+
+			<div class="tags">
+				
+					
+						<ul class="flat">
+							
+							<li><a href="../../../../tags/aws">aws</a></li>
+							
+							<li><a href="../../../../tags/authentik">authentik</a></li>
+							
+							<li><a href="../../../../tags/scim">scim</a></li>
+							
+							<li><a href="../../../../tags/terraform">terraform</a></li>
+							
+							<li><a href="../../../../tags/identity-center">identity-center</a></li>
+							
+						</ul>
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2025  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
+</body>
+</html>
