@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Implementing Domain-Level Forward Authentication with Authentik - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	
+  <meta itemprop="name" content="Implementing Domain-Level Forward Authentication with Authentik">
+  <meta itemprop="description" content="Introduction In my previous posts on Authentik, I’ve covered setting up the platform, managing it with Terraform, and integrating it with services like Grafana, MinIO, and AWS IAM Identity Center.
+Today, I’ll explain how I implemented domain-level forward authentication to protect multiple applications in my Kubernetes cluster using Authentik’s forward auth provider and NGINX ingress controller.
+Understanding Forward Authentication Forward authentication is a pattern where a proxy (like NGINX) delegates the authentication decision to an external service (in our case, Authentik). This approach allows you to protect multiple applications without modifying their code or configurations.">
+  <meta itemprop="datePublished" content="2025-03-22T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-03-22T15:45:45+01:00">
+  <meta itemprop="wordCount" content="1084">
+  <meta itemprop="keywords" content="Authentik,Kubernetes,Nginx,Forward-Auth,Terraform,Security"><meta property="og:url" content="https://timvw.be/2025/03/22/implementing-domain-level-forward-authentication-with-authentik/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Implementing Domain-Level Forward Authentication with Authentik">
+  <meta property="og:description" content="Introduction In my previous posts on Authentik, I’ve covered setting up the platform, managing it with Terraform, and integrating it with services like Grafana, MinIO, and AWS IAM Identity Center.
+Today, I’ll explain how I implemented domain-level forward authentication to protect multiple applications in my Kubernetes cluster using Authentik’s forward auth provider and NGINX ingress controller.
+Understanding Forward Authentication Forward authentication is a pattern where a proxy (like NGINX) delegates the authentication decision to an external service (in our case, Authentik). This approach allows you to protect multiple applications without modifying their code or configurations.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-03-22T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-03-22T15:45:45+01:00">
+    <meta property="article:tag" content="Authentik">
+    <meta property="article:tag" content="Kubernetes">
+    <meta property="article:tag" content="Nginx">
+    <meta property="article:tag" content="Forward-Auth">
+    <meta property="article:tag" content="Terraform">
+    <meta property="article:tag" content="Security">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Implementing Domain-Level Forward Authentication with Authentik">
+  <meta name="twitter:description" content="Introduction In my previous posts on Authentik, I’ve covered setting up the platform, managing it with Terraform, and integrating it with services like Grafana, MinIO, and AWS IAM Identity Center.
+Today, I’ll explain how I implemented domain-level forward authentication to protect multiple applications in my Kubernetes cluster using Authentik’s forward auth provider and NGINX ingress controller.
+Understanding Forward Authentication Forward authentication is a pattern where a proxy (like NGINX) delegates the authentication decision to an external service (in our case, Authentik). This approach allows you to protect multiple applications without modifying their code or configurations.">
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+	<link href="https://github.com/timvw" rel="me">
+    <link href="https://timvw.be/" rel="me">
+    <link href="https://fosstodon.org/@timvw" rel="me">
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li><li><a rel="me" href="https://fosstodon.org/@timvw" class="masto-link" ></a></li>
+			</ul>
+		
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">22</span>
+							<span class="rest">Mar 2025</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">Implementing Domain-Level Forward Authentication with Authentik</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<h2 id="introduction">Introduction</h2>
+<p>In my previous posts on Authentik, I&rsquo;ve covered <a href="../../../../2025/03/17/setting-up-authentik-with-kubernetes-and-fluxcd/">setting up the platform</a>, <a href="../../../../2025/03/18/managing-authentik-with-terraform/">managing it with Terraform</a>, and integrating it with services like <a href="../../../../2025/03/19/configuring-grafana-oauth-with-authentik/">Grafana</a>, <a href="../../../../2025/03/20/configuring-minio-oauth-with-authentik/">MinIO</a>, and <a href="../../../../2025/03/21/configuring-aws-identity-center-with-authentik-scim/">AWS IAM Identity Center</a>.</p>
+<p>Today, I&rsquo;ll explain how I implemented domain-level forward authentication to protect multiple applications in my Kubernetes cluster using Authentik&rsquo;s forward auth provider and NGINX ingress controller.</p>
+<h2 id="understanding-forward-authentication">Understanding Forward Authentication</h2>
+<p>Forward authentication is a pattern where a proxy (like NGINX) delegates the authentication decision to an external service (in our case, Authentik). This approach allows you to protect multiple applications without modifying their code or configurations.</p>
+<p>Authentik offers two forward auth modes:</p>
+<ol>
+<li><strong>Forward domain mode</strong>: Authenticates at the domain level, allowing users to access all applications on the same domain after a single login</li>
+<li><strong>Forward single mode</strong>: Authenticates each application separately, requiring explicit authorization for each</li>
+</ol>
+<p>For my cluster, I chose the domain-level approach as it provides a smoother user experience while still maintaining security.</p>
+<h2 id="configuring-authentik-with-terraform">Configuring Authentik with Terraform</h2>
+<p>Let&rsquo;s start by examining my Terraform configuration for Authentik&rsquo;s forward auth provider:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#57606a"># https://docs.goauthentik.io/docs/add-secure-apps/outposts/embedded/
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"></span><span style="color:#cf222e">
+</span></span></span><span style="display:flex;"><span><span style="color:#cf222e">resource</span> <span style="color:#0a3069">&#34;authentik_outpost&#34;</span> <span style="color:#0a3069">&#34;embedded&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name</span> = <span style="color:#0a3069">&#34;authentik Embedded Outpost&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">type</span> = <span style="color:#0a3069">&#34;proxy&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">protocol_providers</span> = <span style="color:#1f2328">[</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#1f2328">authentik_provider_proxy</span><span style="color:#1f2328">.</span><span style="color:#1f2328">nginx_forward_auth</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">]</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">service_connection</span> = <span style="color:#0a3069">&#34;403a40bd-821a-4a5b-9a89-ba3938e1fa8e&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">
+</span></span></span><span style="display:flex;"><span><span style="color:#cf222e">resource</span> <span style="color:#0a3069">&#34;authentik_provider_proxy&#34;</span> <span style="color:#0a3069">&#34;nginx_forward_auth&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name</span>               = <span style="color:#0a3069">&#34;nginx-forward-auth&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">external_host</span>      = <span style="color:#0a3069">&#34;https://authentik.apps.timvw.be&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">authorization_flow</span> = <span style="color:#6639ba">data</span><span style="color:#1f2328">.</span><span style="color:#1f2328">authentik_flow</span><span style="color:#1f2328">.</span><span style="color:#1f2328">default_authorization_flow</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">invalidation_flow</span>  = <span style="color:#6639ba">data</span><span style="color:#1f2328">.</span><span style="color:#1f2328">authentik_flow</span><span style="color:#1f2328">.</span><span style="color:#1f2328">default_invalidation_flow</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span><span style="color:#57606a">
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">  # Allow all domains in your cluster to use this provider
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"></span>  <span style="color:#1f2328">cookie_domain</span> = <span style="color:#0a3069">&#34;.apps.timvw.be&#34;</span><span style="color:#57606a">
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a">  # Security settings
+</span></span></span><span style="display:flex;"><span><span style="color:#57606a"></span>  <span style="color:#1f2328">mode</span>            = <span style="color:#0a3069">&#34;forward_domain&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">skip_path_regex</span> = <span style="color:#0a3069">&#34;^/(api|outpost\\.goauthentik\\.io)/.*$&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">
+</span></span></span><span style="display:flex;"><span><span style="color:#cf222e">resource</span> <span style="color:#0a3069">&#34;authentik_application&#34;</span> <span style="color:#0a3069">&#34;forward_auth&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name</span>              = <span style="color:#0a3069">&#34;Forward Authentication&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">slug</span>              = <span style="color:#0a3069">&#34;forward-auth&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">protocol_provider</span> = <span style="color:#1f2328">authentik_provider_proxy</span><span style="color:#1f2328">.</span><span style="color:#1f2328">nginx_forward_auth</span><span style="color:#1f2328">.</span><span style="color:#1f2328">id</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">meta_description</span>  = <span style="color:#0a3069">&#34;Forward Authentication for NGINX Ingress&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">meta_launch_url</span>   = <span style="color:#0a3069">&#34;blank://blank&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">lifecycle</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#1f2328">ignore_changes</span> = <span style="color:#1f2328">[</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#1f2328">meta_icon</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#1f2328">]</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span></code></pre></div><p>There are a few important components to note:</p>
+<ol>
+<li><strong>Embedded Outpost</strong>: This is a component that runs inside Authentik and handles the forward authentication requests</li>
+<li><strong>Proxy Provider</strong>: This configures how authentication works, including:
+<ul>
+<li><code>mode = &quot;forward_domain&quot;</code>: Users only need to authenticate once per domain</li>
+<li><code>cookie_domain = &quot;.apps.timvw.be&quot;</code>: Share authentication across all subdomains</li>
+<li><code>skip_path_regex</code>: Paths that bypass authentication, like API endpoints</li>
+</ul>
+</li>
+<li><strong>Application</strong>: This defines the application in Authentik&rsquo;s UI</li>
+</ol>
+<h3 id="importing-the-embedded-outpost">Importing the Embedded Outpost</h3>
+<p>A challenge I faced was that the embedded outpost already exists within Authentik, but Terraform doesn&rsquo;t know about it. To manage it with Terraform, I needed to import the existing resource.</p>
+<p>The Authentik Terraform provider had an issue (#341) where finding the correct IDs for the embedded outpost was difficult. To resolve this, I monitored network requests in Chrome Developer Tools while navigating to the outposts section in the Authentik admin interface. This allowed me to find:</p>
+<ol>
+<li>The outpost ID (<code>pk</code>): <code>8e7ee1c7-e3d1-4198-aa41-a6b60bf0e2db</code></li>
+<li>The service connection object ID (<code>service_connection_obj.pk</code>): <code>403a40bd-821a-4a5b-9a89-ba3938e1fa8e</code></li>
+</ol>
+<p>In my Terraform code, I used these IDs to import the existing resource:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#1f2328">import</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span> <span style="color:#1f2328">id</span> = <span style="color:#0a3069">&#34;8e7ee1c7-e3d1-4198-aa41-a6b60bf0e2db&#34;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#1f2328">to</span> = <span style="color:#1f2328">authentik_outpost</span><span style="color:#1f2328">.</span><span style="color:#1f2328">embedded</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span></code></pre></div><h2 id="configuring-nginx-ingress-controller">Configuring NGINX Ingress Controller</h2>
+<p>With Authentik configured, the next step was to set up NGINX ingress to use forward authentication. Here&rsquo;s an example from my Jaeger deployment:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#0550ae">apiVersion</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>networking.k8s.io/v1<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#0550ae">kind</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>Ingress<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#0550ae">metadata</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">  </span><span style="color:#0550ae">name</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>jaeger<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">  </span><span style="color:#0550ae">namespace</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>monitoring<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">  </span><span style="color:#0550ae">annotations</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">cert-manager.io/cluster-issuer</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#0a3069">&#34;letsencrypt-prod&#34;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#57606a"># Authentik forward authentication</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">kubernetes.io/ingress.class</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>public<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">nginx.ingress.kubernetes.io/auth-url</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>http://authentik-server.authentik.svc.cluster.local/outpost.goauthentik.io/auth/nginx<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">nginx.ingress.kubernetes.io/auth-signin</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>https://authentik.apps.timvw.be/outpost.goauthentik.io/start?rd=$scheme://$http_host$escaped_request_uri<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">nginx.ingress.kubernetes.io/auth-response-headers</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">nginx.ingress.kubernetes.io/auth-snippet</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#1f2328">|</span><span style="color:#0a3069">
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">      proxy_set_header X-Forwarded-Host $http_host;</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff"></span><span style="color:#0550ae">spec</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">  </span><span style="color:#0550ae">tls</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">  </span>- <span style="color:#0550ae">hosts</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span>- jaeger.apps.timvw.be<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">secretName</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>jaeger-apps-tls-secret<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">  </span><span style="color:#0550ae">rules</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">  </span>- <span style="color:#0550ae">host</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>jaeger.apps.timvw.be<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">    </span><span style="color:#0550ae">http</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">      </span><span style="color:#0550ae">paths</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">      </span>- <span style="color:#0550ae">path</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>/<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">pathType</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>Prefix<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">        </span><span style="color:#0550ae">backend</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">          </span><span style="color:#0550ae">service</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">            </span><span style="color:#0550ae">name</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span>jaeger<span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">            </span><span style="color:#0550ae">port</span><span style="color:#1f2328">:</span><span style="color:#fff">
+</span></span></span><span style="display:flex;"><span><span style="color:#fff">              </span><span style="color:#0550ae">number</span><span style="color:#1f2328">:</span><span style="color:#fff"> </span><span style="color:#0550ae">16686</span><span style="color:#fff">
+</span></span></span></code></pre></div><p>The key annotations are:</p>
+<ol>
+<li><code>nginx.ingress.kubernetes.io/auth-url</code>: Points to the Authentik service within the cluster</li>
+<li><code>nginx.ingress.kubernetes.io/auth-signin</code>: The URL for users to sign in (redirects here when unauthenticated)</li>
+<li><code>nginx.ingress.kubernetes.io/auth-response-headers</code>: Headers to pass from Authentik to the protected application</li>
+<li><code>nginx.ingress.kubernetes.io/auth-snippet</code>: Additional NGINX configuration, ensuring proper forwarding of host headers</li>
+</ol>
+<h2 id="how-forward-authentication-works">How Forward Authentication Works</h2>
+<p>With this configuration in place, here&rsquo;s the authentication flow:</p>
+<ol>
+<li>User attempts to access a protected application (e.g., <code>jaeger.apps.timvw.be</code>)</li>
+<li>NGINX intercepts the request and forwards it to Authentik via the auth-url</li>
+<li>Authentik checks if the user is authenticated:
+<ul>
+<li>If authenticated, it returns a 200 response and NGINX allows the request to proceed</li>
+<li>If not authenticated, Authentik returns a 401, and NGINX redirects to the auth-signin URL</li>
+</ul>
+</li>
+<li>After successful authentication at Authentik, the user is redirected back to the original URL</li>
+<li>Since they&rsquo;re now authenticated for the domain, all subsequent requests to *.apps.timvw.be are allowed</li>
+</ol>
+<h2 id="advantages-of-domain-level-authentication">Advantages of Domain-Level Authentication</h2>
+<p>This approach offers several benefits:</p>
+<ol>
+<li><strong>Single sign-on experience</strong>: Users authenticate once and can access all protected applications</li>
+<li><strong>Centralized access control</strong>: All authorization decisions happen in Authentik</li>
+<li><strong>Minimal application changes</strong>: Applications don&rsquo;t need built-in authentication support</li>
+<li><strong>Consistent user experience</strong>: Same login flow for all applications</li>
+<li><strong>Enhanced security</strong>: Applications are never directly exposed without authentication</li>
+</ol>
+<h2 id="controlling-access-to-applications">Controlling Access to Applications</h2>
+<p>While domain-level authentication means a user can access all protected applications after logging in once, you might want to restrict certain applications to specific users or groups. Authentik handles this through its application permissions system:</p>
+<ol>
+<li>Create a group in Authentik (e.g., &ldquo;Jaeger Users&rdquo;)</li>
+<li>Set the Forward Authentication application to require membership in this group</li>
+<li>Only users in the specified group will be authorized to access the protected applications</li>
+</ol>
+<h2 id="creating-application-shortcuts">Creating Application Shortcuts</h2>
+<p>In addition to protecting applications with forward authentication, I also wanted to provide users with easy access to these applications through the Authentik dashboard. To do this, I created application shortcuts:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#cf222e">resource</span> <span style="color:#0a3069">&#34;authentik_application&#34;</span> <span style="color:#0a3069">&#34;jaeger&#34;</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">name</span>            = <span style="color:#0a3069">&#34;Jaeger&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">slug</span>            = <span style="color:#0a3069">&#34;jaeger&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">meta_icon</span>       = <span style="color:#0a3069">&#34;https://raw.githubusercontent.com/jaegertracing/artwork/refs/heads/master/SVG/Jaeger_Logo_Final_PANTONE.svg&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">meta_launch_url</span> = <span style="color:#0a3069">&#34;https://jaeger.apps.timvw.be&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">open_in_new_tab</span> = <span style="color:#cf222e">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span></code></pre></div><p>This creates a tile in the Authentik application portal that users can click to access Jaeger directly. The important aspects of this configuration are:</p>
+<ul>
+<li><code>meta_launch_url</code>: Links to the protected application</li>
+<li><code>meta_icon</code>: Provides a visual icon for the application</li>
+<li><code>open_in_new_tab</code>: Opens the application in a new browser tab</li>
+</ul>
+<h2 id="troubleshooting-forward-authentication">Troubleshooting Forward Authentication</h2>
+<p>When implementing this solution, I encountered a few issues worth mentioning:</p>
+<ol>
+<li><strong>Cookie Issues</strong>: Ensure your <code>cookie_domain</code> is correctly set to cover all applications</li>
+<li><strong>Redirect Problems</strong>: Check that the <code>auth-signin</code> URL correctly encodes the return URL</li>
+<li><strong>Header Passing</strong>: If applications need user information, verify that <code>auth-response-headers</code> includes all necessary headers</li>
+<li><strong>Path Exclusions</strong>: Adjust <code>skip_path_regex</code> if certain paths should bypass authentication (like health checks or API endpoints)</li>
+</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>Implementing domain-level forward authentication with Authentik and NGINX ingress provides a robust, centralized authentication layer for all applications in my Kubernetes cluster. With minimal configuration, I&rsquo;ve secured multiple services while providing a seamless experience for users.</p>
+<p>The combination of Authentik&rsquo;s flexible authentication capabilities and NGINX&rsquo;s ingress features makes this approach powerful yet simple to implement. Using Terraform to manage the configuration ensures the setup is reproducible and can be version-controlled.</p>
+<p>This integration completes my series on Authentik implementations, demonstrating how a single identity provider can secure various aspects of your infrastructure, from cloud services to internal applications.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://docs.goauthentik.io/docs/add-secure-apps/providers/proxy/forward_auth">Authentik Forward Auth Documentation</a></li>
+<li><a href="https://kubernetes.github.io/ingress-nginx/examples/auth/external-auth/">NGINX Ingress External Auth</a></li>
+<li><a href="https://docs.goauthentik.io/docs/add-secure-apps/outposts/embedded/">Authentik Embedded Outposts</a></li>
+<li><a href="https://registry.terraform.io/providers/goauthentik/authentik/latest/docs">Terraform Provider for Authentik</a></li>
+</ul>
+
+			</div>
+
+			<div class="tags">
+				
+					
+						<ul class="flat">
+							
+							<li><a href="../../../../tags/authentik">authentik</a></li>
+							
+							<li><a href="../../../../tags/kubernetes">kubernetes</a></li>
+							
+							<li><a href="../../../../tags/nginx">nginx</a></li>
+							
+							<li><a href="../../../../tags/forward-auth">forward-auth</a></li>
+							
+							<li><a href="../../../../tags/terraform">terraform</a></li>
+							
+							<li><a href="../../../../tags/security">security</a></li>
+							
+						</ul>
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2025  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
+</body>
+</html>
