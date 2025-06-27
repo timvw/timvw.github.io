@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Distributed Tracing with FastMCP: Combining OpenTelemetry and Langfuse - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	
+  <meta itemprop="name" content="Distributed Tracing with FastMCP: Combining OpenTelemetry and Langfuse">
+  <meta itemprop="description" content="When building distributed AI applications with FastMCP, proper observability becomes crucial. In this post, I’ll show you how to combine OpenTelemetry context propagation with Langfuse to achieve seamless distributed tracing across your MCP client and server components.
+The Challenge Modern AI applications often consist of multiple services communicating over the network. When using FastMCP to build Model Context Protocol servers, we need to:
+Track requests as they flow from client to server Monitor LLM interactions and their performance Maintain trace context across service boundaries Correlate logs and metrics with specific request traces The Solution: OpenTelemetry &#43; Langfuse By combining OpenTelemetry’s distributed tracing capabilities with Langfuse’s LLM-specific observability features, we can achieve comprehensive monitoring of our AI applications.">
+  <meta itemprop="datePublished" content="2025-06-27T10:00:00+01:00">
+  <meta itemprop="dateModified" content="2025-06-28T00:28:03+02:00">
+  <meta itemprop="wordCount" content="524">
+  <meta itemprop="keywords" content="Opentelemetry,Langfuse,Fastmcp,Distributed-Tracing,Observability,Llm"><meta property="og:url" content="https://timvw.be/2025/06/27/distributed-tracing-with-fastmcp-combining-opentelemetry-and-langfuse/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="Distributed Tracing with FastMCP: Combining OpenTelemetry and Langfuse">
+  <meta property="og:description" content="When building distributed AI applications with FastMCP, proper observability becomes crucial. In this post, I’ll show you how to combine OpenTelemetry context propagation with Langfuse to achieve seamless distributed tracing across your MCP client and server components.
+The Challenge Modern AI applications often consist of multiple services communicating over the network. When using FastMCP to build Model Context Protocol servers, we need to:
+Track requests as they flow from client to server Monitor LLM interactions and their performance Maintain trace context across service boundaries Correlate logs and metrics with specific request traces The Solution: OpenTelemetry &#43; Langfuse By combining OpenTelemetry’s distributed tracing capabilities with Langfuse’s LLM-specific observability features, we can achieve comprehensive monitoring of our AI applications.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-06-27T10:00:00+01:00">
+    <meta property="article:modified_time" content="2025-06-28T00:28:03+02:00">
+    <meta property="article:tag" content="Opentelemetry">
+    <meta property="article:tag" content="Langfuse">
+    <meta property="article:tag" content="Fastmcp">
+    <meta property="article:tag" content="Distributed-Tracing">
+    <meta property="article:tag" content="Observability">
+    <meta property="article:tag" content="Llm">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Distributed Tracing with FastMCP: Combining OpenTelemetry and Langfuse">
+  <meta name="twitter:description" content="When building distributed AI applications with FastMCP, proper observability becomes crucial. In this post, I’ll show you how to combine OpenTelemetry context propagation with Langfuse to achieve seamless distributed tracing across your MCP client and server components.
+The Challenge Modern AI applications often consist of multiple services communicating over the network. When using FastMCP to build Model Context Protocol servers, we need to:
+Track requests as they flow from client to server Monitor LLM interactions and their performance Maintain trace context across service boundaries Correlate logs and metrics with specific request traces The Solution: OpenTelemetry &#43; Langfuse By combining OpenTelemetry’s distributed tracing capabilities with Langfuse’s LLM-specific observability features, we can achieve comprehensive monitoring of our AI applications.">
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+	<link href="https://github.com/timvw" rel="me">
+    <link href="https://timvw.be/" rel="me">
+    <link href="https://fosstodon.org/@timvw" rel="me">
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://twitter.com/timvw" title="Twitter"><i data-feather="twitter"></i></a></li><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li><li><a rel="me" href="https://fosstodon.org/@timvw" class="masto-link" ></a></li>
+			</ul>
+		
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../tags">Tags</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">27</span>
+							<span class="rest">Jun 2025</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">Distributed Tracing with FastMCP: Combining OpenTelemetry and Langfuse</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<p>When building distributed AI applications with <a href="https://github.com/jlowin/fastmcp">FastMCP</a>, proper observability becomes crucial. In this post, I&rsquo;ll show you how to combine <a href="https://opentelemetry.io/">OpenTelemetry</a> context propagation with <a href="https://langfuse.com/">Langfuse</a> to achieve seamless distributed tracing across your MCP client and server components.</p>
+<h2 id="the-challenge">The Challenge</h2>
+<p>Modern AI applications often consist of multiple services communicating over the network. When using FastMCP to build Model Context Protocol servers, we need to:</p>
+<ol>
+<li>Track requests as they flow from client to server</li>
+<li>Monitor LLM interactions and their performance</li>
+<li>Maintain trace context across service boundaries</li>
+<li>Correlate logs and metrics with specific request traces</li>
+</ol>
+<h2 id="the-solution-opentelemetry--langfuse">The Solution: OpenTelemetry + Langfuse</h2>
+<p>By combining <a href="https://opentelemetry.io/">OpenTelemetry</a>&rsquo;s distributed tracing capabilities with <a href="https://langfuse.com/">Langfuse</a>&rsquo;s LLM-specific observability features, we can achieve comprehensive monitoring of our AI applications.</p>
+<h2 id="implementation-and-how-it-works">Implementation and How It Works</h2>
+<p>Let&rsquo;s build a weather assistant that demonstrates this integration. The complete example code is available on GitHub at <a href="https://github.com/timvw/fastmcp-otel-langfuse">fastmcp-otel-langfuse</a>.</p>
+<h3 id="1-opentelemetry-context-management">1. OpenTelemetry Context Management</h3>
+<p>First, we create utility functions for context management in <a href="https://github.com/timvw/fastmcp-otel-langfuse/blob/main/weather_assistant/utils/otel_utils.py"><code>weather_assistant/utils/otel_utils.py</code></a>:</p>
+<ul>
+<li><code>with_otel_context()</code>: A context manager that extracts and activates OpenTelemetry context from carrier headers</li>
+<li><code>with_otel_context_from_headers()</code>: A decorator that extracts HTTP headers and establishes OpenTelemetry context before Langfuse creates its spans</li>
+</ul>
+<h3 id="2-mcp-server-with-tracing">2. MCP Server with Tracing</h3>
+<p>The weather assistant server implementation in <a href="https://github.com/timvw/fastmcp-otel-langfuse/blob/main/weather_assistant/server.py"><code>weather_assistant/server.py</code></a> uses a decorator stack on each tool:</p>
+<ol>
+<li><code>@mcp.tool()</code> - Registers the function as an MCP tool</li>
+<li><code>@with_otel_context_from_headers</code> - Extracts and activates the OTel context from HTTP headers</li>
+<li><code>@observe</code> - Creates a Langfuse span within the active context</li>
+</ol>
+<p>This ensures that server-side spans are properly linked to the client&rsquo;s trace context.</p>
+<h3 id="3-mcp-client-with-trace-propagation">3. MCP Client with Trace Propagation</h3>
+<p>The client implementation in <a href="https://github.com/timvw/fastmcp-otel-langfuse/blob/main/weather_assistant/client.py"><code>weather_assistant/client.py</code></a> propagates trace context by:</p>
+<ol>
+<li>Creating an OpenTelemetry span for the operation</li>
+<li>Extracting the trace context using <code>inject(carrier)</code></li>
+<li>Passing the context as HTTP headers via <code>StreamableHttpTransport</code></li>
+</ol>
+<p>This enables distributed tracing across the client-server boundary.</p>
+<h3 id="4-configuration">4. Configuration</h3>
+<p>The configuration setup in <a href="https://github.com/timvw/fastmcp-otel-langfuse/blob/main/weather_assistant/config/tracing.py"><code>weather_assistant/config/tracing.py</code></a> initializes both OpenTelemetry and Langfuse with proper resource attributes and connection settings.</p>
+<h3 id="5-the-result">5. The Result</h3>
+<p>This approach provides:</p>
+<ul>
+<li><strong>Distributed traces</strong> across client and server</li>
+<li><strong>LLM-specific metrics</strong> from Langfuse</li>
+<li><strong>Automatic parent-child relationships</strong> between spans</li>
+<li><strong>Correlation</strong> between infrastructure and LLM metrics</li>
+</ul>
+<h2 id="benefits">Benefits</h2>
+<ol>
+<li><strong>Complete Visibility</strong>: See the entire request flow from client to server</li>
+<li><strong>LLM Performance Tracking</strong>: Monitor token usage, latency, and costs</li>
+<li><strong>Debugging</strong>: Easily trace issues across service boundaries</li>
+<li><strong>Standards-Based</strong>: Uses W3C Trace Context for compatibility</li>
+</ol>
+<h2 id="traces-in-langfuse">Traces in Langfuse</h2>
+<p>After making requests through the weather assistant, you can view the distributed traces in <a href="https://langfuse.com/">Langfuse</a>. The trace overview clearly shows the parent-child relationship between spans:</p>
+<p><img src="../../../../images/2025/06/27/langfuse-trace-detail.png" alt="Langfuse Trace Detail"></p>
+<p>In this view, you can see:</p>
+<ul>
+<li><code>weather_request</code> (client-side span) as the parent</li>
+<li><code>handle_weather_request</code> (server-side span) nested as a child</li>
+<li><code>get_weather</code> and <code>get_forecast</code> (individual tool calls) nested within the server span</li>
+</ul>
+<p>This hierarchy demonstrates successful trace context propagation across the MCP client-server boundary.</p>
+<p>Clicking on a specific span reveals detailed information about that operation, including input/output data and metadata:</p>
+<p><img src="../../../../images/2025/06/27/langfuse-span-detail.png" alt="Langfuse Span Detail"></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>By combining <a href="https://opentelemetry.io/">OpenTelemetry</a> and <a href="https://langfuse.com/">Langfuse</a> with <a href="https://github.com/jlowin/fastmcp">FastMCP</a>, we achieve comprehensive observability for distributed AI applications. The decorator-based approach keeps the code clean while ensuring proper context propagation across service boundaries.</p>
+<p>This pattern scales well as your application grows - you can add more services, and the trace context will flow through all of them, giving you end-to-end visibility into your AI system&rsquo;s behavior.</p>
+<p>Happy tracing! 🔍✨</p>
+
+			</div>
+
+			<div class="tags">
+				
+					
+						<ul class="flat">
+							
+							<li><a href="../../../../tags/opentelemetry">opentelemetry</a></li>
+							
+							<li><a href="../../../../tags/langfuse">langfuse</a></li>
+							
+							<li><a href="../../../../tags/fastmcp">fastmcp</a></li>
+							
+							<li><a href="../../../../tags/distributed-tracing">distributed-tracing</a></li>
+							
+							<li><a href="../../../../tags/observability">observability</a></li>
+							
+							<li><a href="../../../../tags/llm">llm</a></li>
+							
+						</ul>
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2025  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
+</body>
+</html>
