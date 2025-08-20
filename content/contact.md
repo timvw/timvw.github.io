@@ -11,15 +11,15 @@ weight: 4
 
 ## Contact Information
 
-- <i data-feather="mail"></i> **Email:** [tim@timvw.be](mailto:tim@timvw.be)
-- <i data-feather="phone"></i> **Phone:** [+32 473 998 552](tel:+32473998552)
-- <i data-feather="globe"></i> **Website:** [timvw.be](https://timvw.be/)
+- <i data-feather="mail"></i> [tim@timvw.be](mailto:tim@timvw.be)
+- <i data-feather="phone"></i> [+32 473 998 552](tel:+32473998552)
+- <i data-feather="globe"></i> [timvw.be](https://timvw.be/)
 
 ## Connect with Me
 
-- <i data-feather="github"></i> **GitHub:** [@timvw](https://github.com/timvw)
-- <i data-feather="linkedin"></i> **LinkedIn:** [Tim Van Wassenhove](https://www.linkedin.com/in/timvanwassenhove)
-- <i data-feather="at-sign"></i> **Mastodon:** [@timvw@fosstodon.org](https://fosstodon.org/@timvw)
+- <i data-feather="github"></i> [@timvw](https://github.com/timvw)
+- <i data-feather="linkedin"></i> [Tim Van Wassenhove](https://www.linkedin.com/in/timvanwassenhove)
+- <i data-feather="at-sign"></i> [@timvw@fosstodon.org](https://fosstodon.org/@timvw)
 
 ## Download Contact
 
