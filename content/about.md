@@ -11,15 +11,15 @@ weight: 4
 
 ## Contact Information
 
-- **Email:** [tim@timvw.be](mailto:tim@timvw.be)
-- **Phone:** [+32 473 998 552](tel:+32473998552)
-- **Website:** [timvw.be](https://timvw.be/)
+- <i data-feather="mail"></i> **Email:** [tim@timvw.be](mailto:tim@timvw.be)
+- <i data-feather="phone"></i> **Phone:** [+32 473 998 552](tel:+32473998552)
+- <i data-feather="globe"></i> **Website:** [timvw.be](https://timvw.be/)
 
 ## Connect with Me
 
-- **GitHub:** [@timvw](https://github.com/timvw)
-- **LinkedIn:** [Tim Van Wassenhove](https://www.linkedin.com/in/timvanwassenhove)
-- **Mastodon:** [@timvw@fosstodon.org](https://fosstodon.org/@timvw)
+- <i data-feather="github"></i> **GitHub:** [@timvw](https://github.com/timvw)
+- <i data-feather="linkedin"></i> **LinkedIn:** [Tim Van Wassenhove](https://www.linkedin.com/in/timvanwassenhove)
+- <i data-feather="at-sign"></i> **Mastodon:** [@timvw@fosstodon.org](https://fosstodon.org/@timvw)
 
 ## Download Contact
 
@@ -32,3 +32,7 @@ weight: 4
 <div style="margin-top: 3em; padding-top: 2em; border-top: 1px solid #ddd;">
     <small>Add my contact information to your address book by downloading the vCard above.</small>
 </div>
+
+<script>
+  feather.replace()
+</script>
