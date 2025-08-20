@@ -1,5 +1,5 @@
 ---
-title: "About Me"
+title: "Contact"
 type: "page"
 menu: "main"
 weight: 4
