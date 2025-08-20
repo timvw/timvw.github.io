@@ -16,9 +16,12 @@ weight: 4
 - <i data-feather="linkedin"></i> [Tim Van Wassenhove](https://www.linkedin.com/in/timvanwassenhove)
 - <i data-feather="at-sign"></i> [@timvw@fosstodon.org](https://fosstodon.org/@timvw)
 
-<div style="margin: 2em 0;">
-    <a href="/tim-van-wassenhove.vcf" download style="display: inline-block; padding: 10px 20px; background-color: #333; color: white; text-decoration: none; border-radius: 5px; transition: background-color 0.3s;">
-        📇 Download vCard
+<div style="margin: 2em 0; text-align: center;">
+    <a href="/tim-van-wassenhove.vcf" download style="display: inline-block; padding: 10px 20px; background-color: #333; color: white; text-decoration: none; border-radius: 5px; transition: background-color 0.3s; margin: 5px;">
+        📇 Download vCard (.vcf)
+    </a>
+    <a href="/tim-van-wassenhove.vcard" download style="display: inline-block; padding: 10px 20px; background-color: #333; color: white; text-decoration: none; border-radius: 5px; transition: background-color 0.3s; margin: 5px;">
+        📇 Download vCard (.vcard)
     </a>
 </div>
 
