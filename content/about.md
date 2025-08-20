@@ -9,10 +9,6 @@ weight: 4
     <img src="/images/tim-avatar.png" alt="Tim Van Wassenhove" style="width: 200px; height: 200px; border-radius: 50%; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
 </div>
 
-<p style="text-align: center; font-style: italic; margin-bottom: 2em;">
-    Passionate geek, interested in Technology. Proud father of two.
-</p>
-
 ## Contact Information
 
 - **Email:** [tim@timvw.be](mailto:tim@timvw.be)
