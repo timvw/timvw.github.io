@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>FastMCP Distributed Tracing: Transport-Agnostic Context Propagation with _meta - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	
+  <meta itemprop="name" content="FastMCP Distributed Tracing: Transport-Agnostic Context Propagation with _meta">
+  <meta itemprop="description" content="In my previous post about distributed tracing with FastMCP, I demonstrated how to propagate OpenTelemetry context using HTTP headers. While this approach worked well for HTTP-based deployments, it had a significant limitation: it only worked with HTTP transports.
+Today, I’m sharing an improved implementation that uses the MCP protocol’s _meta field convention, making trace context propagation truly transport-agnostic.
+The Problem with HTTP Headers The original HTTP-header-based approach had several limitations:
+Transport-Specific: Only worked with HTTP/SSE transports, not with stdio Not Standard: Required transport-specific implementations Limited Portability: Didn’t follow MCP protocol conventions For MCP servers that need to support multiple transports (stdio for local development, HTTP for remote deployments, SSE for streaming), this was a real constraint.">
+  <meta itemprop="datePublished" content="2025-10-14T10:00:00+01:00">
+  <meta itemprop="dateModified" content="2025-10-14T17:26:17+02:00">
+  <meta itemprop="wordCount" content="871">
+  <meta itemprop="keywords" content="Opentelemetry,Langfuse,Fastmcp,Distributed-Tracing,Observability,Llm,Mcp"><meta property="og:url" content="https://timvw.be/2025/10/14/fastmcp-distributed-tracing-transport-agnostic-context-propagation-with-_meta/">
+  <meta property="og:site_name" content="Tim Van Wassenhove">
+  <meta property="og:title" content="FastMCP Distributed Tracing: Transport-Agnostic Context Propagation with _meta">
+  <meta property="og:description" content="In my previous post about distributed tracing with FastMCP, I demonstrated how to propagate OpenTelemetry context using HTTP headers. While this approach worked well for HTTP-based deployments, it had a significant limitation: it only worked with HTTP transports.
+Today, I’m sharing an improved implementation that uses the MCP protocol’s _meta field convention, making trace context propagation truly transport-agnostic.
+The Problem with HTTP Headers The original HTTP-header-based approach had several limitations:
+Transport-Specific: Only worked with HTTP/SSE transports, not with stdio Not Standard: Required transport-specific implementations Limited Portability: Didn’t follow MCP protocol conventions For MCP servers that need to support multiple transports (stdio for local development, HTTP for remote deployments, SSE for streaming), this was a real constraint.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-10-14T10:00:00+01:00">
+    <meta property="article:modified_time" content="2025-10-14T17:26:17+02:00">
+    <meta property="article:tag" content="Opentelemetry">
+    <meta property="article:tag" content="Langfuse">
+    <meta property="article:tag" content="Fastmcp">
+    <meta property="article:tag" content="Distributed-Tracing">
+    <meta property="article:tag" content="Observability">
+    <meta property="article:tag" content="Llm">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="FastMCP Distributed Tracing: Transport-Agnostic Context Propagation with _meta">
+  <meta name="twitter:description" content="In my previous post about distributed tracing with FastMCP, I demonstrated how to propagate OpenTelemetry context using HTTP headers. While this approach worked well for HTTP-based deployments, it had a significant limitation: it only worked with HTTP transports.
+Today, I’m sharing an improved implementation that uses the MCP protocol’s _meta field convention, making trace context propagation truly transport-agnostic.
+The Problem with HTTP Headers The original HTTP-header-based approach had several limitations:
+Transport-Specific: Only worked with HTTP/SSE transports, not with stdio Not Standard: Required transport-specific implementations Limited Portability: Didn’t follow MCP protocol conventions For MCP servers that need to support multiple transports (stdio for local development, HTTP for remote deployments, SSE for streaming), this was a real constraint.">
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
+
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://timvw.be/css/dark.css" />
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+		<script src="https://timvw.be/js/main.js"></script>
+	<link href="https://github.com/timvw" rel="me">
+    <link href="https://timvw.be/" rel="me">
+    <link href="https://fosstodon.org/@timvw" rel="me">
+</head>
+
+<body>
+	<div class="container wrapper">
+		<div class="header">
+	
+	<h1 class="site-title"><a href="https://timvw.be/">Tim Van Wassenhove</a></h1>
+	<div class="site-description"><p>Passionate geek, interested in Technology. Proud father of two</p><nav class="nav social">
+			<ul class="flat"><li><a href="https://github.com/timvw" title="Github"><i data-feather="github"></i></a></li><li><a href="https://www.linkedin.com/in/timvanwassenhove" title="Linkedin"><i data-feather="linkedin"></i></a></li><li><a href="https://timvw.be/feed.xml" title="RSS"><i data-feather="rss"></i></a></li><li><a rel="me" href="https://fosstodon.org/@timvw" class="masto-link" ></a></li>
+			</ul>
+		
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="../../../../">Home</a>
+			</li>
+			
+			<li>
+				<a href="../../../../posts">All posts</a>
+			</li>
+			
+			<li>
+				<a href="../../../../tags">Tags</a>
+			</li>
+			
+			<li>
+				<a href="../../../../contact/">Contact</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post">
+			<div class="post-header">
+				
+					<div class="meta">
+						<div class="date">
+							<span class="day">14</span>
+							<span class="rest">Oct 2025</span>
+						</div>
+					</div>
+				
+				<div class="matter">
+					<h1 class="title">FastMCP Distributed Tracing: Transport-Agnostic Context Propagation with _meta</h1>
+				</div>
+			</div>
+					
+			<div class="markdown">
+				<p>In my <a href="../../../../2025/06/27/distributed-tracing-with-fastmcp-combining-opentelemetry-and-langfuse/">previous post</a> about distributed tracing with FastMCP, I demonstrated how to propagate OpenTelemetry context using HTTP headers. While this approach worked well for HTTP-based deployments, it had a significant limitation: it only worked with HTTP transports.</p>
+<p>Today, I&rsquo;m sharing an improved implementation that uses the MCP protocol&rsquo;s <code>_meta</code> field convention, making trace context propagation truly transport-agnostic.</p>
+<h2 id="the-problem-with-http-headers">The Problem with HTTP Headers</h2>
+<p>The original HTTP-header-based approach had several limitations:</p>
+<ol>
+<li><strong>Transport-Specific</strong>: Only worked with HTTP/SSE transports, not with stdio</li>
+<li><strong>Not Standard</strong>: Required transport-specific implementations</li>
+<li><strong>Limited Portability</strong>: Didn&rsquo;t follow MCP protocol conventions</li>
+</ol>
+<p>For MCP servers that need to support multiple transports (stdio for local development, HTTP for remote deployments, SSE for streaming), this was a real constraint.</p>
+<h2 id="the-solution-mcp-_meta-field">The Solution: MCP <code>_meta</code> Field</h2>
+<p>The Model Context Protocol now supports a <code>_meta</code> field convention (<a href="https://github.com/modelcontextprotocol/modelcontextprotocol/pull/414">PR #414</a>) specifically designed for metadata propagation, including trace context. This approach:</p>
+<ul>
+<li><strong>Works everywhere</strong>: stdio, HTTP, and SSE transports</li>
+<li><strong>Follows standards</strong>: Uses W3C Trace Context format within MCP protocol</li>
+<li><strong>Compatible</strong>: Works with <code>openinference-instrumentation-mcp</code> and other MCP tools</li>
+<li><strong>Protocol-level</strong>: Integrated at the MCP protocol layer, not transport layer</li>
+</ul>
+<h2 id="how-it-works">How It Works</h2>
+<h3 id="client-side-injecting-context">Client-Side: Injecting Context</h3>
+<p>Instead of passing trace context via HTTP headers, we now inject it into the <code>_meta</code> field:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#cf222e">from</span> <span style="color:#24292e">weather_assistant.utils.otel_utils</span> <span style="color:#cf222e">import</span> inject_otel_context_to_meta
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># Inject trace context into _meta field</span>
+</span></span><span style="display:flex;"><span>meta <span style="color:#0550ae">=</span> inject_otel_context_to_meta<span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># Pass _meta to tool call</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">await</span> client<span style="color:#0550ae">.</span>call_tool<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;get_weather&#34;</span><span style="color:#1f2328">,</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#0a3069">&#34;location&#34;</span><span style="color:#1f2328">:</span> <span style="color:#0a3069">&#34;New York&#34;</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#0a3069">&#34;_meta&#34;</span><span style="color:#1f2328">:</span> meta
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">})</span>
+</span></span></code></pre></div><p>The <code>inject_otel_context_to_meta()</code> function creates a dictionary with W3C Trace Context fields:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#cf222e">def</span> <span style="color:#6639ba">inject_otel_context_to_meta</span><span style="color:#1f2328">()</span> <span style="color:#0550ae">-&gt;</span> <span style="color:#6639ba">dict</span><span style="color:#1f2328">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#0a3069">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">    Inject current OpenTelemetry context into _meta field format.
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">    Returns:
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">        Dictionary with trace context fields for _meta field
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    carrier <span style="color:#0550ae">=</span> <span style="color:#1f2328">{}</span>
+</span></span><span style="display:flex;"><span>    propagation<span style="color:#0550ae">.</span>inject<span style="color:#1f2328">(</span>carrier<span style="color:#1f2328">,</span> context<span style="color:#0550ae">=</span>context<span style="color:#0550ae">.</span>get_current<span style="color:#1f2328">())</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#cf222e">return</span> carrier
+</span></span></code></pre></div><h3 id="json-rpc-structure">JSON-RPC Structure</h3>
+<p>The trace context is passed as part of the MCP request:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#0550ae">&#34;jsonrpc&#34;</span><span style="color:#1f2328">:</span> <span style="color:#0a3069">&#34;2.0&#34;</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#0550ae">&#34;method&#34;</span><span style="color:#1f2328">:</span> <span style="color:#0a3069">&#34;tools/call&#34;</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#0550ae">&#34;params&#34;</span><span style="color:#1f2328">:</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#0550ae">&#34;name&#34;</span><span style="color:#1f2328">:</span> <span style="color:#0a3069">&#34;get_weather&#34;</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#0550ae">&#34;arguments&#34;</span><span style="color:#1f2328">:</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#0550ae">&#34;location&#34;</span><span style="color:#1f2328">:</span> <span style="color:#0a3069">&#34;New York&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#1f2328">},</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#0550ae">&#34;_meta&#34;</span><span style="color:#1f2328">:</span> <span style="color:#1f2328">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#0550ae">&#34;traceparent&#34;</span><span style="color:#1f2328">:</span> <span style="color:#0a3069">&#34;00-0af7651916cd43dd8448eb211c80319c-00f067aa0ba902b7-01&#34;</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#0550ae">&#34;tracestate&#34;</span><span style="color:#1f2328">:</span> <span style="color:#0a3069">&#34;...&#34;</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#0550ae">&#34;baggage&#34;</span><span style="color:#1f2328">:</span> <span style="color:#0a3069">&#34;...&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#1f2328">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">}</span>
+</span></span></code></pre></div><h3 id="server-side-extracting-context">Server-Side: Extracting Context</h3>
+<p>On the server side, we use a decorator to extract and activate the trace context:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#0550ae">@mcp.tool</span><span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">@otel_utils.with_otel_context_from_meta</span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">@observe</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">async</span> <span style="color:#cf222e">def</span> <span style="color:#6639ba">get_weather</span><span style="color:#1f2328">(</span>
+</span></span><span style="display:flex;"><span>    location<span style="color:#1f2328">:</span> <span style="color:#6639ba">str</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span>    _meta<span style="color:#1f2328">:</span> <span style="color:#6639ba">dict</span> <span style="color:#0550ae">|</span> <span style="color:#cf222e">None</span> <span style="color:#0550ae">=</span> <span style="color:#cf222e">None</span><span style="color:#1f2328">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#1f2328">)</span> <span style="color:#0550ae">-&gt;</span> <span style="color:#6639ba">dict</span><span style="color:#1f2328">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#0a3069">&#34;&#34;&#34;Get current weather with distributed tracing.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#57606a"># Implementation here</span>
+</span></span></code></pre></div><p>The decorator stack ensures:</p>
+<ol>
+<li><code>@mcp.tool()</code> - Registers the function as an MCP tool</li>
+<li><code>@with_otel_context_from_meta</code> - Extracts trace context from <code>_meta</code> field</li>
+<li><code>@observe</code> - Creates a Langfuse span within the propagated context</li>
+</ol>
+<p>The extraction logic is straightforward:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#cf222e">def</span> <span style="color:#6639ba">extract_otel_context_from_meta</span><span style="color:#1f2328">(</span>meta<span style="color:#1f2328">:</span> <span style="color:#6639ba">dict</span> <span style="color:#0550ae">|</span> <span style="color:#cf222e">None</span><span style="color:#1f2328">)</span> <span style="color:#0550ae">-&gt;</span> Context<span style="color:#1f2328">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#0a3069">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">    Extract OpenTelemetry context from MCP _meta field.
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">    Args:
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">        meta: Dictionary containing trace context fields from MCP request
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">    Returns:
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">        OpenTelemetry context object with extracted trace context
+</span></span></span><span style="display:flex;"><span><span style="color:#0a3069">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#cf222e">if</span> <span style="color:#0550ae">not</span> meta<span style="color:#1f2328">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#cf222e">return</span> context<span style="color:#0550ae">.</span>get_current<span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#57606a"># Create a carrier dict with the trace context fields</span>
+</span></span><span style="display:flex;"><span>    carrier <span style="color:#0550ae">=</span> <span style="color:#1f2328">{}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#cf222e">if</span> <span style="color:#0a3069">&#34;traceparent&#34;</span> <span style="color:#0550ae">in</span> meta<span style="color:#1f2328">:</span>
+</span></span><span style="display:flex;"><span>        carrier<span style="color:#1f2328">[</span><span style="color:#0a3069">&#34;traceparent&#34;</span><span style="color:#1f2328">]</span> <span style="color:#0550ae">=</span> meta<span style="color:#1f2328">[</span><span style="color:#0a3069">&#34;traceparent&#34;</span><span style="color:#1f2328">]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#cf222e">if</span> <span style="color:#0a3069">&#34;tracestate&#34;</span> <span style="color:#0550ae">in</span> meta<span style="color:#1f2328">:</span>
+</span></span><span style="display:flex;"><span>        carrier<span style="color:#1f2328">[</span><span style="color:#0a3069">&#34;tracestate&#34;</span><span style="color:#1f2328">]</span> <span style="color:#0550ae">=</span> meta<span style="color:#1f2328">[</span><span style="color:#0a3069">&#34;tracestate&#34;</span><span style="color:#1f2328">]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#cf222e">if</span> <span style="color:#0a3069">&#34;baggage&#34;</span> <span style="color:#0550ae">in</span> meta<span style="color:#1f2328">:</span>
+</span></span><span style="display:flex;"><span>        carrier<span style="color:#1f2328">[</span><span style="color:#0a3069">&#34;baggage&#34;</span><span style="color:#1f2328">]</span> <span style="color:#0550ae">=</span> meta<span style="color:#1f2328">[</span><span style="color:#0a3069">&#34;baggage&#34;</span><span style="color:#1f2328">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#57606a"># Extract context using OpenTelemetry&#39;s propagator</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#cf222e">if</span> carrier<span style="color:#1f2328">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#cf222e">return</span> propagation<span style="color:#0550ae">.</span>extract<span style="color:#1f2328">(</span>carrier<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#cf222e">return</span> context<span style="color:#0550ae">.</span>get_current<span style="color:#1f2328">()</span>
+</span></span></code></pre></div><h2 id="comparison-before-and-after">Comparison: Before and After</h2>
+<table>
+  <thead>
+      <tr>
+          <th>Aspect</th>
+          <th>HTTP Headers</th>
+          <th><code>_meta</code> Field</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Transport Support</td>
+          <td>HTTP/SSE only</td>
+          <td>All transports (stdio, HTTP, SSE)</td>
+      </tr>
+      <tr>
+          <td>Standard</td>
+          <td>W3C Trace Context</td>
+          <td>MCP + W3C Trace Context</td>
+      </tr>
+      <tr>
+          <td>Implementation</td>
+          <td>Transport-specific</td>
+          <td>Protocol-level</td>
+      </tr>
+      <tr>
+          <td>Compatibility</td>
+          <td>HTTP libraries</td>
+          <td>Any MCP client/server</td>
+      </tr>
+      <tr>
+          <td>Use Case</td>
+          <td>HTTP-only deployments</td>
+          <td>Universal MCP applications</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="migration-guide">Migration Guide</h2>
+<p>If you&rsquo;re using the old HTTP-header approach, migration is straightforward:</p>
+<h3 id="1-update-utility-functions">1. Update Utility Functions</h3>
+<p>Replace <code>with_otel_context_from_headers</code> with <code>with_otel_context_from_meta</code>:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#57606a"># Old approach</span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">@mcp.tool</span><span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">@with_otel_context_from_headers</span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">@observe</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">async</span> <span style="color:#cf222e">def</span> <span style="color:#6639ba">get_weather</span><span style="color:#1f2328">(</span>location<span style="color:#1f2328">:</span> <span style="color:#6639ba">str</span><span style="color:#1f2328">)</span> <span style="color:#0550ae">-&gt;</span> <span style="color:#6639ba">dict</span><span style="color:#1f2328">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#0550ae">...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># New approach</span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">@mcp.tool</span><span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">@with_otel_context_from_meta</span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">@observe</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">async</span> <span style="color:#cf222e">def</span> <span style="color:#6639ba">get_weather</span><span style="color:#1f2328">(</span>location<span style="color:#1f2328">:</span> <span style="color:#6639ba">str</span><span style="color:#1f2328">,</span> _meta<span style="color:#1f2328">:</span> <span style="color:#6639ba">dict</span> <span style="color:#0550ae">|</span> <span style="color:#cf222e">None</span> <span style="color:#0550ae">=</span> <span style="color:#cf222e">None</span><span style="color:#1f2328">)</span> <span style="color:#0550ae">-&gt;</span> <span style="color:#6639ba">dict</span><span style="color:#1f2328">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#0550ae">...</span>
+</span></span></code></pre></div><h3 id="2-update-client-code">2. Update Client Code</h3>
+<p>Replace header injection with <code>_meta</code> field:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#57606a"># Old approach</span>
+</span></span><span style="display:flex;"><span>headers <span style="color:#0550ae">=</span> <span style="color:#1f2328">{}</span>
+</span></span><span style="display:flex;"><span>inject<span style="color:#1f2328">(</span>headers<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>transport <span style="color:#0550ae">=</span> StreamableHttpTransport<span style="color:#1f2328">(</span>url<span style="color:#0550ae">=</span><span style="color:#0a3069">&#34;...&#34;</span><span style="color:#1f2328">,</span> extra_headers<span style="color:#0550ae">=</span>headers<span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#57606a"># New approach</span>
+</span></span><span style="display:flex;"><span>meta <span style="color:#0550ae">=</span> inject_otel_context_to_meta<span style="color:#1f2328">()</span>
+</span></span><span style="display:flex;"><span>transport <span style="color:#0550ae">=</span> StreamableHttpTransport<span style="color:#1f2328">(</span>url<span style="color:#0550ae">=</span><span style="color:#0a3069">&#34;...&#34;</span><span style="color:#1f2328">)</span>  <span style="color:#57606a"># No headers needed</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">await</span> client<span style="color:#0550ae">.</span>call_tool<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;tool_name&#34;</span><span style="color:#1f2328">,</span> <span style="color:#1f2328">{</span><span style="color:#0a3069">&#34;arg&#34;</span><span style="color:#1f2328">:</span> <span style="color:#0a3069">&#34;value&#34;</span><span style="color:#1f2328">,</span> <span style="color:#0a3069">&#34;_meta&#34;</span><span style="color:#1f2328">:</span> meta<span style="color:#1f2328">})</span>
+</span></span></code></pre></div><h3 id="3-add-_meta-parameter">3. Add <code>_meta</code> Parameter</h3>
+<p>Ensure your tool functions accept the <code>_meta</code> parameter:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#cf222e">async</span> <span style="color:#cf222e">def</span> <span style="color:#6639ba">my_tool</span><span style="color:#1f2328">(</span>arg1<span style="color:#1f2328">:</span> <span style="color:#6639ba">str</span><span style="color:#1f2328">,</span> _meta<span style="color:#1f2328">:</span> <span style="color:#6639ba">dict</span> <span style="color:#0550ae">|</span> <span style="color:#cf222e">None</span> <span style="color:#0550ae">=</span> <span style="color:#cf222e">None</span><span style="color:#1f2328">)</span> <span style="color:#0550ae">-&gt;</span> <span style="color:#6639ba">dict</span><span style="color:#1f2328">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#57606a"># Your implementation</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#cf222e">pass</span>
+</span></span></code></pre></div><h2 id="benefits">Benefits</h2>
+<p>The new approach provides several advantages:</p>
+<ol>
+<li><strong>Transport Flexibility</strong>: Switch between stdio, HTTP, and SSE without code changes</li>
+<li><strong>Development Experience</strong>: Use stdio during development, HTTP in production</li>
+<li><strong>Standards Compliance</strong>: Follows emerging MCP conventions</li>
+<li><strong>Tool Compatibility</strong>: Works with the growing MCP ecosystem</li>
+<li><strong>Future-Proof</strong>: Aligned with MCP protocol evolution</li>
+</ol>
+<h2 id="implementation">Implementation</h2>
+<p>The complete updated implementation is available in the <a href="https://github.com/timvw/fastmcp-otel-langfuse">fastmcp-otel-langfuse</a> repository. Key files:</p>
+<ul>
+<li><a href="https://github.com/timvw/fastmcp-otel-langfuse/blob/main/weather_assistant/utils/otel_utils.py"><code>weather_assistant/utils/otel_utils.py</code></a> - Context propagation utilities</li>
+<li><a href="https://github.com/timvw/fastmcp-otel-langfuse/blob/main/weather_assistant/server.py"><code>weather_assistant/server.py</code></a> - Server with <code>_meta</code> extraction</li>
+<li><a href="https://github.com/timvw/fastmcp-otel-langfuse/blob/main/weather_assistant/client.py"><code>weather_assistant/client.py</code></a> - Client with <code>_meta</code> injection</li>
+</ul>
+<h2 id="observability-results">Observability Results</h2>
+<p>The observability experience remains the same - you get complete distributed traces in Langfuse showing the full request flow:</p>
+<ul>
+<li>Client-side spans (e.g., <code>weather_request</code>, <code>handle_weather_request</code>)</li>
+<li>Server-side tool spans (e.g., <code>get_weather</code>, <code>get_forecast</code>)</li>
+<li>Proper parent-child relationships across service boundaries</li>
+<li>Token usage, costs, and latency metrics</li>
+</ul>
+<p>The only difference is that traces now work regardless of the transport you choose.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>By adopting the MCP <code>_meta</code> field convention for trace context propagation, we gain transport-agnostic distributed tracing while maintaining full compatibility with OpenTelemetry and Langfuse. This approach is more flexible, standards-compliant, and future-proof than the HTTP-header-based method.</p>
+<p>If you&rsquo;re building MCP servers that need comprehensive observability, I encourage you to adopt this pattern. The migration is straightforward, and the benefits are significant.</p>
+<p>For the complete working example, check out the <a href="https://github.com/timvw/fastmcp-otel-langfuse">fastmcp-otel-langfuse repository</a>.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://github.com/modelcontextprotocol/modelcontextprotocol/pull/414">MCP Specification - <code>_meta</code> field convention (PR #414)</a></li>
+<li><a href="https://opentelemetry.io/docs/concepts/context-propagation/">OpenTelemetry Context Propagation</a></li>
+<li><a href="https://www.w3.org/TR/trace-context/">W3C Trace Context</a></li>
+<li><a href="https://github.com/Arize-ai/openinference/tree/main/python/instrumentation/openinference-instrumentation-mcp">OpenInference MCP Instrumentation</a></li>
+<li><a href="../../../../2025/06/27/distributed-tracing-with-fastmcp-combining-opentelemetry-and-langfuse/">Previous post: Distributed Tracing with FastMCP</a></li>
+</ul>
+<p>Happy tracing! 🚀</p>
+
+			</div>
+
+			<div class="tags">
+				
+					
+						<ul class="flat">
+							
+							<li><a href="../../../../tags/opentelemetry">opentelemetry</a></li>
+							
+							<li><a href="../../../../tags/langfuse">langfuse</a></li>
+							
+							<li><a href="../../../../tags/fastmcp">fastmcp</a></li>
+							
+							<li><a href="../../../../tags/distributed-tracing">distributed-tracing</a></li>
+							
+							<li><a href="../../../../tags/observability">observability</a></li>
+							
+							<li><a href="../../../../tags/llm">llm</a></li>
+							
+							<li><a href="../../../../tags/mcp">mcp</a></li>
+							
+						</ul>
+					
+				
+			</div></div>
+	</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		<div>2025  <a href="https://github.com/knadh/hugo-ink">Ink</a> theme on <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DP4SV12YW"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9DP4SV12YW');
+        }
+      </script><script>feather.replace()</script>
+</body>
+</html>

@@ -5,23 +5,21 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Distributed Tracing with FastMCP: Combining OpenTelemetry and Langfuse - Tim Van Wassenhove</title><meta name="viewport" content="width=device-width, initial-scale=1">
 	
   <meta itemprop="name" content="Distributed Tracing with FastMCP: Combining OpenTelemetry and Langfuse">
-  <meta itemprop="description" content="When building distributed AI applications with FastMCP, proper observability becomes crucial. In this post, I’ll show you how to combine OpenTelemetry context propagation with Langfuse to achieve seamless distributed tracing across your MCP client and server components.
-The Challenge Modern AI applications often consist of multiple services communicating over the network. When using FastMCP to build Model Context Protocol servers, we need to:
-Track requests as they flow from client to server Monitor LLM interactions and their performance Maintain trace context across service boundaries Correlate logs and metrics with specific request traces The Solution: OpenTelemetry &#43; Langfuse By combining OpenTelemetry’s distributed tracing capabilities with Langfuse’s LLM-specific observability features, we can achieve comprehensive monitoring of our AI applications.">
+  <meta itemprop="description" content="Update (October 2025): This post describes the original HTTP-header-based approach to trace context propagation. For a transport-agnostic solution that works with stdio, HTTP, and SSE transports, see the updated implementation using the MCP _meta field convention in my follow-up post: FastMCP Distributed Tracing: Transport-Agnostic Context Propagation with _meta.
+When building distributed AI applications with FastMCP, proper observability becomes crucial. In this post, I’ll show you how to combine OpenTelemetry context propagation with Langfuse to achieve seamless distributed tracing across your MCP client and server components.">
   <meta itemprop="datePublished" content="2025-06-27T10:00:00+01:00">
-  <meta itemprop="dateModified" content="2025-06-28T00:28:03+02:00">
-  <meta itemprop="wordCount" content="524">
+  <meta itemprop="dateModified" content="2025-10-14T17:26:17+02:00">
+  <meta itemprop="wordCount" content="572">
   <meta itemprop="keywords" content="Opentelemetry,Langfuse,Fastmcp,Distributed-Tracing,Observability,Llm"><meta property="og:url" content="https://timvw.be/2025/06/27/distributed-tracing-with-fastmcp-combining-opentelemetry-and-langfuse/">
   <meta property="og:site_name" content="Tim Van Wassenhove">
   <meta property="og:title" content="Distributed Tracing with FastMCP: Combining OpenTelemetry and Langfuse">
-  <meta property="og:description" content="When building distributed AI applications with FastMCP, proper observability becomes crucial. In this post, I’ll show you how to combine OpenTelemetry context propagation with Langfuse to achieve seamless distributed tracing across your MCP client and server components.
-The Challenge Modern AI applications often consist of multiple services communicating over the network. When using FastMCP to build Model Context Protocol servers, we need to:
-Track requests as they flow from client to server Monitor LLM interactions and their performance Maintain trace context across service boundaries Correlate logs and metrics with specific request traces The Solution: OpenTelemetry &#43; Langfuse By combining OpenTelemetry’s distributed tracing capabilities with Langfuse’s LLM-specific observability features, we can achieve comprehensive monitoring of our AI applications.">
+  <meta property="og:description" content="Update (October 2025): This post describes the original HTTP-header-based approach to trace context propagation. For a transport-agnostic solution that works with stdio, HTTP, and SSE transports, see the updated implementation using the MCP _meta field convention in my follow-up post: FastMCP Distributed Tracing: Transport-Agnostic Context Propagation with _meta.
+When building distributed AI applications with FastMCP, proper observability becomes crucial. In this post, I’ll show you how to combine OpenTelemetry context propagation with Langfuse to achieve seamless distributed tracing across your MCP client and server components.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2025-06-27T10:00:00+01:00">
-    <meta property="article:modified_time" content="2025-06-28T00:28:03+02:00">
+    <meta property="article:modified_time" content="2025-10-14T17:26:17+02:00">
     <meta property="article:tag" content="Opentelemetry">
     <meta property="article:tag" content="Langfuse">
     <meta property="article:tag" content="Fastmcp">
@@ -31,9 +29,8 @@ Track requests as they flow from client to server Monitor LLM interactions and t
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Distributed Tracing with FastMCP: Combining OpenTelemetry and Langfuse">
-  <meta name="twitter:description" content="When building distributed AI applications with FastMCP, proper observability becomes crucial. In this post, I’ll show you how to combine OpenTelemetry context propagation with Langfuse to achieve seamless distributed tracing across your MCP client and server components.
-The Challenge Modern AI applications often consist of multiple services communicating over the network. When using FastMCP to build Model Context Protocol servers, we need to:
-Track requests as they flow from client to server Monitor LLM interactions and their performance Maintain trace context across service boundaries Correlate logs and metrics with specific request traces The Solution: OpenTelemetry &#43; Langfuse By combining OpenTelemetry’s distributed tracing capabilities with Langfuse’s LLM-specific observability features, we can achieve comprehensive monitoring of our AI applications.">
+  <meta name="twitter:description" content="Update (October 2025): This post describes the original HTTP-header-based approach to trace context propagation. For a transport-agnostic solution that works with stdio, HTTP, and SSE transports, see the updated implementation using the MCP _meta field convention in my follow-up post: FastMCP Distributed Tracing: Transport-Agnostic Context Propagation with _meta.
+When building distributed AI applications with FastMCP, proper observability becomes crucial. In this post, I’ll show you how to combine OpenTelemetry context propagation with Langfuse to achieve seamless distributed tracing across your MCP client and server components.">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://timvw.be/css/main.css" />
@@ -99,7 +96,9 @@ Track requests as they flow from client to server Monitor LLM interactions and t
 			</div>
 					
 			<div class="markdown">
-				<p>When building distributed AI applications with <a href="https://github.com/jlowin/fastmcp">FastMCP</a>, proper observability becomes crucial. In this post, I&rsquo;ll show you how to combine <a href="https://opentelemetry.io/">OpenTelemetry</a> context propagation with <a href="https://langfuse.com/">Langfuse</a> to achieve seamless distributed tracing across your MCP client and server components.</p>
+				<blockquote>
+<p><strong>Update (October 2025)</strong>: This post describes the original HTTP-header-based approach to trace context propagation. For a transport-agnostic solution that works with stdio, HTTP, and SSE transports, see the updated implementation using the MCP <code>_meta</code> field convention in my follow-up post: <a href="../../../../2025/10/14/fastmcp-distributed-tracing-meta-field/">FastMCP Distributed Tracing: Transport-Agnostic Context Propagation with _meta</a>.</p></blockquote>
+<p>When building distributed AI applications with <a href="https://github.com/jlowin/fastmcp">FastMCP</a>, proper observability becomes crucial. In this post, I&rsquo;ll show you how to combine <a href="https://opentelemetry.io/">OpenTelemetry</a> context propagation with <a href="https://langfuse.com/">Langfuse</a> to achieve seamless distributed tracing across your MCP client and server components.</p>
 <h2 id="the-challenge">The Challenge</h2>
 <p>Modern AI applications often consist of multiple services communicating over the network. When using FastMCP to build Model Context Protocol servers, we need to:</p>
 <ol>
